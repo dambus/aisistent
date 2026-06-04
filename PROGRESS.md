@@ -12,7 +12,8 @@ PROGRESS.md — Task Tracker.md
 ## Status projekta
 **Trenutna faza:** MVP razvoj  
 **Poslednja sesija:** jun 2026.  
-**Sledeći zadatak:** Korak 4b — PDF formatiranje (Markdown parser)
+**Sledeći zadatak:** Korak 5 — Stripe integracija  
+**Poslednja sesija:** Korak 4f završen — fi-ligatura, potpisi, zarada terminologija
 
 ---
 
@@ -93,18 +94,68 @@ umesto formatiranog teksta — fixes se u Koraku 4b.
 
 ---
 
-## Aktivni zadaci
+### ✅ Korak 4b — PDF formatiranje
+- Markdown parser koji prepoznaje: # h1, ## h2, **bold**, *italic*, - bullet, ---, prazne redove
+- Fallback detekcija rimskih sekcija bez ## prefiksa (I. II. III...)
+- Tipografija: Times-Roman 11pt body, Times-Bold 16pt h1 (centrirano), 12pt h2
+- Inline bold/italic koristi Times-Bold / Times-Italic / Times-BoldItalic (PDF ugrađeni fontovi)
+- Margine: 71pt (~2.5cm) sa svih strana
+- Razmak između sekcija: 12pt marginTop na h2
 
-### ⏳ Korak 4b — PDF formatiranje (SLEDEĆE)
-**Problem:** Claude API vraća Markdown, PDF prikazuje raw sintaksu
-**Rešenje:** Markdown parser + tipografija u AisistentDocument.tsx
-
-Šta treba uraditi:
-- [ ] Kreirati `lib/pdf/markdownParser.ts`
-- [ ] Ažurirati `lib/pdf/AisistentDocument.tsx` sa parserom i tipografijom
-- [ ] Testirati sa stvarnim dokumentom
+**Fajlovi:**
+- `lib/pdf/markdownParser.ts` (novo)
+- `lib/pdf/AisistentDocument.tsx` (ažurirano)
 
 ---
+
+### ✅ Korak 4c — PDF ispravke
+- **Srpska slova**: Registrovani Roboto TTF fontovi (Regular/Bold/Italic/BoldItalic) koji podržavaju Latin Extended — zamenjeni svi Times-Roman i Helvetica
+- **Watermark**: Zamenjeno 8 horizontalnih redova sa jednim dijagonalnim tekstom (rotate -45deg, 48pt, #d1d5db, 30% opacity)
+- **Datum**: Zamijenjen `toLocaleDateString('sr-RS')` sa manualnim srpskim nizom meseci — pouzdano bez ICU podataka
+- **Footer**: Zamenjen `<View fixed>` sa `<View fixed render={() => ...}>` — sprečava dvostruko renderovanje u toku teksta
+
+**Fajlovi:**
+- `public/fonts/Roboto-Regular.ttf` (novo)
+- `public/fonts/Roboto-Bold.ttf` (novo)
+- `public/fonts/Roboto-Italic.ttf` (novo)
+- `public/fonts/Roboto-BoldItalic.ttf` (novo)
+- `lib/pdf/AisistentDocument.tsx` (ažurirano)
+
+---
+
+### ✅ Korak 4d — Finalne PDF ispravke
+1. **Margine/header**: paddingTop 1.5cm (43pt), header kompaktovan u jedan red (logo + datum, flexDirection: row)
+2. **Separatori**: `---` u Markdown outputu → spacer umesto vizuelne linije; separator blok renderuje se kao plain spacing
+3. **Broj ugovora**: novo opciono polje u wizard (Blok 1 — Poslodavac), placeholder "npr. 001/2026"; ako prazno → `[POPUNITI: broj ugovora]`
+4. **Terminologija**: sistemski prompt — pravilo o isključivoj upotrebi "Zaposleni/Zaposlena" i "Poslodavac" van definišućih delova
+5. **Orphan naslovi**: `renderBlocks()` grupiše svaki h2 sa sledećim paragrafom u `<View wrap={false}>` — naslov ne može ostati sam na kraju stranice
+6. **Watermark redizajn**: uklonjena dijagonala; besplatna verzija dobija mali tekst "BESPLATNA VERZIJA" (8pt, #CCCCCC) ispod disclaimera u footeru
+7. **Sekcija potpisa**: dva stupca (`flexDirection: row`) u PDF-u; markdownParser detektuje ` | ` separator → `signature_row` blok; sistemski prompt definiše obavezan format potpisa
+8. **Dupli disclaimer**: uklonjena UPOZORENJE sekcija iz sistemskog prompta; dodato u ŠTA NE RADIŠ — "ne dodaješ VAŽNE NAPOMENE ZA POSLODAVCA"
+9. **fi-ligatura**: ZWNJ (U+200C) umetnut između f+i i f+l u `parseInline()` — sprečava OpenType ligature bez vizuelne promene
+
+**Fajlovi:**
+- `lib/pdf/AisistentDocument.tsx` (ažurirano)
+- `lib/pdf/markdownParser.ts` (ažurirano — signature_row, ZWNJ, separator→spacer)
+- `lib/prompts/ugovor-o-radu.ts` (ažurirano — broj_ugovora, terminologija, potpis format, uklonjen disclaimer)
+- `types/wizard.ts` (ažurirano — broj_ugovora?: string)
+
+---
+
+### ✅ Korak 4f — Finalne tri ispravke
+1. **fi-ligatura**: Instrukcija u `buildUserMessage()` — Claude izbegava "fi-" reči kada postoji srpski ekvivalent (novčani/određeni/telesni); ZWNJ ostaje kao sekundarni fallback
+2. **Potpisi**: `parseMarkdown()` se zaustavlja kada naiđe na `/POTPISI/i` u liniji; `SignatureSection` komponenta renderuje hardkodovane dva stupca iz `inputData` (firma, zastupnik, funkcija, ime_prezime, mesto_rada); pipe `|` logika uklonjena iz parsera; PDF route sada šalje `input_data` kao `inputData` prop; sistemski prompt instruiše da se XII ne generiše
+3. **Zarada terminologija**: u TON I STIL dodat primer "Zaposleni/Zaposlena ima pravo na osnovnu bruto zaradu od..." — bez punog imena
+
+**Fajlovi:**
+- `lib/pdf/markdownParser.ts` (uklonjen signature_row, dodat stop-at-POTPISI)
+- `lib/pdf/AisistentDocument.tsx` (nova SignatureSection komponenta, inputData prop)
+- `app/api/export/pdf/route.ts` (dodato input_data u select, prosleđeno kao inputData)
+- `lib/prompts/ugovor-o-radu.ts` (fi-instrukcija, zarada pravilo, uklonjen | format)
+
+---
+
+## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
 - [ ] `lib/stripe/config.ts` — planovi i price IDs
@@ -141,7 +192,6 @@ umesto formatiranog teksta — fixes se u Koraku 4b.
 ---
 
 ## Poznati problemi / Tech dug
-- PDF prikazuje raw Markdown → fixes se u Koraku 4b
 - Email verifikacija ne radi lokalno → isključiti u development modu
 - Lokalni Supabase ne deli podatke između računara → rešava se deployom
 
@@ -172,7 +222,14 @@ aisistent/
 │   ├── prompts/ugovor-o-radu.ts
 │   ├── pdf/
 │   │   ├── AisistentDocument.tsx
+│   │   ├── markdownParser.ts
 │   │   └── docxBuilder.ts
+├── public/
+│   └── fonts/
+│       ├── Roboto-Regular.ttf
+│       ├── Roboto-Bold.ttf
+│       ├── Roboto-Italic.ttf
+│       └── Roboto-BoldItalic.ttf
 │   └── supabase/
 │       ├── client.ts
 │       ├── server.ts

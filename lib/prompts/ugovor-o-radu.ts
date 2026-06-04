@@ -75,6 +75,18 @@ MUŠKA IMENA (završavaju na -a):
 "potpisano od Ana Marković"
 "ugovor obavezuje Ana Marković"
 
+## TERMINOLOGIJA KROZ CEO UGOVOR
+
+Nakon što su strane definisane u Članu I (Ugovorne strane), kroz ostatak ugovora koristi ISKLJUČIVO termine "Zaposleni" ili "Zaposlena" i "Poslodavac".
+
+Puno ime i prezime zaposlenog navodi se SAMO u:
+- Članu I (Ugovorne strane) — pri prvom definisanju strana
+- Članu o zaradi — pri navođenju iznosa zarade
+- Članu o otkaznom roku — ako se imenuje direktno
+- Sekciji potpisa (XII)
+
+Nigde drugde ne ponavljaj puno ime. Koristiti "Zaposleni/Zaposlena" i "Poslodavac".
+
 ## OBAVEZNI ELEMENTI UGOVORA (prema članu 33. Zakona o radu)
 
 1. Naziv i sedište poslodavca
@@ -104,24 +116,25 @@ MUŠKA IMENA (završavaju na -a):
 
 ## FORMAT IZLAZA
 
----
+Generiši ugovor sa sledećim sekcijama:
+
 UGOVOR O RADU
-Broj: [auto]
-Datum: [datum zaključivanja]
+Broj: {broj_ugovora}
+Datum: {datum zaključivanja}
 
 I.   UGOVORNE STRANE
 II.  RADNO MESTO I OPIS POSLOVA
 III. VRSTA I TRAJANJE RADNOG ODNOSA
-IV.  PROBNI RAD (ako se ugovara)
+IV.  PROBNI RAD (samo ako se ugovara)
 V.   RADNO VREME
 VI.  ZARADA I NAKNADE
 VII. GODIŠNJI ODMOR I ODSUSTVA
 VIII.OTKAZNI ROK
 IX.  PRAVA I OBAVEZE
-X.   ZABRANA KONKURENCIJE (ako se ugovara)
+X.   ZABRANA KONKURENCIJE (samo ako se ugovara)
 XI.  ZAVRŠNE ODREDBE
-XII. POTPISI I PEČATI
----
+
+Generiši samo sekcije I–XI. Sekciju XII — POTPISI I PEČATI NE generiši — sistem je dodaje automatski iz podataka forme.
 
 ## TON I STIL
 
@@ -130,16 +143,17 @@ XII. POTPISI I PEČATI
 - Koristiti "Poslodavac" i "Zaposleni/Zaposlena" kroz ceo dokument
 - Pol zaposlenog određuješ automatski na osnovu imena
 - Novčane iznose pisati i slovima: 80.000,00 (osamdeset hiljada) dinara
-
-## UPOZORENJE — NA KRAJU SVAKOG UGOVORA
-
-"Napomena: Ovaj ugovor je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom ili HR stručnjakom pre potpisivanja."
+- Clan o zaradi počinje sa: "Zaposleni/Zaposlena ima pravo na osnovnu bruto zaradu od..." — bez navođenja punog imena na početku
 
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije dao — označi sa [POPUNITI: naziv podatka]
 - Ne daješ pravne savete van okvira dokumenta
-- Ne garantuješ pravnu valjanost u specifičnim slučajevima`
+- Ne garantuješ pravnu valjanost u specifičnim slučajevima
+- Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
+- Ne dodaješ sekciju "VAŽNE NAPOMENE ZA POSLODAVCA" ili slične editorijalne komentare
+- Ne koristiš "---" separatore između sekcija u dokumentu
+- Ne generišeš sekciju XII — POTPISI I PEČATI (sistem je dodaje automatski)`
 
 export function buildUserMessage(data: UgovorORaduData): string {
   const probniRad = data.probni_rad
@@ -150,7 +164,11 @@ export function buildUserMessage(data: UgovorORaduData): string {
     ? `Da (${data.trajanje_zabrane ?? 12} meseci)`
     : 'Ne'
 
-  return `Molim te generiši Ugovor o radu sa sledećim podacima:
+  const brojUgovora = data.broj_ugovora?.trim() || '[POPUNITI: broj ugovora]'
+
+  return `VAŽNO: U generisanom tekstu izbegavaj reči koje počinju sa "fi" kada postoji dobar srpski ekvivalent. Umesto "finansijski" piši "novčani", umesto "fiksni" piši "određeni" ili "stalni", umesto "fizički" piši "telesni". Ako nema prikladnog ekvivalenta, zadrži originalnu reč.
+
+Molim te generiši Ugovor o radu sa sledećim podacima:
 
 POSLODAVAC:
 - Naziv: ${data.firma}
@@ -158,6 +176,7 @@ POSLODAVAC:
 - Matični broj: ${data.mb}
 - Adresa: ${data.adresa_firme}
 - Zastupnik: ${data.zastupnik}, ${data.funkcija}
+- Broj ugovora: ${brojUgovora}
 
 ZAPOSLENI:
 - Ime i prezime: ${data.ime_prezime}
@@ -203,6 +222,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'adresa_firme', label: 'Adresa sedišta', type: 'text', required: true, placeholder: 'Ulica i broj, grad' },
       { id: 'zastupnik', label: 'Ime i prezime zakonskog zastupnika', type: 'text', required: true, placeholder: 'npr. Petar Nikolić' },
       { id: 'funkcija', label: 'Funkcija zastupnika', type: 'text', required: true, placeholder: 'npr. direktor' },
+      { id: 'broj_ugovora', label: 'Broj ugovora (interni)', type: 'text', required: false, placeholder: 'npr. 001/2026' },
     ],
   },
   {

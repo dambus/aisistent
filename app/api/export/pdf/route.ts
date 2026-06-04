@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   const admin = createAdminClient()
   const { data: doc, error } = await admin
     .from('documents')
-    .select('id, user_id, type, title, generated_text, is_free, created_at')
+    .select('id, user_id, type, title, generated_text, input_data, is_free, created_at')
     .eq('id', body.document_id)
     .single()
 
@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
         documentTitle: doc.title,
         createdAt: doc.created_at,
         isFree: doc.is_free,
+        inputData: doc.input_data as Record<string, unknown> ?? undefined,
       }) as any
     )
   } catch (pdfErr) {

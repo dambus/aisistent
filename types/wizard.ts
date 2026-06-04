@@ -32,6 +32,7 @@ export interface UgovorORaduData {
   adresa_firme: string
   zastupnik: string
   funkcija: string
+  broj_ugovora?: string
   // Blok 2 — Zaposleni
   ime_prezime: string
   jmbg: string
