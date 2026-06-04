@@ -3,36 +3,43 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { PdfButton } from '@/components/dashboard/PdfButton'
 
-const DOC_TYPES = [
+interface DocType {
+  type: string
+  title: string
+  desc: string
+  icon: string
+}
+
+interface DocCategory {
+  label: string
+  docs: DocType[]
+}
+
+const DOC_CATEGORIES: DocCategory[] = [
   {
-    type: 'ugovor-o-radu',
-    title: 'Ugovor o radu',
-    desc: 'Angažovanje zaposlenog na puno radno vreme',
-    icon: '👔',
+    label: 'Ugovori i dokumenti',
+    docs: [
+      { type: 'ugovor-o-radu',     title: 'Ugovor o radu',      desc: 'Angažovanje zaposlenog na puno radno vreme',      icon: '👔' },
+      { type: 'ugovor-o-delu',     title: 'Ugovor o delu',      desc: 'Jednokratni ili projektni angažman',              icon: '📋' },
+      { type: 'nda',               title: 'NDA / Poverljivost', desc: 'Zaštita poslovnih tajni i informacija',           icon: '🔒' },
+      { type: 'ugovor-o-zakupu',   title: 'Ugovor o zakupu',    desc: 'Stan, poslovni prostor ili kratkoročni zakup',   icon: '🏠' },
+      { type: 'ugovor-o-saradnji', title: 'Saradnja / Zajam',   desc: 'Poslovna saradnja ili pozajmica novca',           icon: '🤝' },
+      { type: 'punomocje',         title: 'Punomoćje',          desc: 'Opšte, specijalno ili sudsko punomoćje',          icon: '✍️' },
+      { type: 'opsti-uslovi',      title: 'Opšti uslovi i Politika privatnosti', desc: 'Uslovi korišćenja i GDPR politika za vaš sajt', icon: '📄' },
+    ],
   },
   {
-    type: 'ugovor-o-delu',
-    title: 'Ugovor o delu',
-    desc: 'Jednokratni ili projektni angažman',
-    icon: '📋',
+    label: 'Poslovna komunikacija',
+    docs: [
+      { type: 'poslovni-mejl',   title: 'Poslovni mejl',    desc: 'B2B mejlovi: ponuda, opomena, zahvalnica i više', icon: '✉️' },
+      { type: 'ponuda-klijentu', title: 'Ponuda klijentu',  desc: 'Strukturirana B2B ponuda sa cenom i rokovima',    icon: '💼' },
+    ],
   },
   {
-    type: 'nda',
-    title: 'NDA / Poverljivost',
-    desc: 'Zaštita poslovnih tajni i informacija',
-    icon: '🔒',
-  },
-  {
-    type: 'ugovor-o-zakupu',
-    title: 'Ugovor o zakupu',
-    desc: 'Stan, poslovni prostor ili kratkoročni zakup',
-    icon: '🏠',
-  },
-  {
-    type: 'ugovor-o-saradnji',
-    title: 'Saradnja / Zajam',
-    desc: 'Poslovna saradnja ili pozajmica novca',
-    icon: '🤝',
+    label: 'HR i zapošljavanje',
+    docs: [
+      { type: 'oglas-za-posao', title: 'Oglas za posao', desc: 'Oglas za Infostud, LinkedIn i sajt firme', icon: '👥' },
+    ],
   },
 ]
 
@@ -42,6 +49,11 @@ const TYPE_LABELS: Record<string, string> = {
   'nda':               'NDA',
   'ugovor-o-zakupu':   'Ugovor o zakupu',
   'ugovor-o-saradnji': 'Saradnja / Zajam',
+  'punomocje':         'Punomoćje',
+  'opsti-uslovi':      'Opšti uslovi',
+  'poslovni-mejl':     'Poslovni mejl',
+  'oglas-za-posao':    'Oglas za posao',
+  'ponuda-klijentu':   'Ponuda klijentu',
 }
 
 export default async function DashboardPage() {
@@ -58,26 +70,30 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      {/* Novi dokument — kartice */}
-      <div className="mb-10">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Novi dokument</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {DOC_TYPES.map(doc => (
-            <Link
-              key={doc.type}
-              href={`/dokumenti/${doc.type}`}
-              className="flex items-start gap-3 bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl px-4 py-4 transition-all group"
-            >
-              <span className="text-2xl mt-0.5 shrink-0">{doc.icon}</span>
-              <div>
-                <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                  {doc.title}
-                </p>
-                <p className="text-xs text-gray-500 mt-0.5">{doc.desc}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+      {/* Novi dokument — kategorije */}
+      <div className="mb-10 space-y-6">
+        {DOC_CATEGORIES.map(category => (
+          <div key={category.label}>
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">{category.label}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {category.docs.map(doc => (
+                <Link
+                  key={doc.type}
+                  href={`/dokumenti/${doc.type}`}
+                  className="flex items-start gap-3 bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl px-4 py-4 transition-all group"
+                >
+                  <span className="text-2xl mt-0.5 shrink-0">{doc.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {doc.title}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">{doc.desc}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Arhiva */}

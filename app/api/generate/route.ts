@@ -8,7 +8,12 @@ import { systemPrompt as ugovorODeluSystem, buildUserMessage as buildUgovorODelu
 import { systemPrompt as ndaSystem, buildUserMessage as buildNdaMessage } from '@/lib/prompts/nda'
 import { systemPrompt as ugovorOZakupuSystem, buildUserMessage as buildUgovorOZakupuMessage } from '@/lib/prompts/ugovor-o-zakupu'
 import { systemPrompt as ugovorOSaradnjiSystem, buildUserMessage as buildUgovorOSaradnjiMessage } from '@/lib/prompts/ugovor-o-saradnji-zajmu'
-import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData } from '@/types/wizard'
+import { systemPrompt as punomocjeSystem, buildUserMessage as buildPunomocjeMessage } from '@/lib/prompts/punomocje'
+import { systemPrompt as opstiUsloviSystem, buildUserMessage as buildOpstiUsloviMessage } from '@/lib/prompts/opsti-uslovi'
+import { systemPrompt as poslovniMejlSystem, buildUserMessage as buildPoslovniMejlMessage } from '@/lib/prompts/poslovni-mejl'
+import { systemPrompt as oglasZaPosaoSystem, buildUserMessage as buildOglasZaPosaoMessage } from '@/lib/prompts/oglas-za-posao'
+import { systemPrompt as ponudaKlijentuSystem, buildUserMessage as buildPonudaKlijentuMessage } from '@/lib/prompts/ponuda-klijentu'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData } from '@/types/wizard'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -201,8 +206,92 @@ const ugovorOSaradnjiZajmuSchema = z.object({
   napomene: z.string().optional(),
 })
 
+const punomocjeSchema = z.object({
+  tip_vlastodavca: z.string().min(1),
+  naziv_vlastodavca: z.string().min(1),
+  jmbg_pib_vlastodavca: z.string().min(1),
+  adresa_vlastodavca: z.string().min(1),
+  tip_punomocnika: z.string().min(1),
+  naziv_punomocnika: z.string().min(1),
+  jmbg_pib_punomocnika: z.string().min(1),
+  adresa_punomocnika: z.string().min(1),
+  tip_punomocja: z.string().min(1),
+  opis_ovlascenja: z.string().min(1),
+  trajanje: z.string().min(1),
+  datum_isteka: z.string().optional(),
+})
+
+const opstiUsloviSchema = z.object({
+  naziv_firme: z.string().min(1),
+  pib: z.string().min(1),
+  adresa: z.string().min(1),
+  email: z.string().min(1),
+  url: z.string().min(1),
+  tip_biznisa: z.string().min(1),
+  opis_usluge: z.string().min(1),
+  prikuplja_podatke: z.boolean(),
+  vrste_podataka: z.union([z.string(), z.array(z.string())]),
+  analitika: z.boolean(),
+  deli_sa_trecim_stranama: z.boolean(),
+})
+
+const poslovniMejlSchema = z.object({
+  posiljalac_ime: z.string().min(1),
+  posiljalac_firma: z.string().min(1),
+  posiljalac_pozicija: z.string().min(1),
+  primalac_ime: z.string().min(1),
+  primalac_firma: z.string().min(1),
+  tip_mejla: z.string().min(1),
+  kontekst: z.string().min(1),
+  ton: z.string().min(1),
+  hitno: z.boolean(),
+  predmet: z.string().optional(),
+})
+
+const oglasZaPosaoSchema = z.object({
+  naziv_firme: z.string().min(1),
+  grad: z.string().min(1),
+  delatnost: z.string().min(1),
+  velicina: z.string().min(1),
+  naziv_pozicije: z.string().min(1),
+  tip_angazovanja: z.string().min(1),
+  lokacija_rada: z.string().min(1),
+  strucna_sprema: z.string().min(1),
+  iskustvo: z.string().min(1),
+  glavni_zadaci: z.string().min(1),
+  potrebne_vestine: z.string().min(1),
+  prednost: z.string().optional(),
+  zarada_tip: z.string().min(1),
+  iznos_zarade: z.string().optional(),
+  benefiti: z.union([z.string(), z.array(z.string())]),
+  rok_prijave: z.string().min(1),
+  kako_aplicirati: z.string().min(1),
+})
+
+const ponudaKlijentuSchema = z.object({
+  ponudjac_naziv: z.string().min(1),
+  ponudjac_pib: z.string().min(1),
+  ponudjac_adresa: z.string().min(1),
+  kontakt_osoba: z.string().min(1),
+  email: z.string().min(1),
+  telefon: z.string().min(1),
+  klijent_naziv: z.string().min(1),
+  klijent_adresa: z.string().min(1),
+  klijent_kontakt: z.string().min(1),
+  broj_ponude: z.string().optional(),
+  datum_ponude: z.string().min(1),
+  predmet_ponude: z.string().min(1),
+  opis: z.string().min(1),
+  rok_isporuke: z.string().min(1),
+  iznos_bez_pdv: num.pipe(z.number().min(0)),
+  pdv: z.string().min(1),
+  uslovi_placanja: z.string().min(1),
+  validnost: num.pipe(z.number().min(1)),
+  napomene: z.string().optional(),
+})
+
 const requestSchema = z.object({
-  type: z.enum(['ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji']),
+  type: z.enum(['ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji', 'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu']),
   data: z.record(z.string(), z.unknown()),
 })
 
@@ -239,6 +328,36 @@ const documentConfigs = {
       data.tip_dokumenta === 'Ugovor o zajmu'
         ? `Ugovor o zajmu - ${data.naziv_zajmoprimca ?? ''}`
         : `Ugovor o saradnji - ${data.naziv_1 ?? ''}`,
+  },
+  'punomocje': {
+    schema: punomocjeSchema,
+    systemPrompt: punomocjeSystem,
+    buildUserMessage: (data: PunomocjeData) => buildPunomocjeMessage(data),
+    buildTitle: (data: PunomocjeData) => `Punomoćje - ${data.naziv_vlastodavca ?? ''}`,
+  },
+  'opsti-uslovi': {
+    schema: opstiUsloviSchema,
+    systemPrompt: opstiUsloviSystem,
+    buildUserMessage: (data: OpstiUsloviData) => buildOpstiUsloviMessage(data),
+    buildTitle: (data: OpstiUsloviData) => `Opšti uslovi - ${data.naziv_firme ?? ''}`,
+  },
+  'poslovni-mejl': {
+    schema: poslovniMejlSchema,
+    systemPrompt: poslovniMejlSystem,
+    buildUserMessage: (data: PoslovniMejlData) => buildPoslovniMejlMessage(data),
+    buildTitle: (data: PoslovniMejlData) => `Poslovni mejl - ${data.tip_mejla ?? ''}`,
+  },
+  'oglas-za-posao': {
+    schema: oglasZaPosaoSchema,
+    systemPrompt: oglasZaPosaoSystem,
+    buildUserMessage: (data: OglasZaPosaoData) => buildOglasZaPosaoMessage(data),
+    buildTitle: (data: OglasZaPosaoData) => `Oglas - ${data.naziv_pozicije ?? ''} (${data.naziv_firme ?? ''})`,
+  },
+  'ponuda-klijentu': {
+    schema: ponudaKlijentuSchema,
+    systemPrompt: ponudaKlijentuSystem,
+    buildUserMessage: (data: PonudaKlijentuData) => buildPonudaKlijentuMessage(data),
+    buildTitle: (data: PonudaKlijentuData) => `Ponuda - ${data.predmet_ponude ?? ''} (${data.ponudjac_naziv ?? ''})`,
   },
 } as const
 

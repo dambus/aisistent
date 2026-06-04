@@ -7,16 +7,26 @@ import { wizardSteps as deluSteps } from '@/lib/prompts/ugovor-o-delu'
 import { wizardSteps as ndaSteps } from '@/lib/prompts/nda'
 import { wizardSteps as zakupuSteps } from '@/lib/prompts/ugovor-o-zakupu'
 import { wizardSteps as saradnjaSteps } from '@/lib/prompts/ugovor-o-saradnji-zajmu'
+import { wizardSteps as punomocjeSteps } from '@/lib/prompts/punomocje'
+import { wizardSteps as opstiUsloviSteps } from '@/lib/prompts/opsti-uslovi'
+import { wizardSteps as poslovniMejlSteps } from '@/lib/prompts/poslovni-mejl'
+import { wizardSteps as oglasZaPosaoSteps } from '@/lib/prompts/oglas-za-posao'
+import { wizardSteps as ponudaKlijentuSteps } from '@/lib/prompts/ponuda-klijentu'
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
 
 const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
-  'ugovor-o-radu':     { title: 'Ugovor o radu',                   steps: raduSteps },
-  'ugovor-o-delu':     { title: 'Ugovor o delu',                   steps: deluSteps },
-  'nda':               { title: 'NDA / Sporazum o poverljivosti',   steps: ndaSteps },
-  'ugovor-o-zakupu':   { title: 'Ugovor o zakupu',                  steps: zakupuSteps },
+  'ugovor-o-radu':     { title: 'Ugovor o radu',                      steps: raduSteps },
+  'ugovor-o-delu':     { title: 'Ugovor o delu',                      steps: deluSteps },
+  'nda':               { title: 'NDA / Sporazum o poverljivosti',      steps: ndaSteps },
+  'ugovor-o-zakupu':   { title: 'Ugovor o zakupu',                    steps: zakupuSteps },
   'ugovor-o-saradnji': { title: 'Ugovor o saradnji / Ugovor o zajmu', steps: saradnjaSteps },
+  'punomocje':         { title: 'Punomoćje',                          steps: punomocjeSteps },
+  'opsti-uslovi':      { title: 'Opšti uslovi i Politika privatnosti', steps: opstiUsloviSteps },
+  'poslovni-mejl':     { title: 'Poslovni mejl',                      steps: poslovniMejlSteps },
+  'oglas-za-posao':    { title: 'Oglas za posao',                     steps: oglasZaPosaoSteps },
+  'ponuda-klijentu':   { title: 'Ponuda klijentu',                    steps: ponudaKlijentuSteps },
 }
 
 interface PageProps {

@@ -65,7 +65,7 @@ function sanitizeGeneratedText(text: string): string {
   return lines.join('\n')
 }
 
-function buildSigData(documentType: string, d: Record<string, unknown>): SigData {
+function buildSigData(documentType: string, d: Record<string, unknown>): SigData | null {
   const g = (k: string) => String(d[k] ?? '')
 
   switch (documentType) {
@@ -130,6 +130,29 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         rightOrg: g('naziv_2'),
         rightPerson: g('zastupnik_2'),
         city: '',
+      }
+    case 'punomocje':
+      return {
+        leftLabel: 'VLASTODAVAC:', leftOrg: g('naziv_vlastodavca'),
+        leftPerson: g('jmbg_pib_vlastodavca'),
+        rightLabel: 'PUNOMOĆNIK:', rightOrg: g('naziv_punomocnika'),
+        rightPerson: g('jmbg_pib_punomocnika'), city: '',
+      }
+    case 'opsti-uslovi':
+      return {
+        leftLabel: 'FIRMA:', leftOrg: g('naziv_firme'),
+        leftPerson: `PIB: ${g('pib')}`,
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
+    case 'poslovni-mejl':
+    case 'oglas-za-posao':
+      return null
+    case 'ponuda-klijentu':
+      return {
+        leftLabel: 'PONUĐAČ:', leftOrg: g('ponudjac_naziv'),
+        leftPerson: g('kontakt_osoba'),
+        rightLabel: 'Za klijenta:', rightOrg: g('klijent_naziv'),
+        rightPerson: '', city: '',
       }
     default:
       return {
@@ -241,6 +264,7 @@ function buildSignatureTable(documentType?: string, inputData?: Record<string, u
   if (!documentType || !inputData) return null
 
   const sig = buildSigData(documentType, inputData)
+  if (!sig) return null
 
   return new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
@@ -306,7 +330,8 @@ export async function buildDocx(
   ]
 
   if (signatureTable) {
-    const sig = buildSigData(options.documentType ?? '', options.inputData ?? {})
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const sig = buildSigData(options.documentType ?? '', options.inputData ?? {})!
     children.push(
       new Paragraph({
         spacing: { before: 260, after: 80 },

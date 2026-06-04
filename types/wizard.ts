@@ -208,9 +208,98 @@ export interface UgovorOSaradnjiZajmuData {
   napomene?: string
 }
 
+export interface PunomocjeData {
+  tip_vlastodavca: string
+  naziv_vlastodavca: string
+  jmbg_pib_vlastodavca: string
+  adresa_vlastodavca: string
+  tip_punomocnika: string
+  naziv_punomocnika: string
+  jmbg_pib_punomocnika: string
+  adresa_punomocnika: string
+  tip_punomocja: string
+  opis_ovlascenja: string
+  trajanje: string
+  datum_isteka?: string
+}
+
+export interface OpstiUsloviData {
+  naziv_firme: string
+  pib: string
+  adresa: string
+  email: string
+  url: string
+  tip_biznisa: string
+  opis_usluge: string
+  prikuplja_podatke: boolean
+  vrste_podataka: string[] | string
+  analitika: boolean
+  deli_sa_trecim_stranama: boolean
+}
+
+export interface PoslovniMejlData {
+  posiljalac_ime: string
+  posiljalac_firma: string
+  posiljalac_pozicija: string
+  primalac_ime: string
+  primalac_firma: string
+  tip_mejla: string
+  kontekst: string
+  ton: string
+  hitno: boolean
+  predmet?: string
+}
+
+export interface OglasZaPosaoData {
+  naziv_firme: string
+  grad: string
+  delatnost: string
+  velicina: string
+  naziv_pozicije: string
+  tip_angazovanja: string
+  lokacija_rada: string
+  strucna_sprema: string
+  iskustvo: string
+  glavni_zadaci: string
+  potrebne_vestine: string
+  prednost?: string
+  zarada_tip: string
+  iznos_zarade?: string
+  benefiti: string[] | string
+  rok_prijave: string
+  kako_aplicirati: string
+}
+
+export interface PonudaKlijentuData {
+  ponudjac_naziv: string
+  ponudjac_pib: string
+  ponudjac_adresa: string
+  kontakt_osoba: string
+  email: string
+  telefon: string
+  klijent_naziv: string
+  klijent_adresa: string
+  klijent_kontakt: string
+  broj_ponude?: string
+  datum_ponude: string
+  predmet_ponude: string
+  opis: string
+  rok_isporuke: string
+  iznos_bez_pdv: number
+  pdv: string
+  uslovi_placanja: string
+  validnost: number
+  napomene?: string
+}
+
 export type WizardFormData =
   | UgovorORaduData
   | UgovorODeluData
   | NdaData
   | UgovorOZakupuData
   | UgovorOSaradnjiZajmuData
+  | PunomocjeData
+  | OpstiUsloviData
+  | PoslovniMejlData
+  | OglasZaPosaoData
+  | PonudaKlijentuData

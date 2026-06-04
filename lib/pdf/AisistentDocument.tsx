@@ -151,7 +151,7 @@ interface SigData {
   city: string
 }
 
-function buildSigData(documentType: string, d: Record<string, unknown>): SigData {
+function buildSigData(documentType: string, d: Record<string, unknown>): SigData | null {
   const g = (k: string) => String(d[k] ?? '')
   switch (documentType) {
     case 'ugovor-o-radu':
@@ -194,6 +194,29 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftLabel: 'PRVA STRANA:', leftOrg: g('naziv_1'), leftPerson: g('zastupnik_1'),
         rightLabel: 'DRUGA STRANA:', rightOrg: g('naziv_2'), rightPerson: g('zastupnik_2'), city: '',
       }
+    case 'punomocje':
+      return {
+        leftLabel: 'VLASTODAVAC:', leftOrg: g('naziv_vlastodavca'),
+        leftPerson: g('jmbg_pib_vlastodavca'),
+        rightLabel: 'PUNOMOĆNIK:', rightOrg: g('naziv_punomocnika'),
+        rightPerson: g('jmbg_pib_punomocnika'), city: '',
+      }
+    case 'opsti-uslovi':
+      return {
+        leftLabel: 'FIRMA:', leftOrg: g('naziv_firme'),
+        leftPerson: `PIB: ${g('pib')}`,
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
+    case 'poslovni-mejl':
+    case 'oglas-za-posao':
+      return null
+    case 'ponuda-klijentu':
+      return {
+        leftLabel: 'PONUĐAČ:', leftOrg: g('ponudjac_naziv'),
+        leftPerson: g('kontakt_osoba'),
+        rightLabel: 'Za klijenta:', rightOrg: g('klijent_naziv'),
+        rightPerson: '', city: '',
+      }
     default:
       return {
         leftLabel: 'STRANA 1:', leftOrg: '', leftPerson: '',
@@ -202,11 +225,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
   }
 }
 
-function SignatureSection({ inputData, documentType }: {
-  inputData: Record<string, unknown>
-  documentType: string
-}) {
-  const sig = buildSigData(documentType, inputData)
+function SignatureSection({ sig }: { sig: SigData }) {
   return (
     <View style={s.sigSection}>
       <Text style={s.sigIntro}>Ugovor potpisuju:</Text>
@@ -252,8 +271,9 @@ export function AisistentDocument({
   const dateStr = serbianDate(createdAt)
   const blockNodes = renderBlocks(blocks)
 
-  const bodyNodes = inputData && blockNodes.length > 0 ? blockNodes.slice(0, -1) : blockNodes
-  const lastNode = inputData && blockNodes.length > 0 ? blockNodes[blockNodes.length - 1] : null
+  const sig = inputData && documentType ? buildSigData(documentType, inputData) : null
+  const bodyNodes = sig && blockNodes.length > 0 ? blockNodes.slice(0, -1) : blockNodes
+  const lastNode = sig && blockNodes.length > 0 ? blockNodes[blockNodes.length - 1] : null
 
   return (
     <Document title={documentTitle} author="aisistent.rs" creator="aisistent.rs">
@@ -266,12 +286,12 @@ export function AisistentDocument({
 
         {bodyNodes}
 
-        {inputData && documentType && (
+        {sig ? (
           <View wrap={false}>
             {lastNode}
-            <SignatureSection inputData={inputData} documentType={documentType} />
+            <SignatureSection sig={sig} />
           </View>
-        )}
+        ) : lastNode}
 
         <View
           fixed

@@ -13,7 +13,7 @@ PROGRESS.md — Task Tracker.md
 **Trenutna faza:** MVP razvoj  
 **Poslednja sesija:** jun 2026.  
 **Sledeći zadatak:** Korak 5 — Stripe integracija  
-**Poslednja sesija:** Korak D2 završen — DOCX export ispravljen
+**Poslednja sesija:** Faza 2 promptovi kreirani — 5 novih alata
 
 ---
 
@@ -219,6 +219,56 @@ TypeScript: 0 grešaka.
 
 **Fajlovi:**
 - `app/api/export/docx/route.ts` (ispravka — prosleđivanje opcija)
+
+---
+
+### ✅ Korak F1 — Codex: 5 novih prompt fajlova
+- `punomocje.ts` — opšte/specijalno/sudsko/nepokretnosti punomoćje
+- `opsti-uslovi.ts` — Opšti uslovi korišćenja + Politika privatnosti u jednom pozivu
+- `poslovni-mejl.ts` — B2B poslovni mejlovi po tipu, tonu i hitnosti
+- `oglas-za-posao.ts` — oglasi za posao za Infostud, LinkedIn i sajt firme
+- `ponuda-klijentu.ts` — strukturirane B2B poslovne ponude
+
+**Fajlovi:**
+- `lib/prompts/punomocje.ts`
+- `lib/prompts/opsti-uslovi.ts`
+- `lib/prompts/poslovni-mejl.ts`
+- `lib/prompts/oglas-za-posao.ts`
+- `lib/prompts/ponuda-klijentu.ts`
+- `types/wizard.ts` (prošireno novim data interfejsima)
+
+TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
+
+---
+
+### ✅ Korak F2 — Integracija 5 novih alata
+
+**Ispravke Codex rada:**
+- `poslovni-mejl.ts`: dodat `predmet` (opciono) polje u wizard i `buildUserMessage()` — subject je sada posebno polje, ne deo tela mejla
+- `AisistentDocument.tsx`: `buildSigData` vraća `SigData | null`; `SignatureSection` refaktorisana da prima `sig` kao prop; main render preskače potpise za mejl/oglas
+- `docxBuilder.ts`: isti null pattern za `buildSigData`; `buildSignatureTable` proverava null; non-null assertion tamo gde je `signatureTable !== null` garancija
+
+**Novi case-ovi u buildSigData (oba fajla):**
+- `punomocje`: vlastodavac levo, punomoćnik desno
+- `opsti-uslovi`: firma levo, desna kolona prazna
+- `poslovni-mejl`: null (bez potpisa)
+- `oglas-za-posao`: null (bez potpisa)
+- `ponuda-klijentu`: ponuđač levo, "Za klijenta:" desno
+
+**Ostale integracije:**
+- `route.ts`: 5 novih Zod shema + 5 novih unosa u `documentConfigs`; requestSchema enum proširen
+- `dokumenti/[type]/page.tsx`: svih 10 tipova pokriveno
+- `dashboard/page.tsx`: kategorije (Ugovori i dokumenti / Poslovna komunikacija / HR i zapošljavanje) sa 10 kartica
+- TypeScript: 0 grešaka
+
+**Fajlovi:**
+- `app/api/generate/route.ts`
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/docxBuilder.ts`
+- `app/(dashboard)/dokumenti/[type]/page.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+- `lib/prompts/poslovni-mejl.ts` (predmet polje)
+- `types/wizard.ts` (predmet?: string u PoslovniMejlData)
 
 ---
 
