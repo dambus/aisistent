@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
   const { data: doc, error } = await admin
     .from('documents')
-    .select('id, user_id, type, title, generated_text, created_at')
+    .select('id, user_id, type, title, generated_text, input_data, is_free, created_at')
     .eq('id', body.document_id)
     .single()
 
@@ -56,7 +56,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nemate pristup ovom dokumentu.' }, { status: 403 })
   }
 
-  const docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at)
+  const docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at, {
+    documentType: doc.type,
+    inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
+    isFree: doc.is_free ?? false,
+  })
 
   const slug = doc.type.replace('ugovor-o-', 'ugovor-')
   const date = new Date(doc.created_at).toISOString().split('T')[0]

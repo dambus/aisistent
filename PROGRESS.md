@@ -13,7 +13,7 @@ PROGRESS.md — Task Tracker.md
 **Trenutna faza:** MVP razvoj  
 **Poslednja sesija:** jun 2026.  
 **Sledeći zadatak:** Korak 5 — Stripe integracija  
-**Poslednja sesija:** Korak C1/C2 završen — 4 nova tipa dokumenta integrisana
+**Poslednja sesija:** Korak D2 završen — DOCX export ispravljen
 
 ---
 
@@ -193,6 +193,32 @@ umesto formatiranog teksta — fixes se u Koraku 4b.
 - `app/api/export/pdf/route.ts` (documentType prop)
 - `app/(dashboard)/dokumenti/[type]/page.tsx` (svih 5 tipova)
 - `app/(dashboard)/dashboard/page.tsx` (kartice + tip u arhivi)
+
+---
+
+### ✅ Korak D1 — Codex: docxBuilder.ts ažuriran
+`docxBuilder.ts` dobio punu paritet sa PDF rendererom:
+- Markdown parser (`parseMarkdown`) za block-level formatiranje
+- `buildSigData` za sve tipove dokumenta (isti map kao u AisistentDocument)
+- Tabela potpisa sa dva stupca (bez vidljivih bordura)
+- Header: AIsistent | datum | aisistent.rs
+- Footer: disclaimer + BESPLATNA VERZIJA za free plan
+- `sanitizeGeneratedText` — seče na POTPISI i NAPOMENE ZA POSLODAVCA
+
+---
+
+### ✅ Korak D2 — DOCX export ispravke
+**Pronađeni bug**: DOCX route nije prosleđivao `input_data`, `documentType` ni `isFree` ka `buildDocx` — potpisi su bili prazni za sve tipove.
+
+**Ispravke u `app/api/export/docx/route.ts`:**
+- Dodano `input_data, is_free` u Supabase select
+- `buildDocx` pozvan sa `{ documentType, inputData, isFree }` opcijama
+
+`docxBuilder.ts` nije menjao — bio je ispravan od Codexa.
+TypeScript: 0 grešaka.
+
+**Fajlovi:**
+- `app/api/export/docx/route.ts` (ispravka — prosleđivanje opcija)
 
 ---
 
