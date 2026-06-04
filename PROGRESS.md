@@ -286,6 +286,51 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak F4 — Landing page skeleton
+- Kreiran `app/page.tsx` landing page za AIsistent.rs
+- Sekcije: sticky navigacija, hero, kako radi, alati, poređenje, cenovnik, finalni CTA i footer
+- Mobilni meni koristi native `details/summary`, bez client-side JavaScript-a
+- Dodati statički metadata title i description
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/page.tsx`
+- `PROGRESS.md`
+
+---
+
+---
+
+### ✅ Korak G1 — Codex: landing page skeleton
+- `app/page.tsx` kreiran sa svim sekcijama: Hero, Kako radi, Alati, Zašto AIsistent, Cenovnik, CTA, Footer
+- Podaci za sve sekcije (steps, toolCategories, pricing) strukturirani kao konstante
+- Tailwind emerald dizajn, responsive layout
+
+**Fajlovi:**
+- `app/page.tsx`
+
+---
+
+### ✅ Korak G2 — Landing page dizajn i auth integracija
+1. **Auth integracija**: `Home()` je async Server Component; Supabase sesija se čita server-side; navigacija i CTA dugmad se adaptiraju (Moji dokumenti vs Počnite besplatno)
+2. **Tool kartice**: svaki alat ima `type` slug; linkovi vode na `/dokumenti/[type]` (ulogovan) ili `/register` (nije ulogovan)
+3. **Primarna boja `#1B6B4A`**: dodata u `globals.css` kao CSS varijabla; koristi se via inline styles za konzistentnost sa Tailwind v4
+4. **Smooth scroll**: `html { scroll-behavior: smooth }` u globals.css
+5. **OG meta tagovi**: title, description, url, locale, type — ispravni za srpsko tržište
+6. **MobileMenu**: `components/landing/MobileMenu.tsx` — Client Component sa useState, hamburger ikonom, auth-aware dugmad
+7. **Footer**: linkovi za login/register/cenovnik, email, "Napravljeno u Srbiji 🇷🇸"
+8. **layout.tsx**: `lang="sr"`, default metadata ažuriran
+9. **Dizajn**: step numbering, separator linije u kategorijama, hover animacije na karticama i dugmadima
+- Build čist (`next build`), TypeScript 0 grešaka
+
+**Fajlovi:**
+- `app/page.tsx` (kompletno prepisano)
+- `app/globals.css` (primary boja, smooth scroll)
+- `app/layout.tsx` (lang=sr, metadata)
+- `components/landing/MobileMenu.tsx` (novo)
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
