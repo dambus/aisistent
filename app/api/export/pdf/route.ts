@@ -50,7 +50,8 @@ export async function POST(request: NextRequest) {
         documentTitle: doc.title,
         createdAt: doc.created_at,
         isFree: doc.is_free,
-        inputData: doc.input_data as Record<string, unknown> ?? undefined,
+        inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
+        documentType: doc.type,
       }) as any
     )
   } catch (pdfErr) {

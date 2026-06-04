@@ -14,9 +14,9 @@ Font.register({ family: 'Roboto-BoldItalic', src: `${FONTS_DIR}/Roboto-BoldItali
 
 Font.registerHyphenationCallback(word => [word])
 
-const MARGIN_H = 71   // 2.5cm horizontal
-const MARGIN_V_TOP = 43  // 1.5cm top
-const MARGIN_V_BOT = 71  // 2.5cm bottom
+const MARGIN_H = 71
+const MARGIN_V_TOP = 43
+const MARGIN_V_BOT = 71
 
 const s = StyleSheet.create({
   page: {
@@ -37,117 +37,45 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#e5e7eb',
   },
-  headerLogo: {
-    fontFamily: 'Roboto-Bold',
-    fontSize: 12,
-    color: '#1d4ed8',
-  },
-  headerDate: {
-    fontSize: 8,
-    color: '#6b7280',
-    fontFamily: 'Roboto',
-  },
+  headerLogo: { fontFamily: 'Roboto-Bold', fontSize: 12, color: '#1d4ed8' },
+  headerDate: { fontSize: 8, color: '#6b7280', fontFamily: 'Roboto' },
   h1: {
-    fontFamily: 'Roboto-Bold',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 4,
-    marginBottom: 12,
-    color: '#111827',
+    fontFamily: 'Roboto-Bold', fontSize: 16, textAlign: 'center',
+    marginTop: 4, marginBottom: 12, color: '#111827',
   },
   h2: {
-    fontFamily: 'Roboto-Bold',
-    fontSize: 12,
-    marginTop: 12,
-    marginBottom: 4,
-    color: '#111827',
+    fontFamily: 'Roboto-Bold', fontSize: 12,
+    marginTop: 12, marginBottom: 4, color: '#111827',
   },
-  paragraph: {
-    fontFamily: 'Roboto',
-    fontSize: 11,
-    marginBottom: 5,
-  },
-  bullet: {
-    fontFamily: 'Roboto',
-    fontSize: 11,
-    marginBottom: 3,
-    paddingLeft: 12,
-  },
-  spacer: {
-    marginBottom: 6,
-  },
-  // Signature section
-  sigSection: {
-    marginTop: 24,
-  },
-  sigIntro: {
-    fontFamily: 'Roboto',
-    fontSize: 11,
-    marginBottom: 16,
-    color: '#374151',
-  },
-  sigDateLine: {
-    fontFamily: 'Roboto',
-    fontSize: 11,
-    marginTop: 8,
-    marginBottom: 28,
-  },
-  sigRow: {
-    flexDirection: 'row',
-    marginBottom: 4,
-  },
-  sigCell: {
-    flex: 1,
-    fontFamily: 'Roboto',
-    fontSize: 11,
-  },
-  sigCellBold: {
-    flex: 1,
-    fontFamily: 'Roboto-Bold',
-    fontSize: 11,
-  },
+  paragraph: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 5 },
+  bullet: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 3, paddingLeft: 12 },
+  spacer: { marginBottom: 6 },
+  sigSection: { marginTop: 24 },
+  sigIntro: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 16, color: '#374151' },
+  sigDateLine: { fontFamily: 'Roboto', fontSize: 11, marginTop: 8, marginBottom: 28 },
+  sigRow: { flexDirection: 'row', marginBottom: 4 },
+  sigCell: { flex: 1, fontFamily: 'Roboto', fontSize: 11 },
+  sigCellBold: { flex: 1, fontFamily: 'Roboto-Bold', fontSize: 11 },
   sigLine: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#1a1a1a',
-    marginTop: 26,
-    marginBottom: 4,
-    marginRight: 24,
+    borderBottomWidth: 0.5, borderBottomColor: '#1a1a1a',
+    marginTop: 26, marginBottom: 4, marginRight: 24,
   },
-  sigPechat: {
-    fontFamily: 'Roboto',
-    fontSize: 11,
-    marginTop: 10,
-  },
+  sigPechat: { fontFamily: 'Roboto', fontSize: 11, marginTop: 10 },
   footer: {
-    position: 'absolute',
-    bottom: 20,
-    left: MARGIN_H,
-    right: MARGIN_H,
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    paddingTop: 5,
+    position: 'absolute', bottom: 20, left: MARGIN_H, right: MARGIN_H,
+    borderTopWidth: 1, borderTopColor: '#e5e7eb', paddingTop: 5,
   },
   footerText: {
-    fontSize: 9,
-    color: '#9ca3af',
-    fontFamily: 'Roboto',
-    lineHeight: 1.4,
-    textAlign: 'center',
+    fontSize: 9, color: '#9ca3af', fontFamily: 'Roboto', lineHeight: 1.4, textAlign: 'center',
   },
   footerWatermark: {
-    fontSize: 8,
-    color: '#CCCCCC',
-    fontFamily: 'Roboto',
-    textAlign: 'center',
-    marginTop: 3,
+    fontSize: 8, color: '#CCCCCC', fontFamily: 'Roboto', textAlign: 'center', marginTop: 3,
   },
 })
 
 const INLINE_FONT: Record<InlineType, string> = {
-  text: 'Roboto',
-  bold: 'Roboto-Bold',
-  italic: 'Roboto-Italic',
-  'bold-italic': 'Roboto-BoldItalic',
+  text: 'Roboto', bold: 'Roboto-Bold',
+  italic: 'Roboto-Italic', 'bold-italic': 'Roboto-BoldItalic',
 }
 
 const SERBIAN_MONTHS = [
@@ -164,9 +92,7 @@ function Spans({ spans }: { spans: InlineSpan[] }) {
   return (
     <>
       {spans.map((span, i) => (
-        <Text key={i} style={{ fontFamily: INLINE_FONT[span.type] }}>
-          {span.text}
-        </Text>
+        <Text key={i} style={{ fontFamily: INLINE_FONT[span.type] }}>{span.text}</Text>
       ))}
     </>
   )
@@ -174,37 +100,28 @@ function Spans({ spans }: { spans: InlineSpan[] }) {
 
 function renderBlock(block: Block, i: number) {
   switch (block.type) {
-    case 'h1':
-      return <Text key={i} style={s.h1}><Spans spans={block.spans} /></Text>
-    case 'h2':
-      return <Text key={i} style={s.h2}><Spans spans={block.spans} /></Text>
+    case 'h1': return <Text key={i} style={s.h1}><Spans spans={block.spans} /></Text>
+    case 'h2': return <Text key={i} style={s.h2}><Spans spans={block.spans} /></Text>
     case 'bullet':
       return (
         <Text key={i} style={s.bullet}>
-          <Text>{'• '}</Text>
-          <Spans spans={block.spans} />
+          <Text>{'• '}</Text><Spans spans={block.spans} />
         </Text>
       )
-    case 'separator':
-      return <View key={i} style={{ marginBottom: 8 }} />
-    case 'spacer':
-      return <View key={i} style={s.spacer} />
-    default:
-      return <Text key={i} style={s.paragraph}><Spans spans={block.spans} /></Text>
+    case 'separator': return <View key={i} style={{ marginBottom: 8 }} />
+    case 'spacer': return <View key={i} style={s.spacer} />
+    default: return <Text key={i} style={s.paragraph}><Spans spans={block.spans} /></Text>
   }
 }
 
 function renderBlocks(blocks: Block[]): React.ReactNode[] {
   const result: React.ReactNode[] = []
   let i = 0
-
   while (i < blocks.length) {
     const block = blocks[i]
-
     if (block.type === 'h2') {
       let j = i + 1
       while (j < blocks.length && blocks[j].type === 'spacer') j++
-
       if (j < blocks.length && blocks[j].type !== 'h1' && blocks[j].type !== 'h2') {
         result.push(
           <View key={`g${i}`} wrap={false}>
@@ -216,62 +133,108 @@ function renderBlocks(blocks: Block[]): React.ReactNode[] {
         continue
       }
     }
-
     result.push(renderBlock(block, i))
     i++
   }
-
   return result
 }
 
-// Hardcoded signature section built from form input_data — never from AI text
-function SignatureSection({ inputData, createdAt }: {
-  inputData: Record<string, unknown>
-  createdAt: string
-}) {
-  const firma = String(inputData.firma ?? '')
-  const zastupnik = String(inputData.zastupnik ?? '')
-  const funkcija = String(inputData.funkcija ?? '')
-  const imePrezime = String(inputData.ime_prezime ?? '')
-  const city = String(inputData.mesto_rada ?? '').split(',')[0].trim()
+// ---- Signature section ----
 
+interface SigData {
+  leftLabel: string
+  leftOrg: string
+  leftPerson: string
+  rightLabel: string
+  rightOrg: string
+  rightPerson: string
+  city: string
+}
+
+function buildSigData(documentType: string, d: Record<string, unknown>): SigData {
+  const g = (k: string) => String(d[k] ?? '')
+  switch (documentType) {
+    case 'ugovor-o-radu':
+      return {
+        leftLabel: 'Za POSLODAVCA:', leftOrg: g('firma'),
+        leftPerson: `${g('zastupnik')}, ${g('funkcija')}`,
+        rightLabel: 'ZAPOSLENI/ZAPOSLENA:', rightOrg: '',
+        rightPerson: g('ime_prezime'),
+        city: g('mesto_rada').split(',')[0].trim(),
+      }
+    case 'ugovor-o-delu':
+      return {
+        leftLabel: 'Za NARUČIOCA:', leftOrg: g('naziv_narucioca'),
+        leftPerson: g('zastupnik_narucioca'),
+        rightLabel: 'IZVOĐAČ/IZVOĐAČICA:', rightOrg: '',
+        rightPerson: g('naziv_izvodjaca'), city: '',
+      }
+    case 'nda':
+      return {
+        leftLabel: 'PRVA STRANA:', leftOrg: g('naziv_strane_1'),
+        leftPerson: g('zastupnik_strane_1'),
+        rightLabel: 'DRUGA STRANA:', rightOrg: g('naziv_strane_2'),
+        rightPerson: g('zastupnik_strane_2'), city: '',
+      }
+    case 'ugovor-o-zakupu':
+      return {
+        leftLabel: 'ZAKUPODAVAC:', leftOrg: g('naziv_zakupodavca'),
+        leftPerson: g('zastupnik_zakupodavca'),
+        rightLabel: 'ZAKUPAC:', rightOrg: g('naziv_zakupca'),
+        rightPerson: g('zastupnik_zakupca'), city: '',
+      }
+    case 'ugovor-o-saradnji':
+      if (String(d.tip_dokumenta) === 'Ugovor o zajmu') {
+        return {
+          leftLabel: 'ZAJMODAVAC:', leftOrg: g('naziv_zajmodavca'), leftPerson: '',
+          rightLabel: 'ZAJMOPRIMAC:', rightOrg: g('naziv_zajmoprimca'), rightPerson: '', city: '',
+        }
+      }
+      return {
+        leftLabel: 'PRVA STRANA:', leftOrg: g('naziv_1'), leftPerson: g('zastupnik_1'),
+        rightLabel: 'DRUGA STRANA:', rightOrg: g('naziv_2'), rightPerson: g('zastupnik_2'), city: '',
+      }
+    default:
+      return {
+        leftLabel: 'STRANA 1:', leftOrg: '', leftPerson: '',
+        rightLabel: 'STRANA 2:', rightOrg: '', rightPerson: '', city: '',
+      }
+  }
+}
+
+function SignatureSection({ inputData, documentType }: {
+  inputData: Record<string, unknown>
+  documentType: string
+}) {
+  const sig = buildSigData(documentType, inputData)
   return (
     <View style={s.sigSection}>
       <Text style={s.sigIntro}>Ugovor potpisuju:</Text>
-
       <Text style={s.sigDateLine}>
-        Mesto i datum potpisivanja: {city}, _______________
+        Mesto i datum potpisivanja: {sig.city ? `${sig.city}, ` : ''}_______________
       </Text>
-
-      {/* Labels */}
       <View style={s.sigRow}>
-        <Text style={s.sigCellBold}>Za POSLODAVCA:</Text>
-        <Text style={s.sigCellBold}>ZAPOSLENI/ZAPOSLENA:</Text>
+        <Text style={s.sigCellBold}>{sig.leftLabel}</Text>
+        <Text style={s.sigCellBold}>{sig.rightLabel}</Text>
       </View>
-
-      {/* Firma name (left only) */}
       <View style={s.sigRow}>
-        <Text style={s.sigCell}>{firma}</Text>
-        <Text style={s.sigCell}> </Text>
+        <Text style={s.sigCell}>{sig.leftOrg}</Text>
+        <Text style={s.sigCell}>{sig.rightOrg}</Text>
       </View>
-
-      {/* Signature lines */}
       <View style={s.sigRow}>
         <View style={[s.sigCell, s.sigLine]} />
         <View style={[s.sigCell, s.sigLine]} />
       </View>
-
-      {/* Names */}
       <View style={s.sigRow}>
-        <Text style={s.sigCell}>{zastupnik}, {funkcija}</Text>
-        <Text style={s.sigCell}>{imePrezime}</Text>
+        <Text style={s.sigCell}>{sig.leftPerson}</Text>
+        <Text style={s.sigCell}>{sig.rightPerson}</Text>
       </View>
-
-      {/* M.P. */}
       <Text style={s.sigPechat}>M.P.</Text>
     </View>
   )
 }
+
+// ---- Main component ----
 
 interface Props {
   generatedText: string
@@ -279,20 +242,18 @@ interface Props {
   createdAt: string
   isFree: boolean
   inputData?: Record<string, unknown>
+  documentType?: string
 }
 
-export function AisistentDocument({ generatedText, documentTitle, createdAt, isFree, inputData }: Props) {
+export function AisistentDocument({
+  generatedText, documentTitle, createdAt, isFree, inputData, documentType,
+}: Props) {
   const blocks = parseMarkdown(generatedText)
   const dateStr = serbianDate(createdAt)
   const blockNodes = renderBlocks(blocks)
 
-  // Keep the last content block anchored to SignatureSection so they never split across pages
-  const bodyNodes = inputData && blockNodes.length > 0
-    ? blockNodes.slice(0, -1)
-    : blockNodes
-  const lastNode = inputData && blockNodes.length > 0
-    ? blockNodes[blockNodes.length - 1]
-    : null
+  const bodyNodes = inputData && blockNodes.length > 0 ? blockNodes.slice(0, -1) : blockNodes
+  const lastNode = inputData && blockNodes.length > 0 ? blockNodes[blockNodes.length - 1] : null
 
   return (
     <Document title={documentTitle} author="aisistent.rs" creator="aisistent.rs">
@@ -305,10 +266,10 @@ export function AisistentDocument({ generatedText, documentTitle, createdAt, isF
 
         {bodyNodes}
 
-        {inputData && (
+        {inputData && documentType && (
           <View wrap={false}>
             {lastNode}
-            <SignatureSection inputData={inputData} createdAt={createdAt} />
+            <SignatureSection inputData={inputData} documentType={documentType} />
           </View>
         )}
 

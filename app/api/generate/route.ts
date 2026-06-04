@@ -3,8 +3,12 @@ import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { systemPrompt as ugovorORaduSystem, buildUserMessage } from '@/lib/prompts/ugovor-o-radu'
-import type { UgovorORaduData } from '@/types/wizard'
+import { systemPrompt as ugovorORaduSystem, buildUserMessage as buildUgovorORaduMessage } from '@/lib/prompts/ugovor-o-radu'
+import { systemPrompt as ugovorODeluSystem, buildUserMessage as buildUgovorODeluMessage } from '@/lib/prompts/ugovor-o-delu'
+import { systemPrompt as ndaSystem, buildUserMessage as buildNdaMessage } from '@/lib/prompts/nda'
+import { systemPrompt as ugovorOZakupuSystem, buildUserMessage as buildUgovorOZakupuMessage } from '@/lib/prompts/ugovor-o-zakupu'
+import { systemPrompt as ugovorOSaradnjiSystem, buildUserMessage as buildUgovorOSaradnjiMessage } from '@/lib/prompts/ugovor-o-saradnji-zajmu'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData } from '@/types/wizard'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -19,6 +23,7 @@ const ugovorORaduSchema = z.object({
   adresa_firme: z.string().min(1),
   zastupnik: z.string().min(1),
   funkcija: z.string().min(1),
+  broj_ugovora: z.string().optional(),
   ime_prezime: z.string().min(1),
   jmbg: z.string().min(1),
   adresa_zaposlenog: z.string().min(1),
@@ -47,17 +52,201 @@ const ugovorORaduSchema = z.object({
   napomene: z.string().optional(),
 })
 
+const ugovorODeluSchema = z.object({
+  tip_narucioca: z.string().min(1),
+  naziv_narucioca: z.string().min(1),
+  pib_narucioca: z.string().optional(),
+  adresa_narucioca: z.string().min(1),
+  zastupnik_narucioca: z.string().optional(),
+  tip_izvodjaca: z.string().min(1),
+  naziv_izvodjaca: z.string().min(1),
+  jmbg_pib_izvodjaca: z.string().min(1),
+  adresa_izvodjaca: z.string().min(1),
+  racun_izvodjaca: z.string().optional(),
+  naziv_dela: z.string().min(1),
+  opis_dela: z.string().min(1),
+  rezultat: z.string().min(1),
+  specifikacije: z.string().optional(),
+  datum_pocetka: z.string().min(1),
+  datum_zavrsetka: z.string().min(1),
+  fazno: z.boolean(),
+  opis_faza: z.string().optional(),
+  iznos: num.pipe(z.number().min(1)),
+  bruto_neto: z.string().min(1),
+  nacin_isplate: z.string().min(1),
+  avans: optNum,
+  rok_placanja: num.pipe(z.number().min(1)),
+  vlasnistvo: z.string().min(1),
+  nda: z.boolean(),
+  trajanje_nda: optNum,
+  zabrana: z.boolean(),
+  napomene: z.string().optional(),
+})
+
+const ndaSchema = z.object({
+  tip_nda: z.string().min(1),
+  svrha: z.string().min(1),
+  tip_strane_1: z.string().min(1),
+  naziv_strane_1: z.string().min(1),
+  pib_strane_1: z.string().optional(),
+  adresa_strane_1: z.string().min(1),
+  zastupnik_strane_1: z.string().optional(),
+  tip_strane_2: z.string().min(1),
+  naziv_strane_2: z.string().min(1),
+  pib_strane_2: z.string().optional(),
+  adresa_strane_2: z.string().min(1),
+  zastupnik_strane_2: z.string().optional(),
+  oblast_informacija: z.union([z.string().min(1), z.array(z.string().min(1)).min(1)]),
+  opis_informacija: z.string().optional(),
+  oznacavanje: z.boolean(),
+  datum: z.string().min(1),
+  trajanje_sporazuma: num.pipe(z.number().min(1)),
+  trajanje_cuvanja: num.pipe(z.number().min(1)),
+  kazna: optNum,
+  zabrana: z.boolean(),
+  trajanje_zabrane: optNum,
+  napomene: z.string().optional(),
+})
+
+const ugovorOZakupuSchema = z.object({
+  tip_zakupa: z.string().min(1),
+  uknjizena: z.boolean(),
+  tip_zakupodavca: z.string().min(1),
+  naziv_zakupodavca: z.string().min(1),
+  jmbg_pib_zakupodavca: z.string().min(1),
+  adresa_zakupodavca: z.string().min(1),
+  zastupnik_zakupodavca: z.string().optional(),
+  tip_zakupca: z.string().min(1),
+  naziv_zakupca: z.string().min(1),
+  jmbg_pib_zakupca: z.string().min(1),
+  adresa_zakupca: z.string().min(1),
+  zastupnik_zakupca: z.string().optional(),
+  adresa_nepokretnosti: z.string().min(1),
+  kvadratura: num.pipe(z.number().min(1)),
+  sprat: z.string().min(1),
+  struktura: z.string().min(1),
+  list_nepokretnosti: z.string().optional(),
+  stanje: z.string().optional(),
+  datum_pocetka: z.string().min(1),
+  tip_trajanja: z.string().min(1),
+  datum_isteka: z.string().optional(),
+  otkazni_rok: num.pipe(z.number().min(1)),
+  iznos: num.pipe(z.number().min(1)),
+  valuta: z.string().min(1),
+  dan_placanja: num.pipe(z.number().min(1).max(31)),
+  nacin_placanja: z.string().min(1),
+  deponija: z.boolean(),
+  iznos_deponije: optNum,
+  komunalije: z.string().min(1),
+  internet: z.string().min(1),
+  komunalna_taksa: z.string().min(1),
+  zivotinje: z.boolean().optional(),
+  prijava_boravista: z.boolean().optional(),
+  zabrana_podzakupa: z.boolean(),
+  napomene: z.string().optional(),
+})
+
+const ugovorOSaradnjiZajmuSchema = z.object({
+  tip_dokumenta: z.string().min(1),
+  tip_1: z.string().optional(),
+  naziv_1: z.string().optional(),
+  id_1: z.string().optional(),
+  adresa_1: z.string().optional(),
+  zastupnik_1: z.string().optional(),
+  tip_2: z.string().optional(),
+  naziv_2: z.string().optional(),
+  id_2: z.string().optional(),
+  adresa_2: z.string().optional(),
+  zastupnik_2: z.string().optional(),
+  naziv_saradnje: z.string().optional(),
+  opis_saradnje: z.string().optional(),
+  doprinos_1: z.string().optional(),
+  doprinos_2: z.string().optional(),
+  podela: z.string().optional(),
+  udeo_1: optNum,
+  udeo_2: optNum,
+  upravljanje: z.string().optional(),
+  rok: optNum,
+  datum_pocetka: z.string().optional(),
+  trajanje: z.string().optional(),
+  datum_zavrsetka: z.string().optional(),
+  ekskluzivnost: z.boolean().optional(),
+  opis_ekskl: z.string().optional(),
+  nda: z.boolean().optional(),
+  vlasnistvo_ip: z.string().optional(),
+  tip_zajmodavca: z.string().optional(),
+  naziv_zajmodavca: z.string().optional(),
+  id_zajmodavca: z.string().optional(),
+  adresa_zajmodavca: z.string().optional(),
+  tip_zajmoprimca: z.string().optional(),
+  naziv_zajmoprimca: z.string().optional(),
+  id_zajmoprimca: z.string().optional(),
+  adresa_zajmoprimca: z.string().optional(),
+  racun: z.string().optional(),
+  iznos: optNum,
+  valuta: z.string().optional(),
+  svrha: z.string().optional(),
+  datum_isplate: z.string().optional(),
+  nacin_isplate: z.string().optional(),
+  tip_kamate: z.string().optional(),
+  stopa: optNum,
+  obracun: z.string().optional(),
+  placanje_kamate: z.string().optional(),
+  nacin_vracanja: z.string().optional(),
+  rok_vracanja: z.string().optional(),
+  prva_rata: z.string().optional(),
+  prevremena: z.boolean().default(true),
+  sredstvo: z.string().default('Bez'),
+  zatezna: z.string().default('Zakonska'),
+  napomene: z.string().optional(),
+})
+
 const requestSchema = z.object({
   type: z.enum(['ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji']),
   data: z.record(z.string(), z.unknown()),
 })
 
-// In-memory rate limit store — reset on cold start (acceptable for MVP)
+const documentConfigs = {
+  'ugovor-o-radu': {
+    schema: ugovorORaduSchema,
+    systemPrompt: ugovorORaduSystem,
+    buildUserMessage: (data: UgovorORaduData) => buildUgovorORaduMessage(data),
+    buildTitle: (data: UgovorORaduData) => `Ugovor o radu - ${data.ime_prezime ?? ''}`,
+  },
+  'ugovor-o-delu': {
+    schema: ugovorODeluSchema,
+    systemPrompt: ugovorODeluSystem,
+    buildUserMessage: (data: UgovorODeluData) => buildUgovorODeluMessage(data),
+    buildTitle: (data: UgovorODeluData) => `Ugovor o delu - ${data.naziv_izvodjaca ?? ''}`,
+  },
+  nda: {
+    schema: ndaSchema,
+    systemPrompt: ndaSystem,
+    buildUserMessage: (data: NdaData) => buildNdaMessage(data),
+    buildTitle: (data: NdaData) => `NDA - ${data.naziv_strane_1 ?? ''}`,
+  },
+  'ugovor-o-zakupu': {
+    schema: ugovorOZakupuSchema,
+    systemPrompt: ugovorOZakupuSystem,
+    buildUserMessage: (data: UgovorOZakupuData) => buildUgovorOZakupuMessage(data),
+    buildTitle: (data: UgovorOZakupuData) => `Ugovor o zakupu - ${data.adresa_nepokretnosti ?? ''}`,
+  },
+  'ugovor-o-saradnji': {
+    schema: ugovorOSaradnjiZajmuSchema,
+    systemPrompt: ugovorOSaradnjiSystem,
+    buildUserMessage: (data: UgovorOSaradnjiZajmuData) => buildUgovorOSaradnjiMessage(data),
+    buildTitle: (data: UgovorOSaradnjiZajmuData) =>
+      data.tip_dokumenta === 'Ugovor o zajmu'
+        ? `Ugovor o zajmu - ${data.naziv_zajmoprimca ?? ''}`
+        : `Ugovor o saradnji - ${data.naziv_1 ?? ''}`,
+  },
+} as const
+
 const rateLimitStore = new Map<string, number[]>()
 
 function checkRateLimit(userId: string): boolean {
   const now = Date.now()
-  const windowMs = 60 * 60 * 1000 // 1 sat
+  const windowMs = 60 * 60 * 1000
   const max = 10
 
   const timestamps = (rateLimitStore.get(userId) ?? []).filter(t => now - t < windowMs)
@@ -69,7 +258,6 @@ function checkRateLimit(userId: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
-  // Auth
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -77,7 +265,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Niste prijavljeni.' }, { status: 401 })
   }
 
-  // Rate limit
   if (!checkRateLimit(user.id)) {
     return NextResponse.json(
       { error: 'Prekoračili ste limit od 10 zahteva po satu. Pokušajte ponovo za sat vremena.' },
@@ -85,7 +272,6 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Parse & validate body
   let body: unknown
   try {
     body = await request.json()
@@ -99,8 +285,8 @@ export async function POST(request: NextRequest) {
   }
 
   const { type, data } = parsed.data
+  const config = documentConfigs[type]
 
-  // Plan limit check
   const admin = createAdminClient()
   const { data: profile } = await admin
     .from('profiles')
@@ -119,27 +305,16 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Validate document-specific data
-  let systemPromptText: string
-  let userMessage: string
-
-  if (type === 'ugovor-o-radu') {
-    const docData = ugovorORaduSchema.safeParse(data)
-    if (!docData.success) {
-      const fieldErrors = docData.error.issues.map(i => `${i.path.join('.')}: ${i.message}`)
-      console.error('Validation errors:', fieldErrors)
-      return NextResponse.json(
-        { error: 'Nedostaju obavezna polja.', fields: fieldErrors },
-        { status: 400 }
-      )
-    }
-    systemPromptText = ugovorORaduSystem
-    userMessage = buildUserMessage(docData.data as UgovorORaduData)
-  } else {
-    return NextResponse.json({ error: 'Ovaj tip dokumenta još nije dostupan.' }, { status: 400 })
+  const docData = config.schema.safeParse(data)
+  if (!docData.success) {
+    const fieldErrors = docData.error.issues.map(i => `${i.path.join('.')}: ${i.message}`)
+    console.error('Validation errors:', fieldErrors)
+    return NextResponse.json(
+      { error: 'Nedostaju obavezna polja.', fields: fieldErrors },
+      { status: 400 }
+    )
   }
 
-  // Claude API
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
   let generatedText: string
@@ -147,8 +322,8 @@ export async function POST(request: NextRequest) {
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-5',
       max_tokens: 8000,
-      system: systemPromptText,
-      messages: [{ role: 'user', content: userMessage }],
+      system: config.systemPrompt,
+      messages: [{ role: 'user', content: config.buildUserMessage(docData.data as never) }],
     })
 
     const content = message.content[0]
@@ -164,17 +339,12 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Save document
-  const title = type === 'ugovor-o-radu'
-    ? `Ugovor o radu — ${(data as unknown as UgovorORaduData).ime_prezime ?? ''}`
-    : type
-
   const { data: doc, error: insertError } = await admin
     .from('documents')
     .insert({
       user_id: user.id,
       type,
-      title,
+      title: config.buildTitle(docData.data as never),
       input_data: data as Record<string, unknown>,
       generated_text: generatedText,
       is_free: profile.plan === 'free',
@@ -187,7 +357,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Greška pri čuvanju dokumenta.' }, { status: 500 })
   }
 
-  // Increment monthly counter
   await admin
     .from('profiles')
     .update({ documents_this_month: profile.documents_this_month + 1 })
