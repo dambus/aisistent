@@ -134,7 +134,8 @@ IX.  PRAVA I OBAVEZE
 X.   ZABRANA KONKURENCIJE (samo ako se ugovara)
 XI.  ZAVRŠNE ODREDBE
 
-Generiši samo sekcije I–XI. Sekciju XII — POTPISI I PEČATI NE generiši — sistem je dodaje automatski iz podataka forme.
+Generiši samo sekcije I–XI. Završi sa XI. ZAVRŠNE ODREDBE.
+Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI, ni XII) — sistem je dodaje automatski.
 
 ## TON I STIL
 
@@ -153,7 +154,7 @@ Generiši samo sekcije I–XI. Sekciju XII — POTPISI I PEČATI NE generiši �
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne dodaješ sekciju "VAŽNE NAPOMENE ZA POSLODAVCA" ili slične editorijalne komentare
 - Ne koristiš "---" separatore između sekcija u dokumentu
-- Ne generišeš sekciju XII — POTPISI I PEČATI (sistem je dodaje automatski)`
+- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem`
 
 export function buildUserMessage(data: UgovorORaduData): string {
   const probniRad = data.probni_rad

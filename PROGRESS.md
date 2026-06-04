@@ -13,7 +13,7 @@ PROGRESS.md — Task Tracker.md
 **Trenutna faza:** MVP razvoj  
 **Poslednja sesija:** jun 2026.  
 **Sledeći zadatak:** Korak 5 — Stripe integracija  
-**Poslednja sesija:** Korak 4f završen — fi-ligatura, potpisi, zarada terminologija
+**Poslednja sesija:** Korak 4g završen — naslov potpisa, grupisanje sa poslednjim blokom
 
 ---
 
@@ -152,6 +152,16 @@ umesto formatiranog teksta — fixes se u Koraku 4b.
 - `lib/pdf/AisistentDocument.tsx` (nova SignatureSection komponenta, inputData prop)
 - `app/api/export/pdf/route.ts` (dodato input_data u select, prosleđeno kao inputData)
 - `lib/prompts/ugovor-o-radu.ts` (fi-instrukcija, zarada pravilo, uklonjen | format)
+
+---
+
+### ✅ Korak 4g — Ispravke sekcije potpisa
+1. **Naslov**: uklonjen h2 "POTPISI I PEČATI", zamenjen sa "Ugovor potpisuju:" (Roboto 11pt, siva boja); sistemski prompt eksplicitno zabranjuje POTPISI sekciju pod bilo kojim rimskim brojem
+2. **Grupisanje**: poslednji blok dokumenta i `SignatureSection` su u zajedničkom `<View wrap={false}>` — nikad razdvojeni prelaskom stranice
+
+**Fajlovi:**
+- `lib/pdf/AisistentDocument.tsx` (sigIntro stil, lastNode grupisanje)
+- `lib/prompts/ugovor-o-radu.ts` (pojačana zabrana POTPISI sekcije)
 
 ---
 

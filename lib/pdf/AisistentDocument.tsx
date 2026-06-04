@@ -80,6 +80,12 @@ const s = StyleSheet.create({
   sigSection: {
     marginTop: 24,
   },
+  sigIntro: {
+    fontFamily: 'Roboto',
+    fontSize: 11,
+    marginBottom: 16,
+    color: '#374151',
+  },
   sigDateLine: {
     fontFamily: 'Roboto',
     fontSize: 11,
@@ -230,8 +236,8 @@ function SignatureSection({ inputData, createdAt }: {
   const city = String(inputData.mesto_rada ?? '').split(',')[0].trim()
 
   return (
-    <View style={s.sigSection} wrap={false}>
-      <Text style={s.h2}>POTPISI I PEČATI</Text>
+    <View style={s.sigSection}>
+      <Text style={s.sigIntro}>Ugovor potpisuju:</Text>
 
       <Text style={s.sigDateLine}>
         Mesto i datum potpisivanja: {city}, _______________
@@ -278,6 +284,15 @@ interface Props {
 export function AisistentDocument({ generatedText, documentTitle, createdAt, isFree, inputData }: Props) {
   const blocks = parseMarkdown(generatedText)
   const dateStr = serbianDate(createdAt)
+  const blockNodes = renderBlocks(blocks)
+
+  // Keep the last content block anchored to SignatureSection so they never split across pages
+  const bodyNodes = inputData && blockNodes.length > 0
+    ? blockNodes.slice(0, -1)
+    : blockNodes
+  const lastNode = inputData && blockNodes.length > 0
+    ? blockNodes[blockNodes.length - 1]
+    : null
 
   return (
     <Document title={documentTitle} author="aisistent.rs" creator="aisistent.rs">
@@ -288,10 +303,13 @@ export function AisistentDocument({ generatedText, documentTitle, createdAt, isF
           <Text style={s.headerDate}>{dateStr} · aisistent.rs</Text>
         </View>
 
-        {renderBlocks(blocks)}
+        {bodyNodes}
 
         {inputData && (
-          <SignatureSection inputData={inputData} createdAt={createdAt} />
+          <View wrap={false}>
+            {lastNode}
+            <SignatureSection inputData={inputData} createdAt={createdAt} />
+          </View>
         )}
 
         <View
