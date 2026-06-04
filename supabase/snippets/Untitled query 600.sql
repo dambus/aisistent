@@ -1,36 +1,7 @@
-INSERT INTO auth.users (
-  id,
-  instance_id,
-  email,
-  encrypted_password,
-  email_confirmed_at,
-  created_at,
-  updated_at,
-  role,
-  aud,
-  confirmation_token,
-  recovery_token,
-  email_change_token_new,
-  email_change,
-  raw_app_meta_data,
-  raw_user_meta_data,
-  is_super_admin
-)
-VALUES (
-  gen_random_uuid(),
-  '00000000-0000-0000-0000-000000000000',
-  'test@aisistent.rs',
-  crypt('demo1234', gen_salt('bf')),
-  now(),
-  now(),
-  now(),
-  'authenticated',
-  'authenticated',
-  '',
-  '',
-  '',
-  '',
-  '{"provider":"email","providers":["email"]}',
-  '{}',
-  false
+UPDATE public.profiles
+SET
+  plan = 'pro',
+  documents_this_month = 0
+WHERE id = (
+  SELECT id FROM auth.users WHERE email = 'test@aisistent.rs'
 );
