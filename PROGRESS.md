@@ -13,7 +13,7 @@ PROGRESS.md — Task Tracker.md
 **Trenutna faza:** MVP razvoj  
 **Poslednja sesija:** jun 2026.  
 **Sledeći zadatak:** Korak 5 — Stripe integracija  
-**Poslednja sesija:** Korak 4g završen — naslov potpisa, grupisanje sa poslednjim blokom
+**Poslednja sesija:** Korak C1/C2 završen — 4 nova tipa dokumenta integrisana
 
 ---
 
@@ -162,6 +162,37 @@ umesto formatiranog teksta — fixes se u Koraku 4b.
 **Fajlovi:**
 - `lib/pdf/AisistentDocument.tsx` (sigIntro stil, lastNode grupisanje)
 - `lib/prompts/ugovor-o-radu.ts` (pojačana zabrana POTPISI sekcije)
+
+---
+
+### ✅ Korak C1 — Codex: 4 nova prompt fajla i tipovi
+- `ugovor-o-delu.ts` — scenario A/B/C za poreske tretmane, wizard 6 koraka
+- `nda.ts` — jednostrani i dvostrani NDA, izuzeci, ugovorna kazna
+- `ugovor-o-zakupu.ts` — stambeni/poslovni/kratkoročni, deponija, komunalije
+- `ugovor-o-saradnji-zajmu.ts` — poslovna saradnja ili zajam, kamata
+
+**Fajlovi:**
+- `lib/prompts/ugovor-o-delu.ts`
+- `lib/prompts/nda.ts`
+- `lib/prompts/ugovor-o-zakupu.ts`
+- `lib/prompts/ugovor-o-saradnji-zajmu.ts`
+- `types/wizard.ts` (prošireno — 4 nova interfejsa, WizardFormData union)
+- `app/api/generate/route.ts` (svih 5 tipova sa Zod shemama)
+
+---
+
+### ✅ Korak C2 — Integracija i ispravke novih tipova
+- **Ispravke promptova**: uklonjen dupli disclaimer (UPOZORENJE NA KRAJU) iz sva 4 prompta; POTPISI sekcija označena kao "ne generiši"
+- **SignatureSection**: generička implementacija za svih 5 tipova (`buildSigData` switch) — ispravni nazivi strana za svaki tip dokumenta
+- **PDF route**: prosleđuje `documentType` za ispravan potpis
+- **Wizard routing**: `dokumenti/[type]/page.tsx` pokriva svih 5 tipova, `notFound()` za nepostojeće
+- **Dashboard kartice**: 5 kartica za svaki tip dokumenta; arhiva lista prikazuje tip dokumenta
+
+**Fajlovi:**
+- `lib/pdf/AisistentDocument.tsx` (generička SignatureSection, documentType prop)
+- `app/api/export/pdf/route.ts` (documentType prop)
+- `app/(dashboard)/dokumenti/[type]/page.tsx` (svih 5 tipova)
+- `app/(dashboard)/dashboard/page.tsx` (kartice + tip u arhivi)
 
 ---
 
