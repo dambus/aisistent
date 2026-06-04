@@ -181,7 +181,78 @@ function spansToRuns(spans: InlineSpan[]): TextRun[] {
   return spans.map(spanToRun)
 }
 
-function blockToParagraph(block: Block): Paragraph {
+function markdownTableColumnWidths(columnCount: number): number[] {
+  if (columnCount === 2) return [60, 40]
+  return Array.from({ length: columnCount }, () => 100 / columnCount)
+}
+
+function cleanMarkdownTableCell(cell: string): string {
+  return cell.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')
+}
+
+function isBoldTotalRow(row: string[], rowIndex: number, rows: string[][]): boolean {
+  if (rowIndex !== rows.length - 1) return false
+  return row.some(cell => /\*\*[^*]+\*\*/.test(cell) && /UKUPNO/i.test(cell))
+}
+
+function markdownTableBorders() {
+  return {
+    top: { style: BorderStyle.SINGLE, size: 4, color: 'E5E7EB' },
+    bottom: { style: BorderStyle.SINGLE, size: 4, color: 'E5E7EB' },
+    left: { style: BorderStyle.SINGLE, size: 4, color: 'E5E7EB' },
+    right: { style: BorderStyle.SINGLE, size: 4, color: 'E5E7EB' },
+  }
+}
+
+function markdownTableCell(text: string, width: number, options: { bold?: boolean; fill?: string } = {}): TableCell {
+  return new TableCell({
+    width: { size: width, type: WidthType.PERCENTAGE },
+    shading: options.fill ? { fill: options.fill } : undefined,
+    borders: markdownTableBorders(),
+    margins: { top: 80, bottom: 80, left: 100, right: 100 },
+    children: [
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: cleanMarkdownTableCell(text),
+            font: FONT_FAMILY,
+            size: 20,
+            bold: options.bold,
+          }),
+        ],
+      }),
+    ],
+  })
+}
+
+function markdownTableToTable(block: Extract<Block, { type: 'table' }>): Table {
+  const widths = markdownTableColumnWidths(block.headers.length)
+
+  return new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    layout: TableLayoutType.FIXED,
+    rows: [
+      new TableRow({
+        children: block.headers.map((header, i) =>
+          markdownTableCell(header, widths[i], { bold: true, fill: 'F3F4F6' })
+        ),
+      }),
+      ...block.rows.map((row, rowIndex) => {
+        const isTotal = isBoldTotalRow(row, rowIndex, block.rows)
+        return new TableRow({
+          children: block.headers.map((_, cellIndex) =>
+            markdownTableCell(row[cellIndex] ?? '', widths[cellIndex], {
+              bold: isTotal,
+              fill: isTotal ? 'F3F4F6' : rowIndex % 2 === 0 ? 'FFFFFF' : 'FAFAFA',
+            })
+          ),
+        })
+      }),
+    ],
+  })
+}
+
+function blockToDocxChild(block: Block): Paragraph | Table {
   switch (block.type) {
     case 'h1':
       return new Paragraph({
@@ -215,6 +286,8 @@ function blockToParagraph(block: Block): Paragraph {
     case 'spacer':
     case 'separator':
       return new Paragraph({ spacing: { after: 80 } })
+    case 'table':
+      return markdownTableToTable(block)
     default:
       return new Paragraph({
         alignment: AlignmentType.JUSTIFIED,
@@ -321,12 +394,12 @@ export async function buildDocx(
   const dateStr = serbianDate(createdAt)
   const safeText = sanitizeGeneratedText(generatedText)
   const blocks = parseMarkdown(safeText)
-  const bodyParagraphs = blocks.map(blockToParagraph)
+  const bodyChildren = blocks.map(blockToDocxChild)
 
   const signatureTable = buildSignatureTable(options.documentType, options.inputData)
 
   const children: (Paragraph | Table)[] = [
-    ...bodyParagraphs,
+    ...bodyChildren,
   ]
 
   if (signatureTable) {

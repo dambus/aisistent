@@ -5,12 +5,21 @@ export interface InlineSpan {
   text: string
 }
 
-export type BlockType = 'h1' | 'h2' | 'paragraph' | 'bullet' | 'separator' | 'spacer'
+export type BlockType = 'h1' | 'h2' | 'paragraph' | 'bullet' | 'separator' | 'spacer' | 'table'
+export type TextBlockType = Exclude<BlockType, 'table'>
 
-export interface Block {
-  type: BlockType
+export interface TextBlock {
+  type: TextBlockType
   spans: InlineSpan[]
 }
+
+export interface TableBlock {
+  type: 'table'
+  headers: string[]
+  rows: string[][]
+}
+
+export type Block = TextBlock | TableBlock
 
 // Roman numeral section headings emitted without ## prefix (e.g. "I. Podaci o stranama")
 const ROMAN_RE = /^[IVXLCDM]{1,6}\.\s/
@@ -45,14 +54,55 @@ function parseInline(text: string): InlineSpan[] {
   return spans.length > 0 ? spans : [{ type: 'text', text: t }]
 }
 
+function isTableRow(line: string): boolean {
+  return line.startsWith('|') && line.endsWith('|')
+}
+
+function isTableSeparator(line: string): boolean {
+  return /^\|\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|$/.test(line)
+}
+
+function parseTableCells(line: string): string[] {
+  return line
+    .split('|')
+    .map(cell => cell.trim())
+    .filter(Boolean)
+}
+
 export function parseMarkdown(text: string): Block[] {
   const blocks: Block[] = []
+  const lines = text.split('\n')
 
-  for (const raw of text.split('\n')) {
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i]
     const line = raw.trim()
 
-    // Stop before signature section — rendered as a hardcoded component
+    // Stop before signature section - rendered as a hardcoded component
     if (/POTPISI/i.test(line)) break
+
+    if (isTableRow(line) && !isTableSeparator(line)) {
+      const tableLines: string[] = []
+
+      while (i < lines.length) {
+        const tableLine = lines[i].trim()
+        if (!isTableRow(tableLine)) break
+        if (!isTableSeparator(tableLine)) {
+          tableLines.push(tableLine)
+        }
+        i++
+      }
+      i--
+
+      if (tableLines.length > 0) {
+        const [headerLine, ...rowLines] = tableLines
+        blocks.push({
+          type: 'table',
+          headers: parseTableCells(headerLine),
+          rows: rowLines.map(parseTableCells),
+        })
+      }
+      continue
+    }
 
     if (line === '') {
       blocks.push({ type: 'spacer', spans: [] })

@@ -1,0 +1,203 @@
+import type { OglasZaPosaoData, WizardStep } from '@/types/wizard'
+
+const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITICNO PRAVILO
+
+Nazive firmi, gradova i pozicija korisnik daje u NOMINATIVU. Dekliniras ih prema kontekstu recenice.
+
+NIKADA ne kopiraj naziv direktno iz inputa bez provere padeza.
+
+Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za licna imena ako se pojave: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Ana Markovic -> Ane Markovic -> Ani Markovic.`
+
+export const systemPrompt = `Ti si asistent za pisanje oglasa za posao na srpskom jeziku.
+
+## TVOJ ZADATAK
+
+Generises profesionalan, human i konkretan oglas za posao koji privlaci kvalitetne kandidate, jasno komunicira ocekivanja i predstavlja firmu pozitivno.
+
+Format prilagodi objavi na Infostudu, LinkedIn-u i sajtu firme.
+
+${declensionRules}
+
+## OBAVEZNI ELEMENTI
+
+1. Naziv pozicije
+2. Kratak uvod o firmi
+3. Opis posla
+4. Ključni zadaci
+5. Uslovi: strucna sprema, iskustvo i vestine
+6. Sta firma nudi
+7. Rok za prijavu
+8. Kako aplicirati
+
+## PRAVILA
+
+- Izbegavaj diskriminatorne uslove kao sto su godine, pol, izgled, porodicni status ili slicno
+- Ne izmisljas benefite koje firma nije navela
+- Ne pravis robotski spisak zahteva; tekst treba da zvuci kao da firma zna koga trazi
+- Ako je zarada "prema dogovoru" ili "konkurentna", ne navodi iznos
+- Koristi srpski jezik latinicom
+
+## FORMAT IZLAZA
+
+Generisi oglas sa jasnim naslovima i kratkim pasusima. Na kraju dodaj:
+Generisano uz pomoc AIsistent.rs`
+
+function formatList(value: string[] | string): string {
+  return Array.isArray(value) ? value.join(', ') : value
+}
+
+export function buildUserMessage(data: OglasZaPosaoData): string {
+  const zarada = data.zarada_tip === 'Navedite iznos'
+    ? `${data.zarada_tip}: ${data.iznos_zarade ?? '[POPUNITI: iznos zarade]'}`
+    : data.zarada_tip
+
+  return `Molim te generisi oglas za posao sa sledecim podacima:
+
+FIRMA:
+- Naziv firme: ${data.naziv_firme}
+- Grad: ${data.grad}
+- Delatnost: ${data.delatnost}
+- Velicina: ${data.velicina}
+
+POZICIJA:
+- Naziv radnog mesta: ${data.naziv_pozicije}
+- Tip angazovanja: ${data.tip_angazovanja}
+- Lokacija rada: ${data.lokacija_rada}
+- Strucna sprema: ${data.strucna_sprema}
+- Iskustvo: ${data.iskustvo}
+
+OPIS POSLA:
+- Glavni zadaci: ${data.glavni_zadaci}
+- Potrebne vestine: ${data.potrebne_vestine}
+- Prednost: ${data.prednost ?? '[nema]'}
+
+STA FIRMA NUDI:
+- Zarada: ${zarada}
+- Benefiti: ${formatList(data.benefiti)}
+- Rok za prijavu: ${data.rok_prijave}
+- Kako aplicirati: ${data.kako_aplicirati}
+
+Svi podaci su u nominativu. Dekliniras ispravno.`
+}
+
+export const wizardSteps: WizardStep[] = [
+  {
+    id: 'firma',
+    title: 'Firma',
+    fields: [
+      { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true },
+      { id: 'grad', label: 'Grad', type: 'text', required: true },
+      { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true },
+      {
+        id: 'velicina',
+        label: 'Velicina firme',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Do 10', label: 'Do 10' },
+          { value: '10-50', label: '10-50' },
+          { value: '50-200', label: '50-200' },
+          { value: '200+', label: '200+' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pozicija',
+    title: 'Pozicija',
+    fields: [
+      { id: 'naziv_pozicije', label: 'Naziv radnog mesta', type: 'text', required: true },
+      {
+        id: 'tip_angazovanja',
+        label: 'Tip angazovanja',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Puno radno vreme', label: 'Puno radno vreme' },
+          { value: 'Nepuno radno vreme', label: 'Nepuno' },
+          { value: 'Projektno', label: 'Projektno' },
+          { value: 'Praksa', label: 'Praksa' },
+        ],
+      },
+      {
+        id: 'lokacija_rada',
+        label: 'Lokacija rada',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Kancelarija', label: 'Kancelarija' },
+          { value: 'Remote', label: 'Remote' },
+          { value: 'Hibridno', label: 'Hibridno' },
+        ],
+      },
+      {
+        id: 'strucna_sprema',
+        label: 'Strucna sprema',
+        type: 'dropdown',
+        required: true,
+        options: [
+          { value: 'Srednja strucna sprema', label: 'Srednja strucna sprema' },
+          { value: 'Visa strucna sprema', label: 'Visa strucna sprema' },
+          { value: 'Visoka strucna sprema', label: 'Visoka strucna sprema' },
+          { value: 'Nije presudno', label: 'Nije presudno' },
+        ],
+      },
+      {
+        id: 'iskustvo',
+        label: 'Iskustvo',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Bez iskustva', label: 'Bez iskustva' },
+          { value: '1-2 god', label: '1-2 god' },
+          { value: '3-5 god', label: '3-5 god' },
+          { value: '5+', label: '5+' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'opis_posla',
+    title: 'Opis posla',
+    fields: [
+      { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true },
+      { id: 'potrebne_vestine', label: 'Potrebne vestine', type: 'textarea', required: true },
+      { id: 'prednost', label: 'Prednost', type: 'textarea', required: false },
+    ],
+  },
+  {
+    id: 'ponuda',
+    title: 'Sta firma nudi',
+    fields: [
+      {
+        id: 'zarada_tip',
+        label: 'Zarada',
+        type: 'radio',
+        required: true,
+        options: [
+          { value: 'Navedite iznos', label: 'Navedite iznos' },
+          { value: 'Prema dogovoru', label: 'Prema dogovoru' },
+          { value: 'Konkurentna', label: 'Konkurentna' },
+        ],
+      },
+      { id: 'iznos_zarade', label: 'Iznos zarade', type: 'text', required: false, conditional: { field: 'zarada_tip', value: 'Navedite iznos' } },
+      {
+        id: 'benefiti',
+        label: 'Benefiti',
+        type: 'dropdown',
+        required: true,
+        options: [
+          { value: 'Topli obrok', label: 'Topli obrok' },
+          { value: 'Prevoz', label: 'Prevoz' },
+          { value: 'Privatno zdravstveno', label: 'Privatno zdravstveno' },
+          { value: 'Obuke', label: 'Obuke' },
+          { value: 'Fleksibilno vreme', label: 'Fleksibilno vreme' },
+          { value: 'Rad od kuce', label: 'Rad od kuce' },
+          { value: 'Ostalo', label: 'Ostalo' },
+        ],
+      },
+      { id: 'rok_prijave', label: 'Rok za prijavu', type: 'date', required: true },
+      { id: 'kako_aplicirati', label: 'Kako aplicirati', type: 'textarea', required: true },
+    ],
+  },
+]

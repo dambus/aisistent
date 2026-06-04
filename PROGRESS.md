@@ -272,6 +272,20 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak F3 — Markdown tabele u PDF i DOCX exportu
+- `parseMarkdown()` prepoznaje Markdown tabele, preskače separator red i grupiše uzastopne redove u `table` blok
+- PDF renderer prikazuje tabele kroz `View`/`Text`, sa header pozadinom, borderima, naizmeničnim redovima i 60/40 širinom za dve kolone
+- DOCX builder prikazuje tabele kroz `Table`, `TableRow` i `TableCell`, sa istim osnovnim stilom i širinama
+- Bold `UKUPNO` poslednji red dobija bold tekst i istaknutiju pozadinu
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `lib/pdf/markdownParser.ts`
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/docxBuilder.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

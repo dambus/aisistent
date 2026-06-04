@@ -50,6 +50,23 @@ const s = StyleSheet.create({
   paragraph: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 5 },
   bullet: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 3, paddingLeft: 12 },
   spacer: { marginBottom: 6 },
+  table: { marginTop: 6, marginBottom: 10 },
+  tableRow: { flexDirection: 'row' },
+  tableHeaderCell: {
+    backgroundColor: '#F3F4F6',
+    borderWidth: 0.5,
+    borderColor: '#E5E7EB',
+    paddingVertical: 4,
+    paddingHorizontal: 5,
+  },
+  tableCell: {
+    borderWidth: 0.5,
+    borderColor: '#E5E7EB',
+    paddingVertical: 4,
+    paddingHorizontal: 5,
+  },
+  tableCellText: { fontFamily: 'Roboto', fontSize: 10, lineHeight: 1.35 },
+  tableCellTextBold: { fontFamily: 'Roboto-Bold', fontSize: 10, lineHeight: 1.35 },
   sigSection: { marginTop: 24 },
   sigIntro: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 16, color: '#374151' },
   sigDateLine: { fontFamily: 'Roboto', fontSize: 11, marginTop: 8, marginBottom: 28 },
@@ -98,6 +115,59 @@ function Spans({ spans }: { spans: InlineSpan[] }) {
   )
 }
 
+function columnWidths(columnCount: number): string[] {
+  if (columnCount === 2) return ['60%', '40%']
+  return Array.from({ length: columnCount }, () => `${100 / columnCount}%`)
+}
+
+function cleanTableCell(cell: string): string {
+  return cell.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1')
+}
+
+function isBoldTotalRow(row: string[], rowIndex: number, rows: string[][]): boolean {
+  if (rowIndex !== rows.length - 1) return false
+  return row.some(cell => /\*\*[^*]+\*\*/.test(cell) && /UKUPNO/i.test(cell))
+}
+
+function renderTable(block: Extract<Block, { type: 'table' }>, key: number) {
+  const widths = columnWidths(block.headers.length)
+
+  return (
+    <View key={key} style={s.table} wrap={false}>
+      <View style={s.tableRow}>
+        {block.headers.map((header, i) => (
+          <View key={i} style={[s.tableHeaderCell, { width: widths[i] }]}>
+            <Text style={s.tableCellTextBold}>{cleanTableCell(header)}</Text>
+          </View>
+        ))}
+      </View>
+      {block.rows.map((row, rowIndex) => {
+        const isTotal = isBoldTotalRow(row, rowIndex, block.rows)
+        return (
+          <View key={rowIndex} style={s.tableRow}>
+            {block.headers.map((_, cellIndex) => (
+              <View
+                key={cellIndex}
+                style={[
+                  s.tableCell,
+                  {
+                    width: widths[cellIndex],
+                    backgroundColor: isTotal ? '#F3F4F6' : rowIndex % 2 === 0 ? '#FFFFFF' : '#FAFAFA',
+                  },
+                ]}
+              >
+                <Text style={isTotal ? s.tableCellTextBold : s.tableCellText}>
+                  {cleanTableCell(row[cellIndex] ?? '')}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )
+      })}
+    </View>
+  )
+}
+
 function renderBlock(block: Block, i: number) {
   switch (block.type) {
     case 'h1': return <Text key={i} style={s.h1}><Spans spans={block.spans} /></Text>
@@ -108,6 +178,7 @@ function renderBlock(block: Block, i: number) {
           <Text>{'• '}</Text><Spans spans={block.spans} />
         </Text>
       )
+    case 'table': return renderTable(block, i)
     case 'separator': return <View key={i} style={{ marginBottom: 8 }} />
     case 'spacer': return <View key={i} style={s.spacer} />
     default: return <Text key={i} style={s.paragraph}><Spans spans={block.spans} /></Text>
