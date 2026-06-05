@@ -37,7 +37,7 @@ const steps = [
   {
     num: '2',
     icon: '⚡',
-    title: 'AI generiše za vas',
+    title: 'AIsistent generiše za vas',
     text: 'Za manje od 60 sekundi dobijate kompletan dokument prilagođen srpskom pravu i vašem poslu.',
   },
   {
@@ -64,7 +64,7 @@ const toolCategories: ToolCategory[] = [
     title: '📄 Ugovori i dokumenti',
     tools: [
       { name: 'Ugovor o radu',    desc: 'Usklađen sa Zakonom o radu RS',               type: 'ugovor-o-radu' },
-      { name: 'Ugovor o delu',    desc: 'Za freelancere i projektnu saradnju',           type: 'ugovor-o-delu' },
+      { name: 'Ugovor o delu',    desc: 'Za samostalne saradnike i projektnu saradnju',   type: 'ugovor-o-delu' },
       { name: 'NDA Sporazum',     desc: 'Zaštitite poslovnu tajnu',                     type: 'nda' },
       { name: 'Ugovor o zakupu',  desc: 'Za stanove i poslovne prostore',               type: 'ugovor-o-zakupu' },
       { name: 'Ugovor o saradnji',desc: 'Za partnerstva i zajedničke projekte',          type: 'ugovor-o-saradnji' },
@@ -76,7 +76,7 @@ const toolCategories: ToolCategory[] = [
     title: '✉️ Poslovna komunikacija',
     tools: [
       { name: 'Poslovni mejl',    desc: 'Ponuda, opomena, zahvalnica i još 7 tipova',   type: 'poslovni-mejl' },
-      { name: 'Ponuda klijentu',  desc: 'Profesionalna B2B oferta za 2 minuta',         type: 'ponuda-klijentu' },
+      { name: 'Ponuda klijentu',  desc: 'Profesionalna poslovna ponuda za 2 minuta',    type: 'ponuda-klijentu' },
     ],
   },
   {
@@ -103,7 +103,7 @@ const withoutAisistent = [
 
 const withAisistent = [
   'Gotov dokument za 2 minuta',
-  'Mesečna pretplata manja od jednog pravničkog sata',
+  'Mesečna pretplata jeftinija od jednog sata kod pravnika',
   'Prilagođeno srpskom pravu i praksi',
   'Svi dokumenti na jednom mestu',
   'Arhiva za ponovno korišćenje',
@@ -112,6 +112,7 @@ const withAisistent = [
 interface PricingPlan {
   name: string
   price: string
+  euroEquivalent?: string
   badge?: string
   cta: string
   href: string
@@ -122,33 +123,35 @@ interface PricingPlan {
 const pricing: PricingPlan[] = [
   {
     name: 'Besplatno',
-    price: '€0',
+    price: 'Besplatno',
     cta: 'Počnite besplatno',
     href: '/register',
     features: [
       ['✓', '3 dokumenta mesečno'],
       ['✓', 'PDF format'],
       ['✓', 'Sve kategorije alata'],
-      ['✕', 'Word (DOCX) format'],
+      ['✕', 'Word format'],
       ['✕', 'Arhiva dokumenata'],
     ],
   },
   {
     name: 'Starter',
-    price: '€9',
+    price: '1.080 RSD / mes.',
+    euroEquivalent: '(≈ 9 EUR)',
     cta: 'Izaberite Starter',
     href: '/register',
     features: [
       ['✓', '20 dokumenata mesečno'],
       ['✓', 'PDF bez oznake'],
-      ['✓', 'Word (DOCX) format'],
+      ['✓', 'Word format'],
       ['✓', 'Arhiva dokumenata'],
       ['✕', 'Višekorisnički pristup'],
     ],
   },
   {
     name: 'Pro',
-    price: '€25',
+    price: '3.000 RSD / mes.',
+    euroEquivalent: '(≈ 25 EUR)',
     badge: 'Najpopularnije',
     cta: 'Izaberite Pro',
     href: '/register',
@@ -157,20 +160,21 @@ const pricing: PricingPlan[] = [
       ['✓', 'Neograničen broj dokumenata'],
       ['✓', 'PDF i Word format'],
       ['✓', 'Arhiva dokumenata'],
-      ['✓', 'Prioritetna podrška'],
+      ['✓', 'Brza tehnička podrška'],
       ['✕', 'Višekorisnički pristup'],
     ],
   },
   {
     name: 'Business',
-    price: '€60',
+    price: '7.200 RSD / mes.',
+    euroEquivalent: '(≈ 60 EUR)',
     cta: 'Kontaktirajte nas',
     href: 'mailto:info@aisistent.rs',
     features: [
       ['✓', 'Sve iz Pro plana'],
       ['✓', 'Do 5 korisnika'],
-      ['✓', 'Dedikovana podrška'],
-      ['✓', 'Prilagođeni brending (uskoro)'],
+      ['✓', 'Ažurna tehnička podrška'],
+      ['✓', 'Prilagođeni izgled dokumenata (uskoro)'],
     ],
   },
 ]
@@ -289,7 +293,7 @@ export default async function Home() {
               </a>
             </div>
             <p className="mt-6 text-sm font-medium text-gray-500">
-              ✓ Bez kreditne kartice &nbsp;·&nbsp; ✓ Srpsko pravo &nbsp;·&nbsp; ✓ PDF i Word format
+              ✓ Bez avansa &nbsp;·&nbsp; ✓ Srpsko pravo &nbsp;·&nbsp; ✓ PDF i Word format
             </p>
           </div>
 
@@ -469,8 +473,10 @@ export default async function Home() {
               <h3 className="text-lg font-bold">{plan.name}</h3>
               <p className="mt-3 text-4xl font-bold">
                 {plan.price}
-                <span className="text-sm font-normal opacity-60">/mes</span>
               </p>
+              {plan.euroEquivalent && (
+                <p className="mt-1 text-xs font-medium opacity-60">{plan.euroEquivalent}</p>
+              )}
               <ul className="mt-6 grid gap-2.5 text-sm">
                 {plan.features.map(([mark, text]) => (
                   <li key={text} className="flex gap-2.5">
@@ -499,7 +505,7 @@ export default async function Home() {
           ))}
         </div>
         <p className="mx-auto mt-8 max-w-6xl text-sm text-gray-400">
-          * Cene su u evrima. Plaćanje fakturom za pravna lica.
+          * Cene su u dinarima. Plaćanje karticom ili bankovnim transferom.
         </p>
       </section>
 
@@ -509,10 +515,10 @@ export default async function Home() {
         style={{ backgroundColor: PRIMARY }}
       >
         <h2 className="mx-auto max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Vaš sledeći dokument je udaljen 2 minuta
+          Napravite prvi dokument već danas
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/80">
-          Pridružite se preduzetnicima koji štede vreme i novac sa AIsistentom.
+          Preduzetnici širom Srbije već koriste AIsistent za ugovore, mejlove i papirologiju.
         </p>
         <a
           href={isLoggedIn ? '/dashboard' : '/register'}
@@ -546,7 +552,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="mt-8 flex flex-col gap-1 border-t border-white/10 pt-6 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
-            <p>Dokumenti generisani uz pomoć AI alata. Preporučuje se pravna provera pre upotrebe.</p>
+            <p>Dokumenti generisani uz pomoć AIsistenta. Preporučuje se pravna provera pre upotrebe.</p>
             <p className="shrink-0">Napravljeno u Srbiji 🇷🇸</p>
           </div>
         </div>
