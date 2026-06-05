@@ -331,6 +331,30 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+---
+
+### ✅ Korak H — Sidebar navigacija
+
+- **`Sidebar.tsx`** — Client Component (260px fiksni panel desktop, overlay na mobilnom)
+  - `usePathname()` za detekciju aktivne rute (leva bordura + svetlija pozadina)
+  - `useState` + `localStorage` za pamćenje ekspandovanih kategorija između sesija
+  - Smooth height transition via `max-height` CSS trick
+  - 3 kolapsibilne kategorije alata + "Uskoro" (disabled stavke sa tooltip)
+  - Donji deo: Arhiva / Profil / Podešavanja / Odjava
+  - Mobile: hamburger top bar (48px) + slide-in overlay + backdrop
+- **`layout.tsx`** — Server Component prosleđuje `plan` i `userInitials` Sidebar-u; layout zamenjuje stari top header
+- **Placeholder stranice**: `/arhiva`, `/profil`, `/podesavanja`
+- TypeScript: 0 grešaka, `next build` čist
+
+**Fajlovi:**
+- `components/dashboard/Sidebar.tsx` (novo)
+- `app/(dashboard)/layout.tsx` (ažurirano)
+- `app/(dashboard)/arhiva/page.tsx` (novo)
+- `app/(dashboard)/profil/page.tsx` (novo)
+- `app/(dashboard)/podesavanja/page.tsx` (novo)
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

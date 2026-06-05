@@ -1,14 +1,15 @@
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { LogoutButton } from '@/components/auth/logout-button'
+import { Sidebar } from '@/components/dashboard/Sidebar'
 
-const planLabels: Record<string, { label: string; className: string }> = {
-  free: { label: 'Besplatno', className: 'bg-gray-100 text-gray-600' },
-  starter: { label: 'Starter', className: 'bg-blue-100 text-blue-700' },
-  pro: { label: 'Pro', className: 'bg-purple-100 text-purple-700' },
-  business: { label: 'Business', className: 'bg-amber-100 text-amber-700' },
+function getInitials(email: string): string {
+  const parts = email.split('@')[0].split(/[._-]/)
+  return parts
+    .slice(0, 2)
+    .map(p => p[0]?.toUpperCase() ?? '')
+    .join('')
+    || email[0].toUpperCase()
 }
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -25,36 +26,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .single()
 
   const plan = profile?.plan ?? 'free'
-  const planMeta = planLabels[plan] ?? planLabels.free
+  const userInitials = getInitials(user.email ?? 'U')
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="text-lg font-bold text-gray-900 tracking-tight">
-              AI<span className="text-blue-600">sistent</span>
-            </Link>
-            <nav className="hidden sm:flex items-center gap-4">
-              <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                Arhiva
-              </Link>
-              <Link href="/dokumenti/ugovor-o-radu" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-                Novi dokument
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${planMeta.className}`}>
-              {planMeta.label}
-            </span>
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        {children}
-      </main>
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar plan={plan} userInitials={userInitials} />
+
+      {/* Main content — top padding on mobile for fixed header, left margin on desktop for sidebar */}
+      <div className="flex-1 pt-12 md:pt-0">
+        <main className="mx-auto max-w-5xl px-4 py-8">
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
