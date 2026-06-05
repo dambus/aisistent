@@ -6,14 +6,17 @@ import Link from 'next/link'
 import { LogoutButton } from '@/components/auth/logout-button'
 
 const PRIMARY = '#1B6B4A'
+const SIDEBAR_ICON = '#9CA3AF'
 
 interface NavItem {
   label: string
   href: string
+  icon?: string
 }
 
 interface NavCategory {
   key: string
+  icon: string
   title: string
   defaultExpanded: boolean
   items: NavItem[]
@@ -22,7 +25,8 @@ interface NavCategory {
 const navCategories: NavCategory[] = [
   {
     key: 'ugovori',
-    title: '📄 Ugovori i dokumenti',
+    icon: '▤',
+    title: 'Ugovori i dokumenti',
     defaultExpanded: true,
     items: [
       { label: 'Ugovor o radu',    href: '/dokumenti/ugovor-o-radu' },
@@ -36,7 +40,8 @@ const navCategories: NavCategory[] = [
   },
   {
     key: 'komunikacija',
-    title: '✉️ Poslovna komunikacija',
+    icon: '✉',
+    title: 'Poslovna komunikacija',
     defaultExpanded: false,
     items: [
       { label: 'Poslovni mejl',   href: '/dokumenti/poslovni-mejl' },
@@ -45,7 +50,8 @@ const navCategories: NavCategory[] = [
   },
   {
     key: 'hr',
-    title: '👥 HR i zapošljavanje',
+    icon: '◎',
+    title: 'HR i zapošljavanje',
     defaultExpanded: false,
     items: [
       { label: 'Oglas za posao', href: '/dokumenti/oglas-za-posao' },
@@ -56,9 +62,9 @@ const navCategories: NavCategory[] = [
 const upcomingItems = ['Pravilnik o radu', 'Zapisnik sa sastanka', 'Opis proizvoda/usluge']
 
 const bottomNav: NavItem[] = [
-  { label: '📁  Arhiva',         href: '/arhiva' },
-  { label: '👤  Profil',         href: '/profil' },
-  { label: '⚙️  Podešavanja',    href: '/podesavanja' },
+  { label: 'Arhiva',      href: '/arhiva',      icon: '▣' },
+  { label: 'Profil',      href: '/profil',      icon: '●' },
+  { label: 'Podešavanja', href: '/podesavanja', icon: '⚙' },
 ]
 
 const planLabels: Record<string, { label: string; cls: string }> = {
@@ -120,6 +126,11 @@ export function Sidebar({ plan, userInitials }: Props) {
         onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.05)'; (e.currentTarget as HTMLElement).style.color = '#ffffff' }}
         onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.color = '#9CA3AF' } }}
       >
+        {item.icon && (
+          <span className="mr-2 w-4 shrink-0 text-center" style={{ color: active ? '#ffffff' : SIDEBAR_ICON }}>
+            {item.icon}
+          </span>
+        )}
         {item.label}
       </Link>
     )
@@ -150,8 +161,9 @@ export function Sidebar({ plan, userInitials }: Props) {
                 onClick={() => toggleCategory(cat.key)}
                 className="flex w-full items-center justify-between rounded-md px-2 py-2 text-left transition-colors duration-150 hover:bg-white/5"
               >
-                <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  {cat.title}
+                <span className="flex items-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <span className="mr-2 w-4 text-center" style={{ color: SIDEBAR_ICON }}>{cat.icon}</span>
+                  <span>{cat.title}</span>
                 </span>
                 <span className="text-gray-600 transition-transform duration-200" style={{ transform: expanded[cat.key] ? 'rotate(90deg)' : 'rotate(0deg)' }}>
                   ▶
@@ -178,8 +190,9 @@ export function Sidebar({ plan, userInitials }: Props) {
               onClick={() => toggleCategory('uskoro')}
               className="flex w-full items-center justify-between rounded-md px-2 py-2 text-left"
             >
-              <span className="text-xs font-semibold uppercase tracking-wider text-gray-600">
-                🏢 Uskoro
+              <span className="flex items-center text-xs font-semibold uppercase tracking-wider text-gray-600 opacity-50">
+                <span className="mr-2 w-4 text-center" style={{ color: SIDEBAR_ICON }}>⌂</span>
+                <span>Uskoro</span>
               </span>
               <span className="text-gray-700 transition-transform duration-200" style={{ transform: expanded['uskoro'] ? 'rotate(90deg)' : 'rotate(0deg)' }}>
                 ▶

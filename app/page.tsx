@@ -525,7 +525,7 @@ export default async function Home() {
           className="mt-8 inline-flex rounded-xl bg-white px-8 py-4 text-base font-bold transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
           style={{ color: PRIMARY }}
         >
-          {isLoggedIn ? 'Otvorite radni sto' : 'Napravite nalog besplatno'}
+          {isLoggedIn ? 'Moji dokumenti' : 'Počnite besplatno'}
         </a>
       </section>
 

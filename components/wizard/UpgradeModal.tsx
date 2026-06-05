@@ -36,7 +36,7 @@ export function UpgradeModal({ onClose }: { onClose: () => void }) {
         <div className="space-y-2">
           <Link
             href="/upgrade"
-            className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2.5 rounded-lg text-center transition-colors"
+            className="block w-full bg-[#1B6B4A] hover:bg-[#155C3E] text-white text-sm font-medium py-2.5 rounded-lg text-center transition-colors"
           >
             Pogledaj planove
           </Link>

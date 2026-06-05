@@ -46,6 +46,7 @@ export default function WizardPage({ params }: PageProps) {
       <DocumentPreview
         text={result.generatedText}
         documentId={result.documentId}
+        documentType={type}
         onReset={() => setResult(null)}
       />
     )

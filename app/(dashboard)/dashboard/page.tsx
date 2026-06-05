@@ -117,7 +117,7 @@ export default async function DashboardPage() {
                 <p className="text-xs text-gray-400 mt-0.5">
                   <span className="mr-2">{TYPE_LABELS[doc.type] ?? doc.type}</span>·
                   <span className="ml-2">
-                    {new Date(doc.created_at).toLocaleDateString('sr-RS', {
+                    {new Date(doc.created_at).toLocaleDateString('sr-Latn-RS', {
                       day: 'numeric', month: 'long', year: 'numeric',
                     })}
                   </span>

@@ -43,6 +43,7 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
   const step = steps[currentStep]
   const visibleFields = getVisibleFields(step.fields, values)
   const isLast = currentStep === steps.length - 1
+  const primaryButtonStyle = { backgroundColor: '#1B6B4A' }
 
   const setValue = useCallback((id: string, value: string | number | boolean) => {
     setValues(prev => ({ ...prev, [id]: value }))
@@ -162,7 +163,10 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
         <button
           onClick={isLast ? handleSubmit : handleNext}
           disabled={loading}
-          className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"
+          className="flex-1 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-2.5 px-6 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"
+          style={primaryButtonStyle}
+          onMouseEnter={e => { if (!loading) e.currentTarget.style.backgroundColor = '#155C3E' }}
+          onMouseLeave={e => { if (!loading) e.currentTarget.style.backgroundColor = '#1B6B4A' }}
         >
           {loading ? (
             <>

@@ -1,10 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { documentReminders } from '@/data/reminders'
+import { ReminderBox } from '@/components/wizard/ReminderBox'
 
 interface DocumentPreviewProps {
   text: string
   documentId: string
+  documentType: string
   onReset: () => void
 }
 
@@ -36,9 +40,10 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
   return null
 }
 
-export function DocumentPreview({ text, documentId, onReset }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentType, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
+  const reminder = documentReminders[documentType]
 
   async function handleExport(format: ExportFormat) {
     setError('')
@@ -62,6 +67,8 @@ export function DocumentPreview({ text, documentId, onReset }: DocumentPreviewPr
           ← Novi dokument
         </button>
       </div>
+
+      {reminder && <ReminderBox reminder={reminder} />}
 
       {/* Action buttons */}
       <div className="flex flex-wrap gap-2 mb-4">
@@ -90,9 +97,9 @@ export function DocumentPreview({ text, documentId, onReset }: DocumentPreviewPr
 
       {/* Document text */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8">
-        <pre className="whitespace-pre-wrap font-sans text-sm text-gray-800 leading-relaxed">
-          {text}
-        </pre>
+        <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:font-semibold">
+          <ReactMarkdown>{text}</ReactMarkdown>
+        </div>
       </div>
 
       <p className="mt-4 text-xs text-gray-400 text-center">
@@ -118,7 +125,7 @@ function ExportButton({
 
   const base = 'flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed'
   const style = primary
-    ? `${base} bg-blue-600 hover:bg-blue-700 text-white`
+    ? `${base} bg-[#1B6B4A] hover:bg-[#155C3E] text-white`
     : `${base} border border-gray-300 hover:bg-gray-50 text-gray-700`
 
   return (
