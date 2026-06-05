@@ -107,6 +107,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip biznisa',
         type: 'radio',
         required: true,
+        tooltip: 'Odaberite najbliži tip — od toga zavisi sadržaj dokumenata. E-commerce ima specifične obaveze o pravu na odustanak, SaaS o licenci i ograničenju odgovornosti.',
         options: [
           { value: 'E-commerce', label: 'E-commerce' },
           { value: 'SaaS/Aplikacija', label: 'SaaS/Aplikacija' },
@@ -122,7 +123,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'podaci',
     title: 'Podaci',
     fields: [
-      { id: 'prikuplja_podatke', label: 'Da li se prikupljaju licni podaci?', type: 'toggle', required: false, defaultValue: true },
+      { id: 'prikuplja_podatke', label: 'Da li se prikupljaju licni podaci?', type: 'toggle', required: false, defaultValue: true, tooltip: 'Ako prikupljate i/ili obrađujete lične podatke korisnika (email, ime, adresa...), imate obaveze po Zakonu o zaštiti podataka o ličnosti i GDPR-u.' },
       {
         id: 'vrste_podataka',
         label: 'Koje vrste podataka?',

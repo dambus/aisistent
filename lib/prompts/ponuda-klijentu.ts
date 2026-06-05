@@ -110,7 +110,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'broj_ponude', label: 'Broj ponude', type: 'text', required: false },
       { id: 'datum_ponude', label: 'Datum ponude', type: 'date', required: true },
       { id: 'predmet_ponude', label: 'Predmet ponude', type: 'text', required: true },
-      { id: 'opis', label: 'Opis usluge/proizvoda', type: 'textarea', required: true },
+      { id: 'opis', label: 'Opis usluge/proizvoda', type: 'textarea', required: true, helperText: 'Opišite šta tačno radite, šta je uključeno i šta nije', tooltip: 'Što precizniji opis smanjuje nesporazume sa klijentom i štiti vas ako dođe do spora. Navedite i šta NIJE uključeno u cenu.' },
       { id: 'rok_isporuke', label: 'Rok isporuke/realizacije', type: 'text', required: true },
     ],
   },
@@ -136,6 +136,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Uslovi placanja',
         type: 'radio',
         required: true,
+        tooltip: 'Standard u Srbiji je 15-30 dana. Kraći rok (8-15 dana) možete tražiti od manjih klijenata, duži (45-60 dana) može biti potreban za saradnju sa velikim firmama.',
         options: [
           { value: 'Avansno', label: 'Avansno' },
           { value: '15 dana', label: '15 dana' },

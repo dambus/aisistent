@@ -157,13 +157,14 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip zakupa',
         type: 'radio',
         required: true,
+        tooltip: 'Stambeni — za stanovanje fizičkog lica. Primenjuje se Zakon o stanovanju.\nPoslovni — za obavljanje delatnosti firme ili preduzetnika. Veća sloboda ugovaranja.\nKratkoročni — do 30 dana, turistički zakup.',
         options: [
           { value: 'Stambeni', label: 'Stambeni' },
           { value: 'Poslovni', label: 'Poslovni' },
           { value: 'Kratkoročni', label: 'Kratkoročni' },
         ],
       },
-      { id: 'uknjizena', label: 'Uknjižena nepokretnost?', type: 'toggle', required: true, defaultValue: true },
+      { id: 'uknjizena', label: 'Uknjižena nepokretnost?', type: 'toggle', required: true, defaultValue: true, tooltip: 'Uknjižena nepokretnost ima čist vlasnički list u katastru. Zakup neuknjižene nepokretnosti nosi pravne rizike — preporučujemo konsultaciju sa pravnikom.' },
     ],
   },
   {
@@ -257,6 +258,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Valuta',
         type: 'radio',
         required: true,
+        tooltip: 'U Srbiji je legalno ugovoriti zakupninu u evrima koja se plaća u dinarima po kursu NBS na dan plaćanja. Ovo štiti zakupodavca od inflacije.',
         options: [
           { value: 'RSD', label: 'RSD' },
           { value: 'EUR (plaća se u RSD po kursu NBS)', label: 'EUR (plaća se u RSD po kursu NBS)' },
@@ -273,7 +275,7 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Gotovina', label: 'Gotovina' },
         ],
       },
-      { id: 'deponija', label: 'Deponija?', type: 'toggle', required: false, defaultValue: false },
+      { id: 'deponija', label: 'Deponija?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
       { id: 'iznos_deponije', label: 'Iznos deponije (mesečnih zakupnina)', type: 'number', required: false, min: 1, max: 3, conditional: { field: 'deponija', value: true } },
     ],
   },

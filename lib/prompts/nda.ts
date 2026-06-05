@@ -133,12 +133,13 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip sporazuma',
         type: 'radio',
         required: true,
+        tooltip: 'Jednostrani NDA — samo jedna strana otkriva tajne informacije (npr. startup investitoru).\nDvostrani NDA — obe strane međusobno dele poverljive informacije (npr. dve firme razgovaraju o partnerstvu).',
         options: [
           { value: 'Jednostrani', label: 'Jednostrani' },
           { value: 'Dvostrani', label: 'Dvostrani' },
         ],
       },
-      { id: 'svrha', label: 'Svrha otkrivanja', type: 'textarea', required: true },
+      { id: 'svrha', label: 'Svrha otkrivanja', type: 'textarea', required: true, helperText: 'npr. Razmatranje poslovne saradnje u oblasti razvoja softvera', tooltip: 'Opišite zašto razmenjujete poverljive informacije. Što preciznije, to je NDA bolje prilagođen situaciji i teže ga je osporiti.' },
     ],
   },
   {
@@ -187,7 +188,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'poverljive_informacije',
     title: 'Poverljive informacije',
     fields: [
-      { id: 'oblast_informacija', label: 'Oblast informacija', type: 'textarea', required: true, placeholder: 'Nabroj oblasti, odvojene zarezom' },
+      { id: 'oblast_informacija', label: 'Oblast informacija', type: 'textarea', required: true, placeholder: 'Nabroj oblasti, odvojene zarezom', tooltip: 'Označite sve kategorije koje se odnose na vaš slučaj. Šire označavanje bolje štiti — ali pazite da ne označite kategorije koje nemate nameru da delite.' },
       { id: 'opis_informacija', label: 'Dodatni opis', type: 'textarea', required: false },
       { id: 'oznacavanje', label: 'Označavanje dokumenata kao "Poverljivo"?', type: 'toggle', required: true, defaultValue: true },
     ],
@@ -197,8 +198,8 @@ export const wizardSteps: WizardStep[] = [
     title: 'Trajanje',
     fields: [
       { id: 'datum', label: 'Datum potpisivanja', type: 'date', required: true },
-      { id: 'trajanje_sporazuma', label: 'Trajanje sporazuma (meseci)', type: 'number', required: true, min: 1, defaultValue: 24 },
-      { id: 'trajanje_cuvanja', label: 'Obaveza čuvanja po isteku (meseci)', type: 'number', required: true, min: 1, defaultValue: 36 },
+      { id: 'trajanje_sporazuma', label: 'Trajanje sporazuma (meseci)', type: 'number', required: true, min: 1, defaultValue: 24, tooltip: 'Period tokom kojeg aktivno razmenjujete informacije. Nakon isteka, možete prestati sa razmenom — ali obaveza čuvanja tajne traje još određeno vreme (sledeće polje).' },
+      { id: 'trajanje_cuvanja', label: 'Obaveza čuvanja po isteku (meseci)', type: 'number', required: true, min: 1, defaultValue: 36, tooltip: 'Koliko dugo primalac mora čuvati tajnost NAKON što sporazum istekne. Standard je 2-3 godine nakon isteka.' },
     ],
   },
   {

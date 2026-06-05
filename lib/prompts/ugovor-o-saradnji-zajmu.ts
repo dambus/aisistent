@@ -161,6 +161,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip dokumenta',
         type: 'radio',
         required: true,
+        tooltip: 'Ugovor o saradnji — dve strane zajedno rade na projektu ili dele resurse, ali ostaju samostalni subjekti. Nema zajma novca.\nUgovor o zajmu — jedna strana pozajmljuje novac drugoj, sa obavezom vraćanja.',
         options: [
           { value: 'Ugovor o poslovnoj saradnji', label: 'Ugovor o poslovnoj saradnji' },
           { value: 'Ugovor o zajmu', label: 'Ugovor o zajmu' },
@@ -257,7 +258,7 @@ export const wizardSteps: WizardStep[] = [
         { value: 'Gotovina', label: 'Gotovina' },
       ], conditional: { field: 'tip_dokumenta', value: 'Ugovor o zajmu' } },
       { id: 'racun', label: 'Broj računa zajmoprimca', type: 'text', required: false, conditional: { field: 'tip_dokumenta', value: 'Ugovor o zajmu' } },
-      { id: 'tip_kamate', label: 'Kamatni ili bezkamatni?', type: 'radio', required: false, options: [
+      { id: 'tip_kamate', label: 'Kamatni ili bezkamatni?', type: 'radio', required: false, tooltip: 'Bezkamatni zajam između fizičkih lica može biti tretiran kao poklon od strane Poreske uprave za iznose preko 1.000.000 RSD. Za veće iznose preporučujemo konsultaciju sa poreskim savetnikom.', options: [
         { value: 'Sa kamatom', label: 'Sa kamatom' },
         { value: 'Bezkamatni', label: 'Bezkamatni' },
       ], conditional: { field: 'tip_dokumenta', value: 'Ugovor o zajmu' } },

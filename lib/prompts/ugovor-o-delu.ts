@@ -182,6 +182,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip izvođača',
         type: 'radio',
         required: true,
+        tooltip: 'Ovo je najvažniji izbor jer određuje ko plaća porez:\n• Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate\n• Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu\n• Firma doo → Isto kao preduzetnik, plaća sami',
         options: [
           { value: 'Fizičko lice (bez firme)', label: 'Fizičko lice (bez firme)' },
           { value: 'Preduzetnik-paušalac', label: 'Preduzetnik-paušalac' },
@@ -198,9 +199,9 @@ export const wizardSteps: WizardStep[] = [
     id: 'predmet',
     title: 'Predmet ugovora',
     fields: [
-      { id: 'naziv_dela', label: 'Naziv dela / usluge', type: 'text', required: true },
+      { id: 'naziv_dela', label: 'Naziv dela / usluge', type: 'text', required: true, helperText: 'npr. Izrada web sajta, Grafički dizajn logotipa' },
       { id: 'opis_dela', label: 'Detaljan opis dela', type: 'textarea', required: true },
-      { id: 'rezultat', label: 'Merljivi rezultat / isporuka', type: 'text', required: true },
+      { id: 'rezultat', label: 'Merljivi rezultat / isporuka', type: 'text', required: true, helperText: 'npr. Funkcionalan sajt sa CMS sistemom i 5 stranica', tooltip: 'Opišite konkretan, merljiv rezultat koji izvođač treba da isporuči. Što preciznije, to je bolja zaštita za obe strane.' },
       { id: 'specifikacije', label: 'Posebni zahtevi / tehničke specifikacije', type: 'textarea', required: false },
     ],
   },
@@ -253,6 +254,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Ko je vlasnik rezultata rada?',
         type: 'radio',
         required: true,
+        tooltip: 'Po srpskom pravu, autor automatski zadržava autorska prava. Ako želite da koristite rezultat slobodno (modifikujete, prodajete, distribuirate), morate eksplicitno ugovoriti prenos prava na naručioca.',
         options: [
           { value: 'Naručilac', label: 'Naručilac' },
           { value: 'Izvođač', label: 'Izvođač' },

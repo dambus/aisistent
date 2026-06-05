@@ -84,6 +84,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip mejla',
         type: 'dropdown',
         required: true,
+        tooltip: 'Odaberite tip koji najbliže odgovara svrsi mejla — sistem će prilagoditi ton i strukturu.\nOpomena za dugovanje: preporučujemo slanje preporučenom poštom uz mejl.',
         options: [
           { value: 'Ponuda klijentu', label: 'Ponuda klijentu' },
           { value: 'Opomena za dugovanje', label: 'Opomena za dugovanje' },
@@ -97,7 +98,7 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Ostalo', label: 'Ostalo' },
         ],
       },
-      { id: 'kontekst', label: 'Kontekst / detalji', type: 'textarea', required: true },
+      { id: 'kontekst', label: 'Kontekst / detalji', type: 'textarea', required: true, helperText: 'npr. Klijent duguje 3 iznosa, poslednji podsetnik bio pre mesec dana', tooltip: 'Što više detalja unesete, to će mejl biti precizniji i personalizovaniji. Unesite ključne činjenice koje mejl mora da sadrži.' },
       {
         id: 'ton',
         label: 'Ton',

@@ -15,6 +15,8 @@ export interface WizardField {
     value: string | boolean
   }
   hint?: string
+  helperText?: string
+  tooltip?: string
 }
 
 export interface WizardStep {

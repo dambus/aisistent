@@ -355,6 +355,66 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak I — Kontekstualni podsetnici posle generisanja
+- Dodata mapa `documentReminders` za svih 10 tipova dokumenata/alata
+- Kreiran `ReminderBox` sa info/warning stilovima i opcionim "Saznaj više" linkom
+- `DocumentPreview` prikazuje podsetnik iznad export dugmadi kada postoji generisani dokument
+- Wizard ruta prosleđuje `documentType` u `DocumentPreview`
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `data/reminders.ts` (novo)
+- `components/wizard/ReminderBox.tsx` (novo)
+- `components/wizard/DocumentPreview.tsx`
+- `app/(dashboard)/dokumenti/[type]/page.tsx`
+
+---
+
+### ✅ Korak J — Preview Markdown i sidebar boje
+- Instaliran `react-markdown`
+- `DocumentPreview` renderuje generisani tekst kao Markdown umesto raw/plain teksta
+- Sidebar ikone kategorija i donje navigacije koriste uniformnu sivu `#9CA3AF`; aktivna stavka ostaje zelena
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `components/wizard/DocumentPreview.tsx`
+- `components/dashboard/Sidebar.tsx`
+- `package.json`
+- `package-lock.json`
+
+---
+
+### ✅ Korak K — Dashboard arhiva dokumenata
+- `/arhiva` sada server-side dohvaća dokumente trenutnog korisnika iz Supabase `documents` tabele
+- Dodata arhiva sa nazivom, human-readable tipom, srpskim datumom, oznakom "Besplatna verzija" i PDF/DOCX preuzimanjem
+- Dodat filter: Svi tipovi / Ugovori / Komunikacija / HR
+- Dodato prazno stanje sa linkom ka `/dashboard`
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/(dashboard)/arhiva/page.tsx`
+- `components/dashboard/ArchiveList.tsx` (novo)
+
+---
+
+### ✅ Korak I — Helper tekstovi i tooltipovi u wizardu
+
+- **`types/wizard.ts`**: `WizardField` proširen sa `helperText?: string` i `tooltip?: string`
+- **`components/wizard/FieldHelper.tsx`** (novo):
+  - `TooltipIcon` — ⓘ dugme pored labele; hover (desktop) + click otvara popover; zatvara se click-outside i Escape; `max-w-[calc(100vw-2rem)]` sprečava overflow na mobilnom
+  - `HelperText` — mali italic tekst ispod input polja (12px, text-gray-500)
+- **`components/wizard/WizardForm.tsx`**: `FieldRenderer` prikazuje `TooltipIcon` pored labele i `HelperText` ispod input-a
+- Svih 10 prompt fajlova ažurirano sa helperText/tooltip na ključnim poljima
+- TypeScript: 0 grešaka
+
+**Fajlovi:**
+- `types/wizard.ts`
+- `components/wizard/FieldHelper.tsx` (novo)
+- `components/wizard/WizardForm.tsx`
+- svih 10 `lib/prompts/*.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

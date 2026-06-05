@@ -148,6 +148,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip punomocja',
         type: 'radio',
         required: true,
+        tooltip: 'Opste — ovlascuje punomoćnika za sve pravne radnje u ime vlastodavca.\nSpecijalno — samo za jednu konkretnu radnju.\nPred sudom/organima — za zastupanje u postupcima.\nZa nepokretnosti — obavezna overa kod javnog beleznika.',
         options: [
           { value: 'Opste', label: 'Opste' },
           { value: 'Specijalno', label: 'Specijalno' },

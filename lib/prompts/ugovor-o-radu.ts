@@ -217,12 +217,12 @@ export const wizardSteps: WizardStep[] = [
     id: 'poslodavac',
     title: 'Podaci o poslodavcu',
     fields: [
-      { id: 'firma', label: 'Naziv firme / poslodavca', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo' },
-      { id: 'pib', label: 'PIB', type: 'text', required: true, placeholder: '9-cifreni broj' },
-      { id: 'mb', label: 'Matični broj', type: 'text', required: true, placeholder: '8-cifreni broj' },
+      { id: 'firma', label: 'Naziv firme / poslodavca', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'npr. Sigma Solutions doo', tooltip: 'Unesite puni naziv firme tačno kao što piše u APR registru.' },
+      { id: 'pib', label: 'PIB', type: 'text', required: true, placeholder: '9-cifreni broj', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB (Poreski identifikacioni broj) možete pronaći na sajtu Poreske uprave ili na rešenju o registraciji.' },
+      { id: 'mb', label: 'Matični broj', type: 'text', required: true, placeholder: '8-cifreni broj', helperText: '8 cifara, npr. 12345678', tooltip: 'Matični broj dodeljuje APR pri registraciji firme. Nalazi se na izvodu iz APR registra.' },
       { id: 'adresa_firme', label: 'Adresa sedišta', type: 'text', required: true, placeholder: 'Ulica i broj, grad' },
-      { id: 'zastupnik', label: 'Ime i prezime zakonskog zastupnika', type: 'text', required: true, placeholder: 'npr. Petar Nikolić' },
-      { id: 'funkcija', label: 'Funkcija zastupnika', type: 'text', required: true, placeholder: 'npr. direktor' },
+      { id: 'zastupnik', label: 'Ime i prezime zakonskog zastupnika', type: 'text', required: true, placeholder: 'npr. Petar Nikolić', helperText: 'npr. Petar Nikolić', tooltip: 'Ime i prezime osobe koja potpisuje ugovor u ime firme — najčešće direktor ili prokurista.' },
+      { id: 'funkcija', label: 'Funkcija zastupnika', type: 'text', required: true, placeholder: 'npr. direktor', helperText: 'npr. direktor, prokurista' },
       { id: 'broj_ugovora', label: 'Broj ugovora (interni)', type: 'text', required: false, placeholder: 'npr. 001/2026' },
     ],
   },
@@ -231,7 +231,7 @@ export const wizardSteps: WizardStep[] = [
     title: 'Podaci o zaposlenom',
     fields: [
       { id: 'ime_prezime', label: 'Ime i prezime', type: 'text', required: true, placeholder: 'npr. Ana Marković' },
-      { id: 'jmbg', label: 'JMBG', type: 'text', required: true, placeholder: '13 cifara' },
+      { id: 'jmbg', label: 'JMBG', type: 'text', required: true, placeholder: '13 cifara', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za prijavu zaposlenog na PIO fond. Nalazi se na ličnoj karti.' },
       { id: 'adresa_zaposlenog', label: 'Adresa stanovanja', type: 'text', required: true, placeholder: 'Ulica i broj, grad' },
       { id: 'broj_lk', label: 'Broj lične karte', type: 'text', required: false, placeholder: 'opciono' },
       {
@@ -281,6 +281,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Vrsta radnog odnosa',
         type: 'radio',
         required: true,
+        tooltip: 'Neodređeno vreme je standardni radni odnos bez krajnjeg datuma. Određeno vreme ima zakonska ograničenja — ukupno trajanje sa produženjima ne može biti duže od 24 meseca.',
         options: [
           { value: 'Na neodređeno vreme', label: 'Na neodređeno vreme' },
           { value: 'Na određeno vreme', label: 'Na određeno vreme' },
@@ -300,6 +301,7 @@ export const wizardSteps: WizardStep[] = [
         type: 'dropdown',
         required: false,
         conditional: { field: 'vrsta_radnog_odnosa', value: 'Na određeno vreme' },
+        tooltip: 'Zakon o radu zahteva da postoji zakonski osnov za određeno vreme:\n• Zamena odsutnog — privremeno pokrivate odsutnog radnika\n• Povećanje obima — privremeno više posla\n• Sezonski poslovi — posao koji se periodično ponavlja\n• Specifičan projekat — posao vezan za konkretan projekat',
         options: [
           { value: 'zamena odsutnog radnika', label: 'Zamena odsutnog radnika' },
           { value: 'privremeno povećanje obima posla', label: 'Privremeno povećanje obima posla' },
@@ -313,6 +315,7 @@ export const wizardSteps: WizardStep[] = [
         type: 'toggle',
         required: false,
         defaultValue: false,
+        tooltip: 'Probni rad je opcioni period tokom kojeg i poslodavac i zaposleni mogu lakše raskinuti ugovor. Maksimalno trajanje je 6 meseci. Nije obavezan.',
       },
       {
         id: 'probni_rad_meseci',
@@ -338,6 +341,8 @@ export const wizardSteps: WizardStep[] = [
         min: 1,
         placeholder: 'npr. 120000',
         hint: 'Minimalna zarada 2024: ~46.000 RSD neto za puno radno vreme',
+        helperText: 'Iznos u dinarima, npr. 120000',
+        tooltip: 'Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 46.000 RSD.',
       },
       {
         id: 'nacin_isplate',

@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
 import { UpgradeModal } from './UpgradeModal'
+import { TooltipIcon, HelperText } from './FieldHelper'
 
 interface WizardFormProps {
   steps: WizardStep[]
@@ -197,6 +198,7 @@ function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
       <label className="block text-sm font-medium text-gray-700 mb-1">
         {field.label}
         {field.required && <span className="text-red-500 ml-0.5">*</span>}
+        {field.tooltip && <TooltipIcon tooltip={field.tooltip} />}
       </label>
 
       {field.hint && (
@@ -292,6 +294,7 @@ function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
         </button>
       )}
 
+      {field.helperText && <HelperText text={field.helperText} />}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   )

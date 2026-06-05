@@ -87,7 +87,7 @@ export const wizardSteps: WizardStep[] = [
     fields: [
       { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true },
       { id: 'grad', label: 'Grad', type: 'text', required: true },
-      { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true },
+      { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true, helperText: 'npr. Razvoj softvera, Građevinarstvo, Ugostiteljstvo' },
       {
         id: 'velicina',
         label: 'Velicina firme',
@@ -160,7 +160,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'opis_posla',
     title: 'Opis posla',
     fields: [
-      { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true },
+      { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true, helperText: 'Navedite 3-5 glavnih zadataka odvojenih zarezom ili u novim redovima', tooltip: 'Konkretni zadaci privlače bolje kandidate od opštih opisa. Umesto "komunikacija sa klijentima" napišite "vođenje 10-15 aktivnih klijenata mesečno".' },
       { id: 'potrebne_vestine', label: 'Potrebne vestine', type: 'textarea', required: true },
       { id: 'prednost', label: 'Prednost', type: 'textarea', required: false },
     ],
@@ -186,6 +186,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Benefiti',
         type: 'dropdown',
         required: true,
+        tooltip: 'Kandidati često donose odluku o prijavi na osnovu benefita. Budite iskreni — nerealna obećanja vode do loše retencije.',
         options: [
           { value: 'Topli obrok', label: 'Topli obrok' },
           { value: 'Prevoz', label: 'Prevoz' },
