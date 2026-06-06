@@ -8,9 +8,9 @@ NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna pro
 
 Padezi: nominativ za subjekat, genitiv za svojinu i opisivanje, dativ za primaoca, akuzativ za direktan objekat, instrumental za sredstvo ili pratnju, lokativ uz predloge o/u/na/pri.
 
-Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Skracenice doo, ad i sp dekliniraju se sa crticom.
+Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Skraćenice doo, ad i sp dekliniraju se sa crticom.
 
-Licna imena: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Nikola Stanic -> Nikole Stanica -> Nikoli Stanicu; Ana Markovic -> Ane Markovic -> Ani Markovic; Jelena Stojanovic -> Jelene Stojanovic -> Jeleni Stojanovic.`
+Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stanić -> Nikole Stanića -> Nikoli Staniću; Ana Marković -> Ane Marković -> Ani Marković; Jelena Stojanović -> Jelene Stojanović -> Jeleni Stojanović.`
 
 export const systemPrompt = `## JEZIČKI STANDARD
 

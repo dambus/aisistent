@@ -6,7 +6,7 @@ Ime primaoca korisnik daje u NOMINATIVU. Dekliniras ga prema kontekstu recenice,
 
 NIKADA ne kopiraj ime direktno iz inputa bez provere padeza.
 
-Primeri: Petar Nikolic -> Petre Nikolicu / Petra Nikolica; Nikola Stanic -> Nikola / Nikoli Stanicu; Ana Markovic -> Ana / Ani Markovic; Jelena Stojanovic -> Jelena / Jeleni Stojanovic. Ako je primalac "Tim" ili odeljenje, koristi neutralno obracanje.`
+Primeri: Petar Nikolić -> Petre Nikoliću / Petra Nikolića; Nikola Stanić -> Nikola / Nikoli Staniću; Ana Marković -> Ana / Ani Marković; Jelena Stojanović -> Jelena / Jeleni Stojanović. Ako je primalac "Tim" ili odeljenje, koristi neutralno obraćanje.`
 
 export const systemPrompt = `## JEZIČKI STANDARD
 

@@ -17,7 +17,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje label: "Alati"
 - Polje label: "Cenovnik"
 - Polje title: "Popunite kratku formu"
-- Polje text: "Unesite osnovne podatke. Nema pravnog znanja potrebno — vodimo vas korak po korak."
+- Polje text: "Unesite osnovne podatke. Nije vam potrebno pravno znanje — vodimo vas korak po korak." **izmena: "Nije vam potrebno pravno znanje - vodimo Vas korak po korak:
 - Polje title: "AIsistent generiše za vas"
 - Polje text: "Za manje od 60 sekundi dobijate kompletan dokument prilagođen srpskom pravu i vašem poslu."
 - Polje title: "Preuzmite i koristite"
@@ -34,7 +34,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje desc: "Za partnerstva i zajedničke projekte"
 - Polje name: "Punomoćje"
 - Polje name: "Opšti uslovi i Politika privatnosti"
-- Polje desc: "Obavezno za svaki sajt"
+- Polje desc: "Obavezno za svaki veb sajt" **izmena: "Obavezno za svaki web site"
 - Polje title: "✉️ Poslovna komunikacija"
 - Polje name: "Poslovni mejl"
 - Polje desc: "Ponuda, opomena, zahvalnica i još 7 tipova"
@@ -49,12 +49,12 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje desc: "Za sajt, katalog i društvene mreže"
 - String: "Sat vremena pisanja ugovora"
 - String: "Pravnik košta 100€+ po dokumentu"
-- String: "ChatGPT ne zna srpsko pravo"
+- String: "ChatGPT nije prilagođen srpskom pravu" **izmena: "ChatGPT nije istreniran za srpsko pravo"
 - String: "Dokumenti u različitim folderima"
 - String: "Svaki put od nule"
 - String: "Gotov dokument za 2 minuta"
-- String: "Mesečna pretplata jeftinija od jednog sata kod pravnika"
-- String: "Prilagođeno srpskom pravu i praksi"
+- String: "Mesečna pretplata jeftinija od jednog sata pravnih usluga" **izmena: "...od jednog sata pravnih usluga"
+- String: "Prilagođeno srpskom pravu i poslovnoj praksi" **izmena: "srpskom pravu i poslovnoj praksi"
 - String: "Svi dokumenti na jednom mestu"
 - String: "Arhiva za ponovno korišćenje"
 - Polje name: "Besplatno"
@@ -88,7 +88,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje cta: "Kontaktirajte nas"
 - String: "Sve iz Pro plana"
 - String: "Do 5 korisnika"
-- String: "Ažurna tehnička podrška"
+- String: "Ažurna tehnička podrška" 
 - String: "Prilagođeni izgled dokumenata (uskoro)"
 - JSX tekst: "AIsistent"
 - JSX tekst: "Moji dokumenti"
@@ -99,7 +99,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje backgroundColor: "#edf7f2"
 - JSX tekst: "Švajcarski nož za mali biznis"
 - JSX tekst: "Pravni dokumenti i poslovni alati za vaš biznis — za 2 minuta"
-- JSX tekst: "Prestanite da gubite vreme na ugovore, mejlove i papirologiju. AIsistent generiše profesionalne dokumente prilagođene srpskom tržištu — brzo, jednostavno, bez advokata."
+- JSX tekst: "Prestanite da gubite vreme na ugovore, mejlove i papirologiju. AIsistent generiše profesionalne dokumente prilagođene srpskom tržištu — brzo i jednostavno, bez skupih savetovanja." **izmena: "... - brzo i jednostavno, bez skupih savetovanja"
 - String: "/dashboard"
 - String: "/register"
 - String: "Moji dokumenti"
@@ -107,7 +107,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - JSX tekst: "Pogledajte alate"
 - JSX tekst: "✓ Bez avansa &nbsp;·&nbsp; ✓ Srpsko pravo &nbsp;·&nbsp; ✓ PDF i Word format"
 - Polje color: "#6ee7b7"
-- JSX tekst: "AIsistent radni sto"
+- JSX tekst: "AIsistent radna površina" **izmena: "AIsistent radna površina"
 - Polje backgroundColor: "#052e16"
 - JSX tekst: "spreman"
 - String: "Ugovor o radu"
@@ -120,7 +120,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Atribut title: "Kako funkcioniše?"
 - Atribut text: "Tri koraka do gotovog dokumenta"
 - Atribut eyebrow: "10 alata"
-- Atribut title: "Sve što vašem biznisu treba"
+- Atribut title: "Sve što je potrebno vašem biznisu" **izmena: "Sve što je potrebno Vašem biznisu"
 - Atribut text: "Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
 - String: "--hover-border"
 - Template: "/dokumenti/${tool.type}"
@@ -171,12 +171,12 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | jmbg | "JMBG" | "13 cifara sa lične karte" | "JMBG je obavezan za prijavu zaposlenog na PIO fond. Nalazi se na ličnoj karti." | "13 cifara" |  |
 | adresa_zaposlenog | "Adresa stanovanja" |  |  | "Ulica i broj, grad" |  |
 | broj_lk | "Broj lične karte" |  |  | "opciono" |  |
-| sprema | "Stepen stručne spreme" |  |  |  | "I — bez kvalifikacija, II — niža stručna sprema, III — srednja stručna sprema, IV — srednja stručna sprema, V — viša stručna sprema, VI — visoka stručna sprema (bachelor), VII — visoka stručna sprema (master/specijalist), VIII — doktorat" |
+| sprema | "Stepen stručne spreme" |  |  |  | "I — bez kvalifikacija, II — niža stručna sprema, III — srednja stručna sprema, IV — srednja stručna sprema, V — viša stručna sprema, VI — visoka stručna sprema (bachelor), VII — visoka stručna sprema (master/specijalist), VIII — doktorat" | **izmena: "master/specijalističke"
 
 #### Radno mesto
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
 |-------|--------|--------------|---------|-------------|--------|
-| pozicija | "Naziv radnog mesta / pozicija" |  |  | "npr. Software Engineer" |  |
+| pozicija | "Naziv radnog mesta / pozicija" |  |  | "npr. Softverski inženjer" |  | **izmena: "Softver inženjer"
 | opis | "Kratak opis poslova" |  |  | "Opis posla u 2-3 rečenice..." |  |
 | mesto_rada | "Mesto rada (grad, adresa)" |  |  | "npr. Beograd, Nemanjina 11" |  |
 | rad_od_kuce | "Rad od kuće" |  |  |  | "Ne, Remote, Hibridno" |
@@ -194,7 +194,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 #### Zarada i naknade
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
 |-------|--------|--------------|---------|-------------|--------|
-| bruto | "Osnovna bruto zarada (RSD)" | "Iznos u dinarima, npr. 120000" | "Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 46.000 RSD." | "npr. 120000" |  |
+| bruto | "Osnovna bruto zarada (RSD)" | "Iznos u dinarima, npr. 120000" | "Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 46.000 RSD." | "npr. 120000" |  | **izmena, preoveriti: bruto zarada za 2026. je mnogo veća
 | nacin_isplate | "Način isplate" |  |  |  |  |
 | dan_isplate | "Dan isplate u mesecu" |  |  | "npr. 15" |  |
 | topli_obrok | "Topli obrok (RSD mesečno)" |  |  | "opciono" |  |
@@ -211,7 +211,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
 |-------|--------|--------------|---------|-------------|--------|
 | zabrana_konkurencije | "Zabrana konkurencije" |  |  |  |  |
-| trajanje_zabrane | "Trajanje zabrane (meseci, max 24)" |  |  |  |  |
+| trajanje_zabrane | "Trajanje zabrane (meseci, max 24)" |  |  |  |  | **izmena: "maks. 24"
 | napomene | "Posebne napomene / dodatne klauzule" |  |  | "opciono" |  |
 
 ### Ugovor o delu (lib/prompts/ugovor-o-delu.ts)
@@ -227,7 +227,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 #### Izvođač
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
 |-------|--------|--------------|---------|-------------|--------|
-| tip_izvodjaca | "Tip izvođača" |  | "Ovo je najvažniji izbor jer određuje ko plaća porez:<br>• Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate<br>• Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu<br>• Firma doo → Isto kao preduzetnik, plaća sami" |  | "Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo" |
+| tip_izvodjaca | "Tip izvođača" |  | "Ovo je najvažniji izbor jer određuje ko plaća porez:<br>• Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate<br>• Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu<br>• Firma doo → Isto kao preduzetnik, plaća sami" |  | "Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo" | **izmena: "samostalno plaćanje" umesto plaća sam
 | naziv_izvodjaca | "Ime i prezime / Naziv firme" |  |  |  |  |
 | jmbg_pib_izvodjaca | "JMBG (fizičko lice) ili PIB (firma)" |  |  |  |  |
 | adresa_izvodjaca | "Adresa stanovanja / sedišta" |  |  |  |  |
@@ -246,7 +246,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 |-------|--------|--------------|---------|-------------|--------|
 | datum_pocetka | "Datum početka" |  |  |  |  |
 | datum_zavrsetka | "Datum završetka / isporuke" |  |  |  |  |
-| fazno | "Fazna isporuka?" |  |  |  |  |
+| fazno | "Fazna isporuka?" |  |  |  |  | **izmena: "Isporuka u fazama"
 | opis_faza | "Opis faza i rokova" |  |  |  |  |
 
 #### Naknada
@@ -364,8 +364,8 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | valuta | "Valuta" |  | "U Srbiji je legalno ugovoriti zakupninu u evrima koja se plaća u dinarima po kursu NBS na dan plaćanja. Ovo štiti zakupodavca od inflacije." |  | "RSD, EUR (plaća se u RSD po kursu NBS)" |
 | dan_placanja | "Dan plaćanja u mesecu" |  |  |  |  |
 | nacin_placanja | "Način plaćanja" |  |  |  | "Na račun, Gotovina" |
-| deponija | "Deponija?" |  | "Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum." |  |  |
-| iznos_deponije | "Iznos deponije (mesečnih zakupnina)" |  |  |  |  |
+| deponija | "Deponija?" |  | "Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum." |  |  | **izmena: "depozit" ne deponija. 
+| iznos_deponije | "Iznos deponije (mesečnih zakupnina)" |  |  |  |  | **izmena: depozit, ne deponija
 
 #### Troškovi i uslovi
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
@@ -432,7 +432,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | datum_isplate | "Datum isplate" |  |  |  |  |
 | nacin_isplate | "Način isplate" |  |  |  | "Prenos na račun, Gotovina" |
 | racun | "Broj računa zajmoprimca" |  |  |  |  |
-| tip_kamate | "Kamatni ili bezkamatni?" |  | "Bezkamatni zajam između fizičkih lica može biti tretiran kao poklon od strane Poreske uprave za iznose preko 1.000.000 RSD. Za veće iznose preporučujemo konsultaciju sa poreskim savetnikom." |  | "Sa kamatom, Bezkamatni" |
+| tip_kamate | "Kamatni ili bezkamatni?" |  | "Bezkamatni zajam između fizičkih lica može biti tretiran kao poklon od strane Poreske uprave za iznose preko 1.000.000 RSD. Za veće iznose preporučujemo konsultaciju sa poreskim savetnikom." |  | "Sa kamatom, Bezkamatni" | **izmena: beskamatni, ne bezkamatni
 | stopa | "Godišnja kamatna stopa (%)" |  |  |  |  |
 | obracun | "Obračun kamate" |  |  |  | "Proporcionalni, Konformni" |
 | placanje_kamate | "Plaćanje kamate" |  |  |  | "Mesečno, Kvartalno, Na kraju, Uz svaku ratu" |
@@ -460,6 +460,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | naziv_punomocnika | "Ime i prezime / Naziv" |  |  |  |  |
 | jmbg_pib_punomocnika | "JMBG / PIB" |  |  |  |  |
 | adresa_punomocnika | "Adresa" |  |  |  |  |
+**izmena: za ceo odeljak, koristiti latinična slova: punomoćnik umesto punomocnik i slično
 
 #### Ovlascenje
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
@@ -468,6 +469,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | opis_ovlascenja | "Opis ovlascenja" |  |  |  |  |
 | trajanje | "Trajanje" |  |  |  | "Neograniceno, Do opoziva, Odredjeni datum" |
 | datum_isteka | "Datum isteka" |  |  |  |  |
+**izmena: za ceo odeljak, koristiti latinična slova: beležnik umesto beleznik i slično
 
 ### Opšti uslovi i Politika privatnosti (lib/prompts/opsti-uslovi.ts)
 #### Firma
@@ -492,6 +494,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | vrste_podataka | "Koje vrste podataka?" |  |  |  | "Ime/email, Adresa, Platne informacije, Lokacija, Cookies" |
 | analitika | "Koriste se analiticki alati?" |  |  |  |  |
 | deli_sa_trecim_stranama | "Podaci se dele sa trecim stranama?" |  |  |  |  |
+**izmena: za ceo odeljak, koristiti latinična slova: analitički umesto analiticki i slično
 
 ### Poslovni mejl (lib/prompts/poslovni-mejl.ts)
 #### Posiljalac
@@ -515,6 +518,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | ton | "Ton" |  |  |  | "Formalan, Profesionalan, Topao" |
 | hitno | "Da li je hitno?" |  |  |  |  |
 | predmet | "Predmet mejla (opciono)" |  |  |  |  |
+**izmena: za ceo odeljak, koristiti latinična slova č, ć, ž, đ gde je potrebno
 
 ### Oglas za posao (lib/prompts/oglas-za-posao.ts)
 #### Firma
@@ -524,6 +528,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | grad | "Grad" |  |  |  |  |
 | delatnost | "Delatnost firme" | "npr. Razvoj softvera, Građevinarstvo, Ugostiteljstvo" |  |  |  |
 | velicina | "Velicina firme" |  |  |  | "Do 10, 10-50, 50-200, 200+" |
+**izmena: za ceo odeljak, koristiti latinična slova č, ć, ž, đ gde je potrebno
 
 #### Pozicija
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
@@ -533,6 +538,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 | lokacija_rada | "Lokacija rada" |  |  |  | "Kancelarija, Remote, Hibridno" |
 | strucna_sprema | "Strucna sprema" |  |  |  | "Srednja strucna sprema, Visa strucna sprema, Visoka strucna sprema, Nije presudno" |
 | iskustvo | "Iskustvo" |  |  |  | "Bez iskustva, 1-2 god, 3-5 god, 5+" |
+**izmena: za ceo odeljak, koristiti latinična slova č, ć, ž, đ gde je potrebno
 
 #### Opis posla
 | Polje | Labela | Helper tekst | Tooltip | Placeholder | Opcije |
@@ -698,6 +704,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Tekst: "Zaposlenog moraš prijaviti na PIO pre prvog radnog dana. Rok za prijavu je isti dan kada zaposleni počinje sa radom."
 - Tip: "warning"
 - Link: null
+**izmena: koristiti persiranje, "Zaposlenog morate prijaviti" umesto zaposlenog moraš prijaviti
 
 ### ugovor-o-delu
 - Naslov: "Poreski podsetnik"
@@ -746,6 +753,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Tekst: "Oglas ne sme sadržati uslove koji diskriminišu po osnovu pola, godina, porekla ili invaliditeta. Infostud može odbiti oglas koji krši ova pravila."
 - Tip: "warning"
 - Link: null
+**izmena: promeniti kontekst, ne eksplicitno infostud, nego bilo koji oglašavč može odbiti oglas.
 
 ### ponuda-klijentu
 - Naslov: "Savet"
@@ -759,7 +767,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Atribut aria-label: "Navigacioni meni"
 - JSX tekst: "Meni"
 - JSX tekst: "Moji dokumenti"
-- JSX tekst: "Prijavi se"
+- JSX tekst: "Prijavi se" **izmena: prijavite se, persiranje
 - JSX tekst: "Počnite besplatno"
 
 ### Auth layout (app/(auth)/layout.tsx)
@@ -982,14 +990,14 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 ### Upgrade modal (components/wizard/UpgradeModal.tsx)
 - String: "use client"
 - JSX tekst: "Mesečni limit dostignut"
-- JSX tekst: "Besplatni plan omogućava 1 dokument mesečno. Prešite na Starter i generišite do 10 dokumenata."
+- JSX tekst: "Besplatni plan omogućava 1 dokument mesečno. Pređite na Starter i generišite do 10 dokumenata." **izmena: pređite umesto pređite
 - String: "Starter — €9/mes"
-- String: "10 dokumenata, PDF bez watermarke"
+- String: "10 dokumenata, PDF bez watermark-a"  **izmena watermark-a, ne watermark-a
 - String: "Pro — €25/mes"
 - String: "Neograničeno, PDF + DOCX, arhiva"
 - JSX tekst: "✓"
 - JSX tekst: "—"
-- JSX tekst: "Pogledaj planove"
+- JSX tekst: "Pogledajte planove" **izmena: pogledajte, persiranje
 - JSX tekst: "Zatvori"
 
 ### Logout dugme (components/auth/logout-button.tsx)
@@ -1076,7 +1084,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - String: "profiles"
 - String: "plan"
 - String: "id"
-- Polje error: "DOCX export je dostupan samo korisnicima Starter, Pro i Business plana. Prešite na plaćeni plan da biste preuzeli dokument bez watermarke u Word formatu."
+- Polje error: "DOCX export je dostupan samo korisnicima Starter, Pro i Business plana. Pređite na plaćeni plan da biste preuzeli Word dokument bez watermark-a." **izmena: bez watermark-a, ne watermarake
 - String: "documents"
 - String: "id, user_id, type, title, generated_text, input_data, is_free, created_at"
 - Polje error: "Dokument nije pronađen."

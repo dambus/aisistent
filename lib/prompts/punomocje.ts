@@ -17,14 +17,14 @@ LOKATIV (o kome? o cemu?) - uz predloge o, u, na, pri
 
 ### Pravila za deklinaciju firmi (doo, ad, sp):
 
-- Skracenice se dekliniraju sa crticom: doo-a (gen.), doo-u (dat.)
+- Skraćenice se dekliniraju sa crticom: doo-a (gen.), doo-u (dat.)
 - Naziv koji zavrsava suglasnikom - dodaj "-a" (gen.), "-u" (dat.)
 - Naziv koji zavrsava samoglasnikom - genitiv "-e" ili nepromenjivo
 
 ### Pravila za deklinaciju licnih imena:
 
 MUSKA IMENA (zavrsavaju suglasnikom):
-- Petar Nikolic -> Petra Nikolica -> Petru Nikolicu -> Petra Nikolica
+- Petar Nikolić -> Petra Nikolića -> Petru Nikoliću -> Petra Nikolića
 - Milan Jovic -> Milana Jovica -> Milanu Jovicu
 
 MUSKA IMENA (zavrsavaju na -a):
@@ -32,7 +32,7 @@ MUSKA IMENA (zavrsavaju na -a):
 - Luka Popovic -> Luke Popovica -> Luki Popovicu -> Luku Popovica
 
 ZENSKA IMENA (zavrsavaju na -a):
-- Ana Markovic -> Ane Markovic -> Ani Markovic -> Anu Markovic
+- Ana Marković -> Ane Marković -> Ani Marković -> Anu Marković
 - Jelena Stojanovic -> Jelene Stojanovic -> Jeleni Stojanovic
 
 ZENSKA IMENA (zavrsavaju suglasnikom - strana):

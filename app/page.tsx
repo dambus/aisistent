@@ -32,7 +32,7 @@ const steps = [
     num: '1',
     icon: '📝',
     title: 'Popunite kratku formu',
-    text: 'Unesite osnovne podatke. Nema pravnog znanja potrebno — vodimo vas korak po korak.',
+    text: 'Unesite osnovne podatke. Nije vam potrebno pravno znanje — vodimo vas korak po korak.',
   },
   {
     num: '2',
@@ -69,7 +69,7 @@ const toolCategories: ToolCategory[] = [
       { name: 'Ugovor o zakupu',  desc: 'Za stanove i poslovne prostore',               type: 'ugovor-o-zakupu' },
       { name: 'Ugovor o saradnji',desc: 'Za partnerstva i zajedničke projekte',          type: 'ugovor-o-saradnji' },
       { name: 'Punomoćje',        desc: 'Za zastupanje pred organima i firmama',         type: 'punomocje' },
-      { name: 'Opšti uslovi i Politika privatnosti', desc: 'Obavezno za svaki sajt',   type: 'opsti-uslovi' },
+      { name: 'Opšti uslovi i Politika privatnosti', desc: 'Obavezno za svaki veb sajt', type: 'opsti-uslovi' },
     ],
   },
   {
@@ -96,15 +96,15 @@ const upcomingTools = [
 const withoutAisistent = [
   'Sat vremena pisanja ugovora',
   'Pravnik košta 100€+ po dokumentu',
-  'ChatGPT ne zna srpsko pravo',
+  'ChatGPT nije prilagođen srpskom pravu',
   'Dokumenti u različitim folderima',
   'Svaki put od nule',
 ]
 
 const withAisistent = [
   'Gotov dokument za 2 minuta',
-  'Mesečna pretplata jeftinija od jednog sata kod pravnika',
-  'Prilagođeno srpskom pravu i praksi',
+  'Mesečna pretplata jeftinija od jednog sata pravnih usluga',
+  'Prilagođeno srpskom pravu i poslovnoj praksi',
   'Svi dokumenti na jednom mestu',
   'Arhiva za ponovno korišćenje',
 ]
@@ -275,7 +275,7 @@ export default async function Home() {
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-600">
               Prestanite da gubite vreme na ugovore, mejlove i papirologiju. AIsistent generiše
-              profesionalne dokumente prilagođene srpskom tržištu — brzo, jednostavno, bez advokata.
+              profesionalne dokumente prilagođene srpskom tržištu — brzo i jednostavno, bez skupih savetovanja.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
@@ -301,7 +301,7 @@ export default async function Home() {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl">
             <div className="rounded-xl bg-gray-900 p-5 text-white">
               <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
-                <span className="text-sm font-bold" style={{ color: '#6ee7b7' }}>AIsistent radni sto</span>
+                <span className="text-sm font-bold" style={{ color: '#6ee7b7' }}>AIsistent radna površina</span>
                 <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ backgroundColor: '#052e16', color: '#6ee7b7' }}>
                   spreman
                 </span>
@@ -353,7 +353,7 @@ export default async function Home() {
       <section id="alati" className="bg-white px-5 py-20 lg:px-8">
         <SectionHeading
           eyebrow="10 alata"
-          title="Sve što vašem biznisu treba"
+          title="Sve što je potrebno vašem biznisu"
           text="Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
         />
         <div className="mx-auto mt-12 grid max-w-7xl gap-10">

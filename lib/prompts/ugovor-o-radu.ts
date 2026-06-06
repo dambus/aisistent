@@ -257,7 +257,7 @@ export const wizardSteps: WizardStep[] = [
           { value: 'IV — srednja stručna sprema', label: 'IV — srednja stručna sprema' },
           { value: 'V — viša stručna sprema', label: 'V — viša stručna sprema' },
           { value: 'VI — visoka stručna sprema (bachelor)', label: 'VI — visoka stručna sprema (bachelor)' },
-          { value: 'VII — visoka stručna sprema (master/specijalist)', label: 'VII — visoka stručna sprema (master/specijalist)' },
+          { value: 'VII — visoka stručna sprema (master/specijalističke)', label: 'VII — visoka stručna sprema (master/specijalističke)' },
           { value: 'VIII — doktorat', label: 'VIII — doktorat' },
         ],
       },
@@ -267,7 +267,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'radno_mesto',
     title: 'Radno mesto',
     fields: [
-      { id: 'pozicija', label: 'Naziv radnog mesta / pozicija', type: 'text', required: true, placeholder: 'npr. Software Engineer' },
+      { id: 'pozicija', label: 'Naziv radnog mesta / pozicija', type: 'text', required: true, placeholder: 'npr. Softverski inženjer' },
       { id: 'opis', label: 'Kratak opis poslova', type: 'textarea', required: true, placeholder: 'Opis posla u 2-3 rečenice...' },
       { id: 'mesto_rada', label: 'Mesto rada (grad, adresa)', type: 'text', required: true, placeholder: 'npr. Beograd, Nemanjina 11' },
       {

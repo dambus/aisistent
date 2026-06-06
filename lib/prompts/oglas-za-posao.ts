@@ -6,7 +6,7 @@ Nazive firmi, gradova i pozicija korisnik daje u NOMINATIVU. Dekliniras ih prema
 
 NIKADA ne kopiraj naziv direktno iz inputa bez provere padeza.
 
-Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za licna imena ako se pojave: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Ana Markovic -> Ane Markovic -> Ani Markovic.`
+Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za lična imena ako se pojave: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Ana Marković -> Ane Marković -> Ani Marković.`
 
 export const systemPrompt = `## JEZIČKI STANDARD
 

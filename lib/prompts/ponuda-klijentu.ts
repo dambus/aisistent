@@ -6,7 +6,7 @@ Nazive firmi, kontakt osobe i predmete ponude korisnik daje u NOMINATIVU. Deklin
 
 NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeza.
 
-Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Licna imena: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Nikola Stanic -> Nikole Stanica -> Nikoli Stanicu; Ana Markovic -> Ane Markovic -> Ani Markovic.`
+Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stanić -> Nikole Stanića -> Nikoli Staniću; Ana Marković -> Ane Marković -> Ani Marković.`
 
 export const systemPrompt = `## JEZIČKI STANDARD
 

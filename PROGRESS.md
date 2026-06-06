@@ -468,6 +468,31 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak L — UI tekstovi: lektorske ispravke
+
+- Landing page tekstovi usklađeni sa lektorskim komentarima
+- Persiranje kroz UI poruke usklađeno na "Vi/Vas/Vam"
+- `watermarke/watermaraka` zamenjeno sa `watermark-a`
+- Prompt placeholder `Software Engineer` zamenjen sa `Softverski inženjer`
+- Ispravljeni primeri bez dijakritike u prompt fajlovima
+- Pregledni fajlovi `docs/UI_TEKSTOVI.md` i `docs/SYSTEM_PROMPTOVI.md` usklađeni sa izmenama
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/page.tsx`
+- `app/api/export/docx/route.ts`
+- `components/wizard/UpgradeModal.tsx`
+- `lib/prompts/ugovor-o-radu.ts`
+- `lib/prompts/oglas-za-posao.ts`
+- `lib/prompts/opsti-uslovi.ts`
+- `lib/prompts/ponuda-klijentu.ts`
+- `lib/prompts/poslovni-mejl.ts`
+- `lib/prompts/punomocje.ts`
+- `docs/UI_TEKSTOVI.md`
+- `docs/SYSTEM_PROMPTOVI.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

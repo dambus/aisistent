@@ -853,23 +853,23 @@ LOKATIV (o kome? o cemu?) - uz predloge o, u, na, pri
 
 ### Pravila za deklinaciju firmi (doo, ad, sp):
 
-- Skracenice se dekliniraju sa crticom: doo-a (gen.), doo-u (dat.)
+- Skraćenice se dekliniraju sa crticom: doo-a (gen.), doo-u (dat.)
 - Naziv koji zavrsava suglasnikom - dodaj "-a" (gen.), "-u" (dat.)
 - Naziv koji zavrsava samoglasnikom - genitiv "-e" ili nepromenjivo
 
 ### Pravila za deklinaciju licnih imena:
 
 MUSKA IMENA (zavrsavaju suglasnikom):
-- Petar Nikolic -> Petra Nikolica -> Petru Nikolicu -> Petra Nikolica
+- Petar Nikolić -> Petra Nikolića -> Petru Nikoliću -> Petra Nikolića
 - Milan Jovic -> Milana Jovica -> Milanu Jovicu
 
 MUSKA IMENA (zavrsavaju na -a):
-- Nikola Stanic -> Nikole Stanica -> Nikoli Stanicu -> Nikolu Stanica
+- Nikola Stanić -> Nikole Stanića -> Nikoli Staniću -> Nikolu Stanica
 - Luka Popovic -> Luke Popovica -> Luki Popovicu -> Luku Popovica
 
 ZENSKA IMENA (zavrsavaju na -a):
-- Ana Markovic -> Ane Markovic -> Ani Markovic -> Anu Markovic
-- Jelena Stojanovic -> Jelene Stojanovic -> Jeleni Stojanovic
+- Ana Marković -> Ane Marković -> Ani Marković -> Anu Marković
+- Jelena Stojanović -> Jelene Stojanović -> Jeleni Stojanović
 
 ZENSKA IMENA (zavrsavaju suglasnikom - strana):
 - Carmen, Isabel -> nepromenjivo u srpskom kontekstu
@@ -949,9 +949,9 @@ NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna pro
 
 Padezi: nominativ za subjekat, genitiv za svojinu i opisivanje, dativ za primaoca, akuzativ za direktan objekat, instrumental za sredstvo ili pratnju, lokativ uz predloge o/u/na/pri.
 
-Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Skracenice doo, ad i sp dekliniraju se sa crticom.
+Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Skraćenice doo, ad i sp dekliniraju se sa crticom.
 
-Licna imena: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Nikola Stanic -> Nikole Stanica -> Nikoli Stanicu; Ana Markovic -> Ane Markovic -> Ani Markovic; Jelena Stojanovic -> Jelene Stojanovic -> Jeleni Stojanovic.
+Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stanić -> Nikole Stanića -> Nikoli Staniću; Ana Marković -> Ane Marković -> Ani Marković; Jelena Stojanović -> Jelene Stojanović -> Jeleni Stojanović.
 
 ## OBAVEZNI ELEMENTI - OPSTI USLOVI
 
@@ -1024,7 +1024,7 @@ Ime primaoca korisnik daje u NOMINATIVU. Dekliniras ga prema kontekstu recenice,
 
 NIKADA ne kopiraj ime direktno iz inputa bez provere padeza.
 
-Primeri: Petar Nikolic -> Petre Nikolicu / Petra Nikolica; Nikola Stanic -> Nikola / Nikoli Stanicu; Ana Markovic -> Ana / Ani Markovic; Jelena Stojanovic -> Jelena / Jeleni Stojanovic. Ako je primalac "Tim" ili odeljenje, koristi neutralno obracanje.
+Primeri: Petar Nikolić -> Petre Nikolicu / Petra Nikolića; Nikola Stanić -> Nikola / Nikoli Staniću; Ana Marković -> Ana / Ani Marković; Jelena Stojanović -> Jelena / Jeleni Stojanović. Ako je primalac "Tim" ili odeljenje, koristi neutralno obraćanje.
 
 ## PRAVILA
 
@@ -1080,7 +1080,7 @@ Nazive firmi, gradova i pozicija korisnik daje u NOMINATIVU. Dekliniras ih prema
 
 NIKADA ne kopiraj naziv direktno iz inputa bez provere padeza.
 
-Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za licna imena ako se pojave: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Ana Markovic -> Ane Markovic -> Ani Markovic.
+Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za lična imena ako se pojave: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Ana Marković -> Ane Marković -> Ani Marković.
 
 ## OBAVEZNI ELEMENTI
 
@@ -1148,7 +1148,7 @@ Nazive firmi, kontakt osobe i predmete ponude korisnik daje u NOMINATIVU. Deklin
 
 NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeza.
 
-Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Licna imena: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Nikola Stanic -> Nikole Stanica -> Nikoli Stanicu; Ana Markovic -> Ane Markovic -> Ani Markovic.
+Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stanić -> Nikole Stanića -> Nikoli Staniću; Ana Marković -> Ane Marković -> Ani Marković.
 
 ## TON I STIL
 
