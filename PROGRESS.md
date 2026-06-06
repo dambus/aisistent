@@ -426,6 +426,20 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak J — PDF ispravke
+
+1. **Footer fix (Problemi 1 i 2)**: Header promenjen u `position: 'absolute', top: 16` (sa `fixed` prop) — header više nije u toku sadržaja. Footer je već bio absolutno pozicioniran. Page `paddingTop` povećan na 60pt, `paddingBottom` na 80pt. Uklonjen `render` callback sa footer View-a (direktna deca).
+2. **Orphan h2 (Problem 3)**: Logika u `renderBlocks()` bila prisutna i ispravna — nije menjana.
+3. **POVERLJIVO stamp (Problem 4)**: NDA sa `oznacavanje === true` → crveni bold tekst "POVERLJIVO" u headeru (desno, 8pt, #DC2626). Pojavljuje se na svakoj stranici jer header ima `fixed` prop.
+4. **Fi-ligatura (Problem 5)**: Zamenjen U+200C (ZWNJ — Roboto ga tretira kao vidljiv razmak) sa U+2060 (Word Joiner — nevidljiv, dizajniran za prevenciju ligaturi). Verifikovano `charCodeAt(0) === 0x2060`.
+- TypeScript: 0 grešaka, `next build` čist
+
+**Fajlovi:**
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/markdownParser.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

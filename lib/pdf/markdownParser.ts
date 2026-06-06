@@ -25,8 +25,9 @@ export type Block = TextBlock | TableBlock
 const ROMAN_RE = /^[IVXLCDM]{1,6}\.\s/
 
 function parseInline(text: string): InlineSpan[] {
-  // ZWNJ (U+200C) between f+i and f+l as fallback ligature prevention
-  const t = text.replace(/fi/g, 'f‌i').replace(/fl/g, 'f‌l')
+  // U+2060 Word Joiner between f+i and f+l — invisible, prevents OpenType ligatures
+  const WJ = '⁠'
+  const t = text.replace(/fi/g, `f${WJ}i`).replace(/fl/g, `f${WJ}l`)
 
   const spans: InlineSpan[] = []
   const re = /\*{3}([^*]+)\*{3}|\*{2}([^*]+)\*{2}|\*([^*]+)\*/g

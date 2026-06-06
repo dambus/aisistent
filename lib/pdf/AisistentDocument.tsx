@@ -14,31 +14,39 @@ Font.register({ family: 'Roboto-BoldItalic', src: `${FONTS_DIR}/Roboto-BoldItali
 
 Font.registerHyphenationCallback(word => [word])
 
-const MARGIN_H = 71
-const MARGIN_V_TOP = 43
-const MARGIN_V_BOT = 71
+const MARGIN_H = 72
+const PAGE_PAD_TOP = 60   // reserves space for fixed header (~30pt) + gap
+const PAGE_PAD_BOT = 80   // reserves space for fixed footer (~40pt) + gap
+const HEADER_TOP = 16
+const FOOTER_BOTTOM = 18
 
 const s = StyleSheet.create({
   page: {
-    paddingTop: MARGIN_V_TOP,
-    paddingBottom: MARGIN_V_BOT,
+    paddingTop: PAGE_PAD_TOP,
+    paddingBottom: PAGE_PAD_BOT,
     paddingHorizontal: MARGIN_H,
     fontFamily: 'Roboto',
     fontSize: 11,
     lineHeight: 1.55,
     color: '#1a1a1a',
   },
+  // ── Header: absolutely positioned so it doesn't push body content ──
   header: {
+    position: 'absolute',
+    top: HEADER_TOP,
+    left: MARGIN_H,
+    right: MARGIN_H,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
     paddingBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: '#e5e7eb',
   },
   headerLogo: { fontFamily: 'Roboto-Bold', fontSize: 12, color: '#1d4ed8' },
+  headerRight: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerDate: { fontSize: 8, color: '#6b7280', fontFamily: 'Roboto' },
+  headerConfidential: { fontFamily: 'Roboto-Bold', fontSize: 8, color: '#DC2626' },
   h1: {
     fontFamily: 'Roboto-Bold', fontSize: 16, textAlign: 'center',
     marginTop: 4, marginBottom: 12, color: '#111827',
@@ -78,9 +86,15 @@ const s = StyleSheet.create({
     marginTop: 26, marginBottom: 4, marginRight: 24,
   },
   sigPechat: { fontFamily: 'Roboto', fontSize: 11, marginTop: 10 },
+  // ── Footer: absolutely positioned so it doesn't overlap body content ──
   footer: {
-    position: 'absolute', bottom: 20, left: MARGIN_H, right: MARGIN_H,
-    borderTopWidth: 1, borderTopColor: '#e5e7eb', paddingTop: 5,
+    position: 'absolute',
+    bottom: FOOTER_BOTTOM,
+    left: MARGIN_H,
+    right: MARGIN_H,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb',
+    paddingTop: 5,
   },
   footerText: {
     fontSize: 9, color: '#9ca3af', fontFamily: 'Roboto', lineHeight: 1.4, textAlign: 'center',
@@ -346,15 +360,27 @@ export function AisistentDocument({
   const bodyNodes = sig && blockNodes.length > 0 ? blockNodes.slice(0, -1) : blockNodes
   const lastNode = sig && blockNodes.length > 0 ? blockNodes[blockNodes.length - 1] : null
 
+  // POVERLJIVO stamp — NDA with oznacavanje === true
+  const showConfidential =
+    documentType === 'nda' &&
+    (inputData?.oznacavanje === true || inputData?.oznacavanje === 'Da')
+
   return (
     <Document title={documentTitle} author="aisistent.rs" creator="aisistent.rs">
       <Page size="A4" style={s.page}>
 
-        <View style={s.header} fixed>
+        {/* Header — absolutely positioned, repeats on every page */}
+        <View fixed style={s.header}>
           <Text style={s.headerLogo}>AIsistent</Text>
-          <Text style={s.headerDate}>{dateStr} · aisistent.rs</Text>
+          <View style={s.headerRight}>
+            {showConfidential && (
+              <Text style={s.headerConfidential}>POVERLJIVO</Text>
+            )}
+            <Text style={s.headerDate}>{dateStr} · aisistent.rs</Text>
+          </View>
         </View>
 
+        {/* Body content */}
         {bodyNodes}
 
         {sig ? (
@@ -364,16 +390,11 @@ export function AisistentDocument({
           </View>
         ) : lastNode}
 
-        <View
-          fixed
-          style={s.footer}
-          render={() => (
-            <>
-              <Text style={s.footerText}>{DISCLAIMER}</Text>
-              {isFree && <Text style={s.footerWatermark}>BESPLATNA VERZIJA</Text>}
-            </>
-          )}
-        />
+        {/* Footer — absolutely positioned, repeats on every page */}
+        <View fixed style={s.footer}>
+          <Text style={s.footerText}>{DISCLAIMER}</Text>
+          {isFree && <Text style={s.footerWatermark}>BESPLATNA VERZIJA</Text>}
+        </View>
 
       </Page>
     </Document>
