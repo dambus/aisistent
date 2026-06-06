@@ -397,6 +397,17 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak L — Supabase auth callback
+- Kreirana `/auth/callback` route handler ruta za email verifikaciju i session exchange
+- Register `signUp` poziv sada šalje `emailRedirectTo` na `/auth/callback`
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/auth/callback/route.ts` (novo)
+- `app/(auth)/register/page.tsx`
+
+---
+
 ### ✅ Korak I — Helper tekstovi i tooltipovi u wizardu
 
 - **`types/wizard.ts`**: `WizardField` proširen sa `helperText?: string` i `tooltip?: string`
