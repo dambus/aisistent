@@ -4,7 +4,18 @@ function formatOblast(input: NdaData['oblast_informacija']): string {
   return Array.isArray(input) ? input.join(', ') : input
 }
 
-export const systemPrompt = `Ti si pravni asistent specijalizovan za izradu sporazuma o poverljivosti (NDA - Non-Disclosure Agreement) u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima i Zakonom o zaštiti poslovne tajne ("Sl. glasnik RS", br. 72/2011).
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si pravni asistent specijalizovan za izradu sporazuma o poverljivosti (NDA - Non-Disclosure Agreement) u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima i Zakonom o zaštiti poslovne tajne ("Sl. glasnik RS", br. 72/2011).
 
 ## TVOJ ZADATAK
 
@@ -158,9 +169,22 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_strane_1', label: 'Naziv / Ime i prezime', type: 'text', required: true },
-      { id: 'pib_strane_1', label: 'PIB (ako firma)', type: 'text', required: false },
+      {
+        id: 'pib_strane_1',
+        label: 'PIB / JMBG',
+        type: 'text',
+        required: false,
+        dynamicConfig: {
+          watchField: 'tip_strane_1',
+          values: {
+            'Fizičko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+            'Preduzetnik': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_strane_1', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_strane_1', label: 'Zastupnik (ako firma)', type: 'text', required: false },
+      { id: 'zastupnik_strane_1', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
     ],
   },
   {
@@ -179,9 +203,22 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_strane_2', label: 'Naziv / Ime i prezime', type: 'text', required: true },
-      { id: 'pib_strane_2', label: 'PIB (ako firma)', type: 'text', required: false },
+      {
+        id: 'pib_strane_2',
+        label: 'PIB / JMBG',
+        type: 'text',
+        required: false,
+        dynamicConfig: {
+          watchField: 'tip_strane_2',
+          values: {
+            'Fizičko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+            'Preduzetnik': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_strane_2', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_strane_2', label: 'Zastupnik (ako firma)', type: 'text', required: false },
+      { id: 'zastupnik_strane_2', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
     ],
   },
   {
@@ -206,8 +243,8 @@ export const wizardSteps: WizardStep[] = [
     id: 'dodatno',
     title: 'Dodatne odredbe',
     fields: [
-      { id: 'kazna', label: 'Ugovorna kazna za kršenje (RSD)', type: 'number', required: false, min: 1 },
-      { id: 'zabrana', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false },
+      { id: 'kazna', label: 'Ugovorna kazna za kršenje (RSD)', type: 'number', required: false, min: 1, tooltip: 'Ugovorna kazna je fiksni iznos koji prekršilac plaća bez dokazivanja visine štete. Preporučen iznos: 3-10x mesečna vrednost saradnje. Prenizak iznos ne odvraća od kršenja, previsok može biti smanjen od suda.' },
+      { id: 'zabrana', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Zabrana konkurencije znači da strana koja prima ne sme u određenom periodu raditi za direktne konkurente strane koja otkriva, niti pokretati sopstvenu delatnost u istoj oblasti. Ovo je stroži uslov od same poverljivosti — NDA bez ove klauzule dozvoljava rad za konkurenciju.' },
       { id: 'trajanje_zabrane', label: 'Trajanje zabrane (meseci)', type: 'number', required: false, min: 1, conditional: { field: 'zabrana', value: true } },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false },
     ],

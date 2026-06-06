@@ -8,7 +8,18 @@ NIKADA ne kopiraj naziv direktno iz inputa bez provere padeza.
 
 Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za licna imena ako se pojave: Petar Nikolic -> Petra Nikolica -> Petru Nikolicu; Ana Markovic -> Ane Markovic -> Ani Markovic.`
 
-export const systemPrompt = `Ti si asistent za pisanje oglasa za posao na srpskom jeziku.
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si asistent za pisanje oglasa za posao na srpskom jeziku.
 
 ## TVOJ ZADATAK
 

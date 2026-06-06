@@ -17,6 +17,10 @@ export interface WizardField {
   hint?: string
   helperText?: string
   tooltip?: string
+  dynamicConfig?: {
+    watchField: string
+    values: Record<string, { label?: string; helperText?: string; tooltip?: string }>
+  }
 }
 
 export interface WizardStep {
@@ -152,6 +156,7 @@ export interface UgovorOZakupuData {
   zivotinje?: boolean
   prijava_boravista?: boolean
   zabrana_podzakupa: boolean
+  adaptacije?: boolean
   napomene?: string
 }
 

@@ -1,6 +1,17 @@
 import type { UgovorOSaradnjiZajmuData, WizardStep } from '@/types/wizard'
 
-export const systemPrompt = `Ti si pravni asistent specijalizovan za izradu ugovora o poslovnoj saradnji i ugovora o zajmu u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima i Zakonom o porezu na dohodak građana.
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si pravni asistent specijalizovan za izradu ugovora o poslovnoj saradnji i ugovora o zajmu u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima i Zakonom o porezu na dohodak građana.
 
 ## TVOJ ZADATAK
 
@@ -195,7 +206,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'opis_saradnje', label: 'Detaljan opis', type: 'textarea', required: false, conditional: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' } },
       { id: 'doprinos_1', label: 'Doprinos Prve strane', type: 'textarea', required: false, conditional: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' } },
       { id: 'doprinos_2', label: 'Doprinos Druge strane', type: 'textarea', required: false, conditional: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' } },
-      { id: 'podela', label: 'Podela prihoda', type: 'radio', required: false, options: [
+      { id: 'podela', label: 'Podela prihoda', type: 'radio', required: false, tooltip: 'Procenat udela određuje kako se dele prihodi od zajedničkog projekta. Pažnja: ako firma A naplati celokupan prihod pa deo preda firmi B, to može biti oporezivi promet usluga. Savetujte se sa računovođom.', options: [
         { value: 'Procenat', label: 'Procenat' },
         { value: 'Fiksni iznosi', label: 'Fiksni iznosi' },
         { value: 'Po projektu', label: 'Po projektu' },
@@ -218,7 +229,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'ekskluzivnost', label: 'Ekskluzivnost?', type: 'toggle', required: false, defaultValue: false, conditional: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' } },
       { id: 'opis_ekskl', label: 'Oblast ekskluzivnosti', type: 'textarea', required: false, conditional: { field: 'ekskluzivnost', value: true } },
       { id: 'nda', label: 'NDA klauzula?', type: 'toggle', required: false, defaultValue: true, conditional: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' } },
-      { id: 'vlasnistvo_ip', label: 'Vlasništvo nad IP', type: 'radio', required: false, options: [
+      { id: 'vlasnistvo_ip', label: 'Vlasništvo nad IP', type: 'radio', required: false, tooltip: 'Ko poseduje rezultate zajedničkog rada (kod, dizajn, dokumentaciju)? Bez eksplicitnog dogovora primenjuju se opšta pravila autorskog prava koja su često nejasna. Preporučujemo eksplicitno definisanje.', options: [
         { value: 'Prva strana', label: 'Prva strana' },
         { value: 'Druga strana', label: 'Druga strana' },
         { value: 'Zajednički', label: 'Zajednički' },
@@ -262,7 +273,7 @@ export const wizardSteps: WizardStep[] = [
         { value: 'Sa kamatom', label: 'Sa kamatom' },
         { value: 'Bezkamatni', label: 'Bezkamatni' },
       ], conditional: { field: 'tip_dokumenta', value: 'Ugovor o zajmu' } },
-      { id: 'stopa', label: 'Godišnja kamatna stopa (%)', type: 'number', required: false, min: 0, conditional: { field: 'tip_kamate', value: 'Sa kamatom' } },
+      { id: 'stopa', label: 'Godišnja kamatna stopa (%)', type: 'number', required: false, min: 0, tooltip: 'Zakonska zatezna kamata u Srbiji je referentna kamatna stopa NBS + 8 procentnih poena. Za ugovore između privrednih subjekata nema zakonskog maksimuma, ali preterana kamata može biti proglašena ništavom.', conditional: { field: 'tip_kamate', value: 'Sa kamatom' } },
       { id: 'obracun', label: 'Obračun kamate', type: 'radio', required: false, options: [
         { value: 'Proporcionalni', label: 'Proporcionalni' },
         { value: 'Konformni', label: 'Konformni' },

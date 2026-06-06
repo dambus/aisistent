@@ -13,6 +13,14 @@ interface WizardFormProps {
 
 type FormValues = Record<string, string | number | boolean>
 
+function resolveField(field: WizardField, formValues: FormValues): WizardField {
+  if (!field.dynamicConfig) return field
+  const watchValue = String(formValues[field.dynamicConfig.watchField] ?? '')
+  const override = field.dynamicConfig.values[watchValue]
+  if (!override) return field
+  return { ...field, ...override }
+}
+
 function getVisibleFields(fields: WizardField[], values: FormValues): WizardField[] {
   return fields.filter(f => {
     if (!f.conditional) return true
@@ -135,7 +143,7 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
         {visibleFields.map(field => (
           <FieldRenderer
             key={field.id}
-            field={field}
+            field={resolveField(field, values)}
             value={values[field.id]}
             error={errors[field.id]}
             onChange={setValue}

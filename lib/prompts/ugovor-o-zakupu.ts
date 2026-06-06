@@ -1,6 +1,17 @@
 import type { UgovorOZakupuData, WizardStep } from '@/types/wizard'
 
-export const systemPrompt = `Ti si pravni asistent specijalizovan za izradu ugovora o zakupu nepokretnosti u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima, Zakonom o stanovanju i održavanju zgrada ("Sl. glasnik RS", br. 104/2016) i Zakonom o porezu na dohodak građana.
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si pravni asistent specijalizovan za izradu ugovora o zakupu nepokretnosti u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima, Zakonom o stanovanju i održavanju zgrada ("Sl. glasnik RS", br. 104/2016) i Zakonom o porezu na dohodak građana.
 
 ## TVOJ ZADATAK
 
@@ -139,6 +150,7 @@ TROŠKOVI I USLOVI:
 - Komunalije (struja/voda/gas): ${data.komunalije}
 - Internet/kablovska: ${data.internet}
 - Komunalna taksa: ${data.komunalna_taksa}
+- Adaptacije/rekonstrukcija: ${typeof data.adaptacije === 'boolean' ? (data.adaptacije ? 'Da (dogovoreno)' : 'Ne (zabranjeno bez saglasnosti)') : '[nije definisano]'}
 - Životinje: ${typeof data.zivotinje === 'boolean' ? (data.zivotinje ? 'Da' : 'Ne') : '[nije definisano]'}
 - Prijava boravišta: ${typeof data.prijava_boravista === 'boolean' ? (data.prijava_boravista ? 'Da' : 'Ne') : '[nije definisano]'}
 - Zabrana podzakupa: ${data.zabrana_podzakupa ? 'Da' : 'Ne'}
@@ -182,9 +194,21 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_zakupodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
-      { id: 'jmbg_pib_zakupodavca', label: 'JMBG / PIB', type: 'text', required: true },
+      {
+        id: 'jmbg_pib_zakupodavca',
+        label: 'JMBG / PIB',
+        type: 'text',
+        required: true,
+        dynamicConfig: {
+          watchField: 'tip_zakupodavca',
+          values: {
+            'Fizičko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_zakupodavca', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_zakupodavca', label: 'Zastupnik (ako firma)', type: 'text', required: false },
+      { id: 'zastupnik_zakupodavca', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
     ],
   },
   {
@@ -202,9 +226,21 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_zakupca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
-      { id: 'jmbg_pib_zakupca', label: 'JMBG / PIB', type: 'text', required: true },
+      {
+        id: 'jmbg_pib_zakupca',
+        label: 'JMBG / PIB',
+        type: 'text',
+        required: true,
+        dynamicConfig: {
+          watchField: 'tip_zakupca',
+          values: {
+            'Fizičko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_zakupca', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_zakupca', label: 'Zastupnik (ako firma)', type: 'text', required: false },
+      { id: 'zastupnik_zakupca', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
     ],
   },
   {
@@ -310,11 +346,13 @@ export const wizardSteps: WizardStep[] = [
         label: 'Ko plaća komunalnu taksu?',
         type: 'radio',
         required: true,
+        tooltip: 'Komunalna taksa za isticanje firme plaća se lokalnoj samoupravi. Obično je obaveza zakupca ako obavlja delatnost u prostoru. Iznos zavisi od opštine i površine.',
         options: [
           { value: 'Zakupac', label: 'Zakupac' },
           { value: 'Zakupodavac', label: 'Zakupodavac' },
         ],
       },
+      { id: 'adaptacije', label: 'Dozvola za adaptacije/rekonstrukciju?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Ako zakupac planira rekonstrukciju ili adaptaciju prostora, to mora biti eksplicitno dogovoreno u ugovoru. Bez saglasnosti zakupodavca, zakupac nema pravo na promene i mora vratiti prostor u prvobitno stanje.' },
       { id: 'zivotinje', label: 'Dozvola za životinje?', type: 'toggle', required: false, defaultValue: false },
       { id: 'prijava_boravista', label: 'Saglasnost za prijavu boravišta?', type: 'toggle', required: false, defaultValue: false },
       { id: 'zabrana_podzakupa', label: 'Zabrana podzakupa?', type: 'toggle', required: true, defaultValue: true },

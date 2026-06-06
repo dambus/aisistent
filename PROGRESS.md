@@ -440,6 +440,34 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak K — JMBG/PIB conditional, helper tekstovi, jezički standard
+
+1. **JMBG/PIB conditional**: `WizardField` proširen sa `dynamicConfig` (watchField + values mapa). `WizardForm.tsx` dobio `resolveField()` koja dinamički menja label/helperText/tooltip na osnovu vrednosti drugog polja. Primenjeno na:
+   - `nda.ts`: `pib_strane_1`, `pib_strane_2` (prate `tip_strane_1`/`tip_strane_2`)
+   - `ugovor-o-delu.ts`: `jmbg_pib_izvodjaca` (prati `tip_izvodjaca`)
+   - `ugovor-o-zakupu.ts`: `jmbg_pib_zakupodavca`, `jmbg_pib_zakupca`
+   - `punomocje.ts`: `jmbg_pib_vlastodavca`, `jmbg_pib_punomocnika`
+2. **Helper tekstovi**: Dodati tooltipovi za `kazna`/`zabrana` u nda.ts; `podela`/`vlasnistvo_ip`/`stopa` u saradnji-zajmu.ts; `komunalna_taksa` + novo polje `adaptacije` u zakupu.ts
+3. **Jezički standard**: Dodat paragraf na početak systemPrompt-a u svih 10 prompt fajlova
+
+**Fajlovi:**
+- `types/wizard.ts` (dynamicConfig, adaptacije)
+- `components/wizard/WizardForm.tsx` (resolveField)
+- `lib/prompts/nda.ts`
+- `lib/prompts/ugovor-o-delu.ts`
+- `lib/prompts/ugovor-o-zakupu.ts`
+- `lib/prompts/ugovor-o-saradnji-zajmu.ts`
+- `lib/prompts/punomocje.ts`
+- `lib/prompts/ugovor-o-radu.ts`
+- `lib/prompts/opsti-uslovi.ts`
+- `lib/prompts/poslovni-mejl.ts`
+- `lib/prompts/oglas-za-posao.ts`
+- `lib/prompts/ponuda-klijentu.ts`
+
+TypeScript: 0 grešaka.
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

@@ -38,7 +38,18 @@ ZENSKA IMENA (zavrsavaju na -a):
 ZENSKA IMENA (zavrsavaju suglasnikom - strana):
 - Carmen, Isabel -> nepromenjivo u srpskom kontekstu`
 
-export const systemPrompt = `Ti si pravni asistent specijalizovan za izradu punomocja po pravu Republike Srbije.
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si pravni asistent specijalizovan za izradu punomocja po pravu Republike Srbije.
 
 ## TVOJ ZADATAK
 
@@ -116,7 +127,19 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_vlastodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
-      { id: 'jmbg_pib_vlastodavca', label: 'JMBG / PIB', type: 'text', required: true },
+      {
+        id: 'jmbg_pib_vlastodavca',
+        label: 'JMBG / PIB',
+        type: 'text',
+        required: true,
+        dynamicConfig: {
+          watchField: 'tip_vlastodavca',
+          values: {
+            'Fizicko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_vlastodavca', label: 'Adresa', type: 'text', required: true },
     ],
   },
@@ -135,7 +158,19 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_punomocnika', label: 'Ime i prezime / Naziv', type: 'text', required: true },
-      { id: 'jmbg_pib_punomocnika', label: 'JMBG / PIB', type: 'text', required: true },
+      {
+        id: 'jmbg_pib_punomocnika',
+        label: 'JMBG / PIB',
+        type: 'text',
+        required: true,
+        dynamicConfig: {
+          watchField: 'tip_punomocnika',
+          values: {
+            'Fizicko lice': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Firma': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_punomocnika', label: 'Adresa', type: 'text', required: true },
     ],
   },

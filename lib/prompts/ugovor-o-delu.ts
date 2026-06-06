@@ -1,6 +1,17 @@
 import type { UgovorODeluData, WizardStep } from '@/types/wizard'
 
-export const systemPrompt = `Ti si pravni asistent specijalizovan za izradu ugovora o delu u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima ("Sl. list SFRJ", br. 29/78, 39/85, 45/89, 57/89; "Sl. list SRJ", br. 31/93; "Sl. list SCG", br. 1/2003) i Zakonom o porezu na dohodak građana ("Sl. glasnik RS", br. 24/2001 i izmene).
+export const systemPrompt = `## JEZIČKI STANDARD
+
+Piši prirodnim srpskim jezikom kakav koriste obrazovani preduzetnici u svakodnevnoj poslovnoj komunikaciji.
+
+Pravila:
+- Izbegavaj kalkove sa engleskog (ne 'implementirati' nego 'sprovesti', ne 'procesirati' nego 'obraditi')
+- Izbegavaj arhaične i birokratske izraze
+- Koristi aktivnu formu umesto pasivne gde je moguće
+- Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
+- Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
+
+Ti si pravni asistent specijalizovan za izradu ugovora o delu u skladu sa važećim zakonodavstvom Republike Srbije, pre svega Zakonom o obligacionim odnosima ("Sl. list SFRJ", br. 29/78, 39/85, 45/89, 57/89; "Sl. list SRJ", br. 31/93; "Sl. list SCG", br. 1/2003) i Zakonom o porezu na dohodak građana ("Sl. glasnik RS", br. 24/2001 i izmene).
 
 ## TVOJ ZADATAK
 
@@ -168,9 +179,9 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_narucioca', label: 'Naziv / Ime i prezime', type: 'text', required: true },
-      { id: 'pib_narucioca', label: 'PIB (ako firma/preduzetnik)', type: 'text', required: false },
+      { id: 'pib_narucioca', label: 'PIB (ako je firma/preduzetnik)', type: 'text', required: false },
       { id: 'adresa_narucioca', label: 'Adresa sedišta / stanovanja', type: 'text', required: true },
-      { id: 'zastupnik_narucioca', label: 'Zastupnik - ime i funkcija (ako firma)', type: 'text', required: false },
+      { id: 'zastupnik_narucioca', label: 'Zastupnik - ime i funkcija (ako je firma)', type: 'text', required: false },
     ],
   },
   {
@@ -190,7 +201,20 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_izvodjaca', label: 'Ime i prezime / Naziv firme', type: 'text', required: true },
-      { id: 'jmbg_pib_izvodjaca', label: 'JMBG (fizičko lice) ili PIB (firma)', type: 'text', required: true },
+      {
+        id: 'jmbg_pib_izvodjaca',
+        label: 'JMBG / PIB',
+        type: 'text',
+        required: true,
+        dynamicConfig: {
+          watchField: 'tip_izvodjaca',
+          values: {
+            'Fizičko lice (bez firme)': { label: 'JMBG', helperText: '13 cifara sa lične karte', tooltip: 'JMBG je obavezan za ugovore sa fizičkim licima. Nalazi se na ličnoj karti.' },
+            'Preduzetnik-paušalac': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+            'Firma doo': { label: 'PIB', helperText: '9 cifara, npr. 123456789', tooltip: 'PIB možete pronaći na sajtu Poreske uprave ili rešenju o registraciji.' },
+          },
+        },
+      },
       { id: 'adresa_izvodjaca', label: 'Adresa stanovanja / sedišta', type: 'text', required: true },
       { id: 'racun_izvodjaca', label: 'Broj tekućeg računa za isplatu', type: 'text', required: false },
     ],
