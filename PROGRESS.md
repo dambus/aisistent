@@ -440,6 +440,30 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak M — Welcome modal + Dashboard redesign
+
+**Zadatak 1 — Ime korisnika:**
+- `supabase/migrations/20260607000001_add_display_name.sql` — ALTER TABLE profiles ADD COLUMN display_name text (⚠️ ČEKA PRIMENU — vidi napomene)
+- `types/database.ts` — dodat `display_name: string | null` u profiles Row/Insert/Update
+- `app/api/profile/set-name/route.ts` — POST endpoint, validacija 2-50 chars, trim, auth check
+- `components/dashboard/WelcomeModal.tsx` — fullscreen overlay, bez X/escape/klik-van, router.refresh() posle uspešnog čuvanja
+- `components/dashboard/DashboardShell.tsx` — Client Component koji wrap-uje layout, prikazuje WelcomeModal ako `showWelcomeModal=true`
+- `app/(dashboard)/layout.tsx` — dohvata `display_name`, prosleđuje `showWelcomeModal` u DashboardShell
+
+**Zadatak 2 — Dashboard redesign:**
+- `lib/utils/documentTypes.ts` — shared mapa type slug → srpski naziv (ne duplikuje se više)
+- `components/dashboard/ArchiveList.tsx` — koristi import iz shared utils umesto lokalne mape
+- `components/dashboard/GreetingHeader.tsx` — Client Component, time-based pozdrav (jutro/dan/veče) u useEffect, plan badge, docs ovog meseca, upozorenje za free plan
+- `app/(dashboard)/dashboard/page.tsx` — kompletni redesign:
+  - Sekcija "Nedavno": poslednja 3 dokumenta + prazno stanje
+  - Sekcija alata po kategorijama sa poboljšanim karticama (hover border-l zelena)
+  - Kategorija "🧮 Alati" sa Kalkulator zarade
+  - Broji dokumente ovog meseca posebnim COUNT upitom
+
+TypeScript: 0 grešaka.
+
+---
+
 ### ✅ Korak L — Kalkulator zarade (neto/bruto)
 
 - **`app/(dashboard)/alati/kalkulator-zarade/page.tsx`** — Client Component kalkulator

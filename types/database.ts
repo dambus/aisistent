@@ -20,6 +20,7 @@ export interface Database {
         Row: {
           id: string
           plan: string
+          display_name: string | null
           documents_this_month: number
           stripe_customer_id: string | null
           created_at: string
@@ -27,12 +28,14 @@ export interface Database {
         Insert: {
           id: string
           plan?: string
+          display_name?: string | null
           documents_this_month?: number
           stripe_customer_id?: string | null
           created_at?: string
         }
         Update: {
           plan?: string
+          display_name?: string | null
           documents_this_month?: number
           stripe_customer_id?: string | null
         }

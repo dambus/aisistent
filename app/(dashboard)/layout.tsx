@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { Sidebar } from '@/components/dashboard/Sidebar'
+import { DashboardShell } from '@/components/dashboard/DashboardShell'
 
 function getInitials(email: string): string {
   const parts = email.split('@')[0].split(/[._-]/)
@@ -21,23 +21,21 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const admin = createAdminClient()
   const { data: profile } = await admin
     .from('profiles')
-    .select('plan')
+    .select('plan, display_name')
     .eq('id', user.id)
     .single()
 
   const plan = profile?.plan ?? 'free'
   const userInitials = getInitials(user.email ?? 'U')
+  const showWelcomeModal = !profile?.display_name
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar plan={plan} userInitials={userInitials} />
-
-      {/* Main content — top padding on mobile for fixed header, left margin on desktop for sidebar */}
-      <div className="flex-1 pt-12 md:pt-0">
-        <main className="mx-auto max-w-5xl px-4 py-8">
-          {children}
-        </main>
-      </div>
-    </div>
+    <DashboardShell
+      plan={plan}
+      userInitials={userInitials}
+      showWelcomeModal={showWelcomeModal}
+    >
+      {children}
+    </DashboardShell>
   )
 }

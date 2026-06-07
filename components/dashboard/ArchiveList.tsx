@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { TYPE_LABELS } from '@/lib/utils/documentTypes'
 
 const PRIMARY = '#1B6B4A'
 
@@ -15,19 +16,6 @@ export interface ArchiveDocument {
 
 type ExportFormat = 'pdf' | 'docx'
 type FilterValue = 'all' | 'contracts' | 'communication' | 'hr'
-
-const TYPE_LABELS: Record<string, string> = {
-  'ugovor-o-radu': 'Ugovor o radu',
-  'ugovor-o-delu': 'Ugovor o delu',
-  nda: 'NDA Sporazum',
-  'ugovor-o-zakupu': 'Ugovor o zakupu',
-  'ugovor-o-saradnji': 'Ugovor o saradnji/Zajmu',
-  punomocje: 'Punomoćje',
-  'opsti-uslovi': 'Opšti uslovi i Politika privatnosti',
-  'poslovni-mejl': 'Poslovni mejl',
-  'oglas-za-posao': 'Oglas za posao',
-  'ponuda-klijentu': 'Ponuda klijentu',
-}
 
 const TYPE_CATEGORY: Record<string, Exclude<FilterValue, 'all'>> = {
   'ugovor-o-radu': 'contracts',
