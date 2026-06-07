@@ -636,6 +636,7 @@ TypeScript: 0 grešaka.
 ---
 
 ## Poznati problemi / Tech dug
+- 2026-06-07: Free plan limit usklađen na 3 dokumenta mesečno u generate API-ju i upgrade modalu.
 - 2026-06-07: Uvedena terminologija Bruto 1 / Bruto 2 u kalkulator zarade, prompt za ugovor o radu i kontekstualni podsetnik.
 
 - Email verifikacija ne radi lokalno → isključiti u development modu
