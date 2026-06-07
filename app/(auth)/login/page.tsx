@@ -1,10 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { translateAuthError } from '@/lib/supabase/errors'
+
+function DeletedNotice() {
+  const params = useSearchParams()
+  if (!params.get('deleted')) return null
+  return (
+    <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+      Vaš nalog je uspešno obrisan.
+    </div>
+  )
+}
 
 export default function LoginPage() {
   const router = useRouter()
@@ -35,6 +45,9 @@ export default function LoginPage() {
   return (
     <>
       <h1 className="text-xl font-semibold text-gray-900 mb-6">Prijavite se</h1>
+      <Suspense fallback={null}>
+        <DeletedNotice />
+      </Suspense>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

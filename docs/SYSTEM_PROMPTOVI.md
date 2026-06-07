@@ -333,7 +333,7 @@ X.    ZAVRŠNE ODREDBE
 - tip_izvodjaca: "Tip izvođača" | tooltip: "Ovo je najvažniji izbor jer određuje ko plaća porez:
 • Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate
 • Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu
-• Firma doo → Isto kao preduzetnik, plaća sami" | opcije: Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo
+• Firma doo → Isto kao preduzetnik, plaća sami" | opcije: Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo **izmena: kod firme doo, plaća samostalno, ne - plaća sami
 - naziv_izvodjaca: "Ime i prezime / Naziv firme"
 - jmbg_pib_izvodjaca: "JMBG (fizičko lice) ili PIB (firma)"
 - adresa_izvodjaca: "Adresa stanovanja / sedišta"
@@ -355,14 +355,14 @@ X.    ZAVRŠNE ODREDBE
 - iznos: "Iznos naknade (RSD)"
 - bruto_neto: "Bruto ili neto?" | opcije: Bruto, Neto
 - nacin_isplate: "Način isplate" | opcije: Jednokratno, Avans + ostatak, Po fazama
-- avans: "Procenat avansa"
+- avans: "Procenat avansa" **izmena: helper, objasniti sta je avans
 - rok_placanja: "Rok plaćanja po isporuci (dana)"
 
 #### Dodatne odredbe
 - vlasnistvo: "Ko je vlasnik rezultata rada?" | tooltip: "Po srpskom pravu, autor automatski zadržava autorska prava. Ako želite da koristite rezultat slobodno (modifikujete, prodajete, distribuirate), morate eksplicitno ugovoriti prenos prava na naručioca." | opcije: Naručilac, Izvođač, Zajednička prava
 - nda: "Klauzula poverljivosti (NDA)?"
 - trajanje_nda: "Trajanje NDA (meseci)"
-- zabrana: "Zabrana konkurencije?"
+- zabrana: "Zabrana konkurencije?" **izmena: objasniti šta je zabrana konkurencije
 - napomene: "Posebne napomene"
 
 ## NDA
@@ -510,14 +510,14 @@ SCENARIO B - ZAKUP POSLOVNOG PROSTORA
 → Preporučiti: uknjižba zakupa ako duže od godinu dana
 
 SCENARIO C - KRATKOROČNI ZAKUP (do 30 dana)
-→ Kraća forma, bez deponije, bez prijave boravišta
+→ Kraća forma, bez deponije, bez prijave boravišta **izmena: ne samo ovde, kroz ceo dokument. Nije deponija, već depozit
 → Poseban poreski tretman za turistički zakup
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
 Sve podatke korisnik daje u NOMINATIVU. Dekliniraš prema kontekstu.
 Ime/naziv koristiš SAMO u uvodu, članu o zakupnini i potpisima.
-Sve ostalo ide kroz "Zakupodavac" i "Zakupac/Zakupnica".
+Sve ostalo ide kroz "Zakupodavac" i "Zakupac/Zakupnica". **izmena: kroz sve dokumente, Zakupac je univerzalni naziv za tu stranu, ne menja se po rodovima. Zakupnica - nepravilno, neprirodno
 
 Firme: "Sigma doo" → "Sigma doo-a" (gen.), "Sigma doo-u" (dat.)
 Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
@@ -543,7 +543,7 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 ## DODATNI ELEMENTI ZA SCENARIO A
 
 - Popis nameštaja i opreme (prilog)
-- Deponija: iznos, uslovi i rok vraćanja (max 30 dana)
+- Deponija: iznos, uslovi i rok vraćanja (max 30 dana) **izmena: depozit, ne deponija
 - Zabrana životinja (ako se ugovara)
 - Broj lica koja stanuju
 - Saglasnost za prijavu boravišta
@@ -630,7 +630,7 @@ Kratkoročni — do 30 dana, turistički zakup." | opcije: Stambeni, Poslovni, K
 - datum_isteka: "Datum isteka"
 - otkazni_rok: "Otkazni rok (meseci)"
 
-#### Zakupnina i deponija
+#### Zakupnina i deponija **izmena: depozit, ne deponija, proveriti kroz ceo dokument
 - iznos: "Iznos zakupnine"
 - valuta: "Valuta" | tooltip: "U Srbiji je legalno ugovoriti zakupninu u evrima koja se plaća u dinarima po kursu NBS na dan plaćanja. Ovo štiti zakupodavca od inflacije." | opcije: RSD, EUR (plaća se u RSD po kursu NBS)
 - dan_placanja: "Dan plaćanja u mesecu"
@@ -1209,3 +1209,4 @@ Ponuda nije pravno obavezujuci dokument sama po sebi, ali moze biti osnova za ug
 - validnost: "Validnost ponude (dani)"
 - napomene: "Napomene"
 
+**izmena: GENERALNO, uvrstiti slova č ć ž đ š u tekstove, na dosta mesta se ne koriste.

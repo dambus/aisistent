@@ -440,6 +440,27 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak N — Profil i Podešavanja stranice
+
+**Profil (`/profil`):**
+- `components/dashboard/ProfileCard.tsx` — Client Component, inline edit display_name (POST /api/profile/set-name, router.refresh()), email (readonly + support tekst), "Član od"
+- `app/(dashboard)/profil/page.tsx` — Server Component, dohvata profile + user email, prikazuje ProfileCard + pretplatnu karticu sa progress barom (zelena/narandžasta/crvena za <80%/≥80%/100%), dugme Nadogradite/Upravljajte
+
+**Podešavanja (`/podesavanja`):**
+- `components/dashboard/SecurityCard.tsx` — resetPasswordForEmail + global signOut({ scope: 'global' })
+- `components/dashboard/DangerZone.tsx` — modal sa "OBRISI" tekstualnom potvrdom, POST /api/profile/delete, redirect na /login?deleted=true
+- `app/(dashboard)/podesavanja/page.tsx` — Server Component sa tri kartice (Bezbednost, Obaveštenja placeholder, Opasna zona)
+
+**API:**
+- `app/api/profile/delete/route.ts` — briše documents, profiles, i auth.admin.deleteUser()
+
+**Login:**
+- `app/(auth)/login/page.tsx` — `DeletedNotice` komponenta u `<Suspense>` prikazuje "Vaš nalog je uspešno obrisan." ako ?deleted=true
+
+TypeScript: 0 grešaka.
+
+---
+
 ### ✅ Korak M — Welcome modal + Dashboard redesign
 
 **Zadatak 1 — Ime korisnika:**

@@ -1,4 +1,1 @@
-- u labels za input polja pise "Ako firma" sto je neprirodno, treba da pise "Ako je firma"
-- nisu sva polja opremljena helper tekstom. Ja recimo ne znam sta znaci switch "zabrana konkurencije" u NDA sporazumu
-- kada se sa free predje na drgui subscription, bedz se uspesno menja u headeru, ali na kreiranom dokumentu sa free nalogom i dalje ostaje pill "besplatna verzija". Da li tako treba?
-- proveriti ako u NDA jedna strana je fizicko lice, da li treba da pise jmbg umesto pib-a pošto wizard ne nudi tu opciju
+- u ugovorima gde se spominje rad od kuce, promeniti logiku i ui: nacin rada ili mesto rada? ponudjeno: na lokaciji, od kuće, hibridno. Trenutna ponuda opcija deluje cudno kad se procita (podrazumeva da nema rada od kuce, a opcije menjaju to)
