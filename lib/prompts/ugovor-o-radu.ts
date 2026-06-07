@@ -351,9 +351,9 @@ export const wizardSteps: WizardStep[] = [
         required: true,
         min: 1,
         placeholder: 'npr. 120000',
-        hint: 'Minimalna zarada 2024: ~46.000 RSD neto za puno radno vreme',
+        hint: 'Minimalna bruto zarada 2026: ~84.031 RSD za 168 radnih sati (371 RSD neto/h)',
         helperText: 'Iznos u dinarima, npr. 120000',
-        tooltip: 'Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 46.000 RSD.',
+        tooltip: 'Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 84.031 RSD (za 168 radnih sati u mesecu).',
       },
       {
         id: 'nacin_isplate',
