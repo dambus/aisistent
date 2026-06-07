@@ -548,6 +548,19 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak N — Vokativ u dashboard pozdravu
+
+- Dodata `toVocative(name)` funkcija za osnovnu konverziju imena iz nominativa u vokativ
+- `GreetingHeader` koristi vokativ u pozdravu, npr. "Dobro jutro, Milane!"
+- Testirani primeri: Milan, Petar, Stefan, Marko, Luka, Nikola, Ana, Jelena, milan
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `lib/utils/vocative.ts` (novo)
+- `components/dashboard/GreetingHeader.tsx`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

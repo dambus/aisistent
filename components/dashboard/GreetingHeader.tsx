@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { toVocative } from '@/lib/utils/vocative'
 
 const PRIMARY = '#1B6B4A'
 
@@ -35,7 +36,7 @@ export function GreetingHeader({ displayName, plan, documentsThisMonth }: Greeti
   return (
     <div className="mb-8">
       <h1 className="text-2xl font-bold text-gray-900">
-        {greeting}{displayName ? `, ${displayName}` : ''}!
+        {greeting}{displayName ? `, ${toVocative(displayName)}` : ''}!
       </h1>
       <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-500">
         <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
