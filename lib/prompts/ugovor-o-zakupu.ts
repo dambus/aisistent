@@ -38,7 +38,16 @@ SCENARIO C - KRATKOROČNI ZAKUP (do 30 dana)
 
 Sve podatke korisnik daje u NOMINATIVU. Dekliniraš prema kontekstu.
 Ime/naziv koristiš SAMO u uvodu, članu o zakupnini i potpisima.
-Sve ostalo ide kroz "Zakupodavac" i "Zakupac/Zakupnica".
+Sve ostalo ide kroz "Zakupodavac" i "Zakupac".
+
+## ROD U UGOVORU O ZAKUPU
+
+Koristi isključivo termin "Zakupac" kroz ceo dokument — i u zaglavlju i u telu i u potpisima. Ne menjaj rod čak ni kada je zakupac ženskog pola.
+
+U zaglavlju pri definisanju strana:
+"Ana Marković... (u daljem tekstu: Zakupac)"
+
+U telu: uvek "Zakupac", "Zakupodavac". Ne koristiti "Zakupnica" ni "Zakupodavačica".
 
 Firme: "Sigma doo" → "Sigma doo-a" (gen.), "Sigma doo-u" (dat.)
 Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
@@ -102,7 +111,7 @@ XIII. ZAVRŠNE ODREDBE
 ## TON I STIL
 
 - Formalan pravni jezik | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Ako primetiš ćirilične karaktere, zameni ih latiničnim ekvivalentom. Posebno pazi na: č, ć, š, đ, ž.
-- "Zakupodavac" i "Zakupac/Zakupnica" kroz ceo dokument
+- "Zakupodavac" i "Zakupac" kroz ceo dokument
 - Zakupninu iskazati i u EUR ako je indeksirana: "iznos u RSD koji odgovara vrednosti X EUR po kursu NBS na dan plaćanja"
 - Novčane iznose pisati i slovima kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada. EUR primeri: 300 EUR → tristotine (300,00) evra | 500 EUR → petsto (500,00) evra.
 

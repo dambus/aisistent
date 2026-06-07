@@ -664,6 +664,7 @@ TypeScript: 0 grešaka.
 ---
 
 ## Poznati problemi / Tech dug
+- 2026-06-07: Korak P2 rod u potpisima: neutralni muški oblici u PDF/DOCX potpisima i zakup promptu pripremljeni za commit.
 - 2026-06-07: UI ispravke za Ugovor o delu i Opšte uslove pripremljene za review; Ugovor o delu koristi neto naknadu, Opšti uslovi nemaju potpise.
 - 2026-06-07: UI feedback ispravke u wizard promptovima za ugovor o radu i ugovor o zakupu pripremljene za review.
 - 2026-06-07: Free plan limit usklađen na 3 dokumenta mesečno u generate API-ju i upgrade modalu.

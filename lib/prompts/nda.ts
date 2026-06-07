@@ -86,8 +86,8 @@ X.    ZAVRŠNE ODREDBE
 
 - Formalan pravni jezik, ali razumljiv | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
 - Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
-- Tip 1: "Strana koja otkriva" / "Strana koja prima"
-- Tip 2: "Prva strana" / "Druga strana"
+- Tip 1: koristi termine "Strana koja otkriva" i "Strana koja prima"
+- Tip 2: koristi termine "Prva strana" i "Druga strana"
 - Penali pisati i slovima ako se ugovaraju
 
 ## ŠTA NE RADIŠ
@@ -107,12 +107,12 @@ export function buildUserMessage(data: NdaData): string {
 TIP: ${data.tip_nda}
 SVRHA: ${data.svrha}
 
-STRANA KOJA OTKRIVA / PRVA STRANA:
+STRANA KOJA OTKRIVA:
 - Tip: ${data.tip_strane_1} | Naziv/Ime: ${data.naziv_strane_1}
 - PIB: ${data.pib_strane_1 ?? '[POPUNITI: PIB]'} | Adresa: ${data.adresa_strane_1}
 - Zastupnik: ${data.zastupnik_strane_1 ?? '[POPUNITI: zastupnik]'}
 
-STRANA KOJA PRIMA / DRUGA STRANA:
+STRANA KOJA PRIMA:
 - Tip: ${data.tip_strane_2} | Naziv/Ime: ${data.naziv_strane_2}
 - PIB: ${data.pib_strane_2 ?? '[POPUNITI: PIB]'} | Adresa: ${data.adresa_strane_2}
 - Zastupnik: ${data.zastupnik_strane_2 ?? '[POPUNITI: zastupnik]'}

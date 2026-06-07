@@ -246,49 +246,49 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
   switch (documentType) {
     case 'ugovor-o-radu':
       return {
-        leftLabel: 'Za POSLODAVCA:', leftOrg: g('firma'),
+        leftLabel: 'ZA POSLODAVCA', leftOrg: g('firma'),
         leftPerson: `${g('zastupnik')}, ${g('funkcija')}`,
-        rightLabel: 'ZAPOSLENI:', rightOrg: '',
+        rightLabel: 'ZAPOSLENI', rightOrg: '',
         rightPerson: g('ime_prezime'),
         city: g('mesto_rada').split(',')[0].trim(),
       }
     case 'ugovor-o-delu':
       return {
-        leftLabel: 'Za NARUČIOCA:', leftOrg: g('naziv_narucioca'),
+        leftLabel: 'ZA NARUČIOCA', leftOrg: g('naziv_narucioca'),
         leftPerson: g('zastupnik_narucioca'),
-        rightLabel: 'IZVOĐAČ:', rightOrg: '',
+        rightLabel: 'IZVOĐAČ', rightOrg: '',
         rightPerson: g('naziv_izvodjaca'), city: '',
       }
     case 'nda':
       return {
-        leftLabel: 'PRVA STRANA:', leftOrg: g('naziv_strane_1'),
+        leftLabel: 'PRVA STRANA', leftOrg: g('naziv_strane_1'),
         leftPerson: g('zastupnik_strane_1'),
-        rightLabel: 'DRUGA STRANA:', rightOrg: g('naziv_strane_2'),
+        rightLabel: 'DRUGA STRANA', rightOrg: g('naziv_strane_2'),
         rightPerson: g('zastupnik_strane_2'), city: '',
       }
     case 'ugovor-o-zakupu':
       return {
-        leftLabel: 'ZAKUPODAVAC:', leftOrg: g('naziv_zakupodavca'),
+        leftLabel: 'ZAKUPODAVAC', leftOrg: g('naziv_zakupodavca'),
         leftPerson: g('zastupnik_zakupodavca'),
-        rightLabel: 'ZAKUPAC:', rightOrg: g('naziv_zakupca'),
+        rightLabel: 'ZAKUPAC', rightOrg: g('naziv_zakupca'),
         rightPerson: g('zastupnik_zakupca'), city: '',
       }
     case 'ugovor-o-saradnji':
       if (String(d.tip_dokumenta) === 'Ugovor o zajmu') {
         return {
-          leftLabel: 'ZAJMODAVAC:', leftOrg: g('naziv_zajmodavca'), leftPerson: '',
-          rightLabel: 'ZAJMOPRIMAC:', rightOrg: g('naziv_zajmoprimca'), rightPerson: '', city: '',
+          leftLabel: 'ZAJMODAVAC', leftOrg: g('naziv_zajmodavca'), leftPerson: '',
+          rightLabel: 'ZAJMOPRIMAC', rightOrg: g('naziv_zajmoprimca'), rightPerson: '', city: '',
         }
       }
       return {
-        leftLabel: 'PRVA STRANA:', leftOrg: g('naziv_1'), leftPerson: g('zastupnik_1'),
-        rightLabel: 'DRUGA STRANA:', rightOrg: g('naziv_2'), rightPerson: g('zastupnik_2'), city: '',
+        leftLabel: 'PRVA STRANA', leftOrg: g('naziv_1'), leftPerson: g('zastupnik_1'),
+        rightLabel: 'DRUGA STRANA', rightOrg: g('naziv_2'), rightPerson: g('zastupnik_2'), city: '',
       }
     case 'punomocje':
       return {
-        leftLabel: 'VLASTODAVAC:', leftOrg: g('naziv_vlastodavca'),
+        leftLabel: 'VLASTODAVAC', leftOrg: g('naziv_vlastodavca'),
         leftPerson: g('jmbg_pib_vlastodavca'),
-        rightLabel: 'PUNOMOĆNIK:', rightOrg: g('naziv_punomocnika'),
+        rightLabel: 'PUNOMOĆNIK', rightOrg: g('naziv_punomocnika'),
         rightPerson: g('jmbg_pib_punomocnika'), city: '',
       }
     case 'poslovni-mejl':
@@ -297,9 +297,9 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
       return null
     case 'ponuda-klijentu':
       return {
-        leftLabel: 'PONUĐAČ:', leftOrg: g('ponudjac_naziv'),
+        leftLabel: 'ZA PONUĐAČA', leftOrg: g('ponudjac_naziv'),
         leftPerson: g('kontakt_osoba'),
-        rightLabel: 'Za klijenta:', rightOrg: g('klijent_naziv'),
+        rightLabel: 'ZA KLIJENTA', rightOrg: g('klijent_naziv'),
         rightPerson: '', city: '',
       }
     default:

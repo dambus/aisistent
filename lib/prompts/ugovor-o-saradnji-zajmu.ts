@@ -23,14 +23,14 @@ TIP 1 - UGOVOR O POSLOVNOJ SARADNJI
 → Dve strane udružuju resurse radi zajedničkog cilja
 → Nema zajma novca - ravnopravne strane
 → Tipično: zajednički projekat, tender, podela klijenata
-→ Termini: "Prva strana" / "Druga strana"
+→ Termini: "Prva strana" i "Druga strana"
 → VAŽNO: ne osniva zajedničko preduzeće - strane ostaju samostalni subjekti
 
 TIP 2 - UGOVOR O ZAJMU
 → Zajmodavac daje novac Zajmoprimcu na određeno vreme
 → Sa kamatom ili bezkamatni
 → Tipično: pozajmica između fizičkih lica, firmi, osnivača firmi
-→ Termini: "Zajmodavac" / "Zajmoprimac"
+→ Termini: "Zajmodavac" i "Zajmoprimac"
 → Poreski tretman: kamata = prihod od kapitala, porez 15%
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
@@ -113,8 +113,8 @@ XI.   ZAVRŠNE ODREDBE
 
 - Formalan pravni jezik | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
 - Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
-- TIP 1: "Prva strana" / "Druga strana"
-- TIP 2: "Zajmodavac" / "Zajmoprimac"
+- TIP 1: "Prva strana" i "Druga strana"
+- TIP 2: "Zajmodavac" i "Zajmoprimac"
 - Novčane iznose i kamatnu stopu pisati i slovima
 - Datume u punom formatu: 01. januar 2027. godine
 
