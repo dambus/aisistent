@@ -1,10 +1,10 @@
 import type { OglasZaPosaoData, WizardStep } from '@/types/wizard'
 
-const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITICNO PRAVILO
+const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
-Nazive firmi, gradova i pozicija korisnik daje u NOMINATIVU. Dekliniras ih prema kontekstu recenice.
+Nazive firmi, gradova i pozicija korisnik daje u NOMINATIVU. Dekliniraš ih prema kontekstu rečenice.
 
-NIKADA ne kopiraj naziv direktno iz inputa bez provere padeza.
+NIKADA ne kopiraj naziv direktno iz inputa bez provere padeža.
 
 Primeri za firme: "Sigma doo" -> "u Sigma doo-u", "za Sigma doo-a". Primeri za lična imena ako se pojave: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Ana Marković -> Ane Marković -> Ani Marković.`
 
@@ -23,7 +23,7 @@ Ti si asistent za pisanje oglasa za posao na srpskom jeziku.
 
 ## TVOJ ZADATAK
 
-Generises profesionalan, human i konkretan oglas za posao koji privlaci kvalitetne kandidate, jasno komunicira ocekivanja i predstavlja firmu pozitivno.
+Generišeš profesionalan, human i konkretan oglas za posao koji privlači kvalitetne kandidate, jasno komunicira očekivanja i predstavlja firmu pozitivno.
 
 Format prilagodi objavi na Infostudu, LinkedIn-u i sajtu firme.
 
@@ -35,23 +35,23 @@ ${declensionRules}
 2. Kratak uvod o firmi
 3. Opis posla
 4. Ključni zadaci
-5. Uslovi: strucna sprema, iskustvo i vestine
-6. Sta firma nudi
+5. Uslovi: stručna sprema, iskustvo i veštine
+6. Šta firma nudi
 7. Rok za prijavu
 8. Kako aplicirati
 
 ## PRAVILA
 
-- Izbegavaj diskriminatorne uslove kao sto su godine, pol, izgled, porodicni status ili slicno
-- Ne izmisljas benefite koje firma nije navela
-- Ne pravis robotski spisak zahteva; tekst treba da zvuci kao da firma zna koga trazi
+- Izbegavaj diskriminatorne uslove kao što su godine, pol, izgled, porodični status ili slično
+- Ne izmišljaš benefite koje firma nije navela
+- Ne praviš robotski spisak zahteva; tekst treba da zvuči kao da firma zna koga traži
 - Ako je zarada "prema dogovoru" ili "konkurentna", ne navodi iznos
 - Koristi srpski jezik latinicom
 
 ## FORMAT IZLAZA
 
-Generisi oglas sa jasnim naslovima i kratkim pasusima. Na kraju dodaj:
-Generisano uz pomoc AIsistent.rs`
+Generiši oglas sa jasnim naslovima i kratkim pasusima. Na kraju dodaj:
+Generisano uz pomoć AIsistent.rs`
 
 function formatList(value: string[] | string): string {
   return Array.isArray(value) ? value.join(', ') : value
@@ -62,33 +62,33 @@ export function buildUserMessage(data: OglasZaPosaoData): string {
     ? `${data.zarada_tip}: ${data.iznos_zarade ?? '[POPUNITI: iznos zarade]'}`
     : data.zarada_tip
 
-  return `Molim te generisi oglas za posao sa sledecim podacima:
+  return `Molim te generiši oglas za posao sa sledećim podacima:
 
 FIRMA:
 - Naziv firme: ${data.naziv_firme}
 - Grad: ${data.grad}
 - Delatnost: ${data.delatnost}
-- Velicina: ${data.velicina}
+- Veličina: ${data.velicina}
 
 POZICIJA:
 - Naziv radnog mesta: ${data.naziv_pozicije}
-- Tip angazovanja: ${data.tip_angazovanja}
+- Tip angažovanja: ${data.tip_angazovanja}
 - Lokacija rada: ${data.lokacija_rada}
-- Strucna sprema: ${data.strucna_sprema}
+- Stručna sprema: ${data.strucna_sprema}
 - Iskustvo: ${data.iskustvo}
 
 OPIS POSLA:
 - Glavni zadaci: ${data.glavni_zadaci}
-- Potrebne vestine: ${data.potrebne_vestine}
+- Potrebne veštine: ${data.potrebne_vestine}
 - Prednost: ${data.prednost ?? '[nema]'}
 
-STA FIRMA NUDI:
+ŠTA FIRMA NUDI:
 - Zarada: ${zarada}
 - Benefiti: ${formatList(data.benefiti)}
 - Rok za prijavu: ${data.rok_prijave}
 - Kako aplicirati: ${data.kako_aplicirati}
 
-Svi podaci su u nominativu. Dekliniras ispravno.`
+Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
 
 export const wizardSteps: WizardStep[] = [
@@ -101,7 +101,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true, helperText: 'npr. Razvoj softvera, Građevinarstvo, Ugostiteljstvo' },
       {
         id: 'velicina',
-        label: 'Velicina firme',
+        label: 'Veličina firme',
         type: 'radio',
         required: true,
         options: [
@@ -120,7 +120,7 @@ export const wizardSteps: WizardStep[] = [
       { id: 'naziv_pozicije', label: 'Naziv radnog mesta', type: 'text', required: true },
       {
         id: 'tip_angazovanja',
-        label: 'Tip angazovanja',
+        label: 'Tip angažovanja',
         type: 'radio',
         required: true,
         options: [
@@ -143,13 +143,13 @@ export const wizardSteps: WizardStep[] = [
       },
       {
         id: 'strucna_sprema',
-        label: 'Strucna sprema',
+        label: 'Stručna sprema',
         type: 'dropdown',
         required: true,
         options: [
-          { value: 'Srednja strucna sprema', label: 'Srednja strucna sprema' },
-          { value: 'Visa strucna sprema', label: 'Visa strucna sprema' },
-          { value: 'Visoka strucna sprema', label: 'Visoka strucna sprema' },
+          { value: 'Srednja stručna sprema', label: 'Srednja stručna sprema' },
+          { value: 'Viša stručna sprema', label: 'Viša stručna sprema' },
+          { value: 'Visoka stručna sprema', label: 'Visoka stručna sprema' },
           { value: 'Nije presudno', label: 'Nije presudno' },
         ],
       },
@@ -172,13 +172,13 @@ export const wizardSteps: WizardStep[] = [
     title: 'Opis posla',
     fields: [
       { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true, helperText: 'Navedite 3-5 glavnih zadataka odvojenih zarezom ili u novim redovima', tooltip: 'Konkretni zadaci privlače bolje kandidate od opštih opisa. Umesto "komunikacija sa klijentima" napišite "vođenje 10-15 aktivnih klijenata mesečno".' },
-      { id: 'potrebne_vestine', label: 'Potrebne vestine', type: 'textarea', required: true },
+      { id: 'potrebne_vestine', label: 'Potrebne veštine', type: 'textarea', required: true },
       { id: 'prednost', label: 'Prednost', type: 'textarea', required: false },
     ],
   },
   {
     id: 'ponuda',
-    title: 'Sta firma nudi',
+    title: 'Šta firma nudi',
     fields: [
       {
         id: 'zarada_tip',

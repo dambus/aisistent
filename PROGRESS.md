@@ -561,6 +561,23 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak O — Dijakritika u system promptovima
+
+- Ispravljeni prompt tekstovi bez srpskih dijakritičkih znakova u poslovnim alatima
+- Generalna provera `Select-String` svedena na interne ASCII identifikatore koji se ne menjaju
+- U ugovoru o zakupu korisnički/prompt tekst `deponija` zamenjen sa `depozit`; interni field id-jevi ostaju `deponija/iznos_deponije`
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `lib/prompts/oglas-za-posao.ts`
+- `lib/prompts/poslovni-mejl.ts`
+- `lib/prompts/ponuda-klijentu.ts`
+- `lib/prompts/opsti-uslovi.ts`
+- `lib/prompts/punomocje.ts`
+- `lib/prompts/ugovor-o-zakupu.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

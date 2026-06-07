@@ -22,7 +22,7 @@ Generiši kompletan Ugovor o zakupu na srpskom jeziku (latinica). Pre generisanj
 SCENARIO A - ZAKUP STANA / STANOVANJE
 → Primenjuje se Zakon o stanovanju
 → Poreski tretman: porez 20% na 80% prihoda (~16% efektivno)
-→ Obavezno: popis nameštaja, deponija, komunalije, prijava boravišta
+→ Obavezno: popis nameštaja, depozit, komunalije, prijava boravišta
 → Preporučiti: overa kod javnog beležnika, prijava poreskoj upravi u roku 30 dana
 
 SCENARIO B - ZAKUP POSLOVNOG PROSTORA
@@ -31,7 +31,7 @@ SCENARIO B - ZAKUP POSLOVNOG PROSTORA
 → Preporučiti: uknjižba zakupa ako duže od godinu dana
 
 SCENARIO C - KRATKOROČNI ZAKUP (do 30 dana)
-→ Kraća forma, bez deponije, bez prijave boravišta
+→ Kraća forma, bez depozita, bez prijave boravišta
 → Poseban poreski tretman za turistički zakup
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
@@ -52,7 +52,7 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 3. Svrha zakupa
 4. Trajanje i datum početka
 5. Iznos zakupnine i rok plaćanja
-6. Deponija (ako se ugovara)
+6. Depozit (ako se ugovara)
 7. Komunalije - ko plaća šta
 8. Stanje pri primopredaji
 9. Obaveze održavanja
@@ -64,7 +64,7 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 ## DODATNI ELEMENTI ZA SCENARIO A
 
 - Popis nameštaja i opreme (prilog)
-- Deponija: iznos, uslovi i rok vraćanja (max 30 dana)
+- Depozit: iznos, uslovi i rok vraćanja (max 30 dana)
 - Zabrana životinja (ako se ugovara)
 - Broj lica koja stanuju
 - Saglasnost za prijavu boravišta
@@ -88,7 +88,7 @@ I.    UGOVORNE STRANE
 II.   PREDMET ZAKUPA
 III.  TRAJANJE ZAKUPA
 IV.   ZAKUPNINA I NAČIN PLAĆANJA
-V.    DEPONIJA
+V.    DEPOZIT
 VI.   KOMUNALIJE I REŽIJSKI TROŠKOVI
 VII.  STANJE NEPOKRETNOSTI I PRIMOPREDAJA
 VIII. OBAVEZE ZAKUPCA
@@ -116,7 +116,7 @@ XIII. ZAVRŠNE ODREDBE
 - Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
-  const deponija = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos deponije]'} mesečnih zakupnina)` : 'Ne'
+  const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
 
   return `Molim te generiši Ugovor o zakupu sa sledećim podacima:
 
@@ -144,7 +144,7 @@ TRAJANJE:
 ZAKUPNINA:
 - Iznos: ${data.iznos.toLocaleString('sr-RS')} ${data.valuta} | Dan plaćanja: ${data.dan_placanja}. u mesecu
 - Način: ${data.nacin_placanja}
-- Deponija: ${deponija}
+- Depozit: ${depozit}
 
 TROŠKOVI I USLOVI:
 - Komunalije (struja/voda/gas): ${data.komunalije}
@@ -286,7 +286,7 @@ export const wizardSteps: WizardStep[] = [
   },
   {
     id: 'zakupnina',
-    title: 'Zakupnina i deponija',
+    title: 'Zakupnina i depozit',
     fields: [
       { id: 'iznos', label: 'Iznos zakupnine', type: 'number', required: true, min: 1 },
       {
@@ -311,8 +311,8 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Gotovina', label: 'Gotovina' },
         ],
       },
-      { id: 'deponija', label: 'Deponija?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
-      { id: 'iznos_deponije', label: 'Iznos deponije (mesečnih zakupnina)', type: 'number', required: false, min: 1, max: 3, conditional: { field: 'deponija', value: true } },
+      { id: 'deponija', label: 'Depozit?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Depozit koji zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
+      { id: 'iznos_deponije', label: 'Iznos depozita (mesečnih zakupnina)', type: 'number', required: false, min: 1, max: 3, conditional: { field: 'deponija', value: true } },
     ],
   },
   {

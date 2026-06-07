@@ -1,12 +1,12 @@
 import type { OpstiUsloviData, WizardStep } from '@/types/wizard'
 
-const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITICNO PRAVILO
+const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
-Sve licne podatke i nazive firmi korisnik daje u NOMINATIVU. Dekliniras ih prema gramatickom kontekstu svake recenice.
+Sve lične podatke i nazive firmi korisnik daje u NOMINATIVU. Dekliniraš ih prema gramatičkom kontekstu svake rečenice.
 
-NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeza.
+NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeža.
 
-Padezi: nominativ za subjekat, genitiv za svojinu i opisivanje, dativ za primaoca, akuzativ za direktan objekat, instrumental za sredstvo ili pratnju, lokativ uz predloge o/u/na/pri.
+Padeži: nominativ za subjekat, genitiv za svojinu i opisivanje, dativ za primaoca, akuzativ za direktan objekat, instrumental za sredstvo ili pratnju, lokativ uz predloge o/u/na/pri.
 
 Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Skraćenice doo, ad i sp dekliniraju se sa crticom.
 
@@ -23,28 +23,28 @@ Pravila:
 - Termini koji se koriste u srpskoj pravnoj praksi su prihvatljivi (ugovor, član, strana, poslodavac)
 - Anglicizmi su dozvoljeni samo kada ne postoji prirodna srpska alternativa
 
-Ti si pravni asistent specijalizovan za izradu Opstih uslova koriscenja i Politike privatnosti za srpsko trziste.
+Ti si pravni asistent specijalizovan za izradu Opštih uslova korišćenja i Politike privatnosti za srpsko tržište.
 
 ## TVOJ ZADATAK
 
-Na osnovu podataka koje korisnik dostavi generises OBA dokumenta u jednom odgovoru:
-1. OPSTI USLOVI KORISCENJA
+Na osnovu podataka koje korisnik dostavi generišeš OBA dokumenta u jednom odgovoru:
+1. OPŠTI USLOVI KORIŠĆENJA
 2. POLITIKA PRIVATNOSTI
 
-Dokumente jasno odvoji velikim naslovima. Tekst prilagodi tipu biznisa koji korisnik unese. Pokrij GDPR obaveze i Zakon o zastiti podataka o licnosti ("Sl. glasnik RS", br. 87/2018).
+Dokumente jasno odvoji velikim naslovima. Tekst prilagodi tipu biznisa koji korisnik unese. Pokrij GDPR obaveze i Zakon o zaštiti podataka o ličnosti ("Sl. glasnik RS", br. 87/2018).
 
 ${declensionRules}
 
-## OBAVEZNI ELEMENTI - OPSTI USLOVI
+## OBAVEZNI ELEMENTI - OPŠTI USLOVI
 
-1. Podaci o pruzaocu usluge
+1. Podaci o pružaocu usluge
 2. Opis usluge ili platforme
 3. Prava i obaveze korisnika
-4. Uslovi placanja ako su relevantni
-5. Ogranicenje odgovornosti
+4. Uslovi plaćanja ako su relevantni
+5. Ograničenje odgovornosti
 6. Intelektualna svojina
 7. Izmene uslova
-8. Kontakt i resavanje sporova
+8. Kontakt i rešavanje sporova
 
 ## OBAVEZNI ELEMENTI - POLITIKA PRIVATNOSTI
 
@@ -52,30 +52,30 @@ ${declensionRules}
 2. Koji podaci se prikupljaju
 3. Svrha i pravni osnov obrade
 4. Cookies i analitika
-5. Deljenje podataka sa trecim stranama
-6. Rok cuvanja podataka
+5. Deljenje podataka sa trećim stranama
+6. Rok čuvanja podataka
 7. Prava lica na koje se podaci odnose
 8. Kontakt za privatnost
 
 ## TON I STIL
 
-- Jasan, citljiv jezik
-- Bez korporativnog zargona
+- Jasan, čitljiv jezik
+- Bez korporativnog žargona
 - Srpski jezik, latinica
 - Prilagodi formulacije realnom tipu biznisa
 
-## STA NE RADIS
+## ŠTA NE RADIŠ
 
-- Ne izmisljas podatke koje korisnik nije dao - oznaci sa [POPUNITI: naziv podatka]
-- Ne garantujes uskladjenost bez pravne provere
-- Na kraju oba dokumenta ukljuci napomenu: "Napomena: Ovaj dokument je generisan uz pomoc AI alata i sluzi kao polazna osnova. Preporucuje se pravna provera pre objavljivanja."`
+- Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
+- Ne garantuješ usklađenost bez pravne provere
+- Na kraju oba dokumenta uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se pravna provera pre objavljivanja."`
 
 function formatList(value: string[] | string): string {
   return Array.isArray(value) ? value.join(', ') : value
 }
 
 export function buildUserMessage(data: OpstiUsloviData): string {
-  return `Molim te generisi Opste uslove koriscenja i Politiku privatnosti sa sledecim podacima:
+  return `Molim te generiši Opšte uslove korišćenja i Politiku privatnosti sa sledećim podacima:
 
 FIRMA:
 - Naziv: ${data.naziv_firme}
@@ -89,12 +89,12 @@ TIP BIZNISA:
 - Opis usluge: ${data.opis_usluge}
 
 PODACI:
-- Prikupljaju se licni podaci: ${data.prikuplja_podatke ? 'Da' : 'Ne'}
+- Prikupljaju se lični podaci: ${data.prikuplja_podatke ? 'Da' : 'Ne'}
 - Vrste podataka: ${formatList(data.vrste_podataka)}
-- Koriste se analiticki alati: ${data.analitika ? 'Da' : 'Ne'}
-- Podaci se dele sa trecim stranama: ${data.deli_sa_trecim_stranama ? 'Da' : 'Ne'}
+- Koriste se analitički alati: ${data.analitika ? 'Da' : 'Ne'}
+- Podaci se dele sa trećim stranama: ${data.deli_sa_trecim_stranama ? 'Da' : 'Ne'}
 
-Svi podaci su u nominativu. Dekliniras ispravno.`
+Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
 
 export const wizardSteps: WizardStep[] = [
@@ -122,7 +122,7 @@ export const wizardSteps: WizardStep[] = [
         options: [
           { value: 'E-commerce', label: 'E-commerce' },
           { value: 'SaaS/Aplikacija', label: 'SaaS/Aplikacija' },
-          { value: 'Usluzna delatnost', label: 'Usluzna delatnost' },
+          { value: 'Uslužna delatnost', label: 'Uslužna delatnost' },
           { value: 'Blog/Mediji', label: 'Blog/Mediji' },
           { value: 'Ostalo', label: 'Ostalo' },
         ],
@@ -134,7 +134,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'podaci',
     title: 'Podaci',
     fields: [
-      { id: 'prikuplja_podatke', label: 'Da li se prikupljaju licni podaci?', type: 'toggle', required: false, defaultValue: true, tooltip: 'Ako prikupljate i/ili obrađujete lične podatke korisnika (email, ime, adresa...), imate obaveze po Zakonu o zaštiti podataka o ličnosti i GDPR-u.' },
+      { id: 'prikuplja_podatke', label: 'Da li se prikupljaju lični podaci?', type: 'toggle', required: false, defaultValue: true, tooltip: 'Ako prikupljate i/ili obrađujete lične podatke korisnika (email, ime, adresa...), imate obaveze po Zakonu o zaštiti podataka o ličnosti i GDPR-u.' },
       {
         id: 'vrste_podataka',
         label: 'Koje vrste podataka?',
@@ -148,8 +148,8 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Cookies', label: 'Cookies' },
         ],
       },
-      { id: 'analitika', label: 'Koriste se analiticki alati?', type: 'toggle', required: false, defaultValue: false },
-      { id: 'deli_sa_trecim_stranama', label: 'Podaci se dele sa trecim stranama?', type: 'toggle', required: false, defaultValue: false },
+      { id: 'analitika', label: 'Koriste se analitički alati?', type: 'toggle', required: false, defaultValue: false },
+      { id: 'deli_sa_trecim_stranama', label: 'Podaci se dele sa trećim stranama?', type: 'toggle', required: false, defaultValue: false },
     ],
   },
 ]

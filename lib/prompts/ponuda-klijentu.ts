@@ -1,10 +1,10 @@
 import type { PonudaKlijentuData, WizardStep } from '@/types/wizard'
 
-const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITICNO PRAVILO
+const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
-Nazive firmi, kontakt osobe i predmete ponude korisnik daje u NOMINATIVU. Dekliniras ih prema kontekstu recenice.
+Nazive firmi, kontakt osobe i predmete ponude korisnik daje u NOMINATIVU. Dekliniraš ih prema kontekstu rečenice.
 
-NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeza.
+NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeža.
 
 Firme: "Sigma doo" -> "Sigma doo-a" u genitivu i "Sigma doo-u" u dativu. Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stanić -> Nikole Stanića -> Nikoli Staniću; Ana Marković -> Ane Marković -> Ani Marković.`
 
@@ -23,7 +23,7 @@ Ti si asistent za izradu profesionalnih poslovnih ponuda (oferta) na srpskom jez
 
 ## TVOJ ZADATAK
 
-Na osnovu podataka koje korisnik dostavi generises strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent ocekuje: uvod, opis usluge/proizvoda, cenu, rok isporuke, uslove placanja, validnost ponude i kontakt.
+Na osnovu podataka koje korisnik dostavi generišeš strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent očekuje: uvod, opis usluge/proizvoda, cenu, rok isporuke, uslove plaćanja, validnost ponude i kontakt.
 
 ${declensionRules}
 
@@ -37,32 +37,32 @@ ${declensionRules}
 ## OBAVEZNI ELEMENTI
 
 1. Broj i datum ponude
-2. Podaci o ponudjacu
+2. Podaci o ponuđaču
 3. Podaci o klijentu
 4. Predmet ponude
 5. Opis usluge ili proizvoda
 6. Cena bez PDV-a, PDV tretman i ukupan iznos ako je primenljivo
 7. Rok isporuke ili realizacije
-8. Uslovi placanja
+8. Uslovi plaćanja
 9. Validnost ponude
 10. Kontakt za prihvatanje ponude
 
 ## PRAVNA NAPOMENA
 
-Ponuda nije pravno obavezujuci dokument sama po sebi, ali moze biti osnova za ugovor ako je klijent prihvati.
+Ponuda nije pravno obavezujući dokument sama po sebi, ali može biti osnova za ugovor ako je klijent prihvati.
 
-## STA NE RADIS
+## ŠTA NE RADIŠ
 
-- Ne izmisljas cene, rokove, garancije ili uslove koje korisnik nije naveo
-- Ne garantujes pravnu obaveznost ponude
-- Na kraju dodaj: "Generisano uz pomoc AIsistent.rs"`
+- Ne izmišljaš cene, rokove, garancije ili uslove koje korisnik nije naveo
+- Ne garantuješ pravnu obaveznost ponude
+- Na kraju dodaj: "Generisano uz pomoć AIsistent.rs"`
 
 export function buildUserMessage(data: PonudaKlijentuData): string {
   const brojPonude = data.broj_ponude?.trim() || '[POPUNITI: broj ponude]'
 
-  return `Molim te generisi poslovnu ponudu sa sledecim podacima:
+  return `Molim te generiši poslovnu ponudu sa sledećim podacima:
 
-PONUDJAC:
+PONUĐAČ:
 - Naziv firme: ${data.ponudjac_naziv}
 - PIB: ${data.ponudjac_pib}
 - Adresa: ${data.ponudjac_adresa}
@@ -85,17 +85,17 @@ PONUDA:
 FINANSIJE:
 - Iznos bez PDV: ${data.iznos_bez_pdv.toLocaleString('sr-RS')} RSD
 - PDV: ${data.pdv}
-- Uslovi placanja: ${data.uslovi_placanja}
+- Uslovi plaćanja: ${data.uslovi_placanja}
 - Validnost ponude: ${data.validnost} dana
 - Napomene: ${data.napomene ?? '[nema]'}
 
-Svi podaci su u nominativu. Dekliniras ispravno.`
+Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
 
 export const wizardSteps: WizardStep[] = [
   {
     id: 'ponudjac',
-    title: 'Ponudjac',
+    title: 'Ponuđač',
     fields: [
       { id: 'ponudjac_naziv', label: 'Naziv firme', type: 'text', required: true },
       { id: 'ponudjac_pib', label: 'PIB', type: 'text', required: true },
@@ -138,13 +138,13 @@ export const wizardSteps: WizardStep[] = [
         options: [
           { value: '20%', label: '20%' },
           { value: '10%', label: '10%' },
-          { value: 'Oslobodjeno', label: 'Oslobodjeno' },
+          { value: 'Oslobođeno', label: 'Oslobođeno' },
           { value: 'Nije u sistemu PDV', label: 'Nije u sistemu PDV' },
         ],
       },
       {
         id: 'uslovi_placanja',
-        label: 'Uslovi placanja',
+        label: 'Uslovi plaćanja',
         type: 'radio',
         required: true,
         tooltip: 'Standard u Srbiji je 15-30 dana. Kraći rok (8-15 dana) možete tražiti od manjih klijenata, duži (45-60 dana) može biti potreban za saradnju sa velikim firmama.',

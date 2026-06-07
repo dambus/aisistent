@@ -1,10 +1,10 @@
 import type { PoslovniMejlData, WizardStep } from '@/types/wizard'
 
-const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITICNO PRAVILO
+const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
-Ime primaoca korisnik daje u NOMINATIVU. Dekliniras ga prema kontekstu recenice, posebno u pozdravu i obracanju.
+Ime primaoca korisnik daje u NOMINATIVU. Dekliniraš ga prema kontekstu rečenice, posebno u pozdravu i obraćanju.
 
-NIKADA ne kopiraj ime direktno iz inputa bez provere padeza.
+NIKADA ne kopiraj ime direktno iz inputa bez provere padeža.
 
 Primeri: Petar Nikolić -> Petre Nikoliću / Petra Nikolića; Nikola Stanić -> Nikola / Nikoli Staniću; Ana Marković -> Ana / Ani Marković; Jelena Stojanović -> Jelena / Jeleni Stojanović. Ako je primalac "Tim" ili odeljenje, koristi neutralno obraćanje.`
 
@@ -23,34 +23,34 @@ Ti si asistent za pisanje profesionalnih poslovnih mejlova na srpskom jeziku za 
 
 ## TVOJ ZADATAK
 
-Na osnovu podataka koje korisnik dostavi pises kratak, jasan i upotrebljiv poslovni mejl. Ton je profesionalan ali topao, direktan i bez korporativnog zargona.
+Na osnovu podataka koje korisnik dostavi pišeš kratak, jasan i upotrebljiv poslovni mejl. Ton je profesionalan ali topao, direktan i bez korporativnog žargona.
 
-Prilagodjavas ton tipu mejla: formalniji za opomenu, topliji za zahvalnicu, smiren za zalbu, konkretan za ponudu ili podsetnik.
+Prilagođavaš ton tipu mejla: formalniji za opomenu, topliji za zahvalnicu, smiren za žalbu, konkretan za ponudu ili podsetnik.
 
 ${declensionRules}
 
 ## PRAVILA
 
-- Ne pises subject line kao deo tela mejla - subject je posebno polje i ne generises ga osim ako korisnik to izricito trazi
-- Telo mejla ima najvise 150 reci osim ako korisnik trazi duze
-- Uvek ukljuci primeren pozdrav i potpis posiljaoca
+- Ne pišeš subject line kao deo tela mejla - subject je posebno polje i ne generišeš ga osim ako korisnik to izričito traži
+- Telo mejla ima najviše 150 reči osim ako korisnik traži duže
+- Uvek uključi primeren pozdrav i potpis pošiljaoca
 - Ako je hitno, koristi jasan ali profesionalan jezik bez pritiska ili pretnji
-- Ne izmisljas cinjenice, rokove, dugovanja ili ponude koje korisnik nije naveo
+- Ne izmišljaš činjenice, rokove, dugovanja ili ponude koje korisnik nije naveo
 
 ## FORMAT IZLAZA
 
-Ako korisnik dostavi predmet mejla, pocni odgovor sa:
+Ako korisnik dostavi predmet mejla, počni odgovor sa:
 Predmet: [predmet]
 
-Zatim generisi telo mejla, bez dodatnih objasnjenja.
+Zatim generiši telo mejla, bez dodatnih objašnjenja.
 
 Na kraju dodaj:
-Generisano uz pomoc AIsistent.rs`
+Generisano uz pomoć AIsistent.rs`
 
 export function buildUserMessage(data: PoslovniMejlData): string {
-  return `Molim te napisi poslovni mejl sa sledecim podacima:
+  return `Molim te napiši poslovni mejl sa sledećim podacima:
 
-POSILJALAC:
+POŠILJALAC:
 - Ime i prezime: ${data.posiljalac_ime}
 - Firma: ${data.posiljalac_firma}
 - Pozicija: ${data.posiljalac_pozicija}
@@ -65,13 +65,13 @@ MEJL:
 - Ton: ${data.ton}
 - Hitno: ${data.hitno ? 'Da' : 'Ne'}${data.predmet ? `\n- Predmet mejla: ${data.predmet}` : ''}
 
-Svi podaci su u nominativu. Dekliniras ispravno.`
+Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
 
 export const wizardSteps: WizardStep[] = [
   {
     id: 'posiljalac',
-    title: 'Posiljalac',
+    title: 'Pošiljalac',
     fields: [
       { id: 'posiljalac_ime', label: 'Ime i prezime', type: 'text', required: true },
       { id: 'posiljalac_firma', label: 'Naziv firme', type: 'text', required: true },
@@ -101,8 +101,8 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Opomena za dugovanje', label: 'Opomena za dugovanje' },
           { value: 'Zahvalnica za saradnju', label: 'Zahvalnica za saradnju' },
           { value: 'Odbijanje ponude', label: 'Odbijanje ponude' },
-          { value: 'Zahtev za produzenje roka', label: 'Zahtev za produzenje roka' },
-          { value: 'Zalba na uslugu', label: 'Zalba na uslugu' },
+          { value: 'Zahtev za produženje roka', label: 'Zahtev za produženje roka' },
+          { value: 'Žalba na uslugu', label: 'Žalba na uslugu' },
           { value: 'Uvodni mejl / predstavljanje', label: 'Uvodni mejl / predstavljanje' },
           { value: 'Podsetnik na sastanak', label: 'Podsetnik na sastanak' },
           { value: 'Otkazivanje sastanka', label: 'Otkazivanje sastanka' },
