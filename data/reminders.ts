@@ -9,8 +9,8 @@ export const documentReminders: Record<string, DocumentReminder> = {
   'ugovor-o-radu': {
     title: 'Važan podsetnik',
     message:
-      'Zaposlenog moraš prijaviti na PIO pre prvog radnog dana. Rok za prijavu je isti dan kada zaposleni počinje sa radom.',
-    learnMoreUrl: null,
+      'Zaposlenog moraš prijaviti na PIO pre prvog radnog dana. Rok za prijavu je isti dan kada zaposleni počinje sa radom. Zarada ugovorena u ugovoru je BRUTO 1 iznos. Stvarni mesečni trošak za firmu (Bruto 2) je za oko 17,4% veći. Koristite Kalkulator zarade za tačan preračun.',
+    learnMoreUrl: '/alati/kalkulator-zarade',
     type: 'warning',
   },
   'ugovor-o-delu': {

@@ -123,6 +123,7 @@ Nigde drugde ne ponavljaj puno ime. Koristiti "Zaposleni/Zaposlena" i "Poslodava
 - Godišnji odmor: min 20 radnih dana (član 68.)
 - Otkazni rok: min 8, max 30 dana (zaposleni); min 8 dana (poslodavac + otpremnina)
 - Prekovremeni rad: max 8 sati nedeljno (član 53.)
+- Zarada se ugovara u bruto 1 iznosu (Zakon o radu, član 105). Minimalna bruto 1 zarada za 2026. godinu iznosi 84.031 RSD mesečno za puno radno vreme.
 - Ugovor: min 2 primerka
 
 ## FORMAT IZLAZA
@@ -155,7 +156,8 @@ Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI,
 - Koristiti "Poslodavac" i "Zaposleni/Zaposlena" kroz ceo dokument
 - Pol zaposlenog određuješ automatski na osnovu imena
 - Novčane iznose pisati i slovima: 80.000,00 (osamdeset hiljada) dinara
-- Clan o zaradi počinje sa: "Zaposleni/Zaposlena ima pravo na osnovnu bruto zaradu od..." — bez navođenja punog imena na početku
+- Član o zaradi počinje sa: "Zaposleni/Zaposlena ima pravo na osnovnu bruto zaradu od..." — bez navođenja punog imena na početku
+- U članu o zaradi uvek navodi BRUTO 1 iznos kao ugovorenu zaradu, u skladu sa članom 105. Zakona o radu. Formulacija: "osnovna bruto zarada u iznosu od X dinara (bruto 1)" ili jednostavno "osnovna bruto zarada od X dinara" — oba su ispravna. NIKADA ne ugovaraj neto zaradu osim ako korisnik eksplicitno ne navede da želi neto ugovaranje — u tom slučaju dodaj napomenu da je ovo nestandardno.
 
 ## ŠTA NE RADIŠ
 
@@ -353,7 +355,7 @@ export const wizardSteps: WizardStep[] = [
         placeholder: 'npr. 120000',
         hint: 'Minimalna bruto zarada 2026: ~84.031 RSD za 168 radnih sati (371 RSD neto/h)',
         helperText: 'Iznos u dinarima, npr. 120000',
-        tooltip: 'Bruto zarada je ukupan iznos pre odbitka poreza i doprinosa. Neto (iznos koji zaposleni prima) je otprilike 60-65% bruto iznosa. Minimalna bruto zarada u 2026. je oko 84.031 RSD (za 168 radnih sati u mesecu).',
+        tooltip: 'Ugovorom o radu se uvek ugovara BRUTO 1 zarada — iznos koji uključuje neto platu, porez i doprinose na teret zaposlenog. Neto iznos koji zaposleni prima je otprilike 60-65% bruto 1 iznosa.\n\nBruto 2 (ukupan trošak za firmu) je za dodatnih ~17,4% veći od bruto 1 iznosa koji unosite ovde.\n\nMinimalna bruto 1 zarada za 2026: 84.031 RSD.',
       },
       {
         id: 'nacin_isplate',

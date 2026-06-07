@@ -111,7 +111,12 @@ export default function KalkulatorZarade() {
   ] : []
 
   const faqItems = [
-    { id: 'bruto', q: 'Šta je bruto zarada?', a: 'Bruto zarada je ukupan iznos koji poslodavac isplaćuje za rad zaposlenog, pre odbitka poreza i doprinosa koji padaju na teret zaposlenog. To je iznos koji se ugovara i navodi u ugovoru o radu.' },
+    {
+      id: 'bruto1-bruto2',
+      q: 'Šta je razlika između Bruto 1 i Bruto 2?',
+      a: 'Bruto 1 je zakonski pojam zarade definisan Zakonom o radu (član 105). To je iznos koji se ugovara ugovorom o radu i koji se prijavljuje Poreskoj upravi. Sadrži: neto zaradu, porez na dohodak i doprinose na teret zaposlenog (PIO, zdravstvo, nezaposlenost).\n\nBruto 2 je ukupan trošak poslodavca — bruto 1 uvećan za doprinose koje poslodavac plaća na svoj teret (PIO, zdravstvo, nezaposlenost na teret firme). Ovo je stvarni mesečni iznos koji firma odvaja po zaposlenom.\n\nPrimer: Ako ugovorite bruto 1 zaradu od 100.000 RSD, ukupan trošak za firmu (bruto 2) biće oko 117.400 RSD.',
+    },
+    { id: 'bruto', q: 'Šta je bruto zarada?', a: 'Bruto zarada je Bruto 1 iznos pre odbitka poreza i doprinosa na teret zaposlenog. To je iznos koji se ugovara i navodi u ugovoru o radu.' },
     { id: 'neto', q: 'Šta je neto zarada?', a: 'Neto zarada je iznos koji zaposleni stvarno dobija na račun — bruto minus porez na dohodak i doprinosi na teret zaposlenog (PIO, zdravstvo, nezaposlenost).' },
     { id: 'doprinosi', q: 'Šta su doprinosi?', a: 'Doprinosi za obavezno socijalno osiguranje obezbeđuju zdravstvenu zaštitu, penzijsko osiguranje i osiguranje za slučaj nezaposlenosti. Plaćaju ih i zaposleni i poslodavac, svaki po svojoj stopi.' },
     { id: 'trosak', q: 'Zašto je ukupan trošak veći od bruto?', a: 'Pored bruto zarade, poslodavac plaća i dodatnih 17,4% za doprinose na svoj teret (PIO 11,5% + zdravstvo 5,15% + nezaposlenost 0,75%). Ukupan trošak po zaposlenom je zato bruto × 1,174.' },
@@ -152,7 +157,7 @@ export default function KalkulatorZarade() {
         {/* Zarada */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            {tab === 'bruto' ? 'Bruto zarada (RSD)' : 'Neto zarada (RSD)'}
+            {tab === 'bruto' ? 'Bruto 1 zarada (RSD)' : 'Neto zarada (RSD)'}
             <span className="text-red-500 ml-0.5">*</span>
           </label>
           <input
@@ -163,6 +168,11 @@ export default function KalkulatorZarade() {
             className={inputCls}
             min={0}
           />
+          {tab === 'bruto' && (
+            <p className="mt-1 text-xs text-gray-500">
+              Iznos koji se ugovara u ugovoru o radu
+            </p>
+          )}
           {tab === 'bruto' && unos && parseFloat(unos) < STOPE.MIN_BRUTO && (
             <p className="mt-1 text-xs text-amber-600">
               Ispod minimalne bruto zarade za 2026. ({fmt(STOPE.MIN_BRUTO)} RSD)
@@ -319,11 +329,12 @@ export default function KalkulatorZarade() {
               />
             </div>
 
-            {/* Kartica 2 — Odbici od bruto */}
+            {/* Kartica 2 — Bruto 1 */}
             <div className="bg-white rounded-2xl border border-gray-200 p-5">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-3">
-                Odbici od bruto
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+                Bruto 1 — ugovorena zarada
               </h3>
+              <p className="mb-3 text-xs text-gray-500">Iznos koji se ugovara i prijavljuje državi</p>
               <Row label="Bruto zarada" value={fmt(rezultat.bruto)} />
               <Row label="Porez na dohodak" value={fmt(rezultat.porez)} />
               <Row label="PIO (zaposleni)" value={fmt(rezultat.pio_zaposl)} />
@@ -332,11 +343,12 @@ export default function KalkulatorZarade() {
               <Row label="Neto zarada" value={fmt(rezultat.neto)} bold separator />
             </div>
 
-            {/* Kartica 3 — Trošak za firmu */}
+            {/* Kartica 3 — Bruto 2 */}
             <div className="bg-white rounded-2xl border border-gray-200 p-5">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-yellow-700 mb-3">
-                Trošak za firmu
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-yellow-700 mb-1">
+                Bruto 2 — ukupan trošak za firmu
               </h3>
+              <p className="mb-3 text-xs text-gray-500">Stvarni mesečni trošak poslodavca</p>
               <Row label="Bruto zarada" value={fmt(rezultat.bruto)} />
               <Row label="PIO (poslodavac)" value={fmt(rezultat.pio_poslod)} />
               <Row label="Zdravstvo (posl.)" value={fmt(rezultat.zdravstvo_poslod)} />
@@ -355,8 +367,9 @@ export default function KalkulatorZarade() {
           {/* Bruto prikaz kad je unesen neto */}
           {tab === 'neto' && (
             <div className="rounded-xl border border-[#1B6B4A]/30 bg-[#1B6B4A]/5 px-5 py-4 text-sm text-gray-700">
-              Unesenom neto od <strong>{fmt(parseFloat(unos) || 0)} RSD</strong> odgovara bruto zarada od{' '}
-              <strong>{fmt(rezultat.bruto)} RSD</strong>.
+              <p>Unesenom neto od <strong>{fmt(parseFloat(unos) || 0)} RSD</strong> odgovara:</p>
+              <p className="mt-2"><strong>Bruto 1 (ugovorena zarada):</strong> {fmt(rezultat.bruto)} RSD</p>
+              <p><strong>Bruto 2 (ukupan trošak za firmu):</strong> {fmt(rezultat.ukupan_trosak)} RSD</p>
             </div>
           )}
         </div>
@@ -384,7 +397,7 @@ export default function KalkulatorZarade() {
               </span>
             </button>
             {faqOpen[item.id] && (
-              <p className="pb-3 text-sm text-gray-600 leading-relaxed">{item.a}</p>
+              <p className="pb-3 text-sm text-gray-600 leading-relaxed whitespace-pre-line">{item.a}</p>
             )}
           </div>
         ))}
