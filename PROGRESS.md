@@ -534,6 +534,20 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak M — Dashboard quick fixes
+
+- `GreetingHeader` link "Nadogradite plan" sada vodi na landing cenovnik (`/#cenovnik`)
+- Nedavni dokumenti na dashboard-u izdvojeni u `RecentDocuments` Client Component
+- Dugme "PDF" u nedavnim dokumentima direktno poziva `/api/export/pdf` i preuzima blob, bez odlaska na arhivu
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `components/dashboard/GreetingHeader.tsx`
+- `components/dashboard/RecentDocuments.tsx` (novo)
+- `app/(dashboard)/dashboard/page.tsx`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

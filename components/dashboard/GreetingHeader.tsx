@@ -45,7 +45,7 @@ export function GreetingHeader({ displayName, plan, documentsThisMonth }: Greeti
         {limitReached ? (
           <span>
             Mesečni limit dostignut —{' '}
-            <Link href="/cenovnik" className="font-semibold underline underline-offset-2" style={{ color: PRIMARY }}>
+            <Link href="/#cenovnik" className="font-semibold underline underline-offset-2" style={{ color: PRIMARY }}>
               Nadogradite plan
             </Link>
           </span>
