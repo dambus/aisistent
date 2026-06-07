@@ -61,6 +61,18 @@ const navCategories: NavCategory[] = [
 
 const upcomingItems = ['Pravilnik o radu', 'Zapisnik sa sastanka', 'Opis proizvoda/usluge']
 
+const alatiCategory: NavCategory = {
+  key: 'alati',
+  icon: '🧮',
+  title: 'Alati',
+  defaultExpanded: true,
+  items: [
+    { label: 'Kalkulator zarade', href: '/alati/kalkulator-zarade' },
+  ],
+}
+
+const upcomingAlati = ['Kalkulator paušala', 'Kalkulator ugovora o delu']
+
 const bottomNav: NavItem[] = [
   { label: 'Arhiva',      href: '/arhiva',      icon: '▣' },
   { label: 'Profil',      href: '/profil',      icon: '●' },
@@ -80,7 +92,10 @@ interface Props {
 }
 
 function defaultExpanded(): Record<string, boolean> {
-  return Object.fromEntries(navCategories.map(c => [c.key, c.defaultExpanded]))
+  return {
+    ...Object.fromEntries(navCategories.map(c => [c.key, c.defaultExpanded])),
+    [alatiCategory.key]: alatiCategory.defaultExpanded,
+  }
 }
 
 export function Sidebar({ plan, userInitials }: Props) {
@@ -183,6 +198,42 @@ export function Sidebar({ plan, userInitials }: Props) {
               </div>
             </div>
           ))}
+
+          {/* Alati */}
+          <div className="mb-1">
+            <button
+              onClick={() => toggleCategory(alatiCategory.key)}
+              className="flex w-full items-center justify-between rounded-md px-2 py-2 text-left transition-colors duration-150 hover:bg-white/5"
+            >
+              <span className="flex items-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <span className="mr-2 w-4 text-center" style={{ color: SIDEBAR_ICON }}>{alatiCategory.icon}</span>
+                <span>{alatiCategory.title}</span>
+              </span>
+              <span className="text-gray-600 transition-transform duration-200" style={{ transform: expanded[alatiCategory.key] ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+                ▶
+              </span>
+            </button>
+            <div
+              className="overflow-hidden transition-all duration-200"
+              style={{ maxHeight: expanded[alatiCategory.key] ? `${(alatiCategory.items.length + upcomingAlati.length) * 44}px` : '0' }}
+            >
+              <div className="ml-1 mt-0.5 grid gap-0.5 pb-1">
+                {alatiCategory.items.map(item => (
+                  <NavLink key={item.href} item={item} onClick={onLinkClick} />
+                ))}
+                {upcomingAlati.map(name => (
+                  <div
+                    key={name}
+                    title="Uskoro dostupno"
+                    className="cursor-not-allowed rounded-md px-3 py-2 text-sm opacity-40"
+                    style={{ color: '#9CA3AF', borderLeft: '2px solid transparent' }}
+                  >
+                    {name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Uskoro */}
           <div className="mb-1">

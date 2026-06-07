@@ -440,6 +440,23 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak L — Kalkulator zarade (neto/bruto)
+
+- **`app/(dashboard)/alati/kalkulator-zarade/page.tsx`** — Client Component kalkulator
+  - Dva taba: Bruto→Neto i Neto→Bruto (inverse formula: bruto = (neto - 2502.5) / 0.701 za bruto > 25025)
+  - Stope 2026: porez 10%, PIO zaposl 14%, zdravstvo 5.15%, nezaposlenost 0.75%, poslodavac 17.4%
+  - Inputi: zarada, radno vreme (puno/nepuno sa range sliderom), topli obrok (toggle+iznos), prevoz (toggle+iznos)
+  - Tri kartice rezultata: "Zaposleni prima", "Odbici od bruto", "Trošak za firmu"
+  - Vizuelni stacked bar (CSS, bez biblioteka) — neto zelena, porez crvena, doprinosi zaposleni narandžasta, doprinosi poslodavac žuta
+  - Upozorenje ako je unos ispod minimalne bruto zarade (46.059 RSD)
+  - Info box sa napomenom i datumom ažuriranja
+  - Kolapsibilni FAQ sa 4 objašnjenja pojmova
+- **`components/dashboard/Sidebar.tsx`** — dodata "🧮 Alati" sekcija iznad "Uskoro" sa Kalkulator zarade linkom i 2 upcoming (Kalkulator paušala, Kalkulator ugovora o delu)
+
+TypeScript: 0 grešaka.
+
+---
+
 ### ✅ Korak K — JMBG/PIB conditional, helper tekstovi, jezički standard
 
 1. **JMBG/PIB conditional**: `WizardField` proširen sa `dynamicConfig` (watchField + values mapa). `WizardForm.tsx` dobio `resolveField()` koja dinamički menja label/helperText/tooltip na osnovu vrednosti drugog polja. Primenjeno na:
