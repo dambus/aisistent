@@ -69,6 +69,7 @@ export interface UgovorORaduData {
 }
 
 export interface UgovorODeluData {
+  broj_ugovora?: string
   tip_narucioca: string
   naziv_narucioca: string
   pib_narucioca?: string
@@ -88,7 +89,6 @@ export interface UgovorODeluData {
   fazno: boolean
   opis_faza?: string
   iznos: number
-  bruto_neto: string
   nacin_isplate: string
   avans?: number
   rok_placanja: number

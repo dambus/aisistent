@@ -46,8 +46,8 @@ interface SigData {
 function serbianDate(iso: string): string {
   const d = new Date(iso)
   const months = [
-    'januar', 'februar', 'mart', 'april', 'maj', 'jun',
-    'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar',
+    'januara', 'februara', 'marta', 'aprila', 'maja', 'juna',
+    'jula', 'avgusta', 'septembra', 'oktobra', 'novembra', 'decembra',
   ]
   return `${d.getDate()}. ${months[d.getMonth()]} ${d.getFullYear()}.`
 }
@@ -74,7 +74,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftLabel: 'Za POSLODAVCA:',
         leftOrg: g('firma'),
         leftPerson: `${g('zastupnik')}${g('funkcija') ? `, ${g('funkcija')}` : ''}`,
-        rightLabel: 'ZAPOSLENI/ZAPOSLENA:',
+        rightLabel: 'ZAPOSLENI:',
         rightOrg: '',
         rightPerson: g('ime_prezime'),
         city: g('mesto_rada').split(',')[0].trim(),
@@ -84,7 +84,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftLabel: 'Za NARUČIOCA:',
         leftOrg: g('naziv_narucioca'),
         leftPerson: g('zastupnik_narucioca'),
-        rightLabel: 'IZVOĐAČ/IZVOĐAČICA:',
+        rightLabel: 'IZVOĐAČ:',
         rightOrg: '',
         rightPerson: g('naziv_izvodjaca'),
         city: '',
@@ -138,14 +138,9 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         rightLabel: 'PUNOMOĆNIK:', rightOrg: g('naziv_punomocnika'),
         rightPerson: g('jmbg_pib_punomocnika'), city: '',
       }
-    case 'opsti-uslovi':
-      return {
-        leftLabel: 'FIRMA:', leftOrg: g('naziv_firme'),
-        leftPerson: `PIB: ${g('pib')}`,
-        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
-      }
     case 'poslovni-mejl':
     case 'oglas-za-posao':
+    case 'opsti-uslovi':
       return null
     case 'ponuda-klijentu':
       return {
@@ -274,6 +269,17 @@ function blockToDocxChild(block: Block): Paragraph | Table {
           text: span.text,
           font: FONT_FAMILY,
           size: SECTION_SIZE,
+          bold: true,
+        })),
+      })
+    case 'h3':
+      return new Paragraph({
+        heading: HeadingLevel.HEADING_3,
+        spacing: { before: 160, after: 60 },
+        children: block.spans.map(span => new TextRun({
+          text: span.text,
+          font: FONT_FAMILY,
+          size: BODY_SIZE,
           bold: true,
         })),
       })

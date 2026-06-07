@@ -1,12 +1,15 @@
-- u ugovorima gde se spominje rad od kuce, promeniti logiku i ui: nacin rada ili mesto rada? ponudjeno: na lokaciji, od kuće, hibridno. Trenutna ponuda opcija deluje cudno kad se procita (podrazumeva da nema rada od kuce, a opcije menjaju to)
-- ostaje problem kod ugovora ako korisnik zeli da upise drugi datum (recimo samo priprema ugovor, a potpisace ga drugi dan) ili ako na primer ne zeli broj ugovora da pise uopste.
-- za razmaatranje: da li su svi clanovi ugovora obavezni po zakonu. Neki korisnici mozda ne zele neke clanove da stoje u ugovoru. kako bi se ovo implementiralo? koliko komplikacija nosi?
-- kod zakupa stana, objasniti polje struktura
-- kod zakupa - iznos depozita, dodatno pojasniti/napomena da se misli na visinu zakupnine da korisnik ne bi mahinalno upisao cifru npr. 300 misleci na evre, a ispadne 300 mesecnih zakupnina
-- kod zakupa stana, komunalna taksa se ne primenjuje na fizicko lice za stanovanje? ovo je obavezno polje i ne može da se preskoci a nema opcije da ne placa ni jedna ni druga strana (pise u helperu da se odnosi na isticanje firme sto nije slucaj ako se koristi za stanovanje)
-- kao što smo imali i ranije kod ugovora, kod ugovora o zakupu stana korisnik bi trebalo da može da izabere broj ugovora ili da se odluči da ga nema
-- član dva ugovora o zakupu greška u reči nameštenom, pomešana su ćirilična i latinična slova
-- takođe u članu 2, spominje se popis nameštaja kao prilog 1, zakupac možda ne želi da ide u tolike detalje, ili zameniti sa "kao u viđenom stanju"
-- clan 6 ugovora o zakupu - u primeru je 300 evra, slovima treba da piše tristotine evra, ne trista. ovo pravilo važi i za sve ostale dokumente. Na primer 347 treba da bude tristotinečetrdesetisedam itd.
-- u ugovoru o zakupu, kada se preuzme PDF verzija u vrhu dokumenta stoji tekst SCENARIO A: --- ovo je deo UI-a koji ne treba da se nadje u ugovoru
-- u generisanom PDF-u ima naslova koji vise sa kraja stranice. PRILOZI ne treba da budu deo generisanog dokumenta, oni idu posebno ako korisnik uopste zeli da ih pravi. Videti jedan od prethodnih komentara.
+- pri pravljenju opstih uslova i politike privatnosti:
+    - u pdf se pojavljuje datum [popuniti datum] = s obzirom da se ovde ne spominje nigde datum u wizardu, niti bilo gde u tekstu, da li je ovo nefunkcionalno polje koje generise red u PDF uopste potrebno?
+    - kod podstavki u nivou 2 (3 -> 3.1, 3.2) se pojavljuju ### iz md-a u pdf dokumentu
+    - na kraju dokumenta se pojavljuju polja za potpisivanje ugovora, sto u ovom slucaju nema potrebe da postoji
+
+- Ugovor o delu:
+    - opet imamo broj ugovora koji se automatski generise iako u ovim slucajevima nije potreban uopste ili korisnik zeli da ga rucno unese
+    - potrebno doraditi helper tekstove i tooltipove, skoro da ih nema. 
+    - kod postotka avansa u labelu naglasiti da se misli na procente
+    - bruto / neto selektor je po mom misljenju suvisan i stvara komplikacije. trebalo bi da se ugovara neto iznos i da ako je narucilac firma automatski obracuna porez. Trenutno stanje donosi probleme gde ako je iznos 20 hiljada dinara bruto, u clanu 6. napisano da ce avans biti 50% - dakle deset hiljada dinara i jos deset hiljada iako u calnu 5 pise da se ukupna suma 16 hiljada dinara jer 4 hiljade ide na porez. Vrlo zbunjujuce i netacno.
+    - im članova koji vise na kraju strane bez teksta
+    - problem koji smo imali ranije, kod definisanja strana na početku ugovora su Naručilac i Izvođač, ne izvođačica. Ovaj deo se nikada ne menja po rodovima. Važi za sve tipove ugovora, ne samo ovaj
+    - takođe u delu za potpise samo izvođač, ne izvođač/izvođačica, nastavak na prethodni komentar
+    
+

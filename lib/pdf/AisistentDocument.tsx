@@ -55,6 +55,10 @@ const s = StyleSheet.create({
     fontFamily: 'Roboto-Bold', fontSize: 12,
     marginTop: 12, marginBottom: 4, color: '#111827',
   },
+  h3: {
+    fontFamily: 'Roboto-Bold', fontSize: 11,
+    marginTop: 8, marginBottom: 3, color: '#111827',
+  },
   paragraph: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 5 },
   bullet: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 3, paddingLeft: 12 },
   spacer: { marginBottom: 6 },
@@ -110,8 +114,8 @@ const INLINE_FONT: Record<InlineType, string> = {
 }
 
 const SERBIAN_MONTHS = [
-  'januar', 'februar', 'mart', 'april', 'maj', 'jun',
-  'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar',
+  'januara', 'februara', 'marta', 'aprila', 'maja', 'juna',
+  'jula', 'avgusta', 'septembra', 'oktobra', 'novembra', 'decembra',
 ]
 
 function serbianDate(iso: string): string {
@@ -186,6 +190,7 @@ function renderBlock(block: Block, i: number) {
   switch (block.type) {
     case 'h1': return <Text key={i} style={s.h1}><Spans spans={block.spans} /></Text>
     case 'h2': return <Text key={i} style={s.h2}><Spans spans={block.spans} /></Text>
+    case 'h3': return <Text key={i} style={s.h3}><Spans spans={block.spans} /></Text>
     case 'bullet':
       return (
         <Text key={i} style={s.bullet}>
@@ -243,7 +248,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
       return {
         leftLabel: 'Za POSLODAVCA:', leftOrg: g('firma'),
         leftPerson: `${g('zastupnik')}, ${g('funkcija')}`,
-        rightLabel: 'ZAPOSLENI/ZAPOSLENA:', rightOrg: '',
+        rightLabel: 'ZAPOSLENI:', rightOrg: '',
         rightPerson: g('ime_prezime'),
         city: g('mesto_rada').split(',')[0].trim(),
       }
@@ -251,7 +256,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
       return {
         leftLabel: 'Za NARUČIOCA:', leftOrg: g('naziv_narucioca'),
         leftPerson: g('zastupnik_narucioca'),
-        rightLabel: 'IZVOĐAČ/IZVOĐAČICA:', rightOrg: '',
+        rightLabel: 'IZVOĐAČ:', rightOrg: '',
         rightPerson: g('naziv_izvodjaca'), city: '',
       }
     case 'nda':
@@ -286,14 +291,9 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         rightLabel: 'PUNOMOĆNIK:', rightOrg: g('naziv_punomocnika'),
         rightPerson: g('jmbg_pib_punomocnika'), city: '',
       }
-    case 'opsti-uslovi':
-      return {
-        leftLabel: 'FIRMA:', leftOrg: g('naziv_firme'),
-        leftPerson: `PIB: ${g('pib')}`,
-        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
-      }
     case 'poslovni-mejl':
     case 'oglas-za-posao':
+    case 'opsti-uslovi':
       return null
     case 'ponuda-klijentu':
       return {

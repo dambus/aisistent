@@ -22,17 +22,21 @@ Na osnovu podataka koje ti korisnik dostavi, generišeš kompletan, profesionala
 Na osnovu polja "Tip izvođača" određuješ jedan od tri scenarija:
 
 SCENARIO A - Naručilac angažuje FIZIČKO LICE bez registrovane delatnosti
-→ Naručilac je poreski platac - obračunava i uplaćuje porez (20% na bruto) i doprinose
-→ U ugovoru OBAVEZNO navesti: bruto iznos naknade, napomenu da naručilac vrši obračun i uplatu poreza
-→ Dodati član: "Naručilac se obavezuje da obračuna i uplati porez na dohodak i doprinose za obavezno socijalno osiguranje u skladu sa Zakonom o porezu na dohodak građana."
+→ Iznos naveden u ugovoru je NETO iznos koji izvođač prima na račun
+→ Naručilac dodatno snosi porez i doprinose obračunate na neto iznos — ukupan trošak naručioca je veći od neto iznosa
+→ U Članu o naknadi OBAVEZNO navedi:
+   "Naručilac se obavezuje da Izvođaču isplati neto naknadu u iznosu od X dinara (slovima). Naručilac će, pored navedenog neto iznosa, obračunati i uplatiti porez na dohodak i doprinose za obavezno socijalno osiguranje u skladu sa važećim propisima."
+→ NIKADA ne pominjati bruto iznos — samo neto iznos koji izvođač prima
+→ Ako je ugovorena avansna uplata, avans se obračunava od neto iznosa naknade
 
 SCENARIO B - Naručilac angažuje PREDUZETNIKA ili FIRMU (paušalac, doo, ad)
+→ Iznos je konačan — nema dodatnih poreza na teret naručioca
 → Izvođač sam plaća porez kroz svoju registrovanu delatnost
 → Dodati: "Izvođač, kao registrovano privredno lice, samostalno izmiruje sve poreske i druge zakonske obaveze."
 → Faktura je osnov za plaćanje
 
 SCENARIO C - Fizičko lice angažuje fizičko lice
-→ Isti tretman kao Scenario A
+→ Isti tretman kao Scenario A — iznos je neto iznos koji izvođač prima
 → Napomenuti da naručilac mora biti registrovan kao isplatilac prihoda
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
@@ -44,7 +48,7 @@ Ime/naziv koristiš SAMO na sledećim mestima:
 3. Potpisi
 4. Eventualne posebne klauzule
 
-Sve ostalo ide kroz "Naručilac" i "Izvođač".
+Sve ostalo ide kroz "Naručilac" i "Izvođač". Ne koristi oblik "Izvođačica" u nazivima ugovornih strana, naslovima ili potpisima; rod možeš prilagoditi samo u opisnim rečenicama ako je gramatički potrebno.
 
 ### Padeži:
 NOMINATIV: "Izvođač Nikola Jovanović preuzima obavezu..."
@@ -61,7 +65,7 @@ INSTRUMENTAL: "potpisano od strane Nikole Jovanovića"
 Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
 Muška na -a: Nikola→Nikole→Nikoli→Nikolu | Luka→Luke→Luki→Luku
 Ženska na -a: Ana→Ane→Ani→Anu | Jelena→Jelene→Jeleni→Jelenu
-Pol određuješ iz imena - "Izvođač/Izvođačica", "dužan/dužna" itd.
+Pol određuješ iz imena samo za prideve i glagolske oblike u rečenicama ("dužan/dužna" itd.). Naziv ugovorne strane uvek ostaje "Izvođač".
 
 ## OBAVEZNI ELEMENTI UGOVORA
 
@@ -81,7 +85,7 @@ Pol određuješ iz imena - "Izvođač/Izvođačica", "dužan/dužna" itd.
 ## FORMAT IZLAZA
 
 UGOVOR O DELU
-Broj: [auto]
+Broj: {broj_ugovora ako postoji; ako je bez broja, ne prikazuj red "Broj"}
 Datum: [datum zaključenja]
 
 I.    UGOVORNE STRANE
@@ -101,10 +105,10 @@ X.    ZAVRŠNE ODREDBE
 - Formalan pravni jezik, ali razumljiv
 - Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
 - Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
-- "Naručilac" i "Izvođač/Izvođačica" kroz ceo dokument
-- Pol izvođača određuješ iz imena
+- "Naručilac" i "Izvođač" kroz ceo dokument
+- Pol izvođača određuješ iz imena samo za gramatičke oblike u rečenicama, ne za naziv ugovorne strane
 - Novčane iznose pisati i slovima: 150.000,00 (sto pedeset hiljada) dinara
-- Scenario A: navesti i bruto i neto iznos, jasno ko plaća porez
+- Scenario A: navesti neto iznos naknade koji izvođač prima, jasno napisati da naručilac dodatno obračunava i plaća porez i doprinose
 
 ## ŠTA NE RADIŠ
 
@@ -120,10 +124,12 @@ export function buildUserMessage(data: UgovorODeluData): string {
   const avans = data.avans ?? 0
   const nda = data.nda ? `Da (${data.trajanje_nda ?? '[POPUNITI: trajanje NDA]'} meseci)` : 'Ne'
   const zabrana = data.zabrana ? 'Da' : 'Ne'
+  const brojUgovora = data.broj_ugovora?.trim() || 'bez broja'
 
   return `Molim te generiši Ugovor o delu sa sledećim podacima:
 
 NARUČILAC:
+- Broj ugovora: ${brojUgovora}
 - Tip: ${data.tip_narucioca}
 - Naziv/Ime: ${data.naziv_narucioca}
 - PIB: ${data.pib_narucioca ?? '[POPUNITI: PIB naručioca]'}
@@ -149,10 +155,10 @@ ROKOVI:
 - Fazna isporuka: ${fazno}
 
 NAKNADA:
-- Iznos: ${data.iznos.toLocaleString('sr-RS')} RSD (${data.bruto_neto})
+- Neto iznos naknade: ${data.iznos.toLocaleString('sr-RS')} RSD
 - Način isplate: ${data.nacin_isplate}
-- Avans: ${avans}%
-- Rok plaćanja: ${data.rok_placanja} dana od isporuke
+- Avans: ${avans > 0 ? `${avans}% = ${Math.round(data.iznos * avans / 100).toLocaleString('sr-RS')} RSD od neto iznosa` : 'Ne'}
+- Rok plaćanja ostatka: ${data.rok_placanja} dana od isporuke
 
 DODATNO:
 - Vlasništvo nad rezultatom: ${data.vlasnistvo}
@@ -168,6 +174,14 @@ export const wizardSteps: WizardStep[] = [
     id: 'narucilac',
     title: 'Naručilac',
     fields: [
+      {
+        id: 'broj_ugovora',
+        label: 'Broj ugovora',
+        type: 'text',
+        required: false,
+        helperText: 'Ostavite prazno ako ne želite broj',
+        tooltip: 'Interni broj ugovora za vašu evidenciju. Ako ostavite prazno, ugovor neće imati broj.',
+      },
       {
         id: 'tip_narucioca',
         label: 'Tip naručioca',
@@ -194,7 +208,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip izvođača',
         type: 'radio',
         required: true,
-        tooltip: 'Ovo je najvažniji izbor jer određuje ko plaća porez:\n• Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate\n• Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu\n• Firma doo → Isto kao preduzetnik, plaća sami',
+        tooltip: 'Važno za poreski tretman:\n• Fizičko lice — naručilac plaća porez pre isplate\n• Preduzetnik/firma — izvođač sam plaća porez, izdaje fakturu',
         options: [
           { value: 'Fizičko lice (bez firme)', label: 'Fizičko lice (bez firme)' },
           { value: 'Preduzetnik-paušalac', label: 'Preduzetnik-paušalac' },
@@ -224,9 +238,30 @@ export const wizardSteps: WizardStep[] = [
     id: 'predmet',
     title: 'Predmet ugovora',
     fields: [
-      { id: 'naziv_dela', label: 'Naziv dela / usluge', type: 'text', required: true, helperText: 'npr. Izrada web sajta, Grafički dizajn logotipa' },
-      { id: 'opis_dela', label: 'Detaljan opis dela', type: 'textarea', required: true },
-      { id: 'rezultat', label: 'Merljivi rezultat / isporuka', type: 'text', required: true, helperText: 'npr. Funkcionalan sajt sa CMS sistemom i 5 stranica', tooltip: 'Opišite konkretan, merljiv rezultat koji izvođač treba da isporuči. Što preciznije, to je bolja zaštita za obe strane.' },
+      {
+        id: 'naziv_dela',
+        label: 'Naziv dela / usluge',
+        type: 'text',
+        required: true,
+        helperText: 'npr. Izrada web sajta, Grafički dizajn',
+        tooltip: 'Kratak naziv dela/usluge koja se izvodi.',
+      },
+      {
+        id: 'opis_dela',
+        label: 'Detaljan opis dela',
+        type: 'textarea',
+        required: true,
+        helperText: 'Opišite šta tačno treba uraditi',
+        tooltip: 'Što precizniji opis smanjuje nesporazume. Navedite šta je uključeno i šta nije.',
+      },
+      {
+        id: 'rezultat',
+        label: 'Merljivi rezultat / isporuka',
+        type: 'text',
+        required: true,
+        helperText: 'npr. Funkcionalan sajt, Dizajn logotipa',
+        tooltip: 'Konkretan, merljiv rezultat koji izvođač isporučuje. Osnova za prihvatanje ili odbijanje dela.',
+      },
       { id: 'specifikacije', label: 'Posebni zahtevi / tehničke specifikacije', type: 'textarea', required: false },
     ],
   },
@@ -234,8 +269,8 @@ export const wizardSteps: WizardStep[] = [
     id: 'rokovi',
     title: 'Rokovi',
     fields: [
-      { id: 'datum_pocetka', label: 'Datum početka', type: 'date', required: true },
-      { id: 'datum_zavrsetka', label: 'Datum završetka / isporuke', type: 'date', required: true },
+      { id: 'datum_pocetka', label: 'Datum početka', type: 'date', required: true, helperText: 'Kada izvođač počinje sa radom' },
+      { id: 'datum_zavrsetka', label: 'Datum završetka / isporuke', type: 'date', required: true, helperText: 'Rok za isporuku rezultata' },
       { id: 'fazno', label: 'Fazna isporuka?', type: 'toggle', required: false, defaultValue: false },
       { id: 'opis_faza', label: 'Opis faza i rokova', type: 'textarea', required: false, conditional: { field: 'fazno', value: true } },
     ],
@@ -244,16 +279,14 @@ export const wizardSteps: WizardStep[] = [
     id: 'naknada',
     title: 'Naknada',
     fields: [
-      { id: 'iznos', label: 'Iznos naknade (RSD)', type: 'number', required: true, min: 1 },
       {
-        id: 'bruto_neto',
-        label: 'Bruto ili neto?',
-        type: 'radio',
+        id: 'iznos',
+        label: 'Neto iznos naknade (RSD)',
+        type: 'number',
         required: true,
-        options: [
-          { value: 'Bruto', label: 'Bruto' },
-          { value: 'Neto', label: 'Neto' },
-        ],
+        min: 1,
+        helperText: 'Iznos koji izvođač prima na račun',
+        tooltip: 'Unesite neto iznos koji izvođač prima. Ako je izvođač fizičko lice bez firme, naručilac dodatno snosi porez i doprinose koji se obračunavaju na ovaj iznos. Ako je izvođač preduzetnik ili firma, ovaj iznos je konačan.',
       },
       {
         id: 'nacin_isplate',
@@ -266,8 +299,27 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Po fazama', label: 'Po fazama' },
         ],
       },
-      { id: 'avans', label: 'Procenat avansa', type: 'number', required: false, min: 0, max: 100, conditional: { field: 'nacin_isplate', value: 'Avans + ostatak' } },
-      { id: 'rok_placanja', label: 'Rok plaćanja po isporuci (dana)', type: 'number', required: true, min: 1, defaultValue: 15 },
+      {
+        id: 'avans',
+        label: 'Procenat avansa (%)',
+        type: 'number',
+        required: false,
+        min: 0,
+        max: 100,
+        conditional: { field: 'nacin_isplate', value: 'Avans + ostatak' },
+        helperText: 'Unesite procenat od 0 do 100',
+        tooltip: 'Procenat neto iznosa naknade koji se isplaćuje unapred. Na primer, 50% od neto naknade od 20.000 RSD = avans 10.000 RSD.',
+      },
+      {
+        id: 'rok_placanja',
+        label: 'Rok plaćanja po isporuci (dana)',
+        type: 'number',
+        required: true,
+        min: 1,
+        defaultValue: 15,
+        helperText: 'npr. 15',
+        tooltip: 'Broj dana od isporuke rezultata do isplate. Standard u Srbiji je 15-30 dana.',
+      },
     ],
   },
   {
@@ -279,7 +331,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Ko je vlasnik rezultata rada?',
         type: 'radio',
         required: true,
-        tooltip: 'Po srpskom pravu, autor automatski zadržava autorska prava. Ako želite da koristite rezultat slobodno (modifikujete, prodajete, distribuirate), morate eksplicitno ugovoriti prenos prava na naručioca.',
+        tooltip: 'Ko poseduje rezultat rada (kod, dizajn, tekst...). Bez eksplicitnog ugovora, autor zadržava autorska prava po srpskom pravu.',
         options: [
           { value: 'Naručilac', label: 'Naručilac' },
           { value: 'Izvođač', label: 'Izvođač' },

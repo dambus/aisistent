@@ -440,6 +440,19 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak P — Ispravke ugovor o delu i opšti uslovi
+
+1. **Bruto/Neto logika (Problem 1)** — ugovor-o-delu.ts: SCENARIO A/B/C jasno definiše neto-only princip; Scenario A: formula za member tekst "neto naknadu + naručilac plaća porez"; buildUserMessage: avans_iznos kao konkretan iznos u RSD = X% × neto
+2. **Broj ugovora (Problem 2)** — FORMAT IZLAZA već imao instrukciju; potvrđeno da je Codex to pokrio
+3. **Rod u potpisima (Problem 3)** — AisistentDocument.tsx i docxBuilder.ts: `ZAPOSLENI/ZAPOSLENA:` → `ZAPOSLENI:` (ugovor-o-delu.ts bio već ispravan sa `IZVOĐAČ:` bez kose crte)
+4. **Opšti uslovi datum/potpisi (Problem 4)** — već pokriveno od strane Codex-a u opsti-uslovi.ts; h3 blok dodat: markdownParser.ts (`### ` → tip 'h3'), AisistentDocument.tsx (h3 stil: 11pt bold, marginTop 8), docxBuilder.ts (HeadingLevel.HEADING_3)
+5. **Datum genitiv (Problem 5)** — meseci promenjeni u genitiv (januar→januara, jun→juna...) u AisistentDocument.tsx i docxBuilder.ts
+6. **Viseći naslovi (Problem 6)** — renderBlocks() logika ispravna, nema regresije
+
+TypeScript: 0 grešaka.
+
+---
+
 ### ✅ Korak O — Ispravke system promptova (feedback testera)
 
 1. **SCENARIO leak (Problem 1)** — ugovor-o-zakupu.ts ŠTA NE RADIŠ: eksplicitna zabrana da SCENARIO A/B/C curi u dokument
@@ -651,6 +664,7 @@ TypeScript: 0 grešaka.
 ---
 
 ## Poznati problemi / Tech dug
+- 2026-06-07: UI ispravke za Ugovor o delu i Opšte uslove pripremljene za review; Ugovor o delu koristi neto naknadu, Opšti uslovi nemaju potpise.
 - 2026-06-07: UI feedback ispravke u wizard promptovima za ugovor o radu i ugovor o zakupu pripremljene za review.
 - 2026-06-07: Free plan limit usklađen na 3 dokumenta mesečno u generate API-ju i upgrade modalu.
 - 2026-06-07: Uvedena terminologija Bruto 1 / Bruto 2 u kalkulator zarade, prompt za ugovor o radu i kontekstualni podsetnik.

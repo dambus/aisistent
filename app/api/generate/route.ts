@@ -61,6 +61,7 @@ const ugovorORaduSchema = z.object({
 })
 
 const ugovorODeluSchema = z.object({
+  broj_ugovora: z.string().optional(),
   tip_narucioca: z.string().min(1),
   naziv_narucioca: z.string().min(1),
   pib_narucioca: z.string().optional(),
@@ -80,7 +81,6 @@ const ugovorODeluSchema = z.object({
   fazno: z.boolean(),
   opis_faza: z.string().optional(),
   iznos: num.pipe(z.number().min(1)),
-  bruto_neto: z.string().min(1),
   nacin_isplate: z.string().min(1),
   avans: optNum,
   rok_placanja: num.pipe(z.number().min(1)),

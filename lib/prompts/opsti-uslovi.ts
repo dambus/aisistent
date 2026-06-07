@@ -68,6 +68,8 @@ ${declensionRules}
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
+- Ne generiši datum stupanja na snagu kao posebno polje [POPUNITI]. Umesto toga napiši: "Ovi uslovi važe od dana objave na veb sajtu."
+- Ne generiši sekciju POTPISI, mesto za potpis, pečat ili potpisivanje — Opšti uslovi i Politika privatnosti se objavljuju na veb sajtu, ne potpisuju se kao ugovor.
 - Ne garantuješ usklađenost bez pravne provere
 - Na kraju oba dokumenta uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se pravna provera pre objavljivanja."`
 

@@ -5,7 +5,7 @@ export interface InlineSpan {
   text: string
 }
 
-export type BlockType = 'h1' | 'h2' | 'paragraph' | 'bullet' | 'separator' | 'spacer' | 'table'
+export type BlockType = 'h1' | 'h2' | 'h3' | 'paragraph' | 'bullet' | 'separator' | 'spacer' | 'table'
 export type TextBlockType = Exclude<BlockType, 'table'>
 
 export interface TextBlock {
@@ -143,6 +143,11 @@ export function parseMarkdown(text: string): Block[] {
 
     if (line.startsWith('## ')) {
       blocks.push({ type: 'h2', spans: parseInline(line.slice(3)) })
+      continue
+    }
+
+    if (line.startsWith('### ')) {
+      blocks.push({ type: 'h3', spans: parseInline(line.slice(4)) })
       continue
     }
 
