@@ -29,6 +29,8 @@ ${declensionRules}
 
 ## TON I STIL
 
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+- Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion. EUR primeri: 500 EUR → petsto (500,00) evra.
 - Profesionalan, samopouzdan i orijentisan ka vrednosti
 - Jasan i konkretan, bez preteranog prodajnog tona
 - Srpski jezik, latinica

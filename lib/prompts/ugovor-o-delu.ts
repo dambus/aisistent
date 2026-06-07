@@ -99,7 +99,8 @@ X.    ZAVRŠNE ODREDBE
 ## TON I STIL
 
 - Formalan pravni jezik, ali razumljiv
-- Latinica, srpski jezik
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+- Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
 - "Naručilac" i "Izvođač/Izvođačica" kroz ceo dokument
 - Pol izvođača određuješ iz imena
 - Novčane iznose pisati i slovima: 150.000,00 (sto pedeset hiljada) dinara

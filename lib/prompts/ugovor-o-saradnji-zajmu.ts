@@ -111,7 +111,8 @@ XI.   ZAVRŠNE ODREDBE
 
 ## TON I STIL
 
-- Formalan pravni jezik | Latinica, srpski
+- Formalan pravni jezik | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+- Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
 - TIP 1: "Prva strana" / "Druga strana"
 - TIP 2: "Zajmodavac" / "Zajmoprimac"
 - Novčane iznose i kamatnu stopu pisati i slovima

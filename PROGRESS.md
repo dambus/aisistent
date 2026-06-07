@@ -440,6 +440,21 @@ TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`).
 
 ---
 
+### ✅ Korak O — Ispravke system promptova (feedback testera)
+
+1. **SCENARIO leak (Problem 1)** — ugovor-o-zakupu.ts ŠTA NE RADIŠ: eksplicitna zabrana da SCENARIO A/B/C curi u dokument
+2. **Iznosi slovima (Problem 2)** — dodato pravilo u TON I STIL svih 10 promptova: jednosmerna sintaksa bez razmaka (tristotine, dveihiljadepetsto, deset hiljada...)
+3. **Komunalna taksa stambeni (Problem 3)** — buildUserMessage u zakupu: ako tip=Stambeni i komunalna_taksa nema vrednost → "Ne primenjuje se (stambeni zakup fizičkog lica)"; systemPrompt: pravilo da se ne generiše taj član
+4. **Popis nameštaja (Problem 4)** — buildUserMessage: popis_namestaja=false → "Ne — stan se preuzima u viđenom stanju"; systemPrompt: instrukcija za oba slučaja
+5. **PRILOZI ne idu u dokument (Problem 5)** — ugovor-o-zakupu.ts ŠTA NE RADIŠ: ne generiši PRILOZI sekciju, samo "kao u Prilogu 1"
+6. **Opcioni članovi (Problem 6)** — ugovor-o-radu.ts: ## OPCIONI ELEMENTI sekcija u systemPrompt za detaljna_prava_obaveze i cuvanje_poslovne_tajne; ugovor-o-zakupu.ts: OPCIONI ELEMENTI za popis_namestaja, zabrana_zivotinja, zabrana_podzakupa, komunalna_taksa
+7. **Latinica (Problem 7)** — dodato pravilo u TON I STIL ili novi ## TON I STIL blok u svih 10 promptova
+8. **nacin_rada rename (Problem 8)** — `rad_od_kuce` → `nacin_rada` u: types/wizard.ts (UgovorORaduData interfejs), wizard field id, buildUserMessage()
+
+TypeScript: 0 grešaka.
+
+---
+
 ### ✅ Korak N — Profil i Podešavanja stranice
 
 **Profil (`/profil`):**
@@ -636,6 +651,7 @@ TypeScript: 0 grešaka.
 ---
 
 ## Poznati problemi / Tech dug
+- 2026-06-07: UI feedback ispravke u wizard promptovima za ugovor o radu i ugovor o zakupu pripremljene za review.
 - 2026-06-07: Free plan limit usklađen na 3 dokumenta mesečno u generate API-ju i upgrade modalu.
 - 2026-06-07: Uvedena terminologija Bruto 1 / Bruto 2 u kalkulator zarade, prompt za ugovor o radu i kontekstualni podsetnik.
 

@@ -1,1 +1,12 @@
 - u ugovorima gde se spominje rad od kuce, promeniti logiku i ui: nacin rada ili mesto rada? ponudjeno: na lokaciji, od kuće, hibridno. Trenutna ponuda opcija deluje cudno kad se procita (podrazumeva da nema rada od kuce, a opcije menjaju to)
+- ostaje problem kod ugovora ako korisnik zeli da upise drugi datum (recimo samo priprema ugovor, a potpisace ga drugi dan) ili ako na primer ne zeli broj ugovora da pise uopste.
+- za razmaatranje: da li su svi clanovi ugovora obavezni po zakonu. Neki korisnici mozda ne zele neke clanove da stoje u ugovoru. kako bi se ovo implementiralo? koliko komplikacija nosi?
+- kod zakupa stana, objasniti polje struktura
+- kod zakupa - iznos depozita, dodatno pojasniti/napomena da se misli na visinu zakupnine da korisnik ne bi mahinalno upisao cifru npr. 300 misleci na evre, a ispadne 300 mesecnih zakupnina
+- kod zakupa stana, komunalna taksa se ne primenjuje na fizicko lice za stanovanje? ovo je obavezno polje i ne može da se preskoci a nema opcije da ne placa ni jedna ni druga strana (pise u helperu da se odnosi na isticanje firme sto nije slucaj ako se koristi za stanovanje)
+- kao što smo imali i ranije kod ugovora, kod ugovora o zakupu stana korisnik bi trebalo da može da izabere broj ugovora ili da se odluči da ga nema
+- član dva ugovora o zakupu greška u reči nameštenom, pomešana su ćirilična i latinična slova
+- takođe u članu 2, spominje se popis nameštaja kao prilog 1, zakupac možda ne želi da ide u tolike detalje, ili zameniti sa "kao u viđenom stanju"
+- clan 6 ugovora o zakupu - u primeru je 300 evra, slovima treba da piše tristotine evra, ne trista. ovo pravilo važi i za sve ostale dokumente. Na primer 347 treba da bude tristotinečetrdesetisedam itd.
+- u ugovoru o zakupu, kada se preuzme PDF verzija u vrhu dokumenta stoji tekst SCENARIO A: --- ovo je deo UI-a koji ne treba da se nadje u ugovoru
+- u generisanom PDF-u ima naslova koji vise sa kraja stranice. PRILOZI ne treba da budu deo generisanog dokumenta, oni idu posebno ako korisnik uopste zeli da ih pravi. Videti jedan od prethodnih komentara.

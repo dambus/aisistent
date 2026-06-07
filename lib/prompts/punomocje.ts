@@ -81,6 +81,10 @@ II. PREDMET I OBIM OVLAŠĆENJA
 III. TRAJANJE I OPOZIV
 IV. ZAVRŠNE ODREDBE
 
+## TON I STIL
+
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]

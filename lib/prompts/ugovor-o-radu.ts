@@ -152,12 +152,24 @@ Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI,
 ## TON I STIL
 
 - Formalan pravni jezik, ali razumljiv
-- Latinica, srpski jezik
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Ako primetiš ćirilične karaktere, zameni ih latiničnim ekvivalentom. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
 - Koristiti "Poslodavac" i "Zaposleni/Zaposlena" kroz ceo dokument
 - Pol zaposlenog određuješ automatski na osnovu imena
-- Novčane iznose pisati i slovima: 80.000,00 (osamdeset hiljada) dinara
+- Novčane iznose pisati i slovima kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion. Primer: 120.000,00 (stodvadeset hiljada) dinara.
 - Član o zaradi počinje sa: "Zaposleni/Zaposlena ima pravo na osnovnu bruto zaradu od..." — bez navođenja punog imena na početku
-- U članu o zaradi uvek navodi BRUTO 1 iznos kao ugovorenu zaradu, u skladu sa članom 105. Zakona o radu. Formulacija: "osnovna bruto zarada u iznosu od X dinara (bruto 1)" ili jednostavno "osnovna bruto zarada od X dinara" — oba su ispravna. NIKADA ne ugovaraj neto zaradu osim ako korisnik eksplicitno ne navede da želi neto ugovaranje — u tom slučaju dodaj napomenu da je ovo nestandardno.
+- U članu o zaradi uvek navodi BRUTO 1 iznos kao ugovorenu zaradu, u skladu sa članom 105. Zakona o radu. NIKADA ne ugovaraj neto zaradu osim ako korisnik eksplicitno ne navede da želi neto ugovaranje.
+
+## OPCIONI ELEMENTI
+
+Generiši sledeće sekcije SAMO ako je vrednost true:
+
+DETALJNA PRAVA I OBAVEZE:
+- Ako true: generiši opširnu sekciju IX sa listom prava i obaveza zaposlenog i poslodavca
+- Ako false: preskoči sekciju IX ili je svedi na jednu rečenicu: "Prava i obaveze zaposlenog i poslodavca regulisana su Zakonom o radu."
+
+ČUVANJE POSLOVNE TAJNE:
+- Ako true: generiši poseban član o čuvanju poslovne tajne i poverljivih informacija
+- Ako false: ne generiši ovaj član
 
 ## ŠTA NE RADIŠ
 
@@ -179,6 +191,9 @@ export function buildUserMessage(data: UgovorORaduData): string {
     : 'Ne'
 
   const brojUgovora = data.broj_ugovora?.trim() || '[POPUNITI: broj ugovora]'
+  const datumZakljucivanja = data.datum_zakljucivanja
+    ? data.datum_zakljucivanja
+    : '[POPUNITI: datum zaključivanja]'
 
   return `VAŽNO: U generisanom tekstu izbegavaj reči koje počinju sa "fi" kada postoji dobar srpski ekvivalent. Umesto "finansijski" piši "novčani", umesto "fiksni" piši "određeni" ili "stalni", umesto "fizički" piši "telesni". Ako nema prikladnog ekvivalenta, zadrži originalnu reč.
 
@@ -191,6 +206,7 @@ POSLODAVAC:
 - Adresa: ${data.adresa_firme}
 - Zastupnik: ${data.zastupnik}, ${data.funkcija}
 - Broj ugovora: ${brojUgovora}
+- Datum zaključivanja: ${datumZakljucivanja}
 
 ZAPOSLENI:
 - Ime i prezime: ${data.ime_prezime}
@@ -202,7 +218,7 @@ RADNO MESTO:
 - Pozicija: ${data.pozicija}
 - Opis poslova: ${data.opis}
 - Mesto rada: ${data.mesto_rada}
-- Rad od kuće: ${data.rad_od_kuce}
+- Način rada: ${data.nacin_rada}
 
 TRAJANJE:
 - Vrsta: ${data.vrsta_radnog_odnosa}
@@ -220,7 +236,9 @@ RADNO VREME:
 - Godišnji odmor: ${data.godisnji_odmor} radnih dana
 
 OPCIONO:
-- Zabrana konkurencije: ${zabranaKonkurencije}${data.napomene ? `\n- Napomene: ${data.napomene}` : ''}
+- Zabrana konkurencije: ${zabranaKonkurencije}
+- Detaljna razrada prava i obaveza: ${data.detaljna_prava_obaveze ? 'Da' : 'Ne'}
+- Klauzula o čuvanju poslovne tajne: ${data.cuvanje_poslovne_tajne ? 'Da' : 'Ne'}${data.napomene ? `\n- Napomene: ${data.napomene}` : ''}
 
 Svi podaci su u nominativu. Molim te da sve imenice, lična imena i nazive firme dekliniraš ispravno prema gramatičkom kontekstu svake rečenice u ugovoru.`
 }
@@ -237,6 +255,14 @@ export const wizardSteps: WizardStep[] = [
       { id: 'zastupnik', label: 'Ime i prezime zakonskog zastupnika', type: 'text', required: true, placeholder: 'npr. Petar Nikolić', helperText: 'npr. Petar Nikolić', tooltip: 'Ime i prezime osobe koja potpisuje ugovor u ime firme — najčešće direktor ili prokurista.' },
       { id: 'funkcija', label: 'Funkcija zastupnika', type: 'text', required: true, placeholder: 'npr. direktor', helperText: 'npr. direktor, prokurista' },
       { id: 'broj_ugovora', label: 'Broj ugovora (interni)', type: 'text', required: false, placeholder: 'npr. 001/2026' },
+      {
+        id: 'datum_zakljucivanja',
+        label: 'Datum zaključivanja ugovora',
+        type: 'date',
+        required: false,
+        helperText: 'Ostavite prazno ako datum još nije poznat',
+        tooltip: 'Datum kada se ugovor potpisuje. Možete ga ostaviti prazno i ručno upisati datum pre štampanja.',
+      },
     ],
   },
   {
@@ -273,13 +299,14 @@ export const wizardSteps: WizardStep[] = [
       { id: 'opis', label: 'Kratak opis poslova', type: 'textarea', required: true, placeholder: 'Opis posla u 2-3 rečenice...' },
       { id: 'mesto_rada', label: 'Mesto rada (grad, adresa)', type: 'text', required: true, placeholder: 'npr. Beograd, Nemanjina 11' },
       {
-        id: 'rad_od_kuce',
-        label: 'Rad od kuće',
+        id: 'nacin_rada',
+        label: 'Način rada',
         type: 'radio',
         required: true,
+        helperText: 'Gde zaposleni fizički obavlja posao',
         options: [
-          { value: 'Ne', label: 'Ne' },
-          { value: 'Da — potpuno remote', label: 'Remote' },
+          { value: 'Na lokaciji', label: 'Na lokaciji' },
+          { value: 'Od kuće', label: 'Od kuće' },
           { value: 'Hibridno', label: 'Hibridno' },
         ],
       },
@@ -420,6 +447,28 @@ export const wizardSteps: WizardStep[] = [
         conditional: { field: 'zabrana_konkurencije', value: true },
       },
       { id: 'napomene', label: 'Posebne napomene / dodatne klauzule', type: 'textarea', required: false, placeholder: 'opciono' },
+    ],
+  },
+  {
+    id: 'napredne_opcije',
+    title: 'Napredne opcije',
+    fields: [
+      {
+        id: 'detaljna_prava_obaveze',
+        label: 'Detaljna razrada prava i obaveza',
+        type: 'toggle',
+        required: false,
+        helperText: 'Uključuje opširnu listu prava i obaveza obe strane',
+        tooltip: 'Ako isključite ovu opciju, ugovor će sadržati samo zakonski obavezne elemente bez detaljne razrade članova o pravima i obavezama.',
+      },
+      {
+        id: 'cuvanje_poslovne_tajne',
+        label: 'Klauzula o čuvanju poslovne tajne',
+        type: 'toggle',
+        required: false,
+        helperText: 'Preporučuje se za pozicije sa pristupom poverljivim informacijama',
+        tooltip: 'Ako isključite, ugovor neće sadržati poseban član o čuvanju poslovne tajne. Zaposleni je i bez toga zakonski obavezan da čuva poslovnu tajnu.',
+      },
     ],
   },
 ]

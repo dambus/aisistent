@@ -37,6 +37,7 @@ export interface UgovorORaduData {
   zastupnik: string
   funkcija: string
   broj_ugovora?: string
+  datum_zakljucivanja?: string
   ime_prezime: string
   jmbg: string
   adresa_zaposlenog: string
@@ -45,7 +46,7 @@ export interface UgovorORaduData {
   pozicija: string
   opis: string
   mesto_rada: string
-  rad_od_kuce: string
+  nacin_rada: string
   vrsta_radnog_odnosa: string
   datum_pocetka: string
   datum_isteka?: string
@@ -62,6 +63,8 @@ export interface UgovorORaduData {
   godisnji_odmor: number
   zabrana_konkurencije: boolean
   trajanje_zabrane?: number
+  detaljna_prava_obaveze?: boolean
+  cuvanje_poslovne_tajne?: boolean
   napomene?: string
 }
 
@@ -123,6 +126,7 @@ export interface NdaData {
 
 export interface UgovorOZakupuData {
   tip_zakupa: string
+  datum_zakljucivanja?: string
   uknjizena: boolean
   tip_zakupodavca: string
   naziv_zakupodavca: string
@@ -152,11 +156,12 @@ export interface UgovorOZakupuData {
   iznos_deponije?: number
   komunalije: string
   internet: string
-  komunalna_taksa: string
-  zivotinje?: boolean
+  komunalna_taksa?: string
   prijava_boravista?: boolean
-  zabrana_podzakupa: boolean
   adaptacije?: boolean
+  popis_namestaja?: boolean
+  zabrana_zivotinja?: boolean
+  zabrana_podzakupa?: boolean
   napomene?: string
 }
 

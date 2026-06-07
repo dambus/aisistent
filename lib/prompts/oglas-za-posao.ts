@@ -40,6 +40,10 @@ ${declensionRules}
 7. Rok za prijavu
 8. Kako aplicirati
 
+## TON I STIL
+
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+
 ## PRAVILA
 
 - Izbegavaj diskriminatorne uslove kao što su godine, pol, izgled, porodični status ili slično

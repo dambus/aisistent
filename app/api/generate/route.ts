@@ -29,6 +29,7 @@ const ugovorORaduSchema = z.object({
   zastupnik: z.string().min(1),
   funkcija: z.string().min(1),
   broj_ugovora: z.string().optional(),
+  datum_zakljucivanja: z.string().optional(),
   ime_prezime: z.string().min(1),
   jmbg: z.string().min(1),
   adresa_zaposlenog: z.string().min(1),
@@ -54,6 +55,8 @@ const ugovorORaduSchema = z.object({
   godisnji_odmor: num.pipe(z.number().min(20)),
   zabrana_konkurencije: z.boolean(),
   trajanje_zabrane: optNum,
+  detaljna_prava_obaveze: z.boolean().optional(),
+  cuvanje_poslovne_tajne: z.boolean().optional(),
   napomene: z.string().optional(),
 })
 
@@ -115,6 +118,7 @@ const ndaSchema = z.object({
 
 const ugovorOZakupuSchema = z.object({
   tip_zakupa: z.string().min(1),
+  datum_zakljucivanja: z.string().optional(),
   uknjizena: z.boolean(),
   tip_zakupodavca: z.string().min(1),
   naziv_zakupodavca: z.string().min(1),
@@ -144,10 +148,12 @@ const ugovorOZakupuSchema = z.object({
   iznos_deponije: optNum,
   komunalije: z.string().min(1),
   internet: z.string().min(1),
-  komunalna_taksa: z.string().min(1),
-  zivotinje: z.boolean().optional(),
+  komunalna_taksa: z.string().optional(),
   prijava_boravista: z.boolean().optional(),
-  zabrana_podzakupa: z.boolean(),
+  adaptacije: z.boolean().optional(),
+  popis_namestaja: z.boolean().optional(),
+  zabrana_zivotinja: z.boolean().optional(),
+  zabrana_podzakupa: z.boolean().optional(),
   napomene: z.string().optional(),
 })
 

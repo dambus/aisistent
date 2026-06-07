@@ -101,11 +101,29 @@ XIII. ZAVRŠNE ODREDBE
 
 ## TON I STIL
 
-- Formalan pravni jezik | Latinica, srpski
+- Formalan pravni jezik | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Ako primetiš ćirilične karaktere, zameni ih latiničnim ekvivalentom. Posebno pazi na: č, ć, š, đ, ž.
 - "Zakupodavac" i "Zakupac/Zakupnica" kroz ceo dokument
-- Zakupninu iskazati i u EUR ako je indeksirana:
-  "iznos u RSD koji odgovara vrednosti X EUR po kursu NBS na dan plaćanja"
-- Novčane iznose pisati i slovima
+- Zakupninu iskazati i u EUR ako je indeksirana: "iznos u RSD koji odgovara vrednosti X EUR po kursu NBS na dan plaćanja"
+- Novčane iznose pisati i slovima kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada. EUR primeri: 300 EUR → tristotine (300,00) evra | 500 EUR → petsto (500,00) evra.
+
+## OPCIONI ELEMENTI
+
+Generiši sledeće sekcije SAMO ako je vrednost true:
+
+POPIS NAMEŠTAJA:
+- Ako true: navedi "kao u Prilogu 1 — Popis nameštaja i opreme" bez generisanja samog popisa
+- Ako false (Ne — stan se preuzima u viđenom stanju): napiši "Stan se preuzima u viđenom stanju, bez posebnog popisa nameštaja i opreme."
+
+ZABRANA ŽIVOTINJA:
+- Ako true: uključi klauzulu o zabrani držanja kućnih ljubimaca bez pisane saglasnosti zakupodavca
+- Ako false: ne generiši ovaj član
+
+ZABRANA PODZAKUPA:
+- Ako true: uključi klauzulu koja zabranjuje podzakup bez pisane saglasnosti zakupodavca
+- Ako false: ne generiši ovaj član
+
+KOMUNALNA TAKSA:
+- Ako je vrednost "Ne primenjuje se": ne generiši član o komunalnoj taksi. Komunalna taksa za isticanje firme ne primenjuje se na stambeni zakup fizičkog lica.
 
 ## ŠTA NE RADIŠ
 
@@ -113,14 +131,34 @@ XIII. ZAVRŠNE ODREDBE
 - Ne daješ savete o tržišnoj vrednosti zakupa
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
-- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski`
+- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
+- NIKADA ne navodi SCENARIO A, SCENARIO B ili SCENARIO C u generisanom dokumentu — ovo su interne instrukcije za tebe, ne deo dokumenta
+- Ne generiši sekciju PRILOZI kao deo ugovora. Ako se pominje popis nameštaja, navedi samo "kao u Prilogu 1" bez generisanja samog popisa.`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
   const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
 
+  const komunalnaTaksaText = (() => {
+    const val = data.komunalna_taksa
+    if (!val || val === 'Ne primenjuje se') {
+      return data.tip_zakupa === 'Stambeni'
+        ? 'Ne primenjuje se (stambeni zakup fizičkog lica)'
+        : 'Ne primenjuje se'
+    }
+    return val
+  })()
+
+  const popisNamestajaText = data.popis_namestaja
+    ? 'Da — dodati napomenu o Prilogu 1'
+    : 'Ne — stan se preuzima u viđenom stanju'
+  const datumZakljucivanja = data.datum_zakljucivanja
+    ? data.datum_zakljucivanja
+    : '[POPUNITI: datum zaključivanja]'
+
   return `Molim te generiši Ugovor o zakupu sa sledećim podacima:
 
 TIP ZAKUPA: ${data.tip_zakupa} | UKNJIŽENA: ${data.uknjizena ? 'Da' : 'Ne'}
+DATUM ZAKLJUČIVANJA: ${datumZakljucivanja}
 
 ZAKUPODAVAC:
 - Tip: ${data.tip_zakupodavca} | Naziv/Ime: ${data.naziv_zakupodavca}
@@ -149,10 +187,11 @@ ZAKUPNINA:
 TROŠKOVI I USLOVI:
 - Komunalije (struja/voda/gas): ${data.komunalije}
 - Internet/kablovska: ${data.internet}
-- Komunalna taksa: ${data.komunalna_taksa}
+- Komunalna taksa: ${komunalnaTaksaText}
 - Adaptacije/rekonstrukcija: ${typeof data.adaptacije === 'boolean' ? (data.adaptacije ? 'Da (dogovoreno)' : 'Ne (zabranjeno bez saglasnosti)') : '[nije definisano]'}
-- Životinje: ${typeof data.zivotinje === 'boolean' ? (data.zivotinje ? 'Da' : 'Ne') : '[nije definisano]'}
 - Prijava boravišta: ${typeof data.prijava_boravista === 'boolean' ? (data.prijava_boravista ? 'Da' : 'Ne') : '[nije definisano]'}
+- Popis nameštaja: ${popisNamestajaText}
+- Zabrana životinja: ${data.zabrana_zivotinja ? 'Da' : 'Ne'}
 - Zabrana podzakupa: ${data.zabrana_podzakupa ? 'Da' : 'Ne'}
 - Napomene: ${data.napomene ?? '[nema]'}
 
@@ -175,6 +214,14 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Poslovni', label: 'Poslovni' },
           { value: 'Kratkoročni', label: 'Kratkoročni' },
         ],
+      },
+      {
+        id: 'datum_zakljucivanja',
+        label: 'Datum zaključivanja ugovora',
+        type: 'date',
+        required: false,
+        helperText: 'Ostavite prazno ako datum još nije poznat',
+        tooltip: 'Datum kada se ugovor potpisuje. Možete ga ostaviti prazno i ručno upisati datum pre štampanja.',
       },
       { id: 'uknjizena', label: 'Uknjižena nepokretnost?', type: 'toggle', required: true, defaultValue: true, tooltip: 'Uknjižena nepokretnost ima čist vlasnički list u katastru. Zakup neuknjižene nepokretnosti nosi pravne rizike — preporučujemo konsultaciju sa pravnikom.' },
     ],
@@ -250,7 +297,14 @@ export const wizardSteps: WizardStep[] = [
       { id: 'adresa_nepokretnosti', label: 'Adresa nepokretnosti', type: 'text', required: true },
       { id: 'kvadratura', label: 'Kvadratura (m²)', type: 'number', required: true, min: 1 },
       { id: 'sprat', label: 'Sprat / ukupno spratova', type: 'text', required: true, placeholder: 'npr. 3/5' },
-      { id: 'struktura', label: 'Struktura', type: 'text', required: true },
+      {
+        id: 'struktura',
+        label: 'Struktura',
+        type: 'text',
+        required: true,
+        helperText: 'npr. garsonjera, jednosoban, dvosoban...',
+        tooltip: 'Opišite strukturu nekretnine:\n• Garsonjera — jedna prostorija sa kupatilom\n• Jednosoban stan — dnevna soba + spavaća + kupatilo\n• Dvosoban stan — dnevna soba + 2 sobe + kupatilo\n• Poslovni prostor — navedite namenu (kancelarija, lokal...)\nMožete dodati i stanje: namešten, polunamešten, prazan.',
+      },
       { id: 'list_nepokretnosti', label: 'Broj lista nepokretnosti', type: 'text', required: false },
       {
         id: 'stanje',
@@ -312,7 +366,17 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'deponija', label: 'Depozit?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Depozit koji zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
-      { id: 'iznos_deponije', label: 'Iznos depozita (mesečnih zakupnina)', type: 'number', required: false, min: 1, max: 3, conditional: { field: 'deponija', value: true } },
+      {
+        id: 'iznos_deponije',
+        label: 'Iznos depozita (mesečnih zakupnina)',
+        type: 'number',
+        required: false,
+        min: 1,
+        max: 3,
+        conditional: { field: 'deponija', value: true },
+        helperText: 'Broj mesečnih zakupnina (npr. 2)',
+        tooltip: "Unesite BROJ mesečnih zakupnina, ne iznos u novcu. Na primer, ako je zakupnina 500 EUR i unesete '2', depozit je 1.000 EUR. Standard u Srbiji je 1-3 mesečne zakupnine.",
+      },
     ],
   },
   {
@@ -345,18 +409,46 @@ export const wizardSteps: WizardStep[] = [
         id: 'komunalna_taksa',
         label: 'Ko plaća komunalnu taksu?',
         type: 'radio',
-        required: true,
-        tooltip: 'Komunalna taksa za isticanje firme plaća se lokalnoj samoupravi. Obično je obaveza zakupca ako obavlja delatnost u prostoru. Iznos zavisi od opštine i površine.',
+        required: false,
+        helperText: 'Ko plaća komunalnu taksu za isticanje firme',
+        tooltip: "Komunalna taksa za isticanje firme primenjuje se samo kada zakupac obavlja registrovanu delatnost u prostoru (poslovni zakup). Za stambeni zakup fizičkog lica — izaberite 'Ne primenjuje se'.",
         options: [
           { value: 'Zakupac', label: 'Zakupac' },
           { value: 'Zakupodavac', label: 'Zakupodavac' },
+          { value: 'Ne primenjuje se', label: 'Ne primenjuje se' },
         ],
       },
       { id: 'adaptacije', label: 'Dozvola za adaptacije/rekonstrukciju?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Ako zakupac planira rekonstrukciju ili adaptaciju prostora, to mora biti eksplicitno dogovoreno u ugovoru. Bez saglasnosti zakupodavca, zakupac nema pravo na promene i mora vratiti prostor u prvobitno stanje.' },
-      { id: 'zivotinje', label: 'Dozvola za životinje?', type: 'toggle', required: false, defaultValue: false },
       { id: 'prijava_boravista', label: 'Saglasnost za prijavu boravišta?', type: 'toggle', required: false, defaultValue: false },
-      { id: 'zabrana_podzakupa', label: 'Zabrana podzakupa?', type: 'toggle', required: true, defaultValue: true },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false },
+    ],
+  },
+  {
+    id: 'napredne_opcije',
+    title: 'Napredne opcije',
+    fields: [
+      {
+        id: 'popis_namestaja',
+        label: 'Popis nameštaja kao prilog',
+        type: 'toggle',
+        required: false,
+        helperText: 'Dodaje napomenu o prilogu sa popisom nameštaja',
+        tooltip: 'Ako isključite, ugovor će navesti da se stan preuzima u viđenom stanju bez posebnog popisa.',
+      },
+      {
+        id: 'zabrana_zivotinja',
+        label: 'Klauzula o zabrani životinja',
+        type: 'toggle',
+        required: false,
+      },
+      {
+        id: 'zabrana_podzakupa',
+        label: 'Zabrana podzakupa',
+        type: 'toggle',
+        required: false,
+        helperText: 'Preporučuje se uključiti',
+        tooltip: 'Zabranjuje zakupcu da stan dalje izdaje trećim licima bez saglasnosti zakupodavca.',
+      },
     ],
   },
 ]

@@ -84,7 +84,8 @@ X.    ZAVRŠNE ODREDBE
 
 ## TON I STIL
 
-- Formalan pravni jezik, ali razumljiv | Latinica, srpski jezik
+- Formalan pravni jezik, ali razumljiv | Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
+- Iznose slovima piši kao jednu reč bez razmaka: 300 → tristotine | 1.000 → hiljadu | 2.500 → dveihiljadepetsto | 10.000 → deset hiljada | 100.000 → sto hiljada | 1.000.000 → milion.
 - Tip 1: "Strana koja otkriva" / "Strana koja prima"
 - Tip 2: "Prva strana" / "Druga strana"
 - Penali pisati i slovima ako se ugovaraju

@@ -59,6 +59,7 @@ ${declensionRules}
 
 ## TON I STIL
 
+- Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
 - Jasan, čitljiv jezik
 - Bez korporativnog žargona
 - Srpski jezik, latinica
