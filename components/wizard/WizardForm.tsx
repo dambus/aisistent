@@ -28,6 +28,13 @@ function getVisibleFields(fields: WizardField[], values: FormValues): WizardFiel
   })
 }
 
+function getVisibleSteps(steps: WizardStep[], values: FormValues): WizardStep[] {
+  return steps.filter(step => {
+    if (!step.showIf) return true
+    return values[step.showIf.field] === step.showIf.value
+  })
+}
+
 function buildInitialValues(steps: WizardStep[]): FormValues {
   const values: FormValues = {}
   for (const step of steps) {
@@ -48,9 +55,10 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
 
-  const step = steps[currentStep]
+  const visibleSteps = getVisibleSteps(steps, values)
+  const step = visibleSteps[currentStep] ?? visibleSteps[0]
   const visibleFields = getVisibleFields(step.fields, values)
-  const isLast = currentStep === steps.length - 1
+  const isLast = currentStep === visibleSteps.length - 1
   const primaryButtonStyle = { backgroundColor: '#1B6B4A' }
 
   const setValue = useCallback((id: string, value: string | number | boolean) => {
@@ -124,14 +132,14 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-500">
-            Korak {currentStep + 1} od {steps.length}
+            Korak {currentStep + 1} od {visibleSteps.length}
           </span>
           <span className="text-sm font-medium text-gray-700">{step.title}</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div
             className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            style={{ width: `${((currentStep + 1) / visibleSteps.length) * 100}%` }}
           />
         </div>
       </div>

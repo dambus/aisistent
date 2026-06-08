@@ -61,7 +61,8 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 ## FORMAT - TIP 1
 
 UGOVOR O POSLOVNOJ SARADNJI
-Broj: [auto] | Datum: [datum]
+Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
+Datum: ___________
 
 I.    UGOVORNE STRANE
 II.   PREDMET I CILJ SARADNJE
@@ -94,7 +95,8 @@ XII.  ZAVRŠNE ODREDBE
 ## FORMAT - TIP 2
 
 UGOVOR O ZAJMU
-Broj: [auto] | Datum: [datum]
+Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
+Datum: ___________
 
 I.    UGOVORNE STRANE
 II.   PREDMET - IZNOS I VALUTA ZAJMA
@@ -125,11 +127,21 @@ XI.   ZAVRŠNE ODREDBE
 - Ne garantuješ poresku ispravnost
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
-- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski`
+- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
+- Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
+- DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
+  - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
+  - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
+  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
+  - JEDINI datum koji se generiše iz wizard inputa je datum početka saradnje / rok vraćanja zajma — jer ga korisnik eksplicitno unosi.`
 
 export function buildUserMessage(data: UgovorOSaradnjiZajmuData): string {
+  const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
+
   if (data.tip_dokumenta === 'Ugovor o zajmu') {
     return `Molim te generiši Ugovor o zajmu:
+
+BROJ UGOVORA: ${brojUgovora}
 
 ZAJMODAVAC: ${data.tip_zajmodavca ?? '[POPUNITI: tip zajmodavca]'} | ${data.naziv_zajmodavca ?? '[POPUNITI: naziv zajmodavca]'} | JMBG/PIB: ${data.id_zajmodavca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmodavca ?? '[POPUNITI: adresa zajmodavca]'}
 ZAJMOPRIMAC: ${data.tip_zajmoprimca ?? '[POPUNITI: tip zajmoprimca]'} | ${data.naziv_zajmoprimca ?? '[POPUNITI: naziv zajmoprimca]'} | JMBG/PIB: ${data.id_zajmoprimca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmoprimca ?? '[POPUNITI: adresa zajmoprimca]'} | Račun: ${data.racun ?? '[POPUNITI: račun]'}
@@ -147,6 +159,7 @@ Svi podaci u nominativu. Dekliniraš ispravno. Ako bezkamatni - eksplicitno nave
 
   return `Molim te generiši Ugovor o poslovnoj saradnji:
 
+BROJ UGOVORA: ${brojUgovora}
 PRVA STRANA: ${data.tip_1 ?? '[POPUNITI: tip prve strane]'} | ${data.naziv_1 ?? '[POPUNITI: naziv prve strane]'} | PIB/JMBG: ${data.id_1 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_1 ?? '[POPUNITI: adresa prve strane]'} | Zastupnik: ${data.zastupnik_1 ?? '[POPUNITI: zastupnik prve strane]'}
 DRUGA STRANA: ${data.tip_2 ?? '[POPUNITI: tip druge strane]'} | ${data.naziv_2 ?? '[POPUNITI: naziv druge strane]'} | PIB/JMBG: ${data.id_2 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_2 ?? '[POPUNITI: adresa druge strane]'} | Zastupnik: ${data.zastupnik_2 ?? '[POPUNITI: zastupnik druge strane]'}
 
@@ -169,6 +182,14 @@ export const wizardSteps: WizardStep[] = [
     title: 'Tip dokumenta',
     fields: [
       {
+        id: 'broj_ugovora',
+        label: 'Broj ugovora',
+        type: 'text',
+        required: false,
+        helperText: 'Ostavite prazno ako ne želite broj',
+        tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, ugovor neće imati broj u zaglavlju.',
+      },
+      {
         id: 'tip_dokumenta',
         label: 'Tip dokumenta',
         type: 'radio',
@@ -184,6 +205,7 @@ export const wizardSteps: WizardStep[] = [
   {
     id: 'saradnja',
     title: 'Saradnja',
+    showIf: { field: 'tip_dokumenta', value: 'Ugovor o poslovnoj saradnji' },
     fields: [
       { id: 'tip_1', label: 'Tip Prve strane', type: 'radio', required: false, options: [
         { value: 'Firma', label: 'Firma' },
@@ -242,6 +264,7 @@ export const wizardSteps: WizardStep[] = [
   {
     id: 'zajam',
     title: 'Zajam',
+    showIf: { field: 'tip_dokumenta', value: 'Ugovor o zajmu' },
     fields: [
       { id: 'tip_zajmodavca', label: 'Tip zajmodavca', type: 'radio', required: false, options: [
         { value: 'Fizičko lice', label: 'Fizičko lice' },

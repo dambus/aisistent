@@ -91,7 +91,8 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 ## FORMAT IZLAZA
 
 UGOVOR O ZAKUPU NEPOKRETNOSTI
-Broj: [auto] | Datum: [datum]
+Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
+Datum: ___________
 
 I.    UGOVORNE STRANE
 II.   PREDMET ZAKUPA
@@ -142,10 +143,17 @@ KOMUNALNA TAKSA:
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
 - NIKADA ne navodi SCENARIO A, SCENARIO B ili SCENARIO C u generisanom dokumentu — ovo su interne instrukcije za tebe, ne deo dokumenta
-- Ne generiši sekciju PRILOZI kao deo ugovora. Ako se pominje popis nameštaja, navedi samo "kao u Prilogu 1" bez generisanja samog popisa.`
+- Ne generiši sekciju PRILOZI kao deo ugovora. Ako se pominje popis nameštaja, navedi samo "kao u Prilogu 1" bez generisanja samog popisa.
+- Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
+- DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
+  - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
+  - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
+  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
+  - JEDINI datum koji se generiše iz wizard inputa je datum početka zakupa / datum isteka — jer ga korisnik eksplicitno unosi.`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
   const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
+  const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
 
   const komunalnaTaksaText = (() => {
     const val = data.komunalna_taksa
@@ -166,6 +174,7 @@ export function buildUserMessage(data: UgovorOZakupuData): string {
 
   return `Molim te generiši Ugovor o zakupu sa sledećim podacima:
 
+BROJ UGOVORA: ${brojUgovora}
 TIP ZAKUPA: ${data.tip_zakupa} | UKNJIŽENA: ${data.uknjizena ? 'Da' : 'Ne'}
 DATUM ZAKLJUČIVANJA: ${datumZakljucivanja}
 
@@ -212,6 +221,14 @@ export const wizardSteps: WizardStep[] = [
     id: 'tip_zakupa',
     title: 'Tip zakupa',
     fields: [
+      {
+        id: 'broj_ugovora',
+        label: 'Broj ugovora',
+        type: 'text',
+        required: false,
+        helperText: 'Ostavite prazno ako ne želite broj',
+        tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, ugovor neće imati broj u zaglavlju.',
+      },
       {
         id: 'tip_zakupa',
         label: 'Tip zakupa',

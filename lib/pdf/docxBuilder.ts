@@ -420,7 +420,7 @@ export async function buildDocx(
         spacing: { after: 180 },
         children: [
           new TextRun({
-            text: `Mesto i datum potpisivanja: ${sig.city ? `${sig.city}, ` : ''}_______________`,
+            text: 'Mesto i datum potpisivanja: _______________',
             font: FONT_FAMILY,
             size: BODY_SIZE,
           }),

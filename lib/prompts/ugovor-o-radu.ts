@@ -132,7 +132,7 @@ Generiši ugovor sa sledećim sekcijama:
 
 UGOVOR O RADU
 Broj: {broj_ugovora}
-Datum: {datum zaključivanja}
+Datum: ___________
 
 I.   UGOVORNE STRANE
 II.  RADNO MESTO I OPIS POSLOVA
@@ -179,7 +179,12 @@ DETALJNA PRAVA I OBAVEZE:
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne dodaješ sekciju "VAŽNE NAPOMENE ZA POSLODAVCA" ili slične editorijalne komentare
 - Ne koristiš "---" separatore između sekcija u dokumentu
-- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem`
+- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem
+- DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
+  - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
+  - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
+  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
+  - JEDINI datum koji se generiše iz wizard inputa je datum stupanja na snagu / početka / rok isporuke — jer ga korisnik eksplicitno unosi.`
 
 export function buildUserMessage(data: UgovorORaduData): string {
   const probniRad = data.probni_rad

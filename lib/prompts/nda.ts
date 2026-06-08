@@ -68,7 +68,8 @@ e) su otkrivene na osnovu zakonske obaveze ili sudskog naloga
 ## FORMAT IZLAZA
 
 SPORAZUM O POVERLJIVOSTI (Non-Disclosure Agreement)
-Broj: [auto] | Datum: [datum]
+Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
+Datum: ___________
 
 I.    UVODNE ODREDBE I STRANE SPORAZUMA
 II.   PREDMET SPORAZUMA I SVRHA OTKRIVANJA
@@ -96,14 +97,22 @@ X.    ZAVRŠNE ODREDBE
 - Ne garantuješ valjanost u međunarodnim slučajevima
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
-- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski`
+- Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
+- Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
+- DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
+  - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
+  - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
+  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
+  - JEDINI datum koji se generiše iz wizard inputa je datum trajanja sporazuma / rok čuvanja — jer ga korisnik eksplicitno unosi.`
 
 export function buildUserMessage(data: NdaData): string {
   const kazna = typeof data.kazna === 'number' ? `${data.kazna.toLocaleString('sr-RS')} RSD` : '[nije ugovorena]'
   const zabrana = data.zabrana ? `Da (${data.trajanje_zabrane ?? '[POPUNITI: trajanje zabrane]'} meseci)` : 'Ne'
+  const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
 
   return `Molim te generiši Sporazum o poverljivosti sa sledećim podacima:
 
+BROJ UGOVORA: ${brojUgovora}
 TIP: ${data.tip_nda}
 SVRHA: ${data.svrha}
 
@@ -140,6 +149,14 @@ export const wizardSteps: WizardStep[] = [
     id: 'tip',
     title: 'Tip NDA',
     fields: [
+      {
+        id: 'broj_ugovora',
+        label: 'Broj ugovora',
+        type: 'text',
+        required: false,
+        helperText: 'Ostavite prazno ako ne želite broj',
+        tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, ugovor neće imati broj u zaglavlju.',
+      },
       {
         id: 'tip_nda',
         label: 'Tip sporazuma',

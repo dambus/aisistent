@@ -74,7 +74,8 @@ Koristi termine "Vlastodavac" i "Punomoćnik" kroz ceo dokument nakon što stran
 ## FORMAT IZLAZA
 
 PUNOMOĆJE
-Datum: [datum generisanja]
+Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
+Datum: ___________
 
 I. UGOVORNE STRANE
 II. PREDMET I OBIM OVLAŠĆENJA
@@ -90,11 +91,20 @@ IV. ZAVRŠNE ODREDBE
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
 - Ne garantuješ da će organ prihvatiti punomoćje bez overe ili dodatne dokumentacije
 - Ne dodaješ sekciju potpisa ako sistem to radi automatski
-- Na kraju uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom i overa kod javnog beležnika pre upotrebe."`
+- Na kraju uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom i overa kod javnog beležnika pre upotrebe."
+- Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
+- DATUM POTPISIVANJA:
+  - Nikada ne generiši automatski datum u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
+  - U uvodnom tekstu gde se pominje datum (npr. 'dana...') piše: 'dana ___________. godine'
+  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
+  - JEDINI datum koji se generiše iz wizard inputa je datum isteka punomoćja — jer ga korisnik eksplicitno unosi.`
 
 export function buildUserMessage(data: PunomocjeData): string {
+  const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
+
   return `Molim te generiši punomoćje sa sledećim podacima:
 
+BROJ: ${brojUgovora}
 VLASTODAVAC:
 - Tip: ${data.tip_vlastodavca}
 - Ime/Naziv: ${data.naziv_vlastodavca}
@@ -120,6 +130,14 @@ export const wizardSteps: WizardStep[] = [
     id: 'vlastodavac',
     title: 'Vlastodavac',
     fields: [
+      {
+        id: 'broj_ugovora',
+        label: 'Broj ugovora',
+        type: 'text',
+        required: false,
+        helperText: 'Ostavite prazno ako ne želite broj',
+        tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, punomoćje neće imati broj u zaglavlju.',
+      },
       {
         id: 'tip_vlastodavca',
         label: 'Tip vlastodavca',

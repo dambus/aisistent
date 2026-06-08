@@ -315,7 +315,7 @@ function SignatureSection({ sig }: { sig: SigData }) {
     <View style={s.sigSection}>
       <Text style={s.sigIntro}>Ugovor potpisuju:</Text>
       <Text style={s.sigDateLine}>
-        Mesto i datum potpisivanja: {sig.city ? `${sig.city}, ` : ''}_______________
+        Mesto i datum potpisivanja: _______________
       </Text>
       <View style={s.sigRow}>
         <Text style={s.sigCellBold}>{sig.leftLabel}</Text>

@@ -27,6 +27,10 @@ export interface WizardStep {
   id: string
   title: string
   fields: WizardField[]
+  showIf?: {
+    field: string
+    value: string
+  }
 }
 
 export interface UgovorORaduData {
@@ -100,6 +104,7 @@ export interface UgovorODeluData {
 }
 
 export interface NdaData {
+  broj_ugovora?: string
   tip_nda: string
   svrha: string
   tip_strane_1: string
@@ -125,6 +130,7 @@ export interface NdaData {
 }
 
 export interface UgovorOZakupuData {
+  broj_ugovora?: string
   tip_zakupa: string
   datum_zakljucivanja?: string
   uknjizena: boolean
@@ -166,6 +172,7 @@ export interface UgovorOZakupuData {
 }
 
 export interface UgovorOSaradnjiZajmuData {
+  broj_ugovora?: string
   tip_dokumenta: string
   tip_1?: string
   naziv_1?: string
@@ -221,6 +228,7 @@ export interface UgovorOSaradnjiZajmuData {
 }
 
 export interface PunomocjeData {
+  broj_ugovora?: string
   tip_vlastodavca: string
   naziv_vlastodavca: string
   jmbg_pib_vlastodavca: string
