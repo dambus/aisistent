@@ -86,6 +86,18 @@ const planLabels: Record<string, { label: string; cls: string }> = {
   business: { label: 'Business',  cls: 'bg-amber-900 text-amber-200' },
 }
 
+function SidebarLogo({ height = 28 }: { height?: number }) {
+  return (
+    <img
+      src="/logo/AIsistent-Logo_6003x180.png"
+      alt="AIsistent"
+      height={height}
+      width={187}
+      style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
+    />
+  )
+}
+
 interface Props {
   plan: string
   userInitials: string
@@ -159,9 +171,9 @@ export function Sidebar({ plan, userInitials }: Props) {
           <Link
             href="/dashboard"
             onClick={onLinkClick}
-            className="text-lg font-bold text-white"
+            className="flex items-center"
           >
-            AIsistent
+            <SidebarLogo />
           </Link>
           <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
             {planMeta.label}
@@ -298,7 +310,9 @@ export function Sidebar({ plan, userInitials }: Props) {
             <path d="M2 4.5h14M2 9h14M2 13.5h14" />
           </svg>
         </button>
-        <Link href="/dashboard" className="text-sm font-bold text-white">AIsistent</Link>
+        <Link href="/dashboard" className="flex items-center">
+          <SidebarLogo />
+        </Link>
         <div
           className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
           style={{ backgroundColor: PRIMARY }}

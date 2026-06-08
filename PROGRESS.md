@@ -652,6 +652,22 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak R — Logo i favicon implementacija
+
+- `app/layout.tsx` koristi novi favicon iz `public/logo/favicon_64x64.ico`
+- Landing navigacija, auth layout i dashboard sidebar koriste novi horizontalni AIsistent logo
+- `lib/pdf/AisistentDocument.tsx` koristi logo sliku u PDF headeru kada je fajl dostupan lokalno, uz tekstualni fallback
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/layout.tsx`
+- `app/page.tsx`
+- `app/(auth)/layout.tsx`
+- `components/dashboard/Sidebar.tsx`
+- `lib/pdf/AisistentDocument.tsx`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

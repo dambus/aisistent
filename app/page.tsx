@@ -183,8 +183,13 @@ function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <a href="/" className="text-xl font-bold" style={{ color: PRIMARY }}>
-          AIsistent
+        <a href="/" className="flex items-center">
+          <img
+            src="/logo/AIsistent-Logo_6003x180.png"
+            alt="AIsistent"
+            height={32}
+            style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
+          />
         </a>
 
         <div className="hidden items-center gap-8 text-sm font-medium text-gray-600 md:flex">

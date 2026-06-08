@@ -1,12 +1,14 @@
 import React from 'react'
+import fs from 'fs'
 import path from 'path'
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer'
 import { parseMarkdown, Block, InlineSpan, InlineType } from './markdownParser'
 
 const DISCLAIMER =
   'Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom pre potpisivanja. aisistent.rs ne preuzima odgovornost za pravnu valjanost dokumenta.'
 
 const FONTS_DIR = path.resolve(process.cwd(), 'public/fonts')
+const PDF_LOGO_SRC = path.resolve(process.cwd(), 'public/logo/AIsistent-Logo_6003x180.png')
 Font.register({ family: 'Roboto', src: `${FONTS_DIR}/Roboto-Regular.ttf` })
 Font.register({ family: 'Roboto-Bold', src: `${FONTS_DIR}/Roboto-Bold.ttf` })
 Font.register({ family: 'Roboto-Italic', src: `${FONTS_DIR}/Roboto-Italic.ttf` })
@@ -43,7 +45,7 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#e5e7eb',
   },
-  headerLogo: { fontFamily: 'Roboto-Bold', fontSize: 12, color: '#1d4ed8' },
+  headerLogo: { height: 16, width: 88, objectFit: 'contain' },
   headerRight: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   headerDate: { fontSize: 8, color: '#6b7280', fontFamily: 'Roboto' },
   headerConfidential: { fontFamily: 'Roboto-Bold', fontSize: 8, color: '#DC2626' },
@@ -364,6 +366,7 @@ export function AisistentDocument({
   const showConfidential =
     documentType === 'nda' &&
     (inputData?.oznacavanje === true || inputData?.oznacavanje === 'Da')
+  const showPdfLogo = fs.existsSync(PDF_LOGO_SRC)
 
   return (
     <Document title={documentTitle} author="aisistent.rs" creator="aisistent.rs">
@@ -371,7 +374,11 @@ export function AisistentDocument({
 
         {/* Header — absolutely positioned, repeats on every page */}
         <View fixed style={s.header}>
-          <Text style={s.headerLogo}>AIsistent</Text>
+          {showPdfLogo ? (
+            <Image src={PDF_LOGO_SRC} style={s.headerLogo} />
+          ) : (
+            <Text style={{ fontFamily: 'Roboto-Bold', fontSize: 12, color: '#1d4ed8' }}>AIsistent</Text>
+          )}
           <View style={s.headerRight}>
             {showConfidential && (
               <Text style={s.headerConfidential}>POVERLJIVO</Text>

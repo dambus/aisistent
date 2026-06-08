@@ -13,8 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'AIsistent — Pravni dokumenti i poslovni alati za srpske preduzetnike',
-  description: 'Generator ugovora, poslovnih mejlova i HR dokumenata prilagođenih srpskom pravu.',
+  title: "AIsistent — Poslovni asistent",
+  description:
+    "Generator ugovora, poslovnih mejlova i HR dokumenata prilagođenih srpskom pravu.",
+  icons: {
+    icon: "/logo/favicon_64x64.ico",
+    shortcut: "/logo/favicon_64x64.ico",
+  },
 };
 
 export default function RootLayout({
