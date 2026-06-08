@@ -627,6 +627,31 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak Q — Sistemski fix datuma, broj ugovora, conditional steps
+
+1. **Datumi u dokumentima**: Svih 6 ugovornih promptova dobija strogo pravilo u ŠTA NE RADIŠ — zaglavlje uvek `Datum: ___________`, uvod `zaključen dana ___________.`, potpis `Mesto i datum potpisivanja: _______________`. FORMAT IZLAZA ažuriran u svakom promptu. AisistentDocument.tsx i docxBuilder.ts: uklonjen auto-grad iz potpisa — polje je uvek prazno.
+
+2. **broj_ugovora opciono (svi tipovi)**: `nda.ts`, `ugovor-o-zakupu.ts`, `ugovor-o-saradnji-zajmu.ts`, `punomocje.ts` dobijaju opciono polje `broj_ugovora` u wizardu i buildUserMessage (prazno → 'bez broja' → Claude ne generiše red 'Broj:'). `types/wizard.ts` proširen. `ponuda-klijentu.ts`: isti tretman za `broj_ponude`.
+
+3. **Conditional steps (saradnja/zajam)**: `types/wizard.ts` — `WizardStep` dobio `showIf?: {field, value}`. `WizardForm.tsx` — `getVisibleSteps()` filtrira korake; navigacija i progress bar koriste vidljive korake. `ugovor-o-saradnji-zajmu.ts` — saradnja i zajam koraci imaju `showIf` pa se prazan korak više ne prikazuje.
+
+TypeScript: 0 grešaka.
+
+**Fajlovi:**
+- `types/wizard.ts`
+- `components/wizard/WizardForm.tsx`
+- `lib/prompts/ugovor-o-radu.ts`
+- `lib/prompts/ugovor-o-delu.ts`
+- `lib/prompts/nda.ts`
+- `lib/prompts/ugovor-o-zakupu.ts`
+- `lib/prompts/ugovor-o-saradnji-zajmu.ts`
+- `lib/prompts/punomocje.ts`
+- `lib/prompts/ponuda-klijentu.ts`
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/docxBuilder.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
