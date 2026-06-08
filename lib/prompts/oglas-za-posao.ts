@@ -100,14 +100,15 @@ export const wizardSteps: WizardStep[] = [
     id: 'firma',
     title: 'Firma',
     fields: [
-      { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true },
-      { id: 'grad', label: 'Grad', type: 'text', required: true },
-      { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true, helperText: 'npr. Razvoj softvera, Građevinarstvo, Ugostiteljstvo' },
+      { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Naziv firme koja objavljuje oglas' },
+      { id: 'grad', label: 'Grad', type: 'text', required: true, placeholder: 'npr. Novi Sad', helperText: 'Grad u kome se posao obavlja ili gde je sedište firme' },
+      { id: 'delatnost', label: 'Delatnost firme', type: 'textarea', required: true, placeholder: 'npr. Razvoj softvera, građevinarstvo, ugostiteljstvo...', helperText: 'npr. Razvoj softvera, Građevinarstvo, Ugostiteljstvo' },
       {
         id: 'velicina',
         label: 'Veličina firme',
         type: 'radio',
         required: true,
+        tooltip: 'Broj zaposlenih u firmi.',
         options: [
           { value: 'Do 10', label: 'Do 10' },
           { value: '10-50', label: '10-50' },
@@ -121,12 +122,13 @@ export const wizardSteps: WizardStep[] = [
     id: 'pozicija',
     title: 'Pozicija',
     fields: [
-      { id: 'naziv_pozicije', label: 'Naziv radnog mesta', type: 'text', required: true },
+      { id: 'naziv_pozicije', label: 'Naziv radnog mesta', type: 'text', required: true, placeholder: 'npr. Senior Software Developer', helperText: 'Zvaničan naziv radnog mesta' },
       {
         id: 'tip_angazovanja',
         label: 'Tip angažovanja',
         type: 'radio',
         required: true,
+        tooltip: 'Puno radno vreme — 40h nedeljno.\nNepuno — manje od 40h. Projektno — za određeni projekat.\nPraksa — za studente i pripravnike.',
         options: [
           { value: 'Puno radno vreme', label: 'Puno radno vreme' },
           { value: 'Nepuno radno vreme', label: 'Nepuno' },
@@ -139,6 +141,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Lokacija rada',
         type: 'radio',
         required: true,
+        tooltip: 'Na lokaciji — fizički u kancelariji.\nRemote — rad od kuće. Hibridno — kombinacija.',
         options: [
           { value: 'Kancelarija', label: 'Kancelarija' },
           { value: 'Remote', label: 'Remote' },
@@ -150,6 +153,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Stručna sprema',
         type: 'dropdown',
         required: true,
+        tooltip: 'Minimalni nivo obrazovanja koji se traži.',
         options: [
           { value: 'Srednja stručna sprema', label: 'Srednja stručna sprema' },
           { value: 'Viša stručna sprema', label: 'Viša stručna sprema' },
@@ -162,6 +166,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Iskustvo',
         type: 'radio',
         required: true,
+        tooltip: 'Minimalno radno iskustvo na sličnim poslovima.',
         options: [
           { value: 'Bez iskustva', label: 'Bez iskustva' },
           { value: '1-2 god', label: '1-2 god' },
@@ -175,9 +180,9 @@ export const wizardSteps: WizardStep[] = [
     id: 'opis_posla',
     title: 'Opis posla',
     fields: [
-      { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true, helperText: 'Navedite 3-5 glavnih zadataka odvojenih zarezom ili u novim redovima', tooltip: 'Konkretni zadaci privlače bolje kandidate od opštih opisa. Umesto "komunikacija sa klijentima" napišite "vođenje 10-15 aktivnih klijenata mesečno".' },
-      { id: 'potrebne_vestine', label: 'Potrebne veštine', type: 'textarea', required: true },
-      { id: 'prednost', label: 'Prednost', type: 'textarea', required: false },
+      { id: 'glavni_zadaci', label: 'Glavni zadaci', type: 'textarea', required: true, placeholder: 'npr. Razvoj novih funkcionalnosti, održavanje postojećeg sistema, komunikacija sa klijentima...', helperText: 'Navedite 3-5 glavnih zadataka odvojenih zarezom ili u novim redovima', tooltip: 'Konkretni zadaci privlače bolje kandidate od opštih opisa. Umesto "komunikacija sa klijentima" napišite "vođenje 10-15 aktivnih klijenata mesečno".' },
+      { id: 'potrebne_vestine', label: 'Potrebne veštine', type: 'textarea', required: true, placeholder: 'npr. JavaScript, React, 3+ godine iskustva...', helperText: 'Tehničke i soft skills koji su potrebni' },
+      { id: 'prednost', label: 'Prednost', type: 'textarea', required: false, placeholder: 'npr. Iskustvo sa AWS, engleski jezik...', helperText: 'Šta bi bio plus, nije obavezno' },
     ],
   },
   {
@@ -189,13 +194,14 @@ export const wizardSteps: WizardStep[] = [
         label: 'Zarada',
         type: 'radio',
         required: true,
+        tooltip: 'Navedite — tačan iznos ili raspon.\nPrema dogovoru — bez navođenja iznosa.\nKonkurentna — naglašava da je zarada iznad proseka.',
         options: [
           { value: 'Navedite iznos', label: 'Navedite iznos' },
           { value: 'Prema dogovoru', label: 'Prema dogovoru' },
           { value: 'Konkurentna', label: 'Konkurentna' },
         ],
       },
-      { id: 'iznos_zarade', label: 'Iznos zarade', type: 'text', required: false, conditional: { field: 'zarada_tip', value: 'Navedite iznos' } },
+      { id: 'iznos_zarade', label: 'Iznos zarade', type: 'text', required: false, placeholder: 'npr. 150.000 - 200.000 RSD bruto', helperText: 'Možete navesti raspon ili tačan iznos', conditional: { field: 'zarada_tip', value: 'Navedite iznos' } },
       {
         id: 'benefiti',
         label: 'Benefiti',
@@ -212,8 +218,8 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Ostalo', label: 'Ostalo' },
         ],
       },
-      { id: 'rok_prijave', label: 'Rok za prijavu', type: 'date', required: true },
-      { id: 'kako_aplicirati', label: 'Kako aplicirati', type: 'textarea', required: true },
+      { id: 'rok_prijave', label: 'Rok za prijavu', type: 'date', required: true, helperText: 'Krajnji datum za slanje prijave' },
+      { id: 'kako_aplicirati', label: 'Kako aplicirati', type: 'textarea', required: true, placeholder: 'npr. Pošaljite CV na posao@firma.rs...', helperText: 'Objasnite kako se kandidati prijavljuju' },
     ],
   },
 ]

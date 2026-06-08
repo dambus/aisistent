@@ -226,6 +226,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Broj ugovora',
         type: 'text',
         required: false,
+        placeholder: 'npr. 001/2026',
         helperText: 'Ostavite prazno ako ne želite broj',
         tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, ugovor neće imati broj u zaglavlju.',
       },
@@ -261,17 +262,19 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip',
         type: 'radio',
         required: true,
+        tooltip: 'Firma (doo/ad) — pravno lice sa PIB-om. Preduzetnik — registrovana delatnost sa PIB-om. Fizičko lice — osoba bez registrovane firme, ima JMBG.',
         options: [
           { value: 'Fizičko lice', label: 'Fizičko lice' },
           { value: 'Firma', label: 'Firma' },
         ],
       },
-      { id: 'naziv_zakupodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
+      { id: 'naziv_zakupodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Ime i prezime zakupodavca ili naziv firme' },
       {
         id: 'jmbg_pib_zakupodavca',
         label: 'JMBG / PIB',
         type: 'text',
         required: true,
+        placeholder: '123456789',
         dynamicConfig: {
           watchField: 'tip_zakupodavca',
           values: {
@@ -280,8 +283,8 @@ export const wizardSteps: WizardStep[] = [
           },
         },
       },
-      { id: 'adresa_zakupodavca', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_zakupodavca', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
+      { id: 'adresa_zakupodavca', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa stanovanja ili sedišta zakupodavca' },
+      { id: 'zastupnik_zakupodavca', label: 'Zastupnik (ako je firma)', type: 'text', required: false, placeholder: 'npr. Petar Nikolić, direktor', helperText: 'Ime i funkcija osobe koja zastupa zakupodavca' },
     ],
   },
   {
@@ -293,17 +296,19 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip',
         type: 'radio',
         required: true,
+        tooltip: 'Firma (doo/ad) — pravno lice sa PIB-om. Preduzetnik — registrovana delatnost sa PIB-om. Fizičko lice — osoba bez registrovane firme, ima JMBG.',
         options: [
           { value: 'Fizičko lice', label: 'Fizičko lice' },
           { value: 'Firma', label: 'Firma' },
         ],
       },
-      { id: 'naziv_zakupca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
+      { id: 'naziv_zakupca', label: 'Ime i prezime / Naziv', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Ime i prezime zakupca ili naziv firme' },
       {
         id: 'jmbg_pib_zakupca',
         label: 'JMBG / PIB',
         type: 'text',
         required: true,
+        placeholder: '123456789',
         dynamicConfig: {
           watchField: 'tip_zakupca',
           values: {
@@ -312,31 +317,33 @@ export const wizardSteps: WizardStep[] = [
           },
         },
       },
-      { id: 'adresa_zakupca', label: 'Adresa', type: 'text', required: true },
-      { id: 'zastupnik_zakupca', label: 'Zastupnik (ako je firma)', type: 'text', required: false },
+      { id: 'adresa_zakupca', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa stanovanja ili sedišta zakupca' },
+      { id: 'zastupnik_zakupca', label: 'Zastupnik (ako je firma)', type: 'text', required: false, placeholder: 'npr. Petar Nikolić, direktor', helperText: 'Ime i funkcija osobe koja zastupa zakupca' },
     ],
   },
   {
     id: 'nepokretnost',
     title: 'Nepokretnost',
     fields: [
-      { id: 'adresa_nepokretnosti', label: 'Adresa nepokretnosti', type: 'text', required: true },
-      { id: 'kvadratura', label: 'Kvadratura (m²)', type: 'number', required: true, min: 1 },
-      { id: 'sprat', label: 'Sprat / ukupno spratova', type: 'text', required: true, placeholder: 'npr. 3/5' },
+      { id: 'adresa_nepokretnosti', label: 'Adresa nepokretnosti', type: 'text', required: true, placeholder: 'npr. Bulevar Oslobođenja 5, stan 12, Novi Sad', helperText: 'Puna adresa stana ili poslovnog prostora' },
+      { id: 'kvadratura', label: 'Kvadratura (m²)', type: 'number', required: true, min: 1, helperText: 'Površina u kvadratnim metrima' },
+      { id: 'sprat', label: 'Sprat / ukupno spratova', type: 'text', required: true, placeholder: 'npr. 3/5', helperText: 'Navedite sprat i ukupan broj spratova ako je poznat' },
       {
         id: 'struktura',
         label: 'Struktura',
         type: 'text',
         required: true,
+        placeholder: 'npr. jednosoban stan, namešten',
         helperText: 'npr. garsonjera, jednosoban, dvosoban...',
         tooltip: 'Opišite strukturu nekretnine:\n• Garsonjera — jedna prostorija sa kupatilom\n• Jednosoban stan — dnevna soba + spavaća + kupatilo\n• Dvosoban stan — dnevna soba + 2 sobe + kupatilo\n• Poslovni prostor — navedite namenu (kancelarija, lokal...)\nMožete dodati i stanje: namešten, polunamešten, prazan.',
       },
-      { id: 'list_nepokretnosti', label: 'Broj lista nepokretnosti', type: 'text', required: false },
+      { id: 'list_nepokretnosti', label: 'Broj lista nepokretnosti', type: 'text', required: false, placeholder: 'npr. 12345 KO Novi Sad', helperText: 'Broj lista iz katastra (opciono)' },
       {
         id: 'stanje',
         label: 'Stanje',
         type: 'radio',
         required: false,
+        tooltip: 'Namešten — sa svim nameštajem i aparatima.\nPolunamešten — delimično opremljen.\nNenamešten — prazan prostor.',
         options: [
           { value: 'Namešten', label: 'Namešten' },
           { value: 'Polunamešten', label: 'Polunamešten' },
@@ -349,26 +356,27 @@ export const wizardSteps: WizardStep[] = [
     id: 'trajanje',
     title: 'Trajanje',
     fields: [
-      { id: 'datum_pocetka', label: 'Datum početka', type: 'date', required: true },
+      { id: 'datum_pocetka', label: 'Datum početka', type: 'date', required: true, helperText: 'Kada zakupac uselje ili počinje da koristi prostor' },
       {
         id: 'tip_trajanja',
         label: 'Tip trajanja',
         type: 'radio',
         required: true,
+        tooltip: 'Određeno vreme — ugovor ističe na dogovoreni datum.\nNeodređeno vreme — traje dok jedna strana ne otkaže.',
         options: [
           { value: 'Određeno', label: 'Određeno' },
           { value: 'Neodređeno', label: 'Neodređeno' },
         ],
       },
-      { id: 'datum_isteka', label: 'Datum isteka', type: 'date', required: false, conditional: { field: 'tip_trajanja', value: 'Određeno' } },
-      { id: 'otkazni_rok', label: 'Otkazni rok (meseci)', type: 'number', required: true, min: 1, defaultValue: 1 },
+      { id: 'datum_isteka', label: 'Datum isteka', type: 'date', required: false, conditional: { field: 'tip_trajanja', value: 'Određeno' }, helperText: 'Datum kada ugovor ističe' },
+      { id: 'otkazni_rok', label: 'Otkazni rok (meseci)', type: 'number', required: true, min: 1, defaultValue: 1, helperText: 'Broj meseci otkaznog roka (standardno 1-3)' },
     ],
   },
   {
     id: 'zakupnina',
     title: 'Zakupnina i depozit',
     fields: [
-      { id: 'iznos', label: 'Iznos zakupnine', type: 'number', required: true, min: 1 },
+      { id: 'iznos', label: 'Iznos zakupnine', type: 'number', required: true, min: 1, helperText: 'Mesečni iznos zakupnine' },
       {
         id: 'valuta',
         label: 'Valuta',
@@ -380,12 +388,13 @@ export const wizardSteps: WizardStep[] = [
           { value: 'EUR (plaća se u RSD po kursu NBS)', label: 'EUR (plaća se u RSD po kursu NBS)' },
         ],
       },
-      { id: 'dan_placanja', label: 'Dan plaćanja u mesecu', type: 'number', required: true, min: 1, max: 31, defaultValue: 1 },
+      { id: 'dan_placanja', label: 'Dan plaćanja u mesecu', type: 'number', required: true, min: 1, max: 31, defaultValue: 1, helperText: 'Dan u mesecu do kojeg se plaća zakupnina (npr. 1 ili 15)' },
       {
         id: 'nacin_placanja',
         label: 'Način plaćanja',
         type: 'radio',
         required: true,
+        tooltip: 'Na račun — bankarski transfer.\nGotovina — gotovinska isplata uz priznanicu.',
         options: [
           { value: 'Na račun', label: 'Na račun' },
           { value: 'Gotovina', label: 'Gotovina' },
@@ -414,6 +423,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Ko plaća struju/vodu/gas?',
         type: 'radio',
         required: true,
+        tooltip: 'Ko plaća mesečne režijske račune — struju, vodu, gas.',
         options: [
           { value: 'Zakupac', label: 'Zakupac' },
           { value: 'Zakupodavac', label: 'Zakupodavac' },
@@ -425,6 +435,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Ko plaća internet i kablovsku?',
         type: 'radio',
         required: true,
+        tooltip: 'Ko plaća internet i kablovsku televiziju.',
         options: [
           { value: 'Zakupac', label: 'Zakupac' },
           { value: 'Zakupodavac', label: 'Zakupodavac' },
@@ -445,8 +456,8 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'adaptacije', label: 'Dozvola za adaptacije/rekonstrukciju?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Ako zakupac planira rekonstrukciju ili adaptaciju prostora, to mora biti eksplicitno dogovoreno u ugovoru. Bez saglasnosti zakupodavca, zakupac nema pravo na promene i mora vratiti prostor u prvobitno stanje.' },
-      { id: 'prijava_boravista', label: 'Saglasnost za prijavu boravišta?', type: 'toggle', required: false, defaultValue: false },
-      { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false },
+      { id: 'prijava_boravista', label: 'Saglasnost za prijavu boravišta?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Saglasnost zakupodavca da zakupac može prijaviti boravište na adresi stana. Potrebno za zdravstveno osiguranje i slično.' },
+      { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi korišćenja prostora, primopredaja ključeva, kućni red...', helperText: 'Opciono — dodatne odredbe koje želite u ugovoru' },
     ],
   },
   {
@@ -466,6 +477,8 @@ export const wizardSteps: WizardStep[] = [
         label: 'Klauzula o zabrani životinja',
         type: 'toggle',
         required: false,
+        helperText: 'Opciono — isključeno po defaultu',
+        tooltip: 'Uključite ako zabranjujete držanje kućnih ljubimaca.',
       },
       {
         id: 'zabrana_podzakupa',

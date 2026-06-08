@@ -77,17 +77,17 @@ export const wizardSteps: WizardStep[] = [
     id: 'posiljalac',
     title: 'Pošiljalac',
     fields: [
-      { id: 'posiljalac_ime', label: 'Ime i prezime', type: 'text', required: true },
-      { id: 'posiljalac_firma', label: 'Naziv firme', type: 'text', required: true },
-      { id: 'posiljalac_pozicija', label: 'Pozicija', type: 'text', required: true },
+      { id: 'posiljalac_ime', label: 'Ime i prezime', type: 'text', required: true, placeholder: 'npr. Petar Nikolić', helperText: 'Ime i prezime pošiljaoca mejla' },
+      { id: 'posiljalac_firma', label: 'Naziv firme', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Naziv firme pošiljaoca' },
+      { id: 'posiljalac_pozicija', label: 'Pozicija', type: 'text', required: true, placeholder: 'npr. Direktor prodaje', helperText: 'Funkcija ili radna pozicija pošiljaoca' },
     ],
   },
   {
     id: 'primalac',
     title: 'Primalac',
     fields: [
-      { id: 'primalac_ime', label: 'Ime i prezime ili tim/odeljenje', type: 'text', required: true },
-      { id: 'primalac_firma', label: 'Naziv firme primaoca', type: 'text', required: true },
+      { id: 'primalac_ime', label: 'Ime i prezime ili tim/odeljenje', type: 'text', required: true, placeholder: 'npr. Ana Marković ili Tim nabavke', helperText: 'Ime osobe ili naziv tima/odeljenja' },
+      { id: 'primalac_firma', label: 'Naziv firme primaoca', type: 'text', required: true, placeholder: 'npr. ABC Company doo', helperText: 'Naziv firme kojoj šaljete mejl' },
     ],
   },
   {
@@ -113,20 +113,21 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Ostalo', label: 'Ostalo' },
         ],
       },
-      { id: 'kontekst', label: 'Kontekst / detalji', type: 'textarea', required: true, helperText: 'npr. Klijent duguje 3 iznosa, poslednji podsetnik bio pre mesec dana', tooltip: 'Što više detalja unesete, to će mejl biti precizniji i personalizovaniji. Unesite ključne činjenice koje mejl mora da sadrži.' },
+      { id: 'kontekst', label: 'Kontekst / detalji', type: 'textarea', required: true, placeholder: 'npr. Klijent duguje 3 iznosa, poslednji podsetnik bio pre mesec dana', helperText: 'npr. Klijent duguje 3 iznosa, poslednji podsetnik bio pre mesec dana', tooltip: 'Što više detalja unesete, to će mejl biti precizniji i personalizovaniji. Unesite ključne činjenice koje mejl mora da sadrži.' },
       {
         id: 'ton',
         label: 'Ton',
         type: 'radio',
         required: true,
+        tooltip: 'Formalan — zvaničan poslovni ton.\nProfesionalan — ljubazan ali direktan.\nTopao — prijateljski i ličan.',
         options: [
           { value: 'Formalan', label: 'Formalan' },
           { value: 'Profesionalan', label: 'Profesionalan' },
           { value: 'Topao', label: 'Topao' },
         ],
       },
-      { id: 'hitno', label: 'Da li je hitno?', type: 'toggle', required: false, defaultValue: false },
-      { id: 'predmet', label: 'Predmet mejla (opciono)', type: 'text', required: false },
+      { id: 'hitno', label: 'Da li je hitno?', type: 'toggle', required: false, defaultValue: false, helperText: 'Utiče na ton — hitniji i direktniji mejl' },
+      { id: 'predmet', label: 'Predmet mejla (opciono)', type: 'text', required: false, placeholder: 'npr. Ponuda za web razvoj — jul 2026.', helperText: 'Subject line mejla (opciono)' },
     ],
   },
 ]

@@ -135,6 +135,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Broj ugovora',
         type: 'text',
         required: false,
+        placeholder: 'npr. 001/2026',
         helperText: 'Ostavite prazno ako ne želite broj',
         tooltip: 'Interni broj za vašu evidenciju. Ako ostavite prazno, punomoćje neće imati broj u zaglavlju.',
       },
@@ -143,17 +144,19 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip vlastodavca',
         type: 'radio',
         required: true,
+        tooltip: 'Firma (doo/ad) — pravno lice sa PIB-om. Fizičko lice — osoba bez registrovane firme, ima JMBG.',
         options: [
           { value: 'Fizičko lice', label: 'Fizičko lice' },
           { value: 'Firma', label: 'Firma' },
         ],
       },
-      { id: 'naziv_vlastodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true },
+      { id: 'naziv_vlastodavca', label: 'Ime i prezime / Naziv', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Ime i prezime vlastodavca ili naziv firme' },
       {
         id: 'jmbg_pib_vlastodavca',
         label: 'JMBG / PIB',
         type: 'text',
         required: true,
+        placeholder: '123456789',
         dynamicConfig: {
           watchField: 'tip_vlastodavca',
           values: {
@@ -162,7 +165,7 @@ export const wizardSteps: WizardStep[] = [
           },
         },
       },
-      { id: 'adresa_vlastodavca', label: 'Adresa', type: 'text', required: true },
+      { id: 'adresa_vlastodavca', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa stanovanja ili sedišta vlastodavca' },
     ],
   },
   {
@@ -174,17 +177,19 @@ export const wizardSteps: WizardStep[] = [
         label: 'Tip punomoćnika',
         type: 'radio',
         required: true,
+        tooltip: 'Firma (doo/ad) — pravno lice sa PIB-om. Fizičko lice — osoba bez registrovane firme, ima JMBG.',
         options: [
           { value: 'Fizičko lice', label: 'Fizičko lice' },
           { value: 'Firma', label: 'Firma' },
         ],
       },
-      { id: 'naziv_punomocnika', label: 'Ime i prezime / Naziv', type: 'text', required: true },
+      { id: 'naziv_punomocnika', label: 'Ime i prezime / Naziv', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Ime i prezime punomoćnika ili naziv firme' },
       {
         id: 'jmbg_pib_punomocnika',
         label: 'JMBG / PIB',
         type: 'text',
         required: true,
+        placeholder: '123456789',
         dynamicConfig: {
           watchField: 'tip_punomocnika',
           values: {
@@ -193,7 +198,7 @@ export const wizardSteps: WizardStep[] = [
           },
         },
       },
-      { id: 'adresa_punomocnika', label: 'Adresa', type: 'text', required: true },
+      { id: 'adresa_punomocnika', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa stanovanja ili sedišta punomoćnika' },
     ],
   },
   {
@@ -213,19 +218,20 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Nepokretnosti', label: 'Nepokretnosti' },
         ],
       },
-      { id: 'opis_ovlascenja', label: 'Opis ovlašćenja', type: 'textarea', required: true },
+      { id: 'opis_ovlascenja', label: 'Opis ovlašćenja', type: 'textarea', required: true, placeholder: 'npr. Zastupanje pred Poreskom upravom radi uvida u poresku evidenciju i podnošenja poreskih prijava...', helperText: 'Navedite tačno za šta punomoćnik ima ovlašćenje' },
       {
         id: 'trajanje',
         label: 'Trajanje',
         type: 'radio',
         required: true,
+        tooltip: 'Neograničeno — važi dok se ne opozove.\nDo opoziva — važi dok vlastodavac pismeno ne opozove.\nOdređeni datum — automatski ističe na navedeni datum.',
         options: [
           { value: 'Neograničeno', label: 'Neograničeno' },
           { value: 'Do opoziva', label: 'Do opoziva' },
           { value: 'Određeni datum', label: 'Određeni datum' },
         ],
       },
-      { id: 'datum_isteka', label: 'Datum isteka', type: 'date', required: false, conditional: { field: 'trajanje', value: 'Određeni datum' } },
+      { id: 'datum_isteka', label: 'Datum isteka', type: 'date', required: false, helperText: 'Datum do kada punomoćje važi', conditional: { field: 'trajanje', value: 'Određeni datum' } },
     ],
   },
 ]

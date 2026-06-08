@@ -105,11 +105,11 @@ export const wizardSteps: WizardStep[] = [
     id: 'firma',
     title: 'Firma',
     fields: [
-      { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true },
-      { id: 'pib', label: 'PIB', type: 'text', required: true },
-      { id: 'adresa', label: 'Adresa', type: 'text', required: true },
-      { id: 'email', label: 'Email za kontakt', type: 'text', required: true },
-      { id: 'url', label: 'Sajt/aplikacija URL', type: 'text', required: true },
+      { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Naziv kako piše u APR registru' },
+      { id: 'pib', label: 'PIB', type: 'text', required: true, placeholder: '123456789', helperText: '9 cifara' },
+      { id: 'adresa', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa sedišta firme' },
+      { id: 'email', label: 'Email za kontakt', type: 'text', required: true, placeholder: 'npr. info@firma.rs', helperText: 'Email na koji korisnici šalju upite' },
+      { id: 'url', label: 'Sajt/aplikacija URL', type: 'text', required: true, placeholder: 'npr. https://www.firma.rs', helperText: 'Adresa sajta ili aplikacije' },
     ],
   },
   {
@@ -130,7 +130,7 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Ostalo', label: 'Ostalo' },
         ],
       },
-      { id: 'opis_usluge', label: 'Opis usluge', type: 'textarea', required: true },
+      { id: 'opis_usluge', label: 'Opis usluge', type: 'textarea', required: true, placeholder: 'npr. Online prodavnica sportske opreme. Korisnici mogu kupovati proizvode, pratiti narudžbine...', helperText: 'Kratko opišite šta vaša platforma radi' },
     ],
   },
   {
@@ -143,6 +143,7 @@ export const wizardSteps: WizardStep[] = [
         label: 'Koje vrste podataka?',
         type: 'dropdown',
         required: true,
+        tooltip: 'Označite sve kategorije podataka koje prikupljate od korisnika sajta ili aplikacije.',
         options: [
           { value: 'Ime/email', label: 'Ime/email' },
           { value: 'Adresa', label: 'Adresa' },
@@ -151,8 +152,8 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Cookies', label: 'Cookies' },
         ],
       },
-      { id: 'analitika', label: 'Koriste se analitički alati?', type: 'toggle', required: false, defaultValue: false },
-      { id: 'deli_sa_trecim_stranama', label: 'Podaci se dele sa trećim stranama?', type: 'toggle', required: false, defaultValue: false },
+      { id: 'analitika', label: 'Koriste se analitički alati?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Google Analytics, Facebook Pixel i slični alati za praćenje poseta sajtu.' },
+      { id: 'deli_sa_trecim_stranama', label: 'Podaci se dele sa trećim stranama?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Da li dostavljate podatke korisnika trećim stranama (marketinški partneri, procesori plaćanja i sl.)?' },
     ],
   },
 ]
