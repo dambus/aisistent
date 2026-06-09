@@ -756,6 +756,18 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak W — Ispravljen PURS link
+
+- Ažuriran link ka zvaničnom PURS kalkulatoru na `https://eporezi.purs.gov.rs/kalkulator-pausalnog-poreza-i-doprinosa.html`
+- Ispravka primenjena na glavno CTA dugme i listu korisnih linkova
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/(dashboard)/alati/kalkulator-pausala/page.tsx`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

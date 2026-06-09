@@ -28,7 +28,10 @@ const deadlines = [
 ]
 
 const usefulLinks = [
-  { label: 'PURS — Poreski kalkulator', href: 'https://www.purs.gov.rs' },
+  {
+    label: 'PURS — Poreski kalkulator',
+    href: 'https://eporezi.purs.gov.rs/kalkulator-pausalnog-poreza-i-doprinosa.html',
+  },
   { label: 'APR — Registracija preduzetnika', href: 'https://www.apr.gov.rs' },
   { label: 'ePorezi portal', href: 'https://eporezi.purs.gov.rs' },
 ]
@@ -83,7 +86,7 @@ export default function PausalnoOporezivanjePage() {
 
         <div className="mt-5">
           <Link
-            href="https://www.purs.gov.rs"
+            href="https://eporezi.purs.gov.rs/kalkulator-pausalnog-poreza-i-doprinosa.html"
             target="_blank"
             rel="noreferrer"
             className="inline-flex rounded-xl bg-[#1B6B4A] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#15563b]"
