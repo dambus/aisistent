@@ -89,7 +89,7 @@ const planLabels: Record<string, { label: string; cls: string }> = {
 function SidebarLogo({ height = 28 }: { height?: number }) {
   return (
     <img
-      src="/logo/AIsistent-Logo_6003x180.png"
+      src="/logo/AIsistent-Logo_6003x180_inverted.png"
       alt="AIsistent"
       height={height}
       width={187}

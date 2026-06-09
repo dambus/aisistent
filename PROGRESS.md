@@ -668,6 +668,19 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak S — Invertovani logo u tamnom sidebaru
+
+- Dashboard sidebar i mobilni dashboard header koriste invertovanu verziju horizontalnog AIsistent logoa
+- Landing page i auth layout ostaju na svetloj verziji logoa
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `components/dashboard/Sidebar.tsx`
+- `public/logo/AIsistent-Logo_6003x180_inverted.png`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:fontsource.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(python3 -c ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npx tsc *)",
+      "Bash(git reset *)",
+      "Bash(git commit -m 'chore: update PROGRESS.md — C1/C2 completed *)",
+      "Bash(git commit -m 'fix: DOCX export — prosleđivanje documentType, inputData, isFree *)",
+      "Bash(git push *)",
+      "Bash(npx.cmd tsc *)",
+      "Bash(git commit -m 'docs: ažuriran PROGRESS.md — Korak Q završen *)"
+    ]
+  }
+}
