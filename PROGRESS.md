@@ -725,6 +725,22 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak U — Kalkulator paušala
+
+- Kreiran `app/(dashboard)/alati/kalkulator-pausala/page.tsx` kao client-side kalkulator sa real-time obračunom mesečnih i godišnjih obaveza
+- Podržani inputi: grupa delatnosti, opština i status preduzetnika; za postojeće preduzetnike dodat poseban info box o zvaničnoj tabeli Poreske uprave
+- Dodati raspodela obaveza kroz vizuelni bar, rok plaćanja, disclaimer i FAQ sekcija
+- Sidebar i dashboard ažurirani tako da je Kalkulator paušala aktivan i dostupan iz sekcije Alati
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/(dashboard)/alati/kalkulator-pausala/page.tsx`
+- `components/dashboard/Sidebar.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

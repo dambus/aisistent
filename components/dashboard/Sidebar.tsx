@@ -68,10 +68,11 @@ const alatiCategory: NavCategory = {
   defaultExpanded: true,
   items: [
     { label: 'Kalkulator zarade', href: '/alati/kalkulator-zarade' },
+    { label: 'Kalkulator paušala', href: '/alati/kalkulator-pausala' },
   ],
 }
 
-const upcomingAlati = ['Kalkulator paušala', 'Kalkulator ugovora o delu']
+const upcomingAlati = ['Kalkulator ugovora o delu']
 
 const bottomNav: NavItem[] = [
   { label: 'Arhiva',      href: '/arhiva',      icon: '▣' },
