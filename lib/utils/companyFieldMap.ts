@@ -42,6 +42,18 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'ponudjac_adresa',
     zastupnik:            'kontakt_osoba',
   },
+  'poslovni-mejl': {
+    naziv:                'posiljalac_firma',
+  },
+  'oglas-za-posao': {
+    naziv:                'naziv_firme',
+    adresa:               'grad',
+  },
+  'opsti-uslovi': {
+    naziv:                'naziv_firme',
+    pib:                  'pib',
+    adresa:               'adresa',
+  },
 }
 
 import type { Company } from '@/types/database'
@@ -58,7 +70,11 @@ export function buildCompanyFields(
 
   for (const [companyKey, fieldId] of Object.entries(map)) {
     if (companyKey === 'adresa') {
-      if (adresaPuna) result[fieldId] = adresaPuna
+      if (docType === 'oglas-za-posao') {
+        if (company.grad) result[fieldId] = company.grad
+      } else {
+        if (adresaPuna) result[fieldId] = adresaPuna
+      }
     } else {
       const val = company[companyKey as keyof Company]
       if (val && typeof val === 'string') result[fieldId] = val
