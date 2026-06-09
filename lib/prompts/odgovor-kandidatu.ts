@@ -1,4 +1,5 @@
 import type { OdgovorKandidatuData, WizardStep } from '@/types/wizard'
+import { detectGender } from '@/lib/utils/genderDetect'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -25,6 +26,8 @@ Uvek koristiš ime kandidata u pravilnom padežu i pišeš tekst kao mejl ili po
 
 Ime kandidata i kontakt osobe korisnik daje u nominativu. Dekliniraš ih prema kontekstu rečenice.
 
+Oslovljavanje na početku poruke je već određeno u polju "oslovljavanje" — koristi ga tačno onako kako je navedeno (Poštovana / Poštovani / Poštovani/a).
+
 ## FORMAT IZLAZA
 
 Generiši samo gotov tekst odgovora, bez dodatnih objašnjenja, napomena ili uvoda za korisnika.
@@ -38,6 +41,10 @@ Generiši samo gotov tekst odgovora, bez dodatnih objašnjenja, napomena ili uvo
 - Ne dodaješ komentar da je tekst generisan veštačkom inteligencijom`
 
 export function buildUserMessage(data: OdgovorKandidatuData): string {
+  const firstName = (data.ime_kandidata || '').split(' ')[0]
+  const rod = detectGender(firstName)
+  const oslovljavanje = rod === 'F' ? 'Poštovana' : rod === 'M' ? 'Poštovani' : 'Poštovani/a'
+
   return `Napiši profesionalan odgovor kandidatu sa sledećim podacima:
 
 FIRMA:
@@ -46,7 +53,8 @@ FIRMA:
 - Pozicija: ${data.pozicija}
 
 KANDIDAT:
-- Ime kandidata: ${data.ime_kandidata}${data.email_kandidata ? `\n- Email kandidata: ${data.email_kandidata}` : ''}
+- Ime kandidata: ${data.ime_kandidata}
+- Oslovljavanje: ${oslovljavanje}${data.email_kandidata ? `\n- Email kandidata: ${data.email_kandidata}` : ''}
 
 TIP ODGOVORA:
 - Tip: ${data.tip_odgovora}${data.datum_intervjua ? `\n- Datum intervjua: ${data.datum_intervjua}` : ''}${data.vreme_intervjua ? `\n- Vreme intervjua: ${data.vreme_intervjua}` : ''}${data.format_intervjua ? `\n- Format intervjua: ${data.format_intervjua}` : ''}${data.adresa_ili_link ? `\n- Adresa ili link: ${data.adresa_ili_link}` : ''}${data.datum_pocetka ? `\n- Datum početka rada: ${data.datum_pocetka}` : ''}${typeof data.bruto_zarada === 'number' ? `\n- Bruto zarada: ${data.bruto_zarada.toLocaleString('sr-RS')} RSD` : ''}${data.napomena ? `\n- Dodatna napomena: ${data.napomena}` : ''}
