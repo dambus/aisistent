@@ -35,6 +35,10 @@ prođi kroz SVAKU stavku ove liste.
 - [ ] Dodat case za novi tip
 - [ ] Zod schema ažurirana
 
+### 3b. app/(dashboard)/dokumenti/[type]/ ← ČESTO SE ZABORAVLJA
+- [ ] Dodat u SUPPORTED_TYPES u page.tsx
+- [ ] Dodat entry u documentMeta u WizardPageClient.tsx
+
 ### 4. lib/utils/companyFieldMap.ts ← ČESTO SE ZABORAVLJA
 - [ ] Dodat entry za novi tip
 - [ ] Mapirana sva relevantna polja
@@ -175,6 +179,10 @@ Placeholder nedostaje
 
 Step prikazuje pogrešan sadržaj
 → showIf logika nedostaje u wizardSteps
+
+Wizard se ne učitava (404)
+→ WizardPageClient.tsx ima odvojenu documentMeta mapu koja nije ažurirana
+→ Dodati type u documentMeta u WizardPageClient.tsx I u SUPPORTED_TYPES u page.tsx
 
 ---
 *jun 2026. — ažurirati pri svakom novom tipu dokumenta*
