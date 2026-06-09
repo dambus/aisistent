@@ -784,6 +784,39 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak S — Faza 3 alati: HR, Marketing, Zapisnik (7 novih alata)
+
+**Codex kreirao 7 prompt fajlova**, integracija obavljena:
+- Svi promptovi imaju `## JEZIČKI STANDARD`, nominativ rečenicu, conditional showIf polja ✅
+- `odgovor-kandidatu`: conditional datum/vreme/format samo za "Poziv na intervju" ✅
+
+**Integracija (svih 9 fajlova):**
+- `app/api/generate/route.ts` — 7 novih Zod shema, imports, documentConfigs, requestSchema enum (ukupno 17 tipova)
+- `lib/utils/companyFieldMap.ts` — 7 novih mapiranja
+- `lib/pdf/AisistentDocument.tsx` — buildSigData za sve 7 tipova
+- `lib/pdf/docxBuilder.ts` — isti buildSigData pattern
+- `data/reminders.ts` — 7 novih podsetnika
+- `lib/utils/documentTypes.ts` — 7 novih human-readable naziva
+- `components/dashboard/Sidebar.tsx` — HR proširen, nova "Marketing i prodaja" kategorija, "Uskoro" prazna
+- `app/(dashboard)/dashboard/page.tsx` — HR proširena, nova "Marketing i prodaja" kategorija
+- `app/(dashboard)/dokumenti/[type]/page.tsx` — SUPPORTED_TYPES proširen na 17
+- `app/page.tsx` — landing kategorije ažurirane, "Uskoro" uklonjena
+
+**Ispravke Codex rada**: Nema kritičnih — svi promptovi u redu. `bio-o-nama.ts` nema eksplicitni `## SRPSKI JEZIK I DEKLINACIJA` header ali nominativ instrukcija postoji u poruci.
+
+TypeScript: 0 grešaka.
+
+**Fajlovi (Codex, bez commita):**
+- `lib/prompts/odgovor-kandidatu.ts`
+- `lib/prompts/preporuka.ts`
+- `lib/prompts/resenje-godisnji-odmor.ts`
+- `lib/prompts/pravilnik-o-radu.ts`
+- `lib/prompts/opis-proizvoda.ts`
+- `lib/prompts/bio-o-nama.ts`
+- `lib/prompts/zapisnik-sastanak.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

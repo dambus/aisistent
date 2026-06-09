@@ -82,16 +82,24 @@ const toolCategories: ToolCategory[] = [
   {
     title: '👥 HR i zapošljavanje',
     tools: [
-      { name: 'Oglas za posao',   desc: 'Privucite prave kandidate na Infostud i LinkedIn', type: 'oglas-za-posao' },
+      { name: 'Oglas za posao',            desc: 'Privucite prave kandidate na Infostud i LinkedIn',     type: 'oglas-za-posao' },
+      { name: 'Odgovor kandidatu',          desc: 'Poziv na intervju, prihvatanje ili odbijanje',         type: 'odgovor-kandidatu' },
+      { name: 'Preporuka/Referenca',        desc: 'Profesionalna preporuka za zaposlenog ili saradnika',  type: 'preporuka' },
+      { name: 'Rešenje o godišnjem odmoru', desc: 'Formalno rešenje u skladu sa Zakonom o radu',          type: 'resenje-godisnji-odmor' },
+      { name: 'Pravilnik o radu',           desc: 'Interni akt o radnom vremenu, zaradama i disciplini',  type: 'pravilnik-o-radu' },
+    ],
+  },
+  {
+    title: '🏢 Marketing i prodaja',
+    tools: [
+      { name: 'Opis proizvoda/usluge', desc: 'Prodajni opis za sajt, katalog ili kampanju',        type: 'opis-proizvoda' },
+      { name: 'Bio / O nama',          desc: 'Tekst o firmi, preduzetnik bio ili LinkedIn profil', type: 'bio-o-nama' },
+      { name: 'Zapisnik sa sastanka',  desc: 'Zaključci, akcije i odluke sa poslovnih sastanaka',  type: 'zapisnik-sastanak' },
     ],
   },
 ]
 
-const upcomingTools = [
-  { name: 'Pravilnik o radu',           desc: 'Obavezan za firme sa 10+ zaposlenih' },
-  { name: 'Zapisnik sa sastanka',        desc: 'Profesionalni zapisnici za timove' },
-  { name: 'Opis proizvoda/usluge',       desc: 'Za sajt, katalog i društvene mreže' },
-]
+const upcomingTools: { name: string; desc: string }[] = []
 
 const withoutAisistent = [
   'Sat vremena pisanja ugovora',
@@ -392,24 +400,6 @@ export default async function Home() {
             </div>
           ))}
 
-          {/* Uskoro */}
-          <div>
-            <div className="mb-5 flex items-center gap-3">
-              <h3 className="text-xl font-bold text-gray-400">🏢 Uskoro</h3>
-              <div className="h-px flex-1 bg-gray-100" />
-            </div>
-            <div className="grid gap-4 opacity-50 sm:grid-cols-2 lg:grid-cols-3">
-              {upcomingTools.map(tool => (
-                <article
-                  key={tool.name}
-                  className="min-h-28 cursor-not-allowed rounded-xl border border-gray-100 bg-gray-50 p-5"
-                >
-                  <h4 className="text-base font-bold text-gray-700">{tool.name}</h4>
-                  <p className="mt-1.5 text-sm text-gray-500">{tool.desc}</p>
-                </article>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 

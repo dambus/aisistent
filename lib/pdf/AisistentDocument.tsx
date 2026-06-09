@@ -296,7 +296,35 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
     case 'poslovni-mejl':
     case 'oglas-za-posao':
     case 'opsti-uslovi':
+    case 'odgovor-kandidatu':
+    case 'opis-proizvoda':
+    case 'bio-o-nama':
       return null
+    case 'resenje-godisnji-odmor':
+      return {
+        leftLabel: 'ZA POSLODAVCA', leftOrg: g('naziv_firme'),
+        leftPerson: `${g('zastupnik')}, ${g('funkcija')}`,
+        rightLabel: 'ZAPOSLENI', rightOrg: '',
+        rightPerson: g('ime_prezime'), city: '',
+      }
+    case 'pravilnik-o-radu':
+      return {
+        leftLabel: 'ZA POSLODAVCA', leftOrg: g('naziv_firme'),
+        leftPerson: g('zastupnik'),
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
+    case 'preporuka':
+      return {
+        leftLabel: g('pozicija_preporucioca'), leftOrg: g('naziv_firme'),
+        leftPerson: g('ime_preporucioca'),
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
+    case 'zapisnik-sastanak':
+      return {
+        leftLabel: 'PREDSEDAVAJUĆI', leftOrg: g('naziv_firme'),
+        leftPerson: g('predsedavajuci'),
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
     case 'ponuda-klijentu':
       return {
         leftLabel: 'ZA PONUĐAČA', leftOrg: g('ponudjac_naziv'),

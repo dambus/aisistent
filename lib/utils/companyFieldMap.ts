@@ -54,6 +54,34 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     pib:                  'pib',
     adresa:               'adresa',
   },
+  'resenje-godisnji-odmor': {
+    naziv:                'naziv_firme',
+    pib:                  'pib',
+    adresa:               'adresa',
+    zastupnik:            'zastupnik',
+    funkcija_zastupnika:  'funkcija',
+  },
+  'pravilnik-o-radu': {
+    naziv:                'naziv_firme',
+    pib:                  'pib',
+    adresa:               'adresa',
+    zastupnik:            'zastupnik',
+  },
+  'preporuka': {
+    naziv:                'naziv_firme',
+  },
+  'opis-proizvoda': {
+    naziv:                'naziv_firme',
+  },
+  'bio-o-nama': {
+    naziv:                'naziv',
+  },
+  'zapisnik-sastanak': {
+    naziv:                'naziv_firme',
+  },
+  'odgovor-kandidatu': {
+    naziv:                'naziv_firme',
+  },
 }
 
 import type { Company } from '@/types/database'

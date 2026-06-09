@@ -8,5 +8,12 @@ export const TYPE_LABELS: Record<string, string> = {
   'opsti-uslovi':      'Opšti uslovi i Politika privatnosti',
   'poslovni-mejl':     'Poslovni mejl',
   'oglas-za-posao':    'Oglas za posao',
-  'ponuda-klijentu':   'Ponuda klijentu',
+  'ponuda-klijentu':          'Ponuda klijentu',
+  'odgovor-kandidatu':        'Odgovor kandidatu',
+  'preporuka':                'Preporuka/Referenca',
+  'resenje-godisnji-odmor':   'Rešenje o godišnjem odmoru',
+  'pravilnik-o-radu':         'Pravilnik o radu',
+  'opis-proizvoda':           'Opis proizvoda/usluge',
+  'bio-o-nama':               'Bio / O nama',
+  'zapisnik-sastanak':        'Zapisnik sa sastanka',
 }

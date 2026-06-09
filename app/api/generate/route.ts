@@ -13,7 +13,14 @@ import { systemPrompt as opstiUsloviSystem, buildUserMessage as buildOpstiUslovi
 import { systemPrompt as poslovniMejlSystem, buildUserMessage as buildPoslovniMejlMessage } from '@/lib/prompts/poslovni-mejl'
 import { systemPrompt as oglasZaPosaoSystem, buildUserMessage as buildOglasZaPosaoMessage } from '@/lib/prompts/oglas-za-posao'
 import { systemPrompt as ponudaKlijentuSystem, buildUserMessage as buildPonudaKlijentuMessage } from '@/lib/prompts/ponuda-klijentu'
-import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData } from '@/types/wizard'
+import { systemPrompt as odgovorKandidatuSystem, buildUserMessage as buildOdgovorKandidatuMessage } from '@/lib/prompts/odgovor-kandidatu'
+import { systemPrompt as preporukaSystem, buildUserMessage as buildPreporukaMessage } from '@/lib/prompts/preporuka'
+import { systemPrompt as resenjeGodisnjiSystem, buildUserMessage as buildResenjeGodisnjiMessage } from '@/lib/prompts/resenje-godisnji-odmor'
+import { systemPrompt as pravilnikORaduSystem, buildUserMessage as buildPravilnikORaduMessage } from '@/lib/prompts/pravilnik-o-radu'
+import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProizvodaMessage } from '@/lib/prompts/opis-proizvoda'
+import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
+import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData } from '@/types/wizard'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -296,8 +303,114 @@ const ponudaKlijentuSchema = z.object({
   napomene: z.string().optional(),
 })
 
+const odgovorKandidatuSchema = z.object({
+  naziv_firme: z.string().min(1),
+  kontakt_osoba: z.string().min(1),
+  pozicija: z.string().min(1),
+  ime_kandidata: z.string().min(1),
+  email_kandidata: z.string().optional(),
+  tip_odgovora: z.string().min(1),
+  datum_intervjua: z.string().optional(),
+  vreme_intervjua: z.string().optional(),
+  format_intervjua: z.string().optional(),
+  adresa_ili_link: z.string().optional(),
+  datum_pocetka: z.string().optional(),
+  bruto_zarada: optNum,
+  napomena: z.string().optional(),
+})
+
+const preporukaSchema = z.object({
+  ime_preporucioca: z.string().min(1),
+  pozicija_preporucioca: z.string().min(1),
+  naziv_firme: z.string().min(1),
+  email: z.string().optional(),
+  telefon: z.string().optional(),
+  ime_kandidata: z.string().min(1),
+  pozicija_kandidata: z.string().min(1),
+  period_saradnje: z.string().min(1),
+  tip_preporuke: z.string().min(1),
+  kvaliteti: z.string().min(1),
+  postignuca: z.string().min(1),
+  posebna_napomena: z.string().optional(),
+})
+
+const resenjeGodisnjiOdmorSchema = z.object({
+  naziv_firme: z.string().min(1),
+  pib: z.string().min(1),
+  adresa: z.string().min(1),
+  zastupnik: z.string().min(1),
+  funkcija: z.string().min(1),
+  ime_prezime: z.string().min(1),
+  radno_mesto: z.string().min(1),
+  broj_dana: num.pipe(z.number().min(1)),
+  datum_od: z.string().min(1),
+  datum_do: z.string().min(1),
+  datum_povratka: z.string().min(1),
+  zamena: z.string().optional(),
+})
+
+const pravilnikORaduSchema = z.object({
+  naziv_firme: z.string().min(1),
+  pib: z.string().min(1),
+  adresa: z.string().min(1),
+  zastupnik: z.string().min(1),
+  delatnost: z.string().min(1),
+  broj_zaposlenih: num.pipe(z.number().min(1)),
+  radno_vreme: z.string().min(1),
+  rad_od_kuce: z.string().min(1),
+  smenski_rad: z.boolean(),
+  zabrana_konkurencije: z.boolean(),
+  disciplinska_odgovornost: z.boolean(),
+  zastita_uzbunjivaca: z.boolean(),
+  posebna_oprema: z.string().optional(),
+})
+
+const opisProizvodaSchema = z.object({
+  naziv_firme: z.string().min(1),
+  kanal: z.string().min(1),
+  duzina: z.string().min(1),
+  naziv: z.string().min(1),
+  kategorija: z.string().min(1),
+  glavne_karakteristike: z.string().min(1),
+  cena: z.string().optional(),
+  ciljna_grupa: z.string().min(1),
+  ton: z.string().min(1),
+  kljucne_prednosti: z.string().min(1),
+})
+
+const bioONamaSchema = z.object({
+  tip: z.string().min(1),
+  naziv: z.string().min(1),
+  delatnost: z.string().min(1),
+  godina_osnivanja: z.string().optional(),
+  misija: z.string().min(1),
+  prednosti: z.string().min(1),
+  tim: z.string().optional(),
+  ton: z.string().min(1),
+  duzina: z.string().min(1),
+})
+
+const zapisnikSastanakSchema = z.object({
+  naziv_firme: z.string().min(1),
+  datum_sastanka: z.string().min(1),
+  vreme: z.string().min(1),
+  lokacija: z.string().min(1),
+  predsedavajuci: z.string().min(1),
+  prisutni: z.string().min(1),
+  odsutni: z.string().optional(),
+  teme: z.string().min(1),
+  zakljucci: z.string().min(1),
+  akcije: z.string().min(1),
+  sledeci_sastanak: z.string().optional(),
+})
+
 const requestSchema = z.object({
-  type: z.enum(['ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji', 'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu']),
+  type: z.enum([
+    'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
+    'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu',
+    'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
+    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak',
+  ]),
   data: z.record(z.string(), z.unknown()),
 })
 
@@ -364,6 +477,48 @@ const documentConfigs = {
     systemPrompt: ponudaKlijentuSystem,
     buildUserMessage: (data: PonudaKlijentuData) => buildPonudaKlijentuMessage(data),
     buildTitle: (data: PonudaKlijentuData) => `Ponuda - ${data.predmet_ponude ?? ''} (${data.ponudjac_naziv ?? ''})`,
+  },
+  'odgovor-kandidatu': {
+    schema: odgovorKandidatuSchema,
+    systemPrompt: odgovorKandidatuSystem,
+    buildUserMessage: (data: OdgovorKandidatuData) => buildOdgovorKandidatuMessage(data),
+    buildTitle: (data: OdgovorKandidatuData) => `Odgovor kandidatu - ${data.ime_kandidata ?? ''} (${data.tip_odgovora ?? ''})`,
+  },
+  'preporuka': {
+    schema: preporukaSchema,
+    systemPrompt: preporukaSystem,
+    buildUserMessage: (data: PreporukaData) => buildPreporukaMessage(data),
+    buildTitle: (data: PreporukaData) => `Preporuka - ${data.ime_kandidata ?? ''}`,
+  },
+  'resenje-godisnji-odmor': {
+    schema: resenjeGodisnjiOdmorSchema,
+    systemPrompt: resenjeGodisnjiSystem,
+    buildUserMessage: (data: ResenjeGodisnjiOdmorData) => buildResenjeGodisnjiMessage(data),
+    buildTitle: (data: ResenjeGodisnjiOdmorData) => `Rešenje o godišnjem odmoru - ${data.ime_prezime ?? ''}`,
+  },
+  'pravilnik-o-radu': {
+    schema: pravilnikORaduSchema,
+    systemPrompt: pravilnikORaduSystem,
+    buildUserMessage: (data: PravilnikORaduData) => buildPravilnikORaduMessage(data),
+    buildTitle: (data: PravilnikORaduData) => `Pravilnik o radu - ${data.naziv_firme ?? ''}`,
+  },
+  'opis-proizvoda': {
+    schema: opisProizvodaSchema,
+    systemPrompt: opisProizvodaSystem,
+    buildUserMessage: (data: OpisProizvodaData) => buildOpisProizvodaMessage(data),
+    buildTitle: (data: OpisProizvodaData) => `Opis proizvoda - ${data.naziv ?? ''} (${data.naziv_firme ?? ''})`,
+  },
+  'bio-o-nama': {
+    schema: bioONamaSchema,
+    systemPrompt: bioONamaSystem,
+    buildUserMessage: (data: BioONamaData) => buildBioONamaMessage(data),
+    buildTitle: (data: BioONamaData) => `Bio/O nama - ${data.naziv ?? ''}`,
+  },
+  'zapisnik-sastanak': {
+    schema: zapisnikSastanakSchema,
+    systemPrompt: zapisnikSastanakSystem,
+    buildUserMessage: (data: ZapisnikSastanakData) => buildZapisnikSastanakMessage(data),
+    buildTitle: (data: ZapisnikSastanakData) => `Zapisnik - ${data.naziv_firme ?? ''} (${data.datum_sastanka ?? ''})`,
   },
 } as const
 

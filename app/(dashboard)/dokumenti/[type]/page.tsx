@@ -14,6 +14,13 @@ const SUPPORTED_TYPES = new Set([
   'poslovni-mejl',
   'oglas-za-posao',
   'ponuda-klijentu',
+  'odgovor-kandidatu',
+  'preporuka',
+  'resenje-godisnji-odmor',
+  'pravilnik-o-radu',
+  'opis-proizvoda',
+  'bio-o-nama',
+  'zapisnik-sastanak',
 ])
 
 interface PageProps {

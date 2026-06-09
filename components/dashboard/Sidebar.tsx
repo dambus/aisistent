@@ -54,12 +54,27 @@ const navCategories: NavCategory[] = [
     title: 'HR i zapošljavanje',
     defaultExpanded: false,
     items: [
-      { label: 'Oglas za posao', href: '/dokumenti/oglas-za-posao' },
+      { label: 'Oglas za posao',            href: '/dokumenti/oglas-za-posao' },
+      { label: 'Odgovor kandidatu',          href: '/dokumenti/odgovor-kandidatu' },
+      { label: 'Preporuka/Referenca',        href: '/dokumenti/preporuka' },
+      { label: 'Rešenje o godišnjem odmoru', href: '/dokumenti/resenje-godisnji-odmor' },
+      { label: 'Pravilnik o radu',           href: '/dokumenti/pravilnik-o-radu' },
+    ],
+  },
+  {
+    key: 'marketing',
+    icon: '◈',
+    title: 'Marketing i prodaja',
+    defaultExpanded: false,
+    items: [
+      { label: 'Opis proizvoda/usluge', href: '/dokumenti/opis-proizvoda' },
+      { label: 'Bio / O nama',          href: '/dokumenti/bio-o-nama' },
+      { label: 'Zapisnik sa sastanka',  href: '/dokumenti/zapisnik-sastanak' },
     ],
   },
 ]
 
-const upcomingItems = ['Pravilnik o radu', 'Zapisnik sa sastanka', 'Opis proizvoda/usluge']
+const upcomingItems: string[] = []
 
 const alatiCategory: NavCategory = {
   key: 'alati',

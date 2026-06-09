@@ -312,6 +312,107 @@ export interface PonudaKlijentuData {
   napomene?: string
 }
 
+export interface OdgovorKandidatuData {
+  naziv_firme: string
+  kontakt_osoba: string
+  pozicija: string
+  ime_kandidata: string
+  email_kandidata?: string
+  tip_odgovora: string
+  datum_intervjua?: string
+  vreme_intervjua?: string
+  format_intervjua?: string
+  adresa_ili_link?: string
+  datum_pocetka?: string
+  bruto_zarada?: number
+  napomena?: string
+}
+
+export interface PreporukaData {
+  ime_preporucioca: string
+  pozicija_preporucioca: string
+  naziv_firme: string
+  email?: string
+  telefon?: string
+  ime_kandidata: string
+  pozicija_kandidata: string
+  period_saradnje: string
+  tip_preporuke: string
+  kvaliteti: string
+  postignuca: string
+  posebna_napomena?: string
+}
+
+export interface ResenjeGodisnjiOdmorData {
+  naziv_firme: string
+  pib: string
+  adresa: string
+  zastupnik: string
+  funkcija: string
+  ime_prezime: string
+  radno_mesto: string
+  broj_dana: number
+  datum_od: string
+  datum_do: string
+  datum_povratka: string
+  zamena?: string
+}
+
+export interface PravilnikORaduData {
+  naziv_firme: string
+  pib: string
+  adresa: string
+  zastupnik: string
+  delatnost: string
+  broj_zaposlenih: number
+  radno_vreme: string
+  rad_od_kuce: string
+  smenski_rad: boolean
+  zabrana_konkurencije: boolean
+  disciplinska_odgovornost: boolean
+  zastita_uzbunjivaca: boolean
+  posebna_oprema?: string
+}
+
+export interface OpisProizvodaData {
+  naziv_firme: string
+  kanal: string
+  duzina: string
+  naziv: string
+  kategorija: string
+  glavne_karakteristike: string
+  cena?: string
+  ciljna_grupa: string
+  ton: string
+  kljucne_prednosti: string
+}
+
+export interface BioONamaData {
+  tip: string
+  naziv: string
+  delatnost: string
+  godina_osnivanja?: string
+  misija: string
+  prednosti: string
+  tim?: string
+  ton: string
+  duzina: string
+}
+
+export interface ZapisnikSastanakData {
+  naziv_firme: string
+  datum_sastanka: string
+  vreme: string
+  lokacija: string
+  predsedavajuci: string
+  prisutni: string
+  odsutni?: string
+  teme: string
+  zakljucci: string
+  akcije: string
+  sledeci_sastanak?: string
+}
+
 export type WizardFormData =
   | UgovorORaduData
   | UgovorODeluData
@@ -323,3 +424,10 @@ export type WizardFormData =
   | PoslovniMejlData
   | OglasZaPosaoData
   | PonudaKlijentuData
+  | OdgovorKandidatuData
+  | PreporukaData
+  | ResenjeGodisnjiOdmorData
+  | PravilnikORaduData
+  | OpisProizvodaData
+  | BioONamaData
+  | ZapisnikSastanakData

@@ -40,7 +40,19 @@ const TOOL_CATEGORIES: ToolCategory[] = [
   {
     label: 'HR i zapošljavanje',
     tools: [
-      { type: 'oglas-za-posao', title: 'Oglas za posao', desc: 'Oglas za Infostud, LinkedIn i sajt firme', icon: '👥', href: '/dokumenti/oglas-za-posao' },
+      { type: 'oglas-za-posao',           title: 'Oglas za posao',            desc: 'Oglas za Infostud, LinkedIn i sajt firme',           icon: '👥', href: '/dokumenti/oglas-za-posao' },
+      { type: 'odgovor-kandidatu',         title: 'Odgovor kandidatu',         desc: 'Poziv na intervju, prihvatanje ili odbijanje',        icon: '📨', href: '/dokumenti/odgovor-kandidatu' },
+      { type: 'preporuka',                 title: 'Preporuka/Referenca',       desc: 'Profesionalna preporuka za zaposlenog ili saradnika', icon: '⭐', href: '/dokumenti/preporuka' },
+      { type: 'resenje-godisnji-odmor',    title: 'Rešenje o godišnjem odmoru',desc: 'Formalno rešenje u skladu sa Zakonom o radu',         icon: '🌴', href: '/dokumenti/resenje-godisnji-odmor' },
+      { type: 'pravilnik-o-radu',          title: 'Pravilnik o radu',          desc: 'Interni akt o radnom vremenu, zaradama i disciplini', icon: '📌', href: '/dokumenti/pravilnik-o-radu' },
+    ],
+  },
+  {
+    label: 'Marketing i prodaja',
+    tools: [
+      { type: 'opis-proizvoda',   title: 'Opis proizvoda/usluge', desc: 'Prodajni opis za sajt, katalog ili kampanju',        icon: '🛍️', href: '/dokumenti/opis-proizvoda' },
+      { type: 'bio-o-nama',       title: 'Bio / O nama',          desc: 'Tekst o firmi, preduzetnik bio ili LinkedIn profil', icon: '🏢', href: '/dokumenti/bio-o-nama' },
+      { type: 'zapisnik-sastanak',title: 'Zapisnik sa sastanka',  desc: 'Zaključci, akcije i odluke sa poslovnih sastanaka',  icon: '📝', href: '/dokumenti/zapisnik-sastanak' },
     ],
   },
   {

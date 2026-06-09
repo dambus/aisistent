@@ -76,4 +76,53 @@ export const documentReminders: Record<string, DocumentReminder> = {
     learnMoreUrl: null,
     type: 'info',
   },
+  'odgovor-kandidatu': {
+    title: 'Savet',
+    message:
+      'Odgovorite kandidatima u roku od 7 dana — duže čekanje ostavlja loš utisak o firmi i može uticati na vašu reputaciju kao poslodavca.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
+  'preporuka': {
+    title: 'Savet',
+    message:
+      'Proverite sa kandidatom da li sme da navedete vaš kontakt u preporuci — neke firme to zahtevaju unapred.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
+  'resenje-godisnji-odmor': {
+    title: 'Zakonska obaveza',
+    message:
+      'Rešenje o godišnjem odmoru mora biti dostavljeno zaposlenom najmanje 8 dana pre početka korišćenja odmora.',
+    learnMoreUrl: null,
+    type: 'warning',
+  },
+  'pravilnik-o-radu': {
+    title: 'Važan podsetnik',
+    message:
+      'Pravilnik o radu mora biti objavljen na oglasnoj tabli i dostupan svim zaposlenima. Zaposleni mora biti upoznat sa pravilnikom pre početka rada.',
+    learnMoreUrl: null,
+    type: 'warning',
+  },
+  'opis-proizvoda': {
+    title: 'Savet',
+    message:
+      'Pre objavljivanja, proverite da opisi ne sadrže superlative bez dokaza ("najbolji", "jedini") — Zakon o oglašavanju ih ograničava.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
+  'bio-o-nama': {
+    title: 'Savet',
+    message:
+      'Ažurirajte Bio/O nama tekst najmanje jednom godišnje — zastareli podaci umanjuju poverenje posetilaca.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
+  'zapisnik-sastanak': {
+    title: 'Savet',
+    message:
+      'Pošaljite zapisnik svim učesnicima najkasnije 24 sata nakon sastanka dok su zaključci još sveži.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
 }
