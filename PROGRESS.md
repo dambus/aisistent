@@ -712,6 +712,19 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak T — Podsetnici za punomocje i opšti-uslovi
+
+- `data/reminders.ts` usklađen sa novim warning tekstovima za `punomocje` i `opsti-uslovi`
+- Developer guide dopunjen pravilima za pisanje kontekstualnih podsetnika u checklist-i za nove tipove dokumenata
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `data/reminders.ts`
+- `docs/DEVELOPER_GUIDE — Dodavanje novih tipova.md`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

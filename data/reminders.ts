@@ -42,16 +42,16 @@ export const documentReminders: Record<string, DocumentReminder> = {
     type: 'info',
   },
   punomocje: {
-    title: 'Savet',
+    title: 'Važan podsetnik',
     message:
-      'Za punomoćje pred sudom ili državnim organima, kao i za promet nepokretnosti, overa kod javnog beležnika je obavezna.',
+      'Punomoćje za zastupanje pred sudom, državnim organima ili za promet nepokretnosti mora biti overeno kod javnog beležnika. Bez overe nije pravno važeće za ove namene.',
     learnMoreUrl: null,
     type: 'warning',
   },
   'opsti-uslovi': {
-    title: 'Važan podsetnik',
+    title: 'Obaveza objave',
     message:
-      'Opšte uslove i Politiku privatnosti moraš vidno objaviti na sajtu pre nego što počneš da prikupljaš podatke korisnika.',
+      'Opšte uslove korišćenja i Politiku privatnosti morate vidno objaviti na sajtu pre nego što počnete da prikupljate podatke korisnika. Nepridržavanje GDPR obaveza može rezultirati značajnim kaznama.',
     learnMoreUrl: null,
     type: 'warning',
   },

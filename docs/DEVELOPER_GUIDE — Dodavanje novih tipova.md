@@ -50,6 +50,13 @@ prođi kroz SVAKU stavku ove liste.
 
 ### 7. data/reminders.ts
 - [ ] Dodat relevantan podsetnik
+- [ ] Podsetnik mora biti:
+  - [ ] Specifičan za taj tip dokumenta
+  - [ ] Akciono orijentisan (šta korisnik treba da uradi)
+  - [ ] `type: 'warning'` za pravne/poreske obaveze
+  - [ ] `type: 'info'` za savete i preporuke
+  - [ ] `learnMoreUrl` postaviti kada postoji relevantna stranica u aplikaciji
+        (npr. `/alati/kalkulator-zarade` za ugovor o radu)
 
 ### 8. components/dashboard/Sidebar.tsx
 - [ ] Novi alat u odgovarajućoj kategoriji
