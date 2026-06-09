@@ -12,6 +12,13 @@ import { wizardSteps as opstiUsloviSteps } from '@/lib/prompts/opsti-uslovi'
 import { wizardSteps as poslovniMejlSteps } from '@/lib/prompts/poslovni-mejl'
 import { wizardSteps as oglasZaPosaoSteps } from '@/lib/prompts/oglas-za-posao'
 import { wizardSteps as ponudaKlijentuSteps } from '@/lib/prompts/ponuda-klijentu'
+import { wizardSteps as odgovorKandidatuSteps } from '@/lib/prompts/odgovor-kandidatu'
+import { wizardSteps as preporukaSteps } from '@/lib/prompts/preporuka'
+import { wizardSteps as resenjeGodisnjiSteps } from '@/lib/prompts/resenje-godisnji-odmor'
+import { wizardSteps as pravilnikORaduSteps } from '@/lib/prompts/pravilnik-o-radu'
+import { wizardSteps as opisProizvodaSteps } from '@/lib/prompts/opis-proizvoda'
+import { wizardSteps as bioONamaSteps } from '@/lib/prompts/bio-o-nama'
+import { wizardSteps as zapisnikSastanakSteps } from '@/lib/prompts/zapisnik-sastanak'
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
@@ -27,7 +34,14 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'opsti-uslovi':      { title: 'Opšti uslovi i Politika privatnosti',  steps: opstiUsloviSteps },
   'poslovni-mejl':     { title: 'Poslovni mejl',                       steps: poslovniMejlSteps },
   'oglas-za-posao':    { title: 'Oglas za posao',                      steps: oglasZaPosaoSteps },
-  'ponuda-klijentu':   { title: 'Ponuda klijentu',                     steps: ponudaKlijentuSteps },
+  'ponuda-klijentu':          { title: 'Ponuda klijentu',                     steps: ponudaKlijentuSteps },
+  'odgovor-kandidatu':        { title: 'Odgovor kandidatu',                  steps: odgovorKandidatuSteps },
+  'preporuka':                { title: 'Preporuka/Referenca',                steps: preporukaSteps },
+  'resenje-godisnji-odmor':   { title: 'Rešenje o godišnjem odmoru',         steps: resenjeGodisnjiSteps },
+  'pravilnik-o-radu':         { title: 'Pravilnik o radu',                   steps: pravilnikORaduSteps },
+  'opis-proizvoda':           { title: 'Opis proizvoda/usluge',              steps: opisProizvodaSteps },
+  'bio-o-nama':               { title: 'Bio / O nama',                       steps: bioONamaSteps },
+  'zapisnik-sastanak':        { title: 'Zapisnik sa sastanka',               steps: zapisnikSastanakSteps },
 }
 
 interface WizardPageClientProps {
