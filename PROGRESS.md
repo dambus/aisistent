@@ -668,6 +668,37 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak R — Profil firme (companies)
+
+1. **Supabase migracija** (`20260609000001_add_companies.sql`): `companies` tabela sa RLS politikama (owner read/insert/update/delete + service_role), trigger `ensure_single_default_company` osigurava da samo jedna firma bude `is_default`.
+2. **TypeScript**: `Company` interface i `Database['public']['Tables']['companies']` tip u `types/database.ts`.
+3. **API rute**:
+   - `GET /api/companies` — lista firmi korisnika
+   - `POST /api/companies` — kreiranje, plan limit (free/starter: 1, pro: 3, business: ∞)
+   - `PUT /api/companies/[id]` — parcijalni update sa ownership proverom
+   - `DELETE /api/companies/[id]` — brisanje sa ownership proverom
+4. **Profil stranica**: `CompaniesTab` Client Component sa inline formom za dodavanje/uređivanje, "Postavi kao podrazumevanu", plan limit info.
+5. **CompanySelectModal**: prikazuje se pre prvog koraka wizarda ako korisnik ima sačuvane firme; klik bira firmu i popunjava polja; "Popuni ručno" preskače.
+6. **companyFieldMap** (`lib/utils/companyFieldMap.ts`): mapira `Company` polja na polja wizarda za svih 7 tipova ugovora.
+7. **WizardPage refaktorisan**: `page.tsx` je sada Server Component koji dohvata firme; `WizardPageClient.tsx` drži useState i prikazuje modal.
+
+⚠️ Migracija kreirana ali **nije primenjena** — primeni ručno: lokalno `supabase db push`, cloud SQL Editor.
+
+**Fajlovi:**
+- `supabase/migrations/20260609000001_add_companies.sql` (novo)
+- `types/database.ts` (ažurirano)
+- `app/api/companies/route.ts` (novo)
+- `app/api/companies/[id]/route.ts` (novo)
+- `components/dashboard/CompaniesTab.tsx` (novo)
+- `components/wizard/CompanySelectModal.tsx` (novo)
+- `lib/utils/companyFieldMap.ts` (novo)
+- `app/(dashboard)/dokumenti/[type]/page.tsx` (refaktorisan u Server Component)
+- `app/(dashboard)/dokumenti/[type]/WizardPageClient.tsx` (novo)
+- `components/wizard/WizardForm.tsx` (companies prop + modal integracija)
+- `app/(dashboard)/profil/page.tsx` (CompaniesTab dodat)
+
+---
+
 ### ✅ Korak S — Invertovani logo u tamnom sidebaru
 
 - Dashboard sidebar i mobilni dashboard header koriste invertovanu verziju horizontalnog AIsistent logoa
