@@ -741,6 +741,21 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak V — Paušalno oporezivanje kao informativna stranica
+
+- `app/(dashboard)/alati/kalkulator-pausala/page.tsx` zamenjen server-side informativnom stranicom o paušalnom oporezivanju
+- Dodate sekcije: objašnjenje sistema, zvanični PURS kalkulator, uslovi za paušal, rokovi i korisni linkovi
+- Sidebar naziv promenjen u `Paušalno oporezivanje`, a dashboard kartica dobila informativni opis
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/(dashboard)/alati/kalkulator-pausala/page.tsx`
+- `components/dashboard/Sidebar.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

@@ -68,7 +68,7 @@ const alatiCategory: NavCategory = {
   defaultExpanded: true,
   items: [
     { label: 'Kalkulator zarade', href: '/alati/kalkulator-zarade' },
-    { label: 'Kalkulator paušala', href: '/alati/kalkulator-pausala' },
+    { label: 'Paušalno oporezivanje', href: '/alati/kalkulator-pausala' },
   ],
 }
 
