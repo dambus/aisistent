@@ -7,10 +7,27 @@ export type DocumentType =
   | 'ugovor-o-zakupu'
   | 'ugovor-o-saradnji'
 
+export interface Company {
+  id: string
+  user_id: string
+  naziv: string
+  pib: string | null
+  maticni_broj: string | null
+  adresa: string | null
+  grad: string | null
+  zastupnik: string | null
+  funkcija_zastupnika: string | null
+  email: string | null
+  telefon: string | null
+  is_default: boolean
+  created_at: string
+}
+
 // Convenience aliases — use these in application code
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Document = Database['public']['Tables']['documents']['Row']
 export type Subscription = Database['public']['Tables']['subscriptions']['Row']
+export type CompanyRow = Database['public']['Tables']['companies']['Row']
 
 // Supabase Database type — inline row types satisfy the GenericSchema constraint
 export interface Database {
@@ -95,6 +112,51 @@ export interface Database {
           plan?: string
           status?: string
           current_period_end?: string | null
+        }
+        Relationships: []
+      }
+      companies: {
+        Row: {
+          id: string
+          user_id: string
+          naziv: string
+          pib: string | null
+          maticni_broj: string | null
+          adresa: string | null
+          grad: string | null
+          zastupnik: string | null
+          funkcija_zastupnika: string | null
+          email: string | null
+          telefon: string | null
+          is_default: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          naziv: string
+          pib?: string | null
+          maticni_broj?: string | null
+          adresa?: string | null
+          grad?: string | null
+          zastupnik?: string | null
+          funkcija_zastupnika?: string | null
+          email?: string | null
+          telefon?: string | null
+          is_default?: boolean
+          created_at?: string
+        }
+        Update: {
+          naziv?: string
+          pib?: string | null
+          maticni_broj?: string | null
+          adresa?: string | null
+          grad?: string | null
+          zastupnik?: string | null
+          funkcija_zastupnika?: string | null
+          email?: string | null
+          telefon?: string | null
+          is_default?: boolean
         }
         Relationships: []
       }

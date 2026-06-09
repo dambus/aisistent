@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { ProfileCard } from '@/components/dashboard/ProfileCard'
+import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
+import type { Company } from '@/types/database'
 
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
   free:     { label: 'Besplatni plan',  desc: '3 dokumenta mesečno',         limit: 3    },
@@ -30,6 +32,13 @@ export default async function ProfilPage() {
     .eq('id', user.id)
     .single()
 
+  const { data: companies } = await supabase
+    .from('companies')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('is_default', { ascending: false })
+    .order('created_at', { ascending: true })
+
   const plan = profile?.plan ?? 'free'
   const planInfo = PLAN_INFO[plan] ?? PLAN_INFO.free
   const docsThisMonth = profile?.documents_this_month ?? 0
@@ -51,6 +60,12 @@ export default async function ProfilPage() {
         displayName={profile?.display_name ?? null}
         email={user.email ?? ''}
         memberSince={memberSince}
+      />
+
+      {/* Kartica 3 — Moje firme */}
+      <CompaniesTab
+        initialCompanies={(companies ?? []) as Company[]}
+        plan={plan}
       />
 
       {/* Kartica 2 — Pretplata */}

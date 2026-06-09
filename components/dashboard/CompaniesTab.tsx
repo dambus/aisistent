@@ -1,0 +1,379 @@
+'use client'
+
+import { useState } from 'react'
+import type { Company } from '@/types/database'
+
+interface CompaniesTabProps {
+  initialCompanies: Company[]
+  plan: string
+}
+
+const PLAN_LIMITS: Record<string, number | null> = {
+  free:     1,
+  starter:  1,
+  pro:      3,
+  business: null,
+}
+
+const emptyForm = {
+  naziv: '',
+  pib: '',
+  maticni_broj: '',
+  adresa: '',
+  grad: '',
+  zastupnik: '',
+  funkcija_zastupnika: '',
+  email: '',
+  telefon: '',
+  is_default: false,
+}
+
+type FormState = typeof emptyForm
+
+export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
+  const [companies, setCompanies] = useState<Company[]>(initialCompanies)
+  const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [form, setForm] = useState<FormState>(emptyForm)
+  const [saving, setSaving] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [error, setError] = useState('')
+
+  const limit = PLAN_LIMITS[plan] ?? null
+
+  function openAdd() {
+    setEditingId(null)
+    setForm(emptyForm)
+    setError('')
+    setShowForm(true)
+  }
+
+  function openEdit(company: Company) {
+    setEditingId(company.id)
+    setForm({
+      naziv: company.naziv,
+      pib: company.pib ?? '',
+      maticni_broj: company.maticni_broj ?? '',
+      adresa: company.adresa ?? '',
+      grad: company.grad ?? '',
+      zastupnik: company.zastupnik ?? '',
+      funkcija_zastupnika: company.funkcija_zastupnika ?? '',
+      email: company.email ?? '',
+      telefon: company.telefon ?? '',
+      is_default: company.is_default,
+    })
+    setError('')
+    setShowForm(true)
+  }
+
+  function cancelForm() {
+    setShowForm(false)
+    setEditingId(null)
+    setForm(emptyForm)
+    setError('')
+  }
+
+  async function handleSave() {
+    if (!form.naziv.trim()) {
+      setError('Naziv firme je obavezan.')
+      return
+    }
+    setSaving(true)
+    setError('')
+
+    try {
+      const url = editingId ? `/api/companies/${editingId}` : '/api/companies'
+      const method = editingId ? 'PUT' : 'POST'
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const json = await res.json()
+
+      if (!res.ok) {
+        setError(json.error ?? 'Greška pri čuvanju firme.')
+        return
+      }
+
+      if (editingId) {
+        setCompanies(prev => prev.map(c => c.id === editingId ? json : c))
+        if (json.is_default) {
+          setCompanies(prev => prev.map(c => c.id === editingId ? json : { ...c, is_default: false }))
+        }
+      } else {
+        const newCompany = json as Company
+        if (newCompany.is_default) {
+          setCompanies(prev => [...prev.map(c => ({ ...c, is_default: false })), newCompany])
+        } else {
+          setCompanies(prev => [...prev, newCompany])
+        }
+      }
+
+      cancelForm()
+    } catch {
+      setError('Greška pri slanju zahteva.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Obrisati ovu firmu?')) return
+    setDeletingId(id)
+
+    try {
+      const res = await fetch(`/api/companies/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        setCompanies(prev => prev.filter(c => c.id !== id))
+      }
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
+  async function handleSetDefault(id: string) {
+    const res = await fetch(`/api/companies/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_default: true }),
+    })
+    if (res.ok) {
+      setCompanies(prev => prev.map(c => ({ ...c, is_default: c.id === id })))
+    }
+  }
+
+  const limitText = () => {
+    if (limit === null) return `${companies.length} ${companies.length === 1 ? 'firma' : 'firmi'} — neograničeno`
+    return `${companies.length} od ${limit} ${limit === 1 ? 'firme' : 'firmi'} iskorišćeno`
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 p-6">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje firme</h2>
+        {!showForm && (
+          <button
+            onClick={openAdd}
+            className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
+            style={{ backgroundColor: '#1B6B4A' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
+          >
+            + Dodaj firmu
+          </button>
+        )}
+      </div>
+
+      {/* Lista firmi */}
+      {companies.length === 0 && !showForm && (
+        <p className="text-sm text-gray-500 mb-4">Još niste dodali nijednu firmu.</p>
+      )}
+
+      <div className="space-y-3 mb-4">
+        {companies.map(company => (
+          <div
+            key={company.id}
+            className={`border rounded-xl p-4 transition-colors ${
+              company.is_default ? 'border-[#1B6B4A] bg-green-50' : 'border-gray-200'
+            }`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-semibold text-gray-900 text-sm">{company.naziv}</span>
+                  {company.is_default && (
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium"
+                      style={{ backgroundColor: '#D1FAE5', color: '#065F46' }}>
+                      Podrazumevana
+                    </span>
+                  )}
+                </div>
+                <div className="mt-1 text-xs text-gray-500 space-x-2">
+                  {company.pib && <span>PIB: {company.pib}</span>}
+                  {company.grad && <span>{company.grad}</span>}
+                  {company.zastupnik && <span>Zastupnik: {company.zastupnik}</span>}
+                </div>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                {!company.is_default && (
+                  <button
+                    onClick={() => handleSetDefault(company.id)}
+                    className="text-xs text-gray-500 hover:text-gray-800 border border-gray-300 rounded-lg px-2.5 py-1 transition-colors hover:bg-gray-50"
+                  >
+                    Postavi kao podrazumevanu
+                  </button>
+                )}
+                <button
+                  onClick={() => openEdit(company)}
+                  className="text-xs text-gray-500 hover:text-gray-800 border border-gray-300 rounded-lg px-2.5 py-1 transition-colors hover:bg-gray-50"
+                >
+                  Uredi
+                </button>
+                <button
+                  onClick={() => handleDelete(company.id)}
+                  disabled={deletingId === company.id}
+                  className="text-xs text-red-500 hover:text-red-700 border border-red-200 rounded-lg px-2.5 py-1 transition-colors hover:bg-red-50 disabled:opacity-50"
+                >
+                  {deletingId === company.id ? '...' : 'Obriši'}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Plan limit info */}
+      <p className="text-sm text-gray-500 mb-4">{limitText()}</p>
+
+      {/* Forma za dodavanje/uređivanje */}
+      {showForm && (
+        <div className="border border-gray-200 rounded-xl p-5 mt-4 bg-gray-50">
+          <h3 className="text-sm font-semibold text-gray-800 mb-4">
+            {editingId ? 'Uredi firmu' : 'Dodaj firmu'}
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="sm:col-span-2">
+              <FormField
+                label="Naziv firme"
+                required
+                value={form.naziv}
+                placeholder="npr. Sigma Solutions doo"
+                onChange={v => setForm(f => ({ ...f, naziv: v }))}
+              />
+            </div>
+            <FormField
+              label="PIB"
+              value={form.pib}
+              placeholder="123456789"
+              helperText="9 cifara"
+              onChange={v => setForm(f => ({ ...f, pib: v }))}
+            />
+            <FormField
+              label="Matični broj"
+              value={form.maticni_broj}
+              placeholder="12345678"
+              onChange={v => setForm(f => ({ ...f, maticni_broj: v }))}
+            />
+            <FormField
+              label="Adresa"
+              value={form.adresa}
+              placeholder="npr. Bulevar Mihajla Pupina 10"
+              onChange={v => setForm(f => ({ ...f, adresa: v }))}
+            />
+            <FormField
+              label="Grad"
+              value={form.grad}
+              placeholder="npr. Novi Sad"
+              onChange={v => setForm(f => ({ ...f, grad: v }))}
+            />
+            <FormField
+              label="Zastupnik"
+              value={form.zastupnik}
+              placeholder="npr. Petar Nikolić"
+              onChange={v => setForm(f => ({ ...f, zastupnik: v }))}
+            />
+            <FormField
+              label="Funkcija zastupnika"
+              value={form.funkcija_zastupnika}
+              placeholder="npr. direktor"
+              onChange={v => setForm(f => ({ ...f, funkcija_zastupnika: v }))}
+            />
+            <FormField
+              label="Email"
+              value={form.email}
+              placeholder="npr. kontakt@firma.rs"
+              onChange={v => setForm(f => ({ ...f, email: v }))}
+            />
+            <FormField
+              label="Telefon"
+              value={form.telefon}
+              placeholder="npr. 021 123 456"
+              onChange={v => setForm(f => ({ ...f, telefon: v }))}
+            />
+          </div>
+
+          {/* Toggle: podrazumevana */}
+          <div className="flex items-center gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => setForm(f => ({ ...f, is_default: !f.is_default }))}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                form.is_default ? 'bg-[#1B6B4A]' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
+                  form.is_default ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className="text-sm text-gray-700">Postavi kao podrazumevanu</span>
+          </div>
+
+          {error && (
+            <p className="mt-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
+
+          <div className="flex gap-3 mt-5">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-5 py-2 text-sm font-semibold text-white rounded-lg disabled:opacity-60 transition-colors"
+              style={{ backgroundColor: '#1B6B4A' }}
+              onMouseEnter={e => { if (!saving) e.currentTarget.style.backgroundColor = '#155C3E' }}
+              onMouseLeave={e => { if (!saving) e.currentTarget.style.backgroundColor = '#1B6B4A' }}
+            >
+              {saving ? 'Čuvam...' : 'Sačuvaj'}
+            </button>
+            <button
+              onClick={cancelForm}
+              disabled={saving}
+              className="px-5 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-60 transition-colors"
+            >
+              Otkaži
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function FormField({
+  label,
+  value,
+  placeholder,
+  helperText,
+  required,
+  onChange,
+}: {
+  label: string
+  value: string
+  placeholder?: string
+  helperText?: string
+  required?: boolean
+  onChange: (v: string) => void
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </label>
+      <input
+        type="text"
+        value={value}
+        placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent bg-white"
+        style={{ '--tw-ring-color': '#1B6B4A' } as React.CSSProperties}
+      />
+      {helperText && <p className="mt-0.5 text-xs text-gray-400 italic">{helperText}</p>}
+    </div>
+  )
+}

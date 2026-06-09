@@ -2,12 +2,16 @@
 
 import { useState, useCallback } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
+import type { Company } from '@/types/database'
 import { UpgradeModal } from './UpgradeModal'
 import { TooltipIcon, HelperText } from './FieldHelper'
+import { CompanySelectModal } from './CompanySelectModal'
+import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
 
 interface WizardFormProps {
   steps: WizardStep[]
   documentType: string
+  companies?: Company[]
   onComplete: (documentId: string, generatedText: string) => void
 }
 
@@ -47,13 +51,14 @@ function buildInitialValues(steps: WizardStep[]): FormValues {
   return values
 }
 
-export function WizardForm({ steps, documentType, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], onComplete }: WizardFormProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [values, setValues] = useState<FormValues>(buildInitialValues(steps))
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
+  const [showCompanyModal, setShowCompanyModal] = useState(companies.length > 0)
 
   const visibleSteps = getVisibleSteps(steps, values)
   const step = visibleSteps[currentStep] ?? visibleSteps[0]
@@ -124,9 +129,22 @@ export function WizardForm({ steps, documentType, onComplete }: WizardFormProps)
     }
   }
 
+  function handleCompanySelect(company: Company) {
+    const fields = buildCompanyFields(company, documentType)
+    setValues(prev => ({ ...prev, ...fields }))
+    setShowCompanyModal(false)
+  }
+
   return (
     <>
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} />}
+
+      <CompanySelectModal
+        companies={companies}
+        isOpen={showCompanyModal}
+        onSelect={handleCompanySelect}
+        onSkip={() => setShowCompanyModal(false)}
+      />
 
       {/* Progress */}
       <div className="mb-6">
