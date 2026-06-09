@@ -7,6 +7,6 @@
     - u prvom clanu se takodje pojavljuje u tekstu u stavu 1 da je ugovor zakljucen 01. januara 2025. Ispraviti! 
     - viseci naslovi i clanovi
     - u calnu 14 se spominje od kada važi ugovor (ovo je korisnik izabrao dok je popunjavao wizard). Ovaj datum je samostalno ok, ali očigledno nema veze sa datumom koji je naveden u prvom članu, stav 1
-    - 
+    - Novi komentar samo da bi radio push
     
 
