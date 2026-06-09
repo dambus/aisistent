@@ -768,6 +768,22 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak X — Kalkulator ugovora o delu
+
+- Kreiran `app/(dashboard)/alati/kalkulator-ugovora-o-delu/page.tsx` kao client-side kalkulator za fizičko lice i preduzetnika/firmu
+- Podržana oba režima unosa za fizičko lice: neto → bruto i bruto → neto, sa tačnim obračunom normiranog troška, poreza, PIO i zdravstva
+- Dodat scenario za preduzetnika/firmu sa opcionalnim PDV obračunom, FAQ i direktan link ka generatoru `Ugovora o delu`
+- Sidebar i dashboard ažurirani tako da je alat aktivan u sekciji Alati
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/(dashboard)/alati/kalkulator-ugovora-o-delu/page.tsx`
+- `components/dashboard/Sidebar.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

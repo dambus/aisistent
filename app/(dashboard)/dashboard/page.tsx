@@ -48,6 +48,7 @@ const TOOL_CATEGORIES: ToolCategory[] = [
     tools: [
       { type: 'kalkulator-zarade', title: 'Kalkulator zarade', desc: 'Bruto/neto preračun sa aktuelnim stopama za 2026.', icon: '🧮', href: '/alati/kalkulator-zarade' },
       { type: 'kalkulator-pausala', title: 'Paušalno oporezivanje', desc: 'Informacije o paušalnom porezu i zvanični kalkulator', icon: '🧾', href: '/alati/kalkulator-pausala' },
+      { type: 'kalkulator-ugovora-o-delu', title: 'Kalkulator ugovora o delu', desc: 'Obračun poreza i troškova za ugovor o delu', icon: '📑', href: '/alati/kalkulator-ugovora-o-delu' },
     ],
   },
 ]
