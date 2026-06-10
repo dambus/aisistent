@@ -880,6 +880,19 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak AA — Backlog i strategija dokumenti
+
+- Dodat `BACKLOG.md` sa redosledom implementacije, odbačenim stavkama i napomenama za payment gateway
+- Dodat `STRATEGIJA.md` sa pozicioniranjem, ciljnom grupom, diferencijacijom i modelom naplate
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `docs/BACKLOG.md`
+- `docs/STRATEGIJA.md`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
