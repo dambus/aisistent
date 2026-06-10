@@ -847,6 +847,26 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak Y — Toggle default false umesto null
+
+- `WizardForm.tsx` sada inicijalizuje svaki `toggle` na `false` kada prompt ne prosledi eksplicitan `defaultValue`
+- `pravilnik-o-radu.ts` toggle polja usklađena su na `defaultValue: false`
+- U prompt fajlovima su dopunjeni svi toggle unosi koji nisu imali eksplicitan `defaultValue`
+- `types/wizard.ts` više ne koristi opcioni `boolean` za polja koja dolaze iz toggle inputa
+- `app/api/generate/route.ts` Zod sheme sada imaju eksplicitne boolean default vrednosti usklađene sa wizardom
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `components/wizard/WizardForm.tsx`
+- `lib/prompts/pravilnik-o-radu.ts`
+- `lib/prompts/ugovor-o-radu.ts`
+- `lib/prompts/ugovor-o-zakupu.ts`
+- `types/wizard.ts`
+- `app/api/generate/route.ts`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija

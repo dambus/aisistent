@@ -67,8 +67,8 @@ export interface UgovorORaduData {
   godisnji_odmor: number
   zabrana_konkurencije: boolean
   trajanje_zabrane?: number
-  detaljna_prava_obaveze?: boolean
-  cuvanje_poslovne_tajne?: boolean
+  detaljna_prava_obaveze: boolean
+  cuvanje_poslovne_tajne: boolean
   napomene?: string
 }
 
@@ -163,11 +163,11 @@ export interface UgovorOZakupuData {
   komunalije: string
   internet: string
   komunalna_taksa?: string
-  prijava_boravista?: boolean
-  adaptacije?: boolean
-  popis_namestaja?: boolean
-  zabrana_zivotinja?: boolean
-  zabrana_podzakupa?: boolean
+  prijava_boravista: boolean
+  adaptacije: boolean
+  popis_namestaja: boolean
+  zabrana_zivotinja: boolean
+  zabrana_podzakupa: boolean
   napomene?: string
 }
 
@@ -196,9 +196,9 @@ export interface UgovorOSaradnjiZajmuData {
   datum_pocetka?: string
   trajanje?: string
   datum_zavrsetka?: string
-  ekskluzivnost?: boolean
+  ekskluzivnost: boolean
   opis_ekskl?: string
-  nda?: boolean
+  nda: boolean
   vlasnistvo_ip?: string
   tip_zajmodavca?: string
   naziv_zajmodavca?: string

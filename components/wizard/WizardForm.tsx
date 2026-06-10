@@ -39,13 +39,16 @@ function getVisibleSteps(steps: WizardStep[], values: FormValues): WizardStep[] 
   })
 }
 
+function getDefaultValue(field: WizardField): string | number | boolean {
+  if (field.type === 'toggle') return field.defaultValue ?? false
+  return field.defaultValue ?? ''
+}
+
 function buildInitialValues(steps: WizardStep[]): FormValues {
   const values: FormValues = {}
   for (const step of steps) {
     for (const field of step.fields) {
-      if (field.defaultValue !== undefined) {
-        values[field.id] = field.defaultValue
-      }
+      values[field.id] = getDefaultValue(field)
     }
   }
   return values
