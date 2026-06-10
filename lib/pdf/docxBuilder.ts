@@ -1,3 +1,4 @@
+import sizeOf from 'image-size'
 import {
   AlignmentType,
   BorderStyle,
@@ -563,15 +564,22 @@ export async function buildDocx(
                 alignment: (options.logoBuffer && options.logoMimeType !== 'image/svg+xml') ? AlignmentType.LEFT : AlignmentType.CENTER,
                 spacing: { after: 120 },
                 children: options.logoBuffer && options.logoMimeType !== 'image/svg+xml'
-                  ? [
-                      new ImageRun({
-                        data: options.logoBuffer,
-                        transformation: { width: 120, height: 36 },
-                        type: (options.logoMimeType === 'image/png' ? 'png'
-                          : options.logoMimeType === 'image/webp' ? 'png'
-                          : 'jpg') as 'png' | 'jpg',
-                      }),
-                    ]
+                  ? (() => {
+                      const dims = sizeOf(options.logoBuffer!)
+                      const srcW = dims.width ?? 120
+                      const srcH = dims.height ?? 36
+                      const scale = 36 / srcH
+                      const finalWidth = Math.round(srcW * scale)
+                      const imgType = (options.logoMimeType === 'image/png' ? 'png'
+                        : options.logoMimeType === 'image/webp' ? 'png'
+                        : 'jpg') as 'png' | 'jpg'
+                      return [new ImageRun({
+                        data: options.logoBuffer!,
+                        transformation: { width: finalWidth, height: 36 },
+                        type: imgType,
+                      })]
+                    })()
+
                   : [
                       new TextRun({
                         text: `AIsistent  |  ${dateStr}  |  aisistent.rs`,
