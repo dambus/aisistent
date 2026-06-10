@@ -122,6 +122,7 @@ XI.   ZAVRŠNE ODREDBE
 
 ## ŠTA NE RADIŠ
 
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke - [POPUNITI: naziv podatka]
 - Ne osnuješ zajedničko preduzeće ugovorom o saradnji
 - Ne garantuješ poresku ispravnost

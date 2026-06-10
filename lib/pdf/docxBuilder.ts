@@ -57,7 +57,7 @@ function sanitizeGeneratedText(text: string): string {
 
   for (const raw of text.split('\n')) {
     const line = raw.trim()
-    if (/POTPISI/i.test(line)) break
+    if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
     if (/VAŽNE NAPOMENE ZA POSLODAVCA/i.test(line) || /NAPOMENE ZA POSLODAVCA/i.test(line)) break
     lines.push(raw)
   }
@@ -144,6 +144,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
     case 'odgovor-kandidatu':
     case 'opis-proizvoda':
     case 'bio-o-nama':
+    case 'zapisnik-sastanak':
       return null
     case 'resenje-godisnji-odmor':
       return {
@@ -373,17 +374,46 @@ function buildSignatureTable(documentType?: string, inputData?: Record<string, u
   const sig = buildSigData(documentType, inputData)
   if (!sig) return null
 
+  const singleColumn = sig.rightLabel === ''
+
+  const noBorders = {
+    top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+    insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  }
+
+  if (singleColumn) {
+    const halfCell = (children: Paragraph[]) => new TableCell({
+      width: { size: 50, type: WidthType.PERCENTAGE },
+      borders: noBorders,
+      children,
+    })
+    const emptyCell = () => new TableCell({
+      width: { size: 50, type: WidthType.PERCENTAGE },
+      borders: noBorders,
+      children: [new Paragraph({})],
+    })
+    return new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      layout: TableLayoutType.FIXED,
+      borders: noBorders,
+      rows: [
+        new TableRow({ children: [halfCell([signatureText(sig.leftLabel, true)]), emptyCell()] }),
+        new TableRow({ children: [halfCell([signatureText(sig.leftOrg)]), emptyCell()] }),
+        new TableRow({ children: [halfCell([lineParagraph()]), emptyCell()] }),
+        new TableRow({ children: [halfCell([signatureText(sig.leftPerson)]), emptyCell()] }),
+        new TableRow({ children: [halfCell([signatureText('M.P.')]), emptyCell()] }),
+      ],
+    })
+  }
+
   return new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
     layout: TableLayoutType.FIXED,
-    borders: {
-      top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-    },
+    borders: noBorders,
     rows: [
       new TableRow({
         children: [

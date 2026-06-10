@@ -211,10 +211,10 @@ function renderBlocks(blocks: Block[]): React.ReactNode[] {
   let i = 0
   while (i < blocks.length) {
     const block = blocks[i]
-    if (block.type === 'h2') {
+    if (block.type === 'h2' || block.type === 'h3') {
       let j = i + 1
       while (j < blocks.length && blocks[j].type === 'spacer') j++
-      if (j < blocks.length && blocks[j].type !== 'h1' && blocks[j].type !== 'h2') {
+      if (j < blocks.length && blocks[j].type !== 'h1' && blocks[j].type !== 'h2' && blocks[j].type !== 'h3') {
         result.push(
           <View key={`g${i}`} wrap={false}>
             {renderBlock(block, 0)}
@@ -299,6 +299,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
     case 'odgovor-kandidatu':
     case 'opis-proizvoda':
     case 'bio-o-nama':
+    case 'zapisnik-sastanak':
       return null
     case 'resenje-godisnji-odmor':
       return {
@@ -341,6 +342,20 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
 }
 
 function SignatureSection({ sig }: { sig: SigData }) {
+  const singleColumn = sig.rightLabel === ''
+
+  if (singleColumn) {
+    return (
+      <View style={s.sigSection}>
+        <Text style={s.sigCellBold}>{sig.leftLabel}</Text>
+        <Text style={s.sigCell}>{sig.leftOrg}</Text>
+        <View style={[{ width: '45%' }, s.sigLine]} />
+        <Text style={s.sigCell}>{sig.leftPerson}</Text>
+        <Text style={s.sigPechat}>M.P.</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={s.sigSection}>
       <Text style={s.sigIntro}>Ugovor potpisuju:</Text>

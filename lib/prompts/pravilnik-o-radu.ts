@@ -30,7 +30,9 @@ Na kraju dokumenta dodaj napomenu da se preporučuje pravna provera pre usvajanj
 - Ne izmišljaš organizacione detalje koje korisnik nije uneo
 - Ne koristiš ćirilicu
 - Ne daješ savete van okvira samog pravilnika
-- Ne izostavljaš ključne sekcije o radnom vremenu, odmorima, zaradi i disciplinskoj odgovornosti`
+- Ne izostavljaš ključne sekcije o radnom vremenu, odmorima, zaradi i disciplinskoj odgovornosti
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum donošenja, uvodni deo...).
+- Pravilnik potpisuje SAMO zastupnik poslodavca. Ne generiši 'Potpisuju:' ni drugu stranu. Sekcija potpisa se dodaje automatski.`
 
 export function buildUserMessage(data: PravilnikORaduData): string {
   return `Napiši Pravilnik o radu sa sledećim podacima:

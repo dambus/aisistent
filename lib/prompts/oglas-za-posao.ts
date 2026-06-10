@@ -55,7 +55,12 @@ ${declensionRules}
 ## FORMAT IZLAZA
 
 Generiši oglas sa jasnim naslovima i kratkim pasusima. Na kraju dodaj:
-Generisano uz pomoć AIsistent.rs`
+Generisano uz pomoć AIsistent.rs
+
+## ŠTA NE RADIŠ
+
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (naziv pozicije, uvod o firmi...).
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
 
 function formatList(value: string[] | string): string {
   return Array.isArray(value) ? value.join(', ') : value

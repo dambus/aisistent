@@ -38,7 +38,9 @@ Generiši samo gotov tekst odgovora, bez dodatnih objašnjenja, napomena ili uvo
 - Ne obećavaš uslove, rokove ili iznose koji nisu navedeni
 - Ne koristiš ćirilicu
 - Ne pišeš generičke fraze bez sadržaja
-- Ne dodaješ komentar da je tekst generisan veštačkom inteligencijom`
+- Ne dodaješ komentar da je tekst generisan veštačkom inteligencijom
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (oslovljavanje, uvod...).
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
 
 export function buildUserMessage(data: OdgovorKandidatuData): string {
   const firstName = (data.ime_kandidata || '').split(' ')[0]

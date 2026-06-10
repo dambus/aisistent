@@ -28,7 +28,8 @@ Generiši gotov tekst preporuke, bez dodatnih objašnjenja za korisnika.
 - Ne izmišljaš rezultate ili činjenice koje korisnik nije naveo
 - Ne koristiš generičke fraze bez primera
 - Ne koristiš ćirilicu
-- Ne pišeš pravne ili formalne formule koje nisu primerene preporuci`
+- Ne pišeš pravne ili formalne formule koje nisu primerene preporuci
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum, oslovljavanje ili uvod...).`
 
 export function buildUserMessage(data: PreporukaData): string {
   return `Napiši profesionalnu preporuku sa sledećim podacima:

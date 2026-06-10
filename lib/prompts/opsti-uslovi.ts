@@ -69,8 +69,9 @@ ${declensionRules}
 
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
 - Ne generiši datum stupanja na snagu kao posebno polje [POPUNITI]. Umesto toga napiši: "Ovi uslovi važe od dana objave na veb sajtu."
-- Ne generiši sekciju POTPISI, mesto za potpis, pečat ili potpisivanje — Opšti uslovi i Politika privatnosti se objavljuju na veb sajtu, ne potpisuju se kao ugovor.
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
 - Ne garantuješ usklađenost bez pravne provere
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum objave, puni naziv dokumenta...).
 - Na kraju oba dokumenta uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se pravna provera pre objavljivanja."`
 
 function formatList(value: string[] | string): string {

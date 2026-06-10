@@ -47,6 +47,10 @@ prođi kroz SVAKU stavku ove liste.
 ### 5. lib/pdf/AisistentDocument.tsx
 - [ ] buildSigData() ima case za novi tip
 - [ ] Labele bez kose crte
+- [ ] Da li dokument treba potpis?
+  - Dve strane → buildSigData() sa levo/desno labelama
+  - Jedna strana → buildSigData() samo levo (rightLabel: '', rightOrg: '', rightPerson: '')
+  - Bez potpisa → buildSigData() vraća null + ŠTA NE RADIŠ zabrana u promptu
 - [ ] Ako nema potpise → return null
 
 ### 6. lib/pdf/docxBuilder.ts
@@ -136,6 +140,24 @@ opsti-uslovi:
 
 ---
 
+## Tipovi po potpisu
+
+DOKUMENTI SA POTPISOM (dve strane):
+  ugovor-o-radu, ugovor-o-delu, nda,
+  ugovor-o-zakupu, ugovor-o-saradnji-zajmu,
+  punomocje, ponuda-klijentu
+
+DOKUMENTI SA POTPISOM (jedna strana):
+  pravilnik-o-radu, resenje-godisnji-odmor,
+  preporuka
+
+DOKUMENTI BEZ POTPISA (buildSigData vraća null):
+  poslovni-mejl, oglas-za-posao, opsti-uslovi,
+  odgovor-kandidatu, opis-proizvoda, bio-o-nama,
+  zapisnik-sastanak
+
+---
+
 ## Konvencije
 
 DATUMI:
@@ -176,6 +198,16 @@ Kosa crta u potpisu
 
 Placeholder nedostaje
 → Wizard audit: pokrenuti WIZARD_AUDIT task
+
+Dupli naslov (AI generiše naslov koji PDF već prikazuje)
+→ ŠTA NE RADIŠ zabrana u promptu: "Ne generiši naslov dokumenta kao prvi red."
+
+Potpisi na dokumentima koji ih ne zahtevaju
+→ buildSigData() mora vraćati null za taj tip + ŠTA NE RADIŠ zabrana u promptu
+
+Skraćen tekst na kraju dokumenta
+→ Regex u markdownParser.ts i docxBuilder.ts seče na POTPISI — proveri da regex
+  bude striktan: /^#{0,3}\s*POTPISI\s*$/i (samo section headeri, ne mid-sentence reč)
 
 Step prikazuje pogrešan sadržaj
 → showIf logika nedostaje u wizardSteps

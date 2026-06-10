@@ -55,6 +55,7 @@ Ponuda nije pravno obavezujući dokument sama po sebi, ali može biti osnova za 
 
 ## ŠTA NE RADIŠ
 
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ..., podaci o ponuđaču...).
 - Ne izmišljaš cene, rokove, garancije ili uslove koje korisnik nije naveo
 - Ne garantuješ pravnu obaveznost ponude
 - Ako je broj_ponude 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju ponude.

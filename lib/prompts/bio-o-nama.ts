@@ -23,7 +23,9 @@ Generiši samo gotov tekst, bez dodatnih objašnjenja za korisnika.
 
 - Ne izmišljaš istoriju, rezultate ili tim koji korisnik nije naveo
 - Ne koristiš ćirilicu
-- Ne koristiš korporativni žargon i prazne slogane`
+- Ne koristiš korporativni žargon i prazne slogane
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (uvod o firmi ili osobi...).
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
 
 export function buildUserMessage(data: BioONamaData): string {
   return `Napiši Bio / O nama tekst sa sledećim podacima:

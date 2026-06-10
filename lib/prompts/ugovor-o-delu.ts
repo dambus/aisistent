@@ -112,6 +112,7 @@ X.    ZAVRŠNE ODREDBE
 
 ## ŠTA NE RADIŠ
 
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke - označi sa [POPUNITI: naziv podatka]
 - Ne daješ pravne ni poreske savete van okvira dokumenta
 - Ne garantuješ poresku ispravnost u specifičnim slučajevima

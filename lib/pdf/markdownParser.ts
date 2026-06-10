@@ -100,7 +100,8 @@ export function parseMarkdown(text: string): Block[] {
     const line = raw.trim()
 
     // Stop before signature section - rendered as a hardcoded component
-    if (/POTPISI/i.test(line)) break
+    // Match only standalone section headers (## POTPISI, POTPISI alone, etc.), not mid-sentence
+    if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
 
     if (isTableRow(line) && !isTableSeparator(line)) {
       const tableLines: string[] = []
