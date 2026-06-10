@@ -817,6 +817,36 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak T — Sistemske ispravke (potpisi, dupli naslovi, viseći naslovi)
+
+1. **buildSigData**: `zapisnik-sastanak` vraća null u PDF i DOCX — nema sekcije potpisa
+2. **SignatureSection (PDF)**: single-column rendering kada `rightLabel === ''` — pravilnik, preporuka bez dve kolone
+3. **docxBuilder**: isti single-column pattern za potpis tabelu
+4. **renderBlocks**: h3 grupisan sa sledećim blokom u `<View wrap={false}>` — isti tretman kao h2
+5. **markdownParser + docxBuilder**: striktniji POTPISI regex `/^#{0,3}\s*POTPISI\s*$/i` — ne seče mid-sentence reči poput "potpisivanje" (fix za Član 77 pravilnika)
+6. **Svih 17 promptova**: dupli naslov zabrana u `## ŠTA NE RADIŠ`
+7. **6 prompta bez potpisa**: eksplicitna zabrana sekcije potpisa (zapisnik, oglas, odgovor-kandidatu, opis-proizvoda, bio-o-nama, opsti-uslovi)
+8. **pravilnik-o-radu.ts**: pravilo da potpis dodaje sistem automatski
+9. **DEVELOPER_GUIDE**: nova sekcija "Tipovi po potpisu", checklist za potpis, nove česte greške
+
+TypeScript: 0 grešaka.
+
+**Fajlovi:**
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/docxBuilder.ts`
+- `lib/pdf/markdownParser.ts`
+- `lib/prompts/zapisnik-sastanak.ts`
+- `lib/prompts/oglas-za-posao.ts`
+- `lib/prompts/odgovor-kandidatu.ts`
+- `lib/prompts/opis-proizvoda.ts`
+- `lib/prompts/bio-o-nama.ts`
+- `lib/prompts/opsti-uslovi.ts`
+- `lib/prompts/pravilnik-o-radu.ts`
+- + svih 10 ugovornih/poslovnih prompta (dupli naslov)
+- `docs/DEVELOPER_GUIDE — Dodavanje novih tipova.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
