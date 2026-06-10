@@ -20,6 +20,8 @@ prođi kroz SVAKU stavku ove liste.
 - [ ] systemPrompt — sadrži ## OPCIONI ELEMENTI (ako relevantno)
 - [ ] buildUserMessage() — završava rečenicom o nominativu
 - [ ] buildUserMessage() — sadrži broj_ugovora logiku
+- [ ] Toggle polja imaju defaultValue: false
+  (ne null, ne undefined)
 - [ ] wizardSteps — SVA polja imaju coverage:
   - [ ] text/textarea → placeholder (format: "npr. ...")
   - [ ] number → helperText sa jedinicom i opsegom
@@ -177,6 +179,11 @@ OPCIONI ELEMENTI:
 - Zakonski obavezni: uvek generisati
 - Neobavezni: toggle u Napredne opcije bloku
 
+TOGGLE POLJA:
+- defaultValue: false u wizardSteps (uvek!)
+- Zod schema: z.boolean().default(false)
+- WizardForm.tsx ima generički fallback ali eksplicitni defaultValue je obavezan
+
 PDF/DOCX:
 - Svaka promena u AisistentDocument.tsx → ista u docxBuilder.ts
 
@@ -215,6 +222,10 @@ Step prikazuje pogrešan sadržaj
 Wizard se ne učitava (404)
 → WizardPageClient.tsx ima odvojenu documentMeta mapu koja nije ažurirana
 → Dodati type u documentMeta u WizardPageClient.tsx I u SUPPORTED_TYPES u page.tsx
+
+| Problem | Uzrok | Rešenje |
+| --- | --- | --- |
+| Toggle ostaje null | Toggle polje nije dodirnuto — vrednost ostaje null umesto false | WizardForm.tsx ima generički fallback ali Zod schema mora imati .default(false) za svaki toggle |
 
 ---
 *jun 2026. — ažurirati pri svakom novom tipu dokumenta*

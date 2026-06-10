@@ -867,6 +867,19 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak Z — Toggle default konvencija u developer guide
+
+- `DEVELOPER_GUIDE` dopunjen checklist stavkom za `defaultValue: false` na svim toggle poljima
+- Dodata posebna sekcija konvencija za toggle polja (`wizardSteps`, Zod schema, WizardForm fallback)
+- U sekciji čestih grešaka dodat bug obrazac za `null` toggle vrednosti
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `docs/DEVELOPER_GUIDE — Dodavanje novih tipova.md`
+- `PROGRESS.md`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
