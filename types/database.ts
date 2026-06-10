@@ -19,6 +19,7 @@ export interface Company {
   funkcija_zastupnika: string | null
   email: string | null
   telefon: string | null
+  logo_url: string | null
   is_default: boolean
   created_at: string
 }
@@ -128,6 +129,7 @@ export interface Database {
           funkcija_zastupnika: string | null
           email: string | null
           telefon: string | null
+          logo_url: string | null
           is_default: boolean
           created_at: string
         }
@@ -143,6 +145,7 @@ export interface Database {
           funkcija_zastupnika?: string | null
           email?: string | null
           telefon?: string | null
+          logo_url?: string | null
           is_default?: boolean
           created_at?: string
         }
@@ -156,6 +159,7 @@ export interface Database {
           funkcija_zastupnika?: string | null
           email?: string | null
           telefon?: string | null
+          logo_url?: string | null
           is_default?: boolean
         }
         Relationships: []

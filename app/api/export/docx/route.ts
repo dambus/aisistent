@@ -6,6 +6,7 @@ import { buildDocx } from '@/lib/pdf/docxBuilder'
 export const maxDuration = 60
 
 const DOCX_PLANS = ['starter', 'pro', 'business']
+const LOGO_PLANS = ['pro', 'business']
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -56,10 +57,42 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nemate pristup ovom dokumentu.' }, { status: 403 })
   }
 
+  // Dohvati logo firme ako plan dozvoljava
+  let logoBuffer: Buffer | null = null
+  let logoMimeType: string | undefined
+
+  if (LOGO_PLANS.includes(profile.plan)) {
+    const { data: company } = await admin
+      .from('companies')
+      .select('logo_url')
+      .eq('user_id', user.id)
+      .order('is_default', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (company?.logo_url) {
+      const { data: fileData } = await admin.storage
+        .from('company-logos')
+        .download(company.logo_url)
+
+      if (fileData) {
+        const arrayBuffer = await fileData.arrayBuffer()
+        logoBuffer = Buffer.from(arrayBuffer)
+        const ext = company.logo_url.split('.').pop()?.toLowerCase()
+        logoMimeType = ext === 'svg' ? 'image/svg+xml'
+          : ext === 'webp' ? 'image/webp'
+          : ext === 'png' ? 'image/png'
+          : 'image/jpeg'
+      }
+    }
+  }
+
   const docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at, {
     documentType: doc.type,
     inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
     isFree: doc.is_free ?? false,
+    logoBuffer,
+    logoMimeType,
   })
 
   const slug = doc.type.replace('ugovor-o-', 'ugovor-')

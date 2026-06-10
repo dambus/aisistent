@@ -40,6 +40,19 @@ export default async function ProfilPage() {
     .order('created_at', { ascending: true })
 
   const plan = profile?.plan ?? 'free'
+
+  // Generiši signed URLs za prikaz logoa (1 sat)
+  const logoDisplayUrls: Record<string, string> = {}
+  for (const company of companies ?? []) {
+    if (company.logo_url) {
+      const { data: signed } = await admin.storage
+        .from('company-logos')
+        .createSignedUrl(company.logo_url, 3600)
+      if (signed?.signedUrl) {
+        logoDisplayUrls[company.id] = signed.signedUrl
+      }
+    }
+  }
   const planInfo = PLAN_INFO[plan] ?? PLAN_INFO.free
   const docsThisMonth = profile?.documents_this_month ?? 0
   const memberSince = formatMemberSince(profile?.created_at ?? user.created_at)
@@ -65,6 +78,7 @@ export default async function ProfilPage() {
       {/* Kartica 3 — Moje firme */}
       <CompaniesTab
         initialCompanies={(companies ?? []) as Company[]}
+        logoDisplayUrls={logoDisplayUrls}
         plan={plan}
       />
 

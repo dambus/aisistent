@@ -392,10 +392,11 @@ interface Props {
   isFree: boolean
   inputData?: Record<string, unknown>
   documentType?: string
+  logoUrl?: string | null
 }
 
 export function AisistentDocument({
-  generatedText, documentTitle, createdAt, isFree, inputData, documentType,
+  generatedText, documentTitle, createdAt, isFree, inputData, documentType, logoUrl,
 }: Props) {
   const blocks = parseMarkdown(generatedText)
   const dateStr = serbianDate(createdAt)
@@ -417,7 +418,9 @@ export function AisistentDocument({
 
         {/* Header — absolutely positioned, repeats on every page */}
         <View fixed style={s.header}>
-          {showPdfLogo ? (
+          {logoUrl ? (
+            <Image src={logoUrl} style={{ height: 24, maxWidth: 120, objectFit: 'contain' }} />
+          ) : showPdfLogo ? (
             <Image src={PDF_LOGO_SRC} style={s.headerLogo} />
           ) : (
             <Text style={{ fontFamily: 'Roboto-Bold', fontSize: 12, color: '#1d4ed8' }}>AIsistent</Text>

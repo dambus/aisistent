@@ -7,6 +7,8 @@ import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 
 export const maxDuration = 60
 
+const LOGO_PLANS = ['pro', 'business']
+
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -41,6 +43,42 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nemate pristup ovom dokumentu.' }, { status: 403 })
   }
 
+  // Dohvati logo firme ako plan dozvoljava
+  let logoUrl: string | null = null
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('plan')
+    .eq('id', user.id)
+    .single()
+
+  if (profile && LOGO_PLANS.includes(profile.plan)) {
+    const { data: company } = await admin
+      .from('companies')
+      .select('logo_url')
+      .eq('user_id', user.id)
+      .order('is_default', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (company?.logo_url) {
+      // Preuzmi kao base64 data URI za react-pdf renderer
+      const { data: fileData } = await admin.storage
+        .from('company-logos')
+        .download(company.logo_url)
+
+      if (fileData) {
+        const arrayBuffer = await fileData.arrayBuffer()
+        const base64 = Buffer.from(arrayBuffer).toString('base64')
+        const ext = company.logo_url.split('.').pop()?.toLowerCase()
+        const mimeType = ext === 'svg' ? 'image/svg+xml'
+          : ext === 'webp' ? 'image/webp'
+          : ext === 'png' ? 'image/png'
+          : 'image/jpeg'
+        logoUrl = `data:${mimeType};base64,${base64}`
+      }
+    }
+  }
+
   let pdfBuffer: Buffer
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,6 +90,7 @@ export async function POST(request: NextRequest) {
         isFree: doc.is_free,
         inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
         documentType: doc.type,
+        logoUrl,
       }) as any
     )
   } catch (pdfErr) {

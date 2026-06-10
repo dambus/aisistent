@@ -5,6 +5,7 @@ import {
   Footer,
   Header,
   HeadingLevel,
+  ImageRun,
   Packer,
   Paragraph,
   Table,
@@ -31,6 +32,8 @@ interface BuildDocxOptions {
   documentType?: string
   inputData?: Record<string, unknown>
   isFree?: boolean
+  logoBuffer?: Buffer | null
+  logoMimeType?: string
 }
 
 interface SigData {
@@ -557,16 +560,26 @@ export async function buildDocx(
           default: new Header({
             children: [
               new Paragraph({
-                alignment: AlignmentType.CENTER,
+                alignment: (options.logoBuffer && options.logoMimeType !== 'image/svg+xml') ? AlignmentType.LEFT : AlignmentType.CENTER,
                 spacing: { after: 120 },
-                children: [
-                  new TextRun({
-                    text: `AIsistent  |  ${dateStr}  |  aisistent.rs`,
-                    font: FONT_FAMILY,
-                    size: HEADER_SIZE,
-                    color: '6B7280',
-                  }),
-                ],
+                children: options.logoBuffer && options.logoMimeType !== 'image/svg+xml'
+                  ? [
+                      new ImageRun({
+                        data: options.logoBuffer,
+                        transformation: { width: 120, height: 36 },
+                        type: (options.logoMimeType === 'image/png' ? 'png'
+                          : options.logoMimeType === 'image/webp' ? 'png'
+                          : 'jpg') as 'png' | 'jpg',
+                      }),
+                    ]
+                  : [
+                      new TextRun({
+                        text: `AIsistent  |  ${dateStr}  |  aisistent.rs`,
+                        font: FONT_FAMILY,
+                        size: HEADER_SIZE,
+                        color: '6B7280',
+                      }),
+                    ],
               }),
             ],
           }),

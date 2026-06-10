@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { Company } from '@/types/database'
 
 interface CompaniesTabProps {
   initialCompanies: Company[]
+  logoDisplayUrls: Record<string, string>
   plan: string
 }
 
@@ -14,6 +15,8 @@ const PLAN_LIMITS: Record<string, number | null> = {
   pro:      3,
   business: null,
 }
+
+const LOGO_PLANS = ['pro', 'business']
 
 const emptyForm = {
   naziv: '',
@@ -30,16 +33,21 @@ const emptyForm = {
 
 type FormState = typeof emptyForm
 
-export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
+export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: CompaniesTabProps) {
   const [companies, setCompanies] = useState<Company[]>(initialCompanies)
+  const [displayUrls, setDisplayUrls] = useState<Record<string, string>>(logoDisplayUrls)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [uploadingId, setUploadingId] = useState<string | null>(null)
+  const [uploadError, setUploadError] = useState<Record<string, string>>({})
+  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   const limit = PLAN_LIMITS[plan] ?? null
+  const canUseLogo = LOGO_PLANS.includes(plan)
 
   function openAdd() {
     setEditingId(null)
@@ -98,9 +106,9 @@ export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
       }
 
       if (editingId) {
-        setCompanies(prev => prev.map(c => c.id === editingId ? json : c))
+        setCompanies(prev => prev.map(c => c.id === editingId ? { ...json, logo_url: c.logo_url } : c))
         if (json.is_default) {
-          setCompanies(prev => prev.map(c => c.id === editingId ? json : { ...c, is_default: false }))
+          setCompanies(prev => prev.map(c => c.id === editingId ? { ...json, logo_url: c.logo_url } : { ...c, is_default: false }))
         }
       } else {
         const newCompany = json as Company
@@ -127,6 +135,7 @@ export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
       const res = await fetch(`/api/companies/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setCompanies(prev => prev.filter(c => c.id !== id))
+        setDisplayUrls(prev => { const n = { ...prev }; delete n[id]; return n })
       }
     } finally {
       setDeletingId(null)
@@ -144,13 +153,59 @@ export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
     }
   }
 
+  async function handleLogoUpload(companyId: string, file: File) {
+    setUploadingId(companyId)
+    setUploadError(prev => ({ ...prev, [companyId]: '' }))
+
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError(prev => ({ ...prev, [companyId]: 'Maksimalna veličina je 2MB.' }))
+      setUploadingId(null)
+      return
+    }
+
+    const fd = new FormData()
+    fd.append('logo', file)
+
+    try {
+      const res = await fetch(`/api/companies/${companyId}/logo`, { method: 'POST', body: fd })
+      const json = await res.json()
+
+      if (!res.ok) {
+        setUploadError(prev => ({ ...prev, [companyId]: json.error ?? 'Greška pri uploadu.' }))
+        return
+      }
+
+      setCompanies(prev => prev.map(c => c.id === companyId ? { ...c, logo_url: json.logo_url } : c))
+      if (json.logo_display_url) {
+        setDisplayUrls(prev => ({ ...prev, [companyId]: json.logo_display_url }))
+      }
+    } catch {
+      setUploadError(prev => ({ ...prev, [companyId]: 'Greška pri slanju fajla.' }))
+    } finally {
+      setUploadingId(null)
+    }
+  }
+
+  async function handleLogoRemove(companyId: string) {
+    setUploadingId(companyId)
+    try {
+      const res = await fetch(`/api/companies/${companyId}/logo`, { method: 'DELETE' })
+      if (res.ok) {
+        setCompanies(prev => prev.map(c => c.id === companyId ? { ...c, logo_url: null } : c))
+        setDisplayUrls(prev => { const n = { ...prev }; delete n[companyId]; return n })
+      }
+    } finally {
+      setUploadingId(null)
+    }
+  }
+
   const limitText = () => {
     if (limit === null) return `${companies.length} ${companies.length === 1 ? 'firma' : 'firmi'} — neograničeno`
     return `${companies.length} od ${limit} ${limit === 1 ? 'firme' : 'firmi'} iskorišćeno`
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6">
+    <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje firme</h2>
         {!showForm && (
@@ -166,6 +221,13 @@ export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
         )}
       </div>
 
+      {/* Logo plan info */}
+      {!canUseLogo && (
+        <div className="mb-4 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-700">
+          Logo na dokumentima dostupan je za Pro i Business plan.
+        </div>
+      )}
+
       {/* Lista firmi */}
       {companies.length === 0 && !showForm && (
         <p className="text-sm text-gray-500 mb-4">Još niste dodali nijednu firmu.</p>
@@ -180,22 +242,85 @@ export function CompaniesTab({ initialCompanies, plan }: CompaniesTabProps) {
             }`}
           >
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-semibold text-gray-900 text-sm">{company.naziv}</span>
-                  {company.is_default && (
-                    <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                      style={{ backgroundColor: '#D1FAE5', color: '#065F46' }}>
-                      Podrazumevana
-                    </span>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-3 flex-wrap">
+                  {/* Logo preview */}
+                  {displayUrls[company.id] ? (
+                    <img
+                      src={displayUrls[company.id]}
+                      alt={`Logo ${company.naziv}`}
+                      style={{ height: 36, maxWidth: 120, objectFit: 'contain' }}
+                      className="rounded border border-gray-100 bg-white p-0.5"
+                    />
+                  ) : (
+                    company.logo_url && (
+                      <div className="h-9 w-16 flex items-center justify-center bg-gray-100 rounded border border-gray-200 text-xs text-gray-400">
+                        Logo ✓
+                      </div>
+                    )
+                  )}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-gray-900 text-sm">{company.naziv}</span>
+                      {company.is_default && (
+                        <span className="text-xs px-2 py-0.5 rounded-full font-medium"
+                          style={{ backgroundColor: '#D1FAE5', color: '#065F46' }}>
+                          Podrazumevana
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1 text-xs text-gray-500 space-x-2">
+                      {company.pib && <span>PIB: {company.pib}</span>}
+                      {company.grad && <span>{company.grad}</span>}
+                      {company.zastupnik && <span>Zastupnik: {company.zastupnik}</span>}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Logo upload sekcija */}
+                <div className="mt-3 flex items-center gap-2 flex-wrap">
+                  <input
+                    ref={el => { fileInputRefs.current[company.id] = el }}
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    className="hidden"
+                    onChange={e => {
+                      const file = e.target.files?.[0]
+                      if (file) handleLogoUpload(company.id, file)
+                      e.target.value = ''
+                    }}
+                  />
+                  <button
+                    onClick={() => canUseLogo && fileInputRefs.current[company.id]?.click()}
+                    disabled={!canUseLogo || uploadingId === company.id}
+                    className={`text-xs border rounded-lg px-2.5 py-1 transition-colors ${
+                      canUseLogo
+                        ? 'text-gray-600 border-gray-300 hover:bg-gray-50 hover:text-gray-800'
+                        : 'text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+                    } disabled:opacity-50`}
+                  >
+                    {uploadingId === company.id
+                      ? 'Uploadujem...'
+                      : company.logo_url
+                        ? 'Promeni logo'
+                        : 'Dodaj logo'}
+                  </button>
+                  {company.logo_url && canUseLogo && (
+                    <button
+                      onClick={() => handleLogoRemove(company.id)}
+                      disabled={uploadingId === company.id}
+                      className="text-xs text-red-500 hover:text-red-700 border border-red-200 rounded-lg px-2.5 py-1 transition-colors hover:bg-red-50 disabled:opacity-50"
+                    >
+                      Ukloni logo
+                    </button>
+                  )}
+                  {uploadError[company.id] && (
+                    <span className="text-xs text-red-600">{uploadError[company.id]}</span>
                   )}
                 </div>
-                <div className="mt-1 text-xs text-gray-500 space-x-2">
-                  {company.pib && <span>PIB: {company.pib}</span>}
-                  {company.grad && <span>{company.grad}</span>}
-                  {company.zastupnik && <span>Zastupnik: {company.zastupnik}</span>}
-                </div>
               </div>
+
+              {/* Akciona dugmad */}
               <div className="flex gap-2 flex-shrink-0">
                 {!company.is_default && (
                   <button
