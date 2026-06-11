@@ -446,11 +446,11 @@ export default async function Home() {
           title="Jednostavne cene, bez iznenađenja"
           text="Otkažite kad hoćete. Bez ugovora."
         />
-        <div className="mx-auto mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
           {pricing.map(plan => (
             <article
               key={plan.name}
-              className={`relative rounded-2xl border p-6 transition-all duration-200 ${
+              className={`flex flex-col h-full relative rounded-2xl border p-6 transition-all duration-200 ${
                 plan.featured
                   ? 'border-2 bg-white text-gray-900 shadow-xl'
                   : 'border-white/10 bg-white/5 hover:bg-white/8'
@@ -472,7 +472,7 @@ export default async function Home() {
               {plan.euroEquivalent && (
                 <p className="mt-1 text-xs font-medium opacity-60">{plan.euroEquivalent}</p>
               )}
-              <ul className="mt-6 grid gap-2.5 text-sm">
+              <ul className="mt-6 grid gap-2.5 text-sm flex-1">
                 {plan.features.map(([mark, text]) => (
                   <li key={text} className="flex gap-2.5">
                     <span
@@ -487,7 +487,7 @@ export default async function Home() {
               </ul>
               <a
                 href={plan.href}
-                className="mt-7 block rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
+                className="mt-auto pt-7 block rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
                 style={
                   plan.featured
                     ? { backgroundColor: PRIMARY, color: '#fff' }
