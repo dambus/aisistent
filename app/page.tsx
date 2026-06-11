@@ -472,7 +472,7 @@ export default async function Home() {
               {plan.euroEquivalent && (
                 <p className="mt-1 text-xs font-medium opacity-60">{plan.euroEquivalent}</p>
               )}
-              <ul className="mt-6 grid gap-2.5 text-sm flex-1">
+              <ul className="mt-6 grid flex-1 gap-2.5 pb-6 text-sm">
                 {plan.features.map(([mark, text]) => (
                   <li key={text} className="flex gap-2.5">
                     <span
@@ -487,7 +487,7 @@ export default async function Home() {
               </ul>
               <a
                 href={plan.href}
-                className="mt-auto pt-6 block rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
+                className="mt-auto flex min-h-12 items-center justify-center rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
                 style={
                   plan.featured
                     ? { backgroundColor: PRIMARY, color: '#fff' }
