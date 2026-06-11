@@ -264,8 +264,8 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
       return {
         leftLabel: 'ZA NARUČIOCA', leftOrg: g('naziv_narucioca'),
         leftPerson: g('zastupnik_narucioca'),
-        rightLabel: 'IZVOĐAČ', rightOrg: '',
-        rightPerson: g('naziv_izvodjaca'), city: '',
+        rightLabel: 'IZVOĐAČ', rightOrg: g('naziv_izvodjaca'),
+        rightPerson: '', city: '',
       }
     case 'nda':
       return {
@@ -443,7 +443,7 @@ export function AisistentDocument({
             {showConfidential && (
               <Text style={s.headerConfidential}>POVERLJIVO</Text>
             )}
-            <Text style={s.headerDate}>{dateStr} · aisistent.rs</Text>
+            <Text style={s.headerDate}>{logoUrl ? dateStr : `${dateStr} · aisistent.rs`}</Text>
           </View>
         </View>
 

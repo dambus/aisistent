@@ -97,8 +97,8 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftOrg: g('naziv_narucioca'),
         leftPerson: g('zastupnik_narucioca'),
         rightLabel: 'IZVOĐAČ',
-        rightOrg: '',
-        rightPerson: g('naziv_izvodjaca'),
+        rightOrg: g('naziv_izvodjaca'),
+        rightPerson: '',
         city: '',
       }
     case 'nda':
@@ -617,7 +617,9 @@ export async function buildDocx(
 
                   : [
                       new TextRun({
-                        text: `AIsistent  |  ${dateStr}  |  aisistent.rs`,
+                        text: options.logoBuffer
+                          ? dateStr
+                          : `AIsistent  |  ${dateStr}  |  aisistent.rs`,
                         font: FONT_FAMILY,
                         size: HEADER_SIZE,
                         color: '6B7280',
