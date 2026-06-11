@@ -24,6 +24,8 @@
 ## Odbačeno / Na čekanju
 - Stripe direktno — Srbija nije podržana, koristimo Paddle
 - Fiskalizacija — odložena, fokus na B2B bez kase
+- Email from adresa: trenutno `onboarding@resend.dev` (sandbox). Kada aisistent.rs domen bude aktivan,
+  verifikovati u Resend panelu i promeniti na `noreply@aisistent.rs` u `app/api/send-document/route.ts`
 
 ## Napomene
 - Payment gateway čeka fizičku posetu APR i registraciju
