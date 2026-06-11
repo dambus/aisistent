@@ -3,13 +3,13 @@ import { createClient } from '@/lib/supabase/server'
 import MobileMenu from '@/components/landing/MobileMenu'
 
 export const metadata: Metadata = {
-  title: 'AIsistent — Pravni dokumenti i poslovni alati za srpske preduzetnike',
+  title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
   description:
-    'Generator ugovora, poslovnih mejlova i HR dokumenata prilagođenih srpskom pravu. Ugovor o radu, NDA, ponuda klijentu i još 7 alata. Besplatno za početak.',
+    'Generator ugovora, poslovnih mejlova i HR dokumenata za srpsko tržište. Ugovor o radu, NDA, ponuda klijentu i još 7 alata. Besplatno za početak.',
   openGraph: {
-    title: 'AIsistent — Pravni dokumenti i poslovni alati za srpske preduzetnike',
+    title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
     description:
-      'Generator ugovora, poslovnih mejlova i HR dokumenata prilagođenih srpskom pravu. Besplatno za početak.',
+      'Generator ugovora, poslovnih mejlova i HR dokumenata za srpsko tržište. Besplatno za početak.',
     url: 'https://aisistent.rs',
     siteName: 'AIsistent',
     locale: 'sr_RS',
@@ -32,13 +32,13 @@ const steps = [
     num: '1',
     icon: '📝',
     title: 'Popunite kratku formu',
-    text: 'Unesite osnovne podatke. Nije vam potrebno pravno znanje — vodimo vas korak po korak.',
+    text: 'Unesite osnovne podatke. Nije vam potrebno iskustvo — vodimo vas korak po korak.',
   },
   {
     num: '2',
     icon: '⚡',
     title: 'AIsistent generiše za vas',
-    text: 'Za manje od 60 sekundi dobijate kompletan dokument prilagođen srpskom pravu i vašem poslu.',
+    text: 'Za manje od 60 sekundi dobijate kompletan dokument prilagođen srpskom tržištu i vašem poslu.',
   },
   {
     num: '3',
@@ -104,7 +104,7 @@ const upcomingTools: { name: string; desc: string }[] = []
 const withoutAisistent = [
   'Sat vremena pisanja ugovora',
   'Pravnik košta 100€+ po dokumentu',
-  'ChatGPT nije prilagođen srpskom pravu',
+  'ChatGPT nije prilagođen srpskom tržištu i praksi',
   'Dokumenti u različitim folderima',
   'Svaki put od nule',
 ]
@@ -306,7 +306,7 @@ export default async function Home() {
               </a>
             </div>
             <p className="mt-6 text-sm font-medium text-gray-500">
-              ✓ Bez avansa &nbsp;·&nbsp; ✓ Srpsko pravo &nbsp;·&nbsp; ✓ PDF i Word format
+              ✓ Bez avansa &nbsp;·&nbsp; ✓ Prilagođeno Srbiji &nbsp;·&nbsp; ✓ PDF i Word format
             </p>
           </div>
 
@@ -530,7 +530,7 @@ export default async function Home() {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="mb-1 text-base font-bold text-white">AIsistent</p>
-              <p className="text-gray-500">Pravni dokumenti za srpske preduzetnike</p>
+              <p className="text-gray-500">Poslovni alati za srpske preduzetnike</p>
             </div>
             <div className="flex gap-8 text-sm">
               <div className="grid gap-2">

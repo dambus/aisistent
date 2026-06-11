@@ -55,6 +55,19 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
 
   if (!meta) notFound()
 
+  const wizardSubtitle = (() => {
+    if (['ugovor-o-radu','ugovor-o-delu','nda','ugovor-o-zakupu','ugovor-o-saradnji','punomocje','opsti-uslovi'].includes(type)) {
+      return 'Popunite podatke i AI će generisati kompletan poslovni dokument.'
+    }
+    if (['poslovni-mejl','ponuda-klijentu'].includes(type)) {
+      return 'Popunite podatke i AI će generisati profesionalan poslovni tekst.'
+    }
+    if (['oglas-za-posao','odgovor-kandidatu','preporuka','resenje-godisnji-odmor','pravilnik-o-radu'].includes(type)) {
+      return 'Popunite podatke i AI će generisati kompletan HR dokument.'
+    }
+    return 'Popunite podatke i AI će generisati profesionalan dokument.'
+  })()
+
   if (result) {
     return (
       <DocumentPreview
@@ -72,7 +85,7 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">{meta.title}</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Popunite podatke i AI će generisati kompletan pravni dokument.
+          {wizardSubtitle}
         </p>
       </div>
 
