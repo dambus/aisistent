@@ -9,6 +9,7 @@ import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 interface DocumentPreviewProps {
   text: string
   documentId: string
+  documentTitle: string
   documentType: string
   onReset: () => void
 }
@@ -41,7 +42,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
   return null
 }
 
-export function DocumentPreview({ text, documentId, documentType, onReset }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentTitle, documentType, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
@@ -105,7 +106,7 @@ export function DocumentPreview({ text, documentId, documentType, onReset }: Doc
 
       <SendEmailModal
         documentId={documentId}
-        documentTitle={text.split('\n')[0].replace(/^#+ /, '').trim() || 'Dokument'}
+        documentTitle={documentTitle || 'Dokument'}
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
       />

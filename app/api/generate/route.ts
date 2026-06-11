@@ -619,12 +619,14 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  const title = config.buildTitle(docData.data as never)
+
   const { data: doc, error: insertError } = await admin
     .from('documents')
     .insert({
       user_id: user.id,
       type,
-      title: config.buildTitle(docData.data as never),
+      title,
       input_data: docData.data as Record<string, unknown>,
       generated_text: generatedText,
       is_free: profile.plan === 'free',
@@ -645,6 +647,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     success: true,
     document_id: doc.id,
+    title,
     generated_text: generatedText,
   })
 }

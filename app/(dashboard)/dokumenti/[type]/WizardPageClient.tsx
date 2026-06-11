@@ -51,7 +51,7 @@ interface WizardPageClientProps {
 
 export function WizardPageClient({ type, companies }: WizardPageClientProps) {
   const meta = documentMeta[type]
-  const [result, setResult] = useState<{ documentId: string; generatedText: string } | null>(null)
+  const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string } | null>(null)
 
   if (!meta) notFound()
 
@@ -60,6 +60,7 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
       <DocumentPreview
         text={result.generatedText}
         documentId={result.documentId}
+        documentTitle={result.documentTitle}
         documentType={type}
         onReset={() => setResult(null)}
       />
@@ -79,7 +80,7 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
         steps={meta.steps}
         documentType={type}
         companies={companies}
-        onComplete={(documentId, generatedText) => setResult({ documentId, generatedText })}
+        onComplete={(documentId, generatedText, documentTitle) => setResult({ documentId, generatedText, documentTitle })}
       />
     </div>
   )

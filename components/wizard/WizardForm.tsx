@@ -12,7 +12,7 @@ interface WizardFormProps {
   steps: WizardStep[]
   documentType: string
   companies?: Company[]
-  onComplete: (documentId: string, generatedText: string) => void
+  onComplete: (documentId: string, generatedText: string, documentTitle: string) => void
 }
 
 type FormValues = Record<string, string | number | boolean>
@@ -124,7 +124,7 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
         return
       }
 
-      onComplete(json.document_id, json.generated_text)
+      onComplete(json.document_id, json.generated_text, json.title ?? 'Dokument')
     } catch {
       setApiError('Greška pri slanju zahteva. Proverite vezu i pokušajte ponovo.')
     } finally {
