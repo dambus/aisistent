@@ -450,7 +450,7 @@ export default async function Home() {
           {pricing.map(plan => (
             <article
               key={plan.name}
-              className={`flex flex-col h-full relative rounded-2xl border p-6 transition-all duration-200 ${
+              className={`flex flex-col relative rounded-2xl border p-6 transition-all duration-200 ${
                 plan.featured
                   ? 'border-2 bg-white text-gray-900 shadow-xl'
                   : 'border-white/10 bg-white/5 hover:bg-white/8'
@@ -466,7 +466,7 @@ export default async function Home() {
                 </span>
               )}
               <h3 className="text-lg font-bold">{plan.name}</h3>
-              <p className="mt-3 text-4xl font-bold">
+              <p className="mt-3 min-h-[4rem] text-2xl font-bold leading-tight">
                 {plan.price}
               </p>
               {plan.euroEquivalent && (
@@ -487,7 +487,7 @@ export default async function Home() {
               </ul>
               <a
                 href={plan.href}
-                className="mt-auto pt-7 block rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
+                className="mt-auto pt-6 block rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
                 style={
                   plan.featured
                     ? { backgroundColor: PRIMARY, color: '#fff' }
