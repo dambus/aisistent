@@ -911,6 +911,35 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak X — Email slanje dokumenata sa Resend i kontakti
+
+- **Migracija** `20260611000001_add_contacts.sql`: `contacts` tabela (id, user_id, ime, email, firma), UNIQUE(user_id, email), RLS owner policy ⚠️ ČEKA PRIMENU
+- **`lib/resend.ts`**: Resend klijent
+- **`GET /api/contacts`**: lista kontakata korisnika (ORDER BY ime)
+- **`DELETE /api/contacts/[id]`**: brisanje kontakta (RLS ownership check)
+- **`POST /api/send-document`**: generiše PDF (ista logika kao /export/pdf), šalje email sa Resend (PDF attachment), opciono upsertuje kontakt po UNIQUE(user_id,email)
+- **HTML email template**: zeleni header, pozdrav sa imenom, naziv dokumenta, opciona poruka korisnika, AIsistent footer
+- **`SendEmailModal`**: dropdown za sačuvane kontakte, email (required) + ime primaoca, textarea za poruku, toggle "Sačuvaj kao kontakt" sa ime/firma poljem
+- **`DocumentPreview`**: dugme "Pošalji emailom" pored PDF/DOCX
+- **`ArchiveList`**: dugme "Pošalji emailom" za svaki dokument u arhivi
+- **`types/database.ts`**: `Contact` interface + `contacts` tabela u Database tipu
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**From adresa:** `noreply@aisistent.rs` — zahteva verifikovan domen u Resend panelu pre produkcije.
+
+**Fajlovi:**
+- `supabase/migrations/20260611000001_add_contacts.sql` (novo)
+- `lib/resend.ts` (novo)
+- `app/api/contacts/route.ts` (novo)
+- `app/api/contacts/[id]/route.ts` (novo)
+- `app/api/send-document/route.ts` (novo)
+- `components/wizard/SendEmailModal.tsx` (novo)
+- `components/wizard/DocumentPreview.tsx` (ažurirano)
+- `components/dashboard/ArchiveList.tsx` (ažurirano)
+- `types/database.ts` (ažurirano)
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
