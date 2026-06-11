@@ -893,6 +893,24 @@ TypeScript: 0 grešaka.
 
 ---
 
+### ✅ Korak V — Podaci firme u footeru branded dokumenata
+
+- PDF i DOCX export rute proširuju companies query: `SELECT logo_url, naziv, pib, adresa, grad`
+- `companyData` objekat se prosleđuje **samo** Pro/Business planovima
+- **PDF footer** (branded): gornji red 8pt siva — `naziv · PIB: pib · adresa, grad`; donji red 7pt svetlija siva — disclaimer
+- **PDF footer** (ostali): jedan red disclaimer kao do sada; BESPLATNA VERZIJA oznaka za free plan
+- `PAGE_PAD_BOT` povećan sa 80 na 90pt zbog dodatnog reda
+- **DOCX footer** (branded): isti dvored pattern sa odgovarajućim font veličinama (16/14 half-pt)
+- TypeScript: 0 grešaka (`npx.cmd tsc --noEmit`)
+
+**Fajlovi:**
+- `app/api/export/pdf/route.ts`
+- `app/api/export/docx/route.ts`
+- `lib/pdf/AisistentDocument.tsx`
+- `lib/pdf/docxBuilder.ts`
+
+---
+
 ## Aktivni zadaci
 
 ### ⏳ Korak 5 — Stripe integracija
