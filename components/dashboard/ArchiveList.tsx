@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { TYPE_LABELS } from '@/lib/utils/documentTypes'
+import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 
 const PRIMARY = '#1B6B4A'
 
@@ -75,6 +76,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [filter, setFilter] = useState<FilterValue>('all')
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
 
   const filteredDocuments = documents.filter(doc =>
     filter === 'all' ? true : TYPE_CATEGORY[doc.type] === filter
@@ -169,11 +171,32 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                   >
                     {loadingKey === `${doc.id}:docx` ? 'Pripremam DOCX...' : 'Preuzmi DOCX'}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setEmailDoc({ id: doc.id, title: doc.title })}
+                    disabled={loadingKey !== null}
+                    className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Pošalji emailom
+                  </button>
                 </div>
               </div>
             </article>
           ))}
         </div>
+      )}
+
+      {emailDoc && (
+        <SendEmailModal
+          documentId={emailDoc.id}
+          documentTitle={emailDoc.title}
+          isOpen={true}
+          onClose={() => setEmailDoc(null)}
+        />
       )}
     </div>
   )

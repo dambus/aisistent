@@ -4,6 +4,7 @@ import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { documentReminders } from '@/data/reminders'
 import { ReminderBox } from '@/components/wizard/ReminderBox'
+import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 
 interface DocumentPreviewProps {
   text: string
@@ -43,6 +44,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 export function DocumentPreview({ text, documentId, documentType, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
+  const [showEmailModal, setShowEmailModal] = useState(false)
   const reminder = documentReminders[documentType]
 
   async function handleExport(format: ExportFormat) {
@@ -87,7 +89,26 @@ export function DocumentPreview({ text, documentId, documentType, onReset }: Doc
           disabled={loading !== null}
           onClick={() => handleExport('docx')}
         />
+        <button
+          type="button"
+          disabled={loading !== null}
+          onClick={() => setShowEmailModal(true)}
+          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Pošalji emailom
+        </button>
       </div>
+
+      <SendEmailModal
+        documentId={documentId}
+        documentTitle={text.split('\n')[0].replace(/^#+ /, '').trim() || 'Dokument'}
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+      />
 
       {error && (
         <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">

@@ -7,6 +7,15 @@ export type DocumentType =
   | 'ugovor-o-zakupu'
   | 'ugovor-o-saradnji'
 
+export interface Contact {
+  id: string
+  user_id: string
+  ime: string | null
+  email: string
+  firma: string | null
+  created_at: string
+}
+
 export interface Company {
   id: string
   user_id: string
@@ -161,6 +170,30 @@ export interface Database {
           telefon?: string | null
           logo_url?: string | null
           is_default?: boolean
+        }
+        Relationships: []
+      }
+      contacts: {
+        Row: {
+          id: string
+          user_id: string
+          ime: string | null
+          email: string
+          firma: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          ime?: string | null
+          email: string
+          firma?: string | null
+          created_at?: string
+        }
+        Update: {
+          ime?: string | null
+          email?: string
+          firma?: string | null
         }
         Relationships: []
       }

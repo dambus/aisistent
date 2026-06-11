@@ -15,7 +15,10 @@
       "Bash(git commit -m 'fix: DOCX export — prosleđivanje documentType, inputData, isFree *)",
       "Bash(git push *)",
       "Bash(npx.cmd tsc *)",
-      "Bash(git commit -m 'docs: ažuriran PROGRESS.md — Korak Q završen *)"
+      "Bash(git commit -m 'docs: ažuriran PROGRESS.md — Korak Q završen *)",
+      "Bash(git commit *)",
+      "Bash(npm list *)",
+      "Bash(npm install *)"
     ]
   }
 }
