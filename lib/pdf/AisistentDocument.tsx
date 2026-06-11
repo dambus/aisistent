@@ -18,7 +18,7 @@ Font.registerHyphenationCallback(word => [word])
 
 const MARGIN_H = 72
 const PAGE_PAD_TOP = 60   // reserves space for fixed header (~30pt) + gap
-const PAGE_PAD_BOT = 80   // reserves space for fixed footer (~40pt) + gap
+const PAGE_PAD_BOT = 90   // reserves space for fixed footer (~40pt) + gap; extra 10pt for optional company row
 const HEADER_TOP = 16
 const FOOTER_BOTTOM = 18
 
@@ -102,8 +102,14 @@ const s = StyleSheet.create({
     borderTopColor: '#e5e7eb',
     paddingTop: 5,
   },
+  footerCompany: {
+    fontSize: 8, color: '#6B7280', fontFamily: 'Roboto', textAlign: 'center', marginBottom: 2,
+  },
   footerText: {
     fontSize: 9, color: '#9ca3af', fontFamily: 'Roboto', lineHeight: 1.4, textAlign: 'center',
+  },
+  footerTextSmall: {
+    fontSize: 7, color: '#9CA3AF', fontFamily: 'Roboto', lineHeight: 1.4, textAlign: 'center',
   },
   footerWatermark: {
     fontSize: 8, color: '#CCCCCC', fontFamily: 'Roboto', textAlign: 'center', marginTop: 3,
@@ -385,6 +391,13 @@ function SignatureSection({ sig }: { sig: SigData }) {
 
 // ---- Main component ----
 
+interface CompanyData {
+  naziv: string
+  pib: string | null
+  adresa: string | null
+  grad: string | null
+}
+
 interface Props {
   generatedText: string
   documentTitle: string
@@ -393,10 +406,11 @@ interface Props {
   inputData?: Record<string, unknown>
   documentType?: string
   logoUrl?: string | null
+  companyData?: CompanyData | null
 }
 
 export function AisistentDocument({
-  generatedText, documentTitle, createdAt, isFree, inputData, documentType, logoUrl,
+  generatedText, documentTitle, createdAt, isFree, inputData, documentType, logoUrl, companyData,
 }: Props) {
   const blocks = parseMarkdown(generatedText)
   const dateStr = serbianDate(createdAt)
@@ -445,7 +459,16 @@ export function AisistentDocument({
 
         {/* Footer — absolutely positioned, repeats on every page */}
         <View fixed style={s.footer}>
-          <Text style={s.footerText}>{DISCLAIMER}</Text>
+          {companyData && (
+            <Text style={s.footerCompany}>
+              {[
+                companyData.naziv,
+                companyData.pib ? `PIB: ${companyData.pib}` : null,
+                [companyData.adresa, companyData.grad].filter(Boolean).join(', ') || null,
+              ].filter(Boolean).join(' · ')}
+            </Text>
+          )}
+          <Text style={companyData ? s.footerTextSmall : s.footerText}>{DISCLAIMER}</Text>
           {isFree && <Text style={s.footerWatermark}>BESPLATNA VERZIJA</Text>}
         </View>
 

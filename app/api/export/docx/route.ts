@@ -57,18 +57,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nemate pristup ovom dokumentu.' }, { status: 403 })
   }
 
-  // Dohvati logo firme ako plan dozvoljava
+  // Dohvati logo i podatke firme ako plan dozvoljava
   let logoBuffer: Buffer | null = null
   let logoMimeType: string | undefined
+  let companyData: { naziv: string; pib: string | null; adresa: string | null; grad: string | null } | null = null
 
   if (LOGO_PLANS.includes(profile.plan)) {
     const { data: company } = await admin
       .from('companies')
-      .select('logo_url')
+      .select('logo_url, naziv, pib, adresa, grad')
       .eq('user_id', user.id)
       .order('is_default', { ascending: false })
       .limit(1)
       .single()
+
+    if (company) {
+      companyData = {
+        naziv: company.naziv,
+        pib: company.pib,
+        adresa: company.adresa,
+        grad: company.grad,
+      }
+    }
 
     if (company?.logo_url) {
       const { data: fileData } = await admin.storage
@@ -93,6 +103,7 @@ export async function POST(request: NextRequest) {
     isFree: doc.is_free ?? false,
     logoBuffer,
     logoMimeType,
+    companyData,
   })
 
   const slug = doc.type.replace('ugovor-o-', 'ugovor-')

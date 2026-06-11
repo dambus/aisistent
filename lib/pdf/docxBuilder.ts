@@ -29,12 +29,20 @@ const FOOTER_SIZE = 18
 const HEADER_SIZE = 18
 const MARGIN_TWIPS = 1417
 
+interface CompanyData {
+  naziv: string
+  pib: string | null
+  adresa: string | null
+  grad: string | null
+}
+
 interface BuildDocxOptions {
   documentType?: string
   inputData?: Record<string, unknown>
   isFree?: boolean
   logoBuffer?: Buffer | null
   logoMimeType?: string
+  companyData?: CompanyData | null
 }
 
 interface SigData {
@@ -492,23 +500,50 @@ export async function buildDocx(
     )
   }
 
-  const footerChildren = [
+  const footerChildren: Paragraph[] = []
+
+  if (options.companyData) {
+    const cd = options.companyData
+    const parts: string[] = [cd.naziv]
+    if (cd.pib) parts.push(`PIB: ${cd.pib}`)
+    const location = [cd.adresa, cd.grad].filter(Boolean).join(', ')
+    if (location) parts.push(location)
+    footerChildren.push(
+      new Paragraph({
+        alignment: AlignmentType.CENTER,
+        border: {
+          top: { style: BorderStyle.SINGLE, size: 6, color: 'E5E7EB' },
+        },
+        spacing: { before: 120, after: 40 },
+        children: [
+          new TextRun({
+            text: parts.join(' · '),
+            font: FONT_FAMILY,
+            size: 16,
+            color: '6B7280',
+          }),
+        ],
+      }),
+    )
+  }
+
+  footerChildren.push(
     new Paragraph({
       alignment: AlignmentType.CENTER,
-      border: {
+      border: options.companyData ? undefined : {
         top: { style: BorderStyle.SINGLE, size: 6, color: 'E5E7EB' },
       },
-      spacing: { before: 120, after: 40 },
+      spacing: options.companyData ? { after: 40 } : { before: 120, after: 40 },
       children: [
         new TextRun({
           text: DISCLAIMER,
           font: FONT_FAMILY,
-          size: FOOTER_SIZE,
+          size: options.companyData ? 14 : FOOTER_SIZE,
           color: '9CA3AF',
         }),
       ],
     }),
-  ]
+  )
 
   if (options.isFree) {
     footerChildren.push(
