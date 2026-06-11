@@ -649,5 +649,6 @@ export async function POST(request: NextRequest) {
     document_id: doc.id,
     title,
     generated_text: generatedText,
+    is_free: profile.plan === 'free',
   })
 }

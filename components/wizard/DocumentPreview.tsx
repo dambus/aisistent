@@ -11,6 +11,7 @@ interface DocumentPreviewProps {
   documentId: string
   documentTitle: string
   documentType: string
+  isFree?: boolean
   onReset: () => void
 }
 
@@ -42,7 +43,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
   return null
 }
 
-export function DocumentPreview({ text, documentId, documentTitle, documentType, onReset }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
@@ -120,7 +121,62 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
       {/* Document text */}
       <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:font-semibold">
-          <ReactMarkdown>{text}</ReactMarkdown>
+          {(() => {
+            const lines = text.split('\n')
+            const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
+            const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text
+            const blurredText = isFree ? lines.slice(cutoff).join('\n') : ''
+
+            return (
+              <div className="relative">
+                <ReactMarkdown>{visibleText}</ReactMarkdown>
+
+                {isFree && blurredText && (
+                  <div className="relative">
+                    <div className="select-none blur-sm pointer-events-none opacity-70">
+                      <ReactMarkdown>{blurredText}</ReactMarkdown>
+                    </div>
+
+                    <div
+                      className="absolute inset-x-0 top-0 h-16 pointer-events-none"
+                      style={{ background: 'linear-gradient(to bottom, white, transparent)' }}
+                    />
+
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="mx-4 rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-6 shadow-xl text-center max-w-sm w-full">
+                        <div
+                          className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full"
+                          style={{ backgroundColor: '#D1FAE5' }}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            style={{ color: '#1B6B4A' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-base font-semibold text-gray-900">
+                          Pređite na Starter da vidite ceo dokument
+                        </h3>
+                        <p className="mt-1.5 text-sm text-gray-500">
+                          PDF bez oznake, Word format, arhiva dokumenata — od 1.080 RSD/mes.
+                        </p>
+                        <a
+                          href="/#cenovnik"
+                          className="mt-4 block rounded-xl py-2.5 text-sm font-semibold text-white transition-colors"
+                          style={{ backgroundColor: '#1B6B4A' }}
+                        >
+                          Pogledajte planove →
+                        </a>
+                        <p className="mt-2 text-xs text-gray-400">
+                          PDF preuzmite i sa besplatnim planom
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
         </div>
       </div>
 
