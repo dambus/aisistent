@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { TYPE_LABELS } from '@/lib/utils/documentTypes'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
@@ -75,10 +75,17 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [filter, setFilter] = useState<FilterValue>('all')
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
+  const [localDocuments, setLocalDocuments] = useState(documents)
   const [error, setError] = useState('')
   const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
 
-  const filteredDocuments = documents.filter(doc =>
+  useEffect(() => {
+    setLocalDocuments(documents)
+  }, [documents])
+
+  const filteredDocuments = localDocuments.filter(doc =>
     filter === 'all' ? true : TYPE_CATEGORY[doc.type] === filter
   )
 
@@ -90,7 +97,28 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
     setLoadingKey(null)
   }
 
-  if (documents.length === 0) {
+  async function handleDelete(documentId: string) {
+    setDeletingId(documentId)
+    setError('')
+
+    try {
+      const res = await fetch(`/api/documents/${documentId}`, { method: 'DELETE' })
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        setError((json as { error?: string }).error ?? 'Greška pri brisanju.')
+      } else {
+        setLocalDocuments(prev => prev.filter(d => d.id !== documentId))
+      }
+    } catch {
+      setError('Greška pri brisanju.')
+    } finally {
+      setDeletingId(null)
+      setDeleteConfirmId(null)
+    }
+  }
+
+  if (localDocuments.length === 0) {
     return (
       <div className="rounded-2xl border border-gray-200 bg-white px-6 py-14 text-center">
         <h2 className="text-lg font-semibold text-gray-900">Još niste napravili nijedan dokument.</h2>
@@ -105,7 +133,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
     <div>
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-gray-500">
-          Ukupno dokumenata: <span className="font-semibold text-gray-800">{documents.length}</span>
+          Ukupno dokumenata: <span className="font-semibold text-gray-800">{localDocuments.length}</span>
         </p>
         <label className="flex items-center gap-2 text-sm text-gray-600">
           Tip:
@@ -177,12 +205,44 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                     disabled={loadingKey !== null}
                     className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
                     </svg>
                     Pošalji emailom
                   </button>
+                  {deleteConfirmId === doc.id ? (
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(doc.id)}
+                        disabled={deletingId === doc.id}
+                        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+                      >
+                        {deletingId === doc.id ? 'Brišem...' : 'Potvrdi'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteConfirmId(null)}
+                        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                      >
+                        Otkaži
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setDeleteConfirmId(doc.id)}
+                      disabled={loadingKey !== null || deletingId !== null}
+                      className="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
+                    >
+                      Obriši
+                    </button>
+                  )}
                 </div>
               </div>
             </article>
