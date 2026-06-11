@@ -75,9 +75,10 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [filter, setFilter] = useState<FilterValue>('all')
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
-  const [localDocuments, setLocalDocuments] = useState(documents)
+  const [localDocuments, setLocalDocuments] = useState<ArchiveDocument[]>(documents)
   const [error, setError] = useState('')
   const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
 
@@ -115,6 +116,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
     } finally {
       setDeletingId(null)
       setDeleteConfirmId(null)
+      setOpenMenuId(null)
     }
   }
 
@@ -130,7 +132,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   }
 
   return (
-    <div>
+    <div onClick={() => setOpenMenuId(null)}>
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-gray-500">
           Ukupno dokumenata: <span className="font-semibold text-gray-800">{localDocuments.length}</span>
@@ -181,29 +183,55 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-2 sm:flex-row lg:shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => handleDownload(doc.id, 'pdf')}
-                    disabled={loadingKey !== null}
-                    className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-60"
-                    style={{ backgroundColor: PRIMARY }}
-                  >
-                    {loadingKey === `${doc.id}:pdf` ? 'Pripremam PDF...' : 'Preuzmi PDF'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDownload(doc.id, 'docx')}
-                    disabled={loadingKey !== null}
-                    className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {loadingKey === `${doc.id}:docx` ? 'Pripremam DOCX...' : 'Preuzmi DOCX'}
-                  </button>
+                <div
+                  className="flex items-center gap-2 lg:shrink-0"
+                  onClick={event => event.stopPropagation()}
+                >
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setOpenMenuId(openMenuId === doc.id ? null : doc.id)}
+                      disabled={loadingKey !== null}
+                      className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold text-white transition-opacity disabled:opacity-60"
+                      style={{ backgroundColor: PRIMARY }}
+                    >
+                      {loadingKey?.startsWith(doc.id) ? 'Pripremam...' : 'Preuzmi'}
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {openMenuId === doc.id && (
+                      <div className="absolute right-0 top-full z-10 mt-1 w-36 rounded-xl border border-gray-200 bg-white shadow-lg">
+                        <button
+                          type="button"
+                          onClick={() => { handleDownload(doc.id, 'pdf'); setOpenMenuId(null) }}
+                          className="flex w-full items-center gap-2 rounded-t-xl px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          <svg className="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                          PDF
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { handleDownload(doc.id, 'docx'); setOpenMenuId(null) }}
+                          className="flex w-full items-center gap-2 rounded-b-xl border-t border-gray-100 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Word (DOCX)
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                   <button
                     type="button"
                     onClick={() => setEmailDoc({ id: doc.id, title: doc.title })}
                     disabled={loadingKey !== null}
-                    className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                    title="Pošalji emailom"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 disabled:opacity-60"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path
@@ -213,22 +241,22 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
                     </svg>
-                    Pošalji emailom
                   </button>
+
                   {deleteConfirmId === doc.id ? (
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-1.5">
                       <button
                         type="button"
                         onClick={() => handleDelete(doc.id)}
                         disabled={deletingId === doc.id}
-                        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+                        className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60"
                       >
-                        {deletingId === doc.id ? 'Brišem...' : 'Potvrdi'}
+                        {deletingId === doc.id ? '...' : 'Potvrdi'}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDeleteConfirmId(null)}
-                        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                        className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-50"
                       >
                         Otkaži
                       </button>
@@ -238,9 +266,17 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                       type="button"
                       onClick={() => setDeleteConfirmId(doc.id)}
                       disabled={loadingKey !== null || deletingId !== null}
-                      className="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
+                      title="Obriši dokument"
+                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 disabled:opacity-60"
                     >
-                      Obriši
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
                     </button>
                   )}
                 </div>
