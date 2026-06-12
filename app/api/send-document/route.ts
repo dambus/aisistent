@@ -9,8 +9,7 @@ import { resend } from '@/lib/resend'
 export const maxDuration = 60
 
 const LOGO_PLANS = ['pro', 'business']
-// const FROM_EMAIL = 'AIsistent <noreply@aisistent.rs>'
-const FROM_EMAIL = 'AIsistent <onboarding@resend.dev>'
+const FROM_EMAIL = 'AIsistent <noreply@aisistent.rs>'
 
 function escapeHtml(str: string): string {
   return str
