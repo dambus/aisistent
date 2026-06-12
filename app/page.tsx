@@ -135,7 +135,7 @@ const pricing: PricingPlan[] = [
     cta: 'Počnite besplatno',
     href: '/register',
     features: [
-      ['✓', '3 dokumenta mesečno'],
+      ['✓', '1 dokument mesečno'],
       ['✓', 'PDF format'],
       ['✓', 'Sve kategorije alata'],
       ['✕', 'Word format'],

@@ -14,13 +14,13 @@ export function UpgradeModal({ onClose }: { onClose: () => void }) {
           </div>
           <h2 className="text-lg font-semibold text-gray-900">Mesečni limit dostignut</h2>
           <p className="mt-2 text-sm text-gray-500">
-            Besplatni plan omogućava 3 dokumenta mesečno. Pređite na Starter i generišite do 10 dokumenata.
+            Besplatni plan omogućava 1 dokument mesečno. Pređite na Starter i generišite do 20 dokumenata.
           </p>
         </div>
 
         <div className="bg-gray-50 rounded-xl p-4 mb-5 space-y-2">
           {[
-            ['Starter — €9/mes', '10 dokumenata, PDF bez watermark-a'],
+            ['Starter — €9/mes', '20 dokumenata, PDF bez watermark-a'],
             ['Pro — €25/mes', 'Neograničeno, PDF + DOCX, arhiva'],
           ].map(([plan, desc]) => (
             <div key={plan} className="flex items-start gap-2">

@@ -578,9 +578,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Profil nije pronađen.' }, { status: 404 })
   }
 
-  if (profile.plan === 'free' && profile.documents_this_month >= 3) {
+  if (profile.plan === 'free' && profile.documents_this_month >= 1) {
     return NextResponse.json(
-      { error: 'PLAN_LIMIT', message: 'Iskoristili ste sva 3 besplatna dokumenta za ovaj mesec.' },
+      { error: 'PLAN_LIMIT', message: 'Iskoristili ste besplatni mesečni dokument.' },
       { status: 402 }
     )
   }

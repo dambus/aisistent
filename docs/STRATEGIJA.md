@@ -25,7 +25,7 @@ legitimno rešenje (besplatni tier, word-of-mouth)
 - Srpski padeži i deklinacija (optimizovano)
 
 ## Model naplate (B2B fokus)
-Besplatno: 3 dokumenta mesečno, PDF sa oznakom
+Besplatno: 1 dokument mesečno, PDF sa oznakom
 Starter:   ~1.080 RSD/mes (≈9 EUR) — 20 dokumenata
 Pro:       ~3.000 RSD/mes (≈25 EUR) — neograničeno
 Business:  ~7.200 RSD/mes (≈60 EUR) — do 5 korisnika

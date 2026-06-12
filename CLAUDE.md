@@ -107,7 +107,7 @@ companies (id, user_id, naziv, pib, maticni_broj,
 
 ## Monetizacija
 
-Besplatno: 3 dokumenta mesečno, PDF sa oznakom
+Besplatno: 1 dokument mesečno, PDF sa oznakom
 Starter:   ~1.080 RSD/mes — 20 dokumenata, PDF
 Pro:       ~3.000 RSD/mes — neograničeno, PDF + DOCX
 Business:  ~7.200 RSD/mes — do 5 korisnika

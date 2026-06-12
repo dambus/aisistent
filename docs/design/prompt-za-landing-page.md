@@ -78,7 +78,7 @@ SEKCIJE:
    "1 dokument mesečno, PDF sa oznakom"
    
    Starter — €9/mesečno
-   "10 dokumenata, PDF bez oznake, arhiva"
+   "20 dokumenata, PDF bez oznake, arhiva"
    
    Pro — €25/mesečno  
    "Neograničeno, PDF + Word, prioritet"

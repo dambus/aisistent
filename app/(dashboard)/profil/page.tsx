@@ -7,7 +7,7 @@ import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
 import type { Company } from '@/types/database'
 
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
-  free:     { label: 'Besplatni plan',  desc: '3 dokumenta mesečno',         limit: 3    },
+  free:     { label: 'Besplatni plan',  desc: '1 dokument mesečno',          limit: 1    },
   starter:  { label: 'Starter plan',   desc: '20 dokumenata mesečno',        limit: 20   },
   pro:      { label: 'Pro plan',        desc: 'Neograničen broj dokumenata',  limit: null },
   business: { label: 'Business plan',  desc: 'Do 5 korisnika',               limit: null },

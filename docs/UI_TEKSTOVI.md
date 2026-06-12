@@ -61,7 +61,7 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 - Polje price: "Besplatno"
 - Polje cta: "Počnite besplatno"
 - String: "✓"
-- String: "3 dokumenta mesečno"
+- String: "1 dokument mesečno"
 - String: "PDF format"
 - String: "Sve kategorije alata"
 - String: "✕"
@@ -990,9 +990,9 @@ Napomena: fajl je generisan iz izvornog koda i pokriva tekstove vidljive korisni
 ### Upgrade modal (components/wizard/UpgradeModal.tsx)
 - String: "use client"
 - JSX tekst: "Mesečni limit dostignut"
-- JSX tekst: "Besplatni plan omogućava 1 dokument mesečno. Pređite na Starter i generišite do 10 dokumenata." **izmena: pređite umesto pređite
+- JSX tekst: "Besplatni plan omogućava 1 dokument mesečno. Pređite na Starter i generišite do 20 dokumenata." **izmena: pređite umesto pređite
 - String: "Starter — €9/mes"
-- String: "10 dokumenata, PDF bez watermark-a"  **izmena watermark-a, ne watermark-a
+- String: "20 dokumenata, PDF bez watermark-a"  **izmena watermark-a, ne watermark-a
 - String: "Pro — €25/mes"
 - String: "Neograničeno, PDF + DOCX, arhiva"
 - JSX tekst: "✓"
