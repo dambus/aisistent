@@ -98,7 +98,7 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftPerson: g('zastupnik_narucioca'),
         rightLabel: 'IZVOĐAČ',
         rightOrg: g('naziv_izvodjaca'),
-        rightPerson: '',
+        rightPerson: g('zastupnik_izvodjaca') || '',
         city: '',
       }
     case 'nda':

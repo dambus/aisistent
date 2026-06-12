@@ -297,7 +297,8 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftLabel: 'VLASTODAVAC', leftOrg: g('naziv_vlastodavca'),
         leftPerson: '',
         rightLabel: 'PUNOMOĆNIK', rightOrg: g('naziv_punomocnika'),
-        rightPerson: '', city: '',
+        rightPerson: g('zastupnik_izvodjaca') || '',
+        city: '',
       }
     case 'poslovni-mejl':
     case 'oglas-za-posao':
