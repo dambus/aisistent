@@ -123,7 +123,8 @@ X.    ZAVRŠNE ODREDBE
   - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
-  - JEDINI datum koji se generiše iz wizard inputa je datum stupanja na snagu / početka / rok isporuke — jer ga korisnik eksplicitno unosi.`
+  - JEDINI datum koji se generiše iz wizard inputa je datum stupanja na snagu / početka / rok isporuke — jer ga korisnik eksplicitno unosi.
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: UgovorODeluData): string {
   const fazno = data.fazno ? `Da - ${data.opis_faza ?? '[POPUNITI: opis faza]'}` : 'Ne'

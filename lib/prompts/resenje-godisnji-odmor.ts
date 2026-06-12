@@ -30,7 +30,8 @@ Na kraju dokumenta dodaj kratku napomenu da se preporučuje pravna provera pre k
 - Ne navodiš pogrešne rokove ili brojeve dana
 - Ne koristiš ćirilicu
 - Ne daješ pravno mišljenje van samog dokumenta
-- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (broj rešenja, datum, uvodni deo...).`
+- Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (broj rešenja, datum, uvodni deo...).
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: ResenjeGodisnjiOdmorData): string {
   return `Napiši rešenje o godišnjem odmoru sa sledećim podacima:

@@ -165,5 +165,17 @@ export function parseMarkdown(text: string): Block[] {
     blocks.push({ type: 'paragraph', spans: parseInline(line) })
   }
 
+  // Ukloni trailing spacere i heading-e bez sadržaja na kraju
+  while (blocks.length > 0) {
+    const last = blocks[blocks.length - 1]
+    if (last.type === 'spacer') {
+      blocks.pop()
+    } else if (last.type === 'h1' || last.type === 'h2' || last.type === 'h3') {
+      blocks.pop()
+    } else {
+      break
+    }
+  }
+
   return blocks
 }

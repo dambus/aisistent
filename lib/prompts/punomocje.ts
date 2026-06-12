@@ -98,7 +98,8 @@ IV. ZAVRŠNE ODREDBE
   - Nikada ne generiši automatski datum u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum (npr. 'dana...') piše: 'dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
-  - JEDINI datum koji se generiše iz wizard inputa je datum isteka punomoćja — jer ga korisnik eksplicitno unosi.`
+  - JEDINI datum koji se generiše iz wizard inputa je datum isteka punomoćja — jer ga korisnik eksplicitno unosi.
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PunomocjeData): string {
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'

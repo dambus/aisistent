@@ -469,7 +469,17 @@ export async function buildDocx(
 ): Promise<Buffer> {
   const dateStr = serbianDate(createdAt)
   const safeText = sanitizeGeneratedText(generatedText)
-  const blocks = parseMarkdown(safeText)
+  const rawBlocks = parseMarkdown(safeText)
+  // Ukloni trailing spacere i heading-e bez sadržaja na kraju
+  while (rawBlocks.length > 0) {
+    const last = rawBlocks[rawBlocks.length - 1]
+    if (last.type === 'spacer' || last.type === 'h1' || last.type === 'h2' || last.type === 'h3') {
+      rawBlocks.pop()
+    } else {
+      break
+    }
+  }
+  const blocks = rawBlocks
   const bodyChildren = blocks.map(blockToDocxChild)
 
   const signatureTable = buildSignatureTable(options.documentType, options.inputData)

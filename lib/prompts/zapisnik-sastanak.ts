@@ -34,7 +34,8 @@ Generiši gotov zapisnik sa jasnim naslovima i sekcijama:
 - Ne koristiš ćirilicu
 - Ne dodaješ komentare koji nisu deo zapisnika
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum, mesto, prisutni...).
-- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: ZapisnikSastanakData): string {
   return `Napiši zapisnik sa sastanka sa sledećim podacima:

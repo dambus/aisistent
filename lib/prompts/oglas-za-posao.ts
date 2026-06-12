@@ -60,7 +60,8 @@ Generisano uz pomoć AIsistent.rs
 ## ŠTA NE RADIŠ
 
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (naziv pozicije, uvod o firmi...).
-- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 function formatList(value: string[] | string): string {
   return Array.isArray(value) ? value.join(', ') : value

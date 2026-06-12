@@ -59,7 +59,8 @@ Ponuda nije pravno obavezujući dokument sama po sebi, ali može biti osnova za 
 - Ne izmišljaš cene, rokove, garancije ili uslove koje korisnik nije naveo
 - Ne garantuješ pravnu obaveznost ponude
 - Ako je broj_ponude 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju ponude.
-- Na kraju dodaj: "Generisano uz pomoć AIsistent.rs"`
+- Na kraju dodaj: "Generisano uz pomoć AIsistent.rs"
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PonudaKlijentuData): string {
   const brojPonude = data.broj_ponude?.trim() ? data.broj_ponude.trim() : 'bez broja'

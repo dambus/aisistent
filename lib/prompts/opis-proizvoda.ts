@@ -26,7 +26,8 @@ Generiši samo gotov opis spreman za objavu, bez uvodnih napomena za korisnika.
 - Ne pišeš klišee kao što su "vrhunski kvalitet" bez objašnjenja
 - Ne koristiš anglicizme kada postoji prirodna srpska alternativa
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (uvodni tekst, karakteristike...).
-- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.`
+- NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: OpisProizvodaData): string {
   return `Napiši prodajni opis sa sledećim podacima:
