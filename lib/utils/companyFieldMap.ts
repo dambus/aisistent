@@ -1,8 +1,8 @@
 export const companyFieldMap: Record<string, Record<string, string>> = {
   'ugovor-o-radu': {
-    naziv:                'naziv_firme',
+    naziv:                'firma',
     pib:                  'pib',
-    maticni_broj:         'maticni_broj',
+    maticni_broj:         'mb',
     adresa:               'adresa_firme',
     zastupnik:            'zastupnik',
     funkcija_zastupnika:  'funkcija',
