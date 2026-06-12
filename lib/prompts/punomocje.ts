@@ -88,6 +88,13 @@ IV. ZAVRŠNE ODREDBE
 
 ## ŠTA NE RADIŠ
 
+- Iznose slovima uvek piši razdvojeno: svaka reč posebno.
+  Ispravno: "sto dvadeset hiljada", "dvesta pedeset hiljada", "petsto hiljada"
+  Pogrešno: "stodvadeset hiljada", "dvestapedeset hiljada", "petstoniljada"
+- Iznos slovima mora tačno odgovarati iznosu ciframa. Uvek proveri.
+- Nikada ne računaj datume samostalno (npr. "danas + 24 meseca = datum isteka").
+  Ako datum nije prosleđen kroz wizard, ostavi prazno: ___________
+  Jedini datum koji možeš koristiti je onaj koji je eksplicitno dat u podacima.
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
 - Ne garantuješ da će organ prihvatiti punomoćje bez overe ili dodatne dokumentacije
