@@ -151,7 +151,8 @@ KOMUNALNA TAKSA:
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - JEDINI datum koji se generiše iz wizard inputa je datum početka zakupa / datum isteka — jer ga korisnik eksplicitno unosi.
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+- Ne ostavljaj placeholder "[PDV]" ili slično u tekstu ugovora — uvek koristi tačan tekst na osnovu pdv_zakupnina polja.`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
   const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
@@ -202,6 +203,7 @@ TRAJANJE:
 ZAKUPNINA:
 - Iznos: ${data.iznos.toLocaleString('sr-RS')} ${data.valuta} | Dan plaćanja: ${data.dan_placanja}. u mesecu
 - Način: ${data.nacin_placanja}
+- PDV tretman zakupnine: ${data.pdv_zakupnina === 'ukljucuje' ? 'Zakupnina uključuje PDV' : data.pdv_zakupnina === 'ne_ukljucuje' ? 'Zakupnina ne uključuje PDV (PDV se dodaje na iznos)' : 'Zakupodavac nije u sistemu PDV-a'}
 - Depozit: ${depozit}
 
 TROŠKOVI I USLOVI:
@@ -401,6 +403,19 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Na račun', label: 'Na račun' },
           { value: 'Gotovina', label: 'Gotovina' },
         ],
+      },
+      {
+        id: 'pdv_zakupnina',
+        label: 'PDV tretman zakupnine',
+        type: 'radio',
+        required: true,
+        tooltip: 'Važno za poslovne zakupe. Ako zakupodavac nije u sistemu PDV-a, zakupnina je bez PDV-a. Ako jeste, navodi se da li iznos uključuje ili ne uključuje PDV.',
+        options: [
+          { value: 'nije_u_sistemu', label: 'Zakupodavac nije u sistemu PDV-a' },
+          { value: 'ukljucuje', label: 'Zakupnina uključuje PDV' },
+          { value: 'ne_ukljucuje', label: 'Zakupnina ne uključuje PDV' },
+        ],
+        defaultValue: 'nije_u_sistemu',
       },
       { id: 'deponija', label: 'Depozit?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Depozit koji zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
       {
