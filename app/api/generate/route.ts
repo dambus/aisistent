@@ -162,6 +162,8 @@ const ugovorOZakupuSchema = z.object({
   zabrana_zivotinja: z.boolean().default(false),
   zabrana_podzakupa: z.boolean().default(false),
   napomene: z.string().optional(),
+  pdv_zakupnina: z.enum(['ukljucuje', 'ne_ukljucuje', 'nije_u_sistemu']).optional(),
+  pdv_obveznik: z.boolean().default(false),
 })
 
 const ugovorOSaradnjiZajmuSchema = z.object({

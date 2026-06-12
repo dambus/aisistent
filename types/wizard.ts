@@ -158,6 +158,7 @@ export interface UgovorOZakupuData {
   valuta: string
   dan_placanja: number
   nacin_placanja: string
+  pdv_obveznik?: boolean
   deponija: boolean
   iznos_deponije?: number
   komunalije: string
@@ -169,6 +170,7 @@ export interface UgovorOZakupuData {
   zabrana_zivotinja: boolean
   zabrana_podzakupa: boolean
   napomene?: string
+  pdv_zakupnina?: 'ukljucuje' | 'ne_ukljucuje' | 'nije_u_sistemu'
 }
 
 export interface UgovorOSaradnjiZajmuData {

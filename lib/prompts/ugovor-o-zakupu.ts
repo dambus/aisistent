@@ -152,7 +152,9 @@ KOMUNALNA TAKSA:
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - JEDINI datum koji se generiše iz wizard inputa je datum početka zakupa / datum isteka — jer ga korisnik eksplicitno unosi.
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
-- Ne ostavljaj placeholder "[PDV]" ili slično u tekstu ugovora — uvek koristi tačan tekst na osnovu pdv_zakupnina polja.`
+- Nikada ne ostavljaj placeholder [ne uključuje / uključuje] — uvek koristi PDV podatak koji je prosleđen
+- Ako Zakupodavac nije u sistemu PDV-a: ne pominjati PDV u odredbama o zakupnini, ali dodati napomenu o porezu po odbitku u sekciji Poreske napomene
+- Ako Zakupodavac jeste u sistemu PDV-a: jasno naznačiti da zakupnina ne/uključuje PDV u članu o zakupnini`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
   const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
@@ -203,7 +205,15 @@ TRAJANJE:
 ZAKUPNINA:
 - Iznos: ${data.iznos.toLocaleString('sr-RS')} ${data.valuta} | Dan plaćanja: ${data.dan_placanja}. u mesecu
 - Način: ${data.nacin_placanja}
-- PDV tretman zakupnine: ${data.pdv_zakupnina === 'ukljucuje' ? 'Zakupnina uključuje PDV' : data.pdv_zakupnina === 'ne_ukljucuje' ? 'Zakupnina ne uključuje PDV (PDV se dodaje na iznos)' : 'Zakupodavac nije u sistemu PDV-a'}
+- PDV tretman: ${(() => {
+  if (data.tip_zakupa !== 'Poslovni') {
+    return 'Stambeni zakup — PDV se ne obračunava (oslobođenje po članu 25. Zakona o PDV)'
+  }
+  if (data.pdv_obveznik) {
+    return 'Zakupodavac JE u sistemu PDV-a — zakupnina za poslovni prostor podleže PDV-u po stopi 20%. Zakupodavac izdaje PDV račun.'
+  }
+  return 'Zakupodavac NIJE u sistemu PDV-a (fizičko lice, paušalac ili firma van sistema PDV-a) — PDV se ne obračunava. NAPOMENA: Ako je zakupac firma ili preduzetnik, ima zakonsku obavezu da obračuna i plati porez po odbitku po stopi od ~16% na ime zakupodavca, i da podnese poresku prijavu PPP-PD.'
+})()}
 - Depozit: ${depozit}
 
 TROŠKOVI I USLOVI:
@@ -289,6 +299,16 @@ export const wizardSteps: WizardStep[] = [
       },
       { id: 'adresa_zakupodavca', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa stanovanja ili sedišta zakupodavca' },
       { id: 'zastupnik_zakupodavca', label: 'Zastupnik (ako je firma)', type: 'text', required: false, placeholder: 'npr. Petar Nikolić, direktor', helperText: 'Ime i funkcija osobe koja zastupa zakupodavca' },
+      {
+        id: 'pdv_obveznik',
+        label: 'Zakupodavac je u sistemu PDV-a?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        helperText: 'Označite samo ako Zakupodavac ima PIB i PDV broj i izdaje PDV račune. Fizička lica i paušalci NISU u sistemu PDV-a.',
+        tooltip: 'Ako je Zakupodavac fizičko lice ili paušalac: nema PDV-a, ali zakupac ima obavezu da plati porez po odbitku (~16%) na ime zakupodavca.\n\nAko je Zakupodavac firma/preduzetnik knjigaš u sistemu PDV-a: zakupnina za poslovni prostor se uvećava za PDV 20%.\n\nZa stambeni prostor: PDV se ne obračunava ni u jednom slučaju.',
+        conditional: { field: 'tip_zakupa', value: 'Poslovni' },
+      },
     ],
   },
   {
