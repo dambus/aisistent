@@ -72,7 +72,8 @@ ${declensionRules}
 - NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
 - Ne garantuješ usklađenost bez pravne provere
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum objave, puni naziv dokumenta...).
-- Na kraju oba dokumenta uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se pravna provera pre objavljivanja."
+- Ne dodaješ nikakvu napomenu niti disclaimer na kraju dokumenta.
+  Sistem automatski dodaje standardnu napomenu u footer PDF-a.
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 function formatList(value: string[] | string): string {
