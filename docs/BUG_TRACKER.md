@@ -4,6 +4,22 @@
 
 ---
 
+## ✅ Rešeni bugovi (jun 2026.)
+
+| ID | Commit | Opis |
+|----|--------|------|
+| SYS-01 | ce35593 | Trailing heading cleanup u markdownParser + docxBuilder + svih 17 promptova |
+| BUG-024/025 | f9f5f41 | Dupli potpis i PIB umesto imena u punomoćju |
+| BUG-016 | bcb498c | PDV placeholder u ugovoru o zakupu — pametna logika |
+| SYS-03 | db3be4a | Iznosi slovima razdvojeno u svim ugovornim promptovima |
+| SYS-04 | db3be4a | Zabrana računanja datuma u svim ugovornim promptovima |
+| BUG-001 | 843e1b6 | companyFieldMap ugovor-o-radu naziv i mb |
+| BUG-007 | 1e84af0 | Dupli naslov u ugovoru o delu |
+| BUG-009 | 1e84af0 | Potpis izvođača bez zastupnika u ugovoru o delu |
+| BUG-027/030 | 7bebef8 | Dupli disclaimer u punomoćju i opštim uslovima |
+
+---
+
 ## 🔴 Kritični bugovi (neupotrebljiv dokument)
 
 | ID | Opis | Tip | Uzrok |
@@ -41,7 +57,7 @@
 | **BUG-007** | Dupli naslov "UGOVOR O DELU" — jednom kao naslov, jednom inline u uvodnoj formuli | Prompt ne zabranjuje ponavljanje naslova u uvodnoj formuli |
 | **BUG-008** | Iznos slovima ne odgovara iznosu ciframa (225.000 ispisano kao "dvestadvadesethiljada") | Vidi SYS-03; AI pogrešno izračunava i pogrešno piše |
 | **BUG-009** | Potpis Izvođača bez imena zastupnika kada je Izvođač firma | `buildSigData` ne generiše zastupnika za drugu stranu u ugovoru o delu |
-| **BUG-010** | Član 19. višeći naslov | Vidi SYS-01 |
+| **BUG-010** | Član 19. viseći naslov | Vidi SYS-01 |
 
 ### NDA (Sporazum o poverljivosti)
 | ID | Opis | Uzrok |
@@ -49,7 +65,7 @@
 | **BUG-011** | "dvadesetčetiri" spojeno umesto "dvadeset četiri" | Vidi SYS-03 |
 | **BUG-012** | Pogrešan datum isteka sporazuma — AI izračunao 15. jun 2026. za 24-mesečni sporazum potpisan u junu 2026. | Vidi SYS-04; AI ne sme da računa datume |
 | **BUG-013** | "nedelotvorn" — nedostaje nastavak, treba "nedelotvornom" | Greška u AI generisanju, klasa gramatičkih grešaka |
-| **BUG-014** | Član 25. višeći naslov | Vidi SYS-01 |
+| **BUG-014** | Član 25. viseći naslov | Vidi SYS-01 |
 
 ### Ugovor o zakupu
 | ID | Opis | Uzrok |
@@ -57,13 +73,13 @@
 | **BUG-015** | "petstoniljada" — typo ("niljada" umesto "hiljada") + spojeno pisanje | Vidi SYS-03 |
 | **BUG-016** | `[ne uključuje / uključuje]` — neresolvovani template placeholder za PDV | **KRITIČAN** — vidi tabelu iznad |
 | **BUG-017** | Typo iz wizard inputa reprodukovan bez korekcije ("tenički" umesto "tehnički") | AI ne koriguje typo-ove u unetim podacima — očekivano ponašanje, ali vredi napomenuti |
-| **BUG-018** | Član 29. i Član 36. višeći naslovi | Vidi SYS-01 |
+| **BUG-018** | Član 29. i Član 36. viseći naslovi | Vidi SYS-01 |
 | **BUG-019** | Nedosledan bold/normal za naslove članova — u zakupu su regular weight, u ostalim dokumentima bold | Nedoslednost u promptu ili parseru |
 
 ### Ugovor o saradnji
 | ID | Opis | Uzrok |
 |----|------|-------|
-| **BUG-021** | Član 32. višeći naslov | Vidi SYS-01 |
+| **BUG-021** | Član 32. viseći naslov | Vidi SYS-01 |
 | **BUG-022** | "četrdeset procenata" — proveriti pravopis | Vidi BUG-004 |
 
 ### Punomoćje
@@ -78,7 +94,7 @@
 | ID | Opis | Uzrok |
 |----|------|-------|
 | **BUG-028** | AI generiše i Opšte uslove i Politiku privatnosti u jednom PDF-u (11 strana) | Proveriti da li je ovo željeno ponašanje (wizard toggle) ili bug |
-| **BUG-029** | "11. ZAVRŠNE NAPOMENE" višeći naslov | Vidi SYS-01 |
+| **BUG-029** | "11. ZAVRŠNE NAPOMENE" viseći naslov | Vidi SYS-01 |
 | **BUG-030** | Dupli disclaimer (inline + footer) | Vidi BUG-027 |
 | **BUG-031** | "offce@sigma.rs" — slovo "i" nedostaje u "office" kroz ceo dokument | Verovatno korisnički input typo koji AI nije korigovao |
 
