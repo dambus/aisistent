@@ -146,9 +146,9 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
     case 'punomocje':
       return {
         leftLabel: 'VLASTODAVAC', leftOrg: g('naziv_vlastodavca'),
-        leftPerson: g('jmbg_pib_vlastodavca'),
+        leftPerson: '',
         rightLabel: 'PUNOMOĆNIK', rightOrg: g('naziv_punomocnika'),
-        rightPerson: g('jmbg_pib_punomocnika'), city: '',
+        rightPerson: '', city: '',
       }
     case 'poslovni-mejl':
     case 'oglas-za-posao':

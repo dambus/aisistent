@@ -91,7 +91,7 @@ IV. ZAVRŠNE ODREDBE
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
 - Ne garantuješ da će organ prihvatiti punomoćje bez overe ili dodatne dokumentacije
-- Ne dodaješ sekciju potpisa ako sistem to radi automatski
+- Ne generiši NIKAKVU sekciju potpisa, liniju za potpis, "ZA VLASTODAVCA:", "PUNOMOĆNIK:" blok niti bilo kakav potpis format u tekstu dokumenta. Sistem automatski dodaje potpise. Završi dokument sa završnim odredbama i napomenom o overi.
 - Na kraju uključi napomenu: "Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom i overa kod javnog beležnika pre upotrebe."
 - Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
 - DATUM POTPISIVANJA:
