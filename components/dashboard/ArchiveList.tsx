@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { TYPE_LABELS } from '@/lib/utils/documentTypes'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
@@ -16,27 +16,45 @@ export interface ArchiveDocument {
 }
 
 type ExportFormat = 'pdf' | 'docx'
-type FilterValue = 'all' | 'contracts' | 'communication' | 'hr'
+type FilterValue = 'all' | 'contracts' | 'communication' | 'hr' | 'marketing'
 
 const TYPE_CATEGORY: Record<string, Exclude<FilterValue, 'all'>> = {
-  'ugovor-o-radu': 'contracts',
-  'ugovor-o-delu': 'contracts',
-  nda: 'contracts',
-  'ugovor-o-zakupu': 'contracts',
-  'ugovor-o-saradnji': 'contracts',
-  punomocje: 'contracts',
-  'opsti-uslovi': 'contracts',
-  'poslovni-mejl': 'communication',
-  'ponuda-klijentu': 'communication',
-  'oglas-za-posao': 'hr',
+  'ugovor-o-radu':            'contracts',
+  'ugovor-o-delu':            'contracts',
+  'nda':                      'contracts',
+  'ugovor-o-zakupu':          'contracts',
+  'ugovor-o-saradnji':        'contracts',
+  'ugovor-o-saradnji-zajmu':  'contracts',
+  'punomocje':                'contracts',
+  'opsti-uslovi':             'contracts',
+  'poslovni-mejl':            'communication',
+  'ponuda-klijentu':          'communication',
+  'oglas-za-posao':           'hr',
+  'odgovor-kandidatu':        'hr',
+  'preporuka':                'hr',
+  'resenje-godisnji-odmor':   'hr',
+  'pravilnik-o-radu':         'hr',
+  'opis-proizvoda':           'marketing',
+  'bio-o-nama':               'marketing',
+  'zapisnik-sastanak':        'marketing',
 }
 
 const FILTERS: { value: FilterValue; label: string }[] = [
-  { value: 'all', label: 'Svi tipovi' },
-  { value: 'contracts', label: 'Ugovori' },
+  { value: 'all',           label: 'Svi tipovi' },
+  { value: 'contracts',     label: 'Ugovori' },
   { value: 'communication', label: 'Komunikacija' },
-  { value: 'hr', label: 'HR' },
+  { value: 'hr',            label: 'HR' },
+  { value: 'marketing',     label: 'Marketing' },
 ]
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = React.useState<T>(value)
+  React.useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay)
+    return () => clearTimeout(timer)
+  }, [value, delay])
+  return debouncedValue
+}
 
 function formatSerbianDate(iso: string): string {
   return new Date(iso).toLocaleDateString('sr-Latn-RS', {
@@ -81,14 +99,20 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [localDocuments, setLocalDocuments] = useState<ArchiveDocument[]>(documents)
   const [error, setError] = useState('')
   const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 300)
 
   useEffect(() => {
     setLocalDocuments(documents)
   }, [documents])
 
-  const filteredDocuments = localDocuments.filter(doc =>
-    filter === 'all' ? true : TYPE_CATEGORY[doc.type] === filter
-  )
+  const filteredDocuments = localDocuments.filter(doc => {
+    const matchesFilter = filter === 'all' || TYPE_CATEGORY[doc.type] === filter
+    const matchesSearch = debouncedSearch.trim() === '' ||
+      doc.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      (TYPE_LABELS[doc.type] ?? doc.type).toLowerCase().includes(debouncedSearch.toLowerCase())
+    return matchesFilter && matchesSearch
+  })
 
   async function handleDownload(documentId: string, format: ExportFormat) {
     setError('')
@@ -137,6 +161,22 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
         <p className="text-sm text-gray-500">
           Ukupno dokumenata: <span className="font-semibold text-gray-800">{localDocuments.length}</span>
         </p>
+        <div className="relative">
+          <svg
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Pretraži dokumente..."
+            className="rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-4 text-sm text-gray-800 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 w-full sm:w-56"
+          />
+        </div>
         <label className="flex items-center gap-2 text-sm text-gray-600">
           Tip:
           <select
@@ -159,7 +199,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
 
       {filteredDocuments.length === 0 ? (
         <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center text-sm text-gray-500">
-          Nema dokumenata za izabrani filter.
+          {debouncedSearch ? `Nema dokumenata za pretragu "${debouncedSearch}".` : 'Nema dokumenata za izabrani filter.'}
         </div>
       ) : (
         <div className="grid gap-3">
