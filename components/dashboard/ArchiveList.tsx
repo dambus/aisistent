@@ -4,6 +4,13 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { TYPE_LABELS } from '@/lib/utils/documentTypes'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const PRIMARY = '#1B6B4A'
 
@@ -177,18 +184,21 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
             className="rounded-lg border border-gray-300 bg-white py-2 pl-9 pr-4 text-sm text-gray-800 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 w-full sm:w-56"
           />
         </div>
-        <label className="flex items-center gap-2 text-sm text-gray-600">
-          Tip:
-          <select
-            value={filter}
-            onChange={event => setFilter(event.target.value as FilterValue)}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#1B6B4A] focus:ring-2 focus:ring-[#1B6B4A]/10"
-          >
-            {FILTERS.map(option => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <span>Tip:</span>
+          <Select value={filter} onValueChange={value => setFilter(value as FilterValue)}>
+            <SelectTrigger className="w-40 border-gray-300 text-sm text-gray-800 focus:ring-primary">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {FILTERS.map(option => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {error && (
