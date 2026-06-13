@@ -7,6 +7,7 @@ import { UpgradeModal } from './UpgradeModal'
 import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
+import { FakturaStavkeField } from './FakturaStavkeField'
 
 interface WizardFormProps {
   steps: WizardStep[]
@@ -169,15 +170,37 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
       <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5">
         <h2 className="text-lg font-semibold text-gray-900">{step.title}</h2>
 
-        {visibleFields.map(field => (
-          <FieldRenderer
-            key={field.id}
-            field={resolveField(field, values)}
-            value={values[field.id]}
-            error={errors[field.id]}
-            onChange={setValue}
-          />
-        ))}
+        {visibleFields.map(field => {
+          if ((field.type as string) === 'faktura_stavke') {
+            const pdvObveznik = values['izdavalac_pdv_obveznik'] as boolean
+            const pdvStopaStr = values['pdv_stopa'] as string
+            const pdvStopa = pdvObveznik ? (parseInt(pdvStopaStr) || 0) : 0
+            return (
+              <div key={field.id}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-0.5">*</span>}
+                </label>
+                <FakturaStavkeField
+                  value={(values[field.id] as string) ?? '[]'}
+                  pdvStopa={pdvStopa}
+                  onChange={val => setValue(field.id, val)}
+                />
+                {field.helperText && <HelperText text={field.helperText} />}
+                {errors[field.id] && <p className="mt-1 text-xs text-red-600">{errors[field.id]}</p>}
+              </div>
+            )
+          }
+          return (
+            <FieldRenderer
+              key={field.id}
+              field={resolveField(field, values)}
+              value={values[field.id]}
+              error={errors[field.id]}
+              onChange={setValue}
+            />
+          )
+        })}
       </div>
 
       {apiError && (

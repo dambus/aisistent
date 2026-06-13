@@ -21,6 +21,7 @@ const SUPPORTED_TYPES = new Set([
   'opis-proizvoda',
   'bio-o-nama',
   'zapisnik-sastanak',
+  'faktura',
 ])
 
 interface PageProps {

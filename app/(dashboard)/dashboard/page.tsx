@@ -28,6 +28,7 @@ const TOOL_CATEGORIES: ToolCategory[] = [
       { type: 'ugovor-o-saradnji', title: 'Saradnja / Zajam', desc: 'Poslovna saradnja ili pozajmica novca', icon: '🤝', href: '/dokumenti/ugovor-o-saradnji' },
       { type: 'punomocje', title: 'Punomoćje', desc: 'Opšte, specijalno ili sudsko punomoćje', icon: '✍️', href: '/dokumenti/punomocje' },
       { type: 'opsti-uslovi', title: 'Opšti uslovi i PP', desc: 'Uslovi korišćenja i GDPR politika za vaš sajt', icon: '📄', href: '/dokumenti/opsti-uslovi' },
+      { type: 'faktura', title: 'Faktura / Profaktura', desc: 'Izdajte fakturu ili predračun za usluge i robu', icon: '🧾', href: '/dokumenti/faktura' },
     ],
   },
   {

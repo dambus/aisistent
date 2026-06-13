@@ -20,7 +20,7 @@ import { systemPrompt as pravilnikORaduSystem, buildUserMessage as buildPravilni
 import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProizvodaMessage } from '@/lib/prompts/opis-proizvoda'
 import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
-import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData } from '@/types/wizard'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData } from '@/types/wizard'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -406,12 +406,34 @@ const zapisnikSastanakSchema = z.object({
   sledeci_sastanak: z.string().optional(),
 })
 
+const fakturaSchema = z.object({
+  tip_dokumenta: z.enum(['Faktura', 'Profaktura']),
+  broj_dokumenta: z.string().optional(),
+  datum_izdavanja: z.string().min(1),
+  datum_prometa: z.string().optional(),
+  datum_valute: z.string().min(1),
+  izdavalac_naziv: z.string().min(1),
+  izdavalac_pib: z.string().min(1),
+  izdavalac_adresa: z.string().min(1),
+  izdavalac_tekuci_racun: z.string().optional(),
+  izdavalac_email: z.string().optional(),
+  izdavalac_telefon: z.string().optional(),
+  izdavalac_pdv_obveznik: z.boolean().default(false),
+  primalac_naziv: z.string().min(1),
+  primalac_pib: z.string().optional(),
+  primalac_adresa: z.string().min(1),
+  stavke: z.string().min(2),
+  pdv_stopa: z.enum(['20', '10', '0', 'oslobodjeno']).optional(),
+  napomena: z.string().optional(),
+  poziv_na_broj: z.string().optional(),
+})
+
 const requestSchema = z.object({
   type: z.enum([
     'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
     'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu',
     'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
-    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak',
+    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura',
   ]),
   data: z.record(z.string(), z.unknown()),
 })
@@ -522,6 +544,13 @@ const documentConfigs = {
     buildUserMessage: (data: ZapisnikSastanakData) => buildZapisnikSastanakMessage(data),
     buildTitle: (data: ZapisnikSastanakData) => `Zapisnik - ${data.naziv_firme ?? ''} (${data.datum_sastanka ?? ''})`,
   },
+  'faktura': {
+    schema: fakturaSchema,
+    systemPrompt: '',
+    buildUserMessage: () => '',
+    buildTitle: (data: FakturaData) =>
+      `${data.tip_dokumenta} - ${data.primalac_naziv} - ${data.datum_izdavanja}`,
+  },
 } as const
 
 const rateLimitStore = new Map<string, number[]>()
@@ -597,28 +626,33 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
   let generatedText: string
-  try {
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 8000,
-      system: config.systemPrompt,
-      messages: [{ role: 'user', content: config.buildUserMessage(docData.data as never) }],
-    })
 
-    const content = message.content[0]
-    if (content.type !== 'text') {
-      throw new Error('Unexpected response type')
+  if (type === 'faktura') {
+    generatedText = JSON.stringify(docData.data)
+  } else {
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+    try {
+      const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 8000,
+        system: config.systemPrompt,
+        messages: [{ role: 'user', content: config.buildUserMessage(docData.data as never) }],
+      })
+
+      const content = message.content[0]
+      if (content.type !== 'text') {
+        throw new Error('Unexpected response type')
+      }
+      generatedText = content.text
+    } catch (err) {
+      console.error('Anthropic API error:', err)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju dokumenta. Pokušajte ponovo.' },
+        { status: 500 }
+      )
     }
-    generatedText = content.text
-  } catch (err) {
-    console.error('Anthropic API error:', err)
-    return NextResponse.json(
-      { error: 'Greška pri generisanju dokumenta. Pokušajte ponovo.' },
-      { status: 500 }
-    )
   }
 
   const title = config.buildTitle(docData.data as never)

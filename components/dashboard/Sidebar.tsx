@@ -36,6 +36,7 @@ const navCategories: NavCategory[] = [
       { label: 'Ugovor o saradnji',href: '/dokumenti/ugovor-o-saradnji' },
       { label: 'Punomoćje',        href: '/dokumenti/punomocje' },
       { label: 'Opšti uslovi i PP',href: '/dokumenti/opsti-uslovi' },
+      { label: 'Faktura / Profaktura', href: '/dokumenti/faktura' },
     ],
   },
   {

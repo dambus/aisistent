@@ -415,7 +415,41 @@ export interface ZapisnikSastanakData {
   sledeci_sastanak?: string
 }
 
+export interface FakturaStavka {
+  rb: number
+  naziv: string
+  kolicina: number
+  jedinica: string
+  cena_bez_pdv: number
+  pdv_stopa: number
+  iznos_pdv: number
+  ukupno: number
+}
+
+export interface FakturaData {
+  tip_dokumenta: 'Faktura' | 'Profaktura'
+  broj_dokumenta?: string
+  datum_izdavanja: string
+  datum_prometa?: string
+  datum_valute: string
+  izdavalac_naziv: string
+  izdavalac_pib: string
+  izdavalac_adresa: string
+  izdavalac_tekuci_racun?: string
+  izdavalac_email?: string
+  izdavalac_telefon?: string
+  izdavalac_pdv_obveznik: boolean
+  primalac_naziv: string
+  primalac_pib?: string
+  primalac_adresa: string
+  stavke: string
+  pdv_stopa?: '20' | '10' | '0' | 'oslobodjeno'
+  napomena?: string
+  poziv_na_broj?: string
+}
+
 export type WizardFormData =
+  | FakturaData
   | UgovorORaduData
   | UgovorODeluData
   | NdaData

@@ -125,4 +125,11 @@ export const documentReminders: Record<string, DocumentReminder> = {
     learnMoreUrl: null,
     type: 'info',
   },
+  'faktura': {
+    title: 'Važan podsetnik',
+    message:
+      'Faktura je važeća tek kada je primalac potvrdi ili izvrši uplatu. PDV obveznici moraju evidentirati fakturu u poreskom periodu kada je promet izvršen.',
+    learnMoreUrl: null,
+    type: 'warning',
+  },
 }

@@ -19,6 +19,7 @@ import { wizardSteps as pravilnikORaduSteps } from '@/lib/prompts/pravilnik-o-ra
 import { wizardSteps as opisProizvodaSteps } from '@/lib/prompts/opis-proizvoda'
 import { wizardSteps as bioONamaSteps } from '@/lib/prompts/bio-o-nama'
 import { wizardSteps as zapisnikSastanakSteps } from '@/lib/prompts/zapisnik-sastanak'
+import { wizardSteps as fakturaSteps } from '@/lib/prompts/faktura'
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
@@ -42,6 +43,7 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'opis-proizvoda':           { title: 'Opis proizvoda/usluge',              steps: opisProizvodaSteps },
   'bio-o-nama':               { title: 'Bio / O nama',                       steps: bioONamaSteps },
   'zapisnik-sastanak':        { title: 'Zapisnik sa sastanka',               steps: zapisnikSastanakSteps },
+  'faktura':                  { title: 'Faktura / Profaktura',               steps: fakturaSteps },
 }
 
 interface WizardPageClientProps {
@@ -64,6 +66,9 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
     }
     if (['oglas-za-posao','odgovor-kandidatu','preporuka','resenje-godisnji-odmor','pravilnik-o-radu'].includes(type)) {
       return 'Popunite podatke i AI će generisati kompletan HR dokument.'
+    }
+    if (type === 'faktura') {
+      return 'Unesite podatke i sistem će generisati fakturu ili profakturu.'
     }
     return 'Popunite podatke i AI će generisati profesionalan dokument.'
   })()
