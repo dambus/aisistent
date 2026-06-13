@@ -17,6 +17,8 @@
 | BUG-007 | 1e84af0 | Dupli naslov u ugovoru o delu |
 | BUG-009 | 1e84af0 | Potpis izvođača bez zastupnika u ugovoru o delu |
 | BUG-027/030 | 7bebef8 | Dupli disclaimer u punomoćju i opštim uslovima |
+| BUG-032 | 00c1029 | Faktura PDF dijakritici u labelama — već bilo očišćeno |
+| BUG-033 | 00c1029 | Faktura DOCX PIB primaoca — fix praznog string uslova |
 
 ---
 
