@@ -103,14 +103,14 @@ const planLabels: Record<string, { label: string; cls: string }> = {
   business: { label: 'Business',  cls: 'bg-amber-900 text-amber-200' },
 }
 
-function SidebarLogo({ height = 28 }: { height?: number }) {
+function SidebarLogo({ height = 28, maxWidth = 160 }: { height?: number; maxWidth?: number }) {
   return (
     <img
       src="/logo/AIsistent-Logo_6003x180_inverted.png"
       alt="AIsistent"
       height={height}
       width={187}
-      style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
+      style={{ objectFit: 'contain', maxWidth: `${maxWidth}px`, width: 'auto' }}
     />
   )
 }
@@ -190,7 +190,7 @@ export function Sidebar({ plan, userInitials }: Props) {
             onClick={onLinkClick}
             className="flex items-center"
           >
-            <SidebarLogo />
+            <SidebarLogo height={22} maxWidth={128} />
           </Link>
           <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
             {planMeta.label}
