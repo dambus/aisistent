@@ -4,6 +4,8 @@ import { createElement } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
+import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
+import type { FakturaData } from '@/types/wizard'
 
 export const maxDuration = 60
 
@@ -87,6 +89,51 @@ export async function POST(request: NextRequest) {
         logoUrl = `data:${mimeType};base64,${base64}`
       }
     }
+  }
+
+  // Faktura — poseban renderer
+  if (doc.type === 'faktura') {
+    let fakturaData: FakturaData
+    try {
+      fakturaData = JSON.parse(doc.generated_text) as FakturaData
+    } catch {
+      return NextResponse.json({ error: 'Neispravni podaci fakture.' }, { status: 500 })
+    }
+
+    let fakturaKompanija: { naziv: string; pib: string; adresa: string; grad: string } | undefined
+    if (profile && LOGO_PLANS.includes(profile.plan) && companyData) {
+      fakturaKompanija = {
+        naziv: companyData.naziv,
+        pib: companyData.pib ?? '',
+        adresa: companyData.adresa ?? '',
+        grad: companyData.grad ?? '',
+      }
+    }
+
+    let fakturaPdfBuffer: Buffer
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      fakturaPdfBuffer = await renderToBuffer(
+        createElement(FakturaPDF, {
+          data: fakturaData,
+          logoUrl: logoUrl ?? undefined,
+          kompanija: fakturaKompanija,
+        }) as any
+      )
+    } catch (pdfErr) {
+      console.error('Faktura PDF render error:', pdfErr)
+      const detail = pdfErr instanceof Error ? pdfErr.message : String(pdfErr)
+      return NextResponse.json({ error: 'Greška pri generisanju PDF fakture.', detail }, { status: 500 })
+    }
+
+    const filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${fakturaData.datum_izdavanja}.pdf`
+    return new NextResponse(new Uint8Array(fakturaPdfBuffer), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(fakturaPdfBuffer.byteLength),
+      },
+    })
   }
 
   let pdfBuffer: Buffer
