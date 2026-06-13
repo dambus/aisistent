@@ -90,6 +90,12 @@
 | **BUG-026** | "uz pisanu obaveštenje" — rod se ne slaže, treba "pisano obaveštenje" | Greška u promptu |
 | **BUG-027** | Dupli/trojni disclaimer — inline u tekstu + footer = 3 napomene | Prompt generiše disclaimer koji se duplira sa standardnim footer disclaimerom |
 
+### Faktura / Profaktura
+| ID | Opis | Uzrok |
+|----|------|-------|
+| **BUG-032** | PDF: dijakritici nedostaju u label stringovima ("ROK PLACANJA", "PODACI ZA PLACANJE", "Racun:", "obracunat") | `fakturaRenderer.tsx` — fix iz prethodnog prompta nije potpuno primenjen, `sanitizeText()` ne pokriva sve hardkodovane labele |
+| **BUG-033** | DOCX: PIB primaoca ne prikazuje se u dokumentu iako je unesen | `docx/route.ts` — primalac_pib polje se ne renderuje u DOCX builder-u |
+
 ### Opšti uslovi i Politika privatnosti
 | ID | Opis | Uzrok |
 |----|------|-------|
