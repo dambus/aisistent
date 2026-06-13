@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { LogoutButton } from '@/components/auth/logout-button'
 
 const PRIMARY = '#1B6B4A'
@@ -199,7 +198,7 @@ export function Sidebar({ plan, userInitials }: Props) {
         </div>
 
         {/* Nav categories — scrollable */}
-        <ScrollArea className="flex-1 px-3 pb-4">
+        <div className="sidebar-scroll flex-1 overflow-y-auto px-3 pb-4">
           {navCategories.map(cat => (
             <div key={cat.key} className="mb-1">
               <button
@@ -297,7 +296,7 @@ export function Sidebar({ plan, userInitials }: Props) {
               </div>
             </div>
           </div>
-        </ScrollArea>
+        </div>
 
         {/* Separator */}
         <div className="mx-3 border-t border-white/10" />
