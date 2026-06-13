@@ -54,6 +54,9 @@
 - **Dokumentacija o naplati preko administrativne zabrane** — standardizovan
   dokument, korisno za preduzetnike, dodati u tipove
 - **Putni nalog** — obavezan dokument za korišćenje službenih vozila
+- **Otpremnica** — komercijalni dokument za isporuku robe
+- **Porudžbenica** — narudžbina robe ili usluga
+- **Trebovanje** — interni zahtev za materijal
 - **Blur preview za free korisnike** — implementiran, testirati i po potrebi dotjerati
 - **SEF integracija** — slanje podataka fakture na Sistem elektronskih faktura
 - **Regionalno širenje** — HR, BiH, MK (posebni prompt setovi)
