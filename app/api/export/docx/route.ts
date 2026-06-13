@@ -149,7 +149,9 @@ export async function POST(request: NextRequest) {
 
           new Paragraph({ children: [new TextRun({ text: 'PRIMALAC', bold: true, size: 16, color: SIVA })] }),
           new Paragraph({ children: [new TextRun({ text: data.primalac_naziv as string, bold: true, size: 20 })] }),
-          ...(data.primalac_pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.primalac_pib}`, size: 18, color: SIVA })] })] : []),
+          ...(data.primalac_pib && (data.primalac_pib as string).trim() !== ''
+            ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.primalac_pib}`, size: 18, color: SIVA })] })]
+            : []),
           new Paragraph({ children: [new TextRun({ text: data.primalac_adresa as string, size: 18, color: SIVA })] }),
           new Paragraph({ text: '', spacing: { after: 200 } }),
 
