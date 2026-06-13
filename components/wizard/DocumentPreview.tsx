@@ -17,6 +17,15 @@ interface DocumentPreviewProps {
 
 type ExportFormat = 'pdf' | 'docx'
 
+function isFakturaJson(text: string): boolean {
+  try {
+    const parsed = JSON.parse(text)
+    return typeof parsed === 'object' && parsed !== null && 'tip_dokumenta' in parsed
+  } catch {
+    return false
+  }
+}
+
 async function downloadExport(documentId: string, format: ExportFormat): Promise<string | null> {
   const res = await fetch(`/api/export/${format}`, {
     method: 'POST',
@@ -57,16 +66,172 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     setLoading(null)
   }
 
+  const fakturaPreview = (() => {
+    if (!isFakturaJson(text)) return null
+
+    let data: Record<string, unknown> = {}
+    try { data = JSON.parse(text) } catch {}
+
+    let stavke: Array<{ rb: number; naziv: string; kolicina: number; jedinica: string; cena_bez_pdv: number }> = []
+    try { stavke = JSON.parse((data.stavke as string) ?? '[]') } catch {}
+
+    const tipDokumenta = (data.tip_dokumenta as string) ?? 'Faktura'
+    const brojDokumenta = (data.broj_dokumenta as string) ?? ''
+    const datumIzdavanja = (data.datum_izdavanja as string) ?? ''
+    const datumValute = (data.datum_valute as string) ?? ''
+    const izdavalacNaziv = (data.izdavalac_naziv as string) ?? ''
+    const izdavalacPib = (data.izdavalac_pib as string) ?? ''
+    const izdavalacAdresa = (data.izdavalac_adresa as string) ?? ''
+    const primalacNaziv = (data.primalac_naziv as string) ?? ''
+    const primalacPib = (data.primalac_pib as string) ?? ''
+    const primalacAdresa = (data.primalac_adresa as string) ?? ''
+    const izdavalacTekuciRacun = (data.izdavalac_tekuci_racun as string) ?? ''
+    const pozivNaBroj = (data.poziv_na_broj as string) ?? ''
+    const napomena = (data.napomena as string) ?? ''
+
+    const pdvStopa = data.izdavalac_pdv_obveznik
+      ? (parseInt((data.pdv_stopa as string) ?? '0') || 0) : 0
+    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
+    const iznosPdv = ukupnoBezPdv * pdvStopa / 100
+    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
+
+    function fmt(n: number) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }
+
+    function fmtDate(iso: string) {
+      if (!iso) return ''
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    return (
+      <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-2xl font-bold" style={{ color: '#1B6B4A' }}>
+              {tipDokumenta.toUpperCase()}
+            </h2>
+            {brojDokumenta && (
+              <p className="text-sm text-gray-500">Broj: {brojDokumenta}</p>
+            )}
+          </div>
+          <div className="space-y-0.5 text-right text-sm text-gray-500">
+            <p>Datum: {fmtDate(datumIzdavanja)}</p>
+            <p>Rok plaćanja: {fmtDate(datumValute)}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Izdavalac</p>
+            <p className="font-semibold text-gray-900">{izdavalacNaziv}</p>
+            <p className="text-sm text-gray-500">PIB: {izdavalacPib}</p>
+            <p className="text-sm text-gray-500">{izdavalacAdresa}</p>
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Primalac</p>
+            <p className="font-semibold text-gray-900">{primalacNaziv}</p>
+            {primalacPib && <p className="text-sm text-gray-500">PIB: {primalacPib}</p>}
+            <p className="text-sm text-gray-500">{primalacAdresa}</p>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ backgroundColor: '#1B6B4A' }} className="text-white">
+                <th className="rounded-tl-lg px-3 py-2 text-left text-xs font-semibold">Rb.</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold">Naziv</th>
+                <th className="px-3 py-2 text-right text-xs font-semibold">Kol.</th>
+                <th className="px-3 py-2 text-center text-xs font-semibold">Jed.</th>
+                <th className="px-3 py-2 text-right text-xs font-semibold">Cena</th>
+                <th className="rounded-tr-lg px-3 py-2 text-right text-xs font-semibold">Ukupno</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stavke.map((s, i) => (
+                <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
+                  <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
+                  <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
+                  <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.cena_bez_pdv)}</td>
+                  <td className="px-3 py-2 text-right font-medium text-gray-900">
+                    {fmt(s.kolicina * s.cena_bez_pdv)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-end">
+          <div className="min-w-[240px] space-y-1.5">
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Ukupno bez PDV:</span>
+              <span>{fmt(ukupnoBezPdv)} RSD</span>
+            </div>
+            {pdvStopa > 0 && (
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>PDV ({pdvStopa}%):</span>
+                <span>{fmt(iznosPdv)} RSD</span>
+              </div>
+            )}
+            <div className="flex justify-between border-t border-gray-200 pt-2 text-base font-bold" style={{ color: '#1B6B4A' }}>
+              <span>Ukupno za uplatu:</span>
+              <span>{fmt(ukupnoSaPdv)} RSD</span>
+            </div>
+          </div>
+        </div>
+
+        {(izdavalacTekuciRacun || pozivNaBroj) && (
+          <div className="space-y-1 rounded-xl bg-gray-50 p-4 text-sm">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Podaci za plaćanje
+            </p>
+            {izdavalacTekuciRacun && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Račun:</span>
+                <span className="font-medium">{izdavalacTekuciRacun}</span>
+              </div>
+            )}
+            {pozivNaBroj && (
+              <div className="flex justify-between">
+                <span className="text-gray-500">Poziv na broj:</span>
+                <span className="font-medium">{pozivNaBroj}</span>
+              </div>
+            )}
+            <div className="flex justify-between border-t border-gray-100 pt-1">
+              <span className="text-gray-500">Ukupno:</span>
+              <span className="font-bold" style={{ color: '#1B6B4A' }}>{fmt(ukupnoSaPdv)} RSD</span>
+            </div>
+          </div>
+        )}
+
+        {!data.izdavalac_pdv_obveznik && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
+            Napomena: Izdavalac nije u sistemu PDV-a. PDV nije obračunat.
+          </div>
+        )}
+
+        {napomena && (
+          <p className="text-sm italic text-gray-500">{napomena}</p>
+        )}
+      </div>
+    )
+  })()
+
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-900">Vaš dokument je spreman</h2>
           <p className="text-sm text-gray-500">Proverite sadržaj i preuzmite u željenom formatu.</p>
         </div>
         <button
           onClick={onReset}
-          className="text-sm text-gray-500 hover:text-gray-800 underline underline-offset-2 transition-colors"
+          className="text-sm text-gray-500 underline underline-offset-2 transition-colors hover:text-gray-800"
         >
           ← Novi dokument
         </button>
@@ -74,8 +239,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
       {reminder && <ReminderBox reminder={reminder} />}
 
-      {/* Action buttons */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="mb-4 flex flex-wrap gap-2">
         <ExportButton
           label="Preuzmi PDF"
           format="pdf"
@@ -95,11 +259,15 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           type="button"
           disabled={loading !== null}
           onClick={() => setShowEmailModal(true)}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
           </svg>
           Pošalji emailom
         </button>
@@ -113,15 +281,14 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
       />
 
       {error && (
-        <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
           {error}
         </div>
       )}
 
-      {/* Document text */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8">
-        <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:font-semibold">
-          {(() => {
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+        <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
+          {fakturaPreview ?? (() => {
             const lines = text.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
             const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text
@@ -133,25 +300,28 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
                 {isFree && blurredText && (
                   <div className="relative">
-                    <div className="select-none blur-sm pointer-events-none opacity-70">
+                    <div className="pointer-events-none select-none opacity-70 blur-sm">
                       <ReactMarkdown>{blurredText}</ReactMarkdown>
                     </div>
 
                     <div
-                      className="absolute inset-x-0 top-0 h-16 pointer-events-none"
+                      className="pointer-events-none absolute inset-x-0 top-0 h-16"
                       style={{ background: 'linear-gradient(to bottom, white, transparent)' }}
                     />
 
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="mx-4 rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm p-6 shadow-xl text-center max-w-sm w-full">
+                      <div className="mx-4 w-full max-w-sm rounded-2xl border border-gray-200 bg-white/95 p-6 text-center shadow-xl backdrop-blur-sm">
                         <div
                           className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full"
                           style={{ backgroundColor: '#D1FAE5' }}
                         >
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            style={{ color: '#1B6B4A' }}>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: '#1B6B4A' }}>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                            />
                           </svg>
                         </div>
                         <h3 className="text-base font-semibold text-gray-900">
@@ -180,7 +350,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-gray-400 text-center">
+      <p className="mt-4 text-center text-xs text-gray-400">
         Dokument je sačuvan u vašoj arhivi.
       </p>
     </div>
@@ -210,12 +380,12 @@ function ExportButton({
     <button className={style} disabled={disabled} onClick={onClick}>
       {loading ? (
         <>
-          <span className={`inline-block w-4 h-4 border-2 rounded-full animate-spin ${primary ? 'border-white/30 border-t-white' : 'border-gray-300 border-t-gray-600'}`} />
+          <span className={`inline-block h-4 w-4 animate-spin rounded-full border-2 ${primary ? 'border-white/30 border-t-white' : 'border-gray-300 border-t-gray-600'}`} />
           Generišem...
         </>
       ) : (
         <>
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
           </svg>
           {label}

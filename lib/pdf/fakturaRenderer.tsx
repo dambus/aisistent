@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Document, Page, View, Text, Image, StyleSheet,
 } from '@react-pdf/renderer'
+import { sanitizeText } from '@/lib/pdf/markdownParser'
 
 interface FakturaStavka {
   rb: number
@@ -114,7 +115,7 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
   try { stavke = JSON.parse(data.stavke) } catch {}
 
   const pdvStopa = data.izdavalac_pdv_obveznik ? (parseInt(data.pdv_stopa ?? '0') || 0) : 0
-  const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
+  const ukupnoBezPdv = stavke.reduce((sum, stavka) => sum + stavka.kolicina * stavka.cena_bez_pdv, 0)
   const iznosPdv = ukupnoBezPdv * pdvStopa / 100
   const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
 
@@ -131,18 +132,16 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
   return (
     <Document>
       <Page size="A4" style={s.page}>
-
         <View style={s.header}>
           <View>
             {logoUrl
               ? <Image src={logoUrl} style={s.logo} />
-              : <Text style={s.logoText}>AIsistent</Text>
-            }
+              : <Text style={s.logoText}>AIsistent</Text>}
           </View>
           <View style={s.headerRight}>
-            <Text style={s.docNaziv}>{data.tip_dokumenta.toUpperCase()}</Text>
+            <Text style={s.docNaziv}>{sanitizeText(data.tip_dokumenta.toUpperCase())}</Text>
             {data.broj_dokumenta && (
-              <Text style={s.docBroj}>Broj: {data.broj_dokumenta}</Text>
+              <Text style={s.docBroj}>Broj: {sanitizeText(data.broj_dokumenta)}</Text>
             )}
           </View>
         </View>
@@ -150,17 +149,17 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
         <View style={s.strane}>
           <View style={s.stranaBlok}>
             <Text style={s.stranaLabel}>Izdavalac</Text>
-            <Text style={s.stranaNaziv}>{izdavalac.naziv}</Text>
-            <Text style={s.stranaInfo}>PIB: {izdavalac.pib}</Text>
-            <Text style={s.stranaInfo}>{izdavalac.adresa}</Text>
-            {data.izdavalac_email && <Text style={s.stranaInfo}>{data.izdavalac_email}</Text>}
-            {data.izdavalac_telefon && <Text style={s.stranaInfo}>{data.izdavalac_telefon}</Text>}
+            <Text style={s.stranaNaziv}>{sanitizeText(izdavalac.naziv)}</Text>
+            <Text style={s.stranaInfo}>PIB: {sanitizeText(izdavalac.pib)}</Text>
+            <Text style={s.stranaInfo}>{sanitizeText(izdavalac.adresa)}</Text>
+            {data.izdavalac_email && <Text style={s.stranaInfo}>{sanitizeText(data.izdavalac_email)}</Text>}
+            {data.izdavalac_telefon && <Text style={s.stranaInfo}>{sanitizeText(data.izdavalac_telefon)}</Text>}
           </View>
           <View style={s.stranaBlok}>
             <Text style={s.stranaLabel}>Primalac</Text>
-            <Text style={s.stranaNaziv}>{data.primalac_naziv}</Text>
-            {data.primalac_pib && <Text style={s.stranaInfo}>PIB: {data.primalac_pib}</Text>}
-            <Text style={s.stranaInfo}>{data.primalac_adresa}</Text>
+            <Text style={s.stranaNaziv}>{sanitizeText(data.primalac_naziv)}</Text>
+            {data.primalac_pib && <Text style={s.stranaInfo}>PIB: {sanitizeText(data.primalac_pib)}</Text>}
+            <Text style={s.stranaInfo}>{sanitizeText(data.primalac_adresa)}</Text>
           </View>
         </View>
 
@@ -176,7 +175,7 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
             </View>
           )}
           <View style={s.metaItem}>
-            <Text style={s.metaLabel}>Rok plaćanja</Text>
+            <Text style={s.metaLabel}>Rok placanja</Text>
             <Text style={s.metaValue}>{formatDate(data.datum_valute)}</Text>
           </View>
         </View>
@@ -195,9 +194,9 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
           return (
             <View key={i} style={[s.tableRow, i % 2 === 1 ? s.tableRowAlt : {}]}>
               <Text style={[s.tableCell, s.colRb]}>{stavka.rb}.</Text>
-              <Text style={[s.tableCell, s.colNaziv]}>{stavka.naziv}</Text>
+              <Text style={[s.tableCell, s.colNaziv]}>{sanitizeText(stavka.naziv)}</Text>
               <Text style={[s.tableCell, s.colKol]}>{fmt(stavka.kolicina)}</Text>
-              <Text style={[s.tableCell, s.colJed]}>{stavka.jedinica}</Text>
+              <Text style={[s.tableCell, s.colJed]}>{sanitizeText(stavka.jedinica)}</Text>
               <Text style={[s.tableCell, s.colCena]}>{fmt(stavka.cena_bez_pdv)}</Text>
               <Text style={[s.tableCell, s.colUkupno]}>{fmt(ukupno)}</Text>
             </View>
@@ -226,23 +225,23 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
             {data.napomena && (
               <>
                 <Text style={s.napomenaLabel}>Napomena</Text>
-                <Text style={s.napomenaText}>{data.napomena}</Text>
+                <Text style={s.napomenaText}>{sanitizeText(data.napomena)}</Text>
               </>
             )}
           </View>
           {(data.izdavalac_tekuci_racun || data.poziv_na_broj) && (
             <View style={s.placanjeBok}>
-              <Text style={s.placanjeLabel}>Podaci za plaćanje</Text>
+              <Text style={s.placanjeLabel}>Podaci za placanje</Text>
               {data.izdavalac_tekuci_racun && (
                 <View style={s.placanjeRed}>
-                  <Text style={s.placanjeKey}>Račun:</Text>
-                  <Text style={s.placanjeVal}>{data.izdavalac_tekuci_racun}</Text>
+                  <Text style={s.placanjeKey}>Racun:</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.izdavalac_tekuci_racun)}</Text>
                 </View>
               )}
               {data.poziv_na_broj && (
                 <View style={s.placanjeRed}>
                   <Text style={s.placanjeKey}>Poziv na broj:</Text>
-                  <Text style={s.placanjeVal}>{data.poziv_na_broj}</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.poziv_na_broj)}</Text>
                 </View>
               )}
               <View style={s.placanjeRed}>
@@ -256,7 +255,7 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
         {!data.izdavalac_pdv_obveznik && (
           <View style={s.pdvNapomena}>
             <Text style={s.pdvNapomenaText}>
-              Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obračunat.
+              Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.
             </Text>
           </View>
         )}
@@ -264,7 +263,6 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
         <View style={s.footer} fixed>
           <Text style={s.footerText}>Dokument generisan putem aisistent.rs</Text>
         </View>
-
       </Page>
     </Document>
   )
