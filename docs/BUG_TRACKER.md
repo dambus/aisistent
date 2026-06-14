@@ -24,6 +24,7 @@
 | BUG-040 | ece4f1b | DOCX M.P. red — robusniji hasMP uslov |
 | BUG-041 | ece4f1b | DOCX razmak pre tabele potpisa |
 | BUG-042 | ece4f1b | DOCX naslovi crni umesto plavi |
+| BUG-034 | fda446b | Faktura email — FakturaPDF renderer umesto raw JSON |
 
 ---
 
