@@ -96,6 +96,7 @@ export interface UgovorODeluData {
   datum_zavrsetka: string
   fazno: boolean
   opis_faza?: string
+  tip_prihoda: 'autorsko_delo' | 'ugovor_o_delu'
   iznos: number
   nacin_isplate: string
   avans?: number
@@ -104,6 +105,9 @@ export interface UgovorODeluData {
   nda: boolean
   trajanje_nda?: number
   zabrana: boolean
+  ugovorna_kazna?: boolean
+  iznos_kazne_dnevno?: number
+  garantni_rok?: number
   napomene?: string
 }
 

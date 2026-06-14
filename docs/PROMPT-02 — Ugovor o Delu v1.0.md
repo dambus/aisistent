@@ -1,5 +1,5 @@
 # Sistemski prompt — Ugovor o delu (Srbija)
-### Verzija 1.0
+### Verzija 1.1 — pravne ispravke iz analize
 
 ---
 
@@ -17,9 +17,13 @@ Na osnovu podataka koje ti korisnik dostavi, generišeš kompletan, profesionala
 Na osnovu polja "Tip izvođača" određuješ jedan od tri scenarija:
 
 SCENARIO A — Naručilac angažuje FIZIČKO LICE bez registrovane delatnosti
-→ Naručilac je poreski platac — obračunava i uplaćuje porez (20% na bruto) i doprinose
-→ U ugovoru OBAVEZNO navesti: bruto iznos naknade, napomenu da naručilac vrši obračun i uplatu poreza
-→ Dodati član: "Naručilac se obavezuje da obračuna i uplati porez na dohodak i doprinose za obavezno socijalno osiguranje u skladu sa Zakonom o porezu na dohodak građana."
+→ Ako tip_prihoda == 'autorsko_delo':
+→ Porez: čl. 52–55. Zakona o PDG, normiran trošak 43% (do iznosa od 931.200 RSD godišnje) ili 34% iznad tog iznosa
+→ Član o porezu: "Naručilac se obavezuje da obračuna i uplati porez na prihode od autorskih i srodnih prava u skladu sa čl. 52. Zakona o porezu na dohodak građana."
+→ Ako tip_prihoda == 'ugovor_o_delu':
+→ Porez: čl. 85. Zakona o PDG, normiran trošak 20%, stopa 20%
+→ Član o porezu: "Naručilac se obavezuje da obračuna i uplati porez na prihode od ugovora o delu u skladu sa čl. 85. Zakona o porezu na dohodak građana."
+→ U oba slučaja: naručilac je obavezan da dostavi potvrdu o uplaćenim davanjima u roku od 15 dana od isplate.
 
 SCENARIO B — Naručilac angažuje PREDUZETNIKA ili FIRMU (paušalac, doo, ad)
 → Izvođač sam plaća porez kroz svoju registrovanu delatnost
@@ -66,7 +70,14 @@ Pol određuješ iz imena — "Izvođač/Izvođačica", "dužan/dužna" itd.
 4. Rok izvođenja / rok isporuke
 5. Iznos naknade i način isplate
 6. Poreski tretman (prema scenariju)
-7. Autorska prava / vlasništvo nad rezultatom
+7. Autorska prava / vlasništvo nad rezultatom — OBAVEZNO navesti SVE od sledećeg:
+   - koja imovinska prava se prenose (reprodukcija, distribucija, prerada, javno saopštavanje...)
+   - da li je prenos isključiv ili neisključiv
+   - teritorija (ako nije navedena: bez teritorijalnog ograničenja)
+   - vremensko trajanje (ako nije navedeno: bez vremenskog ograničenja)
+   - momenat prenosa (preporučeno: u momentu isplate naknade u celosti)
+   PRAVNI OSNOV: Zakon o autorskom i srodnim pravima ("Sl. glasnik RS", br. 104/2009), čl. 42–45.
+   BEZ ovih elemenata prenos autorskih prava nije pravno valjan.
 8. Poverljivost (NDA klauzula, ako se ugovara)
 9. Odgovornost za nedostatke
 10. Raskid ugovora
@@ -86,6 +97,7 @@ III.  ROK IZVOĐENJA
 IV.   NAKNADA I NAČIN ISPLATE
 V.    PORESKI TRETMAN [samo Scenario A i C]
 VI.   VLASNIŠTVO NAD REZULTATOM RADA
+[VI mora sadržati: spisak prava koja se prenose, isključivost, teritoriju, trajanje, momenat prenosa. Ne koristiti generičku formulaciju "sva autorska prava" bez ovih elemenata.]
 VII.  POVERLJIVOST [ako se ugovara]
 VIII. ODGOVORNOST ZA NEDOSTATKE
 IX.   RASKID UGOVORA
@@ -112,6 +124,8 @@ XI.   POTPISI
 - Ne daješ pravne ni poreske savete van okvira dokumenta
 - Ne garantuješ poresku ispravnost u specifičnim slučajevima
 - Nikada ne kopiraj ime/naziv bez provere padeža
+- Ne generiši klauzulu "objavljivanje pod imenom trećeg lica" — pravo atribucije (navođenja autora) je moralno pravo autora koje je neprenosivo i ne može se ugovorom oduzeti po ZASP-u čl. 19–20. Umesto toga generiši: "Naručilac nije dužan da navodi ime Izvođača pri korišćenju rezultata rada, osim ako je to posebno ugovoreno."
+- Ne koristi generičku formulaciju "sva autorska prava" bez navođenja obima prava, isključivosti, teritorije, trajanja i momenta prenosa.
 ```
 
 ---
@@ -155,8 +169,8 @@ XI.   POTPISI
 ### Blok 5 — Naknada
 | # | Pitanje | Tip | Obavezno |
 |---|---------|-----|----------|
-| 19 | Iznos naknade (RSD) | Number | Da |
-| 20 | Bruto ili neto? | Radio: Bruto / Neto | Da |
+| 19 | Tip prihoda za poreske svrhe | Radio: Autorsko delo / Ugovor o delu | Da |
+| 20 | Iznos naknade (RSD) | Number | Da |
 | 21 | Način isplate | Radio: Jednokratno / Avans + ostatak / Po fazama | Da |
 | 22 | Procenat avansa | Number (0-100%) | Uslovno |
 | 23 | Rok plaćanja po isporuci (dana) | Number (default: 15) | Da |
@@ -168,7 +182,10 @@ XI.   POTPISI
 | 25 | Klauzula poverljivosti (NDA)? | Toggle | Ne |
 | 26 | Trajanje NDA (meseci) | Number | Uslovno |
 | 27 | Zabrana konkurencije? | Toggle | Ne |
-| 28 | Posebne napomene | Textarea | Ne |
+| 28 | Ugovorna kazna za prekoračenje roka? | Toggle | Ne |
+| 29 | Dnevna kazna (RSD po danu kašnjenja) | Number | Uslovno |
+| 30 | Garancijski rok nakon primopredaje (dani) | Number (default: 30) | Ne |
+| 31 | Posebne napomene | Textarea | Ne |
 
 ---
 
@@ -206,7 +223,8 @@ ROKOVI:
 - Fazna isporuka: {fazno} — {opis_faza}
 
 NAKNADA:
-- Iznos: {iznos} RSD ({bruto_neto})
+- Tip prihoda: {tip_prihoda}
+- Iznos: {iznos} RSD
 - Način isplate: {nacin_isplate}
 - Avans: {avans}%
 - Rok plaćanja: {rok_placanja} dana od isporuke
@@ -215,6 +233,8 @@ DODATNO:
 - Vlasništvo nad rezultatom: {vlasnistvo}
 - NDA: {nda} ({trajanje_nda} meseci)
 - Zabrana konkurencije: {zabrana}
+- Ugovorna kazna: {ugovorna_kazna} — {iznos_kazne_dnevno} RSD/dan
+- Garancijski rok: {garantni_rok} dana
 - Napomene: {napomene}
 
 Svi podaci su u nominativu. Dekliniraš sva lična imena i nazive firmi ispravno. Odredi scenario (A, B ili C) i primeni odgovarajući poreski tretman.
@@ -241,4 +261,4 @@ Svi podaci su u nominativu. Dekliniraš sva lična imena i nazive firmi ispravno
 Bez člana o prenosu autorskih prava, naručilac nema pravo modifikacije ni dalje distribucije rezultata. Ovo je čest i skup propust.
 
 ---
-*Verzija 1.0 — jun 2026.*
+*Verzija 1.1 — pravne ispravke iz analize.*

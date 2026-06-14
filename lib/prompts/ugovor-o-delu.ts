@@ -28,6 +28,13 @@ SCENARIO A - Naručilac angažuje FIZIČKO LICE bez registrovane delatnosti
    "Naručilac se obavezuje da Izvođaču isplati neto naknadu u iznosu od X dinara (slovima). Naručilac će, pored navedenog neto iznosa, obračunati i uplatiti porez na dohodak i doprinose za obavezno socijalno osiguranje u skladu sa važećim propisima."
 → NIKADA ne pominjati bruto iznos — samo neto iznos koji izvođač prima
 → Ako je ugovorena avansna uplata, avans se obračunava od neto iznosa naknade
+→ Ako je tip_prihoda == 'autorsko_delo':
+   Porez: čl. 52–55. Zakona o PDG, normiran trošak 43% (do iznosa od 931.200 RSD godišnje) ili 34% iznad tog iznosa
+   Član o porezu: "Naručilac se obavezuje da obračuna i uplati porez na prihode od autorskih i srodnih prava u skladu sa čl. 52. Zakona o porezu na dohodak građana."
+→ Ako je tip_prihoda == 'ugovor_o_delu':
+   Porez: čl. 85. Zakona o PDG, normiran trošak 20%, stopa 20%
+   Član o porezu: "Naručilac se obavezuje da obračuna i uplati porez na prihode od ugovora o delu u skladu sa čl. 85. Zakona o porezu na dohodak građana."
+→ U oba slučaja: naručilac je obavezan da dostavi potvrdu o uplaćenim davanjima u roku od 15 dana od isplate.
 
 SCENARIO B - Naručilac angažuje PREDUZETNIKA ili FIRMU (paušalac, doo, ad)
 → Iznos je konačan — nema dodatnih poreza na teret naručioca
@@ -75,7 +82,14 @@ Pol određuješ iz imena samo za prideve i glagolske oblike u rečenicama ("duž
 4. Rok izvođenja / rok isporuke
 5. Iznos naknade i način isplate
 6. Poreski tretman (prema scenariju)
-7. Autorska prava / vlasništvo nad rezultatom
+7. Autorska prava / vlasništvo nad rezultatom — OBAVEZNO navesti SVE od sledećeg:
+   - koja imovinska prava se prenose (reprodukcija, distribucija, prerada, javno saopštavanje...)
+   - da li je prenos isključiv ili neisključiv
+   - teritorija (ako nije navedena: bez teritorijalnog ograničenja)
+   - vremensko trajanje (ako nije navedeno: bez vremenskog ograničenja)
+   - momenat prenosa (preporučeno: u momentu isplate naknade u celosti)
+   PRAVNI OSNOV: Zakon o autorskom i srodnim pravima ("Sl. glasnik RS", br. 104/2009), čl. 42–45.
+   BEZ ovih elemenata prenos autorskih prava nije pravno valjan.
 8. Poverljivost (NDA klauzula, ako se ugovara)
 9. Odgovornost za nedostatke
 10. Raskid ugovora
@@ -94,6 +108,7 @@ III.  ROK IZVOĐENJA
 IV.   NAKNADA I NAČIN ISPLATE
 V.    PORESKI TRETMAN [samo Scenario A i C]
 VI.   VLASNIŠTVO NAD REZULTATOM RADA
+[VI mora sadržati: spisak prava koja se prenose, isključivost, teritoriju, trajanje, momenat prenosa. Ne koristiti generičku formulaciju "sva autorska prava" bez ovih elemenata.]
 VII.  POVERLJIVOST [ako se ugovara]
 VIII. ODGOVORNOST ZA NEDOSTATKE
 IX.   RASKID UGOVORA
@@ -109,6 +124,13 @@ X.    ZAVRŠNE ODREDBE
 - Pol izvođača određuješ iz imena samo za gramatičke oblike u rečenicama, ne za naziv ugovorne strane
 - Novčane iznose pisati i slovima: 150.000,00 (sto pedeset hiljada) dinara
 - Scenario A: navesti neto iznos naknade koji izvođač prima, jasno napisati da naručilac dodatno obračunava i plaća porez i doprinose
+- Poverljivost: default trajanje nakon prestanka ugovora je 24 meseca, ne 1 mesec. Ako korisnik nije naveo trajanje, koristi 24 meseca.
+- Prazni datumi: ako datum zaključenja ili datum početka nisu navedeni, postavi [POPUNITI: datum] — ne ostavljaj prazno polje.
+- Primopredaja: uvek generiši stav o tihom prihvatanju: "Ukoliko Naručilac ne ukaže na nedostatke u roku predviđenom ovim ugovorom, smatraće se da je delo prihvaćeno bez primedbi."
+- RASKID UGOVORA — OBAVEZNO:
+  Ne generiši klauzulu kojom se isključuje pravo izvođača na naknadu za izvršeni deo dela u slučaju raskida na strani naručioca — suprotno je čl. 648. ZOO-a i ništavo.
+  Ispravna formulacija: "U slučaju raskida ugovora na strani Izvođača (kršenje obaveza, prekoračenje roka), Izvođač je dužan naknaditi Naručiocu nastalu štetu. Pravo na naknadu za delimično izvršeno delo Izvođač stiče samo uz pisanu saglasnost Naručioca."
+  U slučaju raskida na strani Naručioca (odustajanje bez krivice Izvođača): Naručilac duguje naknadu za izvršeni deo + razumne troškove.
 
 ## ŠTA NE RADIŠ
 
@@ -132,14 +154,22 @@ X.    ZAVRŠNE ODREDBE
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - JEDINI datum koji se generiše iz wizard inputa je datum stupanja na snagu / početka / rok isporuke — jer ga korisnik eksplicitno unosi.
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+- Ne generiši klauzulu "objavljivanje pod imenom trećeg lica" — pravo atribucije (navođenja autora) je moralno pravo autora koje je neprenosivo i ne može se ugovorom oduzeti po ZASP-u čl. 19–20. Umesto toga generiši: "Naručilac nije dužan da navodi ime Izvođača pri korišćenju rezultata rada, osim ako je to posebno ugovoreno."
+- Ne koristi generičku formulaciju "sva autorska prava" bez navođenja obima prava, isključivosti, teritorije, trajanja i momenta prenosa.`
 
 export function buildUserMessage(data: UgovorODeluData): string {
   const fazno = data.fazno ? `Da - ${data.opis_faza ?? '[POPUNITI: opis faza]'}` : 'Ne'
   const avans = data.avans ?? 0
-  const nda = data.nda ? `Da (${data.trajanje_nda ?? '[POPUNITI: trajanje NDA]'} meseci)` : 'Ne'
+  const nda = data.nda ? `Da (${data.trajanje_nda ?? 24} meseci)` : 'Ne'
   const zabrana = data.zabrana ? 'Da' : 'Ne'
   const brojUgovora = data.broj_ugovora?.trim() || 'bez broja'
+  const tipPrihoda = data.tip_prihoda === 'autorsko_delo'
+    ? 'Autorsko delo (originalan kreativni rad)'
+    : 'Ugovor o delu (usluge, izrada, konsalting)'
+  const ugovornaKazna = data.ugovorna_kazna
+    ? `Da — ${data.iznos_kazne_dnevno?.toLocaleString('sr-RS') ?? '[POPUNITI: dnevna kazna]'} RSD/dan`
+    : 'Ne'
 
   return `Molim te generiši Ugovor o delu sa sledećim podacima:
 
@@ -170,6 +200,7 @@ ROKOVI:
 - Fazna isporuka: ${fazno}
 
 NAKNADA:
+- Tip prihoda: ${tipPrihoda}
 - Neto iznos naknade: ${data.iznos.toLocaleString('sr-RS')} RSD
 - Način isplate: ${data.nacin_isplate}
 - Avans: ${avans > 0 ? `${avans}% = ${Math.round(data.iznos * avans / 100).toLocaleString('sr-RS')} RSD od neto iznosa` : 'Ne'}
@@ -179,6 +210,8 @@ DODATNO:
 - Vlasništvo nad rezultatom: ${data.vlasnistvo}
 - NDA: ${nda}
 - Zabrana konkurencije: ${zabrana}
+- Ugovorna kazna: ${ugovornaKazna}
+- Garancijski rok: ${data.garantni_rok ?? 30} dana
 - Napomene: ${data.napomene ?? '[nema]'}
 
 Svi podaci su u nominativu. Dekliniraš sva lična imena i nazive firmi ispravno. Odredi scenario (A, B ili C) i primeni odgovarajući poreski tretman.`
@@ -301,6 +334,17 @@ export const wizardSteps: WizardStep[] = [
     title: 'Naknada',
     fields: [
       {
+        id: 'tip_prihoda',
+        label: 'Tip prihoda za poreske svrhe',
+        type: 'radio',
+        required: true,
+        tooltip: 'Određuje koji porez naručilac uplaćuje i koji PPP-PD obrazac se podnosi:\n• Autorsko delo: originalan kreativni rad (softver pisan od nule, originalan grafički dizajn, književni/muzički rad). Normiran trošak 43% ili 34%.\n• Ugovor o delu: sve ostalo — usluge, montaža, izrada po predlošku, konsalting. Normiran trošak 20%.\nAko niste sigurni, konsultujte računovođu.',
+        options: [
+          { value: 'autorsko_delo', label: 'Autorsko delo (originalan kreativni rad)' },
+          { value: 'ugovor_o_delu', label: 'Ugovor o delu (usluge, izrada, konsalting)' },
+        ],
+      },
+      {
         id: 'iznos',
         label: 'Neto iznos naknade (RSD)',
         type: 'number',
@@ -363,6 +407,9 @@ export const wizardSteps: WizardStep[] = [
       { id: 'nda', label: 'Klauzula poverljivosti (NDA)?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Dodaje klauzulu o čuvanju poverljivih informacija u ugovor.' },
       { id: 'trajanje_nda', label: 'Trajanje NDA (meseci)', type: 'number', required: false, min: 1, conditional: { field: 'nda', value: true }, helperText: 'Preporučeno 24-36 meseci' },
       { id: 'zabrana', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Zabranjuje izvođaču da radi za direktnu konkurenciju u određenom periodu.' },
+      { id: 'ugovorna_kazna', label: 'Ugovorna kazna za prekoračenje roka?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Bez ugovorne kazne, naručilac mora dokazivati konkretnu štetu da bi tražio naknadu za kašnjenje. Sa kaznom, iznos je unapred definisan.' },
+      { id: 'iznos_kazne_dnevno', label: 'Dnevna kazna (RSD po danu kašnjenja)', type: 'number', required: false, conditional: { field: 'ugovorna_kazna', value: true }, placeholder: 'npr. 1000', helperText: 'Uobičajeno 0.5–1% ukupne naknade po danu' },
+      { id: 'garantni_rok', label: 'Garancijski rok nakon primopredaje (dani)', type: 'number', required: false, defaultValue: 30, tooltip: 'Period u kom je izvođač dužan otkloniti nedostatke bez dodatne naknade. Default: 30 dana.' },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi, rokovi, napomene za drugu stranu...', helperText: 'Opciono — dodatni uslovi koji nisu obuhvaćeni ostalim poljima' },
     ],
   },
