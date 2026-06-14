@@ -226,13 +226,17 @@ Poslodavac se obavezuje da obrađuje lične podatke Zaposlenog isključivo u svr
 | 26 | Nedeljni fond radnih sati | Number (default: 40) | Da |
 | 27 | Raspored radnog vremena | Text (npr. Pon-Pet 09-17h) | Da |
 | 28 | Broj dana godišnjeg odmora | Number (min 20) | Da |
+| 29 | Otkazni rok — zaposleni (dani) | Number (min 8, max 30, default 15) | Da |
+| 30 | Otkazni rok — poslodavac (dani) | Number (min 8, default 30) | Da |
 
 ### Blok 7 — Opcioni elementi
 | # | Pitanje | Tip | Obavezno |
 |---|---------|-----|----------|
-| 29 | Zabrana konkurencije? | Toggle | Ne |
-| 30 | Trajanje zabrane (meseci, max 24) | Number | Uslovno |
-| 31 | Posebne napomene / dodatne klauzule | Textarea | Ne |
+| 31 | Zabrana konkurencije? | Toggle | Ne |
+| 32 | Trajanje zabrane (meseci, max 24) | Number | Uslovno |
+| 33 | Mesečna naknada za zabranu konkurencije (RSD) | Number | Uslovno |
+| 34 | Posebne napomene / dodatne klauzule | Textarea | Ne |
+| 35 | Uključiti klauzulu o pravu izmene zarade? | Toggle | Ne |
 
 ---
 
@@ -280,9 +284,13 @@ RADNO VREME:
 - Nedeljni fond: {fond_sati} sati
 - Raspored: {raspored}
 - Godišnji odmor: {godisnji_odmor} radnih dana
+- Otkazni rok zaposlenog: {otkazni_rok_zaposleni} dana
+- Otkazni rok poslodavca: {otkazni_rok_poslodavac} dana
 
 OPCIONO:
 - Zabrana konkurencije: {zabrana} ({trajanje_zabrane} meseci)
+- Naknada za zabranu konkurencije: {naknada_zabrana} RSD mesečno
+- Klauzula izmene zarade: {klauzula_izmene_zarade}
 - Napomene: {napomene}
 
 Svi podaci su u nominativu. Molim te da sve imenice, lična imena i nazive firme dekliniraš ispravno prema gramatičkom kontekstu svake rečenice u ugovoru.

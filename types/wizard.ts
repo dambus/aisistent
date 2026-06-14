@@ -65,10 +65,14 @@ export interface UgovorORaduData {
   fond_sati: number
   raspored: string
   godisnji_odmor: number
+  otkazni_rok_zaposleni: number
+  otkazni_rok_poslodavac: number
   zabrana_konkurencije: boolean
   trajanje_zabrane?: number
+  naknada_zabrana?: number
   detaljna_prava_obaveze: boolean
   cuvanje_poslovne_tajne: boolean
+  klauzula_izmene_zarade?: boolean
   napomene?: string
 }
 

@@ -227,6 +227,10 @@ export function buildUserMessage(data: UgovorORaduData): string {
     ? `Da (${data.trajanje_zabrane ?? 12} meseci)`
     : 'Ne'
 
+  const naknadaZabrana = data.zabrana_konkurencije
+    ? `${data.naknada_zabrana?.toLocaleString('sr-RS') ?? '[POPUNITI: naknada za zabranu konkurencije]'} RSD mesečno`
+    : 'Nije primenljivo'
+
   const brojUgovora = data.broj_ugovora?.trim() || '[POPUNITI: broj ugovora]'
   const datumZakljucivanja = data.datum_zakljucivanja
     ? data.datum_zakljucivanja
@@ -271,9 +275,13 @@ RADNO VREME:
 - Nedeljni fond: ${data.fond_sati} sati
 - Raspored: ${data.raspored}
 - Godišnji odmor: ${data.godisnji_odmor} radnih dana
+- Otkazni rok zaposlenog: ${data.otkazni_rok_zaposleni} dana
+- Otkazni rok poslodavca: ${data.otkazni_rok_poslodavac} dana
 
 OPCIONO:
 - Zabrana konkurencije: ${zabranaKonkurencije}
+- Naknada za zabranu konkurencije: ${naknadaZabrana}
+- Klauzula izmene zarade: ${data.klauzula_izmene_zarade ? 'Da' : 'Ne'}
 - Detaljna razrada prava i obaveza: ${data.detaljna_prava_obaveze ? 'Da' : 'Ne'}
 - Klauzula o čuvanju poslovne tajne: ${data.cuvanje_poslovne_tajne ? 'Da' : 'Ne'}${data.napomene ? `\n- Napomene: ${data.napomene}` : ''}
 
@@ -475,6 +483,27 @@ export const wizardSteps: WizardStep[] = [
         hint: 'Zakonski minimum je 20 radnih dana',
         helperText: 'Minimum po zakonu je 20 radnih dana',
       },
+      {
+        id: 'otkazni_rok_zaposleni',
+        label: 'Otkazni rok — zaposleni (dani)',
+        type: 'number',
+        required: true,
+        min: 8,
+        max: 30,
+        defaultValue: 15,
+        tooltip: 'Zakon o radu propisuje minimum 8, maksimum 30 dana za otkaz od strane zaposlenog.',
+        helperText: 'Min 8, max 30 dana (Zakon o radu)',
+      },
+      {
+        id: 'otkazni_rok_poslodavac',
+        label: 'Otkazni rok — poslodavac (dani)',
+        type: 'number',
+        required: true,
+        min: 8,
+        defaultValue: 30,
+        tooltip: 'Zakon o radu propisuje minimum 8 dana. Nema zakonskog maksimuma za poslodavca, ali je preporuka 15-30 dana.',
+        helperText: 'Min 8 dana (Zakon o radu)',
+      },
     ],
   },
   {
@@ -492,6 +521,17 @@ export const wizardSteps: WizardStep[] = [
         defaultValue: 12,
         conditional: { field: 'zabrana_konkurencije', value: true },
         helperText: 'Između 1 i 24 meseca',
+      },
+      {
+        id: 'naknada_zabrana',
+        label: 'Mesečna naknada za zabranu konkurencije (RSD)',
+        type: 'number',
+        required: true,
+        conditional: { field: 'zabrana_konkurencije', value: true },
+        min: 1,
+        tooltip: 'Zakon o radu čl. 161. st. 2. obavezuje poslodavca da isplaćuje naknadu zaposlenom za period trajanja zabrane. Bez ovog iznosa klauzula o zabrani konkurencije je pravno ništava.',
+        helperText: 'Obavezno po čl. 161. st. 2. Zakona o radu — bez naknade klauzula je ništava',
+        placeholder: 'npr. 30000',
       },
       { id: 'napomene', label: 'Posebne napomene / dodatne klauzule', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi rada, dodatne klauzule, interne napomene...', helperText: 'Opciono — unesite samo ako postoje posebni uslovi' },
     ],
@@ -517,6 +557,14 @@ export const wizardSteps: WizardStep[] = [
         defaultValue: false,
         helperText: 'Preporučuje se za pozicije sa pristupom poverljivim informacijama',
         tooltip: 'Ako isključite, ugovor neće sadržati poseban član o čuvanju poslovne tajne. Zaposleni je i bez toga zakonski obavezan da čuva poslovnu tajnu.',
+      },
+      {
+        id: 'klauzula_izmene_zarade',
+        label: 'Uključiti klauzulu o pravu izmene zarade?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        tooltip: 'Ako je uključeno, ugovor će sadržati odredbu da poslodavac može menjati zaradu pisanim aneksom uz obaveštenje 15 dana unapred, ali ne ispod zakonskog minimuma.',
       },
     ],
   },

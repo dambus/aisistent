@@ -231,10 +231,14 @@ Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI,
 - fond_sati: "Nedeljni fond radnih sati"
 - raspored: "Raspored radnog vremena"
 - godisnji_odmor: "Broj dana godišnjeg odmora"
+- otkazni_rok_zaposleni: "Otkazni rok — zaposleni (dani)" | min: 8 | max: 30 | default: 15 | required: true
+- otkazni_rok_poslodavac: "Otkazni rok — poslodavac (dani)" | min: 8 | default: 30 | required: true
 
 #### Dodatne odredbe
 - zabrana_konkurencije: "Zabrana konkurencije"
 - trajanje_zabrane: "Trajanje zabrane (meseci, max 24)"
+- naknada_zabrana: "Mesečna naknada za zabranu konkurencije (RSD)" | conditional: zabrana_konkurencije === true | min: 1 | required: true
+- klauzula_izmene_zarade: "Uključiti klauzulu o pravu izmene zarade?" | toggle | default: false
 - napomene: "Posebne napomene / dodatne klauzule"
 
 ## Ugovor o delu
