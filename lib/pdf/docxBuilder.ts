@@ -294,7 +294,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
       return new Paragraph({
         heading: HeadingLevel.HEADING_1,
         alignment: AlignmentType.CENTER,
-        spacing: { before: 80, after: 220 },
+        spacing: { before: 240, after: 120 },
         children: block.spans.map(span => new TextRun({
           text: span.text,
           font: FONT_FAMILY,
@@ -305,7 +305,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
     case 'h2':
       return new Paragraph({
         heading: HeadingLevel.HEADING_2,
-        spacing: { before: 240, after: 80 },
+        spacing: { before: 240, after: 120 },
         children: block.spans.map(span => new TextRun({
           text: span.text,
           font: FONT_FAMILY,
@@ -327,7 +327,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
     case 'bullet':
       return new Paragraph({
         bullet: { level: 0 },
-        spacing: { after: 80, line: 360 },
+        spacing: { after: 80, line: 240 },
         children: spansToRuns(block.spans),
       })
     case 'spacer':
@@ -338,23 +338,10 @@ function blockToDocxChild(block: Block): Paragraph | Table {
     default:
       return new Paragraph({
         alignment: AlignmentType.JUSTIFIED,
-        spacing: { after: 80, line: 360 },
+        spacing: { after: 80, line: 240 },
         children: spansToRuns(block.spans),
       })
   }
-}
-
-function signatureCell(children: Paragraph[]): TableCell {
-  return new TableCell({
-    width: { size: 50, type: WidthType.PERCENTAGE },
-    borders: {
-      top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-      right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-    },
-    children,
-  })
 }
 
 function lineParagraph(): Paragraph {
@@ -422,42 +409,43 @@ function buildSignatureTable(documentType?: string, inputData?: Record<string, u
     })
   }
 
+  const leftCell = (children: Paragraph[]) => new TableCell({
+    width: { size: 45, type: WidthType.PERCENTAGE },
+    borders: noBorders,
+    children,
+  })
+  const spacerCell = () => new TableCell({
+    width: { size: 10, type: WidthType.PERCENTAGE },
+    borders: noBorders,
+    children: [new Paragraph({})],
+  })
+  const rightCell = (children: Paragraph[]) => new TableCell({
+    width: { size: 45, type: WidthType.PERCENTAGE },
+    borders: noBorders,
+    children,
+  })
+
+  const UNDERSCORE = '_________________________________'
+  const showMp = ['POSLODAVAC', 'NARUČILAC', 'VLASTODAVAC'].some(k =>
+    sig.leftLabel.toUpperCase().includes(k)
+  )
+
+  const rows = [
+    new TableRow({ children: [leftCell([signatureText(sig.leftLabel, true)]), spacerCell(), rightCell([signatureText(sig.rightLabel, true)])] }),
+    new TableRow({ children: [leftCell([signatureText(sig.leftOrg)]), spacerCell(), rightCell([signatureText(sig.rightOrg)])] }),
+    new TableRow({ children: [leftCell([signatureText(UNDERSCORE)]), spacerCell(), rightCell([signatureText(UNDERSCORE)])] }),
+    new TableRow({ children: [leftCell([signatureText(sig.leftPerson)]), spacerCell(), rightCell([signatureText(sig.rightPerson)])] }),
+  ]
+
+  if (showMp) {
+    rows.push(new TableRow({ children: [leftCell([signatureText('M.P.')]), spacerCell(), rightCell([new Paragraph({})])] }))
+  }
+
   return new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
     layout: TableLayoutType.FIXED,
     borders: noBorders,
-    rows: [
-      new TableRow({
-        children: [
-          signatureCell([signatureText(sig.leftLabel, true)]),
-          signatureCell([signatureText(sig.rightLabel, true)]),
-        ],
-      }),
-      new TableRow({
-        children: [
-          signatureCell([signatureText(sig.leftOrg)]),
-          signatureCell([signatureText(sig.rightOrg)]),
-        ],
-      }),
-      new TableRow({
-        children: [
-          signatureCell([lineParagraph()]),
-          signatureCell([lineParagraph()]),
-        ],
-      }),
-      new TableRow({
-        children: [
-          signatureCell([signatureText(sig.leftPerson)]),
-          signatureCell([signatureText(sig.rightPerson)]),
-        ],
-      }),
-      new TableRow({
-        children: [
-          signatureCell([signatureText('M.P.')]),
-          signatureCell([new Paragraph({})]),
-        ],
-      }),
-    ],
+    rows,
   })
 }
 
@@ -585,7 +573,7 @@ export async function buildDocx(
             size: BODY_SIZE,
           },
           paragraph: {
-            spacing: { after: 80, line: 360 },
+            spacing: { after: 80, line: 240 },
           },
         },
       ],
