@@ -4,7 +4,9 @@ import { createElement } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
+import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
 import { resend } from '@/lib/resend'
+import type { FakturaData } from '@/types/wizard'
 
 export const maxDuration = 60
 
@@ -163,7 +165,6 @@ export async function POST(request: NextRequest) {
     .eq('id', user.id)
     .single()
 
-  // Dohvati firmu — uvek za subject, logo/companyData samo za LOGO_PLANS
   const { data: company } = await admin
     .from('companies')
     .select('logo_url, naziv, pib, adresa, grad')
@@ -201,31 +202,61 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Generiši PDF
   let pdfBuffer: Buffer
+  let filename: string
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pdfBuffer = await renderToBuffer(
-      createElement(AisistentDocument, {
-        generatedText: doc.generated_text,
-        documentTitle: doc.title,
-        createdAt: doc.created_at,
-        isFree: doc.is_free,
-        inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
-        documentType: doc.type,
-        logoUrl,
-        companyData,
-      }) as any
-    )
+    if (doc.type === 'faktura') {
+      let fakturaData: FakturaData
+      try {
+        fakturaData = JSON.parse(doc.generated_text) as FakturaData
+      } catch {
+        return NextResponse.json({ error: 'Neispravni podaci fakture.' }, { status: 500 })
+      }
+
+      let kompanija: { naziv: string; pib: string; adresa: string; grad: string } | undefined
+      if (profile && LOGO_PLANS.includes(profile.plan) && companyData) {
+        kompanija = {
+          naziv: companyData.naziv,
+          pib: companyData.pib ?? '',
+          adresa: companyData.adresa ?? '',
+          grad: companyData.grad ?? '',
+        }
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pdfBuffer = await renderToBuffer(
+        createElement(FakturaPDF, {
+          data: fakturaData,
+          logoUrl: logoUrl ?? undefined,
+          kompanija,
+        }) as any
+      )
+
+      filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.pdf`
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pdfBuffer = await renderToBuffer(
+        createElement(AisistentDocument, {
+          generatedText: doc.generated_text,
+          documentTitle: doc.title,
+          createdAt: doc.created_at,
+          isFree: doc.is_free,
+          inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
+          documentType: doc.type,
+          logoUrl,
+          companyData,
+        }) as any
+      )
+
+      const slug = doc.type.replace('ugovor-o-', 'ugovor-')
+      const date = new Date(doc.created_at).toISOString().split('T')[0]
+      filename = `${slug}-${date}.pdf`
+    }
   } catch (pdfErr) {
     console.error('PDF render error in send-document:', pdfErr)
     const detail = pdfErr instanceof Error ? pdfErr.message : String(pdfErr)
     return NextResponse.json({ error: 'Greška pri generisanju PDF-a.', detail }, { status: 500 })
   }
-
-  const slug = doc.type.replace('ugovor-o-', 'ugovor-')
-  const date = new Date(doc.created_at).toISOString().split('T')[0]
-  const filename = `${slug}-${date}.pdf`
 
   const senderName = profile?.display_name ?? undefined
   const senderFirma = company?.naziv ?? undefined
@@ -255,7 +286,6 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Sačuvaj kontakt ako je traženo
   if (body.save_contact) {
     await admin
       .from('contacts')

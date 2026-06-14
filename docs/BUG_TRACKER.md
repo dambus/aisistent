@@ -21,6 +21,9 @@
 | BUG-033 | 00c1029 | Faktura DOCX PIB primaoca — fix praznog string uslova |
 | BUG-037 | bac926d | Višeći naslov u DOCX — rešeno DOCX reformatiranjem |
 | DOCX-FORMAT | bac926d | DOCX: prored 1.5→1.15, spacing poglavlja, potpisi u tabeli 3 kolone |
+| BUG-040 | ece4f1b | DOCX M.P. red — robusniji hasMP uslov |
+| BUG-041 | ece4f1b | DOCX razmak pre tabele potpisa |
+| BUG-042 | ece4f1b | DOCX naslovi crni umesto plavi |
 
 ---
 
