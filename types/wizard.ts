@@ -133,8 +133,11 @@ export interface NdaData {
   trajanje_sporazuma: number
   trajanje_cuvanja: number
   kazna?: number
-  zabrana: boolean
+  zabrana?: boolean
+  zabrana_konkurencije?: boolean
   trajanje_zabrane?: number
+  geografsko_ogranicenje_zabrane?: string
+  opis_zabranjene_delatnosti?: string
   napomene?: string
 }
 

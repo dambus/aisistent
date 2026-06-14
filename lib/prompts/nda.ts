@@ -27,6 +27,10 @@ TIP 1 - JEDNOSTRANI NDA (One-way)
 → Jedna strana otkriva, druga prima i čuva
 → Tipično: startup predstavlja ideju investitoru, firma deli podatke sa izvođačem
 → Termini: "Strana koja otkriva" i "Strana koja prima"
+→ Obaveze čuvanja poverljivosti važe ISKLJUČIVO za Stranu koja prima
+→ Strana koja otkriva NEMA obavezu čuvanja sopstvenih informacija po ovom sporazumu
+→ NIKADA ne generiši simetrične obaveze za obe strane u jednostranom NDA
+→ Svaki član koji počinje sa "Strane se obavezuju..." je greška u Tip 1 — zameni sa "Strana koja prima obavezuje se..."
 
 TIP 2 - DVOSTRANI NDA (Mutual)
 → Obe strane međusobno otkrivaju i čuvaju
@@ -97,26 +101,35 @@ X.    ZAVRŠNE ODREDBE
   Ispravno: "sto dvadeset hiljada", "dvesta pedeset hiljada", "petsto hiljada"
   Pogrešno: "stodvadeset hiljada", "dvestapedeset hiljada", "petstoniljada"
 - Iznos slovima mora tačno odgovarati iznosu ciframa. Uvek proveri.
-- Nikada ne računaj datume samostalno (npr. "danas + 24 meseca = datum isteka").
-  Ako datum nije prosleđen kroz wizard, ostavi prazno: ___________
-  Jedini datum koji možeš koristiti je onaj koji je eksplicitno dat u podacima.
+- DATUMI I TRAJANJE — PRAVILA:
+  - Ako korisnik unese samo datum potpisivanja i period trajanja (trajanje_sporazuma u mesecima): generiši SAMO period u tekstu ("u periodu od X meseci"), NE računaj konkretan datum isteka
+  - Ako korisnik unese i datum potpisivanja i eksplicitan datum isteka: proveri konzistentnost. Ako se datum isteka ne poklapa sa datum_potpisivanja + trajanje_sporazuma, generiši upozorenje u ugovoru: "[PROVERITI: datum isteka X ne odgovara periodu od Y meseci od datuma potpisivanja Z]"
+  - Ako datum potpisivanja nije unet, postavi [POPUNITI: datum potpisivanja] — nikad ne ostavljaj prazno polje bez oznake
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke - [POPUNITI: naziv podatka]
 - Ne garantuješ valjanost u međunarodnim slučajevima
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
+- Ne generiši klauzulu zabrane konkurencije bez oba ograničenja: geografskog (npr. "na teritoriji Republike Srbije") i delatnostnog (precizno opisana zabranjena delatnost, ne generička oblast)
+- Ne koristi formulaciju "oblast [delatnost]" kao jedino delatnostno ograničenje — to pokriva celu industriju i čini klauzulu neizvršivom
+- Ako korisnik nije uneo geografsko_ogranicenje_zabrane i opis_zabranjene_delatnosti, generiši [POPUNITI: geografsko ograničenje] i [POPUNITI: opis zabranjene delatnosti] umesto generičke zabrane
+- Ne kopiraj u ugovor tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje (opis_informacija, napomene, posebni_uslovi) sadrži bilo koji od sledećih signala, zameni celo polje sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario"
+  • tekst je kraći od 10 karaktera i ne opisuje konkretan sadržaj
 - Ako je broj_ugovora 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju.
 - DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
   - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
-  - JEDINI datum koji se generiše iz wizard inputa je datum trajanja sporazuma / rok čuvanja — jer ga korisnik eksplicitno unosi.
+  - Ako datum potpisivanja nije unet, koristi [POPUNITI: datum potpisivanja]
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: NdaData): string {
   const kazna = typeof data.kazna === 'number' ? `${data.kazna.toLocaleString('sr-RS')} RSD` : '[nije ugovorena]'
-  const zabrana = data.zabrana ? `Da (${data.trajanje_zabrane ?? '[POPUNITI: trajanje zabrane]'} meseci)` : 'Ne'
+  const zabranaAktivna = data.zabrana_konkurencije ?? data.zabrana ?? false
+  const zabrana = zabranaAktivna ? 'Da' : 'Ne'
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
 
   return `Molim te generiši Sporazum o poverljivosti sa sledećim podacima:
@@ -136,19 +149,22 @@ STRANA KOJA PRIMA:
 - Zastupnik: ${data.zastupnik_strane_2 ?? '[POPUNITI: zastupnik]'}
 
 POVERLJIVE INFORMACIJE:
-- Oblast: ${formatOblast(data.oblast_informacija)}
-- Opis: ${data.opis_informacija ?? '[nema dodatnog opisa]'}
+- Oblast poverljivih informacija: ${formatOblast(data.oblast_informacija)}
+- Opis (ako tekst opisuje samo polje umesto sadržaja, generiši [POPUNITI: opis poverljivih informacija]): ${data.opis_informacija ?? '[POPUNITI: opis poverljivih informacija]'}
 - Označavanje: ${data.oznacavanje ? 'Da' : 'Ne'}
 
 TRAJANJE:
-- Datum: ${data.datum}
+- Datum potpisivanja: ${data.datum ?? '[POPUNITI: datum potpisivanja]'}
 - Trajanje sporazuma: ${data.trajanje_sporazuma} meseci
 - Obaveza čuvanja po isteku: ${data.trajanje_cuvanja} meseci
 
 DODATNO:
 - Ugovorna kazna: ${kazna}
 - Zabrana konkurencije: ${zabrana}
-- Napomene: ${data.napomene ?? '[nema]'}
+- Trajanje zabrane: ${data.trajanje_zabrane ?? '[POPUNITI: trajanje zabrane]'} meseci
+- Geografsko ograničenje: ${data.geografsko_ogranicenje_zabrane ?? '[POPUNITI: geografsko ograničenje]'}
+- Opis zabranjene delatnosti: ${data.opis_zabranjene_delatnosti ?? '[POPUNITI: opis zabranjene delatnosti]'}
+- Posebne napomene (ako tekst opisuje samo polje umesto sadržaja, generiši [POPUNITI: posebne napomene]): ${data.napomene ?? '[POPUNITI: posebne napomene]'}
 
 Svi podaci su u nominativu. Dekliniraš ispravno. Odredi tip NDA i primeni odgovarajuću strukturu.`
 }
@@ -276,8 +292,10 @@ export const wizardSteps: WizardStep[] = [
     title: 'Dodatne odredbe',
     fields: [
       { id: 'kazna', label: 'Ugovorna kazna za kršenje (RSD)', type: 'number', required: false, min: 1, helperText: 'Iznos u RSD. Unesite 0 za bez ugovorne kazne.', tooltip: 'Ugovorna kazna je fiksni iznos koji prekršilac plaća bez dokazivanja visine štete. Preporučen iznos: 3-10x mesečna vrednost saradnje. Prenizak iznos ne odvraća od kršenja, previsok može biti smanjen od suda.' },
-      { id: 'zabrana', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Zabrana konkurencije znači da strana koja prima ne sme u određenom periodu raditi za direktne konkurente strane koja otkriva, niti pokretati sopstvenu delatnost u istoj oblasti. Ovo je stroži uslov od same poverljivosti — NDA bez ove klauzule dozvoljava rad za konkurenciju.' },
-      { id: 'trajanje_zabrane', label: 'Trajanje zabrane (meseci)', type: 'number', required: false, min: 1, conditional: { field: 'zabrana', value: true }, helperText: 'Meseci zabrane rada za konkurenciju (max 24)' },
+      { id: 'zabrana_konkurencije', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Zabranjuje stranama da se takmiče međusobno nakon isteka sporazuma. Da bi bila izvršiva na sudu, mora biti geografski i delatnostno ograničena.' },
+      { id: 'trajanje_zabrane', label: 'Trajanje zabrane (meseci)', type: 'number', required: false, min: 1, max: 24, defaultValue: 12, conditional: { field: 'zabrana_konkurencije', value: true }, helperText: 'Preporučeno: max 24 meseca' },
+      { id: 'geografsko_ogranicenje_zabrane', label: 'Geografsko ograničenje zabrane', type: 'text', required: false, conditional: { field: 'zabrana_konkurencije', value: true }, placeholder: 'npr. na teritoriji Republike Srbije', helperText: 'Bez geografskog ograničenja klauzula je teško izvršiva' },
+      { id: 'opis_zabranjene_delatnosti', label: 'Opis zabranjene delatnosti', type: 'textarea', required: false, conditional: { field: 'zabrana_konkurencije', value: true }, placeholder: 'npr. direktno kontaktiranje klijenata identifikovanih tokom saradnje, angažovanje ključnih zaposlenih druge strane', helperText: 'Što preciznije, to je klauzula izvršivija. Generička zabrana cele industrije se poništava na sudu.', tooltip: 'Preporučena formulacija za NDA: zabraniti samo (1) pristup konkretnim klijentima i (2) preuzimanje zaposlenih — ne celu delatnost.' },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi, dodatne definicije, napomene za obe strane...', helperText: 'Opciono — unesite samo ako postoje dodatni uslovi' },
     ],
   },

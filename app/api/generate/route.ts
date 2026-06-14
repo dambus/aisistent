@@ -118,8 +118,11 @@ const ndaSchema = z.object({
   trajanje_sporazuma: num.pipe(z.number().min(1)),
   trajanje_cuvanja: num.pipe(z.number().min(1)),
   kazna: optNum,
-  zabrana: z.boolean().default(false),
+  zabrana: z.boolean().optional(),
+  zabrana_konkurencije: z.boolean().default(false),
   trajanje_zabrane: optNum,
+  geografsko_ogranicenje_zabrane: z.string().optional(),
+  opis_zabranjene_delatnosti: z.string().optional(),
   napomene: z.string().optional(),
 })
 

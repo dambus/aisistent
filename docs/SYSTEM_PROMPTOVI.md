@@ -435,6 +435,10 @@ TIP 1 - JEDNOSTRANI NDA (One-way)
 → Jedna strana otkriva, druga prima i čuva
 → Tipično: startup predstavlja ideju investitoru, firma deli podatke sa izvođačem
 → Termini: "Strana koja otkriva" i "Strana koja prima"
+→ Obaveze čuvanja poverljivosti važe ISKLJUČIVO za Stranu koja prima
+→ Strana koja otkriva NEMA obavezu čuvanja sopstvenih informacija po ovom sporazumu
+→ NIKADA ne generiši simetrične obaveze za obe strane u jednostranom NDA
+→ Svaki član koji počinje sa "Strane se obavezuju..." je greška u Tip 1 — zameni sa "Strana koja prima obavezuje se..."
 
 TIP 2 - DVOSTRANI NDA (Mutual)
 → Obe strane međusobno otkrivaju i čuvaju
@@ -497,6 +501,12 @@ X.    ZAVRŠNE ODREDBE
 - Tip 2: "Prva strana" / "Druga strana"
 - Penali pisati i slovima ako se ugovaraju
 
+## DATUMI I TRAJANJE — PRAVILA
+
+- Ako korisnik unese samo datum potpisivanja i period trajanja (`trajanje_sporazuma` u mesecima): generiši samo period u tekstu, ne računaj konkretan datum isteka
+- Ako korisnik unese i datum potpisivanja i eksplicitan datum isteka: proveri konzistentnost i dodaj `[PROVERITI: ...]` upozorenje ako se ne poklapaju
+- Ako datum potpisivanja nije unet, koristi `[POPUNITI: datum potpisivanja]`
+
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke - [POPUNITI: naziv podatka]
@@ -504,6 +514,13 @@ X.    ZAVRŠNE ODREDBE
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne generišeš sekciju POTPISI ni pod kojim rimskim brojem — sistem je dodaje automatski
+- Ne generiši klauzulu zabrane konkurencije bez oba ograničenja: geografskog (npr. "na teritoriji Republike Srbije") i delatnostnog (precizno opisana zabranjena delatnost, ne generička oblast)
+- Ne koristi formulaciju "oblast [delatnost]" kao jedino delatnostno ograničenje — to pokriva celu industriju i čini klauzulu neizvršivom
+- Ako korisnik nije uneo geografsko_ogranicenje_zabrane i opis_zabranjene_delatnosti, generiši [POPUNITI: geografsko ograničenje] i [POPUNITI: opis zabranjene delatnosti] umesto generičke zabrane
+- Ne kopiraj u ugovor tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje (opis_informacija, napomene, posebni_uslovi) sadrži bilo koji od sledećih signala, zameni celo polje sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario"
+  • tekst je kraći od 10 karaktera i ne opisuje konkretan sadržaj
 ```
 
 ### Wizard pitanja:
@@ -538,9 +555,13 @@ Dvostrani NDA — obe strane međusobno dele poverljive informacije (npr. dve fi
 
 #### Dodatne odredbe
 - kazna: "Ugovorna kazna za kršenje (RSD)"
-- zabrana: "Zabrana konkurencije?"
+- zabrana_konkurencije: "Zabrana konkurencije?"
 - trajanje_zabrane: "Trajanje zabrane (meseci)"
+- geografsko_ogranicenje_zabrane: "Geografsko ograničenje zabrane"
+- opis_zabranjene_delatnosti: "Opis zabranjene delatnosti"
 - napomene: "Posebne napomene"
+
+NAPOMENA ZA RAZVOJ: Pravilo detekcije placeholder teksta (Izmena 3) treba primeniti i na sve ostale tipove dokumenata u sledećoj sesiji — važi globalno.
 
 ## Ugovor o zakupu
 ### System prompt:
