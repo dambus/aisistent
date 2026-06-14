@@ -264,13 +264,16 @@ SCENARIO A - Naručilac angažuje FIZIČKO LICE bez registrovane delatnosti
 → U oba slučaja: naručilac je obavezan da dostavi potvrdu o uplaćenim davanjima u roku od 15 dana od isplate.
 
 SCENARIO B - Naručilac angažuje PREDUZETNIKA ili FIRMU (paušalac, doo, ad)
-→ Izvođač sam plaća porez kroz svoju registrovanu delatnost
-→ Dodati: "Izvođač, kao registrovano privredno lice, samostalno izmiruje sve poreske i druge zakonske obaveze."
-→ Faktura je osnov za plaćanje
+→ Osnov za isplatu je faktura koju Izvođač ispostavlja Naručiocu. Rok plaćanja teče od dana prijema fakture, ne od dana primopredaje dela.
+→ U članu o naknadi OBAVEZNO navesti da je rok plaćanja vezan za prijem fakture.
+→ Ako je Izvođač obveznik PDV-a, iznos naknade se uvećava za PDV po važećoj stopi. Naručilac je dužan platiti PDV iskazan na fakturi. Ako Izvođač nije PDV obveznik, naknada je konačna.
+→ U članu o poreskom tretmanu OBAVEZNO navesti: "Izvođač, kao registrovano privredno lice, samostalno izmiruje sve poreske i druge zakonske obaveze nastale po osnovu ovog ugovora. Naručilac nema obavezu obračuna ni uplate poreza u ime Izvođača."
+→ PIB izvođača je obavezan identifikacioni podatak kada je tip izvođača preduzetnik ili firma.
 
 SCENARIO C - Fizičko lice angažuje fizičko lice
-→ Isti tretman kao Scenario A
-→ Napomenuti da naručilac mora biti registrovan kao isplatilac prihoda
+→ Isti tretman kao Scenario A i koristi istu poresku logiku po polju tip_prihoda ('autorsko_delo' ili 'ugovor_o_delu').
+→ U članu o poreskom tretmanu OBAVEZNO navesti: "Naručilac je dužan da se registruje kao isplatilac prihoda kod Poreske uprave pre izvršenja isplate, u skladu sa čl. 41. Zakona o porezu na dohodak građana. Isplata bez registracije predstavlja poresku grešku."
+→ Na kraju poreskog člana OBAVEZNO dodati: "Preporučuje se konsultacija sa poreskim savetnikom pre zaključenja ovog ugovora, s obzirom na specifičan status naručioca kao fizičkog lica."
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -332,7 +335,7 @@ I.    UGOVORNE STRANE
 II.   PREDMET UGOVORA
 III.  ROK IZVOĐENJA
 IV.   NAKNADA I NAČIN ISPLATE
-V.    PORESKI TRETMAN [samo Scenario A i C]
+V.    PORESKI TRETMAN I FAKTURISANJE [za sve scenarije; Scenario B mora sadržati fakturu, PDV i stav da Naručilac ne obračunava porez]
 VI.   VLASNIŠTVO NAD REZULTATOM RADA
 [VI mora sadržati: spisak prava koja se prenose, isključivost, teritoriju, trajanje, momenat prenosa. Ne koristiti generičku formulaciju "sva autorska prava" bez ovih elemenata.]
 VII.  POVERLJIVOST [ako se ugovara]
@@ -373,7 +376,8 @@ X.    ZAVRŠNE ODREDBE
 #### Naručilac
 - tip_narucioca: "Tip naručioca" | opcije: Firma, Preduzetnik, Fizičko lice
 - naziv_narucioca: "Naziv / Ime i prezime"
-- pib_narucioca: "PIB (ako je firma/preduzetnik)"
+- pib_narucioca: "PIB naručioca / JMBG naručioca" | required: true | fizičko lice koristi JMBG umesto PIB
+- broj_lk_narucioca: "Broj lične karte naručioca" | conditional: tip_narucioca === Fizičko lice
 - adresa_narucioca: "Adresa sedišta / stanovanja"
 - zastupnik_narucioca: "Zastupnik - ime i funkcija (ako je firma)"
 
@@ -381,9 +385,9 @@ X.    ZAVRŠNE ODREDBE
 - tip_izvodjaca: "Tip izvođača" | tooltip: "Ovo je najvažniji izbor jer određuje ko plaća porez:
 • Fizičko lice bez firme → Vi (naručilac) plaćate porez pre isplate
 • Preduzetnik/paušalac → Izvođač sam plaća porez kroz svoju firmu
-• Firma doo → Isto kao preduzetnik, plaća sami" | opcije: Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo **izmena: kod firme doo, plaća samostalno, ne - plaća sami
+• Firma doo → Isto kao preduzetnik, plaća samostalno" | opcije: Fizičko lice (bez firme), Preduzetnik-paušalac, Firma doo
 - naziv_izvodjaca: "Ime i prezime / Naziv firme"
-- jmbg_pib_izvodjaca: "JMBG (fizičko lice) ili PIB (firma)"
+- jmbg_pib_izvodjaca: "JMBG (fizičko lice) ili PIB (preduzetnik/firma)" | required: true
 - adresa_izvodjaca: "Adresa stanovanja / sedišta"
 - racun_izvodjaca: "Broj tekućeg računa za isplatu"
 
@@ -404,7 +408,7 @@ X.    ZAVRŠNE ODREDBE
 - iznos: "Iznos naknade (RSD)"
 - nacin_isplate: "Način isplate" | opcije: Jednokratno, Avans + ostatak, Po fazama
 - avans: "Procenat avansa" **izmena: helper, objasniti sta je avans
-- rok_placanja: "Rok plaćanja po isporuci (dana)"
+- rok_placanja: "Rok plaćanja po fakturi/isporuci (dana)"
 
 #### Dodatne odredbe
 - vlasnistvo: "Ko je vlasnik rezultata rada?" | tooltip: "Po srpskom pravu, autor automatski zadržava autorska prava. Ako želite da koristite rezultat slobodno (modifikujete, prodajete, distribuirate), morate eksplicitno ugovoriti prenos prava na naručioca." | opcije: Naručilac, Izvođač, Zajednička prava

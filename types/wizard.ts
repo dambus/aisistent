@@ -81,6 +81,7 @@ export interface UgovorODeluData {
   tip_narucioca: string
   naziv_narucioca: string
   pib_narucioca?: string
+  broj_lk_narucioca?: string
   adresa_narucioca: string
   zastupnik_narucioca?: string
   tip_izvodjaca: string

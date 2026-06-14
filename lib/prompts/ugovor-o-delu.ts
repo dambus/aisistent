@@ -37,14 +37,16 @@ SCENARIO A - Naručilac angažuje FIZIČKO LICE bez registrovane delatnosti
 → U oba slučaja: naručilac je obavezan da dostavi potvrdu o uplaćenim davanjima u roku od 15 dana od isplate.
 
 SCENARIO B - Naručilac angažuje PREDUZETNIKA ili FIRMU (paušalac, doo, ad)
-→ Iznos je konačan — nema dodatnih poreza na teret naručioca
-→ Izvođač sam plaća porez kroz svoju registrovanu delatnost
-→ Dodati: "Izvođač, kao registrovano privredno lice, samostalno izmiruje sve poreske i druge zakonske obaveze."
-→ Faktura je osnov za plaćanje
+→ Osnov za isplatu je faktura koju Izvođač ispostavlja Naručiocu. Rok plaćanja teče od dana prijema fakture, ne od dana primopredaje dela.
+→ U članu o naknadi OBAVEZNO navedi da je rok plaćanja vezan za prijem fakture.
+→ Ako je Izvođač obveznik PDV-a, iznos naknade se uvećava za PDV po važećoj stopi. Naručilac je dužan platiti PDV iskazan na fakturi. Ako Izvođač nije PDV obveznik, naknada je konačna.
+→ U članu o poreskom tretmanu OBAVEZNO navedi: "Izvođač, kao registrovano privredno lice, samostalno izmiruje sve poreske i druge zakonske obaveze nastale po osnovu ovog ugovora. Naručilac nema obavezu obračuna ni uplate poreza u ime Izvođača."
+→ PIB izvođača je obavezan identifikacioni podatak kada je tip izvođača preduzetnik ili firma.
 
 SCENARIO C - Fizičko lice angažuje fizičko lice
-→ Isti tretman kao Scenario A — iznos je neto iznos koji izvođač prima
-→ Napomenuti da naručilac mora biti registrovan kao isplatilac prihoda
+→ Isti tretman kao Scenario A — iznos je neto iznos koji izvođač prima i koristi se ista poreska logika po polju tip_prihoda ('autorsko_delo' ili 'ugovor_o_delu').
+→ U članu o poreskom tretmanu OBAVEZNO navesti: "Naručilac je dužan da se registruje kao isplatilac prihoda kod Poreske uprave pre izvršenja isplate, u skladu sa čl. 41. Zakona o porezu na dohodak građana. Isplata bez registracije predstavlja poresku grešku."
+→ Na kraju poreskog člana OBAVEZNO dodati: "Preporučuje se konsultacija sa poreskim savetnikom pre zaključenja ovog ugovora, s obzirom na specifičan status naručioca kao fizičkog lica."
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -106,7 +108,7 @@ I.    UGOVORNE STRANE
 II.   PREDMET UGOVORA
 III.  ROK IZVOĐENJA
 IV.   NAKNADA I NAČIN ISPLATE
-V.    PORESKI TRETMAN [samo Scenario A i C]
+V.    PORESKI TRETMAN I FAKTURISANJE [za sve scenarije; Scenario B mora sadržati fakturu, PDV i stav da Naručilac ne obračunava porez]
 VI.   VLASNIŠTVO NAD REZULTATOM RADA
 [VI mora sadržati: spisak prava koja se prenose, isključivost, teritoriju, trajanje, momenat prenosa. Ne koristiti generičku formulaciju "sva autorska prava" bez ovih elemenata.]
 VII.  POVERLJIVOST [ako se ugovara]
@@ -170,6 +172,16 @@ export function buildUserMessage(data: UgovorODeluData): string {
   const ugovornaKazna = data.ugovorna_kazna
     ? `Da — ${data.iznos_kazne_dnevno?.toLocaleString('sr-RS') ?? '[POPUNITI: dnevna kazna]'} RSD/dan`
     : 'Ne'
+  const narucilacIdentifikatorLabel = data.tip_narucioca === 'Fizičko lice' ? 'JMBG' : 'PIB'
+  const narucilacIdentifikatorVrednost = data.pib_narucioca ?? `[POPUNITI: ${narucilacIdentifikatorLabel.toLowerCase()} naručioca]`
+  const narucilacBrojLk = data.tip_narucioca === 'Fizičko lice'
+    ? `\n- Broj lične karte: ${data.broj_lk_narucioca ?? '[opciono]'}` 
+    : ''
+  const scenarioNapomena = data.tip_izvodjaca === 'Fizičko lice (bez firme)'
+    ? (data.tip_narucioca === 'Fizičko lice'
+      ? '\n- Poreska napomena: U članu o poreskom tretmanu obavezno navedi registraciju naručioca kao isplatioca prihoda pre isplate i preporuku konsultacije sa poreskim savetnikom.'
+      : '\n- Poreska napomena: U članu o poreskom tretmanu primeni isti režim kao za fizičko lice bez firme, prema izabranom tipu prihoda.')
+    : '\n- Fakturisanje i PDV: U članu o naknadi navedi da rok plaćanja teče od prijema fakture i da se PDV plaća samo ako je Izvođač PDV obveznik.'
 
   return `Molim te generiši Ugovor o delu sa sledećim podacima:
 
@@ -177,7 +189,7 @@ NARUČILAC:
 - Broj ugovora: ${brojUgovora}
 - Tip: ${data.tip_narucioca}
 - Naziv/Ime: ${data.naziv_narucioca}
-- PIB: ${data.pib_narucioca ?? '[POPUNITI: PIB naručioca]'}
+- ${narucilacIdentifikatorLabel}: ${narucilacIdentifikatorVrednost}${narucilacBrojLk}
 - Adresa: ${data.adresa_narucioca}
 - Zastupnik: ${data.zastupnik_narucioca ?? '[POPUNITI: zastupnik naručioca]'}
 
@@ -204,7 +216,7 @@ NAKNADA:
 - Neto iznos naknade: ${data.iznos.toLocaleString('sr-RS')} RSD
 - Način isplate: ${data.nacin_isplate}
 - Avans: ${avans > 0 ? `${avans}% = ${Math.round(data.iznos * avans / 100).toLocaleString('sr-RS')} RSD od neto iznosa` : 'Ne'}
-- Rok plaćanja ostatka: ${data.rok_placanja} dana od isporuke
+- Rok plaćanja: ${data.rok_placanja} dana${data.tip_izvodjaca === 'Fizičko lice (bez firme)' ? ' od isporuke' : ' od prijema fakture'}${scenarioNapomena}
 
 DODATNO:
 - Vlasništvo nad rezultatom: ${data.vlasnistvo}
@@ -244,7 +256,22 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'naziv_narucioca', label: 'Naziv / Ime i prezime', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Naziv firme ili ime i prezime naručioca' },
-      { id: 'pib_narucioca', label: 'PIB (ako je firma/preduzetnik)', type: 'text', required: false, placeholder: '123456789', helperText: '9 cifara' },
+      {
+        id: 'pib_narucioca',
+        label: 'PIB / JMBG naručioca',
+        type: 'text',
+        required: true,
+        placeholder: '123456789',
+        dynamicConfig: {
+          watchField: 'tip_narucioca',
+          values: {
+            'Firma': { label: 'PIB naručioca', helperText: '9 cifara', tooltip: 'PIB je obavezan kada je naručilac firma.' },
+            'Preduzetnik': { label: 'PIB naručioca', helperText: '9 cifara', tooltip: 'PIB je obavezan kada je naručilac preduzetnik.' },
+            'Fizičko lice': { label: 'JMBG naručioca', helperText: '13 cifara sa lične karte', tooltip: 'Za fizičko lice kao naručioca unosi se JMBG umesto PIB-a.' },
+          },
+        },
+      },
+      { id: 'broj_lk_narucioca', label: 'Broj lične karte naručioca', type: 'text', required: false, conditional: { field: 'tip_narucioca', value: 'Fizičko lice' }, placeholder: 'npr. 012345678', helperText: 'Opciono — samo kada je naručilac fizičko lice' },
       { id: 'adresa_narucioca', label: 'Adresa sedišta / stanovanja', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa sedišta firme ili adresa stanovanja' },
       { id: 'zastupnik_narucioca', label: 'Zastupnik - ime i funkcija (ako je firma)', type: 'text', required: false, placeholder: 'npr. Petar Nikolić, direktor', helperText: 'Ime i funkcija osobe koja potpisuje ugovor u ime firme' },
     ],
@@ -351,7 +378,7 @@ export const wizardSteps: WizardStep[] = [
         required: true,
         min: 1,
         helperText: 'Iznos koji izvođač prima na račun',
-        tooltip: 'Unesite neto iznos koji izvođač prima. Ako je izvođač fizičko lice bez firme, naručilac dodatno snosi porez i doprinose koji se obračunavaju na ovaj iznos. Ako je izvođač preduzetnik ili firma, ovaj iznos je konačan.',
+        tooltip: 'Unesite neto iznos koji izvođač prima. Ako je izvođač fizičko lice bez firme, naručilac dodatno snosi porez i doprinose koji se obračunavaju na ovaj iznos. Ako je izvođač preduzetnik ili firma, osnovica za plaćanje je faktura; ako je izvođač PDV obveznik, PDV se dodaje na fakturisani iznos.',
       },
       {
         id: 'nacin_isplate',
