@@ -300,6 +300,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
           font: FONT_FAMILY,
           size: TITLE_SIZE,
           bold: true,
+          color: '000000',
         })),
       })
     case 'h2':
@@ -311,6 +312,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
           font: FONT_FAMILY,
           size: SECTION_SIZE,
           bold: true,
+          color: '000000',
         })),
       })
     case 'h3':
@@ -426,9 +428,8 @@ function buildSignatureTable(documentType?: string, inputData?: Record<string, u
   })
 
   const UNDERSCORE = '_________________________________'
-  const showMp = ['POSLODAVAC', 'NARUČILAC', 'VLASTODAVAC'].some(k =>
-    sig.leftLabel.toUpperCase().includes(k)
-  )
+  const hasMP = ['ZA POSLODAVCA', 'NARUČILAC', 'ZA NARUČIOCA', 'VLASTODAVAC', 'ZAKUPODAVAC', 'PRVA STRANA']
+    .some(label => (sig.leftLabel ?? '').toUpperCase().includes(label.replace('ZA ', '')))
 
   const rows = [
     new TableRow({ children: [leftCell([signatureText(sig.leftLabel, true)]), spacerCell(), rightCell([signatureText(sig.rightLabel, true)])] }),
@@ -437,7 +438,7 @@ function buildSignatureTable(documentType?: string, inputData?: Record<string, u
     new TableRow({ children: [leftCell([signatureText(sig.leftPerson)]), spacerCell(), rightCell([signatureText(sig.rightPerson)])] }),
   ]
 
-  if (showMp) {
+  if (hasMP) {
     rows.push(new TableRow({ children: [leftCell([signatureText('M.P.')]), spacerCell(), rightCell([new Paragraph({})])] }))
   }
 
@@ -494,6 +495,8 @@ export async function buildDocx(
           }),
         ],
       }),
+      new Paragraph({ text: '', spacing: { after: 120 } }),
+      new Paragraph({ text: '', spacing: { after: 120 } }),
       signatureTable,
     )
   }
