@@ -25,6 +25,7 @@
 | BUG-041 | ece4f1b | DOCX razmak pre tabele potpisa |
 | BUG-042 | ece4f1b | DOCX naslovi crni umesto plavi |
 | BUG-034 | fda446b | Faktura email — FakturaPDF renderer umesto raw JSON |
+| BUG-035 | d7502c8 | Responsivnost wizard — overflow-x-hidden, faktura stavke kartica layout na mobilnom |
 
 ---
 
