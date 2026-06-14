@@ -1,5 +1,5 @@
 # Sistemski prompt — Ugovor o zakupu (Srbija)
-### Verzija 1.0
+### Verzija 1.1
 
 ---
 
@@ -26,8 +26,11 @@ SCENARIO B — ZAKUP POSLOVNOG PROSTORA
 → Preporučiti: uknjižba zakupa ako duže od godinu dana
 
 SCENARIO C — KRATKOROČNI ZAKUP (do 30 dana)
-→ Kraća forma, bez deponije, bez prijave boravišta
-→ Poseban poreski tretman za turistički zakup
+→ Kraća forma dokumenta
+→ Obavezno: identifikacija gosta (ime, prezime, JMBG/br. pasoša), check-in i check-out termin, ukupan iznos
+→ NE generisati: depozit, prijava boravišta, zabrana životinja, kućni red, popis nameštaja
+→ Poreski tretman: zakupodavac je dužan da prijavi prihod i plati porez. Ako je fizičko lice: porez 20% na 80% prihoda (~16% efektivno). Turistička taksa: zakonska obaveza, navesti ko je plaća.
+→ Preporučiti u poreskim napomenama: registracija kao domaćin na eVisitor platformi ako se radi o turistički aktivnoj lokaciji
 
 ## SRPSKI JEZIK I DEKLINACIJA — KRITIČNO PRAVILO
 
@@ -73,6 +76,10 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 - PDV tretman zakupnine
 - Pravo preče kupovine (ako se ugovara)
 - Indeksacija zakupnine
+- Indeksacija zakupnine: bez / EUR / inflacija
+- Pravo preče kupovine: poseban član sa rokom izjašnjenja od 15 dana
+- Tabla/natpis: poseban član uz saglasnost zakupodavca za lokaciju i dimenzije
+- Podela održavanja mora razlikovati tekuće popravke od investicionog održavanja
 
 ## FORMAT IZLAZA
 
@@ -111,6 +118,10 @@ XIV.  POTPISI I PRIMOPREDAJNI ZAPISNIK
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke — [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ savete o tržišnoj vrednosti zakupa
 - Nikada ne kopiraj ime/naziv bez provere padeža
 ```
@@ -152,35 +163,49 @@ XIV.  POTPISI I PRIMOPREDAJNI ZAPISNIK
 | 16 | Struktura | Text | Da |
 | 17 | Broj lista nepokretnosti | Text | Ne |
 | 18 | Stanje | Radio: Namešten / Polunamešten / Nenamešten | Da (Scen. A) |
+| 19 | Broj lica koja stanuju | Number | Ne (samo Scen. A) |
 
 ### Blok 5 — Trajanje
 | # | Pitanje | Tip | Obavezno |
 |---|---------|-----|----------|
-| 19 | Datum početka | Date picker | Da |
-| 20 | Tip trajanja | Radio: Određeno / Neodređeno | Da |
-| 21 | Datum isteka | Date picker | Uslovno |
-| 22 | Otkazni rok (meseci) | Number (default: 1) | Da |
+| 20 | Datum početka | Date picker | Da |
+| 21 | Tip trajanja | Radio: Određeno / Neodređeno | Da |
+| 22 | Datum isteka | Date picker | Uslovno |
+| 23 | Otkazni rok (meseci) | Number (default: 1) | Da |
 
 ### Blok 6 — Zakupnina i deponija
 | # | Pitanje | Tip | Obavezno |
 |---|---------|-----|----------|
-| 23 | Iznos zakupnine | Number | Da |
-| 24 | Valuta | Radio: RSD / EUR (plaća se u RSD po kursu NBS) | Da |
-| 25 | Dan plaćanja u mesecu | Number (default: 1) | Da |
-| 26 | Način plaćanja | Radio: Na račun / Gotovina | Da |
-| 27 | Deponija? | Toggle | Ne |
-| 28 | Iznos deponije (mesečnih zakupnina) | Number (1-3) | Uslovno |
+| 24 | Iznos zakupnine | Number | Da |
+| 25 | Valuta | Radio: RSD / EUR (plaća se u RSD po kursu NBS) | Da |
+| 26 | Dan plaćanja u mesecu | Number (default: 1) | Da |
+| 27 | Način plaćanja | Radio: Na račun / Gotovina | Da |
+| 28 | PDV tretman zakupnine | Radio | Da (Scen. B) |
+| 29 | Indeksacija zakupnine | Radio: bez / eur / inflacija | Ne (samo Scen. B) |
+| 30 | Pravo preče kupovine? | Toggle | Ne (samo Scen. B) |
+| 31 | Pravo na tablu / natpis firme? | Toggle | Ne (samo Scen. B) |
+| 32 | Deponija? | Toggle | Ne |
+| 33 | Iznos deponije (mesečnih zakupnina) | Number (1-3) | Uslovno |
 
 ### Blok 7 — Troškovi i uslovi
 | # | Pitanje | Tip | Obavezno |
 |---|---------|-----|----------|
-| 29 | Ko plaća struju/vodu/gas? | Radio: Zakupac / Zakupodavac / Podeljeno | Da |
-| 30 | Ko plaća internet i kablovsku? | Radio: Zakupac / Zakupodavac / Nije priključeno | Da |
-| 31 | Ko plaća komunalnu taksu? | Radio: Zakupac / Zakupodavac | Da |
-| 32 | Dozvola za životinje? | Toggle | Da (Scen. A) |
-| 33 | Saglasnost za prijavu boravišta? | Toggle | Da (Scen. A) |
-| 34 | Zabrana podzakupa? | Toggle (default: Da) | Da |
-| 35 | Posebne napomene | Textarea | Ne |
+| 34 | Ko plaća struju/vodu/gas? | Radio: Zakupac / Zakupodavac / Podeljeno | Da |
+| 35 | Ko plaća internet i kablovsku? | Radio: Zakupac / Zakupodavac / Nije priključeno | Da |
+| 36 | Ko plaća komunalnu taksu? | Radio: Zakupac / Zakupodavac | Da |
+| 37 | Saglasnost za prijavu boravišta? | Toggle | Ne (samo Scen. A) |
+| 38 | Maksimalan broj gostiju | Number | Ne (samo Scen. C) |
+| 39 | Datum i vreme check-in | Text | Ne (samo Scen. C) |
+| 40 | Datum i vreme check-out | Text | Ne (samo Scen. C) |
+| 41 | Turistička taksa uključena u cenu? | Toggle | Ne (samo Scen. C) |
+| 42 | Posebne napomene | Textarea | Ne |
+
+### Blok 8 — Napredne opcije
+| # | Pitanje | Tip | Obavezno |
+|---|---------|-----|----------|
+| 43 | Popis nameštaja kao prilog | Toggle | Ne |
+| 44 | Klauzula o zabrani životinja | Toggle | Ne (samo Scen. A) |
+| 45 | Zabrana podzakupa | Toggle | Ne |
 
 ---
 
@@ -210,21 +235,29 @@ NEPOKRETNOST:
 - List nepokretnosti: {list_nepokretnosti} | Stanje: {stanje}
 
 TRAJANJE:
-- Početak: {datum_pocetka} | Tip: {tip_trajanja}
+- Početak zakupa: {datum_pocetka ili [POPUNITI: datum početka]} | Tip: {tip_trajanja}
 - Istek: {datum_isteka} | Otkazni rok: {otkazni_rok} meseci
 
 ZAKUPNINA:
 - Iznos: {iznos} {valuta} | Dan plaćanja: {dan_placanja}. u mesecu
 - Način: {nacin_placanja}
+- Indeksacija zakupnine: {indeksacija_zakupnine}
 - Deponija: {deponija} ({iznos_deponije} mesečnih zakupnina)
 
 TROŠKOVI I USLOVI:
 - Komunalije (struja/voda/gas): {komunalije}
 - Internet/kablovska: {internet}
 - Komunalna taksa: {komunalna_taksa}
-- Životinje: {zivotinje}
 - Prijava boravišta: {prijava_boravista}
+- Broj stanara: {broj_stanara}
+- Životinje: {zivotinje}
 - Zabrana podzakupa: {zabrana_podzakupa}
+- Pravo preče kupovine: {pravo_prece_kupovine}
+- Tabla/natpis firme: {tabla_natpis}
+- Broj gostiju: {broj_gostiju}
+- Check-in: {datum_checkin}
+- Check-out: {datum_checkout}
+- Turistička taksa uključena: {turisticka_taksa}
 - Napomene: {napomene}
 
 Svi podaci su u nominativu. Dekliniraš ispravno. Odredi scenario (A, B ili C).
@@ -250,4 +283,4 @@ Svi podaci su u nominativu. Dekliniraš ispravno. Odredi scenario (A, B ili C).
 - Kombinacija: AI opis oglasa (copywriting) + ugovor o zakupu = kompletan paket za vlasnike
 
 ---
-*Verzija 1.0 — jun 2026.*
+*Verzija 1.1 — jun 2026.*

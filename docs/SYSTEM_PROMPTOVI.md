@@ -173,6 +173,10 @@ Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI,
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije dao — označi sa [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ pravne savete van okvira dokumenta
 - Ne garantuješ pravnu valjanost u specifičnim slučajevima
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
@@ -363,6 +367,10 @@ X.    ZAVRŠNE ODREDBE
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke - označi sa [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ pravne ni poreske savete van okvira dokumenta
 - Ne garantuješ poresku ispravnost u specifičnim slučajevima
 - Nikada ne kopiraj ime/naziv bez provere padeža
@@ -586,8 +594,11 @@ SCENARIO B - ZAKUP POSLOVNOG PROSTORA
 → Preporučiti: uknjižba zakupa ako duže od godinu dana
 
 SCENARIO C - KRATKOROČNI ZAKUP (do 30 dana)
-→ Kraća forma, bez deponije, bez prijave boravišta **izmena: ne samo ovde, kroz ceo dokument. Nije deponija, već depozit
-→ Poseban poreski tretman za turistički zakup
+→ Kraća forma dokumenta
+→ Obavezno: identifikacija gosta (ime, prezime, JMBG/br. pasoša), check-in i check-out termin, ukupan iznos
+→ NE generisati: depozit, prijava boravišta, zabrana životinja, kućni red, popis nameštaja
+→ Poreski tretman: zakupodavac je dužan da prijavi prihod i plati porez. Ako je fizičko lice: porez 20% na 80% prihoda (~16% efektivno). Turistička taksa: zakonska obaveza, navesti ko je plaća.
+→ Preporučiti u poreskim napomenama: registracija kao domaćin na eVisitor platformi ako se radi o turistički aktivnoj lokaciji
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -619,7 +630,7 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 ## DODATNI ELEMENTI ZA SCENARIO A
 
 - Popis nameštaja i opreme (prilog)
-- Deponija: iznos, uslovi i rok vraćanja (max 30 dana) **izmena: depozit, ne deponija
+- Depozit: iznos, uslovi i rok vraćanja (max 30 dana)
 - Zabrana životinja (ako se ugovara)
 - Broj lica koja stanuju
 - Saglasnost za prijavu boravišta
@@ -633,6 +644,10 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 - PDV tretman zakupnine
 - Pravo preče kupovine (ako se ugovara)
 - Indeksacija zakupnine
+- Indeksacija zakupnine: bez / EUR / inflacija
+- Pravo preče kupovine: poseban član sa rokom izjašnjenja od 15 dana
+- Tabla/natpis: poseban član uz saglasnost zakupodavca za lokaciju i dimenzije
+- Podela održavanja mora razlikovati tekuće popravke od investicionog održavanja
 
 ## FORMAT IZLAZA
 
@@ -665,6 +680,10 @@ XIII. ZAVRŠNE ODREDBE
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke - [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ savete o tržišnoj vrednosti zakupa
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
@@ -702,26 +721,39 @@ Kratkoročni — do 30 dana, turistički zakup." | opcije: Stambeni, Poslovni, K
 
 #### Trajanje
 - datum_pocetka: "Datum početka"
+- broj_stanara: "Broj lica koja stanuju" | conditional: tip_zakupa === "Stambeni"
 - tip_trajanja: "Tip trajanja" | opcije: Određeno, Neodređeno
 - datum_isteka: "Datum isteka"
 - otkazni_rok: "Otkazni rok (meseci)"
 
-#### Zakupnina i deponija **izmena: depozit, ne deponija, proveriti kroz ceo dokument
+#### Zakupnina i depozit
 - iznos: "Iznos zakupnine"
 - valuta: "Valuta" | tooltip: "U Srbiji je legalno ugovoriti zakupninu u evrima koja se plaća u dinarima po kursu NBS na dan plaćanja. Ovo štiti zakupodavca od inflacije." | opcije: RSD, EUR (plaća se u RSD po kursu NBS)
 - dan_placanja: "Dan plaćanja u mesecu"
 - nacin_placanja: "Način plaćanja" | opcije: Na račun, Gotovina
-- deponija: "Deponija?" | tooltip: "Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum."
-- iznos_deponije: "Iznos deponije (mesečnih zakupnina)"
+- pdv_zakupnina: "PDV tretman zakupnine" | conditional: tip_zakupa === "Poslovni"
+- indeksacija_zakupnine: "Indeksacija zakupnine?" | opcije: Bez indeksacije, Vezano za EUR (plaća se u RSD po kursu NBS), Vezano za zvanični indeks inflacije RZS | conditional: tip_zakupa === "Poslovni"
+- pravo_prece_kupovine: "Pravo preče kupovine?" | conditional: tip_zakupa === "Poslovni"
+- tabla_natpis: "Pravo na tablu / natpis firme?" | conditional: tip_zakupa === "Poslovni"
+- deponija: "Depozit?" | tooltip: "Kaucija koju zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum."
+- iznos_deponije: "Iznos depozita (mesečnih zakupnina)"
 
 #### Troškovi i uslovi
 - komunalije: "Ko plaća struju/vodu/gas?" | opcije: Zakupac, Zakupodavac, Podeljeno
 - internet: "Ko plaća internet i kablovsku?" | opcije: Zakupac, Zakupodavac, Nije priključeno
 - komunalna_taksa: "Ko plaća komunalnu taksu?" | opcije: Zakupac, Zakupodavac
-- zivotinje: "Dozvola za životinje?"
-- prijava_boravista: "Saglasnost za prijavu boravišta?"
+- prijava_boravista: "Saglasnost za prijavu boravišta?" | conditional: tip_zakupa === "Stambeni"
+- broj_gostiju: "Maksimalan broj gostiju" | conditional: tip_zakupa === "Kratkoročni"
+- datum_checkin: "Datum i vreme check-in" | conditional: tip_zakupa === "Kratkoročni"
+- datum_checkout: "Datum i vreme check-out" | conditional: tip_zakupa === "Kratkoročni"
+- turisticka_taksa: "Turistička taksa uključena u cenu?" | conditional: tip_zakupa === "Kratkoročni"
 - zabrana_podzakupa: "Zabrana podzakupa?"
 - napomene: "Posebne napomene"
+
+#### Napredne opcije
+- popis_namestaja: "Popis nameštaja kao prilog"
+- zabrana_zivotinja: "Klauzula o zabrani životinja" | conditional: tip_zakupa === "Stambeni"
+- zabrana_podzakupa: "Zabrana podzakupa"
 
 ## Ugovor o saradnji/Zajmu
 ### System prompt:

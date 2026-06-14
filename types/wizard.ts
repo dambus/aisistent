@@ -162,6 +162,7 @@ export interface UgovorOZakupuData {
   struktura: string
   list_nepokretnosti?: string
   stanje?: string
+  broj_stanara?: number
   datum_pocetka: string
   tip_trajanja: string
   datum_isteka?: string
@@ -171,6 +172,9 @@ export interface UgovorOZakupuData {
   dan_placanja: number
   nacin_placanja: string
   pdv_obveznik?: boolean
+  indeksacija_zakupnine?: string
+  pravo_prece_kupovine?: boolean
+  tabla_natpis?: boolean
   deponija: boolean
   iznos_deponije?: number
   komunalije: string
@@ -181,6 +185,10 @@ export interface UgovorOZakupuData {
   popis_namestaja: boolean
   zabrana_zivotinja: boolean
   zabrana_podzakupa: boolean
+  broj_gostiju?: number
+  datum_checkin?: string
+  datum_checkout?: string
+  turisticka_taksa?: boolean
   napomene?: string
   pdv_zakupnina?: 'ukljucuje' | 'ne_ukljucuje' | 'nije_u_sistemu'
 }

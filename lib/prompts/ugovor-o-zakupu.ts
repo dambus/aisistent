@@ -31,8 +31,11 @@ SCENARIO B - ZAKUP POSLOVNOG PROSTORA
 → Preporučiti: uknjižba zakupa ako duže od godinu dana
 
 SCENARIO C - KRATKOROČNI ZAKUP (do 30 dana)
-→ Kraća forma, bez depozita, bez prijave boravišta
-→ Poseban poreski tretman za turistički zakup
+→ Kraća forma dokumenta
+→ Obavezno: identifikacija gosta (ime, prezime, JMBG/br. pasoša), check-in i check-out termin, ukupan iznos
+→ NE generisati: depozit, prijava boravišta, zabrana životinja, kućni red, popis nameštaja
+→ Poreski tretman: zakupodavac je dužan da prijavi prihod i plati porez. Ako je fizičko lice: porez 20% na 80% prihoda (~16% efektivno). Turistička taksa: zakonska obaveza, navesti ko je plaća.
+→ Preporučiti u poreskim napomenama: registracija kao domaćin na eVisitor platformi ako se radi o turistički aktivnoj lokaciji
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -87,6 +90,13 @@ Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 - PDV tretman zakupnine
 - Pravo preče kupovine (ako se ugovara)
 - Indeksacija zakupnine
+- Indeksacija zakupnine: generiši član prema izboru korisnika:
+  • 'bez': nema indeksacije, zakupnina je fiksna
+  • 'eur': "Iznos zakupnine izražen je u EUR, a plaća se u dinarima po prodajnom kursu NBS na dan plaćanja."
+  • 'inflacija': "Zakupnina se usklađuje godišnje prema zvaničnom indeksu potrošačkih cena koji objavljuje RZS, počev od druge godine zakupa."
+- Pravo preče kupovine: ako true, generiši poseban član: "U slučaju da Zakupodavac odluči da proda predmetnu nepokretnost, Zakupac ima pravo preče kupovine pod istim uslovima koji su ponuđeni trećim licima. Zakupodavac je dužan da Zakupca pisano obavesti o nameri prodaje i uslovima, a Zakupac je dužan da se izjasni u roku od 15 dana."
+- Tabla/natpis: ako true, generiši član o pravu postavljanja table uz uslov saglasnosti zakupodavca za lokaciju i dimenzije.
+- Podela održavanja mora biti precizna: generiši napomenu u članu o obavezama da "tekuće popravke" obuhvataju: zamenu sijalica, slavina, brava, kvaka, manjih obloga i slično; dok "investiciono održavanje" obuhvata: krov, fasadu, noseće konstrukcije, glavne instalacije (struja, voda, grejanje), lift.
 
 ## FORMAT IZLAZA
 
@@ -125,6 +135,7 @@ POPIS NAMEŠTAJA:
 - Ako false (Ne — stan se preuzima u viđenom stanju): napiši "Stan se preuzima u viđenom stanju, bez posebnog popisa nameštaja i opreme."
 
 ZABRANA ŽIVOTINJA:
+- Sekciju o zabrani kućnih ljubimaca generiši SAMO za Scenario A (stambeni zakup). Za Scenario B i C ovu sekciju izostaviti.
 - Ako true: uključi klauzulu o zabrani držanja kućnih ljubimaca bez pisane saglasnosti zakupodavca
 - Ako false: ne generiši ovaj član
 
@@ -146,6 +157,10 @@ KOMUNALNA TAKSA:
   Jedini datum koji možeš koristiti je onaj koji je eksplicitno dat u podacima.
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke - [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ savete o tržišnoj vrednosti zakupa
 - Nikada ne kopiraj ime/naziv bez provere padeža
 - Ne dodaješ napomenu/disclaimer na kraju dokumenta — to je već u footeru PDF-a
@@ -206,12 +221,13 @@ NEPOKRETNOST:
 - List nepokretnosti: ${data.list_nepokretnosti ?? '[nema]'} | Stanje: ${data.stanje ?? '[POPUNITI: stanje]'}
 
 TRAJANJE:
-- Početak: ${data.datum_pocetka} | Tip: ${data.tip_trajanja}
+- Početak zakupa: ${data.datum_pocetka ?? '[POPUNITI: datum početka]'} | Tip: ${data.tip_trajanja}
 - Istek: ${data.datum_isteka ?? '[nema]'} | Otkazni rok: ${data.otkazni_rok} meseci
 
 ZAKUPNINA:
 - Iznos: ${data.iznos.toLocaleString('sr-RS')} ${data.valuta} | Dan plaćanja: ${data.dan_placanja}. u mesecu
 - Način: ${data.nacin_placanja}
+- Indeksacija zakupnine: ${data.indeksacija_zakupnine ?? 'bez'}
 - PDV tretman: ${(() => {
   if (data.tip_zakupa !== 'Poslovni') {
     return 'Stambeni zakup — PDV se ne obračunava (oslobođenje po članu 25. Zakona o PDV)'
@@ -229,9 +245,16 @@ TROŠKOVI I USLOVI:
 - Komunalna taksa: ${komunalnaTaksaText}
 - Adaptacije/rekonstrukcija: ${typeof data.adaptacije === 'boolean' ? (data.adaptacije ? 'Da (dogovoreno)' : 'Ne (zabranjeno bez saglasnosti)') : '[nije definisano]'}
 - Prijava boravišta: ${typeof data.prijava_boravista === 'boolean' ? (data.prijava_boravista ? 'Da' : 'Ne') : '[nije definisano]'}
+- Broj stanara: ${data.broj_stanara ?? '[nije navedeno]'}
 - Popis nameštaja: ${popisNamestajaText}
 - Zabrana životinja: ${data.zabrana_zivotinja ? 'Da' : 'Ne'}
 - Zabrana podzakupa: ${data.zabrana_podzakupa ? 'Da' : 'Ne'}
+- Pravo preče kupovine: ${data.pravo_prece_kupovine ? 'da' : 'ne'}
+- Tabla/natpis firme: ${data.tabla_natpis ? 'da' : 'ne'}
+- Broj gostiju: ${data.broj_gostiju ?? '[nije navedeno]'}
+- Check-in: ${data.datum_checkin ?? '[POPUNITI]'}
+- Check-out: ${data.datum_checkout ?? '[POPUNITI]'}
+- Turistička taksa uključena: ${data.turisticka_taksa ? 'da' : 'ne'}
 - Napomene: ${data.napomene ?? '[nema]'}
 
 Svi podaci su u nominativu. Dekliniraš ispravno. Odredi scenario (A, B ili C).`
@@ -381,6 +404,17 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Nenamešten', label: 'Nenamešten' },
         ],
       },
+      {
+        id: 'broj_stanara',
+        label: 'Broj lica koja stanuju',
+        type: 'number',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Stambeni' },
+        min: 1,
+        defaultValue: 1,
+        helperText: 'Ugovor će navesti maksimalan broj lica koja mogu koristiti stan',
+        tooltip: 'Zakupodavac ima pravo da ograniči broj stanara. Prekoračenje broja može biti osnov za raskid ugovora.',
+      },
     ],
   },
   {
@@ -443,6 +477,39 @@ export const wizardSteps: WizardStep[] = [
           { value: 'ne_ukljucuje', label: 'Zakupnina ne uključuje PDV' },
         ],
         defaultValue: 'nije_u_sistemu',
+        conditional: { field: 'tip_zakupa', value: 'Poslovni' },
+      },
+      {
+        id: 'indeksacija_zakupnine',
+        label: 'Indeksacija zakupnine?',
+        type: 'radio',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Poslovni' },
+        defaultValue: 'bez',
+        tooltip: 'Bez indeksacije, realna vrednost zakupnine pada sa inflacijom. EUR indeksacija štiti zakupodavca ali je zakonski dozvoljena samo uz plaćanje u dinarima po kursu NBS.',
+        options: [
+          { value: 'bez', label: 'Bez indeksacije' },
+          { value: 'eur', label: 'Vezano za EUR (plaća se u RSD po kursu NBS)' },
+          { value: 'inflacija', label: 'Vezano za zvanični indeks inflacije RZS' },
+        ],
+      },
+      {
+        id: 'pravo_prece_kupovine',
+        label: 'Pravo preče kupovine?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        conditional: { field: 'tip_zakupa', value: 'Poslovni' },
+        tooltip: 'Ako zakupodavac odluči da proda nepokretnost, zakupac ima pravo da je kupi pod istim uslovima pre trećih lica. Korisno za zakupce koji planiraju dugoročno poslovanje na lokaciji.',
+      },
+      {
+        id: 'tabla_natpis',
+        label: 'Pravo na tablu / natpis firme?',
+        type: 'toggle',
+        required: false,
+        defaultValue: true,
+        conditional: { field: 'tip_zakupa', value: 'Poslovni' },
+        tooltip: 'Da li zakupac ima pravo da postavi tablu ili natpis firme na fasadi ili ulazu zgrade. Preporučuje se da se ugovori unapred da bi se izbegao spor sa upravnikom zgrade.',
       },
       { id: 'deponija', label: 'Depozit?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Depozit koji zakupac plaća unapred kao obezbeđenje. Vraća se po isteku zakupa ako nema štete. Standard je 1-2 mesečne zakupnine. Zakon ne propisuje maksimum.' },
       {
@@ -501,6 +568,43 @@ export const wizardSteps: WizardStep[] = [
       },
       { id: 'adaptacije', label: 'Dozvola za adaptacije/rekonstrukciju?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Ako zakupac planira rekonstrukciju ili adaptaciju prostora, to mora biti eksplicitno dogovoreno u ugovoru. Bez saglasnosti zakupodavca, zakupac nema pravo na promene i mora vratiti prostor u prvobitno stanje.' },
       { id: 'prijava_boravista', label: 'Saglasnost za prijavu boravišta?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Saglasnost zakupodavca da zakupac može prijaviti boravište na adresi stana. Potrebno za zdravstveno osiguranje i slično.' },
+      {
+        id: 'broj_gostiju',
+        label: 'Maksimalan broj gostiju',
+        type: 'number',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Kratkoročni' },
+        min: 1,
+        defaultValue: 2,
+        helperText: 'Ugovor će navesti maksimalan broj lica',
+      },
+      {
+        id: 'datum_checkin',
+        label: 'Datum i vreme check-in',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Kratkoročni' },
+        placeholder: 'npr. 01.07.2026. od 14:00',
+        helperText: 'Tačan termin preuzimanja ključeva',
+      },
+      {
+        id: 'datum_checkout',
+        label: 'Datum i vreme check-out',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Kratkoročni' },
+        placeholder: 'npr. 08.07.2026. do 11:00',
+        helperText: 'Tačan termin predaje ključeva',
+      },
+      {
+        id: 'turisticka_taksa',
+        label: 'Turistička taksa uključena u cenu?',
+        type: 'toggle',
+        required: false,
+        conditional: { field: 'tip_zakupa', value: 'Kratkoročni' },
+        defaultValue: false,
+        tooltip: 'Turistička taksa je zakonska obaveza zakupodavca za kratkoročni zakup. Mora biti naplaćena od gosta ili uključena u cenu.',
+      },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi korišćenja prostora, primopredaja ključeva, kućni red...', helperText: 'Opciono — dodatne odredbe koje želite u ugovoru' },
     ],
   },
@@ -523,6 +627,7 @@ export const wizardSteps: WizardStep[] = [
         type: 'toggle',
         required: false,
         defaultValue: false,
+        conditional: { field: 'tip_zakupa', value: 'Stambeni' },
         helperText: 'Opciono — isključeno po defaultu',
         tooltip: 'Uključite ako zabranjujete držanje kućnih ljubimaca.',
       },

@@ -201,6 +201,10 @@ DETALJNA PRAVA I OBAVEZE:
   Jedini datum koji možeš koristiti je onaj koji je eksplicitno dat u podacima.
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (Broj: ..., Datum: ...).
 - Ne izmišljaš podatke koje korisnik nije dao — označi sa [POPUNITI: naziv podatka]
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne daješ pravne savete van okvira dokumenta
 - Ne garantuješ pravnu valjanost u specifičnim slučajevima
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
@@ -263,7 +267,7 @@ RADNO MESTO:
 
 TRAJANJE:
 - Vrsta: ${data.vrsta_radnog_odnosa}
-- Početak: ${data.datum_pocetka}${data.datum_isteka ? `\n- Istek: ${data.datum_isteka}` : ''}${data.osnov ? `\n- Osnov za određeno: ${data.osnov}` : ''}
+- Početak: ${data.datum_pocetka ?? '[POPUNITI: datum početka]'}${data.datum_isteka ? `\n- Istek: ${data.datum_isteka}` : ''}${data.osnov ? `\n- Osnov za određeno: ${data.osnov}` : ''}
 - Probni rad: ${probniRad}
 
 ZARADA:
