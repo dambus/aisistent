@@ -97,6 +97,12 @@
 |----|------|-------|
 | **BUG-032** | PDF: dijakritici nedostaju u label stringovima ("ROK PLACANJA", "PODACI ZA PLACANJE", "Racun:", "obracunat") | `fakturaRenderer.tsx` — fix iz prethodnog prompta nije potpuno primenjen, `sanitizeText()` ne pokriva sve hardkodovane labele |
 | **BUG-033** | DOCX: PIB primaoca ne prikazuje se u dokumentu iako je unesen | `docx/route.ts` — primalac_pib polje se ne renderuje u DOCX builder-u |
+| **BUG-034** | Faktura poslata emailom stiže kao JSON u PDF prilogu umesto generisane fakture | `app/api/send-document/route.ts` — email ruta koristi standardni PDF renderer koji ne prepoznaje faktura tip, šalje raw JSON umesto FakturaPDF komponente |
+
+### Wizard / UI
+| ID | Opis | Uzrok |
+|----|------|-------|
+| **BUG-035** | Responsivnost — različiti wizard tipovi su različitih širina i izlaze van viewport-a na mobilnim uređajima (potreban zoom out) | Wizard koraci nemaju konzistentne max-width i overflow constraints; tabela stavki u faktura wizardu posebno problematična na uskim ekranima |
 
 ### Opšti uslovi i Politika privatnosti
 | ID | Opis | Uzrok |
