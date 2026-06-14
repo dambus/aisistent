@@ -167,7 +167,7 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
       </div>
 
       {/* Fields */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 overflow-x-hidden w-full">
         <h2 className="text-lg font-semibold text-gray-900">{step.title}</h2>
 
         {visibleFields.map(field => {
@@ -324,7 +324,7 @@ function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
       )}
 
       {field.type === 'radio' && (
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="flex flex-wrap gap-2 mt-1 max-w-full">
           {field.options?.map(opt => (
             <button
               key={opt.value}

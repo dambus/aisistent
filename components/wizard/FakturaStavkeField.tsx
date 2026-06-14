@@ -50,58 +50,123 @@ export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
 
   return (
     <div className="space-y-3">
-      <div className="hidden grid-cols-[2rem_1fr_5rem_5rem_7rem_2rem] gap-2 text-xs font-semibold text-gray-500 sm:grid">
-        <span>Rb.</span>
-        <span>Naziv usluge / robe</span>
-        <span>Kol.</span>
-        <span>Jed.</span>
-        <span className="text-right">Cena (RSD)</span>
-        <span />
+      {/* Mobile: kartica per stavka */}
+      <div className="sm:hidden space-y-3">
+        {stavke.map((stavka, i) => (
+          <div key={i} className="rounded-lg border border-gray-200 p-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Stavka {stavka.rb}</span>
+              <button
+                type="button"
+                onClick={() => removeStavka(i)}
+                disabled={stavke.length === 1}
+                className="flex h-7 w-7 items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-30 text-lg"
+              >
+                ×
+              </button>
+            </div>
+            <input
+              type="text"
+              value={stavka.naziv}
+              onChange={e => updateStavka(i, 'naziv', e.target.value)}
+              placeholder="Naziv usluge / robe"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
+            />
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Količina</label>
+                <input
+                  type="number"
+                  value={stavka.kolicina}
+                  min={0.01}
+                  step={0.01}
+                  onChange={e => updateStavka(i, 'kolicina', parseFloat(e.target.value) || 0)}
+                  className="w-full rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Jedinica</label>
+                <input
+                  type="text"
+                  value={stavka.jedinica}
+                  onChange={e => updateStavka(i, 'jedinica', e.target.value)}
+                  placeholder="kom"
+                  className="w-full rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-primary"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 mb-1 block">Cena (RSD)</label>
+                <input
+                  type="number"
+                  value={stavka.cena_bez_pdv}
+                  min={0}
+                  step={0.01}
+                  onChange={e => updateStavka(i, 'cena_bez_pdv', parseFloat(e.target.value) || 0)}
+                  className="w-full rounded-lg border border-gray-300 px-2 py-2 text-sm text-right outline-none focus:border-primary"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end text-sm text-gray-600">
+              <span>Ukupno: <strong>{fmt(stavka.kolicina * stavka.cena_bez_pdv)} RSD</strong></span>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {stavke.map((stavka, i) => (
-        <div key={i} className="grid grid-cols-[2rem_1fr_5rem_5rem_7rem_2rem] items-center gap-2">
-          <span className="text-sm text-gray-400">{stavka.rb}.</span>
-          <input
-            type="text"
-            value={stavka.naziv}
-            onChange={e => updateStavka(i, 'naziv', e.target.value)}
-            placeholder="npr. Izrada web sajta"
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-[#1B6B4A] focus:ring-1 focus:ring-[#1B6B4A]/20"
-          />
-          <input
-            type="number"
-            value={stavka.kolicina}
-            min={0.01}
-            step={0.01}
-            onChange={e => updateStavka(i, 'kolicina', parseFloat(e.target.value) || 0)}
-            className="rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-[#1B6B4A]"
-          />
-          <input
-            type="text"
-            value={stavka.jedinica}
-            onChange={e => updateStavka(i, 'jedinica', e.target.value)}
-            placeholder="kom"
-            className="rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-[#1B6B4A]"
-          />
-          <input
-            type="number"
-            value={stavka.cena_bez_pdv}
-            min={0}
-            step={0.01}
-            onChange={e => updateStavka(i, 'cena_bez_pdv', parseFloat(e.target.value) || 0)}
-            className="rounded-lg border border-gray-300 px-2 py-2 text-sm text-right outline-none focus:border-[#1B6B4A]"
-          />
-          <button
-            type="button"
-            onClick={() => removeStavka(i)}
-            disabled={stavke.length === 1}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-30"
-          >
-            ×
-          </button>
+      {/* Desktop: grid layout */}
+      <div className="hidden sm:block space-y-2">
+        <div className="grid grid-cols-[2rem_1fr_5rem_5rem_7rem_2rem] gap-2 text-xs font-semibold text-gray-500">
+          <span>Rb.</span>
+          <span>Naziv usluge / robe</span>
+          <span>Kol.</span>
+          <span>Jed.</span>
+          <span className="text-right">Cena (RSD)</span>
+          <span />
         </div>
-      ))}
+        {stavke.map((stavka, i) => (
+          <div key={i} className="grid grid-cols-[2rem_1fr_5rem_5rem_7rem_2rem] items-center gap-2">
+            <span className="text-sm text-gray-400">{stavka.rb}.</span>
+            <input
+              type="text"
+              value={stavka.naziv}
+              onChange={e => updateStavka(i, 'naziv', e.target.value)}
+              placeholder="npr. Izrada web sajta"
+              className="rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
+            />
+            <input
+              type="number"
+              value={stavka.kolicina}
+              min={0.01}
+              step={0.01}
+              onChange={e => updateStavka(i, 'kolicina', parseFloat(e.target.value) || 0)}
+              className="rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-primary"
+            />
+            <input
+              type="text"
+              value={stavka.jedinica}
+              onChange={e => updateStavka(i, 'jedinica', e.target.value)}
+              placeholder="kom"
+              className="rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-primary"
+            />
+            <input
+              type="number"
+              value={stavka.cena_bez_pdv}
+              min={0}
+              step={0.01}
+              onChange={e => updateStavka(i, 'cena_bez_pdv', parseFloat(e.target.value) || 0)}
+              className="rounded-lg border border-gray-300 px-2 py-2 text-sm text-right outline-none focus:border-primary"
+            />
+            <button
+              type="button"
+              onClick={() => removeStavka(i)}
+              disabled={stavke.length === 1}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-30"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
 
       <button
         type="button"

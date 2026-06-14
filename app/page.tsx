@@ -266,7 +266,7 @@ export default async function Home() {
   const isLoggedIn = !!user
 
   return (
-    <main className="min-h-screen bg-white text-gray-900">
+    <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
       <Header isLoggedIn={isLoggedIn} />
 
       {/* ── HERO ── */}
