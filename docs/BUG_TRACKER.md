@@ -19,6 +19,8 @@
 | BUG-027/030 | 7bebef8 | Dupli disclaimer u punomoćju i opštim uslovima |
 | BUG-032 | 00c1029 | Faktura PDF dijakritici u labelama — već bilo očišćeno |
 | BUG-033 | 00c1029 | Faktura DOCX PIB primaoca — fix praznog string uslova |
+| BUG-037 | bac926d | Višeći naslov u DOCX — rešeno DOCX reformatiranjem |
+| DOCX-FORMAT | bac926d | DOCX: prored 1.5→1.15, spacing poglavlja, potpisi u tabeli 3 kolone |
 
 ---
 
@@ -52,6 +54,7 @@
 | **BUG-004** | "četrdeset" — pravopisna greška u iznosima i tekstu (treba "četrdeset") | Greška u promptu |
 | **BUG-005** | Orphan headings na kraju stranice (Član 10, 16, 20, 22, 28) | Vidi SYS-02 |
 | **BUG-006** | "stodvadeset hiljada" spojeno umesto razdvojeno | Vidi SYS-03 |
+| **BUG-039** | Član 1 dupira podatke iz uvodne formule — redundantno u standardnoj srpskoj praksi | Prompt generiše i uvodnu formulu i Član 1 sa identičnim podacima o stranama |
 
 ### Ugovor o delu
 | ID | Opis | Uzrok |
