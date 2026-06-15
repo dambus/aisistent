@@ -149,6 +149,7 @@ Broj: {broj_ugovora}
 Datum: ___________
 
 I.    UGOVORNE STRANE
+Sekcija I. UGOVORNE STRANE sadrži SAMO uvodnu formulu koja definiše strane (Poslodavac i Zaposleni). Ne generiši Član 1. koji ponavlja iste podatke. Uvodna formula JE definicija strana. Odmah posle uvodne formule prelazi na II. RADNO MESTO I OPIS POSLOVA.
 II.   RADNO MESTO I OPIS POSLOVA
 III.  VRSTA I TRAJANJE RADNOG ODNOSA
 IV.   PROBNI RAD (samo ako se ugovara)
