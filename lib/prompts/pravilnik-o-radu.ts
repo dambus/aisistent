@@ -25,6 +25,15 @@ Naziv firme, delatnost i ime zastupnika korisnik daje u nominativu. Dekliniraš 
 
 Na kraju dokumenta dodaj napomenu da se preporučuje pravna provera pre usvajanja pravilnika.
 
+ZAVRŠNE ODREDBE — obavezno uključiti:
+- Datum usvajanja Pravilnika
+- Datum stupanja na snagu (osmi dan od dana objavljivanja na oglasnoj tabli)
+- Ako broj_zaposlenih > 10: 'Poslodavac je dužan da ovaj Pravilnik dostavi Ministarstvu nadležnom za rad na registraciju u roku od 15 dana od dana usvajanja, u skladu sa čl. 24a Zakona o radu.'
+- Ako postoji_sindikat == true: 'Pre donošenja ovog Pravilnika, Poslodavac je pribavio/zatraži mišljenje sindikalne organizacije u skladu sa čl. 24a Zakona o radu. Sindikat ima pravo da dostavi mišljenje u roku od 15 dana.'
+
+IX ZAŠTITA UZBUNJIVAČA — uvek generiši potpun završetak člana 59:
+'Ako je prijava osnovana, Poslodavac je dužan da preduzme mere za otklanjanje nepravilnosti i spreči ponavljanje iste, kao i da o preduzetim merama obavesti uzbunjivača u roku od 30 dana od donošenja odluke.'
+
 ## DUŽINA DOKUMENTA — KRITIČNO
 
 Ovaj pravilnik mora stati u jedan AI odgovor. Ako primetiš da dokument postaje predugačak:
@@ -45,6 +54,8 @@ Ovaj pravilnik mora stati u jedan AI odgovor. Ako primetiš da dokument postaje 
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
+- Ne ostavljaj nijedan član ili rečenicu nedovršenu — ako primetiš da nemaš dovoljno prostora za ceo dokument, sažmi prethodne sekcije ali uvek završi Završnim odredbama i potpisom
+- Ne koristiti reč 'posvči' — ispravno je 'posvedoči'
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PravilnikORaduData): string {
