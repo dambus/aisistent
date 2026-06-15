@@ -395,6 +395,7 @@ export interface PravilnikORaduData {
   radno_vreme: string
   rad_od_kuce: string
   smenski_rad: boolean
+  postoji_sindikat?: boolean
   zabrana_konkurencije: boolean
   disciplinska_odgovornost: boolean
   zastita_uzbunjivaca: boolean

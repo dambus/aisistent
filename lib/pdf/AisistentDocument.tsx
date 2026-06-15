@@ -92,6 +92,9 @@ const s = StyleSheet.create({
     marginTop: 26, marginBottom: 4, marginRight: 24,
   },
   sigPechat: { fontFamily: 'Roboto', fontSize: 11, marginTop: 10 },
+  // Single-column variant — no flex: 1 (which causes overlap in column context)
+  sigLabelSingle: { fontFamily: 'Roboto-Bold', fontSize: 11, marginBottom: 2 },
+  sigTextSingle: { fontFamily: 'Roboto', fontSize: 11, marginBottom: 2 },
   // ── Footer: absolutely positioned so it doesn't overlap body content ──
   footer: {
     position: 'absolute',
@@ -354,10 +357,10 @@ function SignatureSection({ sig }: { sig: SigData }) {
   if (singleColumn) {
     return (
       <View style={s.sigSection}>
-        <Text style={s.sigCellBold}>{sig.leftLabel}</Text>
-        <Text style={s.sigCell}>{sig.leftOrg}</Text>
+        <Text style={s.sigLabelSingle}>{sig.leftLabel}</Text>
+        <Text style={s.sigTextSingle}>{sig.leftOrg}</Text>
         <View style={[{ width: '45%' }, s.sigLine]} />
-        <Text style={s.sigCell}>{sig.leftPerson}</Text>
+        <Text style={s.sigTextSingle}>{sig.leftPerson}</Text>
         <Text style={s.sigPechat}>M.P.</Text>
       </View>
     )

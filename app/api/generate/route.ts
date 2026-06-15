@@ -377,6 +377,7 @@ const pravilnikORaduSchema = z.object({
   radno_vreme: z.string().min(1),
   rad_od_kuce: z.string().min(1),
   smenski_rad: z.boolean().default(false),
+  postoji_sindikat: z.boolean().default(false),
   zabrana_konkurencije: z.boolean().default(false),
   disciplinska_odgovornost: z.boolean().default(false),
   zastita_uzbunjivaca: z.boolean().default(false),
@@ -652,7 +653,7 @@ export async function POST(request: NextRequest) {
     try {
       const message = await anthropic.messages.create({
         model: 'claude-sonnet-4-5',
-        max_tokens: 8000,
+        max_tokens: type === 'pravilnik-o-radu' ? 7500 : 8000,
         system: config.systemPrompt,
         messages: [{ role: 'user', content: config.buildUserMessage(docData.data as never) }],
       })

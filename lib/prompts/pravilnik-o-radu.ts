@@ -25,6 +25,14 @@ Naziv firme, delatnost i ime zastupnika korisnik daje u nominativu. Dekliniraš 
 
 Na kraju dokumenta dodaj napomenu da se preporučuje pravna provera pre usvajanja pravilnika.
 
+## DUŽINA DOKUMENTA — KRITIČNO
+
+Ovaj pravilnik mora stati u jedan AI odgovor. Ako primetiš da dokument postaje predugačak:
+- Sekcije prava i obaveza zaposlenih/poslodavca napiši sažetije (liste umesto razrade)
+- Disciplinske mere navedi u tabeli ili kraćoj listi
+- Nikad ne ostavljaj dokument nedovršen — bolje kraći i kompletan nego dugačak i prekinut
+- Završne odredbe i potpis su obavezni — uvek ih generiši
+
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš organizacione detalje koje korisnik nije uneo
@@ -54,6 +62,10 @@ ORGANIZACIJA:
 - Radno vreme: ${data.radno_vreme}
 - Rad od kuće: ${data.rad_od_kuce}
 - Smenski rad: ${data.smenski_rad ? 'Da' : 'Ne'}
+- Sindikat: ${data.postoji_sindikat ? 'Da — obavezno uključiti odredbu o mišljenju sindikata' : 'Ne'}
+${Number(data.broj_zaposlenih) > 10
+    ? '- NAPOMENA: Više od 10 zaposlenih — Pravilnik mora biti dostavljen Ministarstvu za rad na registraciju u roku od 15 dana od usvajanja (čl. 24a Zakona o radu).'
+    : '- Broj zaposlenih je 10 ili manje — registracija Pravilnika nije obavezna.'}
 
 NAPREDNE OPCIJE:
 - Zabrana konkurencije: ${data.zabrana_konkurencije ? 'Da' : 'Ne'}
@@ -94,6 +106,14 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'smenski_rad', label: 'Smenski rad', type: 'toggle', required: false, defaultValue: false, helperText: 'Da li postoji smenski rad?' },
+      {
+        id: 'postoji_sindikat',
+        label: 'Da li kod poslodavca postoji sindikalna organizacija?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        tooltip: 'Ako postoji sindikat, Zakon o radu (čl. 24a) obavezuje poslodavca da pre donošenja pravilnika zatraži mišljenje sindikata. Sindikat ima rok od 15 dana da dostavi mišljenje.',
+      },
     ],
   },
   {
