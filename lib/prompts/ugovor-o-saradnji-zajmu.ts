@@ -142,6 +142,10 @@ XI.   ZAVRŠNE ODREDBE
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - JEDINI datum koji se generiše iz wizard inputa je datum početka saradnje / rok vraćanja zajma — jer ga korisnik eksplicitno unosi.
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: UgovorOSaradnjiZajmuData): string {

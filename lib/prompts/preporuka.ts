@@ -30,6 +30,10 @@ Generiši gotov tekst preporuke, bez dodatnih objašnjenja za korisnika.
 - Ne koristiš ćirilicu
 - Ne pišeš pravne ili formalne formule koje nisu primerene preporuci
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum, oslovljavanje ili uvod...).
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PreporukaData): string {

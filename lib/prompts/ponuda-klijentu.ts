@@ -60,6 +60,10 @@ Ponuda nije pravno obavezujući dokument sama po sebi, ali može biti osnova za 
 - Ne garantuješ pravnu obaveznost ponude
 - Ako je broj_ponude 'bez broja' ili prazan, ne generiši redak 'Broj:' u zaglavlju ponude.
 - Na kraju dodaj: "Generisano uz pomoć AIsistent.rs"
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PonudaKlijentuData): string {

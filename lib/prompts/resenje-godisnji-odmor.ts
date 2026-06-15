@@ -31,6 +31,10 @@ Na kraju dokumenta dodaj kratku napomenu da se preporučuje pravna provera pre k
 - Ne koristiš ćirilicu
 - Ne daješ pravno mišljenje van samog dokumenta
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (broj rešenja, datum, uvodni deo...).
+- Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
+  • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
+  • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
+  • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: ResenjeGodisnjiOdmorData): string {
