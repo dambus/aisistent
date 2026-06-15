@@ -41,8 +41,8 @@ TIP I SUBJEKT:
 - Delatnost: ${data.delatnost}${data.godina_osnivanja ? `\n- Godina osnivanja: ${data.godina_osnivanja}` : ''}
 
 SADRŽAJ:
-- Misija: ${data.misija}
-- Prednosti: ${data.prednosti}${data.tim ? `\n- Tim: ${data.tim}` : ''}
+- Misija: ${data.misija ?? '[POPUNITI: misija i vrednosti]'}
+- Prednosti: ${data.prednosti ?? '[POPUNITI: ključne prednosti i differenciatori]'}${data.tim ? `\n- Tim: ${data.tim}` : ''}
 - Ton: ${data.ton}
 - Dužina: ${data.duzina}
 

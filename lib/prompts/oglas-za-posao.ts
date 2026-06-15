@@ -92,8 +92,8 @@ POZICIJA:
 - Iskustvo: ${data.iskustvo}
 
 OPIS POSLA:
-- Glavni zadaci: ${data.glavni_zadaci}
-- Potrebne veštine: ${data.potrebne_vestine}
+- Glavni zadaci: ${data.glavni_zadaci ?? '[POPUNITI: glavni zadaci na poziciji]'}
+- Potrebne veštine: ${data.potrebne_vestine ?? '[POPUNITI: potrebne veštine]'}
 - Prednost: ${data.prednost ?? '[nema]'}
 
 ŠTA FIRMA NUDI:

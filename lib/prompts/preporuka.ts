@@ -30,6 +30,7 @@ Generiši gotov tekst preporuke, bez dodatnih objašnjenja za korisnika.
 - Ne koristiš ćirilicu
 - Ne pišeš pravne ili formalne formule koje nisu primerene preporuci
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum, oslovljavanje ili uvod...).
+- Ne izmišljaj konkretne projekte, brojeve, rezultate ili postignuća koja korisnik nije naveo — generišeš opštiju preporuku ako konkretni_primeri nisu uneti, ali NIKAD ne navodiš izmišljene specifičnosti
 - Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
@@ -51,8 +52,8 @@ KANDIDAT:
 
 SADRŽAJ:
 - Tip preporuke: ${data.tip_preporuke}
-- Ključni kvaliteti: ${data.kvaliteti}
-- Postignuća i rezultati: ${data.postignuca}${data.posebna_napomena ? `\n- Posebna napomena: ${data.posebna_napomena}` : ''}
+- Ključni kvaliteti: ${data.kvaliteti ?? '[POPUNITI: ključni kvaliteti kandidata]'}
+- Postignuća i rezultati: ${data.postignuca ?? '[POPUNITI: konkretna postignuća i rezultati]'}${data.konkretni_primeri ? `\n- Konkretni primeri/projekti: ${data.konkretni_primeri}` : '\n- Konkretni primeri/projekti: [nisu navedeni — generiši opštiju preporuku]'}${data.posebna_napomena ? `\n- Posebna napomena: ${data.posebna_napomena}` : ''}
 
 Svi podaci su u nominativu. Molim te da imena dekliniraš ispravno prema kontekstu.`
 }
@@ -97,6 +98,7 @@ export const wizardSteps: WizardStep[] = [
       },
       { id: 'kvaliteti', label: 'Kvaliteti', type: 'textarea', required: true, placeholder: 'npr. Odlične tehničke veštine, inicijativnost, pouzdanost...', helperText: 'Navedite 3-5 ključnih kvaliteta' },
       { id: 'postignuca', label: 'Postignuća', type: 'textarea', required: true, placeholder: 'npr. Vodio projekat X koji je povećao prihode za 30%...', helperText: 'Konkretni rezultati i doprinosi' },
+      { id: 'konkretni_primeri', label: 'Konkretni projekti ili primeri', type: 'textarea', required: false, placeholder: 'npr. Vodio projekat migracije baze podataka za 50.000 korisnika, završen 2 nedelje pre roka...', helperText: 'Specifični primeri čine preporuku verodostojnom i uvjerljivom', tooltip: 'Konkretni brojevi i projekti (npr. "povećao prodaju za 30%") dramatično povećavaju vrednost preporuke u poređenju sa opštim pohvalama.' },
       { id: 'posebna_napomena', label: 'Posebna napomena', type: 'textarea', required: false, placeholder: 'npr. Toplo preporučujem bez rezerve...', helperText: 'Opciono — završna poruka ili dodatni naglasak' },
     ],
   },

@@ -27,6 +27,7 @@ Generiši samo gotov opis spreman za objavu, bez uvodnih napomena za korisnika.
 - Ne koristiš anglicizme kada postoji prirodna srpska alternativa
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (uvodni tekst, karakteristike...).
 - NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
+- Ne izmišljaj karakteristike, prednosti, specifikacije ili performanse koje korisnik nije naveo — ako su polja prazna, generiši [POPUNITI] umesto da dopunjavaš iz mašte
 - Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
@@ -44,12 +45,12 @@ FIRMA I KANAL:
 PROIZVOD ILI USLUGA:
 - Naziv: ${data.naziv}
 - Kategorija: ${data.kategorija}
-- Glavne karakteristike: ${data.glavne_karakteristike}${data.cena ? `\n- Cena: ${data.cena}` : ''}
+- Glavne karakteristike: ${data.glavne_karakteristike ?? '[POPUNITI: glavne karakteristike proizvoda]'}${data.cena ? `\n- Cena: ${data.cena}` : ''}
 
 CILJNA GRUPA I TON:
-- Ciljna grupa: ${data.ciljna_grupa}
+- Ciljna grupa: ${data.ciljna_grupa ?? '[POPUNITI: ciljna grupa kupaca]'}
 - Ton: ${data.ton}
-- Ključne prednosti i benefiti: ${data.kljucne_prednosti}
+- Ključne prednosti i benefiti: ${data.kljucne_prednosti ?? '[POPUNITI: ključne prednosti za kupca]'}
 
 Svi podaci su u nominativu. Molim te da nazive dekliniraš ispravno kada je to potrebno u rečenici.`
 }

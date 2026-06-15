@@ -46,18 +46,19 @@ export function buildUserMessage(data: ZapisnikSastanakData): string {
 
 SASTANAK:
 - Naziv firme: ${data.naziv_firme}
+- Broj zapisnika: ${data.broj_zapisnika ?? '[bez broja]'}
 - Datum sastanka: ${data.datum_sastanka}
 - Vreme: ${data.vreme}
 - Lokacija: ${data.lokacija}
-- Predsedavajući: ${data.predsedavajuci}
+- Predsedavajući: ${data.predsedavajuci}${data.zapisnicar ? `\n- Zapisničar: ${data.zapisnicar}` : '\n- Zapisničar: [nije naveden]'}
 
 UČESNICI I TEME:
 - Prisutni: ${data.prisutni}${data.odsutni ? `\n- Odsutni: ${data.odsutni}` : ''}
-- Teme: ${data.teme}
+- Teme: ${data.teme ?? '[POPUNITI: teme i dnevni red]'}
 
 ZAKLJUČCI:
-- Zaključci: ${data.zakljucci}
-- Akcije: ${data.akcije}${data.sledeci_sastanak ? `\n- Sledeći sastanak: ${data.sledeci_sastanak}` : ''}
+- Zaključci: ${data.zakljucci ?? '[POPUNITI: zaključci sastanka]'}
+- Akcije: ${data.akcije ?? '[POPUNITI: akcione tačke sa rokovima i odgovornim licima]'}${data.sledeci_sastanak ? `\n- Sledeći sastanak: ${data.sledeci_sastanak}` : ''}
 
 Svi podaci su u nominativu. Molim te da nazive i imena dekliniraš ispravno kada je to potrebno u rečenici.`
 }
@@ -68,10 +69,12 @@ export const wizardSteps: WizardStep[] = [
     title: 'Sastanak',
     fields: [
       { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Firma ili organizacija koja vodi zapisnik' },
+      { id: 'broj_zapisnika', label: 'Broj zapisnika', type: 'text', required: false, placeholder: 'npr. ZAP-005/2026', helperText: 'Redni broj zapisnika za internu evidenciju' },
       { id: 'datum_sastanka', label: 'Datum sastanka', type: 'date', required: true, helperText: 'Kada je sastanak održan' },
       { id: 'vreme', label: 'Vreme', type: 'text', required: true, placeholder: 'npr. 10:00 - 11:30', helperText: 'Trajanje ili vremenski raspon sastanka' },
       { id: 'lokacija', label: 'Lokacija', type: 'text', required: true, placeholder: 'npr. Kancelarija Bulevar 10 ili Online — Zoom', helperText: 'Gde je sastanak održan' },
       { id: 'predsedavajuci', label: 'Predsedavajući', type: 'text', required: true, placeholder: 'npr. Petar Nikolić, direktor', helperText: 'Osoba koja je vodila sastanak' },
+      { id: 'zapisnicar', label: 'Zapisničar', type: 'text', required: false, placeholder: 'npr. Ana Marković', helperText: 'Lice koje vodi zapisnik' },
     ],
   },
   {

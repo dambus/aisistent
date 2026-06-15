@@ -353,10 +353,13 @@ const preporukaSchema = z.object({
   tip_preporuke: z.string().min(1),
   kvaliteti: z.string().min(1),
   postignuca: z.string().min(1),
+  konkretni_primeri: z.string().optional(),
   posebna_napomena: z.string().optional(),
 })
 
 const resenjeGodisnjiOdmorSchema = z.object({
+  broj_resenja: z.string().optional(),
+  datum_donosenja: z.string().optional(),
   naziv_firme: z.string().min(1),
   pib: z.string().min(1),
   adresa: z.string().min(1),
@@ -415,10 +418,12 @@ const bioONamaSchema = z.object({
 
 const zapisnikSastanakSchema = z.object({
   naziv_firme: z.string().min(1),
+  broj_zapisnika: z.string().optional(),
   datum_sastanka: z.string().min(1),
   vreme: z.string().min(1),
   lokacija: z.string().min(1),
   predsedavajuci: z.string().min(1),
+  zapisnicar: z.string().optional(),
   prisutni: z.string().min(1),
   odsutni: z.string().optional(),
   teme: z.string().min(1),

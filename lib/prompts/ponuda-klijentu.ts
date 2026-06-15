@@ -75,21 +75,21 @@ PONUĐAČ:
 - Naziv firme: ${data.ponudjac_naziv}
 - PIB: ${data.ponudjac_pib}
 - Adresa: ${data.ponudjac_adresa}
-- Kontakt osoba: ${data.kontakt_osoba}
+- Kontakt osoba: ${data.kontakt_osoba ?? '[POPUNITI: kontakt osoba]'}
 - Email: ${data.email}
 - Telefon: ${data.telefon}
 
 KLIJENT:
 - Naziv firme / ime: ${data.klijent_naziv}
 - Adresa: ${data.klijent_adresa}
-- Kontakt osoba: ${data.klijent_kontakt}
+- Kontakt osoba: ${data.klijent_kontakt ?? '[POPUNITI: kontakt osoba klijenta]'}
 
 PONUDA:
 - Broj ponude: ${brojPonude}
 - Datum ponude: ${data.datum_ponude}
 - Predmet ponude: ${data.predmet_ponude}
-- Opis usluge/proizvoda: ${data.opis}
-- Rok isporuke/realizacije: ${data.rok_isporuke}
+- Opis usluge/proizvoda: ${data.opis ?? '[POPUNITI: opis usluge ili proizvoda]'}
+- Rok isporuke/realizacije: ${data.rok_isporuke ?? '[POPUNITI: rok isporuke]'}
 
 FINANSIJE:
 - Iznos bez PDV: ${data.iznos_bez_pdv.toLocaleString('sr-RS')} RSD

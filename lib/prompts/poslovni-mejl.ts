@@ -75,7 +75,7 @@ PRIMALAC:
 
 MEJL:
 - Tip mejla: ${data.tip_mejla}
-- Kontekst/detalji: ${data.kontekst}
+- Kontekst/detalji: ${data.kontekst ?? '[POPUNITI: kontekst i detalji mejla]'}
 - Ton: ${data.ton}
 - Hitno: ${data.hitno ? 'Da' : 'Ne'}${data.predmet ? `\n- Predmet mejla: ${data.predmet}` : ''}
 

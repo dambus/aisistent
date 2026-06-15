@@ -371,10 +371,13 @@ export interface PreporukaData {
   tip_preporuke: string
   kvaliteti: string
   postignuca: string
+  konkretni_primeri?: string
   posebna_napomena?: string
 }
 
 export interface ResenjeGodisnjiOdmorData {
+  broj_resenja?: string
+  datum_donosenja?: string
   naziv_firme: string
   pib: string
   adresa: string
@@ -433,10 +436,12 @@ export interface BioONamaData {
 
 export interface ZapisnikSastanakData {
   naziv_firme: string
+  broj_zapisnika?: string
   datum_sastanka: string
   vreme: string
   lokacija: string
   predsedavajuci: string
+  zapisnicar?: string
   prisutni: string
   odsutni?: string
   teme: string

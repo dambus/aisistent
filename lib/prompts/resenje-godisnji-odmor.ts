@@ -41,6 +41,8 @@ export function buildUserMessage(data: ResenjeGodisnjiOdmorData): string {
   return `Napiši rešenje o godišnjem odmoru sa sledećim podacima:
 
 POSLODAVAC:
+- Broj rešenja: ${data.broj_resenja ?? '[POPUNITI: broj rešenja]'}
+- Datum donošenja: ${data.datum_donosenja ?? '[POPUNITI: datum donošenja]'}
 - Naziv firme: ${data.naziv_firme}
 - PIB: ${data.pib}
 - Adresa: ${data.adresa}
@@ -50,12 +52,12 @@ POSLODAVAC:
 ZAPOSLENI:
 - Ime i prezime: ${data.ime_prezime}
 - Radno mesto: ${data.radno_mesto}
-- Broj dana godišnjeg odmora: ${data.broj_dana}
+- Broj dana godišnjeg odmora: ${data.broj_dana ?? '[POPUNITI: broj dana odmora]'}
 
 PERIOD ODMORA:
-- Početak odmora: ${data.datum_od}
-- Kraj odmora: ${data.datum_do}
-- Povratak na posao: ${data.datum_povratka}${data.zamena ? `\n- Zamena: ${data.zamena}` : ''}
+- Početak odmora: ${data.datum_od ?? '[POPUNITI: datum početka odmora]'}
+- Kraj odmora: ${data.datum_do ?? '[POPUNITI: datum završetka odmora]'}
+- Povratak na posao: ${data.datum_povratka ?? '[POPUNITI: datum povratka na posao]'}${data.zamena ? `\n- Zamena: ${data.zamena}` : ''}
 
 Svi podaci su u nominativu. Molim te da nazive i imena dekliniraš ispravno prema kontekstu.`
 }
@@ -66,6 +68,8 @@ export const wizardSteps: WizardStep[] = [
     title: 'Poslodavac',
     fields: [
       { id: 'naziv_firme', label: 'Naziv firme', type: 'text', required: true, placeholder: 'npr. Sigma Solutions doo', helperText: 'Puni naziv poslodavca' },
+      { id: 'broj_resenja', label: 'Broj rešenja', type: 'text', required: false, placeholder: 'npr. GO-001/2026', helperText: 'Redni broj rešenja za internu evidenciju' },
+      { id: 'datum_donosenja', label: 'Datum donošenja rešenja', type: 'date', required: false, helperText: 'Datum kada je rešenje doneto (može biti različit od datuma početka odmora)' },
       { id: 'pib', label: 'PIB', type: 'text', required: true, placeholder: 'npr. 123456789', helperText: 'PIB poslodavca' },
       { id: 'adresa', label: 'Adresa', type: 'text', required: true, placeholder: 'npr. Bulevar Mihajla Pupina 10, Novi Sad', helperText: 'Adresa sedišta poslodavca' },
       { id: 'zastupnik', label: 'Zastupnik', type: 'text', required: true, placeholder: 'npr. Petar Nikolić', helperText: 'Zakonski zastupnik ili ovlašćeno lice' },

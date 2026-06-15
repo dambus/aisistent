@@ -64,7 +64,7 @@ KANDIDAT:
 - Oslovljavanje: ${oslovljavanje}${data.email_kandidata ? `\n- Email kandidata: ${data.email_kandidata}` : ''}
 
 TIP ODGOVORA:
-- Tip: ${data.tip_odgovora}${data.datum_intervjua ? `\n- Datum intervjua: ${data.datum_intervjua}` : ''}${data.vreme_intervjua ? `\n- Vreme intervjua: ${data.vreme_intervjua}` : ''}${data.format_intervjua ? `\n- Format intervjua: ${data.format_intervjua}` : ''}${data.adresa_ili_link ? `\n- Adresa ili link: ${data.adresa_ili_link}` : ''}${data.datum_pocetka ? `\n- Datum početka rada: ${data.datum_pocetka}` : ''}${typeof data.bruto_zarada === 'number' ? `\n- Bruto zarada: ${data.bruto_zarada.toLocaleString('sr-RS')} RSD` : ''}${data.napomena ? `\n- Dodatna napomena: ${data.napomena}` : ''}
+- Tip: ${data.tip_odgovora}${data.tip_odgovora === 'Poziv na intervju' ? `\n- Datum intervjua: ${data.datum_intervjua ?? '[POPUNITI: datum intervjua]'}\n- Vreme intervjua: ${data.vreme_intervjua ?? '[POPUNITI: vreme intervjua]'}${data.format_intervjua ? `\n- Format intervjua: ${data.format_intervjua}` : ''}\n- Adresa ili link: ${data.adresa_ili_link ?? '[POPUNITI: adresa ili link za intervju]'}` : ''}${data.datum_pocetka ? `\n- Datum početka rada: ${data.datum_pocetka}` : ''}${data.tip_odgovora === 'Prihvatanje ponude' ? `\n- Bruto zarada: ${typeof data.bruto_zarada === 'number' ? `${data.bruto_zarada.toLocaleString('sr-RS')} RSD` : '[POPUNITI: bruto zarada]'}` : ''}${data.napomena ? `\n- Dodatna napomena: ${data.napomena}` : ''}
 
 Svi podaci su u nominativu. Molim te da imena dekliniraš ispravno prema kontekstu.`
 }
