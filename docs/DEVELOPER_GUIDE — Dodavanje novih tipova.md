@@ -85,9 +85,9 @@ prođi kroz SVAKU stavku ove liste.
 ## Trenutna mapiranja u companyFieldMap (jun 2026.)
 
 ugovor-o-radu:
-  naziv → naziv_firme
+  naziv → firma
   pib → pib
-  maticni_broj → maticni_broj
+  maticni_broj → mb
   adresa → adresa_firme
   zastupnik → zastupnik
   funkcija_zastupnika → funkcija
@@ -110,7 +110,7 @@ ugovor-o-zakupu:
   adresa → adresa_zakupodavca
   zastupnik → zastupnik_zakupodavca
 
-ugovor-o-saradnji:
+ugovor-o-saradnji-zajmu:
   naziv → naziv_1
   pib → id_1
   adresa → adresa_1
@@ -129,7 +129,6 @@ ponuda-klijentu:
 
 poslovni-mejl:
   naziv → posiljalac_firma
-  (nema PIB, adresu ni zastupnika)
 
 oglas-za-posao:
   naziv → naziv_firme
@@ -139,6 +138,46 @@ opsti-uslovi:
   naziv → naziv_firme
   pib → pib
   adresa → adresa
+
+resenje-godisnji-odmor:
+  naziv → naziv_firme
+  pib → pib
+  adresa → adresa
+  zastupnik → zastupnik
+  funkcija_zastupnika → funkcija
+
+pravilnik-o-radu:
+  naziv → naziv_firme
+  pib → pib
+  adresa → adresa
+  zastupnik → zastupnik
+
+preporuka:
+  naziv → ime_preporucioca
+  zastupnik → pozicija_preporucioca
+  email → email
+  telefon → telefon
+
+odgovor-kandidatu:
+  naziv → naziv_firme
+  zastupnik → kontakt_osoba
+
+opis-proizvoda:
+  naziv → naziv_firme
+
+bio-o-nama:
+  naziv → naziv
+
+zapisnik-sastanak:
+  naziv → naziv_firme
+  zastupnik → predsedavajuci
+
+faktura:
+  naziv → izdavalac_naziv
+  pib → izdavalac_pib
+  adresa → izdavalac_adresa
+  email → izdavalac_email
+  telefon → izdavalac_telefon
 
 ---
 
