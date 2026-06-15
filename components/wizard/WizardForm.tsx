@@ -8,6 +8,7 @@ import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
 import { FakturaStavkeField } from './FakturaStavkeField'
+import { Switch } from '@/components/ui/switch'
 
 interface WizardFormProps {
   steps: WizardStep[]
@@ -160,8 +161,8 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div
-            className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / visibleSteps.length) * 100}%` }}
+            className="h-1.5 rounded-full transition-all duration-300"
+            style={{ width: `${((currentStep + 1) / visibleSteps.length) * 100}%`, backgroundColor: '#1B6B4A' }}
           />
         </div>
       </div>
@@ -254,7 +255,7 @@ interface FieldRendererProps {
 }
 
 function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
-  const baseInput = 'w-full px-3 py-2 border rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+  const baseInput = 'w-full px-3 py-2 border rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary'
   const borderClass = error ? 'border-red-400' : 'border-gray-300'
 
   return (
@@ -332,9 +333,10 @@ function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
               onClick={() => onChange(field.id, opt.value)}
               className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
                 value === opt.value
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
+                  ? 'text-white'
+                  : 'bg-white text-gray-700 border-gray-300 hover:border-primary'
               }`}
+              style={value === opt.value ? { backgroundColor: '#1B6B4A', borderColor: '#1B6B4A' } : {}}
             >
               {opt.label}
             </button>
@@ -343,19 +345,10 @@ function FieldRenderer({ field, value, error, onChange }: FieldRendererProps) {
       )}
 
       {field.type === 'toggle' && (
-        <button
-          type="button"
-          onClick={() => onChange(field.id, !value)}
-          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-            value ? 'bg-blue-600' : 'bg-gray-200'
-          }`}
-        >
-          <span
-            className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
-              value ? 'translate-x-6' : 'translate-x-1'
-            }`}
-          />
-        </button>
+        <Switch
+          checked={!!value}
+          onCheckedChange={(checked) => onChange(field.id, checked)}
+        />
       )}
 
       {field.helperText && <HelperText text={field.helperText} />}

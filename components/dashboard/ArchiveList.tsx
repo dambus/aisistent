@@ -11,6 +11,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 
 const PRIMARY = '#1B6B4A'
 
@@ -102,7 +112,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
+  const [deleteDocId, setDeleteDocId] = useState<string | null>(null)
   const [localDocuments, setLocalDocuments] = useState<ArchiveDocument[]>(documents)
   const [error, setError] = useState('')
   const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
@@ -146,7 +156,6 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
       setError('Greška pri brisanju.')
     } finally {
       setDeletingId(null)
-      setDeleteConfirmId(null)
       setOpenMenuId(null)
     }
   }
@@ -293,42 +302,22 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                     </svg>
                   </button>
 
-                  {deleteConfirmId === doc.id ? (
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(doc.id)}
-                        disabled={deletingId === doc.id}
-                        className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60"
-                      >
-                        {deletingId === doc.id ? '...' : 'Potvrdi'}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDeleteConfirmId(null)}
-                        className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-50"
-                      >
-                        Otkaži
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setDeleteConfirmId(doc.id)}
-                      disabled={loadingKey !== null || deletingId !== null}
-                      title="Obriši dokument"
-                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 disabled:opacity-60"
-                    >
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => setDeleteDocId(doc.id)}
+                    disabled={loadingKey !== null || deletingId !== null}
+                    title="Obriši dokument"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 disabled:opacity-60"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </article>
@@ -344,6 +333,34 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
           onClose={() => setEmailDoc(null)}
         />
       )}
+
+      <AlertDialog
+        open={deleteDocId !== null}
+        onOpenChange={(open) => { if (!open) setDeleteDocId(null) }}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Obriši dokument?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Ova radnja je trajna i ne može se poništiti.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeleteDocId(null)}>Otkaži</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 text-white hover:bg-red-700"
+              onClick={() => {
+                if (deleteDocId) {
+                  handleDelete(deleteDocId)
+                  setDeleteDocId(null)
+                }
+              }}
+            >
+              {deletingId !== null ? '...' : 'Obriši'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
