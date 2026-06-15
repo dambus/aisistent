@@ -69,7 +69,7 @@ function sanitizeGeneratedText(text: string): string {
 
   for (const raw of text.split('\n')) {
     const line = raw.trim()
-    if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
+    if (/^#{0,3}\s*POTPISI\s*$/im.test(line)) break
     if (/VAŽNE NAPOMENE ZA POSLODAVCA/i.test(line) || /NAPOMENE ZA POSLODAVCA/i.test(line)) break
     lines.push(raw)
   }
@@ -458,17 +458,18 @@ export async function buildDocx(
 ): Promise<Buffer> {
   const dateStr = serbianDate(createdAt)
   const safeText = sanitizeGeneratedText(generatedText)
-  const rawBlocks = parseMarkdown(safeText)
-  // Ukloni trailing spacere i heading-e bez sadržaja na kraju
-  while (rawBlocks.length > 0) {
-    const last = rawBlocks[rawBlocks.length - 1]
-    if (last.type === 'spacer' || last.type === 'h1' || last.type === 'h2' || last.type === 'h3') {
-      rawBlocks.pop()
+  const blocks = parseMarkdown(safeText)
+  // Ukloni trailing spacere i heading-e bez sadržaja
+  while (blocks.length > 0) {
+    const last = blocks[blocks.length - 1]
+    if (last.type === 'spacer' || last.type === 'separator') {
+      blocks.pop()
+    } else if (last.type === 'h1' || last.type === 'h2' || last.type === 'h3') {
+      blocks.pop()
     } else {
       break
     }
   }
-  const blocks = rawBlocks
   const bodyChildren = blocks.map(blockToDocxChild)
 
   const signatureTable = buildSignatureTable(options.documentType, options.inputData)
