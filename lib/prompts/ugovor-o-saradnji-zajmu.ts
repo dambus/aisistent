@@ -1,4 +1,22 @@
 import type { UgovorOSaradnjiZajmuData, WizardStep } from '@/types/wizard'
+import { getZastupnikRod } from '@/lib/utils/rod'
+
+function opisZastupnika(tip: string | undefined, zastupnik: string | undefined): string {
+  if (!zastupnik?.trim()) {
+    return tip === 'Fizičko lice' ? 'nije primenljivo' : '[POPUNITI: zastupnik]'
+  }
+  if (tip === 'Fizičko lice') return zastupnik
+  const prvoIme = zastupnik.trim().split(/[\s,]+/)[0]
+  const rod = getZastupnikRod(prvoIme)
+  if (tip === 'Preduzetnik') {
+    return rod === 'zenski'
+      ? `zastupana po preduzetnici ${zastupnik}`
+      : `zastupan po preduzetniku ${zastupnik}`
+  }
+  return rod === 'zenski'
+    ? `zastupana po direktorki ${zastupnik}`
+    : `zastupan po direktoru ${zastupnik}`
+}
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -31,7 +49,7 @@ TIP 2 - UGOVOR O ZAJMU
 → Sa kamatom ili bezkamatni
 → Tipično: pozajmica između fizičkih lica, firmi, osnivača firmi
 → Termini: "Zajmodavac" i "Zajmoprimac"
-→ Poreski tretman: kamata = prihod od kapitala, porez 15%
+→ Poreski tretman: zavisi od tipa zajmodavca — vidi sekciju PORESKI TRETMAN KAMATE
 
 ## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -78,6 +96,14 @@ XI.   REŠAVANJE SPOROVA
 XII.  ZAVRŠNE ODREDBE
 (Ne generiši sekciju POTPISI — sistem je dodaje automatski)
 
+## INTELEKTUALNA SVOJINA — UPRAVLJANJE — TIP 1
+
+Ako je vlasnistvo_ip == 'Zajednički', obavezno generisati u članu o intelektualnoj svojini sledeći stav:
+
+"Zajedničkom intelektualnom svojinom Strane upravljaju konsenzusom. Nijedna Strana ne može samostalno licencirati, preneti ili komercijalno koristiti zajedničku IP bez pisane saglasnosti druge Strane, izuzev u svrhu realizacije ovog Ugovora.
+
+Po prestanku Ugovora, svaka Strana zadržava pravo korišćenja zajedničke IP u jednakim udelima, bez prava da drugoj Strani uskrati ovo pravo."
+
 ## OBAVEZNI ELEMENTI - TIP 2 (Zajam)
 
 1. Identifikacija zajmodavca i zajmoprimca
@@ -110,6 +136,25 @@ IX.   POSLEDICE KAŠNJENJA
 X.    PORESKE NAPOMENE
 XI.   ZAVRŠNE ODREDBE
 (Ne generiši sekciju POTPISI — sistem je dodaje automatski)
+
+## PORESKI TRETMAN KAMATE — TIP 2
+
+U članu o poreskim napomenama generiši prema tipu zajmodavca:
+
+Ako tip_zajmodavca == 'Fizičko lice':
+→ Kamata je prihod od kapitala, oporezuje se po stopi 15% (Zakon o PDG, čl. 61-64)
+→ Zajmoprimac je dužan da obračuna i uplati porez po odbitku pre isplate kamate
+→ Generiši poseban stav: "Zajmoprimac je obavezan da pre svake isplate kamate obračuna i uplati porez na prihod od kapitala po stopi 15% u ime i za račun Zajmodavca."
+
+Ako tip_zajmodavca == 'Firma':
+→ Kamata je prihod koji se uključuje u poslovni prihod firme i oporezuje kroz porez na dobit (stopa 15%)
+→ Nema poreza po odbitku — zajmoprimac isplaćuje bruto kamatu
+→ Generiši napomenu: "Kamata predstavlja poslovni prihod Zajmodavca koji se oporezuje u skladu sa Zakonom o porezu na dobit pravnih lica."
+
+Ako tip_zajmodavca == 'Osnivač firme':
+→ Zajam osnivača firmi nije prihod firme i ne podleže porezu na dobit
+→ Firma vraća zajam osnivaču — to nije rashod firme
+→ Generiši obaveznu napomenu: "Ovaj zajam ne predstavlja prihod Zajmoprimca i ne podleže porezu na dobit. Vraćanje zajma ne predstavlja rashod Zajmoprimca. Preporučuje se evidentiranje u poslovnim knjigama kao obaveza prema osnivaču."
 
 ## TON I STIL
 
@@ -152,12 +197,31 @@ export function buildUserMessage(data: UgovorOSaradnjiZajmuData): string {
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
 
   if (data.tip_dokumenta === 'Ugovor o zajmu') {
+    const rodSufixZajmodavca = (() => {
+      const tip = data.tip_zajmodavca
+      const naziv = data.naziv_zajmodavca
+      if ((tip === 'Fizičko lice' || tip === 'Osnivač firme') && naziv) {
+        const prvoIme = naziv.trim().split(/[\s,]+/)[0]
+        return getZastupnikRod(prvoIme) === 'zenski' ? ', ženski rod' : ', muški rod'
+      }
+      return ''
+    })()
+    const rodSufixZajmoprimca = (() => {
+      const tip = data.tip_zajmoprimca
+      const naziv = data.naziv_zajmoprimca
+      if (tip === 'Fizičko lice' && naziv) {
+        const prvoIme = naziv.trim().split(/[\s,]+/)[0]
+        return getZastupnikRod(prvoIme) === 'zenski' ? ', ženski rod' : ', muški rod'
+      }
+      return ''
+    })()
+
     return `Molim te generiši Ugovor o zajmu:
 
 BROJ UGOVORA: ${brojUgovora}
 
-ZAJMODAVAC: ${data.tip_zajmodavca ?? '[POPUNITI: tip zajmodavca]'} | ${data.naziv_zajmodavca ?? '[POPUNITI: naziv zajmodavca]'} | JMBG/PIB: ${data.id_zajmodavca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmodavca ?? '[POPUNITI: adresa zajmodavca]'}
-ZAJMOPRIMAC: ${data.tip_zajmoprimca ?? '[POPUNITI: tip zajmoprimca]'} | ${data.naziv_zajmoprimca ?? '[POPUNITI: naziv zajmoprimca]'} | JMBG/PIB: ${data.id_zajmoprimca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmoprimca ?? '[POPUNITI: adresa zajmoprimca]'} | Račun: ${data.racun ?? '[POPUNITI: račun]'}
+ZAJMODAVAC: ${data.tip_zajmodavca ?? '[POPUNITI: tip zajmodavca]'}${rodSufixZajmodavca} | ${data.naziv_zajmodavca ?? '[POPUNITI: naziv zajmodavca]'} | JMBG/PIB: ${data.id_zajmodavca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmodavca ?? '[POPUNITI: adresa zajmodavca]'}
+ZAJMOPRIMAC: ${data.tip_zajmoprimca ?? '[POPUNITI: tip zajmoprimca]'}${rodSufixZajmoprimca} | ${data.naziv_zajmoprimca ?? '[POPUNITI: naziv zajmoprimca]'} | JMBG/PIB: ${data.id_zajmoprimca ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_zajmoprimca ?? '[POPUNITI: adresa zajmoprimca]'} | Račun: ${data.racun ?? '[POPUNITI: račun]'}
 
 ZAJAM: ${(data.iznos ?? 0).toLocaleString('sr-RS')} ${data.valuta ?? '[POPUNITI: valuta]'} | Svrha: ${data.svrha ?? '[nije navedena]'} | Isplata: ${data.datum_isplate ?? '[POPUNITI: datum isplate]'} | Način: ${data.nacin_isplate ?? '[POPUNITI: način isplate]'}
 
@@ -173,8 +237,8 @@ Svi podaci u nominativu. Dekliniraš ispravno. Ako bezkamatni - eksplicitno nave
   return `Molim te generiši Ugovor o poslovnoj saradnji:
 
 BROJ UGOVORA: ${brojUgovora}
-PRVA STRANA: ${data.tip_1 ?? '[POPUNITI: tip prve strane]'} | ${data.naziv_1 ?? '[POPUNITI: naziv prve strane]'} | PIB/JMBG: ${data.id_1 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_1 ?? '[POPUNITI: adresa prve strane]'} | Zastupnik: ${data.zastupnik_1 ?? '[POPUNITI: zastupnik prve strane]'}
-DRUGA STRANA: ${data.tip_2 ?? '[POPUNITI: tip druge strane]'} | ${data.naziv_2 ?? '[POPUNITI: naziv druge strane]'} | PIB/JMBG: ${data.id_2 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_2 ?? '[POPUNITI: adresa druge strane]'} | Zastupnik: ${data.zastupnik_2 ?? '[POPUNITI: zastupnik druge strane]'}
+PRVA STRANA: ${data.tip_1 ?? '[POPUNITI: tip prve strane]'} | ${data.naziv_1 ?? '[POPUNITI: naziv prve strane]'} | PIB/JMBG: ${data.id_1 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_1 ?? '[POPUNITI: adresa prve strane]'} | Zastupnik: ${opisZastupnika(data.tip_1, data.zastupnik_1)}
+DRUGA STRANA: ${data.tip_2 ?? '[POPUNITI: tip druge strane]'} | ${data.naziv_2 ?? '[POPUNITI: naziv druge strane]'} | PIB/JMBG: ${data.id_2 ?? '[POPUNITI: identifikacioni broj]'} | Adresa: ${data.adresa_2 ?? '[POPUNITI: adresa druge strane]'} | Zastupnik: ${opisZastupnika(data.tip_2, data.zastupnik_2)}
 
 PREDMET: ${data.naziv_saradnje ?? '[POPUNITI: naziv saradnje]'}
 Opis: ${data.opis_saradnje ?? '[POPUNITI: opis saradnje]'}
@@ -183,7 +247,7 @@ Doprinos Druge strane: ${data.doprinos_2 ?? '[POPUNITI: doprinos druge strane]'}
 
 FINANSIJE: Podela ${data.podela ?? '[POPUNITI: model podele]'} (${data.udeo_1 ?? '[n/a]'}% / ${data.udeo_2 ?? '[n/a]'}%) | Upravljanje: ${data.upravljanje ?? '[POPUNITI: upravljanje]'} | Izveštavanje: ${data.rok ?? '[POPUNITI: rok]'} dana
 
-USLOVI: Početak ${data.datum_pocetka ?? '[POPUNITI: datum početka]'} | Trajanje: ${data.trajanje ?? '[POPUNITI: trajanje]'} | Ekskluzivnost: ${data.ekskluzivnost ? 'Da' : 'Ne'} - ${data.opis_ekskl ?? '[nema]'}
+USLOVI: Početak ${data.datum_pocetka ?? '[POPUNITI: datum početka]'} | Trajanje: ${data.trajanje ?? '[nije navedeno]'} | Krajnji datum: ${data.datum_zavrsetka ?? '[POPUNITI: datum završetka]'} | Ekskluzivnost: ${data.ekskluzivnost ? 'Da' : 'Ne'} - ${data.opis_ekskl ?? '[nema]'}
 NDA: ${data.nda ? 'Da' : 'Ne'} | IP: ${data.vlasnistvo_ip ?? '[POPUNITI: vlasništvo nad IP]'} | Napomene: ${data.napomene ?? '[nema]'}
 
 Svi podaci u nominativu. Dekliniraš ispravno.`
