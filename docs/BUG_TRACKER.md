@@ -26,6 +26,11 @@
 | BUG-042 | ece4f1b | DOCX naslovi crni umesto plavi |
 | BUG-034 | fda446b | Faktura email — FakturaPDF renderer umesto raw JSON |
 | BUG-035 | d7502c8 | Responsivnost wizard — overflow-x-hidden, faktura stavke kartica layout na mobilnom |
+| AUDIT-01 | proof-reading sesija | Zakonska usklađenost — svih 17 promptova auditovano i ispravljeno |
+| AUDIT-02 | proof-reading sesija | Wizard audit — placeholder/helper/tooltip pokrivenost popunjena |
+| AUDIT-03 | proof-reading sesija | Rod zastupnika — lib/utils/rod.ts implementiran |
+| AUDIT-04 | proof-reading sesija | Placeholder detekcija — globalno na svim promptovima |
+| AUDIT-05 | proof-reading sesija | Rendering bugovi — pravilnik potpis, punomoćje duplikat |
 
 ---
 

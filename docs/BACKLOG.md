@@ -11,6 +11,12 @@
 - shadcn/ui Faza 1 — ScrollArea (sidebar), Select (arhiva filter)
 - Domen aisistent.rs — Vercel, DNS, SSL
 - Nova dokumentaciona struktura (ARCHITECTURE, CONVENTIONS, PROMPT_GUIDE, decisions/)
+- Proof-reading i zakonski audit svih 17 tipova dokumenata
+  (Zakon o radu, ZOO, ZASP, ZZPL/GDPR, ZPP)
+- Wizard audit — placeholder/helper/tooltip pokrivenost
+- lib/utils/rod.ts — detekcija roda zastupnika
+- Sistemske ispravke: placeholder detekcija, rendering bugovi,
+  fallback-ovi za sve tipove
 
 ## 🔴 Bugovi (iz BUG_TRACKER.md)
 Videti docs/BUG_TRACKER.md za kompletnu listu.
@@ -18,9 +24,6 @@ Aktivni bugovi: BUG-032, BUG-033 (faktura PDF/DOCX sitnice)
 
 ## 🟡 Visok prioritet (sledeće):
 - **Fix BUG-032 i BUG-033** — dijakritici u faktura PDF-u, PIB primaoca u DOCX-u
-- **Proof-reading promptova** — početi sa top 3 ugovora (ugovor o radu,
-  ugovor o delu, NDA). Pronaći online primere standardnih srpskih ugovora
-  za poređenje. Pokrenuti dedicated Claude sesiju kao pravnik + lektor.
 - **Payment gateway (Paddle)** — čeka APR registraciju preduzetnika
 
 ## 🟢 Srednji prioritet:

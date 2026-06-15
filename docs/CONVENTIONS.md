@@ -59,6 +59,18 @@ Svaka reč posebno. Iznos slovima mora tačno odgovarati iznosu ciframa.
 - Toggle: `helperText` ili `tooltip`
 - Date: `helperText`
 
+### Rod zastupnika
+Koristiti `lib/utils/rod.ts` za automatsku detekciju roda iz prvog imena.
+Nikad ne hardkodovati muški ili ženski rod — uvek koristiti helper.
+
+### Zakonska usklađenost
+Svaki prompt koji generiše pravni dokument mora biti usklađen sa:
+- Zakon o obligacionim odnosima (ZOO) — ugovori
+- Zakon o radu (ZOR) — ugovor o radu
+- Zakon o autorskim i srodnim pravima (ZASP) — ugovor o delu
+- Zakon o zaštiti podataka o ličnosti (ZZPL) / GDPR — opšti uslovi
+- Zakon o parničnom postupku (ZPP) — nadležnost suda
+
 ---
 
 ## PDF i DOCX

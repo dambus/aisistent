@@ -106,6 +106,9 @@ Svaki novi prompt mora izbegavati iste greške:
 | **BUG-007** Dupli naslov | Zabrana ponavljanja naslova u uvodnoj formuli |
 | **BUG-024** Dupli potpis | Zabrana generisanja potpis sekcije u tekstu |
 | **BUG-027** Dupli disclaimer | Zabrana generisanja disclaimera u tekstu |
+| **AUDIT-01** | Zakonska neusklađenost | Svaki prompt prošao audit po relevantnom zakonu (ZOR, ZOO, ZASP, ZZPL, GDPR) |
+| **AUDIT-02** | Wizard polja bez helper teksta | Wizard audit — sva polja moraju imati placeholder ili helperText |
+| **AUDIT-03** | Rod zastupnika | lib/utils/rod.ts — koristiti za detekciju roda umesto hardkodovanog |
 
 ---
 
