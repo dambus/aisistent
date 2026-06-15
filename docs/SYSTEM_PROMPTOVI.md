@@ -1108,6 +1108,10 @@ Lična imena: Petar Nikolić -> Petra Nikolića -> Petru Nikoliću; Nikola Stani
 #### Tip biznisa
 - tip_biznisa: "Tip biznisa" | tooltip: "Odaberite najbliži tip — od toga zavisi sadržaj dokumenata. E-commerce ima specifične obaveze o pravu na odustanak, SaaS o licenci i ograničenju odgovornosti." | opcije: E-commerce, SaaS/Aplikacija, Usluzna delatnost, Blog/Mediji, Ostalo
 - opis_usluge: "Opis usluge"
+- datum_objave: "Datum objave dokumenta"
+- koristi_kolacice: "Da li sajt koristi analitičke kolačiće?"
+- koristi_google_analytics: "Da li koristite Google Analytics ili slične alate?" | conditional: koristi_kolacice == true
+- dpo_email: "Email lica za zaštitu podataka (DPO)"
 
 #### Podaci
 - prikuplja_podatke: "Da li se prikupljaju licni podaci?" | tooltip: "Ako prikupljate i/ili obrađujete lične podatke korisnika (email, ime, adresa...), imate obaveze po Zakonu o zaštiti podataka o ličnosti i GDPR-u."

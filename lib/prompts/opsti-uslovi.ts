@@ -57,6 +57,23 @@ ${declensionRules}
 7. Prava lica na koje se podaci odnose
 8. Kontakt za privatnost
 
+KOLAČIĆI — obavezna pravila:
+- Ako koristi_kolacice == true: u sekciji o kolačićima OBAVEZNO dodati: 'Analitički kolačići se postavljaju isključivo uz vaš prethodni, aktivni pristanak putem cookie bannera na sajtu. Možete odbiti postavljanje analitičkih kolačića bez uticaja na osnovnu funkcionalnost sajta.'
+- Implicitni pristanak kroz korišćenje sajta NIJE valjan za analitičke kolačiće — ne koristiti formulaciju 'korišćenjem sajta pristajete na kolačiće'
+- Tehnički kolačići (neophodni za funkcionisanje sajta) ne zahtevaju pristanak
+
+PREKOGRANIČNI PRENOS PODATAKA:
+- Ako koristi_google_analytics == true: generiši posebnu sekciju u Politici privatnosti:
+
+'PREKOGRANIČNI PRENOS PODATAKA
+Korišćenjem analitičkih alata (Google Analytics), određeni podaci o korišćenju sajta (IP adresa, ponašanje korisnika) prenose se na servere kompanije Google LLC, koji se nalaze u Sjedinjenim Američkim Državama.
+Prenos se vrši na osnovu standardnih ugovornih klauzula (Standard Contractual Clauses) koje je Google LLC zaključio sa Evropskom komisijom, a koje se primenjuju i u odnosu na Republiku Srbiju u skladu sa čl. 64. Zakona o zaštiti podataka o ličnosti.
+Za više informacija o načinu obrade podataka od strane Google-a, posetite: https://policies.google.com/privacy'
+
+OGRANIČENJE ODGOVORNOSTI — obavezna klauzula:
+Sekcija o ograničenju odgovornosti MORA sadržati: 'Ovo ograničenje odgovornosti ne primenjuje se u slučaju štete prouzrokovane namerno ili grubom nepažnjom Pružaoca usluge, u skladu sa čl. 264. Zakona o obligacionim odnosima Republike Srbije.'
+Ne generiši potpuno isključenje odgovornosti bez ove rezerve — takva klauzula bi bila ništava po srpskom pravu.
+
 ## TON I STIL
 
 - Koristi ISKLJUČIVO latinicu kroz ceo dokument. Posebno pazi na: č, ć, š, đ, ž — moraju biti latinicom.
@@ -64,11 +81,16 @@ ${declensionRules}
 - Bez korporativnog žargona
 - Srpski jezik, latinica
 - Prilagodi formulacije realnom tipu biznisa
+- Datum objave: ako datum_objave nije unet, generiši '[POPUNITI: datum objave]' — NIKAD ne piši 'važi od dana objave' bez konkretnog datuma
 
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije dao - označi sa [POPUNITI: naziv podatka]
-- Ne generiši datum stupanja na snagu kao posebno polje [POPUNITI]. Umesto toga napiši: "Ovi uslovi važe od dana objave na veb sajtu."
+- Ne koristi termin 'Poverenica za zaštitu podataka' za interno lice u firmi — 'Poverenica' je naziv za državni regulatorni organ. Ispravni termin za interno lice je 'Lice za zaštitu podataka' ili 'DPO (Data Protection Officer)'
+- Ako dpo_email postoji: generiši sekciju 'Lice za zaštitu podataka (DPO)' sa posebnim email kontaktom
+- Ako dpo_email ne postoji: ne generiši sekciju o DPO — samo navedi opšti kontakt za pitanja o privatnosti
+- Ne koristi formulaciju 'korišćenjem sajta pristajete na obradu podataka' kao osnov za pristanak — pristanak po GDPR/ZZPL mora biti slobodan, specifičan, informisan i nedvosmislen (aktivan opt-in)
+- Ako se obrada zasniva na pristanku: navesti da se pristanak pribavlja posebno za svaku svrhu koja ga zahteva, odvojeno od prihvatanja Opštih uslova
 - NIKADA ne generiši sekciju za potpise, pečate niti 'Ugovor/Pravilnik potpisuju'. Ovaj dokument se ne potpisuje od strane dve strane.
 - Ne garantuješ usklađenost bez pravne provere
 - Ne generiši naslov dokumenta kao prvi red. PDF automatski dodaje naslov. Počni direktno sa sadržajem (datum objave, puni naziv dokumenta...).
@@ -93,10 +115,14 @@ FIRMA:
 - Adresa: ${data.adresa}
 - Email za kontakt: ${data.email}
 - Sajt/aplikacija URL: ${data.url}
+- Datum objave: ${data.datum_objave ?? '[POPUNITI: datum objave]'}
+- DPO email: ${data.dpo_email ?? '[koristiti opšti kontakt email]'}
 
 TIP BIZNISA:
 - Tip: ${data.tip_biznisa}
 - Opis usluge: ${data.opis_usluge}
+- Analitički kolačići: ${data.koristi_kolacice ? 'Da' : 'Ne'}
+- Google Analytics: ${data.koristi_google_analytics ? 'Da — uključiti sekciju o prekograničnom prenosu podataka' : 'Ne'}
 
 PODACI:
 - Prikupljaju se lični podaci: ${data.prikuplja_podatke ? 'Da' : 'Ne'}
@@ -138,6 +164,39 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'opis_usluge', label: 'Opis usluge', type: 'textarea', required: true, placeholder: 'npr. Online prodavnica sportske opreme. Korisnici mogu kupovati proizvode, pratiti narudžbine...', helperText: 'Kratko opišite šta vaša platforma radi' },
+      {
+        id: 'datum_objave',
+        label: 'Datum objave dokumenta',
+        type: 'date',
+        required: false,
+        helperText: 'Datum kada dokumenti stupaju na snagu. Ako se ne unese, biće označeno kao [POPUNITI].'
+      },
+      {
+        id: 'koristi_kolacice',
+        label: 'Da li sajt koristi analitičke kolačiće?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        tooltip: 'Analitički kolačići (Google Analytics i sl.) zahtevaju aktivni pristanak korisnika pre postavljanja — nije dovoljno "korišćenjem sajta pristajete". Ako koristite kolačiće, dokument mora sadržati napomenu o cookie banneru.'
+      },
+      {
+        id: 'koristi_google_analytics',
+        label: 'Da li koristite Google Analytics ili slične alate?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        conditional: { field: 'koristi_kolacice', value: true },
+        tooltip: 'Google Analytics prenosi podatke o korisnicima (IP adresa, ponašanje) na servere u SAD. ZZPL i GDPR zahtevaju da se ovo eksplicitno navede u Politici privatnosti, zajedno sa pravnim osnovom za prekogranični prenos podataka.'
+      },
+      {
+        id: 'dpo_email',
+        label: 'Email lica za zaštitu podataka (DPO)',
+        type: 'text',
+        required: false,
+        placeholder: 'npr. dpo@vasafirma.rs',
+        helperText: 'Ako postoji posebno lice za zaštitu podataka, unesite njegov kontakt. Ako ne, polje ostavite prazno — koristiće se opšti kontakt email.',
+        tooltip: 'Lice za zaštitu podataka (DPO) mora imati poseban kontakt kanal odvojen od opšteg kontakta firme. Manje firme koje nemaju obavezu imenovanja DPO mogu izostaviti ovo polje.'
+      },
     ],
   },
   {

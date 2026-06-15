@@ -276,6 +276,10 @@ export interface OpstiUsloviData {
   adresa: string
   email: string
   url: string
+  datum_objave?: string
+  koristi_kolacice?: boolean
+  koristi_google_analytics?: boolean
+  dpo_email?: string
   tip_biznisa: string
   opis_usluge: string
   prikuplja_podatke: boolean
