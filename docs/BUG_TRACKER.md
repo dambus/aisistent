@@ -64,7 +64,7 @@
 | **BUG-004** | "četrdeset" — pravopisna greška u iznosima i tekstu (treba "četrdeset") | Greška u promptu |
 | **BUG-005** | Orphan headings na kraju stranice (Član 10, 16, 20, 22, 28) | Vidi SYS-02 |
 | **BUG-006** | "stodvadeset hiljada" spojeno umesto razdvojeno | Vidi SYS-03 |
-| **BUG-037** | Član 31 — višeći naslov bez teksta, prisutan i u DOCX uprkos SYS-01 fixu | `markdownParser` trailing cleanup ne pokriva DOCX builder na isti način |
+| **BUG-037** | Član 31 — višeći naslov bez teksta, prisutan i u DOCX uprkos SYS-01 fixu | `markdownParser` trailing cleanup ne pokriva DOCX builder na isti način — nije rešen u audit sesiji, ostaje aktivan |
 | **BUG-039** | Član 1 dupira podatke iz uvodne formule — redundantno u standardnoj srpskoj praksi | Prompt generiše i uvodnu formulu i Član 1 sa identičnim podacima o stranama |
 | **BUG-040** | DOCX potpisi — M.P. red nedostaje ispod Petar Nikolić | `docxBuilder.ts` — M.P. uslov nije se aktivirao |
 | **BUG-041** | DOCX potpisi — nedovoljno razmaka pre tabele potpisa (zbijeno uz "Mesto i datum potpisivanja") | `docxBuilder.ts` — nedostaje spacing before na tabeli potpisa |
