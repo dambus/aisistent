@@ -113,10 +113,12 @@ Po prestanku Ugovora, svaka Strana zadržava pravo korišćenja zajedničke IP u
 5. Kamata ili eksplicitna izjava o bezkamatnosti
 6. Način isplate i vraćanja
 7. Sredstvo obezbeđenja (ako se ugovara)
+Ako sredstvo obezbeđenja == 'Menica': obavezno generiši napomenu u ugovoru: 'Menica kao sredstvo obezbeđenja mora biti posebno popunjena, potpisana i overena u skladu sa Zakonom o menici ("Sl. list SFRJ", br. 104/76). Ovaj ugovor nije dovoljan — menica se popunjava kao poseban instrument i mora biti predata zajmodavcu pre isplate zajma.'
 8. Prevremena otplata
 9. Posledice kašnjenja - zatezna kamata
 10. Poreski tretman kamate
 11. Potpisi i overa (preporučiti za iznose preko 50.000 RSD)
+Ako tip_zajmodavca == 'Osnivač firme': generiši napomenu u završnim odredbama: 'Preporučuje se da se ovaj zajam evidentira kao obaveza prema osnivaču u poslovnim knjigama Zajmoprimca. Zajam osnivača nije prihod firme i ne podleže porezu na dobit. Vraćanje zajma nije rashod firme. Za iznose veće od 1.000.000 RSD, preporučuje se konsultacija sa poreskim savetnikom radi isključenja kvalifikacije kao prikrivenog poklona.'
 
 ## FORMAT - TIP 2
 
