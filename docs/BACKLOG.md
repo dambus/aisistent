@@ -17,6 +17,7 @@
 - lib/utils/rod.ts — detekcija roda zastupnika
 - Sistemske ispravke: placeholder detekcija, rendering bugovi,
   fallback-ovi za sve tipove
+- shadcn/ui Faza 2 — Switch (toggle), Tooltip, AlertDialog (delete confirm), zelena tema u wizardu
 
 ## 🔴 Bugovi (iz BUG_TRACKER.md)
 Videti docs/BUG_TRACKER.md za kompletnu listu.
@@ -30,7 +31,6 @@ Aktivni bugovi: BUG-032, BUG-033 (faktura PDF/DOCX sitnice)
 - **APR API integracija (PIB lookup)** — korisnik unese PIB, aplikacija
   automatski popuni naziv firme, adresu, zastupnika. Veliki UX win za B2B.
   Proveriti dostupnost APR API-ja i uslove korišćenja.
-- **shadcn/ui Faza 2** — Switch (toggle polja), Tooltip, Dialog/AlertDialog
 - **Admin panel (osnovna verzija)** — zaštićena /admin ruta, pregled
   korisnika/dokumenata/planova, audit akcija za proveru promptova
 - **Kalkulator paušalnog poreza** — kada budemo imali tačnu formulu

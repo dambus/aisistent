@@ -18,12 +18,14 @@ Usvajamo shadcn/ui kao UI komponentnu biblioteku, postepeno.
 - `ScrollArea` — zamena za native scroll u Sidebar-u (rešava ružni scrollbar)
 - `Select` — zamena za `<select>` u arhiva filteru
 
-### Faza 2 — Wizard komponente
-- `Switch` — zamena za custom toggle polja
-- `Tooltip` — zamena za custom tooltip
-- `Dialog/AlertDialog` — za delete confirm
+### ✅ Faza 2 — Wizard komponente (jun 2026.)
+- `Switch` — zamena za custom toggle polja ✅
+- `Tooltip` — zamena za custom TooltipIcon ✅
+- `AlertDialog` — za delete confirm u arhivi ✅
+- Zelena tema (#1B6B4A) za radio, progress bar i focus ring ✅
+- TooltipProvider dodat u app/layout.tsx ✅
 
-### Faza 3 — Layout
+### Faza 3 — Layout (planirano)
 - `Sheet` — slide-in sidebar na mobilnom
 
 ## Šta NE migriramo odmah
