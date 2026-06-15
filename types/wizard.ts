@@ -261,6 +261,11 @@ export interface PunomocjeData {
   adresa_punomocnika: string
   tip_punomocja: string
   opis_ovlascenja: string
+  naziv_suda_organa?: string
+  broj_predmeta?: string
+  adresa_nepokretnosti?: string
+  katastarska_parcela?: string
+  list_nepokretnosti?: string
   trajanje: string
   datum_isteka?: string
 }

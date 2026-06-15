@@ -1,4 +1,5 @@
 import type { PunomocjeData, WizardStep } from '@/types/wizard'
+import { getZastupnikRod } from '@/lib/utils/rod'
 
 const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -59,7 +60,7 @@ ${declensionRules}
 
 ## TERMINI
 
-Koristi termine "Vlastodavac" i "Punomoćnik" kroz ceo dokument nakon što strane definišeš u uvodnom delu.
+Koristi termine "Vlastodavac" i "Punomoćnik" (muški rod) ili "Punomoćnica" (ženski rod) kroz ceo dokument. Rod punomoćnika je naznačen u korisničkim podacima — prati navedeni termin dosledno.
 
 ## OBAVEZNI ELEMENTI
 
@@ -77,7 +78,7 @@ PUNOMOĆJE
 Broj: {broj_ugovora ako postoji; ako je 'bez broja', ne prikazuj red 'Broj:'}
 Datum: ___________
 
-I. UGOVORNE STRANE
+I. STRANE
 II. PREDMET I OBIM OVLAŠĆENJA
 III. TRAJANJE I OPOZIV
 IV. ZAVRŠNE ODREDBE
@@ -105,16 +106,21 @@ IV. ZAVRŠNE ODREDBE
 - DATUM POTPISIVANJA:
   - Nikada ne generiši automatski datum u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum (npr. 'dana...') piše: 'dana ___________. godine'
-  - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - JEDINI datum koji se generiše iz wizard inputa je datum isteka punomoćja — jer ga korisnik eksplicitno unosi.
 - Ne kopiraj u dokument tekst iz slobodnih polja koji opisuje samo polje umesto sadržaja. Ako slobodno polje sadrži bilo koji od ovih signala, zameni ga sa [POPUNITI: naziv polja]:
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
+- Ne koristi termin 'ugovorne strane' ni 'zaključen između' — punomoćje je jednostrani pravni akt. Koristi 'Vlastodavac:' i 'Punomoćnik:' direktno, bez fraze 'zaključen između'.
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
 
 export function buildUserMessage(data: PunomocjeData): string {
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
+
+  const prvoImePunomocnika = data.naziv_punomocnika?.trim().split(/[\s,]+/)[0] ?? ''
+  const rodPunomocnika = data.tip_punomocnika === 'Fizičko lice'
+    ? (getZastupnikRod(prvoImePunomocnika) === 'zenski' ? 'Punomoćnica' : 'Punomoćnik')
+    : 'Punomoćnik'
 
   return `Molim te generiši punomoćje sa sledećim podacima:
 
@@ -125,16 +131,22 @@ VLASTODAVAC:
 - JMBG/PIB: ${data.jmbg_pib_vlastodavca}
 - Adresa: ${data.adresa_vlastodavca}
 
-PUNOMOCNIK:
+PUNOMOĆNIK/CA: ${rodPunomocnika} — ${data.naziv_punomocnika}
 - Tip: ${data.tip_punomocnika}
-- Ime/Naziv: ${data.naziv_punomocnika}
 - JMBG/PIB: ${data.jmbg_pib_punomocnika}
 - Adresa: ${data.adresa_punomocnika}
 
 OVLAŠĆENJE:
 - Tip punomoćja: ${data.tip_punomocja}
 - Opis ovlašćenja: ${data.opis_ovlascenja}
-- Trajanje: ${data.trajanje}${data.datum_isteka ? `\n- Datum isteka: ${data.datum_isteka}` : ''}
+- Trajanje: ${data.trajanje}${data.trajanje === 'Određeni datum'
+    ? `\n- Datum isteka: ${data.datum_isteka ?? '[POPUNITI: datum isteka punomoćja]'}`
+    : ''}${data.tip_punomocja === 'Sud i organi' ? `
+- Sud/organ: ${data.naziv_suda_organa ?? '[POPUNITI: naziv suda ili organa]'}
+- Broj predmeta: ${data.broj_predmeta ?? '[nije zaveden]'}` : ''}${data.tip_punomocja === 'Nepokretnosti' ? `
+- Adresa nepokretnosti: ${data.adresa_nepokretnosti ?? '[POPUNITI]'}
+- Katastarska parcela: ${data.katastarska_parcela ?? '[POPUNITI]'}
+- List nepokretnosti: ${data.list_nepokretnosti ?? '[POPUNITI]'}` : ''}
 
 Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
@@ -233,6 +245,51 @@ export const wizardSteps: WizardStep[] = [
         ],
       },
       { id: 'opis_ovlascenja', label: 'Opis ovlašćenja', type: 'textarea', required: true, placeholder: 'npr. Zastupanje pred Poreskom upravom radi uvida u poresku evidenciju i podnošenja poreskih prijava...', helperText: 'Navedite tačno za šta punomoćnik ima ovlašćenje' },
+      {
+        id: 'naziv_suda_organa',
+        label: 'Naziv suda / organa',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_punomocja', value: 'Sud i organi' },
+        placeholder: 'npr. Osnovni sud u Novom Sadu, Poreska uprava — filijala Novi Sad',
+        helperText: 'Navedite tačan naziv organa pred kojim punomoćnik zastupa',
+      },
+      {
+        id: 'broj_predmeta',
+        label: 'Broj predmeta (ako je poznat)',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_punomocja', value: 'Sud i organi' },
+        placeholder: 'npr. P 123/2026',
+        helperText: 'Ostavite prazno ako predmet još nije zaveden',
+      },
+      {
+        id: 'adresa_nepokretnosti',
+        label: 'Adresa nepokretnosti',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_punomocja', value: 'Nepokretnosti' },
+        placeholder: 'npr. Tolstojeva 13, Novi Sad',
+        helperText: 'Adresa nepokretnosti koja je predmet punomoćja',
+      },
+      {
+        id: 'katastarska_parcela',
+        label: 'Katastarska parcela',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_punomocja', value: 'Nepokretnosti' },
+        placeholder: 'npr. k.p. 1234/1 KO Novi Sad I',
+        helperText: 'Nalazi se na listu nepokretnosti ili rešenju o kupoprodaji',
+      },
+      {
+        id: 'list_nepokretnosti',
+        label: 'List nepokretnosti (broj)',
+        type: 'text',
+        required: false,
+        conditional: { field: 'tip_punomocja', value: 'Nepokretnosti' },
+        placeholder: 'npr. LN 12345',
+        helperText: 'Broj lista nepokretnosti iz katastra',
+      },
       {
         id: 'trajanje',
         label: 'Trajanje',

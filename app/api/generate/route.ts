@@ -243,6 +243,11 @@ const punomocjeSchema = z.object({
   adresa_punomocnika: z.string().min(1),
   tip_punomocja: z.string().min(1),
   opis_ovlascenja: z.string().min(1),
+  naziv_suda_organa: z.string().optional(),
+  broj_predmeta: z.string().optional(),
+  adresa_nepokretnosti: z.string().optional(),
+  katastarska_parcela: z.string().optional(),
+  list_nepokretnosti: z.string().optional(),
   trajanje: z.string().min(1),
   datum_isteka: z.string().optional(),
 })
