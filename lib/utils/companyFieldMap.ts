@@ -31,6 +31,12 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'adresa_1',
     zastupnik:            'zastupnik_1',
   },
+  'ugovor-o-saradnji-zajmu': {
+    naziv:                'naziv_1',
+    pib:                  'id_1',
+    adresa:               'adresa_1',
+    zastupnik:            'zastupnik_1',
+  },
   'punomocje': {
     naziv:                'naziv_vlastodavca',
     pib:                  'jmbg_pib_vlastodavca',
@@ -69,6 +75,10 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
   },
   'preporuka': {
     naziv:                'naziv_firme',
+    zastupnik:            'ime_preporucioca',
+    funkcija_zastupnika:  'pozicija_preporucioca',
+    email:                'email',
+    telefon:              'telefon',
   },
   'opis-proizvoda': {
     naziv:                'naziv_firme',
@@ -78,9 +88,11 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
   },
   'zapisnik-sastanak': {
     naziv:                'naziv_firme',
+    zastupnik:            'predsedavajuci',
   },
   'odgovor-kandidatu': {
     naziv:                'naziv_firme',
+    zastupnik:            'kontakt_osoba',
   },
   'faktura': {
     naziv:                'izdavalac_naziv',
