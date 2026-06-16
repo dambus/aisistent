@@ -22,6 +22,7 @@ Usvajamo shadcn/ui kao UI komponentnu biblioteku, postepeno.
 - `Switch` — zamena za custom toggle polja ✅
 - `Tooltip` — zamena za custom TooltipIcon ✅
 - `AlertDialog` — za delete confirm u arhivi ✅
+- `Dialog` — modal za dodavanje/uređivanje firme u profilu ✅
 - Zelena tema (#1B6B4A) za radio, progress bar i focus ring ✅
 - TooltipProvider dodat u app/layout.tsx ✅
 
