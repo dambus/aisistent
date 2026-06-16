@@ -9,6 +9,19 @@ export const metadata: Metadata = {
 
 const PRIMARY = '#1B6B4A'
 const DARK = '#052e16'
+const BLOG_CTA_STYLES = `
+.blog-cta-btn {
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+  transition: all 0.15s ease;
+}
+
+.blog-cta-btn:hover {
+  background: white;
+  color: ${DARK};
+}
+`
 
 const navLinks = [
   { href: '/#alati', label: 'Alati' },
@@ -24,6 +37,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white" style={{ color: '#111827' }}>
+      <style dangerouslySetInnerHTML={{ __html: BLOG_CTA_STYLES }} />
 
       {/* ── NAV ── */}
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
@@ -201,9 +215,7 @@ export default function BlogPage() {
               <a
                 key={href}
                 href={href}
-                className="rounded-xl border px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-white"
-                style={{ borderColor: 'rgba(255,255,255,0.3)' }}
-                onMouseEnter={undefined}
+                className="blog-cta-btn rounded-xl px-4 py-3 text-sm font-semibold"
               >
                 {label}
               </a>

@@ -52,20 +52,32 @@ function extractDocName(title: string): string {
 
 const PROSE_STYLES = `
 .blog-prose { font-size: 18px; line-height: 1.8; color: #1a1a1a; }
-.blog-prose p { margin-bottom: 1.4em; }
-.blog-prose h2 { font-size: 24px; font-weight: 700; color: ${DARK}; margin-top: 40px; margin-bottom: 12px; line-height: 1.3; }
-.blog-prose h3 { font-size: 20px; font-weight: 600; color: #111827; margin-top: 32px; margin-bottom: 10px; line-height: 1.3; }
+.blog-prose p { font-size: 18px; line-height: 1.8; color: #1a1a1a; margin-bottom: 20px; }
+.blog-prose h2 { font-size: 24px; font-weight: 700; color: ${DARK}; margin: 40px 0 16px; line-height: 1.3; }
+.blog-prose h3 { font-size: 20px; font-weight: 600; color: ${DARK}; margin: 32px 0 12px; line-height: 1.3; }
 .blog-prose h4 { font-size: 17px; font-weight: 600; color: #111827; margin-top: 24px; margin-bottom: 8px; }
 .blog-prose strong { color: ${DARK}; font-weight: 700; }
-.blog-prose ul { padding-left: 24px; margin-bottom: 1.2em; list-style-type: disc; }
+.blog-prose ul { padding-left: 24px; margin-bottom: 20px; list-style-type: disc; }
 .blog-prose ol { padding-left: 24px; margin-bottom: 1.2em; list-style-type: decimal; }
-.blog-prose li { margin-bottom: 8px; }
+.blog-prose li { margin-bottom: 8px; font-size: 17px; line-height: 1.7; }
 .blog-prose a { color: ${PRIMARY}; text-decoration: underline; }
 .blog-prose a:hover { opacity: 0.8; }
-.blog-prose blockquote { border-left: 4px solid ${PRIMARY}; padding-left: 16px; font-style: italic; color: #4b5563; margin: 1.5em 0; }
-.blog-prose code { font-family: monospace; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 15px; }
+.blog-prose blockquote { border-left: 4px solid ${PRIMARY}; padding-left: 16px; font-style: italic; color: #555; margin: 24px 0; }
+.blog-prose code { font-family: monospace; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
 .blog-prose pre { background: #f3f4f6; padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 1.4em; }
 .blog-prose pre code { background: none; padding: 0; }
+
+.blog-cta-btn {
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+  transition: all 0.15s ease;
+}
+
+.blog-cta-btn:hover {
+  background: white;
+  color: ${DARK};
+}
 `
 
 export default async function BlogPostPage({ params }: Props) {
@@ -118,41 +130,35 @@ export default async function BlogPostPage({ params }: Props) {
       </header>
 
       {/* ── HERO ── */}
-      <section style={{ backgroundColor: DARK }} className="px-5 py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl">
+      <section style={{ backgroundColor: DARK, color: 'white', padding: '64px 24px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <a
             href="/blog"
-            className="mb-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-80"
-            style={{ color: '#6ee7b7', letterSpacing: '0.1em' }}
+            className="transition-opacity hover:opacity-80"
+            style={{ color: '#6ee7b7', fontSize: '14px' }}
           >
             ← Blog
           </a>
           <p
-            className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-            style={{ backgroundColor: '#14532d', color: '#6ee7b7', letterSpacing: '0.12em' }}
+            className="inline-block rounded-full px-3 py-1 text-xs font-bold uppercase"
+            style={{ backgroundColor: '#14532d', color: '#6ee7b7', letterSpacing: '0.05em', margin: '16px 0 12px' }}
           >
             {eyebrow}
           </p>
           <h1
-            className="text-4xl font-bold leading-tight text-white sm:text-5xl"
-            style={{ maxWidth: '700px' }}
+            className="text-white"
+            style={{ fontSize: 'clamp(28px,5vw,44px)', fontWeight: 700, lineHeight: 1.2, margin: '0 0 16px' }}
           >
             {post.title}
           </h1>
-          <div className="mt-5 flex items-center gap-2 text-sm" style={{ color: '#6ee7b7' }}>
-            <time dateTime={post.date}>{dateFormatted}</time>
-            {post.readTime && (
-              <>
-                <span style={{ color: '#166534' }}>·</span>
-                <span>{post.readTime} čitanja</span>
-              </>
-            )}
-          </div>
+          <p style={{ color: '#6ee7b7', fontSize: '14px' }}>
+            {dateFormatted} · {post.readTime}
+          </p>
         </div>
       </section>
 
       {/* ── PROSE + MID CTA ── */}
-      <main className="mx-auto max-w-3xl px-5 py-12 lg:px-8">
+      <main className="mx-auto px-5 py-12 lg:px-8" style={{ maxWidth: '720px' }}>
 
         {/* Prva polovina sadržaja */}
         <div
@@ -213,7 +219,7 @@ export default async function BlogPostPage({ params }: Props) {
               className="rounded-lg border px-3 py-1.5 font-semibold transition-colors hover:bg-gray-50"
               style={{ borderColor: '#d1d5db', color: '#374151' }}
             >
-              X / Twitter
+              X
             </a>
           </div>
         </div>
@@ -268,8 +274,7 @@ export default async function BlogPostPage({ params }: Props) {
               <a
                 key={href}
                 href={href}
-                className="rounded-xl border px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-white hover:text-primary"
-                style={{ borderColor: 'rgba(255,255,255,0.3)' }}
+                className="blog-cta-btn rounded-xl px-4 py-3 text-sm font-semibold"
               >
                 {label}
               </a>
