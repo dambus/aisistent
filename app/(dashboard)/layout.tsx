@@ -3,13 +3,15 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
 
-function getInitials(email: string): string {
-  const parts = email.split('@')[0].split(/[._-]/)
-  return parts
-    .slice(0, 2)
-    .map(p => p[0]?.toUpperCase() ?? '')
-    .join('')
-    || email[0].toUpperCase()
+function getInitials(displayName: string | null, email: string): string {
+  if (displayName && displayName.trim()) {
+    const parts = displayName.trim().split(/\s+/)
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    }
+    return parts[0][0].toUpperCase()
+  }
+  return email[0].toUpperCase()
 }
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -26,7 +28,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .single()
 
   const plan = profile?.plan ?? 'free'
-  const userInitials = getInitials(user.email ?? 'U')
+  const userInitials = getInitials(profile?.display_name ?? null, user.email ?? 'U')
   const showWelcomeModal = !profile?.display_name
 
   return (

@@ -70,6 +70,7 @@ export function ProfileCard({ displayName, email, memberSince }: ProfileCardProp
               maxLength={50}
               autoFocus
               className={fieldCls}
+              style={{ fontSize: '16px' }}
             />
             {error && <p className="text-xs text-red-600">{error}</p>}
             <div className="flex gap-2 pt-1">

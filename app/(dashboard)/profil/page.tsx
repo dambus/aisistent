@@ -6,6 +6,13 @@ import { ProfileCard } from '@/components/dashboard/ProfileCard'
 import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
 import type { Company } from '@/types/database'
 
+const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
+  free:     { bg: '#F3F4F6', text: '#6B7280' },
+  starter:  { bg: '#EFF6FF', text: '#2563EB' },
+  pro:      { bg: '#F0FDF4', text: '#16A34A' },
+  business: { bg: '#FEF3C7', text: '#D97706' },
+}
+
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
   free:     { label: 'Besplatni plan',  desc: '1 dokument mesečno',          limit: 1    },
   starter:  { label: 'Starter plan',   desc: '20 dokumenata mesečno',        limit: 20   },
@@ -88,7 +95,12 @@ export default async function ProfilPage() {
 
         <div className="mb-5">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-semibold text-gray-900">{planInfo.label}</span>
+            <span
+              className="text-xs font-bold px-2.5 py-1 rounded-full"
+              style={{ backgroundColor: (PLAN_COLORS[plan] ?? PLAN_COLORS.free).bg, color: (PLAN_COLORS[plan] ?? PLAN_COLORS.free).text }}
+            >
+              {planInfo.label}
+            </span>
             <span className="text-xs text-gray-400">·</span>
             <span className="text-sm text-gray-500">{planInfo.desc}</span>
           </div>

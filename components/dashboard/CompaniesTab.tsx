@@ -2,6 +2,12 @@
 
 import { useRef, useState } from 'react'
 import type { Company } from '@/types/database'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 interface CompaniesTabProps {
   initialCompanies: Company[]
@@ -208,17 +214,15 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
     <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje firme</h2>
-        {!showForm && (
-          <button
-            onClick={openAdd}
-            className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
-            style={{ backgroundColor: '#1B6B4A' }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
-          >
-            + Dodaj firmu
-          </button>
-        )}
+        <button
+          onClick={openAdd}
+          className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
+          style={{ backgroundColor: '#1B6B4A' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
+        >
+          + Dodaj firmu
+        </button>
       </div>
 
       {/* Logo plan info */}
@@ -352,12 +356,21 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
       {/* Plan limit info */}
       <p className="text-sm text-gray-500 mb-4">{limitText()}</p>
 
-      {/* Forma za dodavanje/uređivanje */}
-      {showForm && (
-        <div className="border border-gray-200 rounded-xl p-5 mt-4 bg-gray-50">
-          <h3 className="text-sm font-semibold text-gray-800 mb-4">
-            {editingId ? 'Uredi firmu' : 'Dodaj firmu'}
-          </h3>
+      {/* Forma za dodavanje/uređivanje — Dialog modal */}
+      <Dialog open={showForm} onOpenChange={(open) => {
+        if (!open) {
+          setShowForm(false)
+          setEditingId(null)
+          setForm(emptyForm)
+          setError('')
+        }
+      }}>
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingId ? 'Izmeni firmu' : 'Dodaj firmu'}
+            </DialogTitle>
+          </DialogHeader>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
@@ -463,8 +476,8 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
               Otkaži
             </button>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
