@@ -450,10 +450,10 @@ const putniNalogSchema = z.object({
   datum_polaska: z.string().min(1),
   datum_povratka: z.string().optional(),
   napomena_ruta: z.string().optional(),
-  dnevnica: z.boolean().default(false),
-  gorivo_na_teret_firme: z.boolean().default(false),
-  smestaj: z.boolean().default(false),
-  ostali_troskovi: z.string().optional(),
+  dnevnica: z.coerce.boolean().default(false),
+  gorivo_na_teret_firme: z.coerce.boolean().default(false),
+  smestaj: z.coerce.boolean().default(false),
+  ostali_troskovi: z.coerce.string().optional(),
 })
 
 const fakturaSchema = z.object({
