@@ -20,6 +20,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Ime mora imati između 2 i 50 karaktera.' }, { status: 400 })
   }
 
+  if (display_name.includes(' ')) {
+    return NextResponse.json(
+      { error: 'Ime ne sme sadržati razmak — unesite samo ime.' },
+      { status: 400 }
+    )
+  }
+
   const admin = createAdminClient()
   const { error } = await admin
     .from('profiles')

@@ -20,6 +20,10 @@ export function ProfileCard({ displayName, email, memberSince }: ProfileCardProp
 
   async function handleSave() {
     const trimmed = nameValue.trim()
+    if (trimmed.includes(' ')) {
+      setError('Unesite samo ime, bez prezimena.')
+      return
+    }
     if (trimmed.length < 2 || trimmed.length > 50) {
       setError('Ime mora imati između 2 i 50 karaktera.')
       return
@@ -60,18 +64,22 @@ export function ProfileCard({ displayName, email, memberSince }: ProfileCardProp
 
       {/* Ime */}
       <div className="mb-5 pb-5 border-b border-gray-100">
-        <label className="block text-xs font-medium text-gray-500 mb-1">Vaše ime</label>
+        <label className="block text-xs font-medium text-gray-500 mb-1">Ime (bez prezimena)</label>
         {editing ? (
           <div className="space-y-2">
             <input
               type="text"
               value={nameValue}
               onChange={e => { setNameValue(e.target.value); setError('') }}
-              maxLength={50}
+              maxLength={30}
+              placeholder="npr. Milan"
               autoFocus
               className={fieldCls}
               style={{ fontSize: '16px' }}
             />
+            <p className="mt-1 text-xs text-gray-400">
+              Unesite samo ime — prikazuje se u pozdravu i avataru.
+            </p>
             {error && <p className="text-xs text-red-600">{error}</p>}
             <div className="flex gap-2 pt-1">
               <button

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { toVocative } from '@/lib/utils/vocative'
 
 interface Props {
   userName: string | null
@@ -82,6 +83,7 @@ export function OnboardingModal({ userName }: Props) {
   }
 
   const firstName = userName?.split(' ')[0] ?? null
+  const firstNameVocative = firstName ? toVocative(firstName) : null
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
@@ -110,7 +112,7 @@ export function OnboardingModal({ userName }: Props) {
               👋
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              Dobrodošli{firstName ? `, ${firstName}` : ''}!
+              Dobrodošli{firstNameVocative ? `, ${firstNameVocative}` : ''}!
             </h2>
             <p className="text-gray-500 mb-8 leading-relaxed">
               AIsistent vam pomaže da za 2 minuta napravite profesionalne
