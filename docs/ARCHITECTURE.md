@@ -4,6 +4,11 @@
 
 ```
 app/
+  admin/
+    page.tsx          — pregled (stat kartice, poslednji dokumenti)
+    korisnici/        — lista svih korisnika
+    dokumenti/        — lista i statistika dokumenata
+    layout.tsx        — admin header + double-check is_admin
   (auth)/
     login/              — stranica za prijavu
     register/           — stranica za registraciju
