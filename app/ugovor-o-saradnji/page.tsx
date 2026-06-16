@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Ugovor o saradnji — generator za poslovne partnere"
       intro="Generišite kompletan ugovor o poslovnoj saradnji ili ugovor o zajmu prilagođen srpskom pravu. Wizard vas vodi kroz sve bitne klauzule — od podele prihoda do raskida."
-      ctaHref={user ? '/dokumenti/ugovor-o-saradnji' : '/register'}
+      ctaHref="/register"
       ctaLabel="Generišite ugovor besplatno"
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"
       features={[

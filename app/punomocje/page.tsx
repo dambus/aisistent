@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Punomoćje — generator za zastupanje u Srbiji"
       intro="Generišite punomoćje za zastupanje pred organima, bankama, sudovima i firmama. Podržava opšte, specijalno i sudsko punomoćje u skladu sa srpskim pravom."
-      ctaHref={user ? '/dokumenti/punomocje' : '/register'}
+      ctaHref="/register"
       ctaLabel="Generišite punomoćje besplatno"
       ctaNote="PDF ili Word dokument za manje od 60 sekundi"
       features={[

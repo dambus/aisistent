@@ -17,5 +17,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/ponuda-klijentu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-zarade`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-pausala`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/kalkulator-ugovora-o-delu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 }

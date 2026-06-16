@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Oglas za posao — generator za HR menadžere i preduzetnike"
       intro="Generišite profesionalan oglas za posao prilagođen srpskom tržištu rada. Format za Infostud, LinkedIn i vaš sajt — AI piše oglas koji privlači prave kandidate."
-      ctaHref={user ? '/dokumenti/oglas-za-posao' : '/register'}
+      ctaHref="/register"
       ctaLabel="Napišite oglas besplatno"
       ctaNote="Profesionalan oglas za manje od 60 sekundi"
       features={[

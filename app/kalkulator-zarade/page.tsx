@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Kalkulator zarade Srbija 2026 — neto i bruto obračun"
       intro="Besplatno izračunajte neto zaradu iz bruto ili bruto zaradu iz neta. Ažurirani doprinosi i porez za 2026. godinu — za zaposlene, poslodavce i HR timove."
-      ctaHref={user ? '/alati/kalkulator-zarade' : '/register'}
+      ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Kalkulator paušalnog poreza — Srbija 2026"
       intro="Brza procena paušalnog poreza i doprinosa za preduzetnike u Srbiji. Razumejte šta plaćate pre nego što se registrujete kao paušalni obveznik."
-      ctaHref={user ? '/alati/kalkulator-pausala' : '/register'}
+      ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[

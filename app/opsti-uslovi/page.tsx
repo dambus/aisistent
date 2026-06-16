@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Opšti uslovi korišćenja — generator za srpske veb sajtove"
       intro="Generišite opšte uslove korišćenja i politiku privatnosti usklađene sa ZZPL-om i GDPR-om. Prilagođeno vašem tipu biznisa — e-commerce, SaaS, uslužna delatnost."
-      ctaHref={user ? '/dokumenti/opsti-uslovi' : '/register'}
+      ctaHref="/register"
       ctaLabel="Generišite uslove besplatno"
       ctaNote="Oba dokumenta zajedno — za manje od 2 minuta"
       features={[

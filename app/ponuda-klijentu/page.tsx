@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Ponuda klijentu — generator za preduzetnike i agencije"
       intro="Generišite strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent očekuje. Cena, rok isporuke, uslovi plaćanja, validnost — sve na jednom mestu."
-      ctaHref={user ? '/dokumenti/ponuda-klijentu' : '/register'}
+      ctaHref="/register"
       ctaLabel="Napišite ponudu besplatno"
       ctaNote="Kompletna ponuda u PDF formatu za manje od 60 sekundi"
       features={[

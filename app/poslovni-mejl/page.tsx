@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
@@ -12,16 +11,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function Page() {
   return (
     <ToolLandingPage
-      isLoggedIn={!!user}
       h1="Poslovni mejl — AI generator za B2B komunikaciju"
       intro="Generišite profesionalan poslovni mejl za 30 sekundi. Ponude, opomene, zahvalnice, odbijanja — AI prilagođava ton i sadržaj vašoj situaciji."
-      ctaHref={user ? '/dokumenti/poslovni-mejl' : '/register'}
+      ctaHref="/register"
       ctaLabel="Napišite mejl besplatno"
       ctaNote="Gotov tekst za manje od 30 sekundi"
       features={[
