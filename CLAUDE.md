@@ -29,7 +29,7 @@ Web platforma za generisanje poslovnih dokumenata za srpsko tržište.
 - **Email:** Resend | **Deployment:** Vercel
 - **Plaćanje:** Paddle (čeka APR registraciju)
 
-## 17 tipova dokumenata
+## 19 tipova dokumenata
 
 Ugovori (7): ugovor-o-radu, ugovor-o-delu, nda, ugovor-o-zakupu,
              ugovor-o-saradnji-zajmu, punomocje, opsti-uslovi
@@ -43,3 +43,7 @@ Marketing (3): opis-proizvoda, bio-o-nama, zapisnik-sastanak
 
 Kalkulatori (3): kalkulator-zarade, kalkulator-pausala,
                  kalkulator-ugovora-o-delu
+
+Faktura/Profaktura (1): faktura
+
+Putni nalog (1): putni-nalog

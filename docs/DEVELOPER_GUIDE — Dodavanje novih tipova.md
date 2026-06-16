@@ -179,6 +179,12 @@ faktura:
   email → izdavalac_email
   telefon → izdavalac_telefon
 
+putni-nalog:
+  naziv → naziv_firme
+  pib → pib
+  adresa → adresa_firme
+  zastupnik → ovlasceno_lice
+
 ---
 
 ## Tipovi po potpisu

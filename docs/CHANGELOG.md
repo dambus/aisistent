@@ -1,3 +1,13 @@
+## jun 2026. — Putni nalog
+
+- Novi tip dokumenta: Putni nalog (bez AI, direktno renderovanje)
+- Wizard: 4 koraka (putovanje, vozač, vozilo, firma + troškovi)
+- PDF: header, tabela kretanja, troškovi badge-ovi, 3-kolone potpisi
+- DOCX: tabela kretanja, potpisi
+- Preview, email prilog, companyFieldMap
+- Zakonska osnova: Pravilnik o putnim nalozima (Sl. glasnik RS, 90/2016)
+- Dnevnica: neoporezivi iznos 3.316 RSD/dan, inostranstvo 90 EUR/dan
+
 ## jun 2026. — Admin panel poboljšanja
 
 - Promena plana korisnika direktno iz /admin/korisnici (PlanSelector)
