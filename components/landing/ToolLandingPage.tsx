@@ -233,6 +233,15 @@ export function ToolLandingPage({
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
   const ctaTitle = `Napravite ${toolLabel} za 60 sekundi`
+  const positioningBenefits = [
+    'Nacrt dokumenta spreman za 60 sekundi — umesto sati pisanja od nule',
+    'Svi obavezni elementi po srpskom pravu već su uključeni',
+    'PDF i Word format — spreman za pregled i potpisivanje',
+    'Arhiva svih dokumenata na jednom mestu',
+    'Pravnik koji proverava gotov nacrt troši manje vremena — a vi plaćate manje',
+    'Idealno za tipične situacije — konsultujte stručnjaka za složene slučajeve',
+  ]
+  void whyAisistent
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -299,6 +308,9 @@ export function ToolLandingPage({
                   {ctaNote}
                 </p>
               )}
+              <div style={{ marginTop: '16px', fontSize: '13px', color: '#6ee7b7', opacity: 0.8 }}>
+                Dokumenti služe kao polazna osnova. Za složene slučajeve konsultujte pravnika.
+              </div>
             </div>
 
             <div className="tool-doc-preview">
@@ -393,10 +405,13 @@ export function ToolLandingPage({
               Prednosti
             </p>
             <h2 className="max-w-2xl text-3xl font-bold text-white sm:text-4xl">
-              Zašto AIsistent, a ne advokat?
+              Štedite vreme na pripremi
             </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7" style={{ color: '#a7f3d0' }}>
+              AIsistent pripremi nacrt — vi (ili vaš pravnik) ga finalizujete.
+            </p>
             <div className="mt-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
-              {whyAisistent.map((item, index) => (
+              {positioningBenefits.map((item, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <span className="mt-1 text-lg font-bold" style={{ color: '#6ee7b7' }}>
                     ✓
