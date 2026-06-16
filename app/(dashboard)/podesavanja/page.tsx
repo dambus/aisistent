@@ -15,13 +15,7 @@ export default async function PodesavanjaPage() {
       {/* Kartica 1 — Bezbednost */}
       <SecurityCard email={user.email ?? ''} />
 
-      {/* Kartica 2 — Obaveštenja (placeholder) */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-4 opacity-60">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Obaveštenja</h2>
-        <p className="text-sm text-gray-500">Podešavanja obaveštavanja biće dostupna uskoro.</p>
-      </div>
-
-      {/* Kartica 3 — Opasna zona */}
+      {/* Kartica 2 — Opasna zona */}
       <DangerZone />
     </div>
   )
