@@ -1,3 +1,9 @@
+## jun 2026. — Admin panel poboljšanja
+
+- Promena plana korisnika direktno iz /admin/korisnici (PlanSelector)
+- Reset brojača dokumenata po korisniku (ResetDocsButton)
+- API rute zaštićene is_admin proverom: /api/admin/set-plan, /api/admin/reset-docs
+
 ## jun 2026. — Onboarding flow
 
 - 3-koračni modal za nove korisnike (dobrodošlica → firma → prvi dokument)

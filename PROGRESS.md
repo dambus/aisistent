@@ -27,6 +27,11 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### jun 2026. — Admin panel poboljšanja
+- PlanSelector — dropdown za promenu plana direktno iz tabele korisnika
+- ResetDocsButton — reset documents_this_month po korisniku
+- /api/admin/set-plan i /api/admin/reset-docs API rute
+
 #### jun 2026. — Admin panel
 - /admin ruta sa middleware zaštitom (is_admin kolona)
 - Pregled, korisnici, dokumenti stranice
