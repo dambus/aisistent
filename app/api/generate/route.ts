@@ -20,7 +20,7 @@ import { systemPrompt as pravilnikORaduSystem, buildUserMessage as buildPravilni
 import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProizvodaMessage } from '@/lib/prompts/opis-proizvoda'
 import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
-import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData } from '@/types/wizard'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -432,6 +432,29 @@ const zapisnikSastanakSchema = z.object({
   sledeci_sastanak: z.string().optional(),
 })
 
+const putniNalogSchema = z.object({
+  broj_naloga: z.string().optional(),
+  datum_izdavanja: z.string().min(1),
+  svrha_putovanja: z.string().min(1),
+  destinacija: z.string().min(1),
+  datum_polaska: z.string().min(1),
+  datum_povratka: z.string().min(1),
+  ime_prezime: z.string().min(1),
+  pozicija: z.string().min(1),
+  prevozno_sredstvo: z.string().min(1),
+  registarski_broj: z.string().optional(),
+  naziv_firme: z.string().min(1),
+  adresa_firme: z.string().optional(),
+  pib: z.string().optional(),
+  zastupnik: z.string().optional(),
+  dnevnica: optNum,
+  broj_dnevnica: optNum,
+  troskovi_prevoza: optNum,
+  troskovi_smestaja: optNum,
+  ostali_troskovi: optNum,
+  napomena: z.string().optional(),
+})
+
 const fakturaSchema = z.object({
   tip_dokumenta: z.enum(['Faktura', 'Profaktura']),
   broj_dokumenta: z.string().optional(),
@@ -459,7 +482,7 @@ const requestSchema = z.object({
     'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
     'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu',
     'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
-    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura',
+    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura', 'putni-nalog',
   ]),
   data: z.record(z.string(), z.unknown()),
 })
@@ -577,6 +600,13 @@ const documentConfigs = {
     buildTitle: (data: FakturaData) =>
       `${data.tip_dokumenta} - ${data.primalac_naziv} - ${data.datum_izdavanja}`,
   },
+  'putni-nalog': {
+    schema: putniNalogSchema,
+    systemPrompt: '',
+    buildUserMessage: () => '',
+    buildTitle: (data: PutniNalogData) =>
+      `Putni nalog - ${data.ime_prezime} - ${data.destinacija}`,
+  },
 } as const
 
 const rateLimitStore = new Map<string, number[]>()
@@ -665,7 +695,7 @@ export async function POST(request: NextRequest) {
 
   let generatedText: string
 
-  if (type === 'faktura') {
+  if (type === 'faktura' || type === 'putni-nalog') {
     generatedText = JSON.stringify(docData.data)
   } else {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })

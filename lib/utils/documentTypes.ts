@@ -17,4 +17,5 @@ export const TYPE_LABELS: Record<string, string> = {
   'bio-o-nama':               'Bio / O nama',
   'zapisnik-sastanak':        'Zapisnik sa sastanka',
   'faktura':                  'Faktura / Profaktura',
+  'putni-nalog':              'Putni nalog',
 }

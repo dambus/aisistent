@@ -37,6 +37,7 @@ const navCategories: NavCategory[] = [
       { label: 'Punomoćje',        href: '/dokumenti/punomocje' },
       { label: 'Opšti uslovi i PP',href: '/dokumenti/opsti-uslovi' },
       { label: 'Faktura / Profaktura', href: '/dokumenti/faktura' },
+      { label: 'Putni nalog',          href: '/dokumenti/putni-nalog' },
     ],
   },
   {

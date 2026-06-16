@@ -29,6 +29,7 @@ const TOOL_CATEGORIES: ToolCategory[] = [
       { type: 'punomocje', title: 'Punomoćje', desc: 'Opšte, specijalno ili sudsko punomoćje', icon: '✍️', href: '/dokumenti/punomocje' },
       { type: 'opsti-uslovi', title: 'Opšti uslovi i PP', desc: 'Uslovi korišćenja i GDPR politika za vaš sajt', icon: '📄', href: '/dokumenti/opsti-uslovi' },
       { type: 'faktura', title: 'Faktura / Profaktura', desc: 'Izdajte fakturu ili predračun za usluge i robu', icon: '🧾', href: '/dokumenti/faktura' },
+      { type: 'putni-nalog', title: 'Putni nalog', desc: 'Nalog za službeno putovanje sa obračunom troškova', icon: '✈️', href: '/dokumenti/putni-nalog' },
     ],
   },
   {

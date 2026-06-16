@@ -132,4 +132,11 @@ export const documentReminders: Record<string, DocumentReminder> = {
     learnMoreUrl: null,
     type: 'warning',
   },
+  'putni-nalog': {
+    title: 'Poreski podsetnik',
+    message:
+      'Dnevnica do 2.750 RSD/dan za putovanje u zemlji je neoporeziva. Za inostranstvo, neoporeziv iznos zavisi od destinacije i određuje ga Vlada RS. Čuvajte račune za sve troškove — prevoz, smeštaj i ostalo.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
 }

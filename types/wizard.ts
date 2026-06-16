@@ -483,8 +483,32 @@ export interface FakturaData {
   poziv_na_broj?: string
 }
 
+export interface PutniNalogData {
+  broj_naloga?: string
+  datum_izdavanja: string
+  svrha_putovanja: string
+  destinacija: string
+  datum_polaska: string
+  datum_povratka: string
+  ime_prezime: string
+  pozicija: string
+  prevozno_sredstvo: string
+  registarski_broj?: string
+  naziv_firme: string
+  adresa_firme?: string
+  pib?: string
+  zastupnik?: string
+  dnevnica?: number
+  broj_dnevnica?: number
+  troskovi_prevoza?: number
+  troskovi_smestaja?: number
+  ostali_troskovi?: number
+  napomena?: string
+}
+
 export type WizardFormData =
   | FakturaData
+  | PutniNalogData
   | UgovorORaduData
   | UgovorODeluData
   | NdaData
