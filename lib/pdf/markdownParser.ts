@@ -24,7 +24,7 @@ export type Block = TextBlock | TableBlock
 // Roman numeral section headings emitted without ## prefix (e.g. "I. Podaci o stranama")
 const ROMAN_RE = /^[IVXLCDM]{1,6}\.\s/
 
-// Ćirilica → latinica konverzija (zaštita od mešanja pisama u generisanom tekstu)
+// Cyrillic -> Latin transliteration to avoid mixed-script output in generated text.
 const CYRILLIC_MAP: Record<string, string> = {
   'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
   'ђ': 'đ', 'е': 'e', 'ж': 'ž', 'з': 'z', 'и': 'i',
@@ -40,14 +40,23 @@ const CYRILLIC_MAP: Record<string, string> = {
   'Х': 'H', 'Ц': 'C', 'Ч': 'Č', 'Џ': 'Dž', 'Ш': 'Š',
 }
 
+const LATIN_DIACRITIC_MAP: Record<string, string> = {
+  'Đ': 'Dj', 'đ': 'dj',
+  'Ć': 'C', 'ć': 'c',
+  'Č': 'C', 'č': 'c',
+  'Š': 'S', 'š': 's',
+  'Ž': 'Z', 'ž': 'z',
+}
+
 export function sanitizeText(text: string): string {
-  return text.replace(/[а-шА-ШђјљњћџЂЈЉЊЋЏ]/g,
-    ch => CYRILLIC_MAP[ch] ?? ch)
+  return text
+    .replace(/[а-шА-ШђјљњћџЂЈЉЊЋЏ]/g, ch => CYRILLIC_MAP[ch] ?? ch)
+    .replace(/[ĐđĆćČčŠšŽž]/g, ch => LATIN_DIACRITIC_MAP[ch] ?? ch)
 }
 
 function parseInline(text: string): InlineSpan[] {
-  // U+2060 Word Joiner between f+i and f+l — invisible, prevents OpenType ligatures
-  const WJ = '⁠'
+  // U+2060 Word Joiner between f+i and f+l - invisible, prevents OpenType ligatures.
+  const WJ = '\u2060'
   const t = text.replace(/fi/g, `f${WJ}i`).replace(/fl/g, `f${WJ}l`)
 
   const spans: InlineSpan[] = []
@@ -99,8 +108,8 @@ export function parseMarkdown(text: string): Block[] {
     const raw = lines[i]
     const line = raw.trim()
 
-    // Stop before signature section - rendered as a hardcoded component
-    // Match only standalone section headers (## POTPISI, POTPISI alone, etc.), not mid-sentence
+    // Stop before signature section - rendered as a hardcoded component.
+    // Match only standalone section headers (## POTPISI, POTPISI alone, etc.), not mid-sentence.
     if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
 
     if (isTableRow(line) && !isTableSeparator(line)) {
@@ -165,7 +174,7 @@ export function parseMarkdown(text: string): Block[] {
     blocks.push({ type: 'paragraph', spans: parseInline(line) })
   }
 
-  // Ukloni trailing spacere i heading-e bez sadržaja na kraju
+  // Remove trailing spacers and headings without content at the end.
   while (blocks.length > 0) {
     const last = blocks[blocks.length - 1]
     if (last.type === 'spacer') {

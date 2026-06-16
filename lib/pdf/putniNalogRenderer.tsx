@@ -142,6 +142,7 @@ const s = StyleSheet.create({
     fontSize: 7,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
+    flexShrink: 0,
   },
   tabelaRed: {
     flexDirection: 'row',
