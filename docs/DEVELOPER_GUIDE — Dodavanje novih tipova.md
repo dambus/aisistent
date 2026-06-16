@@ -271,6 +271,7 @@ Wizard se ne učitava (404)
 | Problem | Uzrok | Rešenje |
 | --- | --- | --- |
 | Toggle ostaje null | Toggle polje nije dodirnuto — vrednost ostaje null umesto false | WizardForm.tsx ima generički fallback ali Zod schema mora imati .default(false) za svaki toggle |
+| Dijakritici ne rade u PDF-u | Renderer koristi Helvetica umesto Roboto | Kopiraj Font.register() iz AisistentDocument.tsx, zameni fontFamily na Roboto |
 
 ---
 *jun 2026. — ažurirati pri svakom novom tipu dokumenta*

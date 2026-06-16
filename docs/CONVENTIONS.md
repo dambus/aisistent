@@ -99,6 +99,22 @@ odgovor-kandidatu, opis-proizvoda, bio-o-nama, zapisnik-sastanak
 ### Labele u potpisima
 - Bez kose crte: "Direktor" ne "Direktor/ica"
 
+### PDF font — obavezno Roboto
+Svaki novi PDF renderer mora koristiti Roboto font, ne Helvetica.
+Helvetica ne podržava srpske dijakritike (č, š, ž, ć, đ).
+
+Obavezan `Font.register()` na vrhu svakog `*Renderer.tsx` fajla:
+Kopirati identičan blok iz `lib/pdf/AisistentDocument.tsx`.
+
+U `StyleSheet`:
+- `page: { fontFamily: 'Roboto', ... }` — uvek
+- `fontFamily: 'Helvetica'` → `Roboto`
+- `fontFamily: 'Helvetica-Bold'` → `fontFamily: 'Roboto', fontWeight: 'bold'`
+
+Sa Roboto fontom `sanitizeText()` NIJE potreban za korisnički unos
+u strukturisanim rendererima (faktura, putni nalog).
+`sanitizeText()` ostaje u `markdownParser.ts` za konverziju ćirilice.
+
 ---
 
 ## Disclaimer
