@@ -75,7 +75,6 @@ const s = StyleSheet.create({
     fontSize: 7,
     fontFamily: 'Roboto-Bold',
     color: ZELENA,
-    textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 6,
     paddingBottom: 3,
@@ -186,14 +185,12 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
   const troskovi = [
     data.dnevnica && 'Dnevnica',
     data.gorivo_na_teret_firme && 'Gorivo',
-    data.smestaj && 'Smestaj',
+    data.smestaj && 'Smeštaj',
   ].filter(Boolean) as string[]
 
   return (
     <Document>
       <Page size="A4" style={s.page}>
-
-        {/* Header */}
         <View style={s.header}>
           <View style={s.headerLeft}>
             <Text style={s.firmaLabel}>Izdavalac naloga</Text>
@@ -205,19 +202,16 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           </View>
           <View style={s.headerRight}>
             <Text style={s.docNaslov}>PUTNI NALOG</Text>
-            {data.broj_naloga && (
-              <Text style={s.docBroj}>Broj: {data.broj_naloga}</Text>
-            )}
+            {data.broj_naloga && <Text style={s.docBroj}>Broj: {data.broj_naloga}</Text>}
             <Text style={s.docDatum}>
               Datum izdavanja: {formatDate(data.datum_izdavanja)}
             </Text>
           </View>
         </View>
 
-        {/* Vozac i vozilo — dve kolone */}
         <View style={s.dvored}>
           <View style={s.dvoredBlok}>
-            <Text style={s.sekcijaHeader}>Vozac</Text>
+            <Text style={s.sekcijaHeader}>VOZAČ</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Ime i prezime:</Text>
               <Text style={s.redValue}>{data.ime_vozaca ?? ''}</Text>
@@ -230,7 +224,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             )}
           </View>
           <View style={s.dvoredBlok}>
-            <Text style={s.sekcijaHeader}>Vozilo</Text>
+            <Text style={s.sekcijaHeader}>VOZILO</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Marka i model:</Text>
               <Text style={s.redValue}>{data.marka_model ?? ''}</Text>
@@ -250,9 +244,8 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           </View>
         </View>
 
-        {/* Svrha putovanja */}
         <View style={s.sekcija}>
-          <Text style={s.sekcijaHeader}>Svrha putovanja</Text>
+          <Text style={s.sekcijaHeader}>SVRHA PUTOVANJA</Text>
           <View style={[s.redPodataka, { paddingVertical: 6 }]}>
             <Text style={[s.redValue, { fontFamily: 'Roboto', fontWeight: 'normal' }]}>
               {data.svrha_putovanja ?? ''}
@@ -260,9 +253,8 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           </View>
         </View>
 
-        {/* Tabela kretanja */}
         <View style={s.sekcija}>
-          <Text style={s.sekcijaHeader}>Kretanje vozila</Text>
+          <Text style={s.sekcijaHeader}>KRETANJE VOZILA</Text>
           <View style={s.tabelaHeader}>
             <Text style={[s.tabelaHeaderCell, s.colDatum]}>Datum</Text>
             <Text style={[s.tabelaHeaderCell, s.colOd]}>Mesto polaska</Text>
@@ -270,37 +262,22 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             <Text style={[s.tabelaHeaderCell, s.colKm]}>Km</Text>
             <Text style={[s.tabelaHeaderCell, s.colNapomena]}>Napomena</Text>
           </View>
-          {/* Polazak */}
           <View style={s.tabelaRed}>
-            <Text style={[s.tabelaCell, s.colDatum]}>
-              {formatDate(data.datum_polaska)}
-            </Text>
-            <Text style={[s.tabelaCell, s.colOd]}>
-              {data.polaziste ?? ''}
-            </Text>
-            <Text style={[s.tabelaCell, s.colDo]}>
-              {data.odrediste ?? ''}
-            </Text>
+            <Text style={[s.tabelaCell, s.colDatum]}>{formatDate(data.datum_polaska)}</Text>
+            <Text style={[s.tabelaCell, s.colOd]}>{data.polaziste ?? ''}</Text>
+            <Text style={[s.tabelaCell, s.colDo]}>{data.odrediste ?? ''}</Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
-            <Text style={[s.tabelaCell, s.colNapomena]}>
-              {data.napomena_ruta ?? ''}
-            </Text>
+            <Text style={[s.tabelaCell, s.colNapomena]}>{data.napomena_ruta ?? ''}</Text>
           </View>
-          {/* Povratak */}
           <View style={[s.tabelaRed, s.tabelaRedAlt]}>
             <Text style={[s.tabelaCell, s.colDatum]}>
               {data.datum_povratka ? formatDate(data.datum_povratka) : '___________'}
             </Text>
-            <Text style={[s.tabelaCell, s.colOd]}>
-              {data.odrediste ?? ''}
-            </Text>
-            <Text style={[s.tabelaCell, s.colDo]}>
-              {data.polaziste ?? ''}
-            </Text>
+            <Text style={[s.tabelaCell, s.colOd]}>{data.odrediste ?? ''}</Text>
+            <Text style={[s.tabelaCell, s.colDo]}>{data.polaziste ?? ''}</Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
-            <Text style={[s.tabelaCell, s.colNapomena]}></Text>
+            <Text style={[s.tabelaCell, s.colNapomena]} />
           </View>
-          {/* Prazni redovi za rucno dopunjavanje */}
           {[0, 1].map(i => (
             <View key={i} style={[s.tabelaRed, i % 2 === 0 ? {} : s.tabelaRedAlt]}>
               <Text style={[s.tabelaCell, s.colDatum]}> </Text>
@@ -310,24 +287,20 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               <Text style={[s.tabelaCell, s.colNapomena]}> </Text>
             </View>
           ))}
-          {/* Ukupno */}
           <View style={[s.tabelaRed, { backgroundColor: '#F0FDF4' }]}>
             <Text style={[s.tabelaCell, s.colDatum, { fontFamily: 'Roboto-Bold' }]}>
               Ukupno:
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}> </Text>
             <Text style={[s.tabelaCell, s.colDo]}> </Text>
-            <Text style={[s.tabelaCell, s.colKm, { fontFamily: 'Roboto-Bold' }]}>
-              ___
-            </Text>
+            <Text style={[s.tabelaCell, s.colKm, { fontFamily: 'Roboto-Bold' }]}>___</Text>
             <Text style={[s.tabelaCell, s.colNapomena]}> </Text>
           </View>
         </View>
 
-        {/* Troskovi */}
         {(troskovi.length > 0 || data.ostali_troskovi) && (
           <View style={s.sekcija}>
-            <Text style={s.sekcijaHeader}>Troskovi na teret firme</Text>
+            <Text style={s.sekcijaHeader}>TROŠKOVI NA TERET FIRME</Text>
             <View style={s.troskBlock}>
               {troskovi.map(t => (
                 <View key={t} style={s.troskItem}>
@@ -337,7 +310,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             </View>
             {data.ostali_troskovi && (
               <View style={[s.redPodataka, { marginTop: 6 }]}>
-                <Text style={s.redLabel}>Ostali troskovi:</Text>
+                <Text style={s.redLabel}>Ostali troškovi:</Text>
                 <Text style={[s.redValue, { fontFamily: 'Roboto', fontWeight: 'normal' }]}>
                   {data.ostali_troskovi ?? ''}
                 </Text>
@@ -346,52 +319,40 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           </View>
         )}
 
-        {/* Potpisi */}
         <View style={s.potpisBlok}>
           <Text style={s.potpisNaslov}>Potpisi</Text>
           <View style={s.potpisRed}>
             <View style={s.potpisKolona}>
-              <Text style={s.potpisLabel}>
-                Nalog izdalo i odobrilo ovlasceno lice:
-              </Text>
+              <Text style={s.potpisLabel}>Nalog izdalo i odobrilo ovlašćeno lice:</Text>
               <View style={s.potpisLinija} />
               <Text style={s.potpisIme}>{data.ovlasceno_lice ?? ''}</Text>
             </View>
             <View style={s.potpisKolona}>
-              <Text style={s.potpisLabel}>
-                Vozac — primio vozilo bez vidljivih nedostataka:
-              </Text>
+              <Text style={s.potpisLabel}>Vozač — primio vozilo bez vidljivih nedostataka:</Text>
               <View style={s.potpisLinija} />
               <Text style={s.potpisIme}>{data.ime_vozaca ?? ''}</Text>
             </View>
             <View style={s.potpisKolona}>
-              <Text style={s.potpisLabel}>
-                Ovlasceno lice — kontrola po povratku:
-              </Text>
+              <Text style={s.potpisLabel}>Ovlašćeno lice — kontrola po povratku:</Text>
               <View style={s.potpisLinija} />
               <Text style={s.potpisIme}> </Text>
             </View>
           </View>
         </View>
 
-        {/* Napomena o dnevnici */}
         {data.dnevnica && (
           <View style={s.napomenaBox}>
             <Text style={s.napomenaText}>
-              Napomena: Dnevnica za sluzbeni put u Srbiji — neoporezivi iznos
-              3.316 RSD/dan (2026). Za putovanje u inostranstvo do 90 EUR/dan.
-              Dnevnica se obracunava za putovanje duze od 8 sati.
+              Napomena: Dnevnica za službeni put u Srbiji — neoporezivi iznos 3.316
+              {' '}RSD/dan (2026). Za putovanje u inostranstvo do 90 EUR/dan.
+              {' '}Dnevnica se obračunava za putovanje duže od 8 sati.
             </Text>
           </View>
         )}
 
-        {/* Footer */}
         <View style={s.footer} fixed>
-          <Text style={s.footerText}>
-            Dokument generisan putem aisistent.rs
-          </Text>
+          <Text style={s.footerText}>Dokument generisan putem aisistent.rs</Text>
         </View>
-
       </Page>
     </Document>
   )
