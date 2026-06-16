@@ -580,6 +580,12 @@ const documentConfigs = {
 } as const
 
 const rateLimitStore = new Map<string, number[]>()
+const PLAN_LIMITS: Record<string, number | null> = {
+  free: 1,
+  starter: 20,
+  pro: null,
+  business: null,
+}
 
 function checkRateLimit(userId: string): boolean {
   const now = Date.now()
@@ -635,9 +641,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Profil nije pronađen.' }, { status: 404 })
   }
 
-  if (profile.plan === 'free' && profile.documents_this_month >= 1) {
+  const limit = PLAN_LIMITS[profile.plan] ?? 1
+  if (limit !== null && profile.documents_this_month >= limit) {
+    const planLabel = profile.plan === 'free' ? 'besplatni' : profile.plan
     return NextResponse.json(
-      { error: 'PLAN_LIMIT', message: 'Iskoristili ste besplatni mesečni dokument.' },
+      {
+        error: 'PLAN_LIMIT',
+        message: `Iskoristili ste sav kvotu za ${planLabel} plan ovog meseca.`,
+      },
       { status: 402 }
     )
   }

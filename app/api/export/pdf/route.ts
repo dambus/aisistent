@@ -122,8 +122,10 @@ export async function POST(request: NextRequest) {
       )
     } catch (pdfErr) {
       console.error('Faktura PDF render error:', pdfErr)
-      const detail = pdfErr instanceof Error ? pdfErr.message : String(pdfErr)
-      return NextResponse.json({ error: 'Greška pri generisanju PDF fakture.', detail }, { status: 500 })
+      return NextResponse.json(
+        { error: 'Greška pri generisanju PDF-a. Pokušajte ponovo.' },
+        { status: 500 }
+      )
     }
 
     const filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${fakturaData.datum_izdavanja}.pdf`
@@ -153,9 +155,10 @@ export async function POST(request: NextRequest) {
     )
   } catch (pdfErr) {
     console.error('PDF render error:', pdfErr)
-    console.error('Doc meta:', { id: doc.id, textLen: doc.generated_text.length, isFree: doc.is_free })
-    const detail = pdfErr instanceof Error ? pdfErr.message : String(pdfErr)
-    return NextResponse.json({ error: 'Greška pri generisanju PDF-a.', detail }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Greška pri generisanju PDF-a. Pokušajte ponovo.' },
+      { status: 500 }
+    )
   }
 
   const slug = doc.type.replace('ugovor-o-', 'ugovor-')

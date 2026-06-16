@@ -217,7 +217,16 @@ export async function POST(request: NextRequest) {
       }],
     })
 
-    const fakturaBuffer = await Packer.toBuffer(fakturaDoc)
+    let fakturaBuffer: Buffer
+    try {
+      fakturaBuffer = await Packer.toBuffer(fakturaDoc)
+    } catch (docxErr) {
+      console.error('DOCX render error:', docxErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju Word dokumenta. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
     const filename = `faktura-${(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
     return new NextResponse(new Uint8Array(fakturaBuffer), {
       headers: {
@@ -228,14 +237,23 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  const docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at, {
-    documentType: doc.type,
-    inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
-    isFree: doc.is_free ?? false,
-    logoBuffer,
-    logoMimeType,
-    companyData,
-  })
+  let docxBuffer: Buffer
+  try {
+    docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at, {
+      documentType: doc.type,
+      inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
+      isFree: doc.is_free ?? false,
+      logoBuffer,
+      logoMimeType,
+      companyData,
+    })
+  } catch (docxErr) {
+    console.error('DOCX render error:', docxErr)
+    return NextResponse.json(
+      { error: 'Greška pri generisanju Word dokumenta. Pokušajte ponovo.' },
+      { status: 500 }
+    )
+  }
 
   const slug = doc.type.replace('ugovor-o-', 'ugovor-')
   const date = new Date(doc.created_at).toISOString().split('T')[0]

@@ -127,8 +127,12 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
       }
 
       onComplete(json.document_id, json.generated_text, json.title ?? 'Dokument', json.is_free ?? false)
-    } catch {
-      setApiError('Greška pri slanju zahteva. Proverite vezu i pokušajte ponovo.')
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        setApiError('Zahtev je trajao predugo. Pokušajte ponovo.')
+      } else {
+        setApiError('Greška pri generisanju dokumenta. Pokušajte ponovo.')
+      }
     } finally {
       setLoading(false)
     }
