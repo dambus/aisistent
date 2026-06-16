@@ -1,6 +1,12 @@
 import React from 'react'
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
-import { sanitizeText } from '@/lib/pdf/markdownParser'
+import path from 'path'
+import { Document, Page, View, Text, StyleSheet, Font } from '@react-pdf/renderer'
+
+const FONTS_DIR = path.resolve(process.cwd(), 'public/fonts')
+Font.register({ family: 'Roboto', src: `${FONTS_DIR}/Roboto-Regular.ttf` })
+Font.register({ family: 'Roboto-Bold', src: `${FONTS_DIR}/Roboto-Bold.ttf` })
+Font.register({ family: 'Roboto-Italic', src: `${FONTS_DIR}/Roboto-Italic.ttf` })
+Font.register({ family: 'Roboto-BoldItalic', src: `${FONTS_DIR}/Roboto-BoldItalic.ttf` })
 
 interface PutniNalogData {
   naziv_firme: string
@@ -39,7 +45,7 @@ const BORDER = '#E5E7EB'
 
 const s = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica',
+    fontFamily: 'Roboto',
     fontSize: 9,
     color: '#111827',
     paddingHorizontal: 40,
@@ -58,16 +64,16 @@ const s = StyleSheet.create({
   headerLeft: { flex: 1 },
   headerRight: { alignItems: 'flex-end' },
   firmaLabel: { fontSize: 7, color: SIVA, marginBottom: 2 },
-  firmaNaziv: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: '#111827' },
+  firmaNaziv: { fontSize: 11, fontFamily: 'Roboto-Bold', color: '#111827' },
   firmaPib: { fontSize: 8, color: SIVA, marginTop: 1 },
   firmaAdresa: { fontSize: 8, color: SIVA, marginTop: 1 },
-  docNaslov: { fontSize: 18, fontFamily: 'Helvetica-Bold', color: ZELENA },
+  docNaslov: { fontSize: 18, fontFamily: 'Roboto-Bold', color: ZELENA },
   docBroj: { fontSize: 8, color: SIVA, marginTop: 2 },
   docDatum: { fontSize: 8, color: SIVA, marginTop: 1 },
   sekcija: { marginBottom: 12 },
   sekcijaHeader: {
     fontSize: 7,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto-Bold',
     color: ZELENA,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -83,7 +89,7 @@ const s = StyleSheet.create({
     borderBottomColor: BORDER,
   },
   redLabel: { width: '35%', fontSize: 8, color: SIVA },
-  redValue: { flex: 1, fontSize: 8.5, fontFamily: 'Helvetica-Bold' },
+  redValue: { flex: 1, fontSize: 8.5, fontFamily: 'Roboto-Bold' },
   dvored: { flexDirection: 'row', gap: 12, marginBottom: 12 },
   dvoredBlok: { flex: 1 },
   troskBlock: {
@@ -102,7 +108,7 @@ const s = StyleSheet.create({
     borderColor: ZELENA,
     borderRadius: 4,
   },
-  troskItemText: { fontSize: 8, color: ZELENA, fontFamily: 'Helvetica-Bold' },
+  troskItemText: { fontSize: 8, color: ZELENA, fontFamily: 'Roboto-Bold' },
   potpisBlok: {
     marginTop: 24,
     paddingTop: 16,
@@ -111,7 +117,7 @@ const s = StyleSheet.create({
   },
   potpisNaslov: {
     fontSize: 7,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto-Bold',
     color: ZELENA,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -140,7 +146,7 @@ const s = StyleSheet.create({
   },
   tabelaHeaderCell: {
     fontSize: 7,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto-Bold',
     color: '#FFFFFF',
     flexShrink: 0,
   },
@@ -191,10 +197,10 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
         <View style={s.header}>
           <View style={s.headerLeft}>
             <Text style={s.firmaLabel}>Izdavalac naloga</Text>
-            <Text style={s.firmaNaziv}>{sanitizeText(data.naziv_firme ?? '')}</Text>
+            <Text style={s.firmaNaziv}>{data.naziv_firme ?? ''}</Text>
             {data.pib && <Text style={s.firmaPib}>PIB: {data.pib}</Text>}
             {data.adresa_firme && (
-              <Text style={s.firmaAdresa}>{sanitizeText(data.adresa_firme ?? '')}</Text>
+              <Text style={s.firmaAdresa}>{data.adresa_firme ?? ''}</Text>
             )}
           </View>
           <View style={s.headerRight}>
@@ -214,12 +220,12 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             <Text style={s.sekcijaHeader}>Vozac</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Ime i prezime:</Text>
-              <Text style={s.redValue}>{sanitizeText(data.ime_vozaca ?? '')}</Text>
+              <Text style={s.redValue}>{data.ime_vozaca ?? ''}</Text>
             </View>
             {data.pozicija_vozaca && (
               <View style={s.redPodataka}>
                 <Text style={s.redLabel}>Radno mesto:</Text>
-                <Text style={s.redValue}>{sanitizeText(data.pozicija_vozaca ?? '')}</Text>
+                <Text style={s.redValue}>{data.pozicija_vozaca ?? ''}</Text>
               </View>
             )}
           </View>
@@ -227,7 +233,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             <Text style={s.sekcijaHeader}>Vozilo</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Marka i model:</Text>
-              <Text style={s.redValue}>{sanitizeText(data.marka_model ?? '')}</Text>
+              <Text style={s.redValue}>{data.marka_model ?? ''}</Text>
             </View>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Registarski broj:</Text>
@@ -248,8 +254,8 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
         <View style={s.sekcija}>
           <Text style={s.sekcijaHeader}>Svrha putovanja</Text>
           <View style={[s.redPodataka, { paddingVertical: 6 }]}>
-            <Text style={[s.redValue, { fontFamily: 'Helvetica' }]}>
-              {sanitizeText(data.svrha_putovanja ?? '')}
+            <Text style={[s.redValue, { fontFamily: 'Roboto', fontWeight: 'normal' }]}>
+              {data.svrha_putovanja ?? ''}
             </Text>
           </View>
         </View>
@@ -270,14 +276,14 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               {formatDate(data.datum_polaska)}
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}>
-              {sanitizeText(data.polaziste ?? '')}
+              {data.polaziste ?? ''}
             </Text>
             <Text style={[s.tabelaCell, s.colDo]}>
-              {sanitizeText(data.odrediste ?? '')}
+              {data.odrediste ?? ''}
             </Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
             <Text style={[s.tabelaCell, s.colNapomena]}>
-              {data.napomena_ruta ? sanitizeText(data.napomena_ruta ?? '') : ''}
+              {data.napomena_ruta ?? ''}
             </Text>
           </View>
           {/* Povratak */}
@@ -286,10 +292,10 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               {data.datum_povratka ? formatDate(data.datum_povratka) : '___________'}
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}>
-              {sanitizeText(data.odrediste ?? '')}
+              {data.odrediste ?? ''}
             </Text>
             <Text style={[s.tabelaCell, s.colDo]}>
-              {sanitizeText(data.polaziste ?? '')}
+              {data.polaziste ?? ''}
             </Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
             <Text style={[s.tabelaCell, s.colNapomena]}></Text>
@@ -306,12 +312,12 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           ))}
           {/* Ukupno */}
           <View style={[s.tabelaRed, { backgroundColor: '#F0FDF4' }]}>
-            <Text style={[s.tabelaCell, s.colDatum, { fontFamily: 'Helvetica-Bold' }]}>
+            <Text style={[s.tabelaCell, s.colDatum, { fontFamily: 'Roboto-Bold' }]}>
               Ukupno:
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}> </Text>
             <Text style={[s.tabelaCell, s.colDo]}> </Text>
-            <Text style={[s.tabelaCell, s.colKm, { fontFamily: 'Helvetica-Bold' }]}>
+            <Text style={[s.tabelaCell, s.colKm, { fontFamily: 'Roboto-Bold' }]}>
               ___
             </Text>
             <Text style={[s.tabelaCell, s.colNapomena]}> </Text>
@@ -332,8 +338,8 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             {data.ostali_troskovi && (
               <View style={[s.redPodataka, { marginTop: 6 }]}>
                 <Text style={s.redLabel}>Ostali troskovi:</Text>
-                <Text style={[s.redValue, { fontFamily: 'Helvetica' }]}>
-                  {sanitizeText(data.ostali_troskovi ?? '')}
+                <Text style={[s.redValue, { fontFamily: 'Roboto', fontWeight: 'normal' }]}>
+                  {data.ostali_troskovi ?? ''}
                 </Text>
               </View>
             )}
@@ -349,14 +355,14 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
                 Nalog izdalo i odobrilo ovlasceno lice:
               </Text>
               <View style={s.potpisLinija} />
-              <Text style={s.potpisIme}>{sanitizeText(data.ovlasceno_lice ?? '')}</Text>
+              <Text style={s.potpisIme}>{data.ovlasceno_lice ?? ''}</Text>
             </View>
             <View style={s.potpisKolona}>
               <Text style={s.potpisLabel}>
                 Vozac — primio vozilo bez vidljivih nedostataka:
               </Text>
               <View style={s.potpisLinija} />
-              <Text style={s.potpisIme}>{sanitizeText(data.ime_vozaca ?? '')}</Text>
+              <Text style={s.potpisIme}>{data.ime_vozaca ?? ''}</Text>
             </View>
             <View style={s.potpisKolona}>
               <Text style={s.potpisLabel}>
