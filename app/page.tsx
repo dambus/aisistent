@@ -70,6 +70,7 @@ const toolCategories: ToolCategory[] = [
       { name: 'Ugovor o saradnji',desc: 'Za partnerstva i zajedničke projekte',          type: 'ugovor-o-saradnji' },
       { name: 'Punomoćje',        desc: 'Za zastupanje pred organima i firmama',         type: 'punomocje' },
       { name: 'Opšti uslovi i Politika privatnosti', desc: 'Obavezno za svaki veb sajt', type: 'opsti-uslovi' },
+      { name: 'Faktura / Profaktura', desc: 'Profesionalna faktura sa PDV logikom i stavkama', type: 'faktura' },
     ],
   },
   {
@@ -136,10 +137,8 @@ const pricing: PricingPlan[] = [
     href: '/register',
     features: [
       ['✓', '1 dokument mesečno'],
-      ['✓', 'PDF format'],
-      ['✓', 'Sve kategorije alata'],
-      ['✕', 'Word format'],
-      ['✕', 'Arhiva dokumenata'],
+      ['✓', 'PDF sa watermarkom'],
+      ['✓', 'Arhiva dokumenata'],
     ],
   },
   {
@@ -150,10 +149,10 @@ const pricing: PricingPlan[] = [
     href: '/register',
     features: [
       ['✓', '20 dokumenata mesečno'],
-      ['✓', 'PDF bez oznake'],
-      ['✓', 'Word format'],
+      ['✓', 'PDF bez watermark-a'],
+      ['✓', 'Email slanje dokumenata'],
       ['✓', 'Arhiva dokumenata'],
-      ['✕', 'Višekorisnički pristup'],
+      ['✕', 'Word (DOCX) format'],
     ],
   },
   {
@@ -166,10 +165,9 @@ const pricing: PricingPlan[] = [
     featured: true,
     features: [
       ['✓', 'Neograničen broj dokumenata'],
-      ['✓', 'PDF i Word format'],
-      ['✓', 'Arhiva dokumenata'],
-      ['✓', 'Brza tehnička podrška'],
-      ['✕', 'Višekorisnički pristup'],
+      ['✓', 'PDF i Word (DOCX) export'],
+      ['✓', 'Brendiranje sa logom firme'],
+      ['✓', 'Email slanje dokumenata'],
     ],
   },
   {
@@ -179,10 +177,10 @@ const pricing: PricingPlan[] = [
     cta: 'Kontaktirajte nas',
     href: 'mailto:info@aisistent.rs',
     features: [
+      ['✓', 'Neograničen broj dokumenata'],
       ['✓', 'Sve iz Pro plana'],
       ['✓', 'Do 5 korisnika'],
-      ['✓', 'Ažurna tehnička podrška'],
-      ['✓', 'Prilagođeni izgled dokumenata (uskoro)'],
+      ['✓', 'Prioritetna podrška'],
     ],
   },
 ]
@@ -365,7 +363,7 @@ export default async function Home() {
       {/* ── ALATI ── */}
       <section id="alati" className="bg-white px-5 py-20 lg:px-8">
         <SectionHeading
-          eyebrow="10 alata"
+          eyebrow="18 tipova dokumenata"
           title="Sve što je potrebno vašem biznisu"
           text="Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
         />
@@ -513,7 +511,7 @@ export default async function Home() {
           Napravite prvi dokument već danas
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/80">
-          Preduzetnici širom Srbije već koriste AIsistent za ugovore, mejlove i papirologiju.
+          Napravljeno za srpske preduzetnike, freelancere i male firme
         </p>
         <a
           href={isLoggedIn ? '/dashboard' : '/register'}
