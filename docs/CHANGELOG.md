@@ -1,3 +1,12 @@
+## jun 2026. — Onboarding flow
+
+- 3-koračni modal za nove korisnike (dobrodošlica → firma → prvi dokument)
+- Progress bar kroz korake
+- Firma se čuva kao podrazumevana pri onboardingu
+- Odabir prvog dokumenta vodi direktno u wizard
+- Reset dugme u Podešavanjima → Bezbednost
+- Supabase migracija: 20260616000002_add_onboarded.sql
+
 ## jun 2026. — Admin panel
 
 - /admin ruta zaštićena middleware-om (is_admin u profiles tabeli)

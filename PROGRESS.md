@@ -56,6 +56,7 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 ### Čekaju primenu (Supabase SQL Editor)
 - 20260611000001_add_contacts.sql — contacts tabela
 - 20260616000001_add_admin_role.sql — is_admin kolona
+- 20260616000002_add_onboarded.sql — onboarded kolona
 
 ### Blokirano
 - Payment gateway (Paddle) — čeka APR registraciju

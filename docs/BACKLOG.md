@@ -23,6 +23,8 @@
 - Arhiva sa search i filterima ✅
 - Profil — firme, avatar inicijali, plan badge ✅
 - Admin panel — pregled, korisnici, dokumenti (/admin) ✅
+- Onboarding flow — 3 koraka (dobrodošlica, firma, prvi dokument) ✅
+- Reset onboarding dugme u podešavanjima ✅
 - Podešavanja — lozinka, odjava, brisanje naloga ✅
 - shadcn/ui Faza 1 — ScrollArea, Select ✅
 - shadcn/ui Faza 2 — Switch, Tooltip, AlertDialog, Dialog ✅
@@ -51,9 +53,6 @@
   Istražiti: api.apr.gov.rs dostupnost i uslove
 
 - **shadcn Faza 3** — Sheet za mobilni sidebar (slide-in)
-
-- **Onboarding flow** — welcome wizard za nove korisnike
-  (tip biznisa, najčešći dokumenti, popunjavanje prve firme)
 
 ---
 
