@@ -8,13 +8,14 @@ interface DashboardShellProps {
   plan: string
   userInitials: string
   showWelcomeModal: boolean
+  isAdmin?: boolean
 }
 
-export function DashboardShell({ children, plan, userInitials, showWelcomeModal }: DashboardShellProps) {
+export function DashboardShell({ children, plan, userInitials, showWelcomeModal, isAdmin }: DashboardShellProps) {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {showWelcomeModal && <WelcomeModal />}
-      <Sidebar plan={plan} userInitials={userInitials} />
+      <Sidebar plan={plan} userInitials={userInitials} isAdmin={isAdmin} />
       <div className="flex-1 pt-12 md:pt-0">
         <main className="mx-auto max-w-5xl px-4 py-8">
           {children}

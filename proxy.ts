@@ -28,8 +28,9 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isAuthPage = pathname === '/login' || pathname === '/register'
   const isDashboard = pathname.startsWith('/dashboard')
+  const isAdmin = pathname.startsWith('/admin')
 
-  if (isDashboard && !user) {
+  if ((isDashboard || isAdmin) && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
@@ -37,9 +38,21 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
+  if (isAdmin && user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile?.is_admin) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
   return response
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/register'],
+  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register'],
 }

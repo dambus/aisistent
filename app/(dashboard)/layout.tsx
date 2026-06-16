@@ -23,7 +23,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const admin = createAdminClient()
   const { data: profile } = await admin
     .from('profiles')
-    .select('plan, display_name')
+    .select('plan, display_name, is_admin')
     .eq('id', user.id)
     .single()
 
@@ -36,6 +36,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       plan={plan}
       userInitials={userInitials}
       showWelcomeModal={showWelcomeModal}
+      isAdmin={profile?.is_admin ?? false}
     >
       {children}
     </DashboardShell>

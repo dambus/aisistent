@@ -119,6 +119,7 @@ function SidebarLogo({ height = 28, maxWidth = 160 }: { height?: number; maxWidt
 interface Props {
   plan: string
   userInitials: string
+  isAdmin?: boolean
 }
 
 function defaultExpanded(): Record<string, boolean> {
@@ -128,7 +129,7 @@ function defaultExpanded(): Record<string, boolean> {
   }
 }
 
-export function Sidebar({ plan, userInitials }: Props) {
+export function Sidebar({ plan, userInitials, isAdmin }: Props) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>(defaultExpanded)
@@ -307,6 +308,12 @@ export function Sidebar({ plan, userInitials }: Props) {
           {bottomNav.map(item => (
             <NavLink key={item.href} item={item} onClick={onLinkClick} />
           ))}
+          {isAdmin && (
+            <NavLink
+              item={{ label: 'Admin panel', href: '/admin', icon: '⚑' }}
+              onClick={onLinkClick}
+            />
+          )}
           <div className="mt-1 px-3 py-2">
             <LogoutButton className="text-sm text-gray-500 transition-colors hover:text-white" />
           </div>

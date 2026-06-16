@@ -50,6 +50,7 @@ export interface Database {
           display_name: string | null
           documents_this_month: number
           stripe_customer_id: string | null
+          is_admin: boolean
           created_at: string
         }
         Insert: {
@@ -58,6 +59,7 @@ export interface Database {
           display_name?: string | null
           documents_this_month?: number
           stripe_customer_id?: string | null
+          is_admin?: boolean
           created_at?: string
         }
         Update: {
@@ -65,6 +67,7 @@ export interface Database {
           display_name?: string | null
           documents_this_month?: number
           stripe_customer_id?: string | null
+          is_admin?: boolean
         }
         Relationships: []
       }
