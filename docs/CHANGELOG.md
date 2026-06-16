@@ -7,6 +7,8 @@
 - Preview, email prilog, companyFieldMap
 - Zakonska osnova: Pravilnik o putnim nalozima (Sl. glasnik RS, 90/2016)
 - Dnevnica: neoporezivi iznos 3.316 RSD/dan, inostranstvo 90 EUR/dan
+- Fix: Roboto font umesto Helvetica (srpski dijakritici)
+- Fix: ispraviti hardkodovane srpske stringove u rendereru
 
 ## jun 2026. — Admin panel poboljšanja
 

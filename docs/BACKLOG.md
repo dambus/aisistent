@@ -13,7 +13,7 @@
 ### Dokumenti i generisanje
 - 17 tipova AI dokumenata ✅
 - Faktura / Profaktura (bez AI, direktno renderovanje) ✅
-- Putni nalog — wizard, PDF, DOCX, preview, email ✅
+- Putni nalog — wizard, PDF renderer, DOCX, preview, email ✅
 - PDF i DOCX export za sve tipove ✅
 - Email slanje dokumenata (Resend) ✅
 - Blur preview za free korisnike ✅
