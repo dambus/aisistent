@@ -1,13 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-
-const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
-  free:     { bg: '#F3F4F6', text: '#6B7280' },
-  starter:  { bg: '#EFF6FF', text: '#2563EB' },
-  pro:      { bg: '#F0FDF4', text: '#16A34A' },
-  business: { bg: '#FEF3C7', text: '#D97706' },
-}
+import { PlanSelector } from '@/components/admin/PlanSelector'
+import { ResetDocsButton } from '@/components/admin/ResetDocsButton'
 
 export default async function AdminKorisniciPage() {
   const supabase = await createClient()
@@ -41,12 +36,12 @@ export default async function AdminKorisniciPage() {
               <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Plan</th>
               <th className="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Dok. ovog mes.</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Registrovan</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Akcije</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {(profiles ?? []).map(profile => {
               const email = emailMap[profile.id] ?? '—'
-              const color = PLAN_COLORS[profile.plan] ?? PLAN_COLORS.free
               return (
                 <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3">
@@ -59,18 +54,16 @@ export default async function AdminKorisniciPage() {
                     <p className="text-xs text-gray-500">{email}</p>
                   </td>
                   <td className="px-4 py-3">
-                    <span
-                      className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: color.bg, color: color.text }}
-                    >
-                      {profile.plan}
-                    </span>
+                    <PlanSelector userId={profile.id} currentPlan={profile.plan} />
                   </td>
                   <td className="px-4 py-3 text-center">
                     <span className="text-gray-700">{profile.documents_this_month}</span>
                   </td>
                   <td className="px-4 py-3 text-gray-500 text-xs">
                     {new Date(profile.created_at).toLocaleDateString('sr-RS')}
+                  </td>
+                  <td className="px-4 py-3">
+                    <ResetDocsButton userId={profile.id} />
                   </td>
                 </tr>
               )
