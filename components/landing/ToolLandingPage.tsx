@@ -316,44 +316,53 @@ export function ToolLandingPage({
             <div className="tool-doc-preview">
               <div
                 style={{
-                  backgroundColor: 'white',
-                  borderRadius: '12px',
-                  padding: '24px',
-                  maxWidth: '280px',
-                  width: '100%',
-                  boxShadow: '0 24px 50px rgba(0,0,0,0.22)',
+                  position: 'relative',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <div
                   style={{
-                    height: '10px',
-                    backgroundColor: PRIMARY,
-                    borderRadius: '4px',
-                    marginBottom: '16px',
-                    width: '60%',
+                    position: 'absolute',
+                    bottom: '-12px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '85%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.3)',
+                    borderRadius: '8px',
+                    filter: 'blur(12px)',
+                    zIndex: 0,
                   }}
                 />
-                {['100%', '85%', '92%', '70%', '88%', '75%'].map((width, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      height: '8px',
-                      backgroundColor: '#e5e7eb',
-                      borderRadius: '4px',
-                      marginBottom: '10px',
-                      width,
-                    }}
-                  />
-                ))}
+                <img
+                  src="/images/document-preview.png"
+                  alt="Primer generisanog dokumenta"
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    width: '100%',
+                    maxWidth: '340px',
+                    borderRadius: '8px',
+                    transform: 'rotate(-2deg)',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)',
+                  }}
+                />
                 <div
                   style={{
-                    marginTop: '20px',
-                    padding: '12px',
-                    backgroundColor: '#f0fdf4',
-                    borderRadius: '8px',
+                    position: 'absolute',
+                    bottom: '-8px',
+                    right: '0px',
+                    zIndex: 2,
+                    backgroundColor: '#1B6B4A',
+                    color: 'white',
+                    padding: '8px 14px',
+                    borderRadius: '20px',
                     fontSize: '12px',
-                    color: PRIMARY,
                     fontWeight: 600,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    transform: 'rotate(2deg)',
                   }}
                 >
                   ✓ Generisan za 45 sekundi
