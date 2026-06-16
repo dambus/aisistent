@@ -26,6 +26,16 @@ function isFakturaJson(text: string): boolean {
   }
 }
 
+function isPutniNalogJson(text: string): boolean {
+  try {
+    const parsed = JSON.parse(text)
+    return typeof parsed === 'object' && parsed !== null &&
+      'ime_vozaca' in parsed && 'registarski_broj' in parsed
+  } catch {
+    return false
+  }
+}
+
 async function downloadExport(documentId: string, format: ExportFormat): Promise<string | null> {
   const res = await fetch(`/api/export/${format}`, {
     method: 'POST',
@@ -65,6 +75,134 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     if (err) setError(err)
     setLoading(null)
   }
+
+  const putniNalogPreview = (() => {
+    if (!isPutniNalogJson(text)) return null
+
+    let data: Record<string, unknown> = {}
+    try { data = JSON.parse(text) } catch {}
+
+    function fmtDate(iso: string) {
+      if (!iso) return '___________'
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    const troskovi = [
+      data.dnevnica && 'Dnevnica',
+      data.gorivo_na_teret_firme && 'Gorivo na teret firme',
+      data.smestaj && 'Smeštaj',
+    ].filter(Boolean) as string[]
+
+    return (
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 space-y-5">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-2xl font-bold" style={{ color: '#1B6B4A' }}>
+              PUTNI NALOG
+            </h2>
+            {!!data.broj_naloga && (
+              <p className="text-sm text-gray-500">Broj: {data.broj_naloga as string}</p>
+            )}
+          </div>
+          <div className="text-right text-sm text-gray-500 space-y-0.5">
+            <p>Datum izdavanja: {fmtDate(data.datum_izdavanja as string)}</p>
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-gray-50 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Izdavalac</p>
+          <p className="font-semibold text-gray-900">{data.naziv_firme as string}</p>
+          {!!data.pib && <p className="text-sm text-gray-500">PIB: {data.pib as string}</p>}
+          {!!data.adresa_firme && <p className="text-sm text-gray-500">{data.adresa_firme as string}</p>}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Vozač</p>
+            <p className="font-semibold text-gray-900">{data.ime_vozaca as string}</p>
+            {!!data.pozicija_vozaca && <p className="text-sm text-gray-500">{data.pozicija_vozaca as string}</p>}
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Vozilo</p>
+            <p className="font-semibold text-gray-900">{data.marka_model as string}</p>
+            <p className="text-sm text-gray-500">{data.registarski_broj as string}</p>
+            <p className="text-sm text-gray-500">
+              Km polazak: {(data.km_pocetak as string) ?? '___________'}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Svrha putovanja</p>
+          <p className="text-sm text-gray-700">{data.svrha_putovanja as string}</p>
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Kretanje</p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr style={{ backgroundColor: '#1B6B4A' }} className="text-white">
+                  <th className="px-3 py-2 text-left text-xs font-semibold">Datum</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold">Polazište</th>
+                  <th className="px-3 py-2 text-left text-xs font-semibold">Odredište</th>
+                  <th className="px-3 py-2 text-right text-xs font-semibold">Km</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white">
+                  <td className="px-3 py-2 text-gray-600">{fmtDate(data.datum_polaska as string)}</td>
+                  <td className="px-3 py-2 text-gray-900">{data.polaziste as string}</td>
+                  <td className="px-3 py-2 text-gray-900">{data.odrediste as string}</td>
+                  <td className="px-3 py-2 text-right text-gray-400">___</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-3 py-2 text-gray-600">
+                    {data.datum_povratka ? fmtDate(data.datum_povratka as string) : '___________'}
+                  </td>
+                  <td className="px-3 py-2 text-gray-900">{data.odrediste as string}</td>
+                  <td className="px-3 py-2 text-gray-900">{data.polaziste as string}</td>
+                  <td className="px-3 py-2 text-right text-gray-400">___</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {troskovi.length > 0 && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+              Troškovi na teret firme
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {troskovi.map(t => (
+                <span
+                  key={t}
+                  className="text-xs font-semibold px-3 py-1.5 rounded-full border"
+                  style={{ borderColor: '#1B6B4A', color: '#1B6B4A', backgroundColor: '#F0FDF4' }}
+                >
+                  ✓ {t}
+                </span>
+              ))}
+            </div>
+            {!!data.ostali_troskovi && (
+              <p className="mt-2 text-sm text-gray-600">
+                Ostalo: {data.ostali_troskovi as string}
+              </p>
+            )}
+          </div>
+        )}
+
+        {!!data.dnevnica && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
+            Dnevnica u Srbiji: neoporezivi iznos 3.316 RSD/dan (2026).
+            Za inostranstvo do 90 EUR/dan. Obračunava se za putovanje duže od 8 sati.
+          </div>
+        )}
+      </div>
+    )
+  })()
 
   const fakturaPreview = (() => {
     if (!isFakturaJson(text)) return null
@@ -288,7 +426,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
-          {fakturaPreview ?? (() => {
+          {putniNalogPreview ?? fakturaPreview ?? (() => {
             const lines = text.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
             const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text

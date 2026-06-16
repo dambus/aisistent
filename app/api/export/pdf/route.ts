@@ -5,7 +5,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
-import type { FakturaData } from '@/types/wizard'
+import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
+import type { FakturaData, PutniNalogData } from '@/types/wizard'
 
 export const maxDuration = 60
 
@@ -89,6 +90,39 @@ export async function POST(request: NextRequest) {
         logoUrl = `data:${mimeType};base64,${base64}`
       }
     }
+  }
+
+  // Putni nalog — poseban renderer
+  if (doc.type === 'putni-nalog') {
+    let putniData: PutniNalogData
+    try {
+      putniData = JSON.parse(doc.generated_text) as PutniNalogData
+    } catch {
+      return NextResponse.json({ error: 'Neispravni podaci putnog naloga.' }, { status: 500 })
+    }
+
+    let putniPdfBuffer: Buffer
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      putniPdfBuffer = await renderToBuffer(
+        createElement(PutniNalogPDF, { data: putniData }) as any
+      )
+    } catch (pdfErr) {
+      console.error('Putni nalog PDF render error:', pdfErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju PDF-a. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+
+    const filename = `putni-nalog-${(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}-${putniData.datum_polaska}.pdf`
+    return new NextResponse(new Uint8Array(putniPdfBuffer), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(putniPdfBuffer.byteLength),
+      },
+    })
   }
 
   // Faktura — poseban renderer

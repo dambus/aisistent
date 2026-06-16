@@ -484,26 +484,27 @@ export interface FakturaData {
 }
 
 export interface PutniNalogData {
+  naziv_firme: string
+  pib?: string
+  adresa_firme?: string
+  ovlasceno_lice: string
   broj_naloga?: string
   datum_izdavanja: string
+  ime_vozaca: string
+  pozicija_vozaca?: string
+  marka_model: string
+  registarski_broj: string
+  km_pocetak?: string
   svrha_putovanja: string
-  destinacija: string
+  polaziste: string
+  odrediste: string
   datum_polaska: string
-  datum_povratka: string
-  ime_prezime: string
-  pozicija: string
-  prevozno_sredstvo: string
-  registarski_broj?: string
-  naziv_firme: string
-  adresa_firme?: string
-  pib?: string
-  zastupnik?: string
-  dnevnica?: number
-  broj_dnevnica?: number
-  troskovi_prevoza?: number
-  troskovi_smestaja?: number
-  ostali_troskovi?: number
-  napomena?: string
+  datum_povratka?: string
+  napomena_ruta?: string
+  dnevnica: boolean
+  gorivo_na_teret_firme: boolean
+  smestaj: boolean
+  ostali_troskovi?: string
 }
 
 export type WizardFormData =

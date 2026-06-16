@@ -106,7 +106,7 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     naziv:                'naziv_firme',
     pib:                  'pib',
     adresa:               'adresa_firme',
-    zastupnik:            'zastupnik',
+    zastupnik:            'ovlasceno_lice',
   },
 }
 

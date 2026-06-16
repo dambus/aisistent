@@ -433,26 +433,27 @@ const zapisnikSastanakSchema = z.object({
 })
 
 const putniNalogSchema = z.object({
+  naziv_firme: z.string().min(1),
+  pib: z.string().optional(),
+  adresa_firme: z.string().optional(),
+  ovlasceno_lice: z.string().min(1),
   broj_naloga: z.string().optional(),
   datum_izdavanja: z.string().min(1),
+  ime_vozaca: z.string().min(1),
+  pozicija_vozaca: z.string().optional(),
+  marka_model: z.string().min(1),
+  registarski_broj: z.string().min(1),
+  km_pocetak: z.string().optional(),
   svrha_putovanja: z.string().min(1),
-  destinacija: z.string().min(1),
+  polaziste: z.string().min(1),
+  odrediste: z.string().min(1),
   datum_polaska: z.string().min(1),
-  datum_povratka: z.string().min(1),
-  ime_prezime: z.string().min(1),
-  pozicija: z.string().min(1),
-  prevozno_sredstvo: z.string().min(1),
-  registarski_broj: z.string().optional(),
-  naziv_firme: z.string().min(1),
-  adresa_firme: z.string().optional(),
-  pib: z.string().optional(),
-  zastupnik: z.string().optional(),
-  dnevnica: optNum,
-  broj_dnevnica: optNum,
-  troskovi_prevoza: optNum,
-  troskovi_smestaja: optNum,
-  ostali_troskovi: optNum,
-  napomena: z.string().optional(),
+  datum_povratka: z.string().optional(),
+  napomena_ruta: z.string().optional(),
+  dnevnica: z.boolean().default(false),
+  gorivo_na_teret_firme: z.boolean().default(false),
+  smestaj: z.boolean().default(false),
+  ostali_troskovi: z.string().optional(),
 })
 
 const fakturaSchema = z.object({
@@ -605,7 +606,7 @@ const documentConfigs = {
     systemPrompt: '',
     buildUserMessage: () => '',
     buildTitle: (data: PutniNalogData) =>
-      `Putni nalog - ${data.ime_prezime} - ${data.destinacija}`,
+      `Putni nalog - ${data.ime_vozaca} - ${data.odrediste}`,
   },
 } as const
 

@@ -4,7 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { buildDocx } from '@/lib/pdf/docxBuilder'
 import {
   Document, Packer, Paragraph, Table, TableRow, TableCell,
-  TextRun, WidthType, AlignmentType, ShadingType,
+  TextRun, WidthType, AlignmentType, ShadingType, BorderStyle,
 } from 'docx'
 
 export const maxDuration = 60
@@ -99,6 +99,181 @@ export async function POST(request: NextRequest) {
           : 'image/jpeg'
       }
     }
+  }
+
+  // Putni nalog — poseban DOCX renderer
+  if (doc.type === 'putni-nalog') {
+    let data: Record<string, unknown>
+    try { data = JSON.parse(doc.generated_text) } catch {
+      return NextResponse.json({ error: 'Neispravni podaci putnog naloga.' }, { status: 500 })
+    }
+
+    const troskovi = [
+      data.dnevnica && 'Dnevnica',
+      data.gorivo_na_teret_firme && 'Gorivo na teret firme',
+      data.smestaj && 'Smestaj',
+    ].filter(Boolean).join(', ')
+
+    function fmtDate(iso: string) {
+      if (!iso) return '___________'
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    const ZELENA = '1B6B4A'
+    const SIVA = '6B7280'
+    const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' }
+    const NO_BORDERS = { top: NO_BORDER, bottom: NO_BORDER, left: NO_BORDER, right: NO_BORDER }
+
+    const putniDoc = new Document({
+      sections: [{
+        properties: {},
+        children: [
+          new Paragraph({
+            children: [new TextRun({ text: 'PUTNI NALOG', bold: true, size: 36, color: ZELENA })],
+            spacing: { after: 100 },
+          }),
+          ...(data.broj_naloga ? [new Paragraph({
+            children: [new TextRun({ text: `Broj: ${data.broj_naloga}`, size: 18, color: SIVA })],
+            spacing: { after: 60 },
+          })] : []),
+          new Paragraph({
+            children: [new TextRun({
+              text: `Datum izdavanja: ${fmtDate(data.datum_izdavanja as string)}`,
+              size: 18, color: SIVA,
+            })],
+            spacing: { after: 300 },
+          }),
+
+          new Paragraph({ children: [new TextRun({ text: 'IZDAVALAC NALOGA', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.naziv_firme as string, bold: true, size: 20 })] }),
+          ...(data.pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.pib}`, size: 18, color: SIVA })] })] : []),
+          ...(data.adresa_firme ? [new Paragraph({ children: [new TextRun({ text: data.adresa_firme as string, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'VOZAC', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.ime_vozaca as string, bold: true, size: 20 })] }),
+          ...(data.pozicija_vozaca ? [new Paragraph({ children: [new TextRun({ text: data.pozicija_vozaca as string, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'VOZILO', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: `${data.marka_model} — ${data.registarski_broj}`, bold: true, size: 20 })] }),
+          new Paragraph({ children: [new TextRun({ text: `Km-sat polazak: ${data.km_pocetak ?? '___________'}    Km-sat povratak: ___________`, size: 18 })] }),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'SVRHA PUTOVANJA', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.svrha_putovanja as string, size: 18 })] }),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'KRETANJE VOZILA', bold: true, size: 16, color: SIVA })] }),
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+              new TableRow({
+                children: ['Datum', 'Mesto polaska', 'Mesto dolaska', 'Km'].map(h =>
+                  new TableCell({
+                    children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16 })] })],
+                    shading: { type: ShadingType.SOLID, color: ZELENA },
+                    width: { size: 25, type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+              new TableRow({
+                children: [
+                  fmtDate(data.datum_polaska as string),
+                  data.polaziste as string,
+                  data.odrediste as string,
+                  '___',
+                ].map(val =>
+                  new TableCell({
+                    children: [new Paragraph({ children: [new TextRun({ text: val, size: 18 })] })],
+                    width: { size: 25, type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+              new TableRow({
+                children: [
+                  data.datum_povratka ? fmtDate(data.datum_povratka as string) : '___________',
+                  data.odrediste as string,
+                  data.polaziste as string,
+                  '___',
+                ].map(val =>
+                  new TableCell({
+                    children: [new Paragraph({ children: [new TextRun({ text: val, size: 18 })] })],
+                    shading: { type: ShadingType.SOLID, color: 'F9FAFB' },
+                    width: { size: 25, type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+            ],
+          }),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          ...(troskovi ? [
+            new Paragraph({ children: [new TextRun({ text: 'TROSKOVI NA TERET FIRME', bold: true, size: 16, color: SIVA })] }),
+            new Paragraph({ children: [new TextRun({ text: troskovi, size: 18 })] }),
+            ...(data.ostali_troskovi ? [new Paragraph({ children: [new TextRun({ text: `Ostalo: ${data.ostali_troskovi}`, size: 18 })] })] : []),
+            new Paragraph({ text: '', spacing: { after: 200 } }),
+          ] : []),
+
+          new Paragraph({ children: [new TextRun({ text: 'POTPISI', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ text: '', spacing: { after: 100 } }),
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            borders: { ...NO_BORDERS, insideHorizontal: NO_BORDER, insideVertical: NO_BORDER },
+            rows: [
+              new TableRow({
+                children: [
+                  'Nalog izdalo ovlasceno lice:',
+                  'Vozac — primio vozilo:',
+                  'Kontrola po povratku:',
+                ].map(label =>
+                  new TableCell({
+                    borders: NO_BORDERS,
+                    children: [new Paragraph({ children: [new TextRun({ text: label, size: 16, color: SIVA })] })],
+                  })
+                ),
+              }),
+              new TableRow({
+                children: [
+                  data.ovlasceno_lice as string,
+                  data.ime_vozaca as string,
+                  ' ',
+                ].map(ime =>
+                  new TableCell({
+                    borders: NO_BORDERS,
+                    children: [
+                      new Paragraph({ text: '' }),
+                      new Paragraph({ children: [new TextRun({ text: '_________________________________', size: 18 })] }),
+                      new Paragraph({ children: [new TextRun({ text: ime, size: 18 })] }),
+                    ],
+                  })
+                ),
+              }),
+            ],
+          }),
+        ],
+      }],
+    })
+
+    let putniBuffer: Buffer
+    try {
+      putniBuffer = await Packer.toBuffer(putniDoc)
+    } catch (docxErr) {
+      console.error('Putni nalog DOCX render error:', docxErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju Word dokumenta. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+    const filename = `putni-nalog-${(data.ime_vozaca as string ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.docx`
+    return new NextResponse(new Uint8Array(putniBuffer), {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(putniBuffer.byteLength),
+      },
+    })
   }
 
   // Faktura — poseban DOCX renderer

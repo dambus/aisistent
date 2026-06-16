@@ -5,8 +5,9 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
+import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
 import { resend } from '@/lib/resend'
-import type { FakturaData } from '@/types/wizard'
+import type { FakturaData, PutniNalogData } from '@/types/wizard'
 
 export const maxDuration = 60
 
@@ -205,7 +206,19 @@ export async function POST(request: NextRequest) {
   let pdfBuffer: Buffer
   let filename: string
   try {
-    if (doc.type === 'faktura') {
+    if (doc.type === 'putni-nalog') {
+      let putniData: PutniNalogData
+      try {
+        putniData = JSON.parse(doc.generated_text) as PutniNalogData
+      } catch {
+        return NextResponse.json({ error: 'Neispravni podaci putnog naloga.' }, { status: 500 })
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pdfBuffer = await renderToBuffer(
+        createElement(PutniNalogPDF, { data: putniData }) as any
+      )
+      filename = `putni-nalog-${(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.pdf`
+    } else if (doc.type === 'faktura') {
       let fakturaData: FakturaData
       try {
         fakturaData = JSON.parse(doc.generated_text) as FakturaData
