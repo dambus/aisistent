@@ -135,7 +135,7 @@ export default async function ProfilPage() {
             ? { backgroundColor: '#1B6B4A', color: '#fff', borderColor: '#1B6B4A' }
             : { color: '#374151', borderColor: '#D1D5DB' }}
         >
-          {isUpgrade ? 'Nadogradite plan →' : 'Upravljajte pretplatom'}
+          {isUpgrade ? 'Nadogradite plan →' : 'Pogledajte planove'}
         </Link>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import MobileMenu from '@/components/landing/MobileMenu'
+import PricingSection from '@/components/landing/PricingSection'
+import type { PricingPlan } from '@/components/landing/PricingSection'
 
 export const metadata: Metadata = {
   title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
@@ -118,18 +120,7 @@ const withAisistent = [
   'Arhiva za ponovno korišćenje',
 ]
 
-interface PricingPlan {
-  name: string
-  price: string
-  euroEquivalent?: string
-  badge?: string
-  cta: string
-  href: string
-  featured?: boolean
-  features: [string, string][]
-}
-
-const pricing: PricingPlan[] = [
+const pricing: (PricingPlan & { features: [string, string][] })[] = [
   {
     name: 'Besplatno',
     price: 'Besplatno',
@@ -146,7 +137,7 @@ const pricing: PricingPlan[] = [
     price: '1.080 RSD / mes.',
     euroEquivalent: '(≈ 9 EUR)',
     cta: 'Izaberite Starter',
-    href: '/register',
+    waitlistPlan: 'starter',
     features: [
       ['✓', '20 dokumenata mesečno'],
       ['✓', 'PDF bez watermark-a'],
@@ -161,7 +152,7 @@ const pricing: PricingPlan[] = [
     euroEquivalent: '(≈ 25 EUR)',
     badge: 'Najpopularnije',
     cta: 'Izaberite Pro',
-    href: '/register',
+    waitlistPlan: 'pro',
     featured: true,
     features: [
       ['✓', 'Neograničen broj dokumenata'],
@@ -175,7 +166,7 @@ const pricing: PricingPlan[] = [
     price: '7.200 RSD / mes.',
     euroEquivalent: '(≈ 60 EUR)',
     cta: 'Kontaktirajte nas',
-    href: 'mailto:info@aisistent.rs',
+    waitlistPlan: 'business',
     features: [
       ['✓', 'Neograničen broj dokumenata'],
       ['✓', 'Sve iz Pro plana'],
@@ -444,59 +435,7 @@ export default async function Home() {
           title="Jednostavne cene, bez iznenađenja"
           text="Otkažite kad hoćete. Bez ugovora."
         />
-        <div className="mx-auto mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
-          {pricing.map(plan => (
-            <article
-              key={plan.name}
-              className={`flex flex-col relative rounded-2xl border p-6 transition-all duration-200 ${
-                plan.featured
-                  ? 'border-2 bg-white text-gray-900 shadow-xl'
-                  : 'border-white/10 bg-white/5 hover:bg-white/8'
-              }`}
-              style={plan.featured ? { borderColor: PRIMARY } : {}}
-            >
-              {plan.badge && (
-                <span
-                  className="absolute -top-3 left-5 rounded-full px-3 py-1 text-xs font-bold text-white"
-                  style={{ backgroundColor: '#F59E0B' }}
-                >
-                  {plan.badge}
-                </span>
-              )}
-              <h3 className="text-lg font-bold">{plan.name}</h3>
-              <p className="mt-3 min-h-[4rem] text-2xl font-bold leading-tight">
-                {plan.price}
-              </p>
-              {plan.euroEquivalent && (
-                <p className="mt-1 text-xs font-medium opacity-60">{plan.euroEquivalent}</p>
-              )}
-              <ul className="mt-6 grid flex-1 gap-2.5 pb-6 text-sm">
-                {plan.features.map(([mark, text]) => (
-                  <li key={text} className="flex gap-2.5">
-                    <span
-                      className={mark === '✓' ? 'font-bold' : 'opacity-30'}
-                      style={mark === '✓' ? { color: plan.featured ? PRIMARY : '#6ee7b7' } : {}}
-                    >
-                      {mark}
-                    </span>
-                    <span className={mark === '✓' ? '' : 'opacity-40'}>{text}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={plan.href}
-                className="mt-auto flex min-h-12 items-center justify-center rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
-                style={
-                  plan.featured
-                    ? { backgroundColor: PRIMARY, color: '#fff' }
-                    : { backgroundColor: 'rgba(255,255,255,0.12)', color: '#fff' }
-                }
-              >
-                {plan.cta}
-              </a>
-            </article>
-          ))}
-        </div>
+        <PricingSection plans={pricing} />
         <p className="mx-auto mt-8 max-w-6xl text-sm text-gray-400">
           * Cene su u dinarima. Plaćanje karticom ili bankovnim transferom.
         </p>
