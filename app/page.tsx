@@ -27,6 +27,7 @@ const navLinks = [
   { href: '#kako-radi', label: 'Kako radi' },
   { href: '#alati', label: 'Alati' },
   { href: '#cenovnik', label: 'Cenovnik' },
+  { href: '/blog', label: 'Blog' },
 ]
 
 const steps = [
@@ -249,6 +250,19 @@ function SectionHeading({ eyebrow, title, text }: { eyebrow?: string; title: str
   )
 }
 
+const toolLandingPages: Record<string, string> = {
+  'ugovor-o-radu': '/ugovor-o-radu',
+  'ugovor-o-delu': '/ugovor-o-delu',
+  'nda': '/nda',
+  'ugovor-o-zakupu': '/ugovor-o-zakupu',
+  'ugovor-o-saradnji': '/ugovor-o-saradnji',
+  'punomocje': '/punomocje',
+  'opsti-uslovi': '/opsti-uslovi',
+  'poslovni-mejl': '/poslovni-mejl',
+  'oglas-za-posao': '/oglas-za-posao',
+  'ponuda-klijentu': '/ponuda-klijentu',
+}
+
 export default async function Home() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -377,7 +391,7 @@ export default async function Home() {
                       <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{tool.desc}</p>
                     </div>
                     <a
-                      href={isLoggedIn ? `/dokumenti/${tool.type}` : '/register'}
+                      href={toolLandingPages[tool.type] ?? '/register'}
                       className="mt-4 text-sm font-semibold transition-colors duration-200"
                       style={{ color: PRIMARY }}
                     >
@@ -462,30 +476,63 @@ export default async function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-gray-900 px-5 py-10 text-sm text-gray-400 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <footer style={{ backgroundColor: '#052e16', color: '#d1fae5' }} className="py-12 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <p className="mb-1 text-base font-bold text-white">AIsistent</p>
-              <p className="text-gray-500">Poslovni alati za srpske preduzetnike</p>
+              <h3 className="font-semibold text-white mb-4">Alati</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  ['Ugovor o radu', '/ugovor-o-radu'],
+                  ['Ugovor o delu', '/ugovor-o-delu'],
+                  ['NDA sporazum', '/nda'],
+                  ['Ugovor o zakupu', '/ugovor-o-zakupu'],
+                  ['Ugovor o saradnji', '/ugovor-o-saradnji'],
+                  ['Punomoćje', '/punomocje'],
+                  ['Opšti uslovi', '/opsti-uslovi'],
+                ].map(([label, href]) => (
+                  <li key={href}>
+                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex gap-8 text-sm">
-              <div className="grid gap-2">
-                <a href="/login" className="transition-colors hover:text-white">Prijavi se</a>
-                <a href="/register" className="transition-colors hover:text-white">Napravi nalog</a>
-                <a href="#cenovnik" className="transition-colors hover:text-white">Cenovnik</a>
-              </div>
-              <div className="grid gap-2">
-                <a href="mailto:info@aisistent.rs" className="transition-colors hover:text-white">
-                  info@aisistent.rs
-                </a>
-                <span className="text-gray-500">© 2026 AIsistent</span>
-              </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">Resursi</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  ['Blog', '/blog'],
+                  ['Kalkulator zarade', '/kalkulator-zarade'],
+                  ['Kalkulator paušala', '/kalkulator-pausala'],
+                  ['Poslovni mejl', '/poslovni-mejl'],
+                  ['Oglas za posao', '/oglas-za-posao'],
+                ].map(([label, href]) => (
+                  <li key={href}>
+                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">AIsistent</h3>
+              <ul className="space-y-2 text-sm" style={{ color: '#6ee7b7' }}>
+                <li>
+                  <a href="mailto:info@aisistent.rs" className="hover:text-white transition-colors">
+                    info@aisistent.rs
+                  </a>
+                </li>
+                <li>Napravljeno u Srbiji 🇷🇸</li>
+              </ul>
             </div>
           </div>
-          <div className="mt-8 flex flex-col gap-1 border-t border-white/10 pt-6 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+          <div className="border-t pt-6 text-xs text-center space-y-1"
+            style={{ borderColor: '#14532d', color: '#6ee7b7' }}>
+            <p>© 2026 AIsistent. Sva prava zadržana.</p>
             <p>Dokumenti generisani uz pomoć AIsistenta. Preporučuje se pravna provera pre upotrebe.</p>
-            <p className="shrink-0">Napravljeno u Srbiji 🇷🇸</p>
           </div>
         </div>
       </footer>

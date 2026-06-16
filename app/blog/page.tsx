@@ -68,6 +68,30 @@ export default function BlogPage() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-16 p-8 rounded-2xl"
+          style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+          <h2 className="text-xl font-semibold mb-2" style={{ color: '#14532d' }}>
+            Treba vam dokument odmah?
+          </h2>
+          <p className="text-sm mb-6" style={{ color: '#166534' }}>
+            Naši AI alati generišu profesionalne dokumente za 60 sekundi.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              ['Ugovor o radu', '/ugovor-o-radu'],
+              ['NDA sporazum', '/nda'],
+              ['Poslovni mejl', '/poslovni-mejl'],
+              ['Ugovor o delu', '/ugovor-o-delu'],
+            ].map(([label, href]) => (
+              <a key={href} href={href}
+                className="text-center py-3 px-4 rounded-xl text-sm font-medium transition-colors hover:opacity-90"
+                style={{ backgroundColor: '#1B6B4A', color: 'white' }}>
+                {label}
+              </a>
+            ))}
+          </div>
+        </section>
       </main>
 
       <footer className="border-t border-gray-200 py-8 text-center text-sm text-gray-400">
