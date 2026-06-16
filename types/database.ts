@@ -51,6 +51,7 @@ export interface Database {
           documents_this_month: number
           stripe_customer_id: string | null
           is_admin: boolean
+          onboarded: boolean
           created_at: string
         }
         Insert: {
@@ -60,6 +61,7 @@ export interface Database {
           documents_this_month?: number
           stripe_customer_id?: string | null
           is_admin?: boolean
+          onboarded?: boolean
           created_at?: string
         }
         Update: {
@@ -68,6 +70,7 @@ export interface Database {
           documents_this_month?: number
           stripe_customer_id?: string | null
           is_admin?: boolean
+          onboarded?: boolean
         }
         Relationships: []
       }

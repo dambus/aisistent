@@ -78,6 +78,29 @@ export function SecurityCard({ email }: SecurityCardProps) {
           Odjavljivanje sa svih aktivnih sesija i uređaja
         </p>
       </div>
+
+      {/* Onboarding reset */}
+      <div className="mt-5 pt-5 border-t border-gray-100">
+        <label className="block text-xs font-medium text-gray-500 mb-3">
+          Onboarding
+        </label>
+        <button
+          onClick={async () => {
+            await fetch('/api/profile/onboarded', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ reset: true }),
+            })
+            window.location.reload()
+          }}
+          className="px-4 py-2 rounded-lg text-sm font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          Pokrenite onboarding ponovo
+        </button>
+        <p className="mt-1.5 text-xs text-gray-400">
+          Prikazuje uvodni vodič pri sledećem otvaranju dashboarda
+        </p>
+      </div>
     </div>
   )
 }

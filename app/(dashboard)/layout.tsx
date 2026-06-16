@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
+import { OnboardingModal } from '@/components/dashboard/OnboardingModal'
 
 function getInitials(displayName: string | null, email: string): string {
   if (displayName && displayName.trim()) {
@@ -23,22 +24,29 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const admin = createAdminClient()
   const { data: profile } = await admin
     .from('profiles')
-    .select('plan, display_name, is_admin')
+    .select('plan, display_name, is_admin, onboarded')
     .eq('id', user.id)
     .single()
 
   const plan = profile?.plan ?? 'free'
   const userInitials = getInitials(profile?.display_name ?? null, user.email ?? 'U')
-  const showWelcomeModal = !profile?.display_name
+  const onboarded = profile?.onboarded ?? false
+  // WelcomeModal se suzbija dok onboarding nije završen — da ne bi dva modala istovremeno
+  const showWelcomeModal = !profile?.display_name && onboarded
 
   return (
-    <DashboardShell
-      plan={plan}
-      userInitials={userInitials}
-      showWelcomeModal={showWelcomeModal}
-      isAdmin={profile?.is_admin ?? false}
-    >
-      {children}
-    </DashboardShell>
+    <>
+      {!onboarded && (
+        <OnboardingModal userName={profile?.display_name ?? null} />
+      )}
+      <DashboardShell
+        plan={plan}
+        userInitials={userInitials}
+        showWelcomeModal={showWelcomeModal}
+        isAdmin={profile?.is_admin ?? false}
+      >
+        {children}
+      </DashboardShell>
+    </>
   )
 }
