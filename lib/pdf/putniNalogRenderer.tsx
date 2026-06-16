@@ -190,10 +190,10 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
         <View style={s.header}>
           <View style={s.headerLeft}>
             <Text style={s.firmaLabel}>Izdavalac naloga</Text>
-            <Text style={s.firmaNaziv}>{sanitizeText(data.naziv_firme)}</Text>
+            <Text style={s.firmaNaziv}>{sanitizeText(data.naziv_firme ?? '')}</Text>
             {data.pib && <Text style={s.firmaPib}>PIB: {data.pib}</Text>}
             {data.adresa_firme && (
-              <Text style={s.firmaAdresa}>{sanitizeText(data.adresa_firme)}</Text>
+              <Text style={s.firmaAdresa}>{sanitizeText(data.adresa_firme ?? '')}</Text>
             )}
           </View>
           <View style={s.headerRight}>
@@ -213,12 +213,12 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             <Text style={s.sekcijaHeader}>Vozac</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Ime i prezime:</Text>
-              <Text style={s.redValue}>{sanitizeText(data.ime_vozaca)}</Text>
+              <Text style={s.redValue}>{sanitizeText(data.ime_vozaca ?? '')}</Text>
             </View>
             {data.pozicija_vozaca && (
               <View style={s.redPodataka}>
                 <Text style={s.redLabel}>Radno mesto:</Text>
-                <Text style={s.redValue}>{sanitizeText(data.pozicija_vozaca)}</Text>
+                <Text style={s.redValue}>{sanitizeText(data.pozicija_vozaca ?? '')}</Text>
               </View>
             )}
           </View>
@@ -226,7 +226,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
             <Text style={s.sekcijaHeader}>Vozilo</Text>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Marka i model:</Text>
-              <Text style={s.redValue}>{sanitizeText(data.marka_model)}</Text>
+              <Text style={s.redValue}>{sanitizeText(data.marka_model ?? '')}</Text>
             </View>
             <View style={s.redPodataka}>
               <Text style={s.redLabel}>Registarski broj:</Text>
@@ -248,7 +248,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
           <Text style={s.sekcijaHeader}>Svrha putovanja</Text>
           <View style={[s.redPodataka, { paddingVertical: 6 }]}>
             <Text style={[s.redValue, { fontFamily: 'Helvetica' }]}>
-              {sanitizeText(data.svrha_putovanja)}
+              {sanitizeText(data.svrha_putovanja ?? '')}
             </Text>
           </View>
         </View>
@@ -269,14 +269,14 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               {formatDate(data.datum_polaska)}
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}>
-              {sanitizeText(data.polaziste)}
+              {sanitizeText(data.polaziste ?? '')}
             </Text>
             <Text style={[s.tabelaCell, s.colDo]}>
-              {sanitizeText(data.odrediste)}
+              {sanitizeText(data.odrediste ?? '')}
             </Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
             <Text style={[s.tabelaCell, s.colNapomena]}>
-              {data.napomena_ruta ? sanitizeText(data.napomena_ruta) : ''}
+              {data.napomena_ruta ? sanitizeText(data.napomena_ruta ?? '') : ''}
             </Text>
           </View>
           {/* Povratak */}
@@ -285,10 +285,10 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               {data.datum_povratka ? formatDate(data.datum_povratka) : '___________'}
             </Text>
             <Text style={[s.tabelaCell, s.colOd]}>
-              {sanitizeText(data.odrediste)}
+              {sanitizeText(data.odrediste ?? '')}
             </Text>
             <Text style={[s.tabelaCell, s.colDo]}>
-              {sanitizeText(data.polaziste)}
+              {sanitizeText(data.polaziste ?? '')}
             </Text>
             <Text style={[s.tabelaCell, s.colKm]}>___</Text>
             <Text style={[s.tabelaCell, s.colNapomena]}></Text>
@@ -332,7 +332,7 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
               <View style={[s.redPodataka, { marginTop: 6 }]}>
                 <Text style={s.redLabel}>Ostali troskovi:</Text>
                 <Text style={[s.redValue, { fontFamily: 'Helvetica' }]}>
-                  {sanitizeText(data.ostali_troskovi)}
+                  {sanitizeText(data.ostali_troskovi ?? '')}
                 </Text>
               </View>
             )}
@@ -348,14 +348,14 @@ export function PutniNalogPDF({ data }: { data: PutniNalogData }) {
                 Nalog izdalo i odobrilo ovlasceno lice:
               </Text>
               <View style={s.potpisLinija} />
-              <Text style={s.potpisIme}>{sanitizeText(data.ovlasceno_lice)}</Text>
+              <Text style={s.potpisIme}>{sanitizeText(data.ovlasceno_lice ?? '')}</Text>
             </View>
             <View style={s.potpisKolona}>
               <Text style={s.potpisLabel}>
                 Vozac — primio vozilo bez vidljivih nedostataka:
               </Text>
               <View style={s.potpisLinija} />
-              <Text style={s.potpisIme}>{sanitizeText(data.ime_vozaca)}</Text>
+              <Text style={s.potpisIme}>{sanitizeText(data.ime_vozaca ?? '')}</Text>
             </View>
             <View style={s.potpisKolona}>
               <Text style={s.potpisLabel}>
