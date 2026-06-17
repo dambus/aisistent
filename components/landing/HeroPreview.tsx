@@ -24,6 +24,7 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
 
   const [active, setActive] = useState<'wizard' | 'doc'>('wizard')
   const currentSrc = active === 'wizard' && wizardSrc ? wizardSrc : docSrc
+  const objectPosition = active === 'wizard' ? 'left center' : 'center top'
 
   return (
     <div
@@ -97,9 +98,11 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
           width: '100%',
           maxWidth: '320px',
           height: '380px',
+          overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          borderRadius: '8px',
         }}
       >
         <div
@@ -124,11 +127,10 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
           style={{
             position: 'relative',
             zIndex: 1,
-            maxWidth: '100%',
-            maxHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            objectFit: 'contain',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition,
             borderRadius: '8px',
             transform: 'rotate(-2deg)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)',
