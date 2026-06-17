@@ -18,7 +18,9 @@
       "Bash(git commit -m 'docs: ažuriran PROGRESS.md — Korak Q završen *)",
       "Bash(git commit *)",
       "Bash(npm list *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "PowerShell(cd \"g:\\\\Dev\\\\2026\\\\aisistent\"; git add app/\\(dashboard\\)/layout.tsx components/dashboard/ProfileCard.tsx app/\\(dashboard\\)/profil/page.tsx components/dashboard/CompaniesTab.tsx components/ui/dialog.tsx; git status)",
+      "Bash(node -e \"const d = require\\('g:/Dev/2026/aisistent/node_modules/docx'\\); console.log\\(typeof d.BorderStyle\\)\")"
     ]
   }
 }
