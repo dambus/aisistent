@@ -27,6 +27,15 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### jun 2026. — Agency plan (Faza 2 reach)
+- Dodat `agency` plan u sve plan mape: PLAN_LIMITS, PLAN_INFO, PLAN_COLORS, planLabels, PLAN_SELECTOR (6 fajlova)
+- Pricing stranica: novi Agency card (9.990 RSD, badge "Za računovođe", indigo boja)
+- CompaniesTab: agency korisnici vide "Klijenti" umesto "Firme" (rebrand 12 stringova)
+- WizardForm: inline quick-switch dropdown za agency korisnike (2+ klijenata)
+- Agency onboarding: standalone full-page welcome screen na /onboarding/agencija
+- Server-side redirect u (dashboard)/layout.tsx: agency + !onboarded -> /onboarding/agencija
+- Arhitekturna napomena: onboarding stranica je van (dashboard) route grupe da bi se izbegla beskonačna redirect petlja
+
 #### jun 2026. — Admin panel poboljšanja
 - PlanSelector — dropdown za promenu plana direktno iz tabele korisnika
 - ResetDocsButton — reset documents_this_month po korisniku
@@ -68,6 +77,8 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - APR API / PIB lookup — čeka APR ugovor (apr-podaci@apr.gov.rs)
 
 ### Sledeće
+- Agency plan: kontaktirati 3-5 računovodstvenih agencija za feedback (da li quick-switch i klijenti rebrand odgovaraju workflow-u)
+- Agency plan Faza 2: "Pošalji klijentu" dedicated flow (računovođa generiše -> direktno šalje klijentu)
 - shadcn Faza 3 — Sheet za mobilni sidebar
 - Onboarding flow za nove korisnike (razmatrati)
 
