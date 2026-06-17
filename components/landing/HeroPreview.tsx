@@ -1,7 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-
 const SLUGS_WITH_PREVIEWS = [
   'nda', 'opsti-uslovi', 'ugovor-o-delu',
   'ugovor-o-radu', 'ugovor-o-saradnji', 'ugovor-o-zakupu',
@@ -22,86 +20,9 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
     ? `/images/previews/${previewSlug}-wizard.png`
     : null
 
-  const [active, setActive] = useState<'wizard' | 'doc'>('wizard')
-  const currentSrc = active === 'wizard' && wizardSrc ? wizardSrc : docSrc
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        width: '320px',
-        flexShrink: 0,
-      }}
-    >
-      <style>{`
-        @keyframes hero-fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .hero-preview-img { animation: hero-fade-in 0.2s ease; }
-      `}</style>
-
-      {wizardSrc && (
-        <div
-          style={{
-            display: 'flex',
-            gap: '4px',
-            backgroundColor: 'rgba(255,255,255,0.1)',
-            borderRadius: '8px',
-            padding: '4px',
-            marginBottom: '12px',
-            width: '320px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <button
-            onClick={() => setActive('wizard')}
-            style={{
-              padding: '6px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              backgroundColor: active === 'wizard' ? 'white' : 'transparent',
-              color: active === 'wizard' ? '#052e16' : '#6ee7b7',
-              transition: 'all 0.15s',
-            }}
-          >
-            ① Unesite podatke
-          </button>
-          <button
-            onClick={() => setActive('doc')}
-            style={{
-              padding: '6px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              backgroundColor: active === 'doc' ? 'white' : 'transparent',
-              color: active === 'doc' ? '#052e16' : '#6ee7b7',
-              transition: 'all 0.15s',
-            }}
-          >
-            ② Preuzmite dokument
-          </button>
-        </div>
-      )}
-
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '320px',
-          height: '380px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+  if (!hasPreview) {
+    return (
+      <div style={{ position: 'relative', width: '320px', height: '380px', flexShrink: 0 }}>
         <div
           style={{
             position: 'absolute',
@@ -117,43 +38,105 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
           }}
         />
         <img
-          key={active}
-          className="hero-preview-img"
-          src={currentSrc}
-          alt={active === 'wizard' ? 'Wizard za unos podataka' : 'Generisani dokument'}
+          src={docSrc}
+          alt="Generisani dokument"
           style={{
             position: 'relative',
             zIndex: 1,
-            maxWidth: '100%',
-            maxHeight: '100%',
-            width: 'auto',
-            height: 'auto',
+            width: '100%',
+            height: '100%',
             objectFit: 'contain',
             borderRadius: '8px',
             transform: 'rotate(-2deg)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)',
           }}
         />
-        {active === 'doc' && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '4px',
-              right: '-8px',
-              zIndex: 2,
-              backgroundColor: '#1B6B4A',
-              color: 'white',
-              padding: '8px 14px',
-              borderRadius: '20px',
-              fontSize: '12px',
-              fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-              transform: 'rotate(2deg)',
-            }}
-          >
-            ✓ Generisan za 45 sekundi
-          </div>
-        )}
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ position: 'relative', width: '420px', height: '480px', flexShrink: 0 }}>
+      {/* Wizard — background, 3D receded */}
+      <img
+        src={wizardSrc!}
+        alt="Wizard za unos podataka"
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '0px',
+          width: '320px',
+          opacity: 0.85,
+          borderRadius: '10px',
+          transform: 'perspective(1000px) rotateY(8deg) rotateX(4deg) scale(0.82)',
+          transformOrigin: 'left center',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Connector arrow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '45%',
+          left: '38%',
+          zIndex: 3,
+          width: '32px',
+          height: '32px',
+          borderRadius: '50%',
+          backgroundColor: '#1B6B4A',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '16px',
+          color: 'white',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+          transform: 'translateY(-50%)',
+        }}
+      >
+        →
+      </div>
+
+      {/* Doc — foreground, dominant */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '30px',
+          right: '0px',
+          zIndex: 2,
+          transform: 'perspective(1000px) rotateY(-4deg) rotateX(-2deg)',
+          transformOrigin: 'right center',
+        }}
+      >
+        <img
+          src={docSrc}
+          alt="Generisani dokument"
+          style={{
+            width: '340px',
+            borderRadius: '10px',
+            border: '1px solid rgba(255,255,255,0.15)',
+            boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 6px 20px rgba(0,0,0,0.3)',
+            display: 'block',
+          }}
+        />
+        {/* Badge */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '12px',
+            right: '12px',
+            backgroundColor: '#1B6B4A',
+            color: 'white',
+            padding: '8px 14px',
+            borderRadius: '20px',
+            fontSize: '12px',
+            fontWeight: 600,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          }}
+        >
+          ✓ Generisan za 45 sekundi
+        </div>
       </div>
     </div>
   )

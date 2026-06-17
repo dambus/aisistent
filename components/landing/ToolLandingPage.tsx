@@ -266,8 +266,27 @@ export function ToolLandingPage({
       <LandingHeader isLoggedIn={isLoggedIn} />
 
       <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
-        <section style={{ backgroundColor: DARK, padding: '72px 24px' }}>
-          <div className="tool-hero-grid mx-auto max-w-6xl">
+        <section
+          style={{
+            background: 'linear-gradient(115deg, #021f0e 0%, #052e16 40%, #0a3d20 70%, #0f5132 100%)',
+            padding: '72px 24px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Glow overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              width: '55%',
+              height: '100%',
+              background: 'radial-gradient(ellipse at 80% 50%, rgba(27,107,74,0.2) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <div className="tool-hero-grid mx-auto max-w-6xl" style={{ position: 'relative', zIndex: 1 }}>
             <div>
               <div className="mb-6 text-sm" style={{ color: '#6ee7b7' }}>
                 <Link href="/" className="transition-opacity hover:opacity-80">Početna</Link>
