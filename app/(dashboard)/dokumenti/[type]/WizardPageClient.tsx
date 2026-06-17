@@ -51,9 +51,10 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
 interface WizardPageClientProps {
   type: string
   companies: Company[]
+  plan?: string
 }
 
-export function WizardPageClient({ type, companies }: WizardPageClientProps) {
+export function WizardPageClient({ type, companies, plan }: WizardPageClientProps) {
   const meta = documentMeta[type]
   const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean } | null>(null)
 
@@ -104,6 +105,7 @@ export function WizardPageClient({ type, companies }: WizardPageClientProps) {
         steps={meta.steps}
         documentType={type}
         companies={companies}
+        plan={plan}
         onComplete={(documentId, generatedText, documentTitle, isFree) => setResult({ documentId, generatedText, documentTitle, isFree })}
       />
     </div>

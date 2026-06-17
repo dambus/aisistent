@@ -38,17 +38,26 @@ export default async function WizardPage({ params }: PageProps) {
   const { data: { user } } = await supabase.auth.getUser()
 
   let companies: Company[] = []
+  let plan = 'free'
 
   if (user) {
-    const { data } = await supabase
-      .from('companies')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('is_default', { ascending: false })
-      .order('created_at', { ascending: true })
+    const [companiesRes, profileRes] = await Promise.all([
+      supabase
+        .from('companies')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('is_default', { ascending: false })
+        .order('created_at', { ascending: true }),
+      supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', user.id)
+        .single(),
+    ])
 
-    companies = (data ?? []) as Company[]
+    companies = (companiesRes.data ?? []) as Company[]
+    plan = profileRes.data?.plan ?? 'free'
   }
 
-  return <WizardPageClient type={type} companies={companies} />
+  return <WizardPageClient type={type} companies={companies} plan={plan} />
 }

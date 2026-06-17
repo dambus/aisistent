@@ -14,6 +14,7 @@ interface WizardFormProps {
   steps: WizardStep[]
   documentType: string
   companies?: Company[]
+  plan?: string
   onComplete: (documentId: string, generatedText: string, documentTitle: string, isFree: boolean) => void
 }
 
@@ -56,14 +57,24 @@ function buildInitialValues(steps: WizardStep[]): FormValues {
   return values
 }
 
-export function WizardForm({ steps, documentType, companies = [], onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], plan, onComplete }: WizardFormProps) {
+  const isAgency = plan === 'agency'
+  const defaultCompany = companies.find(c => c.is_default) ?? companies[0] ?? null
+
   const [currentStep, setCurrentStep] = useState(0)
-  const [values, setValues] = useState<FormValues>(buildInitialValues(steps))
+  const [values, setValues] = useState<FormValues>(() => {
+    const base = buildInitialValues(steps)
+    if (isAgency && defaultCompany) {
+      return { ...base, ...buildCompanyFields(defaultCompany, documentType) }
+    }
+    return base
+  })
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>(defaultCompany?.id ?? '')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
-  const [showCompanyModal, setShowCompanyModal] = useState(companies.length > 0)
+  const [showCompanyModal, setShowCompanyModal] = useState(!isAgency && companies.length > 0)
 
   const visibleSteps = getVisibleSteps(steps, values)
   const step = visibleSteps[currentStep] ?? visibleSteps[0]
@@ -144,6 +155,14 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
     setShowCompanyModal(false)
   }
 
+  function handleAgencySwitch(companyId: string) {
+    const company = companies.find(c => c.id === companyId)
+    if (!company) return
+    setSelectedCompanyId(companyId)
+    const fields = buildCompanyFields(company, documentType)
+    setValues(prev => ({ ...prev, ...fields }))
+  }
+
   return (
     <>
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} />}
@@ -170,6 +189,31 @@ export function WizardForm({ steps, documentType, companies = [], onComplete }: 
           />
         </div>
       </div>
+
+      {/* Agency client switcher */}
+      {isAgency && (
+        <div className="mb-4 flex items-center gap-3">
+          <span className="text-sm font-medium text-gray-600 shrink-0">Klijent:</span>
+          {companies.length >= 2 ? (
+            <select
+              value={selectedCompanyId}
+              onChange={e => handleAgencySwitch(e.target.value)}
+              className="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+            >
+              {companies.map(c => (
+                <option key={c.id} value={c.id}>{c.naziv}</option>
+              ))}
+            </select>
+          ) : (
+            <a
+              href="/profil"
+              className="text-sm text-primary underline underline-offset-2 hover:opacity-80 transition-opacity"
+            >
+              Dodajte klijente u profilu →
+            </a>
+          )}
+        </div>
+      )}
 
       {/* Fields */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5 overflow-x-hidden w-full">

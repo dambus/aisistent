@@ -34,9 +34,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // WelcomeModal se suzbija dok onboarding nije završen — da ne bi dva modala istovremeno
   const showWelcomeModal = !profile?.display_name && onboarded
 
+  if (!onboarded && plan === 'agency') {
+    redirect('/onboarding/agencija')
+  }
+
   return (
     <>
-      {!onboarded && (
+      {!onboarded && plan !== 'agency' && (
         <OnboardingModal userName={profile?.display_name ?? null} />
       )}
       <DashboardShell
