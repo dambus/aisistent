@@ -63,12 +63,12 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
         alt="Wizard za unos podataka"
         style={{
           position: 'absolute',
-          top: '10px',
-          left: '0px',
-          width: '320px',
-          opacity: 0.85,
+          top: '-30px',
+          left: '-40px',
+          width: '300px',
+          opacity: 0.9,
           borderRadius: '10px',
-          transform: 'perspective(1000px) rotateY(8deg) rotateX(4deg) scale(0.82)',
+          transform: 'perspective(1000px) rotateY(12deg) rotateX(6deg) scale(0.78)',
           transformOrigin: 'left center',
           boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
           zIndex: 1,
@@ -79,9 +79,9 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
       <div
         style={{
           position: 'absolute',
-          top: '45%',
-          left: '38%',
-          zIndex: 3,
+          top: '30%',
+          left: '28%',
+          zIndex: 4,
           width: '32px',
           height: '32px',
           borderRadius: '50%',
@@ -103,7 +103,8 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
         style={{
           position: 'absolute',
           top: '30px',
-          right: '0px',
+          right: '10px',
+          bottom: '-20px',
           zIndex: 2,
           transform: 'perspective(1000px) rotateY(-4deg) rotateX(-2deg)',
           transformOrigin: 'right center',
@@ -113,7 +114,7 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
           src={docSrc}
           alt="Generisani dokument"
           style={{
-            width: '340px',
+            width: '320px',
             borderRadius: '10px',
             border: '1px solid rgba(255,255,255,0.15)',
             boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 6px 20px rgba(0,0,0,0.3)',

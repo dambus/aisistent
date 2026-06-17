@@ -270,6 +270,7 @@ export function ToolLandingPage({
           style={{
             background: 'linear-gradient(115deg, #021f0e 0%, #052e16 40%, #0a3d20 70%, #0f5132 100%)',
             padding: '72px 24px',
+            minHeight: '520px',
             position: 'relative',
             overflow: 'hidden',
           }}
