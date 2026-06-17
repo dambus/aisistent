@@ -39,6 +39,9 @@ export function PlanSelector({ userId, currentPlan }: Props) {
         setSaved(true)
         setTimeout(() => setSaved(false), 2000)
         router.refresh()
+      } else {
+        setPlan(plan)
+        console.error('set-plan failed:', await res.text())
       }
     } finally {
       setLoading(false)
