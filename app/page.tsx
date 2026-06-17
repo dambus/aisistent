@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import MobileMenu from '@/components/landing/MobileMenu'
+import { HeroAnimation } from '@/components/landing/HeroAnimation'
 import PricingSection from '@/components/landing/PricingSection'
 import type { PricingPlan } from '@/components/landing/PricingSection'
 
@@ -313,27 +314,8 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* Hero illustration — dashboard mockup */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl">
-            <div className="rounded-xl bg-gray-900 p-5 text-white">
-              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
-                <span className="text-sm font-bold" style={{ color: '#6ee7b7' }}>AIsistent radna površina</span>
-                <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ backgroundColor: '#052e16', color: '#6ee7b7' }}>
-                  spreman
-                </span>
-              </div>
-              <div className="grid gap-3">
-                {['Ugovor o radu', 'Poslovni mejl', 'Ponuda klijentu', 'Oglas za posao'].map(item => (
-                  <div key={item} className="flex items-center justify-between rounded-xl bg-white/8 p-4">
-                    <div>
-                      <p className="font-semibold text-white">{item}</p>
-                      <p className="text-sm text-gray-400">Generisan za 45 sekundi</p>
-                    </div>
-                    <span style={{ color: '#6ee7b7' }}>✓</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="hidden md:flex items-center justify-center">
+            <HeroAnimation />
           </div>
         </div>
       </section>
