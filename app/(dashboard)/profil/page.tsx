@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -30,6 +31,7 @@ function formatMemberSince(iso: string): string {
 }
 
 export default async function ProfilPage() {
+  noStore()
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
