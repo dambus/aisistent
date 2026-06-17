@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next'
-import { getAllPosts } from '@/lib/blog'
+import { getAllPostMeta } from '@/lib/blog'
 
 const BASE = 'https://aisistent.rs'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const blogRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    ...getAllPosts().map(post => ({
+    ...getAllPostMeta().map(post => ({
       url: `${BASE}/blog/${post.slug}`,
       lastModified: new Date(post.date),
       changeFrequency: 'monthly' as const,
