@@ -616,6 +616,7 @@ const PLAN_LIMITS: Record<string, number | null> = {
   starter: 20,
   pro: null,
   business: null,
+  agency: null,
 }
 
 function checkRateLimit(userId: string): boolean {
@@ -672,7 +673,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Profil nije pronađen.' }, { status: 404 })
   }
 
-  const limit = PLAN_LIMITS[profile.plan] ?? 1
+  const limit = PLAN_LIMITS[profile.plan] !== undefined ? PLAN_LIMITS[profile.plan] : null
   if (limit !== null && profile.documents_this_month >= limit) {
     const planLabel = profile.plan === 'free' ? 'besplatni' : profile.plan
     return NextResponse.json(
