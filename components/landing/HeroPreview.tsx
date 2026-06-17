@@ -63,8 +63,8 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
         alt="Wizard za unos podataka"
         style={{
           position: 'absolute',
-          top: '-30px',
-          left: '-40px',
+          top: '20px',
+          left: '-30px',
           width: '300px',
           opacity: 0.9,
           borderRadius: '10px',
@@ -79,8 +79,8 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
       <div
         style={{
           position: 'absolute',
-          top: '30%',
-          left: '28%',
+          top: '25%',
+          left: '32%',
           zIndex: 4,
           width: '32px',
           height: '32px',
