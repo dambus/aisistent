@@ -31,8 +31,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const PRIMARY = '#1B6B4A'
 const DARK = '#052e16'
 
-const HERO_PATTERN = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E")`
-
 const navLinks = [
   { href: '/#alati', label: 'Alati' },
   { href: '/blog', label: 'Blog' },
@@ -130,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
         </nav>
       </header>
 
-      <section style={{ backgroundColor: DARK, backgroundImage: HERO_PATTERN, backgroundSize: '40px 40px', color: 'white', padding: '64px 24px' }}>
+      <section style={{ backgroundColor: DARK, color: 'white', padding: '64px 24px' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <a
             href="/blog"
