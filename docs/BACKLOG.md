@@ -66,6 +66,9 @@
 - Ponuda za radove — dinamička tabela (majstori, izvođači)
 
 ### Napredne funkcionalnosti
+
+#### Agency plan — Faza 2 (sledeće)
+- "Pošalji klijentu" flow — posle generisanja, agency korisnici vide primarnu akciju "Pošalji klijentu" umesto neutralnog "Pošalji emailom"; pre-popunjava primaoca iz liste klijenata
 - SEF integracija — slanje fakture na Sistem elektronskih faktura
 - Verzionisanje dokumenata — čuvanje prethodnih verzija
 - Timski nalozi — Business plan, više korisnika

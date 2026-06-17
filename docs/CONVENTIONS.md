@@ -153,6 +153,25 @@ Vrednosti moraju odgovarati tačnim `id`-ovima wizard polja iz prompta.
 
 ---
 
+## Dodavanje novog plana — obavezni checklist
+
+Svaki novi plan mora biti dodat u SVE sledeće lokacije:
+- [ ] app/api/companies/route.ts — PLAN_LIMITS (koristiti `!== undefined` pattern, ne `??` broj)
+- [ ] app/api/generate/route.ts — PLAN_LIMITS (isti pattern)
+- [ ] app/(dashboard)/profil/page.tsx — PLAN_INFO, PLAN_COLORS
+- [ ] app/api/admin/set-plan/route.ts — VALID_PLANS
+- [ ] components/admin/PlanSelector.tsx — PLANS array, PLAN_COLORS
+- [ ] components/dashboard/CompaniesTab.tsx — PLAN_LIMITS, LOGO_PLANS
+- [ ] components/dashboard/GreetingHeader.tsx — planLabels
+- [ ] components/dashboard/Sidebar.tsx — planLabels
+- [ ] app/admin/page.tsx — PLAN_LABELS, PLAN_COLORS
+- [ ] app/page.tsx — pricing array
+
+Napomena: fallback za `PLAN_LIMITS` mora biti `null`, ne broj:
+`const limit = PLAN_LIMITS[plan] !== undefined ? PLAN_LIMITS[plan] : null`
+
+---
+
 ## Reminders
 
 Svaki tip dokumenta ima reminder u `data/reminders.ts`:

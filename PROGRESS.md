@@ -34,6 +34,10 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - WizardForm: inline quick-switch dropdown za agency korisnike (2+ klijenata)
 - Agency onboarding: standalone full-page welcome screen na /onboarding/agencija
 - Server-side redirect u (dashboard)/layout.tsx: agency + !onboarded -> /onboarding/agencija
+- fix: `?? 1` fallback zamenjen sa `!== undefined` pattern u app/api/companies/route.ts i app/api/generate/route.ts
+- fix: noStore() dodat u app/(dashboard)/layout.tsx i app/(dashboard)/profil/page.tsx
+- fix: agency dodat u Sidebar planLabels, admin VALID_PLANS, companies API PLAN_LIMITS
+- Napomena: bug `null ?? 1` uticao i na Business plan (nije mogao >1 firma) — fiksiran
 - Arhitekturna napomena: onboarding stranica je van (dashboard) route grupe da bi se izbegla beskonačna redirect petlja
 
 #### jun 2026. — Admin panel poboljšanja
