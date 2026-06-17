@@ -57,7 +57,6 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
 
   return (
     <div style={{ position: 'relative', width: '420px', height: '480px', flexShrink: 0 }}>
-      {/* Wizard — background, 3D receded */}
       <img
         src={wizardSrc!}
         alt="Wizard za unos podataka"
@@ -75,30 +74,6 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
         }}
       />
 
-      {/* Connector arrow */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '25%',
-          left: '32%',
-          zIndex: 4,
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          backgroundColor: '#1B6B4A',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '16px',
-          color: 'white',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
-          transform: 'translateY(-50%)',
-        }}
-      >
-        →
-      </div>
-
-      {/* Doc — foreground, dominant */}
       <div
         style={{
           position: 'absolute',
@@ -121,7 +96,6 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
             display: 'block',
           }}
         />
-        {/* Badge */}
         <div
           style={{
             position: 'absolute',
