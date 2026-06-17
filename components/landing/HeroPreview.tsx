@@ -26,7 +26,15 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
   const currentSrc = active === 'wizard' && wizardSrc ? wizardSrc : docSrc
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '320px',
+        flexShrink: 0,
+      }}
+    >
       <style>{`
         @keyframes hero-fade-in {
           from { opacity: 0; }
@@ -44,7 +52,8 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
             borderRadius: '8px',
             padding: '4px',
             marginBottom: '12px',
-            width: 'fit-content',
+            width: '320px',
+            boxSizing: 'border-box',
           }}
         >
           <button
@@ -85,9 +94,12 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
       <div
         style={{
           position: 'relative',
+          width: '100%',
+          maxWidth: '320px',
+          height: '380px',
           display: 'flex',
-          justifyContent: 'center',
           alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <div
@@ -105,26 +117,29 @@ export function HeroPreview({ previewSlug }: HeroPreviewProps) {
           }}
         />
         <img
-          key={currentSrc}
+          key={active}
           className="hero-preview-img"
           src={currentSrc}
-          alt="Primer generisanog dokumenta"
+          alt={active === 'wizard' ? 'Wizard za unos podataka' : 'Generisani dokument'}
           style={{
             position: 'relative',
             zIndex: 1,
-            width: '100%',
-            maxWidth: '340px',
+            maxWidth: '100%',
+            maxHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
             borderRadius: '8px',
             transform: 'rotate(-2deg)',
             boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)',
           }}
         />
-        {(active === 'doc' || !wizardSrc) && (
+        {active === 'doc' && (
           <div
             style={{
               position: 'absolute',
-              bottom: '-8px',
-              right: '0px',
+              bottom: '4px',
+              right: '-8px',
               zIndex: 2,
               backgroundColor: '#1B6B4A',
               color: 'white',
