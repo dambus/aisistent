@@ -176,6 +176,24 @@ const pricing: (PricingPlan & { features: [string, string][] })[] = [
       ['✓', 'Prioritetna podrška'],
     ],
   },
+  {
+    name: 'Agencija',
+    price: '9.990 RSD',
+    euroEquivalent: '≈ 83 EUR/mes',
+    badge: 'Za računovođe',
+    badgeColor: '#4338CA',
+    cta: 'Kontaktirajte nas',
+    href: 'mailto:hello@aisistent.rs?subject=Agency plan',
+    features: [
+      ['✓', 'Neograničen broj klijentskih firmi'],
+      ['✓', 'Neograničen broj dokumenata'],
+      ['✓', 'PDF + DOCX export'],
+      ['✓', 'Logo firme u dokumentima'],
+      ['✓', 'Arhiva po klijentu'],
+      ['✓', 'Email slanje dokumenta klijentu'],
+      ['✕', 'Više korisnika na nalogu (uskoro)'],
+    ],
+  },
 ]
 
 function Header({ isLoggedIn }: { isLoggedIn: boolean }) {

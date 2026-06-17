@@ -10,6 +10,7 @@ export interface PricingPlan {
   price: string
   euroEquivalent?: string
   badge?: string
+  badgeColor?: string
   cta: string
   href?: string
   featured?: boolean
@@ -35,7 +36,7 @@ export default function PricingSection({ plans }: { plans: PricingPlan[] }) {
             {plan.badge && (
               <span
                 className="absolute -top-3 left-5 rounded-full px-3 py-1 text-xs font-bold text-white"
-                style={{ backgroundColor: '#F59E0B' }}
+                style={{ backgroundColor: plan.badgeColor ?? '#F59E0B' }}
               >
                 {plan.badge}
               </span>
