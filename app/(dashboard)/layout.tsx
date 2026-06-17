@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { unstable_noStore as noStore } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
@@ -16,6 +17,7 @@ function getInitials(displayName: string | null, email: string): string {
 }
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  noStore()
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
