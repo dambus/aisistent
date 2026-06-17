@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
 
   const plan = profile?.plan ?? 'free'
   const limit = PLAN_LIMITS[plan] ?? 1
+  console.log('[DEBUG companies]', { plan, limit, planLimits: PLAN_LIMITS })
 
   if (limit !== null) {
     const { count } = await supabase
