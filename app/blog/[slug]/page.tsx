@@ -1,125 +1,4 @@
 import type { Metadata } from 'next'
-<<<<<<< HEAD
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import ReactMarkdown from 'react-markdown'
-import { getAllPosts, getPostBySlug } from '@/lib/blog'
-
-const PRIMARY = '#1B6B4A'
-
-interface PageProps {
-  params: Promise<{ slug: string }>
-}
-
-function formatDate(date: string) {
-  return new Intl.DateTimeFormat('sr-RS', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(date))
-}
-
-export function generateStaticParams() {
-  return getAllPosts().map(post => ({
-    slug: post.slug,
-  }))
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
-  const post = getPostBySlug(slug)
-
-  if (!post) {
-    return {
-      title: 'Blog | AIsistent',
-    }
-  }
-
-  return {
-    title: `${post.title} | AIsistent`,
-    description: post.description,
-  }
-}
-
-export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = await params
-  const post = getPostBySlug(slug)
-
-  if (!post) {
-    notFound()
-  }
-
-  return (
-    <main className="min-h-screen bg-white text-gray-900">
-      <article className="mx-auto max-w-4xl px-5 py-12 lg:px-8 lg:py-16">
-        <nav className="mb-8 text-sm text-gray-500">
-          <Link href="/blog" className="transition-colors hover:text-[#1B6B4A]">
-            Blog
-          </Link>
-          <span className="mx-2">→</span>
-          <span>{post.title}</span>
-        </nav>
-
-        <header className="rounded-3xl border border-gray-100 px-6 py-8 shadow-sm sm:px-8">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
-            <span>{formatDate(post.date)}</span>
-            <span aria-hidden="true">•</span>
-            <span>{post.readTime}</span>
-          </div>
-          <h1 className="mt-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            {post.title}
-          </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-gray-600">{post.description}</p>
-        </header>
-
-        <div className="mt-10 rounded-3xl border border-gray-100 bg-white px-6 py-8 shadow-sm sm:px-8">
-          <ReactMarkdown
-            components={{
-              h2: props => <h2 className="mt-10 text-2xl font-bold tracking-tight text-gray-900" {...props} />,
-              h3: props => <h3 className="mt-8 text-xl font-bold text-gray-900" {...props} />,
-              p: props => <p className="mt-5 text-base leading-8 text-gray-700" {...props} />,
-              ul: props => <ul className="mt-5 list-disc space-y-2 pl-6 text-gray-700" {...props} />,
-              ol: props => <ol className="mt-5 list-decimal space-y-2 pl-6 text-gray-700" {...props} />,
-              li: props => <li className="leading-8" {...props} />,
-              strong: props => <strong className="font-semibold text-gray-900" {...props} />,
-              a: props => (
-                <a
-                  className="font-semibold underline underline-offset-4"
-                  style={{ color: PRIMARY }}
-                  {...props}
-                />
-              ),
-              blockquote: props => (
-                <blockquote
-                  className="mt-6 border-l-4 border-[#1B6B4A] bg-[#F4FAF6] px-4 py-3 italic text-gray-700"
-                  {...props}
-                />
-              ),
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-        </div>
-
-        <section
-          className="mt-10 rounded-3xl px-6 py-8 text-center text-white shadow-sm sm:px-8"
-          style={{ backgroundColor: PRIMARY }}
-        >
-          <h2 className="text-2xl font-bold tracking-tight">Isprobajte AIsistent besplatno</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-white/85">
-            Generišite poslovne dokumente za srpsko tržište brže, jasnije i bez kretanja od nule.
-          </p>
-          <Link
-            href="/register"
-            className="mt-6 inline-flex rounded-xl bg-white px-6 py-3 text-sm font-bold transition-transform hover:scale-[1.02]"
-            style={{ color: PRIMARY }}
-          >
-            Isprobajte AIsistent besplatno
-          </Link>
-        </section>
-      </article>
-    </main>
-=======
 import { notFound } from 'next/navigation'
 import { getAllPostMeta, getPost, formatDateSr, splitHtmlAtMidpoint } from '@/lib/blog'
 
@@ -218,7 +97,6 @@ export default async function BlogPostPage({ params }: Props) {
     <div className="min-h-screen bg-white" style={{ color: '#111827' }}>
       <style dangerouslySetInnerHTML={{ __html: PROSE_STYLES }} />
 
-      {/* ── NAV ── */}
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <a href="/" className="flex items-center">
@@ -250,7 +128,6 @@ export default async function BlogPostPage({ params }: Props) {
         </nav>
       </header>
 
-      {/* ── HERO ── */}
       <section style={{ backgroundColor: DARK, color: 'white', padding: '64px 24px' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <a
@@ -278,16 +155,12 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── PROSE + MID CTA ── */}
       <main className="mx-auto px-5 py-12 lg:px-8" style={{ maxWidth: '720px' }}>
-
-        {/* Prva polovina sadržaja */}
         <div
           className="blog-prose"
           dangerouslySetInnerHTML={{ __html: firstHalf }}
         />
 
-        {/* Mid-CTA baner */}
         {secondHalf && (
           <div
             className="my-10 rounded-2xl px-7 py-7"
@@ -306,7 +179,6 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         )}
 
-        {/* Druga polovina sadržaja */}
         {secondHalf && (
           <div
             className="blog-prose"
@@ -314,7 +186,6 @@ export default async function BlogPostPage({ params }: Props) {
           />
         )}
 
-        {/* ── AUTOR / SHARE ── */}
         <div
           className="mt-12 flex flex-col gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between"
           style={{ borderColor: '#e5e7eb' }}
@@ -345,7 +216,6 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </div>
 
-        {/* ── RELATED POSTS ── */}
         {related.length > 0 && (
           <section className="mt-14">
             <h2 className="mb-6 text-xl font-bold" style={{ color: DARK }}>
@@ -377,7 +247,6 @@ export default async function BlogPostPage({ params }: Props) {
           </section>
         )}
 
-        {/* ── BOTTOM CTA ── */}
         <section className="mt-16 rounded-2xl px-8 py-12 text-center" style={{ backgroundColor: DARK }}>
           <h2 className="text-2xl font-bold text-white sm:text-3xl">
             Treba vam dokument odmah?
@@ -404,7 +273,6 @@ export default async function BlogPostPage({ params }: Props) {
         </section>
       </main>
 
-      {/* ── FOOTER ── */}
       <footer style={{ backgroundColor: DARK, color: '#d1fae5' }} className="py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -468,6 +336,5 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </footer>
     </div>
->>>>>>> a0bb098d1100e6b301aebbb43a37073f9b18f1dd
   )
 }
