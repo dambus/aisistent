@@ -7,6 +7,7 @@ const PLAN_LIMITS: Record<string, number | null> = {
   starter:  1,
   pro:      3,
   business: null,
+  agency:   null,
 }
 
 export async function GET() {

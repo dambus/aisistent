@@ -20,9 +20,10 @@ const PLAN_LIMITS: Record<string, number | null> = {
   starter:  1,
   pro:      3,
   business: null,
+  agency:   null,
 }
 
-const LOGO_PLANS = ['pro', 'business']
+const LOGO_PLANS = ['pro', 'business', 'agency']
 
 const emptyForm = {
   naziv: '',

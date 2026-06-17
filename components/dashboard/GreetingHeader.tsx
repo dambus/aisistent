@@ -11,6 +11,7 @@ const planLabels: Record<string, { label: string; cls: string }> = {
   starter:  { label: 'Starter',   cls: 'bg-blue-100 text-blue-700' },
   pro:      { label: 'Pro',       cls: 'bg-purple-100 text-purple-700' },
   business: { label: 'Business',  cls: 'bg-amber-100 text-amber-700' },
+  agency:   { label: 'Agencija',  cls: 'bg-indigo-100 text-indigo-700' },
 }
 
 interface GreetingHeaderProps {

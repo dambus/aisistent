@@ -11,6 +11,7 @@ const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
   starter:  { bg: '#EFF6FF', text: '#2563EB' },
   pro:      { bg: '#F0FDF4', text: '#16A34A' },
   business: { bg: '#FEF3C7', text: '#D97706' },
+  agency:   { bg: '#EEF2FF', text: '#4338CA' },
 }
 
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
@@ -18,6 +19,7 @@ const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | n
   starter:  { label: 'Starter plan',   desc: '20 dokumenata mesečno',        limit: 20   },
   pro:      { label: 'Pro plan',        desc: 'Neograničen broj dokumenata',  limit: null },
   business: { label: 'Business plan',  desc: 'Do 5 korisnika',               limit: null },
+  agency:   { label: 'Agencija plan',  desc: 'Neograničen broj klijenata',   limit: null },
 }
 
 const SERBIAN_MONTHS = ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar']

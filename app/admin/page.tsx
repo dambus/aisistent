@@ -3,13 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
 const PLAN_LABELS: Record<string, string> = {
-  free: 'Besplatni', starter: 'Starter', pro: 'Pro', business: 'Business'
+  free: 'Besplatni', starter: 'Starter', pro: 'Pro', business: 'Business', agency: 'Agencija'
 }
 const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
   free:     { bg: '#F3F4F6', text: '#6B7280' },
   starter:  { bg: '#EFF6FF', text: '#2563EB' },
   pro:      { bg: '#F0FDF4', text: '#16A34A' },
   business: { bg: '#FEF3C7', text: '#D97706' },
+  agency:   { bg: '#EEF2FF', text: '#4338CA' },
 }
 
 export default async function AdminPage() {
@@ -85,7 +86,7 @@ export default async function AdminPage() {
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h2 className="text-sm font-semibold text-gray-700 mb-4">Korisnici po planu</h2>
         <div className="flex flex-wrap gap-3">
-          {['free', 'starter', 'pro', 'business'].map(plan => {
+          {['free', 'starter', 'pro', 'business', 'agency'].map(plan => {
             const count = planCounts[plan] ?? 0
             const color = PLAN_COLORS[plan]
             return (
