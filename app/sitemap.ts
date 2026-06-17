@@ -28,6 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/ponuda-klijentu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-zarade`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-pausala`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+<<<<<<< HEAD
     ...blogRoutes,
+=======
+    { url: `${BASE}/kalkulator-ugovora-o-delu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+>>>>>>> a0bb098d1100e6b301aebbb43a37073f9b18f1dd
   ]
 }

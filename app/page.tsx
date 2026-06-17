@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import MobileMenu from '@/components/landing/MobileMenu'
+import PricingSection from '@/components/landing/PricingSection'
+import type { PricingPlan } from '@/components/landing/PricingSection'
 
 export const metadata: Metadata = {
   title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
@@ -25,6 +27,7 @@ const navLinks = [
   { href: '#kako-radi', label: 'Kako radi' },
   { href: '#alati', label: 'Alati' },
   { href: '#cenovnik', label: 'Cenovnik' },
+  { href: '/blog', label: 'Blog' },
 ]
 
 const steps = [
@@ -118,18 +121,7 @@ const withAisistent = [
   'Arhiva za ponovno korišćenje',
 ]
 
-interface PricingPlan {
-  name: string
-  price: string
-  euroEquivalent?: string
-  badge?: string
-  cta: string
-  href: string
-  featured?: boolean
-  features: [string, string][]
-}
-
-const pricing: PricingPlan[] = [
+const pricing: (PricingPlan & { features: [string, string][] })[] = [
   {
     name: 'Besplatno',
     price: 'Besplatno',
@@ -146,7 +138,7 @@ const pricing: PricingPlan[] = [
     price: '1.080 RSD / mes.',
     euroEquivalent: '(≈ 9 EUR)',
     cta: 'Izaberite Starter',
-    href: '/register',
+    waitlistPlan: 'starter',
     features: [
       ['✓', '20 dokumenata mesečno'],
       ['✓', 'PDF bez watermark-a'],
@@ -161,7 +153,7 @@ const pricing: PricingPlan[] = [
     euroEquivalent: '(≈ 25 EUR)',
     badge: 'Najpopularnije',
     cta: 'Izaberite Pro',
-    href: '/register',
+    waitlistPlan: 'pro',
     featured: true,
     features: [
       ['✓', 'Neograničen broj dokumenata'],
@@ -175,7 +167,7 @@ const pricing: PricingPlan[] = [
     price: '7.200 RSD / mes.',
     euroEquivalent: '(≈ 60 EUR)',
     cta: 'Kontaktirajte nas',
-    href: 'mailto:info@aisistent.rs',
+    waitlistPlan: 'business',
     features: [
       ['✓', 'Neograničen broj dokumenata'],
       ['✓', 'Sve iz Pro plana'],
@@ -256,6 +248,19 @@ function SectionHeading({ eyebrow, title, text }: { eyebrow?: string; title: str
       {text && <p className="mt-4 text-lg leading-relaxed text-gray-600">{text}</p>}
     </div>
   )
+}
+
+const toolLandingPages: Record<string, string> = {
+  'ugovor-o-radu': '/ugovor-o-radu',
+  'ugovor-o-delu': '/ugovor-o-delu',
+  'nda': '/nda',
+  'ugovor-o-zakupu': '/ugovor-o-zakupu',
+  'ugovor-o-saradnji': '/ugovor-o-saradnji',
+  'punomocje': '/punomocje',
+  'opsti-uslovi': '/opsti-uslovi',
+  'poslovni-mejl': '/poslovni-mejl',
+  'oglas-za-posao': '/oglas-za-posao',
+  'ponuda-klijentu': '/ponuda-klijentu',
 }
 
 export default async function Home() {
@@ -386,7 +391,7 @@ export default async function Home() {
                       <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{tool.desc}</p>
                     </div>
                     <a
-                      href={isLoggedIn ? `/dokumenti/${tool.type}` : '/register'}
+                      href={toolLandingPages[tool.type] ?? '/register'}
                       className="mt-4 text-sm font-semibold transition-colors duration-200"
                       style={{ color: PRIMARY }}
                     >
@@ -444,59 +449,7 @@ export default async function Home() {
           title="Jednostavne cene, bez iznenađenja"
           text="Otkažite kad hoćete. Bez ugovora."
         />
-        <div className="mx-auto mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
-          {pricing.map(plan => (
-            <article
-              key={plan.name}
-              className={`flex flex-col relative rounded-2xl border p-6 transition-all duration-200 ${
-                plan.featured
-                  ? 'border-2 bg-white text-gray-900 shadow-xl'
-                  : 'border-white/10 bg-white/5 hover:bg-white/8'
-              }`}
-              style={plan.featured ? { borderColor: PRIMARY } : {}}
-            >
-              {plan.badge && (
-                <span
-                  className="absolute -top-3 left-5 rounded-full px-3 py-1 text-xs font-bold text-white"
-                  style={{ backgroundColor: '#F59E0B' }}
-                >
-                  {plan.badge}
-                </span>
-              )}
-              <h3 className="text-lg font-bold">{plan.name}</h3>
-              <p className="mt-3 min-h-[4rem] text-2xl font-bold leading-tight">
-                {plan.price}
-              </p>
-              {plan.euroEquivalent && (
-                <p className="mt-1 text-xs font-medium opacity-60">{plan.euroEquivalent}</p>
-              )}
-              <ul className="mt-6 grid flex-1 gap-2.5 pb-6 text-sm">
-                {plan.features.map(([mark, text]) => (
-                  <li key={text} className="flex gap-2.5">
-                    <span
-                      className={mark === '✓' ? 'font-bold' : 'opacity-30'}
-                      style={mark === '✓' ? { color: plan.featured ? PRIMARY : '#6ee7b7' } : {}}
-                    >
-                      {mark}
-                    </span>
-                    <span className={mark === '✓' ? '' : 'opacity-40'}>{text}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={plan.href}
-                className="mt-auto flex min-h-12 items-center justify-center rounded-lg px-5 py-3 text-center text-sm font-bold transition-all duration-200 hover:scale-[1.02]"
-                style={
-                  plan.featured
-                    ? { backgroundColor: PRIMARY, color: '#fff' }
-                    : { backgroundColor: 'rgba(255,255,255,0.12)', color: '#fff' }
-                }
-              >
-                {plan.cta}
-              </a>
-            </article>
-          ))}
-        </div>
+        <PricingSection plans={pricing} />
         <p className="mx-auto mt-8 max-w-6xl text-sm text-gray-400">
           * Cene su u dinarima. Plaćanje karticom ili bankovnim transferom.
         </p>
@@ -523,30 +476,63 @@ export default async function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-gray-900 px-5 py-10 text-sm text-gray-400 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <footer style={{ backgroundColor: '#052e16', color: '#d1fae5' }} className="py-12 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <p className="mb-1 text-base font-bold text-white">AIsistent</p>
-              <p className="text-gray-500">Poslovni alati za srpske preduzetnike</p>
+              <h3 className="font-semibold text-white mb-4">Alati</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  ['Ugovor o radu', '/ugovor-o-radu'],
+                  ['Ugovor o delu', '/ugovor-o-delu'],
+                  ['NDA sporazum', '/nda'],
+                  ['Ugovor o zakupu', '/ugovor-o-zakupu'],
+                  ['Ugovor o saradnji', '/ugovor-o-saradnji'],
+                  ['Punomoćje', '/punomocje'],
+                  ['Opšti uslovi', '/opsti-uslovi'],
+                ].map(([label, href]) => (
+                  <li key={href}>
+                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex gap-8 text-sm">
-              <div className="grid gap-2">
-                <a href="/login" className="transition-colors hover:text-white">Prijavi se</a>
-                <a href="/register" className="transition-colors hover:text-white">Napravi nalog</a>
-                <a href="#cenovnik" className="transition-colors hover:text-white">Cenovnik</a>
-              </div>
-              <div className="grid gap-2">
-                <a href="mailto:info@aisistent.rs" className="transition-colors hover:text-white">
-                  info@aisistent.rs
-                </a>
-                <span className="text-gray-500">© 2026 AIsistent</span>
-              </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">Resursi</h3>
+              <ul className="space-y-2 text-sm">
+                {[
+                  ['Blog', '/blog'],
+                  ['Kalkulator zarade', '/kalkulator-zarade'],
+                  ['Kalkulator paušala', '/kalkulator-pausala'],
+                  ['Poslovni mejl', '/poslovni-mejl'],
+                  ['Oglas za posao', '/oglas-za-posao'],
+                ].map(([label, href]) => (
+                  <li key={href}>
+                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">AIsistent</h3>
+              <ul className="space-y-2 text-sm" style={{ color: '#6ee7b7' }}>
+                <li>
+                  <a href="mailto:info@aisistent.rs" className="hover:text-white transition-colors">
+                    info@aisistent.rs
+                  </a>
+                </li>
+                <li>Napravljeno u Srbiji 🇷🇸</li>
+              </ul>
             </div>
           </div>
-          <div className="mt-8 flex flex-col gap-1 border-t border-white/10 pt-6 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+          <div className="border-t pt-6 text-xs text-center space-y-1"
+            style={{ borderColor: '#14532d', color: '#6ee7b7' }}>
+            <p>© 2026 AIsistent. Sva prava zadržana.</p>
             <p>Dokumenti generisani uz pomoć AIsistenta. Preporučuje se pravna provera pre upotrebe.</p>
-            <p className="shrink-0">Napravljeno u Srbiji 🇷🇸</p>
           </div>
         </div>
       </footer>
