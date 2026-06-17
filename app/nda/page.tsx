@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="nda"
       h1="NDA sporazum — generator ugovora o poverljivosti za Srbiju"
       intro="Zaštitite poslovne tajne i ideje pre pregovora, saradnje ili angažovanja. Jednostrani ili obostrani NDA prilagođen srpskom pravu — PDF za 60 sekundi."
       ctaHref="/register"

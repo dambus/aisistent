@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="ugovor-o-radu"
       h1="Ugovor o radu — generator za poslodavce u Srbiji"
       intro="Generišite ugovor o radu u skladu sa Zakonom o radu Republike Srbije. Svi obavezni elementi, ispravne klauzule, srpska terminologija — PDF ili Word za 60 sekundi."
       ctaHref="/register"

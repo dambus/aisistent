@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="ugovor-o-delu"
       h1="Ugovor o delu — generator za freelancere i firme"
       intro="Generišite ugovor o delu po Zakonu o obligacionim odnosima za konkretan zadatak ili projekat. Ispravne poreske klauzule, rokovi i isporuka — PDF za 60 sekundi."
       ctaHref="/register"

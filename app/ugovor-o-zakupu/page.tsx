@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="ugovor-o-zakupu"
       h1="Ugovor o zakupu — generator za stanodavce i zakupce"
       intro="Generišite ugovor o zakupu stana ili poslovnog prostora prilagođen srpskom pravu. Visina zakupnine, depozit, otkazni rok, stanje prostora — sve na jednom mestu."
       ctaHref="/register"

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { HeroPreview } from './HeroPreview'
 
 export interface FAQ {
   q: string
@@ -15,6 +16,7 @@ export interface ToolLandingPageProps {
   ctaNote?: string
   relatedLinks: { href: string; label: string }[]
   faqs: FAQ[]
+  previewSlug?: string
   isLoggedIn?: boolean
 }
 
@@ -229,6 +231,7 @@ export function ToolLandingPage({
   ctaNote,
   relatedLinks,
   faqs,
+  previewSlug,
   isLoggedIn,
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
@@ -314,60 +317,7 @@ export function ToolLandingPage({
             </div>
 
             <div className="tool-doc-preview">
-              <div
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '-12px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '85%',
-                    height: '100%',
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    borderRadius: '8px',
-                    filter: 'blur(12px)',
-                    zIndex: 0,
-                  }}
-                />
-                <img
-                  src="/images/document-preview.png"
-                  alt="Primer generisanog dokumenta"
-                  style={{
-                    position: 'relative',
-                    zIndex: 1,
-                    width: '100%',
-                    maxWidth: '340px',
-                    borderRadius: '8px',
-                    transform: 'rotate(-2deg)',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '-8px',
-                    right: '0px',
-                    zIndex: 2,
-                    backgroundColor: '#1B6B4A',
-                    color: 'white',
-                    padding: '8px 14px',
-                    borderRadius: '20px',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                    transform: 'rotate(2deg)',
-                  }}
-                >
-                  ✓ Generisan za 45 sekundi
-                </div>
-              </div>
+              <HeroPreview previewSlug={previewSlug} />
             </div>
           </div>
         </section>

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="opsti-uslovi"
       h1="Opšti uslovi korišćenja — generator za srpske veb sajtove"
       intro="Generišite opšte uslove korišćenja i politiku privatnosti usklađene sa ZZPL-om i GDPR-om. Prilagođeno vašem tipu biznisa — e-commerce, SaaS, uslužna delatnost."
       ctaHref="/register"

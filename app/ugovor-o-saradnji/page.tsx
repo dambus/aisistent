@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
+      previewSlug="ugovor-o-saradnji"
       h1="Ugovor o saradnji — generator za poslovne partnere"
       intro="Generišite kompletan ugovor o poslovnoj saradnji ili ugovor o zajmu prilagođen srpskom pravu. Wizard vas vodi kroz sve bitne klauzule — od podele prihoda do raskida."
       ctaHref="/register"
