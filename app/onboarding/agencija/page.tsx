@@ -27,7 +27,6 @@ export default function AgencyOnboardingPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
-          {/* Icon */}
           <div
             className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full text-3xl"
             style={{ backgroundColor: '#F0F7F4' }}
@@ -39,14 +38,13 @@ export default function AgencyOnboardingPage() {
             Dobrodošli u AIsistent za agencije
           </h1>
           <p className="text-gray-500 text-sm leading-relaxed mb-8">
-            Vaš alat za brzo generisanje dokumenata za sve klijente na jednom mestu.
+            Vaš alat za brzo generisanje dokumenata za sve klijente.
           </p>
 
-          {/* Feature bullets */}
-          <div className="space-y-4 text-left mb-8">
+          <div className="space-y-3 text-left mb-8">
             {[
-              { icon: '🏢', text: 'Dodajte neograničen broj klijenata u profilu' },
-              { icon: '⚡', text: 'Generišite dokumente za bilo kog klijenta za 2 minuta' },
+              { icon: '🏢', text: 'Neograničen broj klijentskih firmi' },
+              { icon: '⚡', text: 'Dokument za bilo kog klijenta za 2 minuta' },
               { icon: '📧', text: 'Pošaljite dokument direktno klijentu mejlom' },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-start gap-3 rounded-xl bg-gray-50 px-4 py-3">
@@ -56,7 +54,6 @@ export default function AgencyOnboardingPage() {
             ))}
           </div>
 
-          {/* CTA */}
           <button
             onClick={() => markOnboardedAndGo('/profil')}
             disabled={loading}
@@ -73,7 +70,7 @@ export default function AgencyOnboardingPage() {
             disabled={loading}
             className="w-full text-sm text-gray-400 hover:text-gray-600 py-1 transition-colors disabled:opacity-50"
           >
-            Preskočite, idite na dashboard →
+            Preskočite →
           </button>
         </div>
       </div>
