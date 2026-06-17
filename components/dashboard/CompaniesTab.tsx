@@ -56,6 +56,19 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   const limit = PLAN_LIMITS[plan] ?? null
   const canUseLogo = LOGO_PLANS.includes(plan)
 
+  const isAgency = plan === 'agency'
+  const labels = {
+    tabTitle:      isAgency ? 'Klijenti'             : 'Firme',
+    addButton:     isAgency ? 'Dodaj klijenta'       : 'Dodaj firmu',
+    emptyState:    isAgency ? 'Još nema klijenata.'  : 'Još niste dodali nijednu firmu.',
+    editLabel:     isAgency ? 'Izmeni klijenta'      : 'Izmeni firmu',
+    addLabel:      isAgency ? 'Dodaj klijenta'       : 'Dodaj firmu',
+    deleteConfirm: isAgency ? 'Obrisati ovog klijenta?' : 'Obrisati ovu firmu?',
+    saveName:      isAgency ? 'Naziv klijenta'       : 'Naziv firme',
+    saveError:     isAgency ? 'Naziv klijenta je obavezan.' : 'Naziv firme je obavezan.',
+    emailPlaceholder: isAgency ? 'kontakt@klijent.rs' : 'npr. kontakt@firma.rs',
+  }
+
   function openAdd() {
     setEditingId(null)
     setForm(emptyForm)
@@ -90,7 +103,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
 
   async function handleSave() {
     if (!form.naziv.trim()) {
-      setError('Naziv firme je obavezan.')
+      setError(labels.saveError)
       return
     }
     setSaving(true)
@@ -108,7 +121,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
       const json = await res.json()
 
       if (!res.ok) {
-        setError(json.error ?? 'Greška pri čuvanju firme.')
+        setError(json.error ?? (isAgency ? 'Greška pri čuvanju klijenta.' : 'Greška pri čuvanju firme.'))
         return
       }
 
@@ -135,7 +148,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   }
 
   async function handleDelete(id: string) {
-    if (!confirm('Obrisati ovu firmu?')) return
+    if (!confirm(labels.deleteConfirm)) return
     setDeletingId(id)
 
     try {
@@ -207,6 +220,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   }
 
   const limitText = () => {
+    if (isAgency) return `${companies.length} ${companies.length === 1 ? 'klijent' : 'klijenata'} — neograničeno`
     if (limit === null) return `${companies.length} ${companies.length === 1 ? 'firma' : 'firmi'} — neograničeno`
     return `${companies.length} od ${limit} ${limit === 1 ? 'firme' : 'firmi'} iskorišćeno`
   }
@@ -214,7 +228,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   return (
     <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje firme</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje {labels.tabTitle.toLowerCase()}</h2>
         <button
           onClick={openAdd}
           className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
@@ -222,7 +236,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
           onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
           onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
         >
-          + Dodaj firmu
+          + {labels.addButton}
         </button>
       </div>
 
@@ -235,7 +249,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
 
       {/* Lista firmi */}
       {companies.length === 0 && !showForm && (
-        <p className="text-sm text-gray-500 mb-4">Još niste dodali nijednu firmu.</p>
+        <p className="text-sm text-gray-500 mb-4">{labels.emptyState}</p>
       )}
 
       <div className="space-y-3 mb-4">
@@ -354,8 +368,8 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
         ))}
       </div>
 
-      {/* Plan limit info */}
-      <p className="text-sm text-gray-500 mb-4">{limitText()}</p>
+      {/* Plan limit info — sakriveno za agency (neograničeno, bez poruke o nadogradnji) */}
+      {!isAgency && <p className="text-sm text-gray-500 mb-4">{limitText()}</p>}
 
       {/* Forma za dodavanje/uređivanje — Dialog modal */}
       <Dialog open={showForm} onOpenChange={(open) => {
@@ -369,14 +383,14 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {editingId ? 'Izmeni firmu' : 'Dodaj firmu'}
+              {editingId ? labels.editLabel : labels.addLabel}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
               <FormField
-                label="Naziv firme"
+                label={labels.saveName}
                 required
                 value={form.naziv}
                 placeholder="npr. Sigma Solutions doo"
@@ -423,7 +437,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
             <FormField
               label="Email"
               value={form.email}
-              placeholder="npr. kontakt@firma.rs"
+              placeholder={labels.emailPlaceholder}
               onChange={v => setForm(f => ({ ...f, email: v }))}
             />
             <FormField

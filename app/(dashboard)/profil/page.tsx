@@ -84,7 +84,7 @@ export default async function ProfilPage() {
         memberSince={memberSince}
       />
 
-      {/* Kartica 3 — Moje firme */}
+      {/* Kartica 3 — Moje firme / Klijenti (zavisi od plana) */}
       <CompaniesTab
         initialCompanies={(companies ?? []) as Company[]}
         logoDisplayUrls={logoDisplayUrls}
