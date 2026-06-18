@@ -40,11 +40,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect('/onboarding/agencija')
   }
 
+  if (!onboarded && plan !== 'agency') {
+    redirect('/onboarding/dobrodoslica')
+  }
+
   return (
     <>
-      {!onboarded && plan !== 'agency' && (
-        <OnboardingModal userName={profile?.display_name ?? null} />
-      )}
       <DashboardShell
         plan={plan}
         userInitials={userInitials}
