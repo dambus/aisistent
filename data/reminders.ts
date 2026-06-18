@@ -142,7 +142,7 @@ export const documentReminders: Record<string, DocumentReminder> = {
   'otpremnica': {
     title: 'Podsetnik',
     message:
-      'Otpremnica nije fiskalni dokument — ne zamenjuje fakturu. Uz isporuku robe koja podleže PDV-u, morate izdati i fakturu. Primalac potpisom potvrđuje prijem robe u navedenim količinama.',
+      'Otpremnica prati kretanje robe i potvrđuje isporučenu količinu — nije fiskalni dokument i ne zamenjuje fakturu. Uz isporuku robe koja podleže PDV-u, obavezno izdajte i fakturu.',
     learnMoreUrl: null,
     type: 'info',
   },

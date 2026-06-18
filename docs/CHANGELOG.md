@@ -1,3 +1,9 @@
+## jun 2026. — Otpremnica refaktor
+
+- Uklonjena cena, PDV i sumarni blok — otpremnica je dokument količine, ne vrednosti
+- Tabela stavki: Rb | Naziv | Jed. mere | Količina
+- Usklađeno sa Pravilnikom o evidenciji prometa i Zakonom o elektronskim otpremnicama
+
 ## jun 2026. — Putni nalog
 
 - Novi tip dokumenta: Putni nalog (bez AI, direktno renderovanje)
