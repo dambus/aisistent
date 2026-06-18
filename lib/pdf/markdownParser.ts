@@ -40,18 +40,9 @@ const CYRILLIC_MAP: Record<string, string> = {
   'Х': 'H', 'Ц': 'C', 'Ч': 'Č', 'Џ': 'Dž', 'Ш': 'Š',
 }
 
-const LATIN_DIACRITIC_MAP: Record<string, string> = {
-  'Đ': 'Dj', 'đ': 'dj',
-  'Ć': 'C', 'ć': 'c',
-  'Č': 'C', 'č': 'c',
-  'Š': 'S', 'š': 's',
-  'Ž': 'Z', 'ž': 'z',
-}
-
 export function sanitizeText(text: string): string {
   return text
     .replace(/[а-шА-ШђјљњћџЂЈЉЊЋЏ]/g, ch => CYRILLIC_MAP[ch] ?? ch)
-    .replace(/[ĐđĆćČčŠšŽž]/g, ch => LATIN_DIACRITIC_MAP[ch] ?? ch)
 }
 
 function parseInline(text: string): InlineSpan[] {
