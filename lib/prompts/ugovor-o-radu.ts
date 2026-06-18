@@ -167,7 +167,7 @@ Sekciju IX-A. ZAŠTITA PODATAKA O LIČNOSTI uvek generiši sa sledećim standard
 
 Poslodavac se obavezuje da obrađuje lične podatke Zaposlenog isključivo u svrhu izvršavanja prava i obaveza iz radnog odnosa, u skladu sa Zakonom o zaštiti podataka o ličnosti ("Sl. glasnik RS", br. 87/2018). Podaci se čuvaju za vreme trajanja radnog odnosa i u zakonski predviđenom roku nakon njegovog prestanka. Zaposleni ima pravo uvida, ispravke i brisanja podataka u skladu sa zakonom.
 
-Generiši samo sekcije I–XI (uključujući IX-A). Završi sa XI. ZAVRŠNE ODREDBE.
+Generiši samo sekcije I–XI. Poslednja rečenica dokumenta mora biti poslednji član u sekciji XI. ZAVRŠNE ODREDBE. Nakon toga NE dodaješ NIŠTA — ni potpise, ni mesta za potpis, ni 'Mesto i datum potpisivanja', ni 'ZA POSLODAVCA', ni 'ZAPOSLENI', ni crtice za potpis, ni M.P., ni 'Ugovor potpisuju'. Sistem automatski dodaje blok potpisa.
 Sekciju POTPISI I PEČATI NE generiši ni pod kojim rimskim brojem (ni X, ni XI, ni XII) — sistem je dodaje automatski.
 
 ## TON I STIL
@@ -212,7 +212,7 @@ DETALJNA PRAVA I OBAVEZE:
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne dodaješ sekciju "VAŽNE NAPOMENE ZA POSLODAVCA" ili slične editorijalne komentare
 - Ne koristiš "---" separatore između sekcija u dokumentu
-- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem — ovo uključuje i delimičan sadržaj potpisa kao što su ime i funkcija potpisnika, mesta za potpis ili pečat. Sistem automatski dodaje potpise na osnovu podataka iz wizarda.
+- Ne generišeš NIŠTA posle poslednjeg člana sekcije XI. ZAVRŠNE ODREDBE. Zabranjeno je dodavati: mesta za potpis, crte, 'ZA POSLODAVCA', 'ZAPOSLENI', 'Mesto i datum potpisivanja', 'Ugovor potpisuju', 'M.P.', ili bilo koji drugi sadržaj posle završnog člana.
 - DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
   - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
