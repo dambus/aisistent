@@ -7,8 +7,10 @@ import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
 import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
 import { OtpremnicaPDF } from '@/lib/pdf/otpremnicaRenderer'
+import { PonudaZaRadovePDF } from '@/lib/pdf/ponudaZaRadoveRenderer'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
+import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
 
 export const maxDuration = 60
 
@@ -123,6 +125,39 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
         'Content-Length': String(putniPdfBuffer.byteLength),
+      },
+    })
+  }
+
+  // Ponuda za radove — poseban renderer
+  if (doc.type === 'ponuda-za-radove') {
+    let ponudaData: PonudaZaRadoveData
+    try {
+      ponudaData = JSON.parse(doc.generated_text) as PonudaZaRadoveData
+    } catch {
+      return NextResponse.json({ error: 'Neispravni podaci ponude za radove.' }, { status: 500 })
+    }
+
+    let ponudaPdfBuffer: Buffer
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ponudaPdfBuffer = await renderToBuffer(
+        createElement(PonudaZaRadovePDF, { data: ponudaData }) as any
+      )
+    } catch (pdfErr) {
+      console.error('Ponuda za radove PDF render error:', pdfErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju PDF-a. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+
+    const filename = `ponuda-za-radove-${(ponudaData.narucilac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${ponudaData.datum_izdavanja}.pdf`
+    return new NextResponse(new Uint8Array(ponudaPdfBuffer), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(ponudaPdfBuffer.byteLength),
       },
     })
   }

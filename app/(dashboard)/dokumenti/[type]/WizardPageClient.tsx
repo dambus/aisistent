@@ -22,6 +22,7 @@ import { wizardSteps as zapisnikSastanakSteps } from '@/lib/prompts/zapisnik-sas
 import { wizardSteps as fakturaSteps } from '@/lib/prompts/faktura'
 import { wizardSteps as putniNalogSteps } from '@/lib/prompts/putni-nalog'
 import { wizardSteps as otpremnicaSteps } from '@/lib/prompts/otpremnica'
+import { wizardSteps as ponudaZaRadoveSteps } from '@/lib/prompts/ponuda-za-radove'
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
@@ -48,6 +49,7 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'faktura':                  { title: 'Faktura / Profaktura',               steps: fakturaSteps },
   'putni-nalog':              { title: 'Putni nalog',                         steps: putniNalogSteps },
   'otpremnica':               { title: 'Otpremnica',                          steps: otpremnicaSteps },
+  'ponuda-za-radove':         { title: 'Ponuda za radove',                    steps: ponudaZaRadoveSteps },
 }
 
 interface WizardPageClientProps {
@@ -80,6 +82,9 @@ export function WizardPageClient({ type, companies, plan }: WizardPageClientProp
     }
     if (type === 'otpremnica') {
       return 'Unesite podatke i sistem će generisati otpremnicu.'
+    }
+    if (type === 'ponuda-za-radove') {
+      return 'Unesite stavke radova i sistem će generisati profesionalnu ponudu.'
     }
     return 'Popunite podatke i AI će generisati profesionalan dokument.'
   })()

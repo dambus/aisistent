@@ -146,4 +146,11 @@ export const documentReminders: Record<string, DocumentReminder> = {
     learnMoreUrl: null,
     type: 'info',
   },
+  'ponuda-za-radove': {
+    title: 'Savet',
+    message:
+      'Ponuda za radove nije ugovor — postaje obavezujuća tek kada je naručilac prihvati. Za formalno angažovanje preporučujemo i Ugovor o delu ili Ugovor o saradnji.',
+    learnMoreUrl: null,
+    type: 'info',
+  },
 }

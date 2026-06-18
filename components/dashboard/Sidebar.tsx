@@ -40,6 +40,7 @@ const navCategories: NavCategory[] = [
       { label: 'Faktura / Profaktura', href: '/dokumenti/faktura' },
       { label: 'Putni nalog',          href: '/dokumenti/putni-nalog' },
       { label: 'Otpremnica',           href: '/dokumenti/otpremnica' },
+      { label: 'Ponuda za radove',     href: '/dokumenti/ponuda-za-radove' },
     ],
   },
   {

@@ -22,6 +22,7 @@ import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessag
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
 import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
+import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
 
 const num = z.coerce.number()
 const optNum = z.preprocess(
@@ -457,6 +458,27 @@ const putniNalogSchema = z.object({
   ostali_troskovi: z.coerce.string().optional(),
 })
 
+const ponudaZaRadoveSchema = z.object({
+  broj_ponude: z.string().optional(),
+  datum_izdavanja: z.string().min(1),
+  rok_vazenja: z.string().optional(),
+  izvodjac_naziv: z.string().min(1),
+  izvodjac_pib: z.string().optional(),
+  izvodjac_adresa: z.string().min(1),
+  izvodjac_tekuci_racun: z.string().optional(),
+  izvodjac_email: z.string().optional(),
+  izvodjac_telefon: z.string().optional(),
+  izvodjac_pdv_obveznik: z.boolean().default(false),
+  narucilac_naziv: z.string().min(1),
+  narucilac_pib: z.string().optional(),
+  narucilac_adresa: z.string().min(1),
+  lokacija_radova: z.string().optional(),
+  opis_radova: z.string().optional(),
+  stavke: z.string().min(2),
+  pdv_stopa: z.enum(['20', '10', '0', 'oslobodjeno']).optional(),
+  napomena: z.string().optional(),
+})
+
 const otpremnicaSchema = z.object({
   broj_dokumenta: z.string().optional(),
   datum_izdavanja: z.string().min(1),
@@ -502,7 +524,7 @@ const requestSchema = z.object({
     'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
     'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu',
     'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
-    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura', 'putni-nalog', 'otpremnica',
+    'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura', 'putni-nalog', 'otpremnica', 'ponuda-za-radove',
   ]),
   data: z.record(z.string(), z.unknown()),
 })
@@ -634,6 +656,13 @@ const documentConfigs = {
     buildTitle: (data: OtpremnicaData) =>
       `Otpremnica - ${data.primalac_naziv} - ${data.datum_izdavanja}`,
   },
+  'ponuda-za-radove': {
+    schema: ponudaZaRadoveSchema,
+    systemPrompt: '',
+    buildUserMessage: () => '',
+    buildTitle: (data: PonudaZaRadoveData) =>
+      `Ponuda za radove - ${data.narucilac_naziv} - ${data.datum_izdavanja}`,
+  },
 } as const
 
 const rateLimitStore = new Map<string, number[]>()
@@ -723,7 +752,7 @@ export async function POST(request: NextRequest) {
 
   let generatedText: string
 
-  if (type === 'faktura' || type === 'putni-nalog' || type === 'otpremnica') {
+  if (type === 'faktura' || type === 'putni-nalog' || type === 'otpremnica' || type === 'ponuda-za-radove') {
     generatedText = JSON.stringify(docData.data)
   } else {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })

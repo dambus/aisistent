@@ -31,6 +31,11 @@ function isOtpremnicaJson(text: string): boolean {
   catch { return false }
 }
 
+function isPonudaZaRadoveJson(text: string): boolean {
+  try { const d = JSON.parse(text); return typeof d.izvodjac_naziv === 'string' && typeof d.narucilac_naziv === 'string' }
+  catch { return false }
+}
+
 function isPutniNalogJson(text: string): boolean {
   try {
     const parsed = JSON.parse(text)
@@ -452,6 +457,132 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     )
   })()
 
+  const ponudaZaRadovePreview = (() => {
+    if (!isPonudaZaRadoveJson(text)) return null
+
+    let data: Record<string, unknown> = {}
+    try { data = JSON.parse(text) } catch {}
+
+    let stavke: Array<{ rb: number; naziv: string; kolicina: number; jedinica: string; cena_bez_pdv: number }> = []
+    try { stavke = JSON.parse((data.stavke as string) ?? '[]') } catch {}
+
+    const pdvObveznik = !!data.izvodjac_pdv_obveznik
+    const pdvStopaRaw = (data.pdv_stopa as string) ?? ''
+    const pdvStopa = pdvObveznik
+      ? (pdvStopaRaw === 'oslobodjeno' ? 0 : parseInt(pdvStopaRaw) || 0)
+      : 0
+    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
+    const iznosPdv = pdvObveznik && pdvStopaRaw !== 'oslobodjeno' ? ukupnoBezPdv * pdvStopa / 100 : 0
+    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
+
+    function fmt(n: number) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }
+    function fmtDate(iso: string) {
+      if (!iso) return ''
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    return (
+      <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-2xl font-bold" style={{ color: '#1B6B4A' }}>PONUDA ZA RADOVE</h2>
+            {!!(data.broj_ponude as string) && <p className="text-sm text-gray-500">Broj: {data.broj_ponude as string}</p>}
+          </div>
+          <div className="space-y-0.5 text-right text-sm text-gray-500">
+            <p>Datum: {fmtDate(data.datum_izdavanja as string)}</p>
+            {!!(data.rok_vazenja as string) && <p>Rok važenja: {data.rok_vazenja as string}</p>}
+            {!!(data.lokacija_radova as string) && <p>Lokacija: {data.lokacija_radova as string}</p>}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Izvođač</p>
+            <p className="font-semibold text-gray-900">{data.izvodjac_naziv as string}</p>
+            {!!(data.izvodjac_pib as string) && <p className="text-sm text-gray-500">PIB: {data.izvodjac_pib as string}</p>}
+            <p className="text-sm text-gray-500">{data.izvodjac_adresa as string}</p>
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Naručilac</p>
+            <p className="font-semibold text-gray-900">{data.narucilac_naziv as string}</p>
+            {!!(data.narucilac_pib as string) && <p className="text-sm text-gray-500">PIB: {data.narucilac_pib as string}</p>}
+            <p className="text-sm text-gray-500">{data.narucilac_adresa as string}</p>
+          </div>
+        </div>
+
+        {!!(data.opis_radova as string) && (
+          <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Opis radova</p>
+            <p className="text-sm text-gray-700">{data.opis_radova as string}</p>
+          </div>
+        )}
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ backgroundColor: '#1B6B4A' }} className="text-white">
+                <th className="rounded-tl-lg px-3 py-2 text-left text-xs font-semibold">Rb.</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold">Opis rada / materijala</th>
+                <th className="px-3 py-2 text-right text-xs font-semibold">Kol.</th>
+                <th className="px-3 py-2 text-center text-xs font-semibold">Jed.</th>
+                <th className="px-3 py-2 text-right text-xs font-semibold">Cena</th>
+                <th className="rounded-tr-lg px-3 py-2 text-right text-xs font-semibold">Ukupno</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stavke.map((s, i) => (
+                <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
+                  <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
+                  <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
+                  <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.cena_bez_pdv)}</td>
+                  <td className="px-3 py-2 text-right font-medium text-gray-900">{fmt(s.kolicina * s.cena_bez_pdv)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex justify-end">
+          <div className="min-w-60 space-y-1.5">
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Ukupno bez PDV:</span>
+              <span>{fmt(ukupnoBezPdv)} RSD</span>
+            </div>
+            {pdvObveznik && pdvStopaRaw !== 'oslobodjeno' && pdvStopa > 0 && (
+              <div className="flex justify-between text-sm text-gray-600">
+                <span>PDV ({pdvStopa}%):</span>
+                <span>{fmt(iznosPdv)} RSD</span>
+              </div>
+            )}
+            <div className="flex justify-between border-t border-gray-200 pt-2 text-base font-bold" style={{ color: '#1B6B4A' }}>
+              <span>Ukupna vrednost:</span>
+              <span>{fmt(ukupnoSaPdv)} RSD</span>
+            </div>
+          </div>
+        </div>
+
+        {!pdvObveznik && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
+            Napomena: Izvođač nije u sistemu PDV-a. PDV nije obračunat.
+          </div>
+        )}
+        {pdvObveznik && pdvStopaRaw === 'oslobodjeno' && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
+            Promet je oslobođen PDV-a.
+          </div>
+        )}
+        {!!(data.napomena as string) && (
+          <p className="text-sm italic text-gray-500">{data.napomena as string}</p>
+        )}
+      </div>
+    )
+  })()
+
   return (
     <div>
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -518,7 +649,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
-          {putniNalogPreview ?? fakturaPreview ?? otpremnicaPreview ?? (() => {
+          {putniNalogPreview ?? fakturaPreview ?? otpremnicaPreview ?? ponudaZaRadovePreview ?? (() => {
             const lines = text.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
             const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text

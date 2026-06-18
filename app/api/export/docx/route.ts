@@ -276,6 +276,179 @@ export async function POST(request: NextRequest) {
     })
   }
 
+  // Ponuda za radove — poseban DOCX renderer
+  if (doc.type === 'ponuda-za-radove') {
+    let data: Record<string, unknown>
+    try { data = JSON.parse(doc.generated_text) } catch {
+      return NextResponse.json({ error: 'Neispravni podaci ponude za radove.' }, { status: 500 })
+    }
+
+    let stavke: Array<{ rb: number; naziv: string; kolicina: number; jedinica: string; cena_bez_pdv: number }> = []
+    try { stavke = JSON.parse(data.stavke as string) } catch {}
+
+    function fmtNP(n: number) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }
+    function fmtDateP(iso: string) {
+      if (!iso) return ''
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    const ZELENA = '1B6B4A'
+    const SIVA = '6B7280'
+    const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' }
+    const NO_BORDERS = { top: NO_BORDER, bottom: NO_BORDER, left: NO_BORDER, right: NO_BORDER }
+
+    const pdvObveznik = !!data.izvodjac_pdv_obveznik
+    const pdvStopaRaw = (data.pdv_stopa as string) ?? ''
+    const pdvStopa = pdvObveznik
+      ? (pdvStopaRaw === 'oslobodjeno' ? 0 : parseInt(pdvStopaRaw) || 0)
+      : 0
+    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
+    const iznosPdv = pdvObveznik && pdvStopaRaw !== 'oslobodjeno' ? ukupnoBezPdv * pdvStopa / 100 : 0
+    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
+
+    const metaLine = [
+      `Datum izdavanja: ${fmtDateP(data.datum_izdavanja as string)}`,
+      data.rok_vazenja ? `Rok važenja: ${data.rok_vazenja}` : '',
+      data.lokacija_radova ? `Lokacija radova: ${data.lokacija_radova}` : '',
+    ].filter(Boolean).join('   ')
+
+    const ponudaDoc = new Document({
+      sections: [{
+        properties: {},
+        children: [
+          new Paragraph({
+            children: [new TextRun({ text: 'PONUDA ZA RADOVE', bold: true, size: 36, color: ZELENA })],
+            spacing: { after: 100 },
+          }),
+          ...(data.broj_ponude ? [new Paragraph({
+            children: [new TextRun({ text: `Broj: ${data.broj_ponude}`, size: 18, color: SIVA })],
+            spacing: { after: 60 },
+          })] : []),
+          new Paragraph({
+            children: [new TextRun({ text: metaLine, size: 18, color: SIVA })],
+            spacing: { after: 300 },
+          }),
+
+          new Paragraph({ children: [new TextRun({ text: 'IZVOĐAČ', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.izvodjac_naziv as string, bold: true, size: 20 })] }),
+          ...(data.izvodjac_pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.izvodjac_pib}`, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ children: [new TextRun({ text: data.izvodjac_adresa as string, size: 18, color: SIVA })] }),
+          ...(data.izvodjac_email ? [new Paragraph({ children: [new TextRun({ text: data.izvodjac_email as string, size: 18, color: SIVA })] })] : []),
+          ...(data.izvodjac_telefon ? [new Paragraph({ children: [new TextRun({ text: data.izvodjac_telefon as string, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'NARUČILAC', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.narucilac_naziv as string, bold: true, size: 20 })] }),
+          ...(data.narucilac_pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.narucilac_pib}`, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ children: [new TextRun({ text: data.narucilac_adresa as string, size: 18, color: SIVA })] }),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          ...(data.opis_radova ? [
+            new Paragraph({ children: [new TextRun({ text: 'OPIS RADOVA', bold: true, size: 16, color: SIVA })] }),
+            new Paragraph({ children: [new TextRun({ text: data.opis_radova as string, size: 18 })], spacing: { after: 200 } }),
+          ] : []),
+
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+              new TableRow({
+                children: (['Rb.', 'Opis rada / materijala', 'Kol.', 'Jed.', 'Cena (RSD)', 'Ukupno (RSD)'] as string[]).map((h, i) =>
+                  new TableCell({
+                    children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16 })] })],
+                    shading: { type: ShadingType.SOLID, color: ZELENA },
+                    width: { size: [5, 40, 10, 8, 17, 20][i], type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+              ...stavke.map((s, i) =>
+                new TableRow({
+                  children: ([String(s.rb) + '.', s.naziv, fmtNP(s.kolicina), s.jedinica, fmtNP(s.cena_bez_pdv), fmtNP(s.kolicina * s.cena_bez_pdv)] as string[]).map((val, ci) =>
+                    new TableCell({
+                      children: [new Paragraph({
+                        children: [new TextRun({ text: val, size: 18 })],
+                        alignment: ci >= 4 ? AlignmentType.RIGHT : ci === 2 || ci === 3 ? AlignmentType.CENTER : AlignmentType.LEFT,
+                      })],
+                      shading: i % 2 === 1 ? { type: ShadingType.SOLID, color: 'F9FAFB' } : undefined,
+                      width: { size: [5, 40, 10, 8, 17, 20][ci], type: WidthType.PERCENTAGE },
+                    })
+                  ),
+                })
+              ),
+            ],
+          }),
+
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+          new Paragraph({ children: [new TextRun({ text: `Ukupno bez PDV: ${fmtNP(ukupnoBezPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT }),
+          ...(pdvObveznik && pdvStopaRaw !== 'oslobodjeno' && pdvStopa > 0 ? [
+            new Paragraph({ children: [new TextRun({ text: `PDV (${pdvStopa}%): ${fmtNP(iznosPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT }),
+          ] : []),
+          new Paragraph({ children: [new TextRun({ text: `Ukupna vrednost: ${fmtNP(ukupnoSaPdv)} RSD`, bold: true, size: 22, color: ZELENA })], alignment: AlignmentType.RIGHT }),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          ...(!pdvObveznik ? [
+            new Paragraph({ children: [new TextRun({ text: 'Napomena: Izvođač nije u sistemu PDV-a. PDV nije obračunat.', size: 16, color: '92400E' })] }),
+            new Paragraph({ text: '', spacing: { after: 200 } }),
+          ] : []),
+          ...(pdvObveznik && pdvStopaRaw === 'oslobodjeno' ? [
+            new Paragraph({ children: [new TextRun({ text: 'Promet je oslobođen PDV-a.', size: 16, color: '92400E' })] }),
+            new Paragraph({ text: '', spacing: { after: 200 } }),
+          ] : []),
+          ...(data.napomena ? [
+            new Paragraph({ children: [new TextRun({ text: `Napomena: ${data.napomena}`, size: 18, italics: true })] }),
+            new Paragraph({ text: '', spacing: { after: 300 } }),
+          ] : []),
+
+          new Paragraph({ children: [new TextRun({ text: 'PONUDU SAČINIO', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ text: '', spacing: { after: 100 } }),
+          new Table({
+            width: { size: 50, type: WidthType.PERCENTAGE },
+            borders: { ...NO_BORDERS, insideHorizontal: NO_BORDER, insideVertical: NO_BORDER },
+            rows: [
+              new TableRow({
+                children: [new TableCell({
+                  borders: NO_BORDERS,
+                  children: [new Paragraph({ children: [new TextRun({ text: 'Izvođač:', size: 16, color: SIVA })] })],
+                })],
+              }),
+              new TableRow({
+                children: [new TableCell({
+                  borders: NO_BORDERS,
+                  children: [
+                    new Paragraph({ text: '' }),
+                    new Paragraph({ children: [new TextRun({ text: '_________________________________', size: 18 })] }),
+                    new Paragraph({ children: [new TextRun({ text: data.izvodjac_naziv as string, size: 18 })] }),
+                  ],
+                })],
+              }),
+            ],
+          }),
+        ],
+      }],
+    })
+
+    let ponudaBuffer: Buffer
+    try {
+      ponudaBuffer = await Packer.toBuffer(ponudaDoc)
+    } catch (docxErr) {
+      console.error('Ponuda za radove DOCX render error:', docxErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju Word dokumenta. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+    const filename = `ponuda-za-radove-${(data.narucilac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
+    return new NextResponse(new Uint8Array(ponudaBuffer), {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(ponudaBuffer.byteLength),
+      },
+    })
+  }
+
   // Otpremnica — poseban DOCX renderer
   if (doc.type === 'otpremnica') {
     let data: Record<string, unknown>

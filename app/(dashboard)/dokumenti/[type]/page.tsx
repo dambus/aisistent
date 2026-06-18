@@ -24,6 +24,7 @@ const SUPPORTED_TYPES = new Set([
   'faktura',
   'putni-nalog',
   'otpremnica',
+  'ponuda-za-radove',
 ])
 
 interface PageProps {

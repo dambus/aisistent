@@ -19,4 +19,5 @@ export const TYPE_LABELS: Record<string, string> = {
   'faktura':                  'Faktura / Profaktura',
   'putni-nalog':              'Putni nalog',
   'otpremnica':               'Otpremnica',
+  'ponuda-za-radove':         'Ponuda za radove',
 }
