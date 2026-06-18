@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/auth/logout-button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 const PRIMARY = '#1B6B4A'
 const SIDEBAR_ICON = '#9CA3AF'
@@ -133,7 +134,7 @@ function defaultExpanded(): Record<string, boolean> {
 
 export function Sidebar({ plan, userInitials, isAdmin }: Props) {
   const pathname = usePathname()
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>(defaultExpanded)
 
   useEffect(() => {
@@ -144,7 +145,7 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
   }, [])
 
   useEffect(() => {
-    setMobileOpen(false)
+    setSheetOpen(false)
   }, [pathname])
 
   function toggleCategory(key: string) {
@@ -328,15 +329,20 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
     <>
       {/* ── Mobile top header ── */}
       <header className="fixed left-0 right-0 top-0 z-30 flex h-12 items-center justify-between bg-[#111827] px-4 md:hidden">
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:bg-white/10 hover:text-white"
-          aria-label="Otvori meni"
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M2 4.5h14M2 9h14M2 13.5h14" />
-          </svg>
-        </button>
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetTrigger
+            className="flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:bg-white/10 hover:text-white"
+            aria-label="Otvori meni"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M2 4.5h14M2 9h14M2 13.5h14" />
+            </svg>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-65 p-0 bg-[#111827] border-r border-white/10">
+            <SidebarContent onLinkClick={() => setSheetOpen(false)} />
+          </SheetContent>
+        </Sheet>
+
         <Link href="/dashboard" className="flex items-center">
           <SidebarLogo />
         </Link>
@@ -348,30 +354,11 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
         </div>
       </header>
 
-      {/* ── Mobile backdrop ── */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/60 md:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
       {/* ── Desktop sidebar (always visible) ── */}
-      <aside className="hidden w-[260px] shrink-0 md:block">
-        <div className="fixed inset-y-0 left-0 w-[260px]">
+      <aside className="hidden w-65 shrink-0 md:block">
+        <div className="fixed inset-y-0 left-0 w-65">
           <SidebarContent />
         </div>
-      </aside>
-
-      {/* ── Mobile sidebar (slide-in overlay) ── */}
-      <aside
-        className="fixed inset-y-0 left-0 z-50 w-[260px] md:hidden"
-        style={{
-          transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.2s ease',
-        }}
-      >
-        <SidebarContent onLinkClick={() => setMobileOpen(false)} />
       </aside>
     </>
   )
