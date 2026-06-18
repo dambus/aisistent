@@ -11,7 +11,6 @@ export interface OtpremnicaData {
   isporucilac_tekuci_racun?: string
   isporucilac_email?: string
   isporucilac_telefon?: string
-  isporucilac_pdv_obveznik: boolean
 
   primalac_naziv: string
   primalac_pib?: string
@@ -19,7 +18,6 @@ export interface OtpremnicaData {
 
   nacin_isporuke?: string
   stavke: string
-  pdv_stopa?: string
   napomena?: string
 }
 
@@ -62,15 +60,6 @@ export const wizardSteps: WizardStep[] = [
       { id: 'isporucilac_tekuci_racun', label: 'Tekući račun', type: 'text', required: false, placeholder: 'npr. 160-123456-33', helperText: 'Opciono' },
       { id: 'isporucilac_email', label: 'Email', type: 'text', required: false, placeholder: 'npr. office@firma.rs' },
       { id: 'isporucilac_telefon', label: 'Telefon', type: 'text', required: false, placeholder: 'npr. +381 21 123 456' },
-      {
-        id: 'isporucilac_pdv_obveznik',
-        label: 'Isporučilac je u sistemu PDV-a?',
-        type: 'toggle',
-        required: false,
-        defaultValue: false,
-        helperText: 'Uključite samo ako izdajete PDV dokumente',
-        tooltip: 'PDV obveznici obračunavaju PDV na svaki promet i moraju ga iskazati na dokumentu.\nAko niste PDV obveznik, otpremnica nema PDV — dodaje se napomena.',
-      },
     ],
   },
   {
@@ -95,21 +84,7 @@ export const wizardSteps: WizardStep[] = [
     title: 'Stavke',
     fields: [
       {
-        id: 'pdv_stopa',
-        label: 'PDV stopa',
-        type: 'radio',
-        required: false,
-        defaultValue: '0',
-        conditional: { field: 'isporucilac_pdv_obveznik', value: true },
-        tooltip: '20% — standardna stopa za većinu robe\n10% — snižena stopa\n0% — izvoz\nOslobođeno — određena roba po zakonu',
-        options: [
-          { value: '20', label: '20%' },
-          { value: '10', label: '10%' },
-          { value: '0', label: '0% (izvoz)' },
-          { value: 'oslobodjeno', label: 'Oslobođeno PDV-a' },
-        ],
-      },
-      {
+        // cena_bez_pdv se prikuplja ali ne prikazuje — otpremnica je dokument količine
         id: 'stavke',
         label: 'Stavke',
         type: 'faktura_stavke' as never,

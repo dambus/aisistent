@@ -467,13 +467,11 @@ const otpremnicaSchema = z.object({
   isporucilac_tekuci_racun: z.string().optional(),
   isporucilac_email: z.string().optional(),
   isporucilac_telefon: z.string().optional(),
-  isporucilac_pdv_obveznik: z.boolean().default(false),
   primalac_naziv: z.string().min(1),
   primalac_pib: z.string().optional(),
   primalac_adresa: z.string().min(1),
   nacin_isporuke: z.string().optional(),
   stavke: z.string().min(2),
-  pdv_stopa: z.enum(['20', '10', '0', 'oslobodjeno']).optional(),
   napomena: z.string().optional(),
 })
 

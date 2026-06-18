@@ -300,16 +300,6 @@ export async function POST(request: NextRequest) {
     const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' }
     const NO_BORDERS = { top: NO_BORDER, bottom: NO_BORDER, left: NO_BORDER, right: NO_BORDER }
 
-    const pdvStopa = data.isporucilac_pdv_obveznik
-      ? (data.pdv_stopa === 'oslobodjeno' ? 0 : parseInt((data.pdv_stopa as string) ?? '0') || 0)
-      : 0
-    const ukupnoKolicina = stavke.reduce((sum, s) => sum + s.kolicina, 0)
-    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
-    const iznosPdv = data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno'
-      ? ukupnoBezPdv * pdvStopa / 100
-      : 0
-    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
-
     const otpremnicaDoc = new Document({
       sections: [{
         properties: {},
@@ -348,24 +338,24 @@ export async function POST(request: NextRequest) {
             width: { size: 100, type: WidthType.PERCENTAGE },
             rows: [
               new TableRow({
-                children: (['Rb.', 'Naziv robe/usluge', 'Kolicina', 'Jed.'] as string[]).map((h, i) =>
+                children: (['Rb.', 'Naziv robe/usluge', 'Jed. mere', 'Kolicina'] as string[]).map((h, i) =>
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16 })] })],
                     shading: { type: ShadingType.SOLID, color: ZELENA },
-                    width: { size: [5, 50, 20, 25][i], type: WidthType.PERCENTAGE },
+                    width: { size: [5, 60, 20, 15][i], type: WidthType.PERCENTAGE },
                   })
                 ),
               }),
               ...stavke.map((s, i) =>
                 new TableRow({
-                  children: ([String(s.rb) + '.', s.naziv, fmtNO(s.kolicina), s.jedinica] as string[]).map((val, ci) =>
+                  children: ([String(s.rb) + '.', s.naziv, s.jedinica, fmtNO(s.kolicina)] as string[]).map((val, ci) =>
                     new TableCell({
                       children: [new Paragraph({
                         children: [new TextRun({ text: val, size: 18 })],
-                        alignment: ci === 2 ? AlignmentType.RIGHT : ci === 3 ? AlignmentType.CENTER : AlignmentType.LEFT,
+                        alignment: ci === 3 ? AlignmentType.RIGHT : ci === 2 ? AlignmentType.CENTER : AlignmentType.LEFT,
                       })],
                       shading: i % 2 === 1 ? { type: ShadingType.SOLID, color: 'F9FAFB' } : undefined,
-                      width: { size: [5, 50, 20, 25][ci], type: WidthType.PERCENTAGE },
+                      width: { size: [5, 60, 20, 15][ci], type: WidthType.PERCENTAGE },
                     })
                   ),
                 })
@@ -373,24 +363,7 @@ export async function POST(request: NextRequest) {
             ],
           }),
 
-          new Paragraph({ text: '', spacing: { after: 200 } }),
-          new Paragraph({ children: [new TextRun({ text: `Ukupna kolicina: ${fmtNO(ukupnoKolicina)}`, size: 18 })], alignment: AlignmentType.RIGHT }),
-          ...(data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno' ? [
-            new Paragraph({ children: [new TextRun({ text: `Ukupno bez PDV: ${fmtNO(ukupnoBezPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT }),
-            ...(pdvStopa > 0 ? [new Paragraph({ children: [new TextRun({ text: `PDV (${pdvStopa}%): ${fmtNO(iznosPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT })] : []),
-            new Paragraph({ children: [new TextRun({ text: `Ukupna vrednost: ${fmtNO(ukupnoSaPdv)} RSD`, bold: true, size: 22, color: ZELENA })], alignment: AlignmentType.RIGHT }),
-          ] : []),
-
           new Paragraph({ text: '', spacing: { after: 300 } }),
-
-          ...(!data.isporucilac_pdv_obveznik ? [
-            new Paragraph({ children: [new TextRun({ text: 'Napomena: Isporucilac nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.', size: 16, color: '92400E' })] }),
-            new Paragraph({ text: '', spacing: { after: 200 } }),
-          ] : []),
-          ...(data.isporucilac_pdv_obveznik && data.pdv_stopa === 'oslobodjeno' ? [
-            new Paragraph({ children: [new TextRun({ text: 'Promet je oslobodjen PDV-a u skladu sa Zakonom o porezu na dodatu vrednost Republike Srbije.', size: 16, color: '92400E' })] }),
-            new Paragraph({ text: '', spacing: { after: 200 } }),
-          ] : []),
 
           ...(data.napomena ? [
             new Paragraph({ children: [new TextRun({ text: `Napomena: ${data.napomena}`, size: 18, italics: true })] }),

@@ -385,18 +385,6 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     const primalacAdresa = (data.primalac_adresa as string) ?? ''
     const nacinIsporuke = (data.nacin_isporuke as string) ?? ''
     const napomena = (data.napomena as string) ?? ''
-    const isporucilacPdvObveznik = !!data.isporucilac_pdv_obveznik
-    const pdvStopaRaw = (data.pdv_stopa as string) ?? ''
-
-    const pdvStopa = isporucilacPdvObveznik
-      ? (pdvStopaRaw === 'oslobodjeno' ? 0 : parseInt(pdvStopaRaw) || 0)
-      : 0
-    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
-    const iznosPdv = isporucilacPdvObveznik && pdvStopaRaw !== 'oslobodjeno'
-      ? ukupnoBezPdv * pdvStopa / 100
-      : 0
-    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
-
     function fmt(n: number) {
       return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     }
@@ -441,9 +429,9 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
             <thead>
               <tr style={{ backgroundColor: '#1B6B4A' }} className="text-white">
                 <th className="rounded-tl-lg px-3 py-2 text-left text-xs font-semibold">Rb.</th>
-                <th className="px-3 py-2 text-left text-xs font-semibold">Naziv</th>
-                <th className="px-3 py-2 text-right text-xs font-semibold">Kol.</th>
-                <th className="rounded-tr-lg px-3 py-2 text-center text-xs font-semibold">Jed.</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold">Naziv robe/usluge</th>
+                <th className="px-3 py-2 text-center text-xs font-semibold">Jed. mere</th>
+                <th className="rounded-tr-lg px-3 py-2 text-right text-xs font-semibold">Količina</th>
               </tr>
             </thead>
             <tbody>
@@ -451,46 +439,13 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
                 <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
                   <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
                   <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
                   <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        {isporucilacPdvObveznik && pdvStopaRaw !== 'oslobodjeno' && (
-          <div className="flex justify-end">
-            <div className="min-w-60 space-y-1.5">
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>Ukupno bez PDV:</span>
-                <span>{fmt(ukupnoBezPdv)} RSD</span>
-              </div>
-              {pdvStopa > 0 && (
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>PDV ({pdvStopa}%):</span>
-                  <span>{fmt(iznosPdv)} RSD</span>
-                </div>
-              )}
-              <div className="flex justify-between border-t border-gray-200 pt-2 text-base font-bold" style={{ color: '#1B6B4A' }}>
-                <span>Ukupna vrednost:</span>
-                <span>{fmt(ukupnoSaPdv)} RSD</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {!isporucilacPdvObveznik && (
-          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
-            Napomena: Isporučilac nije u sistemu PDV-a. PDV nije obračunat.
-          </div>
-        )}
-
-        {isporucilacPdvObveznik && pdvStopaRaw === 'oslobodjeno' && (
-          <div className="rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800">
-            Promet je oslobođen PDV-a u skladu sa Zakonom o PDV Republike Srbije.
-          </div>
-        )}
 
         {napomena && <p className="text-sm italic text-gray-500">{napomena}</p>}
       </div>

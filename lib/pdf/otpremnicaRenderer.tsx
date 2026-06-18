@@ -27,13 +27,11 @@ interface OtpremnicaData {
   isporucilac_tekuci_racun?: string
   isporucilac_email?: string
   isporucilac_telefon?: string
-  isporucilac_pdv_obveznik: boolean
   primalac_naziv: string
   primalac_pib?: string
   primalac_adresa: string
   nacin_isporuke?: string
   stavke: string
-  pdv_stopa?: string
   napomena?: string
 }
 
@@ -75,26 +73,14 @@ const s = StyleSheet.create({
   tableRow: { flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 6, borderBottomWidth: 1, borderBottomColor: BORDER },
   tableRowAlt: { backgroundColor: SVETLO_SIVA },
   tableCell: { fontSize: 8.5 },
-  colRb: { width: '5%' },
-  colNaziv: { width: '45%' },
-  colKol: { width: '10%', textAlign: 'right' },
-  colJed: { width: '8%', textAlign: 'center' },
-  colUkupno: { width: '32%', textAlign: 'right' },
-
-  sumaBlok: { alignItems: 'flex-end', marginTop: 12 },
-  sumaRed: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8, marginBottom: 3 },
-  sumaLabel: { fontSize: 8.5, color: SIVA, width: 130, textAlign: 'right' },
-  sumaValue: { fontSize: 8.5, width: 90, textAlign: 'right' },
-  sumaUkupnoRed: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8, marginTop: 4, borderTopWidth: 1.5, borderTopColor: ZELENA, paddingTop: 5 },
-  sumaUkupnoLabel: { fontSize: 10, fontFamily: 'Roboto-Bold', color: ZELENA, width: 130, textAlign: 'right' },
-  sumaUkupnoValue: { fontSize: 10, fontFamily: 'Roboto-Bold', color: ZELENA, width: 90, textAlign: 'right' },
+  colRb:    { width: '5%' },
+  colNaziv: { width: '60%' },
+  colJed:   { width: '20%', textAlign: 'center' },
+  colKol:   { width: '15%', textAlign: 'right' },
 
   napomenaBlok: { marginTop: 20, marginBottom: 20 },
   napomenaLabel: { fontSize: 7, color: SIVA, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 3 },
   napomenaText: { fontSize: 8.5 },
-
-  pdvNapomena: { marginTop: 12, borderWidth: 1, borderColor: '#FCD34D', backgroundColor: '#FFFBEB', borderRadius: 4, padding: 8 },
-  pdvNapomenaText: { fontSize: 7.5, color: '#92400E' },
 
   potpisiLabel: { fontSize: 7, color: SIVA, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 8, marginTop: 20 },
   potpisiRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 40 },
@@ -110,20 +96,9 @@ export function OtpremnicaPDF({ data }: { data: OtpremnicaData }) {
   let stavke: OtpremnicaStavka[] = []
   try { stavke = JSON.parse(data.stavke) } catch {}
 
-  const pdvStopa = data.isporucilac_pdv_obveznik
-    ? (data.pdv_stopa === 'oslobodjeno' ? 0 : parseInt(data.pdv_stopa ?? '0') || 0)
-    : 0
-  const ukupnoKolicina = stavke.reduce((sum, s) => sum + s.kolicina, 0)
-  const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
-  const iznosPdv = data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno'
-    ? ukupnoBezPdv * pdvStopa / 100
-    : 0
-  const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
-
   return (
     <Document>
       <Page size="A4" style={s.page}>
-        {/* Header */}
         <View style={s.header}>
           <View style={s.headerLeft}>
             <Text style={s.docNaziv}>OTPREMNICA</Text>
@@ -133,7 +108,6 @@ export function OtpremnicaPDF({ data }: { data: OtpremnicaData }) {
           </View>
         </View>
 
-        {/* Meta datumi */}
         <View style={s.metaBlok}>
           <View style={s.metaItem}>
             <Text style={s.metaLabel}>Datum izdavanja</Text>
@@ -153,7 +127,6 @@ export function OtpremnicaPDF({ data }: { data: OtpremnicaData }) {
           )}
         </View>
 
-        {/* Isporučilac / Primalac */}
         <View style={s.strane}>
           <View style={s.stranaBlok}>
             <Text style={s.stranaLabel}>Isporucilac</Text>
@@ -172,52 +145,22 @@ export function OtpremnicaPDF({ data }: { data: OtpremnicaData }) {
           </View>
         </View>
 
-        {/* Tabela stavki */}
         <View style={s.tableHeader}>
           <Text style={[s.tableHeaderCell, s.colRb]}>Rb.</Text>
           <Text style={[s.tableHeaderCell, s.colNaziv]}>Naziv robe/usluge</Text>
+          <Text style={[s.tableHeaderCell, s.colJed]}>Jed. mere</Text>
           <Text style={[s.tableHeaderCell, s.colKol]}>Kol.</Text>
-          <Text style={[s.tableHeaderCell, s.colJed]}>Jed.</Text>
-          <Text style={[s.tableHeaderCell, s.colUkupno]}>Kolicina ukupno</Text>
         </View>
 
         {stavke.map((stavka, i) => (
           <View key={i} style={[s.tableRow, i % 2 === 1 ? s.tableRowAlt : {}]}>
             <Text style={[s.tableCell, s.colRb]}>{stavka.rb}.</Text>
             <Text style={[s.tableCell, s.colNaziv]}>{sanitizeText(stavka.naziv)}</Text>
-            <Text style={[s.tableCell, s.colKol]}>{fmt(stavka.kolicina)}</Text>
             <Text style={[s.tableCell, s.colJed]}>{sanitizeText(stavka.jedinica)}</Text>
-            <Text style={[s.tableCell, s.colUkupno]}>{fmt(stavka.kolicina)}</Text>
+            <Text style={[s.tableCell, s.colKol]}>{fmt(stavka.kolicina)}</Text>
           </View>
         ))}
 
-        {/* Suma */}
-        <View style={s.sumaBlok}>
-          <View style={s.sumaRed}>
-            <Text style={s.sumaLabel}>Ukupna kolicina:</Text>
-            <Text style={s.sumaValue}>{fmt(ukupnoKolicina)}</Text>
-          </View>
-          {data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno' && (
-            <>
-              <View style={s.sumaRed}>
-                <Text style={s.sumaLabel}>Ukupno bez PDV:</Text>
-                <Text style={s.sumaValue}>{fmt(ukupnoBezPdv)} RSD</Text>
-              </View>
-              {pdvStopa > 0 && (
-                <View style={s.sumaRed}>
-                  <Text style={s.sumaLabel}>PDV ({pdvStopa}%):</Text>
-                  <Text style={s.sumaValue}>{fmt(iznosPdv)} RSD</Text>
-                </View>
-              )}
-              <View style={s.sumaUkupnoRed}>
-                <Text style={s.sumaUkupnoLabel}>Ukupna vrednost:</Text>
-                <Text style={s.sumaUkupnoValue}>{fmt(ukupnoSaPdv)} RSD</Text>
-              </View>
-            </>
-          )}
-        </View>
-
-        {/* Napomena */}
         {data.napomena && (
           <View style={s.napomenaBlok}>
             <Text style={s.napomenaLabel}>Napomena</Text>
@@ -225,23 +168,6 @@ export function OtpremnicaPDF({ data }: { data: OtpremnicaData }) {
           </View>
         )}
 
-        {/* PDV napomena */}
-        {!data.isporucilac_pdv_obveznik && (
-          <View style={s.pdvNapomena}>
-            <Text style={s.pdvNapomenaText}>
-              Napomena: Isporucilac nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.
-            </Text>
-          </View>
-        )}
-        {data.isporucilac_pdv_obveznik && data.pdv_stopa === 'oslobodjeno' && (
-          <View style={s.pdvNapomena}>
-            <Text style={s.pdvNapomenaText}>
-              Promet je oslobodjen PDV-a u skladu sa Zakonom o porezu na dodatu vrednost Republike Srbije.
-            </Text>
-          </View>
-        )}
-
-        {/* Potpisi */}
         <Text style={s.potpisiLabel}>Potpisi</Text>
         <View style={s.potpisiRow}>
           <View style={s.potpisiBlok}>
