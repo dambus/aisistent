@@ -44,6 +44,10 @@
 - **Payment gateway (Paddle)** — čeka APR registraciju preduzetnika
   Kontakt: paddle.com, seller account za Srbiju
   Blokira: naplatu pretplate
+- **Politika privatnosti i Uslovi korišćenja** — obavezno po ZZPL/GDPR.
+  Uraditi čim bude otvorena firma u APR.
+  Potrebno: sedište firme, podaci rukovaoca, Paddle status, tracking alati.
+  Blokira: Paddle aktivaciju i pravnu usklađenost platforme.
 
 ---
 
