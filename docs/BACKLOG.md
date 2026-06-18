@@ -64,10 +64,10 @@
 ## 🔵 Nizak prioritet / Buduće ideje
 
 ### Novi tipovi dokumenata
-- Otpremnica — komercijalni dokument za isporuku robe
-- Porudžbenica — narudžbina robe ili usluga
-- Trebovanje — interni zahtev za materijal
-- Ponuda za radove — dinamička tabela (majstori, izvođači)
+- Otpremnica — komercijalni dokument za isporuku robe ✅
+- ~~Porudžbenica~~ — odbačeno, zastareo B2B enterprise dokument van scope-a
+- ~~Trebovanje~~ — odbačeno, interni dokument za velike sisteme van scope-a
+- Ponuda za radove — dinamička tabela (majstori, izvođači) ✅
 
 ### Napredne funkcionalnosti
 

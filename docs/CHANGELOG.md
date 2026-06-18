@@ -1,3 +1,12 @@
+## jun 2026. — Ponuda za radove
+
+- Novi tip dokumenta: Ponuda za radove (direktno renderovanje, bez AI)
+- Wizard: 5 koraka (ponuda, izvođač, naručilac + lokacija, stavke, napomena)
+- PDF: Roboto font, stavke sa cenama, PDV sumarni blok, jedan potpis (izvođač)
+- DOCX: stavke, PDV, potpis
+- companyFieldMap, documentTypes, dashboard kartica, reminder
+- Napomena: ponuda postaje obavezujuća tek kada je naručilac prihvati
+
 ## jun 2026. — Otpremnica refaktor
 
 - Uklonjena cena, PDV i sumarni blok — otpremnica je dokument količine, ne vrednosti

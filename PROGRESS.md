@@ -13,6 +13,8 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 ### Kompletiran MVP (jun 2026.)
 - ✅ Auth (login, register, email verifikacija)
 - ✅ 17 tipova AI dokumenata + Faktura/Profaktura
+- ✅ Otpremnica — wizard, PDF (Roboto), DOCX, samo količine (bez cene/PDV)
+- ✅ Ponuda za radove — wizard, PDF (Roboto), DOCX, stavke sa cenama, jedan potpis
 - ✅ PDF i DOCX export za sve tipove
 - ✅ Email slanje dokumenata (Resend, noreply@aisistent.rs)
 - ✅ Brendiranje firme — logo u PDF/DOCX (Pro/Business)
