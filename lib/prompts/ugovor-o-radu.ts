@@ -131,13 +131,14 @@ Pre nego što generišeš ugovor, proveri da li su sledeće vrednosti konzistent
 - Godišnji odmor: min 20 radnih dana (član 68.)
 - Otkazni rok: min 8, max 30 dana (zaposleni); min 8 dana (poslodavac + otpremnina) — definiši odvojeno za zaposlenog i za poslodavca u zasebnim stavovima
 - Prekovremeni rad: max 8 sati nedeljno (član 53.)
-- Zarada se ugovara u bruto 1 iznosu (Zakon o radu, član 105). Minimalna bruto 1 zarada za 2026. godinu iznosi 84.031 RSD mesečno za puno radno vreme.
+- Zarada se ugovara u bruto 1 iznosu (Zakon o radu, član 105). Minimalna bruto 1 zarada za 2026. godinu iznosi 84.031 RSD mesečno za puno radno vreme. U članu o zaradi obavezno dodaj napomenu u zagradi: '(Neto iznos koji Zaposlena prima na račun iznosi okvirno 60–65% bruto iznosa, u zavisnosti od primenjenih poreskih olakšica.)'
 - Ugovor: min 2 primerka
 - Zabrana konkurencije: OBAVEZNO ugovoriti naknadu zaposlenom za period zabrane (čl. 161. st. 2. Zakona o radu) — bez naknade klauzula je ništava. Naknada mora biti eksplicitno navedena u članu o zabrani konkurencije.
 - Slovni zapis iznosa: koristiti format "sto sedamdeset šest hiljada" (reči odvojene razmacima) — uvek proveri da slovni zapis odgovara ciframa
 - Opis poslova: formulacija "kao i druge poslove koje mu poslodavac poveri" mora biti ograničena na: "u okviru opisa radnog mesta i odgovarajuće stručne spreme"
 - Izmena zarade: ako se uključuje pravo poslodavca na izmenu zarade, mora sadržati: minimum ne može biti niži od zakonskog minimuma, izmena se vrši pisanim aneksom uz obaveštenje minimum 15 dana unapred
 - Probni rad: ako korisnik nije naveo probni rad, dodati eksplicitnu rečenicu "Probni rad se ne ugovara."
+- Adresu mesta rada uvek formuliši kao: 'u [grad], na adresi [ulica i broj]' — nikada samo 'u [grad], [ulica broj]' bez 'na adresi'.
 - Zaštita podataka: u Završne odredbe dodati standardni stav o zaštiti podataka o ličnosti zaposlenog u skladu sa Zakonom o zaštiti podataka o ličnosti ("Sl. glasnik RS", br. 87/2018)
 
 ## FORMAT IZLAZA
@@ -211,7 +212,7 @@ DETALJNA PRAVA I OBAVEZE:
 - Ne dodaješ napomenu / disclaimer na kraju dokumenta — to je već u footeru PDF-a
 - Ne dodaješ sekciju "VAŽNE NAPOMENE ZA POSLODAVCA" ili slične editorijalne komentare
 - Ne koristiš "---" separatore između sekcija u dokumentu
-- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem
+- Ne generišeš sekciju POTPISI I PEČATI ni pod kojim rimskim brojem — ovo uključuje i delimičan sadržaj potpisa kao što su ime i funkcija potpisnika, mesta za potpis ili pečat. Sistem automatski dodaje potpise na osnovu podataka iz wizarda.
 - DATUM ZAKLJUČIVANJA I DATUM POTPISIVANJA:
   - Nikada ne generiši automatski datum zaključivanja u zaglavlju dokumenta. Zaglavlje piše: 'Datum: ___________'
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
@@ -280,8 +281,8 @@ RADNO VREME:
 - Nedeljni fond: ${data.fond_sati} sati
 - Raspored: ${data.raspored}
 - Godišnji odmor: ${data.godisnji_odmor} radnih dana
-- Otkazni rok zaposlenog: ${data.otkazni_rok_zaposleni} dana
-- Otkazni rok poslodavca: ${data.otkazni_rok_poslodavac} dana
+- Otkazni rok — zaposleni: TAČNO ${data.otkazni_rok_zaposleni ?? 15} dana (NE koristiti [POPUNITI])
+- Otkazni rok — poslodavac: TAČNO ${data.otkazni_rok_poslodavac ?? 30} dana (NE koristiti [POPUNITI])
 
 OPCIONO:
 - Zabrana konkurencije: ${zabranaKonkurencije}
