@@ -32,7 +32,7 @@ export function ResetDocsButton({ userId }: { userId: string }) {
       onClick={handleReset}
       disabled={loading}
       title="Resetuj brojač dokumenata"
-      className="text-xs text-gray-400 hover:text-orange-500 transition-colors disabled:opacity-50"
+      className="text-xs text-zinc-600 hover:text-orange-400 transition-colors disabled:opacity-50"
     >
       {loading ? '...' : done ? '✓' : '↺ reset'}
     </button>
