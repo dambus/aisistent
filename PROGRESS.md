@@ -20,7 +20,7 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - ✅ Profil — firme, avatar inicijali, plan badge
 - ✅ Podešavanja — lozinka, odjava, brisanje naloga
 - ✅ Admin panel (/admin) — korisnici, dokumenti, statistika
-- ✅ shadcn/ui (ScrollArea, Select, Switch, Tooltip, AlertDialog, Dialog)
+- ✅ shadcn/ui (ScrollArea, Select, Switch, Tooltip, AlertDialog, Dialog, Sheet)
 - ✅ Mobilna responsivnost
 - ✅ Proof-reading i zakonski audit svih tipova
 - ✅ Kompletna projektna dokumentacija (docs/)

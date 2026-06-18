@@ -26,8 +26,8 @@ Usvajamo shadcn/ui kao UI komponentnu biblioteku, postepeno.
 - Zelena tema (#1B6B4A) za radio, progress bar i focus ring ✅
 - TooltipProvider dodat u app/layout.tsx ✅
 
-### Faza 3 — Layout (planirano)
-- `Sheet` — slide-in sidebar na mobilnom
+### ✅ Faza 3 — Layout (jun 2026.)
+- `Sheet` — slide-in sidebar na mobilnom (koristi @base-ui/react/dialog, asChild ne postoji)
 
 ## Šta NE migriramo odmah
 Sve postojeće komponente koje rade dobro ostaju kako jesu.

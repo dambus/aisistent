@@ -53,7 +53,7 @@
   popune naziv, adresa, zastupnik iz APR registra.
   Istražiti: api.apr.gov.rs dostupnost i uslove
 
-- **shadcn Faza 3** — Sheet za mobilni sidebar (slide-in)
+- **shadcn Faza 3** — Sheet za mobilni sidebar (slide-in) ✅
 
 ---
 
