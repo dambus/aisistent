@@ -185,6 +185,13 @@ putni-nalog:
   adresa → adresa_firme
   zastupnik → ovlasceno_lice
 
+otpremnica:
+  naziv → isporucilac_naziv
+  pib → isporucilac_pib
+  adresa → isporucilac_adresa
+  email → isporucilac_email
+  telefon → isporucilac_telefon
+
 ---
 
 ## Tipovi po potpisu
@@ -267,6 +274,13 @@ Step prikazuje pogrešan sadržaj
 Wizard se ne učitava (404)
 → WizardPageClient.tsx ima odvojenu documentMeta mapu koja nije ažurirana
 → Dodati type u documentMeta u WizardPageClient.tsx I u SUPPORTED_TYPES u page.tsx
+
+Preview prikazuje sirovi JSON
+→ Direktno-renderovani tipovi (faktura, putni-nalog, otpremnica i sl.) moraju imati
+  eksplicitni preview handler u DocumentPreview.tsx
+→ Dodati isXxxJson() helper i xxxPreview const blok
+→ Dodati u render chain: putniNalogPreview ?? fakturaPreview ?? otpremnicaPreview ?? fallback
+→ Ovo je OBAVEZNO za svaki novi direktno-renderovani tip — bez toga preview prikazuje sirovi JSON
 
 | Problem | Uzrok | Rešenje |
 | --- | --- | --- |
