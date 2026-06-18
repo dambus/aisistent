@@ -21,6 +21,7 @@ import { wizardSteps as bioONamaSteps } from '@/lib/prompts/bio-o-nama'
 import { wizardSteps as zapisnikSastanakSteps } from '@/lib/prompts/zapisnik-sastanak'
 import { wizardSteps as fakturaSteps } from '@/lib/prompts/faktura'
 import { wizardSteps as putniNalogSteps } from '@/lib/prompts/putni-nalog'
+import { wizardSteps as otpremnicaSteps } from '@/lib/prompts/otpremnica'
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
@@ -46,6 +47,7 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'zapisnik-sastanak':        { title: 'Zapisnik sa sastanka',               steps: zapisnikSastanakSteps },
   'faktura':                  { title: 'Faktura / Profaktura',               steps: fakturaSteps },
   'putni-nalog':              { title: 'Putni nalog',                         steps: putniNalogSteps },
+  'otpremnica':               { title: 'Otpremnica',                          steps: otpremnicaSteps },
 }
 
 interface WizardPageClientProps {
@@ -75,6 +77,9 @@ export function WizardPageClient({ type, companies, plan }: WizardPageClientProp
     }
     if (type === 'putni-nalog') {
       return 'Unesite podatke o putovanju i sistem će generisati putni nalog.'
+    }
+    if (type === 'otpremnica') {
+      return 'Unesite podatke i sistem će generisati otpremnicu.'
     }
     return 'Popunite podatke i AI će generisati profesionalan dokument.'
   })()

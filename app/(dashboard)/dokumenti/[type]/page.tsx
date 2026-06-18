@@ -23,6 +23,7 @@ const SUPPORTED_TYPES = new Set([
   'zapisnik-sastanak',
   'faktura',
   'putni-nalog',
+  'otpremnica',
 ])
 
 interface PageProps {
