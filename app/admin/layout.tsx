@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
+import { AdminNav } from '@/components/admin/AdminNav'
 
 export default async function AdminLayout({
   children,
@@ -22,41 +23,29 @@ export default async function AdminLayout({
   if (!profile?.is_admin) redirect('/dashboard')
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-3">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-lg font-bold text-gray-900">AIsistent</span>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+    <div className="min-h-screen bg-zinc-950">
+      <header className="fixed top-0 left-0 right-0 z-40 bg-zinc-950 border-b border-zinc-800 h-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between relative">
+          <div className="flex items-center">
+            <span className="text-sm font-semibold text-zinc-100">AIsistent</span>
+            <span className="ml-2 text-[10px] font-bold tracking-widest bg-violet-500/20 text-violet-400 border border-violet-500/30 rounded px-2 py-0.5">
               ADMIN
             </span>
-            <nav className="flex items-center gap-1 ml-4">
-              {[
-                { href: '/admin', label: 'Pregled' },
-                { href: '/admin/korisnici', label: 'Korisnici' },
-                { href: '/admin/dokumenti', label: 'Dokumenti' },
-              ].map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
+            <AdminNav />
           </div>
           <Link
             href="/dashboard"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
           >
-            ← Nazad na app
+            ← App
           </Link>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {children}
+      <main className="pt-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          {children}
+        </div>
       </main>
     </div>
   )
