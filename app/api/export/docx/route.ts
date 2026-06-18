@@ -276,6 +276,182 @@ export async function POST(request: NextRequest) {
     })
   }
 
+  // Otpremnica — poseban DOCX renderer
+  if (doc.type === 'otpremnica') {
+    let data: Record<string, unknown>
+    try { data = JSON.parse(doc.generated_text) } catch {
+      return NextResponse.json({ error: 'Neispravni podaci otpremnice.' }, { status: 500 })
+    }
+
+    let stavke: Array<{ rb: number; naziv: string; kolicina: number; jedinica: string; cena_bez_pdv: number }> = []
+    try { stavke = JSON.parse(data.stavke as string) } catch {}
+
+    function fmtNO(n: number) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }
+    function fmtDateO(iso: string) {
+      if (!iso) return ''
+      const d = new Date(iso)
+      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
+    }
+
+    const ZELENA = '1B6B4A'
+    const SIVA = '6B7280'
+    const NO_BORDER = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' }
+    const NO_BORDERS = { top: NO_BORDER, bottom: NO_BORDER, left: NO_BORDER, right: NO_BORDER }
+
+    const pdvStopa = data.isporucilac_pdv_obveznik
+      ? (data.pdv_stopa === 'oslobodjeno' ? 0 : parseInt((data.pdv_stopa as string) ?? '0') || 0)
+      : 0
+    const ukupnoKolicina = stavke.reduce((sum, s) => sum + s.kolicina, 0)
+    const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
+    const iznosPdv = data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno'
+      ? ukupnoBezPdv * pdvStopa / 100
+      : 0
+    const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
+
+    const otpremnicaDoc = new Document({
+      sections: [{
+        properties: {},
+        children: [
+          new Paragraph({
+            children: [new TextRun({ text: 'OTPREMNICA', bold: true, size: 36, color: ZELENA })],
+            spacing: { after: 100 },
+          }),
+          ...(data.broj_dokumenta ? [new Paragraph({
+            children: [new TextRun({ text: `Broj: ${data.broj_dokumenta}`, size: 18, color: SIVA })],
+            spacing: { after: 60 },
+          })] : []),
+          new Paragraph({
+            children: [new TextRun({
+              text: `Datum izdavanja: ${fmtDateO(data.datum_izdavanja as string)}${data.datum_isporuke ? `   Datum isporuke: ${fmtDateO(data.datum_isporuke as string)}` : ''}${data.nacin_isporuke ? `   Nacin isporuke: ${data.nacin_isporuke}` : ''}`,
+              size: 18, color: SIVA,
+            })],
+            spacing: { after: 300 },
+          }),
+
+          new Paragraph({ children: [new TextRun({ text: 'ISPORUCILAC', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.isporucilac_naziv as string, bold: true, size: 20 })] }),
+          ...(data.isporucilac_pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.isporucilac_pib}`, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ children: [new TextRun({ text: data.isporucilac_adresa as string, size: 18, color: SIVA })] }),
+          ...(data.isporucilac_email ? [new Paragraph({ children: [new TextRun({ text: data.isporucilac_email as string, size: 18, color: SIVA })] })] : []),
+          ...(data.isporucilac_telefon ? [new Paragraph({ children: [new TextRun({ text: data.isporucilac_telefon as string, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+
+          new Paragraph({ children: [new TextRun({ text: 'PRIMALAC', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.primalac_naziv as string, bold: true, size: 20 })] }),
+          ...(data.primalac_pib ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.primalac_pib}`, size: 18, color: SIVA })] })] : []),
+          new Paragraph({ children: [new TextRun({ text: data.primalac_adresa as string, size: 18, color: SIVA })] }),
+          new Paragraph({ text: '', spacing: { after: 300 } }),
+
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+              new TableRow({
+                children: (['Rb.', 'Naziv robe/usluge', 'Kolicina', 'Jed.'] as string[]).map((h, i) =>
+                  new TableCell({
+                    children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16 })] })],
+                    shading: { type: ShadingType.SOLID, color: ZELENA },
+                    width: { size: [5, 50, 20, 25][i], type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+              ...stavke.map((s, i) =>
+                new TableRow({
+                  children: ([String(s.rb) + '.', s.naziv, fmtNO(s.kolicina), s.jedinica] as string[]).map((val, ci) =>
+                    new TableCell({
+                      children: [new Paragraph({
+                        children: [new TextRun({ text: val, size: 18 })],
+                        alignment: ci === 2 ? AlignmentType.RIGHT : ci === 3 ? AlignmentType.CENTER : AlignmentType.LEFT,
+                      })],
+                      shading: i % 2 === 1 ? { type: ShadingType.SOLID, color: 'F9FAFB' } : undefined,
+                      width: { size: [5, 50, 20, 25][ci], type: WidthType.PERCENTAGE },
+                    })
+                  ),
+                })
+              ),
+            ],
+          }),
+
+          new Paragraph({ text: '', spacing: { after: 200 } }),
+          new Paragraph({ children: [new TextRun({ text: `Ukupna kolicina: ${fmtNO(ukupnoKolicina)}`, size: 18 })], alignment: AlignmentType.RIGHT }),
+          ...(data.isporucilac_pdv_obveznik && data.pdv_stopa !== 'oslobodjeno' ? [
+            new Paragraph({ children: [new TextRun({ text: `Ukupno bez PDV: ${fmtNO(ukupnoBezPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT }),
+            ...(pdvStopa > 0 ? [new Paragraph({ children: [new TextRun({ text: `PDV (${pdvStopa}%): ${fmtNO(iznosPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT })] : []),
+            new Paragraph({ children: [new TextRun({ text: `Ukupna vrednost: ${fmtNO(ukupnoSaPdv)} RSD`, bold: true, size: 22, color: ZELENA })], alignment: AlignmentType.RIGHT }),
+          ] : []),
+
+          new Paragraph({ text: '', spacing: { after: 300 } }),
+
+          ...(!data.isporucilac_pdv_obveznik ? [
+            new Paragraph({ children: [new TextRun({ text: 'Napomena: Isporucilac nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.', size: 16, color: '92400E' })] }),
+            new Paragraph({ text: '', spacing: { after: 200 } }),
+          ] : []),
+          ...(data.isporucilac_pdv_obveznik && data.pdv_stopa === 'oslobodjeno' ? [
+            new Paragraph({ children: [new TextRun({ text: 'Promet je oslobodjen PDV-a u skladu sa Zakonom o porezu na dodatu vrednost Republike Srbije.', size: 16, color: '92400E' })] }),
+            new Paragraph({ text: '', spacing: { after: 200 } }),
+          ] : []),
+
+          ...(data.napomena ? [
+            new Paragraph({ children: [new TextRun({ text: `Napomena: ${data.napomena}`, size: 18, italics: true })] }),
+            new Paragraph({ text: '', spacing: { after: 300 } }),
+          ] : []),
+
+          // Potpisi
+          new Paragraph({ children: [new TextRun({ text: 'POTPISI', bold: true, size: 16, color: SIVA })] }),
+          new Paragraph({ text: '', spacing: { after: 100 } }),
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            borders: { ...NO_BORDERS, insideHorizontal: NO_BORDER, insideVertical: NO_BORDER },
+            rows: [
+              new TableRow({
+                children: ['Isporucilac:', 'Primalac:'].map(label =>
+                  new TableCell({
+                    borders: NO_BORDERS,
+                    children: [new Paragraph({ children: [new TextRun({ text: label, size: 16, color: SIVA })] })],
+                    width: { size: 50, type: WidthType.PERCENTAGE },
+                  })
+                ),
+              }),
+              new TableRow({
+                children: [data.isporucilac_naziv as string, data.primalac_naziv as string].map(ime =>
+                  new TableCell({
+                    borders: NO_BORDERS,
+                    width: { size: 50, type: WidthType.PERCENTAGE },
+                    children: [
+                      new Paragraph({ text: '' }),
+                      new Paragraph({ children: [new TextRun({ text: '_________________________________', size: 18 })] }),
+                      new Paragraph({ children: [new TextRun({ text: ime, size: 18 })] }),
+                    ],
+                  })
+                ),
+              }),
+            ],
+          }),
+        ],
+      }],
+    })
+
+    let otpremnicaBuffer: Buffer
+    try {
+      otpremnicaBuffer = await Packer.toBuffer(otpremnicaDoc)
+    } catch (docxErr) {
+      console.error('Otpremnica DOCX render error:', docxErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju Word dokumenta. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+    const filename = `otpremnica-${(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
+    return new NextResponse(new Uint8Array(otpremnicaBuffer), {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(otpremnicaBuffer.byteLength),
+      },
+    })
+  }
+
   // Faktura — poseban DOCX renderer
   if (doc.type === 'faktura') {
     let data: Record<string, unknown>

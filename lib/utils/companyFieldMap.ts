@@ -108,6 +108,13 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'adresa_firme',
     zastupnik:            'ovlasceno_lice',
   },
+  'otpremnica': {
+    naziv:                'isporucilac_naziv',
+    pib:                  'isporucilac_pib',
+    adresa:               'isporucilac_adresa',
+    email:                'isporucilac_email',
+    telefon:              'isporucilac_telefon',
+  },
 }
 
 import type { Company } from '@/types/database'

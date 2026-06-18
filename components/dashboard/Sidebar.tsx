@@ -39,6 +39,7 @@ const navCategories: NavCategory[] = [
       { label: 'Opšti uslovi i PP',href: '/dokumenti/opsti-uslovi' },
       { label: 'Faktura / Profaktura', href: '/dokumenti/faktura' },
       { label: 'Putni nalog',          href: '/dokumenti/putni-nalog' },
+      { label: 'Otpremnica',           href: '/dokumenti/otpremnica' },
     ],
   },
   {

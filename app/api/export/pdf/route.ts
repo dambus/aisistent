@@ -6,7 +6,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
 import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
+import { OtpremnicaPDF } from '@/lib/pdf/otpremnicaRenderer'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
+import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 
 export const maxDuration = 60
 
@@ -121,6 +123,39 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
         'Content-Length': String(putniPdfBuffer.byteLength),
+      },
+    })
+  }
+
+  // Otpremnica — poseban renderer
+  if (doc.type === 'otpremnica') {
+    let otpremnicaData: OtpremnicaData
+    try {
+      otpremnicaData = JSON.parse(doc.generated_text) as OtpremnicaData
+    } catch {
+      return NextResponse.json({ error: 'Neispravni podaci otpremnice.' }, { status: 500 })
+    }
+
+    let otpremnicaPdfBuffer: Buffer
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      otpremnicaPdfBuffer = await renderToBuffer(
+        createElement(OtpremnicaPDF, { data: otpremnicaData }) as any
+      )
+    } catch (pdfErr) {
+      console.error('Otpremnica PDF render error:', pdfErr)
+      return NextResponse.json(
+        { error: 'Greška pri generisanju PDF-a. Pokušajte ponovo.' },
+        { status: 500 }
+      )
+    }
+
+    const filename = `otpremnica-${(otpremnicaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${otpremnicaData.datum_izdavanja}.pdf`
+    return new NextResponse(new Uint8Array(otpremnicaPdfBuffer), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Length': String(otpremnicaPdfBuffer.byteLength),
       },
     })
   }
