@@ -269,7 +269,7 @@ export default function DobrodoslicaPage() {
         return
       }
 
-      const nextProfile = data as ProfileRow
+      const nextProfile = data as unknown as ProfileRow
 
       if (nextProfile.plan === 'agency') {
         router.replace('/onboarding/agencija')
@@ -333,7 +333,8 @@ export default function DobrodoslicaPage() {
 
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ industry: selectedIndustry, onboarded: true })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .update({ industry: selectedIndustry, onboarded: true } as any)
         .eq('id', user.id)
 
       if (updateError) {
