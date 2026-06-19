@@ -111,12 +111,6 @@ function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
         <span>Korak {step}/3</span>
         <span>{Math.round((step / 3) * 100)}%</span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-gray-200">
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${(step / 3) * 100}%`, backgroundColor: BRAND }}
-        />
-      </div>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {[1, 2, 3].map(item => (
           <div
