@@ -8,6 +8,7 @@ import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
 import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
 import { OtpremnicaPDF } from '@/lib/pdf/otpremnicaRenderer'
 import { PonudaZaRadovePDF } from '@/lib/pdf/ponudaZaRadoveRenderer'
+import { applyWatermark } from '@/lib/pdf/applyWatermark'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
@@ -119,12 +120,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let finalPutniBuffer: Buffer = putniPdfBuffer
+    if (profile?.plan === 'free') {
+      finalPutniBuffer = await applyWatermark(putniPdfBuffer)
+    }
+
     const filename = `putni-nalog-${(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}-${putniData.datum_polaska}.pdf`
-    return new NextResponse(new Uint8Array(putniPdfBuffer), {
+    return new NextResponse(new Uint8Array(finalPutniBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': String(putniPdfBuffer.byteLength),
+        'Content-Length': String(finalPutniBuffer.byteLength),
       },
     })
   }
@@ -152,12 +158,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let finalPonudaBuffer: Buffer = ponudaPdfBuffer
+    if (profile?.plan === 'free') {
+      finalPonudaBuffer = await applyWatermark(ponudaPdfBuffer)
+    }
+
     const filename = `ponuda-za-radove-${(ponudaData.narucilac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${ponudaData.datum_izdavanja}.pdf`
-    return new NextResponse(new Uint8Array(ponudaPdfBuffer), {
+    return new NextResponse(new Uint8Array(finalPonudaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': String(ponudaPdfBuffer.byteLength),
+        'Content-Length': String(finalPonudaBuffer.byteLength),
       },
     })
   }
@@ -185,12 +196,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let finalOtpremnicaBuffer: Buffer = otpremnicaPdfBuffer
+    if (profile?.plan === 'free') {
+      finalOtpremnicaBuffer = await applyWatermark(otpremnicaPdfBuffer)
+    }
+
     const filename = `otpremnica-${(otpremnicaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${otpremnicaData.datum_izdavanja}.pdf`
-    return new NextResponse(new Uint8Array(otpremnicaPdfBuffer), {
+    return new NextResponse(new Uint8Array(finalOtpremnicaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': String(otpremnicaPdfBuffer.byteLength),
+        'Content-Length': String(finalOtpremnicaBuffer.byteLength),
       },
     })
   }
@@ -232,12 +248,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let finalFakturaBuffer: Buffer = fakturaPdfBuffer
+    if (profile?.plan === 'free') {
+      finalFakturaBuffer = await applyWatermark(fakturaPdfBuffer)
+    }
+
     const filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${fakturaData.datum_izdavanja}.pdf`
-    return new NextResponse(new Uint8Array(fakturaPdfBuffer), {
+    return new NextResponse(new Uint8Array(finalFakturaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': String(fakturaPdfBuffer.byteLength),
+        'Content-Length': String(finalFakturaBuffer.byteLength),
       },
     })
   }
@@ -269,11 +290,16 @@ export async function POST(request: NextRequest) {
   const date = new Date(doc.created_at).toISOString().split('T')[0]
   const filename = `${slug}-${date}.pdf`
 
-  return new NextResponse(new Uint8Array(pdfBuffer), {
+  let finalPdfBuffer: Buffer = pdfBuffer
+  if (profile?.plan === 'free') {
+    finalPdfBuffer = await applyWatermark(pdfBuffer)
+  }
+
+  return new NextResponse(new Uint8Array(finalPdfBuffer), {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename="${filename}"`,
-      'Content-Length': String(pdfBuffer.byteLength),
+      'Content-Length': String(finalPdfBuffer.byteLength),
     },
   })
 }

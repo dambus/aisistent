@@ -14,7 +14,7 @@ export function UpgradeModal({ onClose }: { onClose: () => void }) {
           </div>
           <h2 className="text-lg font-semibold text-gray-900">Mesečni limit dostignut</h2>
           <p className="mt-2 text-sm text-gray-500">
-            Besplatni plan omogućava 1 dokument mesečno. Pređite na Starter i generišite do 20 dokumenata.
+            Besplatni plan omogućava 3 dokumenta mesečno. Pređite na Starter i generišite do 20 dokumenata.
           </p>
         </div>
 

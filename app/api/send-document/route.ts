@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { AisistentDocument } from '@/lib/pdf/AisistentDocument'
 import { FakturaPDF } from '@/lib/pdf/fakturaRenderer'
 import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
+import { applyWatermark } from '@/lib/pdf/applyWatermark'
 import { resend } from '@/lib/resend'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
 
@@ -282,6 +283,10 @@ export async function POST(request: NextRequest) {
     senderFirma,
     message: body.message,
   })
+
+  if (profile?.plan === 'free') {
+    pdfBuffer = await applyWatermark(pdfBuffer)
+  }
 
   const { error: sendError } = await resend.emails.send({
     from: FROM_EMAIL,

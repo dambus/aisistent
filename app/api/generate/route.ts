@@ -667,7 +667,7 @@ const documentConfigs = {
 
 const rateLimitStore = new Map<string, number[]>()
 const PLAN_LIMITS: Record<string, number | null> = {
-  free: 1,
+  free: 3,
   starter: 20,
   pro: null,
   business: null,
