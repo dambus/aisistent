@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { GreetingHeader } from '@/components/dashboard/GreetingHeader'
 import { RecentDocuments } from '@/components/dashboard/RecentDocuments'
+import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
 
 interface ToolItem {
   type: string
@@ -75,14 +76,22 @@ export default async function DashboardPage() {
 
   const admin = createAdminClient()
 
-  const { data: profile } = await admin
+  const { data: profileRaw } = await admin
     .from('profiles')
-    .select('plan, display_name')
+    .select('plan, display_name, industry')
     .eq('id', user!.id)
     .single()
 
+  const profile = profileRaw as unknown as { plan?: string; display_name?: string | null; industry?: string | null } | null
+
   const plan = profile?.plan ?? 'free'
   const displayName = profile?.display_name ?? undefined
+  const industry = (profile?.industry ?? 'general') as Industry
+  const featuredSlugs = getFeaturedTools(industry)
+  const allTools = TOOL_CATEGORIES.flatMap(c => c.tools)
+  const featuredTools = featuredSlugs
+    .map(slug => allTools.find(t => t.type === slug))
+    .filter((t): t is ToolItem => t !== undefined)
 
   const { data: recentDocs } = await admin
     .from('documents')
@@ -113,6 +122,30 @@ export default async function DashboardPage() {
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Nedavno</h2>
         <RecentDocuments documents={recentDocs ?? []} />
       </div>
+
+      {featuredTools.length > 0 && (
+        <section className="mb-8">
+          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+            Preporučeno za vas
+          </h2>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredTools.map(tool => (
+              <Link
+                key={tool.type}
+                href={tool.href}
+                className="flex items-start gap-3 rounded-xl border-2 p-4 transition-all hover:shadow-md"
+                style={{ borderColor: '#1B6B4A20', backgroundColor: '#F0F7F4' }}
+              >
+                <span className="text-2xl">{tool.icon}</span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-gray-900">{tool.title}</div>
+                  <div className="mt-0.5 text-xs text-gray-500">{tool.desc}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="space-y-8">
         {TOOL_CATEGORIES.map(category => (
