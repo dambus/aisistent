@@ -9,6 +9,7 @@ import { PutniNalogPDF } from '@/lib/pdf/putniNalogRenderer'
 import { applyWatermark } from '@/lib/pdf/applyWatermark'
 import { resend } from '@/lib/resend'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
+import { sanitizeFilename } from '@/lib/sanitizeFilename'
 
 export const maxDuration = 60
 
@@ -218,7 +219,7 @@ export async function POST(request: NextRequest) {
       pdfBuffer = await renderToBuffer(
         createElement(PutniNalogPDF, { data: putniData }) as any
       )
-      filename = `putni-nalog-${(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.pdf`
+      filename = `putni-nalog-${sanitizeFilename(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.pdf`
     } else if (doc.type === 'faktura') {
       let fakturaData: FakturaData
       try {
@@ -246,7 +247,7 @@ export async function POST(request: NextRequest) {
         }) as any
       )
 
-      filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.pdf`
+      filename = `faktura-${sanitizeFilename(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.pdf`
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       pdfBuffer = await renderToBuffer(

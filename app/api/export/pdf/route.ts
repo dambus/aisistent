@@ -12,6 +12,7 @@ import { applyWatermark } from '@/lib/pdf/applyWatermark'
 import type { FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
+import { sanitizeFilename } from '@/lib/sanitizeFilename'
 
 export const maxDuration = 60
 
@@ -125,7 +126,7 @@ export async function POST(request: NextRequest) {
       finalPutniBuffer = await applyWatermark(putniPdfBuffer)
     }
 
-    const filename = `putni-nalog-${(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}-${putniData.datum_polaska}.pdf`
+    const filename = `putni-nalog-${sanitizeFilename(putniData.ime_vozaca ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}-${putniData.datum_polaska}.pdf`
     return new NextResponse(new Uint8Array(finalPutniBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
@@ -163,7 +164,7 @@ export async function POST(request: NextRequest) {
       finalPonudaBuffer = await applyWatermark(ponudaPdfBuffer)
     }
 
-    const filename = `ponuda-za-radove-${(ponudaData.narucilac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${ponudaData.datum_izdavanja}.pdf`
+    const filename = `ponuda-za-radove-${sanitizeFilename(ponudaData.narucilac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${ponudaData.datum_izdavanja}.pdf`
     return new NextResponse(new Uint8Array(finalPonudaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
@@ -201,7 +202,7 @@ export async function POST(request: NextRequest) {
       finalOtpremnicaBuffer = await applyWatermark(otpremnicaPdfBuffer)
     }
 
-    const filename = `otpremnica-${(otpremnicaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${otpremnicaData.datum_izdavanja}.pdf`
+    const filename = `otpremnica-${sanitizeFilename(otpremnicaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${otpremnicaData.datum_izdavanja}.pdf`
     return new NextResponse(new Uint8Array(finalOtpremnicaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
@@ -253,7 +254,7 @@ export async function POST(request: NextRequest) {
       finalFakturaBuffer = await applyWatermark(fakturaPdfBuffer)
     }
 
-    const filename = `faktura-${(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${fakturaData.datum_izdavanja}.pdf`
+    const filename = `faktura-${sanitizeFilename(fakturaData.primalac_naziv ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}-${fakturaData.datum_izdavanja}.pdf`
     return new NextResponse(new Uint8Array(finalFakturaBuffer), {
       headers: {
         'Content-Type': 'application/pdf',

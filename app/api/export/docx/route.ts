@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { buildDocx } from '@/lib/pdf/docxBuilder'
+import { sanitizeFilename } from '@/lib/sanitizeFilename'
 import {
   Document, Packer, Paragraph, Table, TableRow, TableCell,
   TextRun, WidthType, AlignmentType, ShadingType, BorderStyle,
@@ -266,7 +267,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-    const filename = `putni-nalog-${(data.ime_vozaca as string ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.docx`
+    const filename = `putni-nalog-${sanitizeFilename(data.ime_vozaca as string ?? 'vozac').replace(/\s+/g, '-').toLowerCase()}.docx`
     return new NextResponse(new Uint8Array(putniBuffer), {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -439,7 +440,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-    const filename = `ponuda-za-radove-${(data.narucilac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
+    const filename = `ponuda-za-radove-${sanitizeFilename(data.narucilac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
     return new NextResponse(new Uint8Array(ponudaBuffer), {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -588,7 +589,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-    const filename = `otpremnica-${(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
+    const filename = `otpremnica-${sanitizeFilename(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
     return new NextResponse(new Uint8Array(otpremnicaBuffer), {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -724,7 +725,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-    const filename = `faktura-${(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
+    const filename = `faktura-${sanitizeFilename(data.primalac_naziv as string ?? 'dokument').replace(/\s+/g, '-').toLowerCase()}.docx`
     return new NextResponse(new Uint8Array(fakturaBuffer), {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
