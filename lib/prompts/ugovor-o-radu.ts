@@ -1,4 +1,5 @@
 import type { WizardStep, UgovorORaduData } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -256,7 +257,7 @@ POSLODAVAC:
 - Datum zaključivanja: ${datumZakljucivanja}
 
 ZAPOSLENI:
-- Ime i prezime: ${data.ime_prezime}
+- Ime i prezime: ${data.ime_prezime}${getVokativHint(data.ime_prezime)}
 - JMBG: ${data.jmbg}
 - Adresa: ${data.adresa_zaposlenog}${data.broj_lk ? `\n- Broj lične karte: ${data.broj_lk}` : ''}
 - Stručna sprema: ${data.sprema}

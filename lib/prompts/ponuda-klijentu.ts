@@ -1,4 +1,5 @@
 import type { PonudaKlijentuData, WizardStep } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -82,7 +83,7 @@ PONUĐAČ:
 KLIJENT:
 - Naziv firme / ime: ${data.klijent_naziv}
 - Adresa: ${data.klijent_adresa}
-- Kontakt osoba: ${data.klijent_kontakt ?? '[POPUNITI: kontakt osoba klijenta]'}
+- Kontakt osoba: ${data.klijent_kontakt ?? '[POPUNITI: kontakt osoba klijenta]'}${data.klijent_kontakt ? getVokativHint(data.klijent_kontakt) : ''}
 
 PONUDA:
 - Broj ponude: ${brojPonude}

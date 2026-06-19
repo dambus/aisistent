@@ -1,4 +1,5 @@
 import type { ResenjeGodisnjiOdmorData, WizardStep } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -50,7 +51,7 @@ POSLODAVAC:
 - Funkcija zastupnika: ${data.funkcija}
 
 ZAPOSLENI:
-- Ime i prezime: ${data.ime_prezime}
+- Ime i prezime: ${data.ime_prezime}${getVokativHint(data.ime_prezime)}
 - Radno mesto: ${data.radno_mesto}
 - Broj dana godišnjeg odmora: ${data.broj_dana ?? '[POPUNITI: broj dana odmora]'}
 

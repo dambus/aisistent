@@ -1,4 +1,5 @@
 import type { PreporukaData, WizardStep } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -46,7 +47,7 @@ PREPORUČILAC:
 - Firma: ${data.naziv_firme}${data.email ? `\n- Email: ${data.email}` : ''}${data.telefon ? `\n- Telefon: ${data.telefon}` : ''}
 
 KANDIDAT:
-- Ime i prezime: ${data.ime_kandidata}
+- Ime i prezime: ${data.ime_kandidata}${getVokativHint(data.ime_kandidata)}
 - Pozicija kandidata: ${data.pozicija_kandidata}
 - Period saradnje: ${data.period_saradnje}
 

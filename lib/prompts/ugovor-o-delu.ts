@@ -1,4 +1,5 @@
 import type { UgovorODeluData, WizardStep } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -199,7 +200,7 @@ NARUČILAC:
 
 IZVOĐAČ:
 - Tip: ${data.tip_izvodjaca}
-- Ime/Naziv: ${data.naziv_izvodjaca}
+- Ime/Naziv: ${data.naziv_izvodjaca}${data.tip_izvodjaca === 'Fizičko lice (bez firme)' ? getVokativHint(data.naziv_izvodjaca) : ''}
 - JMBG/PIB: ${data.jmbg_pib_izvodjaca}
 - Adresa: ${data.adresa_izvodjaca}
 - Račun: ${data.racun_izvodjaca ?? '[POPUNITI: račun izvođača]'}

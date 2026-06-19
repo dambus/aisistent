@@ -1,5 +1,6 @@
 import type { OdgovorKandidatuData, WizardStep } from '@/types/wizard'
 import { detectGender } from '@/lib/utils/genderDetect'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -60,7 +61,7 @@ FIRMA:
 - Pozicija: ${data.pozicija}
 
 KANDIDAT:
-- Ime kandidata: ${data.ime_kandidata}
+- Ime kandidata: ${data.ime_kandidata}${getVokativHint(data.ime_kandidata)}
 - Oslovljavanje: ${oslovljavanje}${data.email_kandidata ? `\n- Email kandidata: ${data.email_kandidata}` : ''}
 
 TIP ODGOVORA:

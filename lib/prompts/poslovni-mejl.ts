@@ -1,4 +1,5 @@
 import type { PoslovniMejlData, WizardStep } from '@/types/wizard'
+import { getVokativHint } from '@/lib/utils/vokativ'
 
 const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -70,7 +71,7 @@ POŠILJALAC:
 - Pozicija: ${data.posiljalac_pozicija}
 
 PRIMALAC:
-- Ime i prezime / tim: ${data.primalac_ime}
+- Ime i prezime / tim: ${data.primalac_ime}${getVokativHint(data.primalac_ime)}
 - Firma primaoca: ${data.primalac_firma}
 
 MEJL:
