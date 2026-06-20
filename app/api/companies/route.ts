@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { Company } from '@/types/database'
 
 const PLAN_LIMITS: Record<string, number | null> = {
-  free:     1,
+  free:     0,
   starter:  1,
   pro:      3,
   business: null,
@@ -49,7 +49,9 @@ export async function POST(req: NextRequest) {
       .eq('user_id', user.id)
 
     if ((count ?? 0) >= limit) {
-      const limitMsg = limit === 1
+      const limitMsg = limit === 0
+        ? 'Dodavanje firme dostupno je od Starter plana.'
+        : limit === 1
         ? 'Vaš plan dozvoljava maksimalno 1 firmu.'
         : `Vaš plan dozvoljava maksimalno ${limit} firme.`
       return NextResponse.json(

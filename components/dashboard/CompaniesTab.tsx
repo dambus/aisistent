@@ -16,7 +16,7 @@ interface CompaniesTabProps {
 }
 
 const PLAN_LIMITS: Record<string, number | null> = {
-  free:     1,
+  free:     0,
   starter:  1,
   pro:      3,
   business: null,

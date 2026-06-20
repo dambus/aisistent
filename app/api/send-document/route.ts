@@ -168,6 +168,13 @@ export async function POST(request: NextRequest) {
     .eq('id', user.id)
     .single()
 
+  if (profile?.plan === 'free') {
+    return NextResponse.json(
+      { error: 'Slanje dokumenata emailom dostupno je od Starter plana. Pređite na plaćeni plan da biste slali dokumente direktno klijentima.' },
+      { status: 403 }
+    )
+  }
+
   const { data: company } = await admin
     .from('companies')
     .select('logo_url, naziv, pib, adresa, grad')
