@@ -44,6 +44,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   const [companies, setCompanies] = useState<Company[]>(initialCompanies)
   const [displayUrls, setDisplayUrls] = useState<Record<string, string>>(logoDisplayUrls)
   const [showForm, setShowForm] = useState(false)
+  const [showLimitModal, setShowLimitModal] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
@@ -71,11 +72,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
 
   function openAdd() {
     if (limit !== null && companies.length >= limit) {
-      setError(
-        limit === 0
-          ? 'Dodavanje firme dostupno je od Starter plana.'
-          : `Vaš plan dozvoljava maksimalno ${limit} ${limit === 1 ? 'firmu' : 'firme'}. Nadogradite plan za više firmi.`
-      )
+      setShowLimitModal(true)
       return
     }
     setEditingId(null)
@@ -240,24 +237,16 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
         <button
           onClick={openAdd}
           className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
-          style={{
-            backgroundColor: (limit !== null && companies.length >= limit) ? '#9CA3AF' : '#1B6B4A'
-          }}
-          onMouseEnter={e => {
-            if (!(limit !== null && companies.length >= limit)) {
-              e.currentTarget.style.backgroundColor = '#155C3E'
-            }
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = (limit !== null && companies.length >= limit) ? '#9CA3AF' : '#1B6B4A'
-          }}
+          style={{ backgroundColor: '#1B6B4A' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
         >
           + {labels.addButton}
         </button>
       </div>
 
       {/* Logo plan info */}
-      {!canUseLogo && (
+      {!canUseLogo && companies.length > 0 && (
         <div className="mb-4 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-700">
           Logo na dokumentima dostupan je za Pro i Business plan.
         </div>
@@ -385,13 +374,7 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
       </div>
 
       {/* Plan limit info — sakriveno za agency (neograničeno, bez poruke o nadogradnji) */}
-      {!isAgency && <p className="text-sm text-gray-500 mb-4">{limitText()}</p>}
-
-      {error && !showForm && (
-        <div className="mb-4 px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600">
-          {error}
-        </div>
-      )}
+      {!isAgency && limit !== 0 && <p className="text-sm text-gray-500 mb-4">{limitText()}</p>}
 
       {/* Forma za dodavanje/uređivanje — Dialog modal */}
       <Dialog open={showForm} onOpenChange={(open) => {
@@ -512,6 +495,43 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
             >
               Otkaži
             </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
+        <DialogContent className="max-w-sm text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-amber-50">
+            <svg className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              {limit === 0
+                ? 'Dodavanje firme dostupno je od Starter plana'
+                : 'Dostigli ste limit firmi za vaš plan'}
+            </DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-gray-500 -mt-2 mb-4">
+            {limit === 0
+              ? 'Besplatni plan ne uključuje čuvanje podataka o firmi. Pređite na Starter da dodate svoju prvu firmu.'
+              : `Vaš plan dozvoljava maksimalno ${limit} ${limit === 1 ? 'firmu' : 'firme'}. Nadogradite plan za više.`}
+          </p>
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={() => setShowLimitModal(false)}
+              className="px-4 py-2 text-sm font-semibold border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Zatvori
+            </button>
+            <a
+              href="/#cenovnik"
+              className="px-4 py-2 text-sm font-semibold text-white rounded-xl transition-colors"
+              style={{ backgroundColor: '#1B6B4A' }}
+            >
+              Pogledajte planove
+            </a>
           </div>
         </DialogContent>
       </Dialog>
