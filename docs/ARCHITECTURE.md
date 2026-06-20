@@ -151,12 +151,13 @@ RLS je uključen na svim tabelama — korisnik vidi samo svoje podatke.
 
 | Plan | Dokumenti/mesec | PDF | DOCX | Cena |
 |------|----------------|-----|------|------|
-| free | 1 | sa oznakom | ❌ | besplatno |
+| free | 3 | sa oznakom (watermark) | ❌ | besplatno |
 | starter | 20 | ✅ | ❌ | ~1.080 RSD |
 | pro | neograničeno | ✅ | ✅ | ~3.000 RSD |
 | business | neograničeno | ✅ | ✅ | ~7.200 RSD |
 
 Limit check: `profiles.documents_this_month >= limit` u `/api/generate/route.ts`
+Free tier dodatno nema pristup arhivi i email slanju dokumenata (vidi SUBSCRIPTION_LOGIC.md za potpunu matricu).
 
 ## Monetizacija
 

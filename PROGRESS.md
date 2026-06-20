@@ -29,6 +29,23 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### jun 2026. — Delatnostni onboarding + Free tier ograničenja (Faza 3)
+- Novi onboarding flow: `app/onboarding/dobrodoslica/page.tsx` — tier-specific (free: 1 korak izbor delatnosti; upgrade: 3 koraka — unlock animacija, delatnost, firma setup)
+- `lib/industryConfig.ts` — single source of truth za 10 delatnosti, mapiranje alata na featured/secondary/hidden prioritet
+- Dashboard "Preporučeno za vas" sekcija — featured alati po delatnosti
+- Redirect logika u (dashboard)/layout.tsx: agency → /onboarding/agencija, ostali → /onboarding/dobrodoslica (ako !onboarded)
+- Supabase migracija: industry kolona u profiles (20260618000001_add_industry.sql)
+- shadcn dodato: Card, RadioGroup (Button već postojao)
+- Free tier ograničenja:
+- Limit generisanja: 3 dokumenta/mesec (sa 1)
+- Watermark — `lib/pdf/applyWatermark.ts` (pdf-lib post-processing, dijagonalan, centriran preko stranice), primenjen na sve PDF exporte i email priloge
+- Arhiva blokirana za free (app/(dashboard)/arhiva/page.tsx)
+- Email slanje blokirano za free (app/api/send-document/route.ts, 403)
+- Dodavanje firme blokirano za free (PLAN_LIMITS.free: 0), UX: modal na klik umesto greške nakon submit-a
+- Bug fix: Content-Disposition header crash sa srpskim dijakritikom u filename-u → `lib/sanitizeFilename.ts`
+- Vokativ sistem — zamenjen prompt-bazirani pristup determinističkom lookup tabelom: `lib/data/vokativ.json` (1969 imena) + `lib/utils/vokativ.ts` (getVokativ, getVokativHint), injektovano u 7 prompt fajlova kao hint AI modelu
+- Uklonjeno: components/dashboard/OnboardingModal.tsx (mrtav kod, zamenjen novim onboarding flow-om)
+
 #### jun 2026. — Agency plan (Faza 2 reach)
 - Dodat `agency` plan u sve plan mape: PLAN_LIMITS, PLAN_INFO, PLAN_COLORS, planLabels, PLAN_SELECTOR (6 fajlova)
 - Pricing stranica: novi Agency card (9.990 RSD, badge "Za računovođe", indigo boja)

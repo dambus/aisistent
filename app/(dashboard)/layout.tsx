@@ -3,7 +3,6 @@ import { unstable_noStore as noStore } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DashboardShell } from '@/components/dashboard/DashboardShell'
-import { OnboardingModal } from '@/components/dashboard/OnboardingModal'
 
 function getInitials(displayName: string | null, email: string): string {
   if (displayName && displayName.trim()) {
