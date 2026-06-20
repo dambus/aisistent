@@ -70,6 +70,14 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   }
 
   function openAdd() {
+    if (limit !== null && companies.length >= limit) {
+      setError(
+        limit === 0
+          ? 'Dodavanje firme dostupno je od Starter plana.'
+          : `Vaš plan dozvoljava maksimalno ${limit} ${limit === 1 ? 'firmu' : 'firme'}. Nadogradite plan za više firmi.`
+      )
+      return
+    }
     setEditingId(null)
     setForm(emptyForm)
     setError('')
@@ -232,9 +240,17 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
         <button
           onClick={openAdd}
           className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
-          style={{ backgroundColor: '#1B6B4A' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
+          style={{
+            backgroundColor: (limit !== null && companies.length >= limit) ? '#9CA3AF' : '#1B6B4A'
+          }}
+          onMouseEnter={e => {
+            if (!(limit !== null && companies.length >= limit)) {
+              e.currentTarget.style.backgroundColor = '#155C3E'
+            }
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.backgroundColor = (limit !== null && companies.length >= limit) ? '#9CA3AF' : '#1B6B4A'
+          }}
         >
           + {labels.addButton}
         </button>
@@ -370,6 +386,12 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
 
       {/* Plan limit info — sakriveno za agency (neograničeno, bez poruke o nadogradnji) */}
       {!isAgency && <p className="text-sm text-gray-500 mb-4">{limitText()}</p>}
+
+      {error && !showForm && (
+        <div className="mb-4 px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600">
+          {error}
+        </div>
+      )}
 
       {/* Forma za dodavanje/uređivanje — Dialog modal */}
       <Dialog open={showForm} onOpenChange={(open) => {
