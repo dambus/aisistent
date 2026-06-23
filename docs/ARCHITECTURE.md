@@ -14,9 +14,11 @@ app/
     register/           — stranica za registraciju
   (dashboard)/
     dashboard/          — početna sa pozdravom i alatima
-    dokumenti/[type]/   — wizard po tipu dokumenta
+    dokumenti/[type]/   — wizard po tipu dokumenta (?from= verzionisanje, ?clientId= pre-selekcija)
     arhiva/             — lista dokumenata korisnika
-    profil/             — lični podaci + moje firme
+    profil/             — lični podaci + moje firme/klijenti (CompaniesTab)
+    klijenti/           — dedicated Agency stranica: grid klijenata sa document count [Agency only]
+    klijenti/[id]/      — profil klijenta + dokumenti filtirani po company_id [Agency only]
     podesavanja/        — lozinka, odjava, brisanje naloga
     alati/
       kalkulator-zarade/
@@ -27,8 +29,9 @@ app/
     export/
       pdf/              — generisanje PDF-a (POST)
       docx/             — generisanje DOCX-a (POST)
-    companies/          — CRUD za sačuvane firme
-    documents/[id]/     — DELETE dokumenata iz arhive
+    companies/          — CRUD za sačuvane firme/klijente
+    companies/[id]/logo/ — upload/delete loga firme (Pro/Business/Agency)
+    documents/[id]/     — GET (sa ownership check) + DELETE dokumenata iz arhive
     profile/            — set-name, delete naloga
     send-document/      — slanje dokumenta emailom (Resend)
   page.tsx              — Landing page
@@ -80,10 +83,13 @@ docs/                   — projektna dokumentacija
 ```sql
 profiles (
   id uuid PRIMARY KEY,          -- = auth.users.id
-  plan text DEFAULT 'free',     -- 'free' | 'starter' | 'pro' | 'business'
+  plan text DEFAULT 'free',     -- 'free' | 'starter' | 'pro' | 'business' | 'agency'
   documents_this_month int,     -- brojač, resetuje se 1. u mesecu
   display_name text,
   stripe_customer_id text,
+  is_admin boolean,
+  onboarded boolean,
+  industry text,                -- delatnost za onboarding personalizaciju
   created_at timestamptz
 )
 
@@ -95,6 +101,9 @@ documents (
   input_data jsonb,             -- wizard polja
   generated_text text,          -- Claude output
   is_free boolean,
+  version integer DEFAULT 1,    -- verzija dokumenta (1 = original)
+  root_document_id uuid REFERENCES documents,  -- NULL za v1, ID originala za v2+
+  company_id uuid REFERENCES companies,        -- klijent za kojeg je dokument napravljen (nullable)
   created_at timestamptz
 )
 
@@ -110,6 +119,11 @@ companies (
   funkcija_zastupnika text,
   email text,
   telefon text,
+  logo_url text,                -- putanja u Supabase Storage (company-logos bucket)
+  delatnost text,               -- za auto-popunjavanje wizard polja
+  ziro_racun text,              -- za fakture i ponude
+  pdv_obveznik boolean DEFAULT false,
+  website text,
   is_default boolean,
   created_at timestamptz
 )
@@ -149,15 +163,18 @@ RLS je uključen na svim tabelama — korisnik vidi samo svoje podatke.
 
 ## Plan limiti
 
-| Plan | Dokumenti/mesec | PDF | DOCX | Cena |
-|------|----------------|-----|------|------|
-| free | 3 | sa oznakom (watermark) | ❌ | besplatno |
-| starter | 20 | ✅ | ❌ | ~1.080 RSD |
-| pro | neograničeno | ✅ | ✅ | ~3.000 RSD |
-| business | neograničeno | ✅ | ✅ | ~7.200 RSD |
+| Plan     | Dokumenti/mes | PDF | DOCX | Logo | Firme | Arhiva | Email |
+|----------|--------------|-----|------|------|-------|--------|-------|
+| free     | 3 (watermark)| ✅  | ❌   | ❌   | 0     | ❌     | ❌    |
+| starter  | 20           | ✅  | ❌   | ❌   | 1     | ✅     | ✅    |
+| pro      | neograničeno | ✅  | ✅   | ✅   | 3     | ✅     | ✅    |
+| business | neograničeno | ✅  | ✅   | ✅   | ∞     | ✅     | ✅    |
+| agency   | neograničeno | ✅  | ✅   | ✅   | ∞     | ✅     | ✅    |
+
+Agency plan razlike vs Business: "Firme" → "Klijenti" rebrand, dedicated /klijenti stranica, company_id tracking po dokumentu, inline quick-switch dropdown u wizardu.
 
 Limit check: `profiles.documents_this_month >= limit` u `/api/generate/route.ts`
-Free tier dodatno nema pristup arhivi i email slanju dokumenata (vidi SUBSCRIPTION_LOGIC.md za potpunu matricu).
+Free tier dodatno nema pristup arhivi i email slanju dokumenata.
 
 ## Monetizacija
 

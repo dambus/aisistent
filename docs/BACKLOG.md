@@ -53,9 +53,8 @@
 
 ## 🟡 Srednji prioritet
 
-- **APR API / PIB lookup** — korisnik unese PIB, automatski se
-  popune naziv, adresa, zastupnik iz APR registra.
-  Istražiti: api.apr.gov.rs dostupnost i uslove
+- **APR API / PIB lookup** — ~~Istražiti~~ Blokirano: zahteva ugovor sa APR,
+  dostupno samo pravnim licima. Implementirati tek nakon otvaranja firme.
 
 - **shadcn Faza 3** — Sheet za mobilni sidebar (slide-in) ✅
 
@@ -71,9 +70,20 @@
 
 ### Napredne funkcionalnosti
 
-#### Agency plan — Faza 2 (sledeće)
-- "Pošalji klijentu" flow — posle generisanja, agency korisnici vide primarnu akciju "Pošalji klijentu" umesto neutralnog "Pošalji emailom"; pre-popunjava primaoca iz liste klijenata
-- SEF integracija — slanje fakture na Sistem elektronskih faktura
-- Verzionisanje dokumenata — čuvanje prethodnih verzija
-- Timski nalozi — Business plan, više korisnika
-- API
+#### Agency plan — Faza 2
+- "Pošalji klijentu" flow ✅
+- SEF integracija — ~~slanje fakture na Sistem elektronskih faktura~~
+  Blokirano: zahteva registraciju pravnog lica + dozvolu MF kao informacioni posrednik
+- **Verzionisanje dokumenata** ✅ — version + root_document_id, "Nova verzija" dugme, ?from= pre-populacija
+- **Proširenje profila firme** ✅ — delatnost, ziro_racun, pdv_obveznik, website; companyFieldMap za 7 tipova
+- **Redesign CompaniesTab** ✅ — Sheet forma, avatar kartice, ikonska dugmad, AlertDialog, pretraga
+- **Timski nalozi** — Blokiran: čeka Paddle aktivaciju. Arhitektura: workspace model, invite, role (owner/member)
+
+#### UI — Dedicated stranica za upravljanje klijentima (high-tier)
+Za Agency/Business plan: dedicated `/klijenti` stranica umesto taba u dashboardu.
+- Klijenti → Dokumenti po klijentu (dedicated view)
+- Skalabilno za timske naloge
+- Uraditi tek kada se implementiraju timski nalozi
+
+#### API
+- Javni API za generisanje dokumenata (dugoročno)

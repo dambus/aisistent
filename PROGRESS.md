@@ -29,6 +29,42 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### jun 2026. — Agency Faza 2 (kompletna)
+
+**Korak 1 — Verzionisanje dokumenata**
+- `version` i `root_document_id` kolone na documents tabeli (20260623000001)
+- `root_document_id` uvek pokazuje na v1 originala (bez chain referenci)
+- "Nova verzija" dugme u ArchiveList-u (purple badge za v2+, reload ikona)
+- `?from=<docId>` URL pattern — server-side fetch, pre-populacija WizardForm-a
+- GET `/api/documents/[id]` — novi endpoint za dohvatanje dokumenta (sa ownership check)
+
+**Korak 2 — Proširenje profila firme**
+- SQL migracija: `delatnost`, `ziro_racun`, `pdv_obveznik boolean`, `website` na companies (20260623000002)
+- TypeScript Company interface + Database tipovi ažurirani
+- API rute (POST + PUT) prihvataju nova polja
+- `companyFieldMap.ts`: nova mapiranja za 7 tipova (faktura, ponuda-za-radove, otpremnica → žiro račun + PDV; oglas, pravilnik, bio → delatnost; opsti-uslovi → website)
+- `buildCompanyFields()`: dodata podrška za boolean vrednosti (`pdv_obveznik`)
+
+**Korak 3 — Redesign CompaniesTab**
+- Sheet umesto Dialog za formu (klizi s desne strane, 520px, 6 sekcija sa separatorima)
+- shadcn Switch za PDV obveznik i Podrazumevana toggleove
+- shadcn AlertDialog za potvrdu brisanja (umesto browser confirm())
+- Avatar kartice: inicijali (ili logo preview), PDV badge, ikonska dugmad (★ ✏ 🗑) sa Tooltip
+- Pretraga: vidljiva za agency i kad >4 firme
+- Logo management premešten iz kartice u Sheet (edit mode)
+
+**Korak 4 — /klijenti dedicated stranica + document linking**
+- SQL migracija: `company_id uuid REFERENCES companies ON DELETE SET NULL` na documents (20260623000003)
+- Generate API: prihvata i čuva `company_id` pri kreiranju dokumenta
+- WizardForm: šalje `company_id` pri submitu; prima `preselectedClientId` prop
+- `?clientId=<id>` URL param za wizard — server-side pre-selekcija klijenta
+- `/klijenti` — Agency-only stranica: grid klijenata sa brojem dokumenata, brzo kreiranje
+- `/klijenti/[id]` — profil klijenta (svi podaci), brzo kreiranje sa ?clientId= pre-selekcijom, lista dokumenata filtrirana po company_id
+- Sidebar: "Klijenti" link vidljiv samo za agency plan
+
+**Bug fix uz fazu**
+- `app/api/companies/[id]/logo/route.ts`: agency dodat u `LOGO_PLANS` (bio izostavljen)
+
 #### jun 2026. — Delatnostni onboarding + Free tier ograničenja (Faza 3)
 - Novi onboarding flow: `app/onboarding/dobrodoslica/page.tsx` — tier-specific (free: 1 korak izbor delatnosti; upgrade: 3 koraka — unlock animacija, delatnost, firma setup)
 - `lib/industryConfig.ts` — single source of truth za 10 delatnosti, mapiranje alata na featured/secondary/hidden prioritet
@@ -90,20 +126,15 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - companyFieldMap za sve tipove
 - Zakonski audit svih 17 tipova
 
-### Čekaju primenu (Supabase SQL Editor)
-- 20260611000001_add_contacts.sql — contacts tabela
-- 20260616000001_add_admin_role.sql — is_admin kolona
-- 20260616000002_add_onboarded.sql — onboarded kolona
-
 ### Blokirano
 - Payment gateway (Paddle) — čeka APR registraciju
-- APR API / PIB lookup — čeka APR ugovor (apr-podaci@apr.gov.rs)
+- APR API / PIB lookup — čeka APR ugovor (samo pravna lica)
+- SEF integracija — čeka APR registraciju + dozvolu MF
+- Timski nalozi (Agency Faza 2, korak 5) — zavisi od Paddle aktivacije
 
 ### Sledeće
-- Agency plan: kontaktirati 3-5 računovodstvenih agencija za feedback (da li quick-switch i klijenti rebrand odgovaraju workflow-u)
-- Agency plan Faza 2: "Pošalji klijentu" dedicated flow (računovođa generiše -> direktno šalje klijentu)
-- shadcn Faza 3 — Sheet za mobilni sidebar
-- Onboarding flow za nove korisnike (razmatrati)
+- Kontaktirati računovodstvene agencije za feedback na Agency plan i /klijenti flow
+- High-tier management section: dedicated views po klijentu sa timskim pregledom (kad timski nalozi budu gotovi)
 
 ---
 *Poslednje ažuriranje: jun 2026.*
