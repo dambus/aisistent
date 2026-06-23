@@ -56,9 +56,11 @@ interface WizardPageClientProps {
   type: string
   companies: Company[]
   plan?: string
+  initialValues?: Record<string, string | number | boolean>
+  rootDocumentId?: string
 }
 
-export function WizardPageClient({ type, companies, plan }: WizardPageClientProps) {
+export function WizardPageClient({ type, companies, plan, initialValues, rootDocumentId }: WizardPageClientProps) {
   const meta = documentMeta[type]
   const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null } | null>(null)
 
@@ -118,6 +120,8 @@ export function WizardPageClient({ type, companies, plan }: WizardPageClientProp
         documentType={type}
         companies={companies}
         plan={plan}
+        initialValues={initialValues}
+        rootDocumentId={rootDocumentId}
         onComplete={(documentId, generatedText, documentTitle, isFree, selectedCompany) => setResult({ documentId, generatedText, documentTitle, isFree, selectedCompany })}
       />
     </div>

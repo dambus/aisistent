@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { TYPE_LABELS } from '@/lib/utils/documentTypes'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 import {
@@ -30,6 +31,8 @@ export interface ArchiveDocument {
   title: string
   created_at: string
   is_free: boolean
+  version: number
+  root_document_id: string | null
 }
 
 type ExportFormat = 'pdf' | 'docx'
@@ -108,6 +111,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 }
 
 export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
+  const router = useRouter()
   const [filter, setFilter] = useState<FilterValue>('all')
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
@@ -231,6 +235,11 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="truncate text-base font-semibold text-gray-900">{doc.title}</h2>
+                    {doc.version > 1 && (
+                      <span className="rounded-full bg-purple-50 px-2.5 py-1 text-xs font-semibold text-purple-700">
+                        v{doc.version}
+                      </span>
+                    )}
                     {doc.is_free && (
                       <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
                         Besplatna verzija
@@ -299,6 +308,18 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                         strokeWidth={2}
                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                       />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/dokumenti/${doc.type}?from=${doc.id}`)}
+                    disabled={loadingKey !== null}
+                    title="Napravi novu verziju"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-600 disabled:opacity-60"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                   </button>
 

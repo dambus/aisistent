@@ -15,6 +15,8 @@ interface WizardFormProps {
   documentType: string
   companies?: Company[]
   plan?: string
+  initialValues?: Record<string, string | number | boolean>
+  rootDocumentId?: string
   onComplete: (documentId: string, generatedText: string, documentTitle: string, isFree: boolean, selectedCompany?: Company | null) => void
 }
 
@@ -57,13 +59,14 @@ function buildInitialValues(steps: WizardStep[]): FormValues {
   return values
 }
 
-export function WizardForm({ steps, documentType, companies = [], plan, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], plan, initialValues, rootDocumentId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
   const defaultCompany = companies.find(c => c.is_default) ?? companies[0] ?? null
 
   const [currentStep, setCurrentStep] = useState(0)
   const [values, setValues] = useState<FormValues>(() => {
     const base = buildInitialValues(steps)
+    if (initialValues) return { ...base, ...initialValues }
     if (isAgency && defaultCompany) {
       return { ...base, ...buildCompanyFields(defaultCompany, documentType) }
     }
@@ -120,7 +123,7 @@ export function WizardForm({ steps, documentType, companies = [], plan, onComple
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: documentType, data: values }),
+        body: JSON.stringify({ type: documentType, data: values, root_document_id: rootDocumentId }),
       })
 
       const json = await res.json()

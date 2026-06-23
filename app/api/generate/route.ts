@@ -527,6 +527,7 @@ const requestSchema = z.object({
     'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura', 'putni-nalog', 'otpremnica', 'ponuda-za-radove',
   ]),
   data: z.record(z.string(), z.unknown()),
+  root_document_id: z.string().uuid().optional(),
 })
 
 const documentConfigs = {
@@ -714,7 +715,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nedostaju obavezna polja.' }, { status: 400 })
   }
 
-  const { type, data } = parsed.data
+  const { type, data, root_document_id } = parsed.data
   const config = documentConfigs[type]
 
   const admin = createAdminClient()
@@ -781,6 +782,17 @@ export async function POST(request: NextRequest) {
 
   const title = config.buildTitle(docData.data as never)
 
+  let nextVersion = 1
+  if (root_document_id) {
+    const { data: versions } = await admin
+      .from('documents')
+      .select('version')
+      .or(`id.eq.${root_document_id},root_document_id.eq.${root_document_id}`)
+      .order('version', { ascending: false })
+      .limit(1)
+    nextVersion = (versions?.[0]?.version ?? 1) + 1
+  }
+
   const { data: doc, error: insertError } = await admin
     .from('documents')
     .insert({
@@ -790,6 +802,8 @@ export async function POST(request: NextRequest) {
       input_data: docData.data as Record<string, unknown>,
       generated_text: generatedText,
       is_free: profile.plan === 'free',
+      version: nextVersion,
+      root_document_id: root_document_id ?? null,
     })
     .select('id')
     .single()

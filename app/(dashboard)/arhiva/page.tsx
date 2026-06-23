@@ -39,7 +39,7 @@ export default async function ArhivaPage() {
 
   const { data, error } = await supabase
     .from('documents')
-    .select('id, type, title, created_at, is_free')
+    .select('id, type, title, created_at, is_free, version, root_document_id')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 

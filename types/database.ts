@@ -83,6 +83,8 @@ export interface Database {
           input_data: Record<string, unknown>
           generated_text: string
           is_free: boolean
+          version: number
+          root_document_id: string | null
           created_at: string
         }
         Insert: {
@@ -93,6 +95,8 @@ export interface Database {
           input_data: Record<string, unknown>
           generated_text: string
           is_free?: boolean
+          version?: number
+          root_document_id?: string | null
           created_at?: string
         }
         Update: {
@@ -101,6 +105,8 @@ export interface Database {
           input_data?: Record<string, unknown>
           generated_text?: string
           is_free?: boolean
+          version?: number
+          root_document_id?: string | null
         }
         Relationships: []
       }
