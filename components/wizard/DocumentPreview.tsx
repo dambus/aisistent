@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { documentReminders } from '@/data/reminders'
 import { ReminderBox } from '@/components/wizard/ReminderBox'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
+import { UpgradeModal } from '@/components/wizard/UpgradeModal'
 
 interface DocumentPreviewProps {
   text: string
@@ -76,6 +77,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
+  const [showEmailUpgrade, setShowEmailUpgrade] = useState(false)
   const reminder = documentReminders[documentType]
 
   async function handleExport(format: ExportFormat) {
@@ -619,7 +621,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         <button
           type="button"
           disabled={loading !== null}
-          onClick={() => setShowEmailModal(true)}
+          onClick={() => isFree ? setShowEmailUpgrade(true) : setShowEmailModal(true)}
           className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -640,6 +642,13 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
       />
+      {showEmailUpgrade && (
+        <UpgradeModal
+          onClose={() => setShowEmailUpgrade(false)}
+          title="Slanje emailom nije dostupno"
+          description="Besplatni plan ne uključuje slanje dokumenata emailom. Pređite na Starter ili Pro plan."
+        />
+      )}
 
       {error && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">

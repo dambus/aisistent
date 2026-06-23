@@ -2,7 +2,17 @@
 
 import Link from 'next/link'
 
-export function UpgradeModal({ onClose }: { onClose: () => void }) {
+interface UpgradeModalProps {
+  onClose: () => void
+  title?: string
+  description?: string
+}
+
+export function UpgradeModal({
+  onClose,
+  title = 'Mesečni limit dostignut',
+  description = 'Besplatni plan omogućava 3 dokumenta mesečno. Pređite na Starter i generišite do 20 dokumenata.',
+}: UpgradeModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
@@ -12,10 +22,8 @@ export function UpgradeModal({ onClose }: { onClose: () => void }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-gray-900">Mesečni limit dostignut</h2>
-          <p className="mt-2 text-sm text-gray-500">
-            Besplatni plan omogućava 3 dokumenta mesečno. Pređite na Starter i generišite do 20 dokumenata.
-          </p>
+          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <p className="mt-2 text-sm text-gray-500">{description}</p>
         </div>
 
         <div className="bg-gray-50 rounded-xl p-4 mb-5 space-y-2">
