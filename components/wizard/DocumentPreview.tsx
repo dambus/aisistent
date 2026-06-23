@@ -585,6 +585,50 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     )
   })()
 
+  function withFreeBlur(content: React.ReactNode): React.ReactNode {
+    if (!content) return null
+    if (!isFree) return content
+    return (
+      <>
+        <div className="relative overflow-hidden" style={{ maxHeight: '300px' }}>
+          <div className="pointer-events-none select-none">{content}</div>
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
+            style={{ background: 'linear-gradient(to bottom, transparent, white)' }}
+          />
+        </div>
+        <div className="flex justify-center py-6">
+          <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-xl">
+            <div
+              className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full"
+              style={{ backgroundColor: '#D1FAE5' }}
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: '#1B6B4A' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="text-base font-semibold text-gray-900">
+              Pređite na Starter da vidite ceo dokument
+            </h3>
+            <p className="mt-1.5 text-sm text-gray-500">
+              PDF bez oznake, Word format, arhiva dokumenata — od 1.080 RSD/mes.
+            </p>
+            <a
+              href="/#cenovnik"
+              className="mt-4 block rounded-xl py-2.5 text-sm font-semibold text-white transition-colors"
+              style={{ backgroundColor: '#1B6B4A' }}
+            >
+              Pogledajte planove →
+            </a>
+            <p className="mt-2 text-xs text-gray-400">
+              PDF preuzmite i sa besplatnim planom
+            </p>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <div>
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -658,7 +702,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
-          {putniNalogPreview ?? fakturaPreview ?? otpremnicaPreview ?? ponudaZaRadovePreview ?? (() => {
+          {withFreeBlur(putniNalogPreview) ?? withFreeBlur(fakturaPreview) ?? withFreeBlur(otpremnicaPreview) ?? withFreeBlur(ponudaZaRadovePreview) ?? (() => {
             const lines = text.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
             const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text
