@@ -528,6 +528,7 @@ const requestSchema = z.object({
   ]),
   data: z.record(z.string(), z.unknown()),
   root_document_id: z.string().uuid().optional(),
+  company_id: z.string().uuid().optional(),
 })
 
 const documentConfigs = {
@@ -715,7 +716,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Nedostaju obavezna polja.' }, { status: 400 })
   }
 
-  const { type, data, root_document_id } = parsed.data
+  const { type, data, root_document_id, company_id } = parsed.data
   const config = documentConfigs[type]
 
   const admin = createAdminClient()
@@ -804,6 +805,7 @@ export async function POST(request: NextRequest) {
       is_free: profile.plan === 'free',
       version: nextVersion,
       root_document_id: root_document_id ?? null,
+      company_id: company_id ?? null,
     })
     .select('id')
     .single()

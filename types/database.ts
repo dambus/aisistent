@@ -89,6 +89,7 @@ export interface Database {
           is_free: boolean
           version: number
           root_document_id: string | null
+          company_id: string | null
           created_at: string
         }
         Insert: {
@@ -101,6 +102,7 @@ export interface Database {
           is_free?: boolean
           version?: number
           root_document_id?: string | null
+          company_id?: string | null
           created_at?: string
         }
         Update: {
@@ -111,6 +113,7 @@ export interface Database {
           is_free?: boolean
           version?: number
           root_document_id?: string | null
+          company_id?: string | null
         }
         Relationships: []
       }

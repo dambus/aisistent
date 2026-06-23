@@ -29,12 +29,12 @@ const SUPPORTED_TYPES = new Set([
 
 interface PageProps {
   params: Promise<{ type: string }>
-  searchParams: Promise<{ from?: string }>
+  searchParams: Promise<{ from?: string; clientId?: string }>
 }
 
 export default async function WizardPage({ params, searchParams }: PageProps) {
   const { type } = await params
-  const { from } = await searchParams
+  const { from, clientId } = await searchParams
 
   if (!SUPPORTED_TYPES.has(type)) notFound()
 
@@ -86,6 +86,7 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
       plan={plan}
       initialValues={initialValues}
       rootDocumentId={rootDocumentId}
+      preselectedClientId={clientId}
     />
   )
 }

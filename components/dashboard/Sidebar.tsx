@@ -101,6 +101,10 @@ const bottomNav: NavItem[] = [
   { label: 'Podešavanja', href: '/podesavanja', icon: '⚙' },
 ]
 
+const agencyNav: NavItem[] = [
+  { label: 'Klijenti',    href: '/klijenti',    icon: '◑' },
+]
+
 const planLabels: Record<string, { label: string; cls: string }> = {
   free:     { label: 'Besplatno', cls: 'bg-gray-700 text-gray-300' },
   starter:  { label: 'Starter',   cls: 'bg-blue-900 text-blue-200' },
@@ -310,6 +314,9 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
 
         {/* Bottom nav */}
         <div className="grid gap-0.5 px-3 py-3">
+          {plan === 'agency' && agencyNav.map(item => (
+            <NavLink key={item.href} item={item} onClick={onLinkClick} />
+          ))}
           {bottomNav.map(item => (
             <NavLink key={item.href} item={item} onClick={onLinkClick} />
           ))}

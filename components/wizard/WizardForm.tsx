@@ -17,6 +17,7 @@ interface WizardFormProps {
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
+  preselectedClientId?: string
   onComplete: (documentId: string, generatedText: string, documentTitle: string, isFree: boolean, selectedCompany?: Company | null) => void
 }
 
@@ -59,15 +60,16 @@ function buildInitialValues(steps: WizardStep[]): FormValues {
   return values
 }
 
-export function WizardForm({ steps, documentType, companies = [], plan, initialValues, rootDocumentId, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
-  const defaultCompany = companies.find(c => c.is_default) ?? companies[0] ?? null
+  const preselectedCompany = preselectedClientId ? (companies.find(c => c.id === preselectedClientId) ?? null) : null
+  const defaultCompany = preselectedCompany ?? companies.find(c => c.is_default) ?? companies[0] ?? null
 
   const [currentStep, setCurrentStep] = useState(0)
   const [values, setValues] = useState<FormValues>(() => {
     const base = buildInitialValues(steps)
     if (initialValues) return { ...base, ...initialValues }
-    if (isAgency && defaultCompany) {
+    if (defaultCompany) {
       return { ...base, ...buildCompanyFields(defaultCompany, documentType) }
     }
     return base
@@ -123,7 +125,12 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: documentType, data: values, root_document_id: rootDocumentId }),
+        body: JSON.stringify({
+          type: documentType,
+          data: values,
+          root_document_id: rootDocumentId,
+          company_id: selectedCompanyId || undefined,
+        }),
       })
 
       const json = await res.json()

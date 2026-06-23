@@ -58,9 +58,10 @@ interface WizardPageClientProps {
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
+  preselectedClientId?: string
 }
 
-export function WizardPageClient({ type, companies, plan, initialValues, rootDocumentId }: WizardPageClientProps) {
+export function WizardPageClient({ type, companies, plan, initialValues, rootDocumentId, preselectedClientId }: WizardPageClientProps) {
   const meta = documentMeta[type]
   const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null } | null>(null)
 
@@ -122,6 +123,7 @@ export function WizardPageClient({ type, companies, plan, initialValues, rootDoc
         plan={plan}
         initialValues={initialValues}
         rootDocumentId={rootDocumentId}
+        preselectedClientId={preselectedClientId}
         onComplete={(documentId, generatedText, documentTitle, isFree, selectedCompany) => setResult({ documentId, generatedText, documentTitle, isFree, selectedCompany })}
       />
     </div>
