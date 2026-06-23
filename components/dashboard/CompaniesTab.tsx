@@ -35,6 +35,10 @@ const emptyForm = {
   funkcija_zastupnika: '',
   email: '',
   telefon: '',
+  delatnost: '',
+  ziro_racun: '',
+  pdv_obveznik: false,
+  website: '',
   is_default: false,
 }
 
@@ -93,6 +97,10 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
       funkcija_zastupnika: company.funkcija_zastupnika ?? '',
       email: company.email ?? '',
       telefon: company.telefon ?? '',
+      delatnost: company.delatnost ?? '',
+      ziro_racun: company.ziro_racun ?? '',
+      pdv_obveznik: company.pdv_obveznik ?? false,
+      website: company.website ?? '',
       is_default: company.is_default,
     })
     setError('')
@@ -451,6 +459,48 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
               placeholder="npr. 021 123 456"
               onChange={v => setForm(f => ({ ...f, telefon: v }))}
             />
+            <div className="sm:col-span-2">
+              <FormField
+                label="Delatnost"
+                value={form.delatnost}
+                placeholder="npr. Softverski razvoj i IT konsalting"
+                onChange={v => setForm(f => ({ ...f, delatnost: v }))}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <FormField
+                label="Žiro račun"
+                value={form.ziro_racun}
+                placeholder="npr. 160-123456789-12"
+                onChange={v => setForm(f => ({ ...f, ziro_racun: v }))}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <FormField
+                label="Website"
+                value={form.website}
+                placeholder="npr. https://sigma.rs"
+                onChange={v => setForm(f => ({ ...f, website: v }))}
+              />
+            </div>
+          </div>
+
+          {/* Toggle: PDV obveznik */}
+          <div className="flex items-center gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => setForm(f => ({ ...f, pdv_obveznik: !f.pdv_obveznik }))}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                form.pdv_obveznik ? 'bg-[#1B6B4A]' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
+                  form.pdv_obveznik ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className="text-sm text-gray-700">PDV obveznik</span>
           </div>
 
           {/* Toggle: podrazumevana */}

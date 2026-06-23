@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
   const {
     naziv, pib, maticni_broj, adresa, grad,
     zastupnik, funkcija_zastupnika, email, telefon, is_default,
+    delatnost, ziro_racun, pdv_obveznik, website,
   } = body
 
   if (!naziv || typeof naziv !== 'string' || naziv.trim().length === 0) {
@@ -85,6 +86,10 @@ export async function POST(req: NextRequest) {
       email: email?.trim() || null,
       telefon: telefon?.trim() || null,
       is_default: Boolean(is_default),
+      delatnost: delatnost?.trim() || null,
+      ziro_racun: ziro_racun?.trim() || null,
+      pdv_obveznik: Boolean(pdv_obveznik),
+      website: website?.trim() || null,
     })
     .select()
     .single()

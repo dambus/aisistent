@@ -12,6 +12,7 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     pib:                  'pib_narucioca',
     adresa:               'adresa_narucioca',
     zastupnik:            'zastupnik_narucioca',
+    ziro_racun:           'racun_izvodjaca',
   },
   'nda': {
     naziv:                'naziv_strane_1',
@@ -54,11 +55,13 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
   'oglas-za-posao': {
     naziv:                'naziv_firme',
     adresa:               'grad',
+    delatnost:            'delatnost',
   },
   'opsti-uslovi': {
     naziv:                'naziv_firme',
     pib:                  'pib',
     adresa:               'adresa',
+    website:              'url',
   },
   'resenje-godisnji-odmor': {
     naziv:                'naziv_firme',
@@ -72,6 +75,7 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     pib:                  'pib',
     adresa:               'adresa',
     zastupnik:            'zastupnik',
+    delatnost:            'delatnost',
   },
   'preporuka': {
     naziv:                'naziv_firme',
@@ -85,6 +89,7 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
   },
   'bio-o-nama': {
     naziv:                'naziv',
+    delatnost:            'delatnost',
   },
   'zapisnik-sastanak': {
     naziv:                'naziv_firme',
@@ -101,6 +106,8 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'izdavalac_adresa',
     email:                'izdavalac_email',
     telefon:              'izdavalac_telefon',
+    ziro_racun:           'izdavalac_tekuci_racun',
+    pdv_obveznik:         'izdavalac_pdv_obveznik',
   },
   'putni-nalog': {
     naziv:                'naziv_firme',
@@ -114,6 +121,8 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'izvodjac_adresa',
     email:                'izvodjac_email',
     telefon:              'izvodjac_telefon',
+    ziro_racun:           'izvodjac_tekuci_racun',
+    pdv_obveznik:         'izvodjac_pdv_obveznik',
   },
   'otpremnica': {
     naziv:                'isporucilac_naziv',
@@ -121,6 +130,7 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     adresa:               'isporucilac_adresa',
     email:                'isporucilac_email',
     telefon:              'isporucilac_telefon',
+    ziro_racun:           'isporucilac_tekuci_racun',
   },
 }
 
@@ -129,11 +139,11 @@ import type { Company } from '@/types/database'
 export function buildCompanyFields(
   company: Company,
   docType: string
-): Record<string, string> {
+): Record<string, string | boolean> {
   const map = companyFieldMap[docType]
   if (!map) return {}
 
-  const result: Record<string, string> = {}
+  const result: Record<string, string | boolean> = {}
   const adresaPuna = [company.adresa, company.grad].filter(Boolean).join(', ')
 
   for (const [companyKey, fieldId] of Object.entries(map)) {
@@ -145,7 +155,11 @@ export function buildCompanyFields(
       }
     } else {
       const val = company[companyKey as keyof Company]
-      if (val && typeof val === 'string') result[fieldId] = val
+      if (typeof val === 'boolean') {
+        result[fieldId] = val
+      } else if (val && typeof val === 'string') {
+        result[fieldId] = val
+      }
     }
   }
 

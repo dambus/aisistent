@@ -29,6 +29,10 @@ export interface Company {
   email: string | null
   telefon: string | null
   logo_url: string | null
+  delatnost: string | null
+  ziro_racun: string | null
+  pdv_obveznik: boolean
+  website: string | null
   is_default: boolean
   created_at: string
 }
@@ -151,6 +155,10 @@ export interface Database {
           email: string | null
           telefon: string | null
           logo_url: string | null
+          delatnost: string | null
+          ziro_racun: string | null
+          pdv_obveznik: boolean
+          website: string | null
           is_default: boolean
           created_at: string
         }
@@ -167,6 +175,10 @@ export interface Database {
           email?: string | null
           telefon?: string | null
           logo_url?: string | null
+          delatnost?: string | null
+          ziro_racun?: string | null
+          pdv_obveznik?: boolean
+          website?: string | null
           is_default?: boolean
           created_at?: string
         }
@@ -181,6 +193,10 @@ export interface Database {
           email?: string | null
           telefon?: string | null
           logo_url?: string | null
+          delatnost?: string | null
+          ziro_racun?: string | null
+          pdv_obveznik?: boolean
+          website?: string | null
           is_default?: boolean
         }
         Relationships: []

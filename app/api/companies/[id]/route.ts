@@ -29,6 +29,7 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
   const {
     naziv, pib, maticni_broj, adresa, grad,
     zastupnik, funkcija_zastupnika, email, telefon, is_default,
+    delatnost, ziro_racun, pdv_obveznik, website,
   } = body
 
   const updatePayload: CompanyUpdate = {}
@@ -42,6 +43,10 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
   if (email !== undefined) updatePayload.email = email?.trim() || null
   if (telefon !== undefined) updatePayload.telefon = telefon?.trim() || null
   if (is_default !== undefined) updatePayload.is_default = Boolean(is_default)
+  if (delatnost !== undefined) updatePayload.delatnost = delatnost?.trim() || null
+  if (ziro_racun !== undefined) updatePayload.ziro_racun = ziro_racun?.trim() || null
+  if (pdv_obveznik !== undefined) updatePayload.pdv_obveznik = Boolean(pdv_obveznik)
+  if (website !== undefined) updatePayload.website = website?.trim() || null
 
   const { data, error } = await supabase
     .from('companies')
