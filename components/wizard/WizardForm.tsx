@@ -15,7 +15,7 @@ interface WizardFormProps {
   documentType: string
   companies?: Company[]
   plan?: string
-  onComplete: (documentId: string, generatedText: string, documentTitle: string, isFree: boolean) => void
+  onComplete: (documentId: string, generatedText: string, documentTitle: string, isFree: boolean, selectedCompany?: Company | null) => void
 }
 
 type FormValues = Record<string, string | number | boolean>
@@ -137,7 +137,8 @@ export function WizardForm({ steps, documentType, companies = [], plan, onComple
         return
       }
 
-      onComplete(json.document_id, json.generated_text, json.title ?? 'Dokument', json.is_free ?? false)
+      const selectedCompany = companies.find(c => c.id === selectedCompanyId) ?? null
+      onComplete(json.document_id, json.generated_text, json.title ?? 'Dokument', json.is_free ?? false, selectedCompany)
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         setApiError('Zahtev je trajao predugo. Pokušajte ponovo.')

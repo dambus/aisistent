@@ -60,7 +60,7 @@ interface WizardPageClientProps {
 
 export function WizardPageClient({ type, companies, plan }: WizardPageClientProps) {
   const meta = documentMeta[type]
-  const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean } | null>(null)
+  const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null } | null>(null)
 
   if (!meta) notFound()
 
@@ -97,6 +97,8 @@ export function WizardPageClient({ type, companies, plan }: WizardPageClientProp
         documentTitle={result.documentTitle}
         documentType={type}
         isFree={result.isFree}
+        plan={plan}
+        selectedCompany={result.selectedCompany}
         onReset={() => setResult(null)}
       />
     )
@@ -116,7 +118,7 @@ export function WizardPageClient({ type, companies, plan }: WizardPageClientProp
         documentType={type}
         companies={companies}
         plan={plan}
-        onComplete={(documentId, generatedText, documentTitle, isFree) => setResult({ documentId, generatedText, documentTitle, isFree })}
+        onComplete={(documentId, generatedText, documentTitle, isFree, selectedCompany) => setResult({ documentId, generatedText, documentTitle, isFree, selectedCompany })}
       />
     </div>
   )

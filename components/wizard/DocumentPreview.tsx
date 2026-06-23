@@ -6,6 +6,7 @@ import { documentReminders } from '@/data/reminders'
 import { ReminderBox } from '@/components/wizard/ReminderBox'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 import { UpgradeModal } from '@/components/wizard/UpgradeModal'
+import type { Company } from '@/types/database'
 
 interface DocumentPreviewProps {
   text: string
@@ -13,6 +14,8 @@ interface DocumentPreviewProps {
   documentTitle: string
   documentType: string
   isFree?: boolean
+  plan?: string
+  selectedCompany?: Company | null
   onReset: () => void
 }
 
@@ -73,12 +76,17 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
   return null
 }
 
-export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, onReset }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
   const [showEmailUpgrade, setShowEmailUpgrade] = useState(false)
   const reminder = documentReminders[documentType]
+
+  const isAgency = plan === 'agency'
+  const clientPrefill = isAgency && selectedCompany?.email
+    ? { email: selectedCompany.email, name: selectedCompany.naziv }
+    : undefined
 
   async function handleExport(format: ExportFormat) {
     setError('')
@@ -666,7 +674,11 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           type="button"
           disabled={loading !== null}
           onClick={() => isFree ? setShowEmailUpgrade(true) : setShowEmailModal(true)}
-          className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+          className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
+            clientPrefill
+              ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+              : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+          }`}
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -676,7 +688,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
               d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
             />
           </svg>
-          Pošalji emailom
+          {clientPrefill ? 'Pošalji klijentu' : 'Pošalji emailom'}
         </button>
       </div>
 
@@ -685,6 +697,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         documentTitle={documentTitle || 'Dokument'}
         isOpen={showEmailModal}
         onClose={() => setShowEmailModal(false)}
+        prefilledClient={clientPrefill}
       />
       {showEmailUpgrade && (
         <UpgradeModal

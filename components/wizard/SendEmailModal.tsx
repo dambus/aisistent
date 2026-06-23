@@ -8,9 +8,10 @@ interface Props {
   documentTitle: string
   isOpen: boolean
   onClose: () => void
+  prefilledClient?: { email: string; name: string }
 }
 
-export function SendEmailModal({ documentId, documentTitle, isOpen, onClose }: Props) {
+export function SendEmailModal({ documentId, documentTitle, isOpen, onClose, prefilledClient }: Props) {
   const [contacts, setContacts] = useState<Contact[]>([])
   const [selectedContactId, setSelectedContactId] = useState('')
   const [recipientEmail, setRecipientEmail] = useState('')
@@ -42,9 +43,12 @@ export function SendEmailModal({ documentId, documentTitle, isOpen, onClose }: P
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, handleKeyDown])
 
-  // Reset pri zatvaranju
+  // Pre-popuni ili resetuj pri promeni isOpen
   useEffect(() => {
-    if (!isOpen) {
+    if (isOpen) {
+      setRecipientEmail(prefilledClient?.email ?? '')
+      setRecipientName(prefilledClient?.name ?? '')
+    } else {
       setSelectedContactId('')
       setRecipientEmail('')
       setRecipientName('')
@@ -56,7 +60,7 @@ export function SendEmailModal({ documentId, documentTitle, isOpen, onClose }: P
       setSuccess(false)
       setError('')
     }
-  }, [isOpen])
+  }, [isOpen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleContactSelect(contactId: string) {
     setSelectedContactId(contactId)
@@ -120,7 +124,9 @@ export function SendEmailModal({ documentId, documentTitle, isOpen, onClose }: P
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">Pošaljite dokument emailom</h2>
+          <h2 className="text-base font-semibold text-gray-900">
+            {prefilledClient ? 'Pošalji klijentu' : 'Pošaljite dokument emailom'}
+          </h2>
           <button
             type="button"
             onClick={onClose}
