@@ -3,11 +3,36 @@
 import { useRef, useState } from 'react'
 import type { Company } from '@/types/database'
 import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from '@/components/ui/sheet'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Switch } from '@/components/ui/switch'
+import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { PencilIcon, Trash2Icon, StarIcon, SearchIcon, BuildingIcon } from 'lucide-react'
 
 interface CompaniesTabProps {
   initialCompanies: Company[]
@@ -44,6 +69,12 @@ const emptyForm = {
 
 type FormState = typeof emptyForm
 
+function getInitials(naziv: string) {
+  const words = naziv.trim().split(/\s+/)
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
+  return naziv.slice(0, 2).toUpperCase()
+}
+
 export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: CompaniesTabProps) {
   const [companies, setCompanies] = useState<Company[]>(initialCompanies)
   const [displayUrls, setDisplayUrls] = useState<Record<string, string>>(logoDisplayUrls)
@@ -53,25 +84,40 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [uploadingId, setUploadingId] = useState<string | null>(null)
   const [uploadError, setUploadError] = useState<Record<string, string>>({})
-  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const [searchQuery, setSearchQuery] = useState('')
+  const editLogoRef = useRef<HTMLInputElement | null>(null)
 
   const limit = PLAN_LIMITS[plan] ?? null
   const canUseLogo = LOGO_PLANS.includes(plan)
-
   const isAgency = plan === 'agency'
+  const showSearch = isAgency || companies.length > 4
+  const filteredCompanies = searchQuery.trim()
+    ? companies.filter(c => c.naziv.toLowerCase().includes(searchQuery.toLowerCase()))
+    : companies
+
+  const editingCompany = editingId ? companies.find(c => c.id === editingId) : null
+
   const labels = {
-    tabTitle:      isAgency ? 'Klijenti'             : 'Firme',
-    addButton:     isAgency ? 'Dodaj klijenta'       : 'Dodaj firmu',
-    emptyState:    isAgency ? 'Još nema klijenata.'  : 'Još niste dodali nijednu firmu.',
-    editLabel:     isAgency ? 'Izmeni klijenta'      : 'Izmeni firmu',
-    addLabel:      isAgency ? 'Dodaj klijenta'       : 'Dodaj firmu',
+    tabTitle:      isAgency ? 'Klijenti'                : 'Firme',
+    addButton:     isAgency ? 'Dodaj klijenta'          : 'Dodaj firmu',
+    emptyState:    isAgency ? 'Još nema klijenata.'     : 'Još niste dodali nijednu firmu.',
+    editLabel:     isAgency ? 'Izmeni klijenta'         : 'Izmeni firmu',
+    addLabel:      isAgency ? 'Dodaj klijenta'          : 'Dodaj firmu',
     deleteConfirm: isAgency ? 'Obrisati ovog klijenta?' : 'Obrisati ovu firmu?',
-    saveName:      isAgency ? 'Naziv klijenta'       : 'Naziv firme',
+    saveName:      isAgency ? 'Naziv klijenta'          : 'Naziv firme',
     saveError:     isAgency ? 'Naziv klijenta je obavezan.' : 'Naziv firme je obavezan.',
-    emailPlaceholder: isAgency ? 'kontakt@klijent.rs' : 'npr. kontakt@firma.rs',
+    emailPlaceholder: isAgency ? 'kontakt@klijent.rs'  : 'npr. kontakt@firma.rs',
+    deleteEntity:  isAgency ? 'klijentu'               : 'firmi',
+  }
+
+  const limitText = () => {
+    if (isAgency) return `${companies.length} ${companies.length === 1 ? 'klijent' : 'klijenata'} — neograničeno`
+    if (limit === null) return `${companies.length} ${companies.length === 1 ? 'firma' : 'firmi'} — neograničeno`
+    return `${companies.length} od ${limit} ${limit === 1 ? 'firme' : 'firmi'} iskorišćeno`
   }
 
   function openAdd() {
@@ -139,9 +185,14 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
       }
 
       if (editingId) {
-        setCompanies(prev => prev.map(c => c.id === editingId ? { ...json, logo_url: c.logo_url } : c))
         if (json.is_default) {
-          setCompanies(prev => prev.map(c => c.id === editingId ? { ...json, logo_url: c.logo_url } : { ...c, is_default: false }))
+          setCompanies(prev => prev.map(c =>
+            c.id === editingId ? { ...json, logo_url: c.logo_url } : { ...c, is_default: false }
+          ))
+        } else {
+          setCompanies(prev => prev.map(c =>
+            c.id === editingId ? { ...json, logo_url: c.logo_url } : c
+          ))
         }
       } else {
         const newCompany = json as Company
@@ -160,10 +211,11 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
     }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm(labels.deleteConfirm)) return
+  async function confirmDelete() {
+    if (!deleteTarget) return
+    const id = deleteTarget
+    setDeleteTarget(null)
     setDeletingId(id)
-
     try {
       const res = await fetch(`/api/companies/${id}`, { method: 'DELETE' })
       if (res.ok) {
@@ -232,19 +284,30 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
     }
   }
 
-  const limitText = () => {
-    if (isAgency) return `${companies.length} ${companies.length === 1 ? 'klijent' : 'klijenata'} — neograničeno`
-    if (limit === null) return `${companies.length} ${companies.length === 1 ? 'firma' : 'firmi'} — neograničeno`
-    return `${companies.length} od ${limit} ${limit === 1 ? 'firme' : 'firmi'} iskorišćeno`
-  }
-
   return (
     <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
-      <div className="flex items-center justify-between mb-5">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Moje {labels.tabTitle.toLowerCase()}</h2>
+
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-5 flex-wrap">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+          Moje {labels.tabTitle.toLowerCase()}
+        </h2>
+        {showSearch && (
+          <div className="flex-1 min-w-[160px] max-w-xs relative">
+            <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder={`Pretraži ${labels.tabTitle.toLowerCase()}...`}
+              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{ '--tw-ring-color': '#1B6B4A' } as React.CSSProperties}
+            />
+          </div>
+        )}
         <button
           onClick={openAdd}
-          className="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
+          className="ml-auto text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
           style={{ backgroundColor: '#1B6B4A' }}
           onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#155C3E' }}
           onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#1B6B4A' }}
@@ -260,148 +323,118 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
         </div>
       )}
 
-      {/* Lista firmi */}
-      {companies.length === 0 && !showForm && (
-        <p className="text-sm text-gray-500 mb-4">{labels.emptyState}</p>
+      {/* Lista */}
+      {filteredCompanies.length === 0 && (
+        <div className="py-10 flex flex-col items-center text-center">
+          <div className="h-10 w-10 rounded-xl bg-gray-100 flex items-center justify-center mb-3">
+            <BuildingIcon className="h-5 w-5 text-gray-400" />
+          </div>
+          <p className="text-sm text-gray-500">
+            {searchQuery.trim() ? 'Nema rezultata za ovu pretragu.' : labels.emptyState}
+          </p>
+        </div>
       )}
 
-      <div className="space-y-3 mb-4">
-        {companies.map(company => (
-          <div
-            key={company.id}
-            className={`border rounded-xl p-4 transition-colors ${
-              company.is_default ? 'border-[#1B6B4A] bg-green-50' : 'border-gray-200'
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-3 flex-wrap">
-                  {/* Logo preview */}
-                  {displayUrls[company.id] ? (
-                    <img
-                      src={displayUrls[company.id]}
-                      alt={`Logo ${company.naziv}`}
-                      style={{ height: 36, maxWidth: 120, objectFit: 'contain' }}
-                      className="rounded border border-gray-100 bg-white p-0.5"
-                    />
-                  ) : (
-                    company.logo_url && (
-                      <div className="h-9 w-16 flex items-center justify-center bg-gray-100 rounded border border-gray-200 text-xs text-gray-400">
-                        Logo ✓
-                      </div>
-                    )
-                  )}
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-semibold text-gray-900 text-sm">{company.naziv}</span>
-                      {company.is_default && (
-                        <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                          style={{ backgroundColor: '#D1FAE5', color: '#065F46' }}>
-                          Podrazumevana
-                        </span>
-                      )}
-                    </div>
-                    <div className="mt-1 text-xs text-gray-500 space-x-2">
-                      {company.pib && <span>PIB: {company.pib}</span>}
-                      {company.grad && <span>{company.grad}</span>}
-                      {company.zastupnik && <span>Zastupnik: {company.zastupnik}</span>}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Logo upload sekcija */}
-                <div className="mt-3 flex items-center gap-2 flex-wrap">
-                  <input
-                    ref={el => { fileInputRefs.current[company.id] = el }}
-                    type="file"
-                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
-                    className="hidden"
-                    onChange={e => {
-                      const file = e.target.files?.[0]
-                      if (file) handleLogoUpload(company.id, file)
-                      e.target.value = ''
-                    }}
+      <TooltipProvider delay={400}>
+        <div className="space-y-2 mb-4">
+          {filteredCompanies.map(company => (
+            <div
+              key={company.id}
+              className={`flex items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors ${
+                company.is_default
+                  ? 'border-[#1B6B4A] bg-green-50'
+                  : 'border-gray-200 hover:bg-gray-50'
+              } ${deletingId === company.id ? 'opacity-40 pointer-events-none' : ''}`}
+            >
+              {/* Avatar */}
+              <div className="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden bg-[#1B6B4A]/10 flex items-center justify-center">
+                {displayUrls[company.id] ? (
+                  <img
+                    src={displayUrls[company.id]}
+                    alt=""
+                    className="h-full w-full object-contain p-0.5"
                   />
-                  <button
-                    onClick={() => canUseLogo && fileInputRefs.current[company.id]?.click()}
-                    disabled={!canUseLogo || uploadingId === company.id}
-                    className={`text-xs border rounded-lg px-2.5 py-1 transition-colors ${
-                      canUseLogo
-                        ? 'text-gray-600 border-gray-300 hover:bg-gray-50 hover:text-gray-800'
-                        : 'text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
-                    } disabled:opacity-50`}
-                  >
-                    {uploadingId === company.id
-                      ? 'Uploadujem...'
-                      : company.logo_url
-                        ? 'Promeni logo'
-                        : 'Dodaj logo'}
-                  </button>
-                  {company.logo_url && canUseLogo && (
-                    <button
-                      onClick={() => handleLogoRemove(company.id)}
-                      disabled={uploadingId === company.id}
-                      className="text-xs text-red-500 hover:text-red-700 border border-red-200 rounded-lg px-2.5 py-1 transition-colors hover:bg-red-50 disabled:opacity-50"
-                    >
-                      Ukloni logo
-                    </button>
-                  )}
-                  {uploadError[company.id] && (
-                    <span className="text-xs text-red-600">{uploadError[company.id]}</span>
-                  )}
-                </div>
+                ) : (
+                  <span className="text-sm font-bold text-[#1B6B4A]">{getInitials(company.naziv)}</span>
+                )}
               </div>
 
-              {/* Akciona dugmad */}
-              <div className="flex gap-2 flex-shrink-0">
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="font-semibold text-gray-900 text-sm">{company.naziv}</span>
+                  {company.is_default && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-green-100 text-green-700">
+                      Podrazumevana
+                    </span>
+                  )}
+                  {company.pdv_obveznik && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-blue-50 text-blue-600">
+                      PDV
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-gray-500 mt-0.5 truncate">
+                  {company.delatnost ||
+                    [company.pib && `PIB: ${company.pib}`, company.grad].filter(Boolean).join(' · ') ||
+                    '—'}
+                </p>
+              </div>
+
+              {/* Akcije */}
+              <div className="flex items-center gap-0.5 flex-shrink-0">
                 {!company.is_default && (
-                  <button
-                    onClick={() => handleSetDefault(company.id)}
-                    className="text-xs text-gray-500 hover:text-gray-800 border border-gray-300 rounded-lg px-2.5 py-1 transition-colors hover:bg-gray-50"
-                  >
-                    Postavi kao podrazumevanu
-                  </button>
+                  <Tooltip>
+                    <TooltipTrigger
+                      className="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 transition-colors cursor-pointer"
+                      onClick={() => handleSetDefault(company.id)}
+                    >
+                      <StarIcon className="h-4 w-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>Postavi kao podrazumevanu</TooltipContent>
+                  </Tooltip>
                 )}
-                <button
-                  onClick={() => openEdit(company)}
-                  className="text-xs text-gray-500 hover:text-gray-800 border border-gray-300 rounded-lg px-2.5 py-1 transition-colors hover:bg-gray-50"
-                >
-                  Uredi
-                </button>
-                <button
-                  onClick={() => handleDelete(company.id)}
-                  disabled={deletingId === company.id}
-                  className="text-xs text-red-500 hover:text-red-700 border border-red-200 rounded-lg px-2.5 py-1 transition-colors hover:bg-red-50 disabled:opacity-50"
-                >
-                  {deletingId === company.id ? '...' : 'Obriši'}
-                </button>
+                <Tooltip>
+                  <TooltipTrigger
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
+                    onClick={() => openEdit(company)}
+                  >
+                    <PencilIcon className="h-4 w-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>Uredi</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                    onClick={() => setDeleteTarget(company.id)}
+                  >
+                    <Trash2Icon className="h-4 w-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>Obriši</TooltipContent>
+                </Tooltip>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </TooltipProvider>
 
-      {/* Plan limit info — sakriveno za agency (neograničeno, bez poruke o nadogradnji) */}
-      {!isAgency && limit !== 0 && <p className="text-sm text-gray-500 mb-4">{limitText()}</p>}
+      {/* Plan limit info */}
+      {!isAgency && limit !== 0 && (
+        <p className="text-sm text-gray-500 mb-4">{limitText()}</p>
+      )}
 
-      {/* Forma za dodavanje/uređivanje — Dialog modal */}
-      <Dialog open={showForm} onOpenChange={(open) => {
-        if (!open) {
-          setShowForm(false)
-          setEditingId(null)
-          setForm(emptyForm)
-          setError('')
-        }
-      }}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {editingId ? labels.editLabel : labels.addLabel}
-            </DialogTitle>
-          </DialogHeader>
+      {/* Sheet: forma za dodavanje/uređivanje */}
+      <Sheet open={showForm} onOpenChange={(open) => { if (!open) cancelForm() }}>
+        <SheetContent style={{ maxWidth: 520 }} className="flex flex-col">
+          <SheetHeader>
+            <SheetTitle>{editingId ? labels.editLabel : labels.addLabel}</SheetTitle>
+          </SheetHeader>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
+          {/* Scrollable body */}
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+
+            <SectionLabel>Osnovno</SectionLabel>
+            <div className="space-y-3">
               <FormField
                 label={labels.saveName}
                 required
@@ -409,57 +442,6 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
                 placeholder="npr. Sigma Solutions doo"
                 onChange={v => setForm(f => ({ ...f, naziv: v }))}
               />
-            </div>
-            <FormField
-              label="PIB"
-              value={form.pib}
-              placeholder="123456789"
-              helperText="9 cifara"
-              onChange={v => setForm(f => ({ ...f, pib: v }))}
-            />
-            <FormField
-              label="Matični broj"
-              value={form.maticni_broj}
-              placeholder="12345678"
-              onChange={v => setForm(f => ({ ...f, maticni_broj: v }))}
-            />
-            <FormField
-              label="Adresa"
-              value={form.adresa}
-              placeholder="npr. Bulevar Mihajla Pupina 10"
-              onChange={v => setForm(f => ({ ...f, adresa: v }))}
-            />
-            <FormField
-              label="Grad"
-              value={form.grad}
-              placeholder="npr. Novi Sad"
-              onChange={v => setForm(f => ({ ...f, grad: v }))}
-            />
-            <FormField
-              label="Zastupnik"
-              value={form.zastupnik}
-              placeholder="npr. Petar Nikolić"
-              onChange={v => setForm(f => ({ ...f, zastupnik: v }))}
-            />
-            <FormField
-              label="Funkcija zastupnika"
-              value={form.funkcija_zastupnika}
-              placeholder="npr. direktor"
-              onChange={v => setForm(f => ({ ...f, funkcija_zastupnika: v }))}
-            />
-            <FormField
-              label="Email"
-              value={form.email}
-              placeholder={labels.emailPlaceholder}
-              onChange={v => setForm(f => ({ ...f, email: v }))}
-            />
-            <FormField
-              label="Telefon"
-              value={form.telefon}
-              placeholder="npr. 021 123 456"
-              onChange={v => setForm(f => ({ ...f, telefon: v }))}
-            />
-            <div className="sm:col-span-2">
               <FormField
                 label="Delatnost"
                 value={form.delatnost}
@@ -467,67 +449,173 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
                 onChange={v => setForm(f => ({ ...f, delatnost: v }))}
               />
             </div>
-            <div className="sm:col-span-2">
+
+            <SectionLabel>Registracija</SectionLabel>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                label="PIB"
+                value={form.pib}
+                placeholder="123456789"
+                helperText="9 cifara"
+                onChange={v => setForm(f => ({ ...f, pib: v }))}
+              />
+              <FormField
+                label="Matični broj"
+                value={form.maticni_broj}
+                placeholder="12345678"
+                onChange={v => setForm(f => ({ ...f, maticni_broj: v }))}
+              />
+              <FormField
+                label="Adresa"
+                value={form.adresa}
+                placeholder="npr. Bulevar Mihajla Pupina 10"
+                onChange={v => setForm(f => ({ ...f, adresa: v }))}
+              />
+              <FormField
+                label="Grad"
+                value={form.grad}
+                placeholder="npr. Novi Sad"
+                onChange={v => setForm(f => ({ ...f, grad: v }))}
+              />
+            </div>
+
+            <SectionLabel>Zastupnik</SectionLabel>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                label="Ime i prezime"
+                value={form.zastupnik}
+                placeholder="npr. Petar Nikolić"
+                onChange={v => setForm(f => ({ ...f, zastupnik: v }))}
+              />
+              <FormField
+                label="Funkcija"
+                value={form.funkcija_zastupnika}
+                placeholder="npr. direktor"
+                onChange={v => setForm(f => ({ ...f, funkcija_zastupnika: v }))}
+              />
+            </div>
+
+            <SectionLabel>Kontakt</SectionLabel>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                label="Email"
+                value={form.email}
+                placeholder={labels.emailPlaceholder}
+                onChange={v => setForm(f => ({ ...f, email: v }))}
+              />
+              <FormField
+                label="Telefon"
+                value={form.telefon}
+                placeholder="npr. 021 123 456"
+                onChange={v => setForm(f => ({ ...f, telefon: v }))}
+              />
+              <div className="col-span-2">
+                <FormField
+                  label="Website"
+                  value={form.website}
+                  placeholder="npr. https://sigma.rs"
+                  onChange={v => setForm(f => ({ ...f, website: v }))}
+                />
+              </div>
+            </div>
+
+            <SectionLabel>Finansije</SectionLabel>
+            <div className="space-y-3">
               <FormField
                 label="Žiro račun"
                 value={form.ziro_racun}
                 placeholder="npr. 160-123456789-12"
                 onChange={v => setForm(f => ({ ...f, ziro_racun: v }))}
               />
-            </div>
-            <div className="sm:col-span-2">
-              <FormField
-                label="Website"
-                value={form.website}
-                placeholder="npr. https://sigma.rs"
-                onChange={v => setForm(f => ({ ...f, website: v }))}
+              <SwitchRow
+                label="PDV obveznik"
+                description="Firma je u sistemu PDV-a"
+                checked={form.pdv_obveznik}
+                onCheckedChange={(v: boolean) => setForm(f => ({ ...f, pdv_obveznik: v }))}
               />
             </div>
+
+            {/* Logo — samo za edit i planove sa logom */}
+            {editingId && canUseLogo && (
+              <>
+                <SectionLabel>Logo</SectionLabel>
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-20 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    {displayUrls[editingId] ? (
+                      <img
+                        src={displayUrls[editingId]}
+                        alt="Logo"
+                        className="h-full w-full object-contain p-1"
+                      />
+                    ) : (
+                      <span className="text-xs text-gray-400">
+                        {editingCompany?.logo_url ? 'Logo ✓' : 'Nema loga'}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <input
+                      ref={editLogoRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                      className="hidden"
+                      onChange={e => {
+                        const file = e.target.files?.[0]
+                        if (file && editingId) handleLogoUpload(editingId, file)
+                        e.target.value = ''
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => editLogoRef.current?.click()}
+                      disabled={uploadingId === editingId}
+                      className="text-xs border border-gray-300 rounded-lg px-3 py-1.5 text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                    >
+                      {uploadingId === editingId
+                        ? 'Uploadujem...'
+                        : editingCompany?.logo_url ? 'Promeni logo' : 'Dodaj logo'}
+                    </button>
+                    {editingCompany?.logo_url && (
+                      <button
+                        type="button"
+                        onClick={() => handleLogoRemove(editingId)}
+                        disabled={uploadingId === editingId}
+                        className="text-xs text-red-500 hover:text-red-700 disabled:opacity-50 text-left"
+                      >
+                        Ukloni logo
+                      </button>
+                    )}
+                    {uploadError[editingId] && (
+                      <p className="text-xs text-red-600">{uploadError[editingId]}</p>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
+            <SectionLabel>Podešavanja</SectionLabel>
+            <SwitchRow
+              label="Podrazumevana"
+              description="Automatski se bira u wizardima"
+              checked={form.is_default}
+              onCheckedChange={(v: boolean) => setForm(f => ({ ...f, is_default: v }))}
+            />
+
+            {error && (
+              <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {error}
+              </p>
+            )}
           </div>
 
-          {/* Toggle: PDV obveznik */}
-          <div className="flex items-center gap-3 mt-4">
+          <SheetFooter className="border-t border-gray-100 flex-row justify-end gap-2">
             <button
-              type="button"
-              onClick={() => setForm(f => ({ ...f, pdv_obveznik: !f.pdv_obveznik }))}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                form.pdv_obveznik ? 'bg-[#1B6B4A]' : 'bg-gray-200'
-              }`}
+              onClick={cancelForm}
+              disabled={saving}
+              className="px-5 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-60 transition-colors"
             >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
-                  form.pdv_obveznik ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
+              Otkaži
             </button>
-            <span className="text-sm text-gray-700">PDV obveznik</span>
-          </div>
-
-          {/* Toggle: podrazumevana */}
-          <div className="flex items-center gap-3 mt-4">
-            <button
-              type="button"
-              onClick={() => setForm(f => ({ ...f, is_default: !f.is_default }))}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                form.is_default ? 'bg-[#1B6B4A]' : 'bg-gray-200'
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
-                  form.is_default ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className="text-sm text-gray-700">Postavi kao podrazumevanu</span>
-          </div>
-
-          {error && (
-            <p className="mt-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-              {error}
-            </p>
-          )}
-
-          <div className="flex gap-3 mt-5">
             <button
               onClick={handleSave}
               disabled={saving}
@@ -538,17 +626,35 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
             >
               {saving ? 'Čuvam...' : 'Sačuvaj'}
             </button>
-            <button
-              onClick={cancelForm}
-              disabled={saving}
-              className="px-5 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-60 transition-colors"
-            >
-              Otkaži
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
 
+      {/* AlertDialog: potvrda brisanja */}
+      <AlertDialog
+        open={deleteTarget !== null}
+        onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{labels.deleteConfirm}</AlertDialogTitle>
+            <AlertDialogDescription>
+              Svi podaci o {labels.deleteEntity} će biti trajno obrisani.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Odustani</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={confirmDelete}
+            >
+              Obriši
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Dialog: limit plan */}
       <Dialog open={showLimitModal} onOpenChange={setShowLimitModal}>
         <DialogContent className="max-w-sm text-center">
           <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-amber-50">
@@ -585,6 +691,40 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
           </div>
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mt-6 mb-3">
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">{children}</p>
+      <div className="mt-1.5 h-px bg-gray-100" />
+    </div>
+  )
+}
+
+function SwitchRow({
+  label,
+  description,
+  checked,
+  onCheckedChange,
+}: {
+  label: string
+  description?: string
+  checked: boolean
+  onCheckedChange: (v: boolean) => void
+}) {
+  return (
+    <div className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-gray-50 border border-gray-100">
+      <div>
+        <p className="text-sm font-medium text-gray-800">{label}</p>
+        {description && <p className="text-xs text-gray-500">{description}</p>}
+      </div>
+      <Switch
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+      />
     </div>
   )
 }
