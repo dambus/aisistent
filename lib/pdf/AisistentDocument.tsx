@@ -2,7 +2,7 @@ import React from 'react'
 import fs from 'fs'
 import path from 'path'
 import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer'
-import { parseMarkdown, Block, InlineSpan, InlineType } from './markdownParser'
+import { parseMarkdown, sanitizeText, Block, InlineSpan, InlineType } from './markdownParser'
 
 const DISCLAIMER =
   'Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom pre potpisivanja. aisistent.rs ne preuzima odgovornost za pravnu valjanost dokumenta.'
@@ -274,7 +274,7 @@ interface SigData {
 }
 
 function buildSigData(documentType: string, d: Record<string, unknown>): SigData | null {
-  const g = (k: string) => String(d[k] ?? '')
+  const g = (k: string) => sanitizeText(String(d[k] ?? ''))
   switch (documentType) {
     case 'ugovor-o-radu':
       return {
@@ -487,9 +487,9 @@ export function AisistentDocument({
           {companyData && (
             <Text style={s.footerCompany}>
               {[
-                companyData.naziv,
-                companyData.pib ? `PIB: ${companyData.pib}` : null,
-                [companyData.adresa, companyData.grad].filter(Boolean).join(', ') || null,
+                sanitizeText(companyData.naziv),
+                companyData.pib ? `PIB: ${sanitizeText(companyData.pib)}` : null,
+                [companyData.adresa, companyData.grad].filter(Boolean).map(s => sanitizeText(s!)).join(', ') || null,
               ].filter(Boolean).join(' · ')}
             </Text>
           )}
