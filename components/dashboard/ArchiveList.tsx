@@ -127,15 +127,15 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [comments, setComments] = useState<Record<string, string>>({})
   const [ratingSubmitting, setRatingSubmitting] = useState(false)
 
-  async function submitRating(doc.id: string, docType: string, rating: boolean, comment?: string) {
+  async function submitRating(documentId: string, docType: string, rating: boolean, comment?: string) {
     setRatingSubmitting(true)
     try {
       await fetch('/api/document-rating', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ document_id: doc.id, document_type: docType, rating, comment }),
+        body: JSON.stringify({ document_id: documentId, document_type: docType, rating, comment }),
       })
-      setRatingDone(prev => ({ ...prev, [doc.id]: rating }))
+      setRatingDone(prev => ({ ...prev, [documentId]: rating }))
       setCommentOpen(null)
     } finally {
       setRatingSubmitting(false)
