@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sanitizeText } from '@/lib/pdf/markdownParser'
 import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
@@ -771,7 +772,7 @@ export async function POST(request: NextRequest) {
       if (content.type !== 'text') {
         throw new Error('Unexpected response type')
       }
-      generatedText = content.text
+      generatedText = sanitizeText(content.text)
     } catch (err) {
       console.error('Anthropic API error:', err)
       return NextResponse.json(
