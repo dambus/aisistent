@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
 import type { Company } from '@/types/database'
 import { UpgradeModal } from './UpgradeModal'
@@ -60,15 +60,48 @@ function buildInitialValues(steps: WizardStep[]): FormValues {
   return values
 }
 
+const DRAFT_PREFIX = 'aisistent_draft_'
+
+function loadDraft(documentType: string): FormValues | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_PREFIX + documentType)
+    return raw ? (JSON.parse(raw) as FormValues) : null
+  } catch {
+    return null
+  }
+}
+
+function saveDraft(documentType: string, values: FormValues) {
+  try {
+    localStorage.setItem(DRAFT_PREFIX + documentType, JSON.stringify(values))
+  } catch {}
+}
+
+function clearDraft(documentType: string) {
+  try {
+    localStorage.removeItem(DRAFT_PREFIX + documentType)
+  } catch {}
+}
+
 export function WizardForm({ steps, documentType, companies = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
   const preselectedCompany = preselectedClientId ? (companies.find(c => c.id === preselectedClientId) ?? null) : null
   const defaultCompany = preselectedCompany ?? companies.find(c => c.is_default) ?? companies[0] ?? null
 
+  const draftRef = useRef<FormValues | null>(null)
+  const [draftRestored, setDraftRestored] = useState(false)
+
   const [currentStep, setCurrentStep] = useState(0)
   const [values, setValues] = useState<FormValues>(() => {
     const base = buildInitialValues(steps)
+    // initialValues dolazi od ?from= (Nova verzija / Kreiraj sličan) — draft se ne učitava
     if (initialValues) return { ...base, ...initialValues }
+    // Pokušaj učitati draft iz localStorage
+    const draft = loadDraft(documentType)
+    if (draft) {
+      draftRef.current = draft
+      return { ...base, ...draft }
+    }
     if (defaultCompany) {
       return { ...base, ...buildCompanyFields(defaultCompany, documentType) }
     }
@@ -86,6 +119,17 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
   const visibleFields = getVisibleFields(step.fields, values)
   const isLast = currentStep === visibleSteps.length - 1
   const primaryButtonStyle = { backgroundColor: '#1B6B4A' }
+
+  // Prikaži banner ako je draft učitan (samo jednom pri mount-u)
+  useEffect(() => {
+    if (draftRef.current && !initialValues) setDraftRestored(true)
+  }, [initialValues])
+
+  // Auto-save draft u localStorage na svaku promenu values (samo bez initialValues)
+  useEffect(() => {
+    if (initialValues) return
+    saveDraft(documentType, values)
+  }, [values, documentType, initialValues])
 
   const setValue = useCallback((id: string, value: string | number | boolean) => {
     setValues(prev => ({ ...prev, [id]: value }))
@@ -147,6 +191,7 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
         return
       }
 
+      clearDraft(documentType)
       const selectedCompany = companies.find(c => c.id === selectedCompanyId) ?? null
       onComplete(json.document_id, json.generated_text, json.title ?? 'Dokument', json.is_free ?? false, selectedCompany)
     } catch (err) {
@@ -184,6 +229,20 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
         onSelect={handleCompanySelect}
         onSkip={() => setShowCompanyModal(false)}
       />
+
+      {/* Draft restored banner */}
+      {draftRestored && (
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-blue-100 bg-blue-50 px-4 py-2.5 text-sm text-blue-700">
+          <span>Nastavljate gde ste stali — podaci su učitani iz prethodne sesije.</span>
+          <button
+            type="button"
+            onClick={() => { clearDraft(documentType); setDraftRestored(false); setValues(() => { const base = buildInitialValues(steps); return defaultCompany ? { ...base, ...buildCompanyFields(defaultCompany, documentType) } : base }) }}
+            className="ml-4 text-blue-500 underline hover:text-blue-700 whitespace-nowrap"
+          >
+            Počni ispočetka
+          </button>
+        </div>
+      )}
 
       {/* Progress */}
       <div className="mb-6">

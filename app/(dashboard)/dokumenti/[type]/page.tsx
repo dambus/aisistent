@@ -29,12 +29,12 @@ const SUPPORTED_TYPES = new Set([
 
 interface PageProps {
   params: Promise<{ type: string }>
-  searchParams: Promise<{ from?: string; clientId?: string }>
+  searchParams: Promise<{ from?: string; clientId?: string; copy?: string }>
 }
 
 export default async function WizardPage({ params, searchParams }: PageProps) {
   const { type } = await params
-  const { from, clientId } = await searchParams
+  const { from, clientId, copy } = await searchParams
 
   if (!SUPPORTED_TYPES.has(type)) notFound()
 
@@ -74,7 +74,8 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
 
       if (sourceDoc && sourceDoc.type === type) {
         initialValues = sourceDoc.input_data as Record<string, string | number | boolean>
-        rootDocumentId = sourceDoc.root_document_id ?? sourceDoc.id
+        // copy=1 → novi nezavisni dokument, bez veze sa verzionisanjem originala
+        if (!copy) rootDocumentId = sourceDoc.root_document_id ?? sourceDoc.id
       }
     }
   }

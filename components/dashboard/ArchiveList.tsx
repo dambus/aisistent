@@ -343,6 +343,18 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
 
                   <button
                     type="button"
+                    onClick={() => router.push(`/dokumenti/${doc.type}?from=${doc.id}&copy=1`)}
+                    disabled={loadingKey !== null}
+                    title="Kreiraj sličan dokument"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 disabled:opacity-60"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={() => setDeleteDocId(doc.id)}
                     disabled={loadingKey !== null || deletingId !== null}
                     title="Obriši dokument"
