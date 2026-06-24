@@ -239,7 +239,10 @@ function renderBlocks(blocks: Block[]): React.ReactNode[] {
       const anchorTarget = block.type === 'h2' ? 2 : 1
       while (j < blocks.length && contentCount < anchorTarget) {
         const next = blocks[j]
-        if (next.type === 'h1' || next.type === 'h2' || next.type === 'h3' || isBoldHeading(next)) break
+        if (next.type === 'h1' || next.type === 'h2' || next.type === 'h3') break
+        // For h2 (Roman numeral sections), also consume the bold member heading that
+        // follows, so the section title doesn't orphan when the next line is **Član X.**
+        if (block.type !== 'h2' && isBoldHeading(next)) break
         anchor.push(next)
         if (next.type !== 'spacer') contentCount++
         j++
