@@ -61,6 +61,8 @@ async function main() {
 
   const { sanitizeText } = await import('../lib/pdf/markdownParser.js')
   const generatedText = sanitizeText((message.content[0] as { type: string; text: string }).text)
+    .replace(/^```(?:markdown)?\r?\n?/, '')
+    .replace(/\r?\n?```$/, '')
 
   console.log(`✅ Tekst generisan (${generatedText.length} karaktera)`)
 

@@ -773,6 +773,8 @@ export async function POST(request: NextRequest) {
         throw new Error('Unexpected response type')
       }
       generatedText = sanitizeText(content.text)
+        .replace(/^```(?:markdown)?\r?\n?/, '')
+        .replace(/\r?\n?```$/, '')
     } catch (err) {
       console.error('Anthropic API error:', err)
       return NextResponse.json(
