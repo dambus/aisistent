@@ -219,7 +219,7 @@ function renderBlock(block: Block, i: number) {
 // Claude often generates these as bold paragraphs instead of ### headings.
 function isBoldHeading(block: Block): boolean {
   if (block.type !== 'paragraph') return false
-  const spans = (block as Extract<Block, { type: 'paragraph' }>).spans
+  const spans = (block as TextBlock).spans
   return spans.length > 0 && spans.every(s => s.type === 'bold' || s.type === 'bold-italic')
 }
 
