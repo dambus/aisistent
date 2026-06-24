@@ -122,6 +122,25 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const [emailDoc, setEmailDoc] = useState<{ id: string; title: string } | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 300)
+  const [ratingDone, setRatingDone] = useState<Record<string, boolean>>({})
+  const [commentOpen, setCommentOpen] = useState<string | null>(null)
+  const [comments, setComments] = useState<Record<string, string>>({})
+  const [ratingSubmitting, setRatingSubmitting] = useState(false)
+
+  async function submitRating(doc.id: string, docType: string, rating: boolean, comment?: string) {
+    setRatingSubmitting(true)
+    try {
+      await fetch('/api/document-rating', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ document_id: doc.id, document_type: docType, rating, comment }),
+      })
+      setRatingDone(prev => ({ ...prev, [doc.id]: rating }))
+      setCommentOpen(null)
+    } finally {
+      setRatingSubmitting(false)
+    }
+  }
 
   useEffect(() => {
     setLocalDocuments(documents)
@@ -340,6 +359,70 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                     </svg>
                   </button>
                 </div>
+              </div>
+
+              <div className="mt-3 border-t border-gray-100 pt-3" onClick={e => e.stopPropagation()}>
+                {doc.id in ratingDone ? (
+                  <p className="text-xs text-gray-400">
+                    {ratingDone[doc.id] ? 'Hvala! Drago nam je.' : 'Hvala na povratnoj informaciji — pomoći će nam da poboljšamo AIsistent.'}
+                  </p>
+                ) : commentOpen === doc.id ? (
+                  <form
+                    onSubmit={async e => { e.preventDefault(); await submitRating(doc.id, doc.type, false, comments[doc.id]) }}
+                    className="flex flex-col gap-2 sm:flex-row sm:items-start"
+                  >
+                    <textarea
+                      value={comments[doc.id] ?? ''}
+                      onChange={e => setComments(prev => ({ ...prev, [doc.id]: e.target.value }))}
+                      placeholder="Šta bi moglo biti bolje?"
+                      rows={2}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#1B6B4A] focus:ring-1 focus:ring-[#1B6B4A] sm:flex-1"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => submitRating(doc.id, doc.type, false)}
+                        disabled={ratingSubmitting}
+                        className="text-xs text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                      >
+                        Preskoči
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={ratingSubmitting}
+                        className="rounded-lg bg-[#1B6B4A] px-3 py-1.5 text-xs font-medium text-white hover:bg-[#155C3E] disabled:opacity-50"
+                      >
+                        {ratingSubmitting ? '...' : 'Pošalji'}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-gray-400">Da li ste zadovoljni dokumentom?</span>
+                    <button
+                      type="button"
+                      onClick={() => submitRating(doc.id, doc.type, true)}
+                      disabled={ratingSubmitting}
+                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-gray-500 transition-colors hover:bg-green-50 hover:text-green-700 disabled:opacity-50"
+                    >
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                      </svg>
+                      Da
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCommentOpen(doc.id)}
+                      disabled={ratingSubmitting}
+                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-gray-500 transition-colors hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                    >
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                      </svg>
+                      Može bolje
+                    </button>
+                  </div>
+                )}
               </div>
             </article>
           ))}
