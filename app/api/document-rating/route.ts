@@ -33,7 +33,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid rating' }, { status: 400 })
   }
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from('document_ratings')
     .upsert(
       {
