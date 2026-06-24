@@ -22,7 +22,15 @@
       "PowerShell(cd \"g:\\\\Dev\\\\2026\\\\aisistent\"; git add app/\\(dashboard\\)/layout.tsx components/dashboard/ProfileCard.tsx app/\\(dashboard\\)/profil/page.tsx components/dashboard/CompaniesTab.tsx components/ui/dialog.tsx; git status)",
       "Bash(node -e \"const d = require\\('g:/Dev/2026/aisistent/node_modules/docx'\\); console.log\\(typeof d.BorderStyle\\)\")",
       "Skill(claude-api)",
-      "Skill(claude-api:*)"
+      "Skill(claude-api:*)",
+      "Bash(gh issue *)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(node *)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['scripts','dependencies','devDependencies'] if k in d}, indent=2\\)\\)\")",
+      "Bash(npx next *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3333/)",
+      "Bash(npx playwright *)"
     ]
   }
 }

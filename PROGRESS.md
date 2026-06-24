@@ -126,6 +126,45 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - companyFieldMap za sve tipove
 - Zakonski audit svih 17 tipova
 
+#### jun 2026. — PDF page-break, sanitizacija, test infrastruktura
+
+**PDF page-break (viseći naslovi)**
+- `AisistentDocument.tsx`: `renderBlocks()` uvek wrapuje naslove u `wrap={false}` View
+- `isBoldHeading()` — detekcija bold-only paragrafa kao naslova članova (`**Član 5.**`)
+- h2 anchor loop ne prekida se na bold headings (rimski naslovi + prvi član ostaju zajedno)
+- h2 hvata 2 content bloka, h3/bold-heading hvata 1
+
+**Potpisi — determinističan redosled**
+- Uklonjen krhki `lastNode` mehanizam (uzimao poslednji blok i stavljao ga pre `SignatureSection`)
+- Prošireni stop uslovi u `markdownParser.ts`: parser staje na `Ugovor potpisuju`, `Mesto i datum potpisivanja`, `Strane potpisuju` i sl. — Claude više ne može da ubaci signature preamble u body
+
+**Sanitizacija ćirilice**
+- `sanitizeText()` se primenjuje na Claude output *pre* čuvanja u Supabase (route.ts) — ćirilica ne ulazi u bazu
+- `buildSigData()` u AisistentDocument: helper `g()` sada prolazi kroz `sanitizeText()`
+- `companyData` footer vrednosti sanitizovane
+
+**Markdown code fence stripping**
+- Claude povremeno wrapuje output u ` ```markdown ``` ` — stripuje se odmah posle API odgovora u route.ts i test skripti
+
+**Test infrastruktura**
+- `npm run test:doc <tip>` — generiše PDF lokalno sa fixture podacima, bez UI i autentifikacije
+- Fixtures: `ugovor-o-zakupu`, `ugovor-o-radu`, `nda`, `ugovor-o-delu`, `ugovor-o-saradnji`
+- Output se automatski otvara u podrazumevanom PDF pregledaču
+
+#### jun 2026. — UX: Kreiraj sličan + Draft save
+
+**Kreiraj sličan dokument**
+- Novo dugme u `ArchiveList` (plava copy ikona) pored "Nova verzija"
+- Navigira na `?from=<id>&copy=1` — pre-populiše wizard ali ne vezuje za `root_document_id`
+- Novi dokument je nezavisan (ne deo iste verzije istorije)
+
+**Wizard draft save**
+- Auto-save u `localStorage` na svaku promenu vrednosti u wizardu (`aisistent_draft_<tip>`)
+- Pri povratku: automatski učitava draft i prikazuje plavi banner "Nastavljate gde ste stali"
+- "Počni ispočetka" dugme u banneru — briše draft i resetuje formu
+- `?from=` parametar (Nova verzija / Kreiraj sličan) uvek ima prednost nad draftom
+- Draft se briše posle uspešnog generisanja dokumenta
+
 ### Blokirano
 - Payment gateway (Paddle) — čeka APR registraciju
 - APR API / PIB lookup — čeka APR ugovor (samo pravna lica)
