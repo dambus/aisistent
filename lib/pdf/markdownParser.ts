@@ -100,8 +100,14 @@ export function parseMarkdown(text: string): Block[] {
     const line = raw.trim()
 
     // Stop before signature section - rendered as a hardcoded component.
-    // Match only standalone section headers (## POTPISI, POTPISI alone, etc.), not mid-sentence.
+    // Claude sometimes generates signature preamble text before ## POTPISI — stop at all of it.
     if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
+    if (/^ugovor\s+potpisuju/i.test(line)) break
+    if (/^strane\s+potpisuju/i.test(line)) break
+    if (/^ugovorne\s+strane\s+potpisuju/i.test(line)) break
+    if (/^sporazum\s+potpisuju/i.test(line)) break
+    if (/^mesto\s+i\s+datum\s+potpisivanja/i.test(line)) break
+    if (/^u\s+\S+,?\s+dana\s+_{2,}/i.test(line)) break
 
     if (isTableRow(line) && !isTableSeparator(line)) {
       const tableLines: string[] = []

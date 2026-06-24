@@ -442,8 +442,6 @@ export function AisistentDocument({
   const blockNodes = renderBlocks(blocks)
 
   const sig = inputData && documentType ? buildSigData(documentType, inputData) : null
-  const bodyNodes = sig && blockNodes.length > 0 ? blockNodes.slice(0, -1) : blockNodes
-  const lastNode = sig && blockNodes.length > 0 ? blockNodes[blockNodes.length - 1] : null
 
   // POVERLJIVO stamp — NDA with oznacavanje === true
   const showConfidential =
@@ -473,14 +471,13 @@ export function AisistentDocument({
         </View>
 
         {/* Body content */}
-        {bodyNodes}
+        {blockNodes}
 
-        {sig ? (
+        {sig && (
           <View wrap={false}>
-            {lastNode}
             <SignatureSection sig={sig} />
           </View>
-        ) : lastNode}
+        )}
 
         {/* Footer — absolutely positioned, repeats on every page */}
         <View fixed style={s.footer}>
