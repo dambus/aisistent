@@ -215,24 +215,42 @@ function renderBlock(block: Block, i: number) {
   }
 }
 
+// Detects bold-only paragraph blocks used as article/member headings (e.g. "**Član 5.**").
+// Claude often generates these as bold paragraphs instead of ### headings.
+function isBoldHeading(block: Block): boolean {
+  if (block.type !== 'paragraph') return false
+  const spans = (block as Extract<Block, { type: 'paragraph' }>).spans
+  return spans.length > 0 && spans.every(s => s.type === 'bold' || s.type === 'bold-italic')
+}
+
 function renderBlocks(blocks: Block[]): React.ReactNode[] {
   const result: React.ReactNode[] = []
   let i = 0
   while (i < blocks.length) {
     const block = blocks[i]
-    if (block.type === 'h2' || block.type === 'h3') {
+    const isHeading = block.type === 'h2' || block.type === 'h3' || isBoldHeading(block)
+    if (isHeading) {
+      // Always group heading with following content blocks to prevent orphan headings.
+      // h2 anchors 2 content blocks (section often starts with a short intro line),
+      // h3/bold-paragraph anchors 1. Stops early if another heading is encountered.
+      const anchor: Block[] = [block]
       let j = i + 1
-      while (j < blocks.length && blocks[j].type === 'spacer') j++
-      if (j < blocks.length && blocks[j].type !== 'h1' && blocks[j].type !== 'h2' && blocks[j].type !== 'h3') {
-        result.push(
-          <View key={`g${i}`} wrap={false}>
-            {renderBlock(block, 0)}
-            {blocks.slice(i + 1, j + 1).map((b, bi) => renderBlock(b, bi + 1))}
-          </View>
-        )
-        i = j + 1
-        continue
+      let contentCount = 0
+      const anchorTarget = block.type === 'h2' ? 2 : 1
+      while (j < blocks.length && contentCount < anchorTarget) {
+        const next = blocks[j]
+        if (next.type === 'h1' || next.type === 'h2' || next.type === 'h3' || isBoldHeading(next)) break
+        anchor.push(next)
+        if (next.type !== 'spacer') contentCount++
+        j++
       }
+      result.push(
+        <View key={`g${i}`} wrap={false}>
+          {anchor.map((b, bi) => renderBlock(b, bi))}
+        </View>
+      )
+      i = j
+      continue
     }
     result.push(renderBlock(block, i))
     i++
