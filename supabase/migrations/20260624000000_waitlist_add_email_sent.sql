@@ -1,0 +1,1 @@
+ALTER TABLE waitlist ADD COLUMN email_sent BOOLEAN NOT NULL DEFAULT false;

@@ -76,11 +76,46 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
   return null
 }
 
+type RatingState = 'idle' | 'negative-comment' | 'done'
+
 export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, onReset }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
   const [showEmailUpgrade, setShowEmailUpgrade] = useState(false)
+  const [ratingState, setRatingState] = useState<RatingState>('idle')
+  const [ratingValue, setRatingValue] = useState<boolean | null>(null)
+  const [ratingComment, setRatingComment] = useState('')
+  const [ratingSubmitting, setRatingSubmitting] = useState(false)
+
+  async function submitRating(rating: boolean, comment?: string) {
+    setRatingSubmitting(true)
+    try {
+      await fetch('/api/document-rating', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ document_id: documentId, document_type: documentType, rating, comment }),
+      })
+    } finally {
+      setRatingSubmitting(false)
+      setRatingState('done')
+    }
+  }
+
+  async function handleThumbsUp() {
+    setRatingValue(true)
+    await submitRating(true)
+  }
+
+  async function handleThumbsDown() {
+    setRatingValue(false)
+    setRatingState('negative-comment')
+  }
+
+  async function handleNegativeSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    await submitRating(false, ratingComment)
+  }
   const reminder = documentReminders[documentType]
 
   const isAgency = plan === 'agency'
@@ -780,6 +815,72 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
       <p className="mt-4 text-center text-xs text-gray-400">
         Dokument je sačuvan u vašoj arhivi.
       </p>
+
+      <div className="mt-6 flex flex-col items-center gap-3">
+        {ratingState === 'idle' && (
+          <>
+            <p className="text-sm text-gray-500">Da li ste zadovoljni dokumentom?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleThumbsUp}
+                disabled={ratingSubmitting}
+                className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition-colors hover:border-green-300 hover:bg-green-50 hover:text-green-700 disabled:opacity-50"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                </svg>
+                Da
+              </button>
+              <button
+                onClick={handleThumbsDown}
+                disabled={ratingSubmitting}
+                className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                </svg>
+                Može bolje
+              </button>
+            </div>
+          </>
+        )}
+
+        {ratingState === 'negative-comment' && (
+          <form onSubmit={handleNegativeSubmit} className="w-full max-w-md space-y-3">
+            <p className="text-center text-sm text-gray-600">Šta bi moglo biti bolje?</p>
+            <textarea
+              value={ratingComment}
+              onChange={(e) => setRatingComment(e.target.value)}
+              placeholder="Opišite problem ili šta ste očekivali..."
+              rows={3}
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#1B6B4A] focus:ring-1 focus:ring-[#1B6B4A]"
+            />
+            <div className="flex justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => submitRating(false)}
+                disabled={ratingSubmitting}
+                className="text-sm text-gray-400 hover:text-gray-600 disabled:opacity-50"
+              >
+                Preskoči
+              </button>
+              <button
+                type="submit"
+                disabled={ratingSubmitting}
+                className="rounded-lg bg-[#1B6B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#155C3E] disabled:opacity-50"
+              >
+                {ratingSubmitting ? 'Šaljem...' : 'Pošalji povratnu informaciju'}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {ratingState === 'done' && (
+          <p className="text-sm text-gray-400">
+            {ratingValue ? 'Hvala! Drago nam je.' : 'Hvala na povratnoj informaciji — pomoći će nam da poboljšamo AIsistent.'}
+          </p>
+        )}
+      </div>
     </div>
   )
 }
