@@ -76,12 +76,11 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue
 }
 
+const MONTHS_SR = ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar']
+
 function formatSerbianDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('sr-Latn-RS', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  const d = new Date(iso)
+  return `${d.getUTCDate()}. ${MONTHS_SR[d.getUTCMonth()]} ${d.getUTCFullYear()}.`
 }
 
 async function downloadExport(documentId: string, format: ExportFormat): Promise<string | null> {

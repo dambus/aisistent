@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function POST(req: Request) {
   const supabase = await createClient()
@@ -33,8 +34,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid rating' }, { status: 400 })
   }
 
+  const admin = createAdminClient()
+
+  // Verify document belongs to user
+  const { data: doc } = await admin
+    .from('documents')
+    .select('id')
+    .eq('id', document_id)
+    .eq('user_id', user.id)
+    .single()
+
+  if (!doc) {
+    return NextResponse.json({ error: 'Document not found' }, { status: 404 })
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error } = await (supabase as any)
+  const { error } = await (admin as any)
     .from('document_ratings')
     .upsert(
       {
