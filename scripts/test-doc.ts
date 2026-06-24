@@ -25,7 +25,7 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const SUPPORTED = ['ugovor-o-zakupu', 'ugovor-o-radu', 'nda', 'ugovor-o-delu'] as const
+const SUPPORTED = ['ugovor-o-zakupu', 'ugovor-o-radu', 'nda', 'ugovor-o-delu', 'ugovor-o-saradnji'] as const
 type SupportedType = typeof SUPPORTED[number]
 
 async function main() {
@@ -40,10 +40,16 @@ async function main() {
   console.log(`\n📄 Generišem: ${docType}`)
   console.log('━'.repeat(50))
 
+  // prompt file names don't always match document type slugs
+  const promptFile: Record<string, string> = {
+    'ugovor-o-saradnji': 'ugovor-o-saradnji-zajmu',
+  }
+  const promptSlug = promptFile[docType] ?? docType
+
   // Dynamically import fixture and prompt
   const [{ fixture }, promptModule] = await Promise.all([
     import(`./fixtures/${docType}.js`),
-    import(`../lib/prompts/${docType}.js`),
+    import(`../lib/prompts/${promptSlug}.js`),
   ])
 
   const { systemPrompt, buildUserMessage } = promptModule
