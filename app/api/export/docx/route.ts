@@ -625,36 +625,46 @@ export async function POST(request: NextRequest) {
 
     const ZELENA = '1B6B4A'
     const SIVA = '6B7280'
+    const intl = !!data.medjunarodno_placanje
+    const valuta = intl ? ((data.valuta as string) || 'EUR') : 'RSD'
+    const lang = { language: { value: 'sr-RS' as const } }
 
     const fakturaDoc = new Document({
+      styles: {
+        default: {
+          document: { run: { language: { value: 'sr-RS' } } },
+        },
+      },
       sections: [{
         properties: {},
         children: [
           new Paragraph({
-            children: [new TextRun({ text: (data.tip_dokumenta as string).toUpperCase(), bold: true, size: 36, color: ZELENA })],
+            children: [new TextRun({ text: (data.tip_dokumenta as string).toUpperCase(), bold: true, size: 36, color: ZELENA, ...lang })],
             spacing: { after: 100 },
           }),
           ...(data.broj_dokumenta ? [new Paragraph({
-            children: [new TextRun({ text: `Broj: ${data.broj_dokumenta}`, size: 18, color: SIVA })],
+            children: [new TextRun({ text: `Broj: ${data.broj_dokumenta}`, size: 18, color: SIVA, ...lang })],
             spacing: { after: 300 },
           })] : []),
 
-          new Paragraph({ children: [new TextRun({ text: 'IZDAVALAC', bold: true, size: 16, color: SIVA })] }),
-          new Paragraph({ children: [new TextRun({ text: data.izdavalac_naziv as string, bold: true, size: 20 })] }),
-          new Paragraph({ children: [new TextRun({ text: `PIB: ${data.izdavalac_pib}`, size: 18, color: SIVA })] }),
-          new Paragraph({ children: [new TextRun({ text: data.izdavalac_adresa as string, size: 18, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: 'IZDAVALAC', bold: true, size: 16, color: SIVA, ...lang })] }),
+          new Paragraph({ children: [new TextRun({ text: data.izdavalac_naziv as string, bold: true, size: 20, ...lang })] }),
+          new Paragraph({ children: [new TextRun({ text: `PIB: ${data.izdavalac_pib}`, size: 18, color: SIVA, ...lang })] }),
+          new Paragraph({ children: [new TextRun({ text: data.izdavalac_adresa as string, size: 18, color: SIVA, ...lang })] }),
+          ...(data.izdavalac_email ? [new Paragraph({ children: [new TextRun({ text: data.izdavalac_email as string, size: 18, color: SIVA, ...lang })] })] : []),
+          ...(data.izdavalac_telefon ? [new Paragraph({ children: [new TextRun({ text: data.izdavalac_telefon as string, size: 18, color: SIVA, ...lang })] })] : []),
           new Paragraph({ text: '', spacing: { after: 200 } }),
 
-          new Paragraph({ children: [new TextRun({ text: 'PRIMALAC', bold: true, size: 16, color: SIVA })] }),
-          new Paragraph({ children: [new TextRun({ text: data.primalac_naziv as string, bold: true, size: 20 })] }),
+          new Paragraph({ children: [new TextRun({ text: 'PRIMALAC', bold: true, size: 16, color: SIVA, ...lang })] }),
+          new Paragraph({ children: [new TextRun({ text: data.primalac_naziv as string, bold: true, size: 20, ...lang })] }),
           ...(data.primalac_pib && (data.primalac_pib as string).trim() !== ''
-            ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.primalac_pib}`, size: 18, color: SIVA })] })]
+            ? [new Paragraph({ children: [new TextRun({ text: `PIB: ${data.primalac_pib}`, size: 18, color: SIVA, ...lang })] })]
             : []),
-          new Paragraph({ children: [new TextRun({ text: data.primalac_adresa as string, size: 18, color: SIVA })] }),
+          new Paragraph({ children: [new TextRun({ text: data.primalac_adresa as string, size: 18, color: SIVA, ...lang })] }),
           new Paragraph({ text: '', spacing: { after: 200 } }),
 
           new Paragraph({
-            children: [new TextRun({ text: `Datum izdavanja: ${fmtDate(data.datum_izdavanja as string)}    Rok plaćanja: ${fmtDate(data.datum_valute as string)}`, size: 18 })],
+            children: [new TextRun({ text: `Datum izdavanja: ${fmtDate(data.datum_izdavanja as string)}    Rok plaćanja: ${fmtDate(data.datum_valute as string)}`, size: 18, ...lang })],
             spacing: { after: 300 },
           }),
 
@@ -662,9 +672,9 @@ export async function POST(request: NextRequest) {
             width: { size: 100, type: WidthType.PERCENTAGE },
             rows: [
               new TableRow({
-                children: (['Rb.', 'Naziv', 'Kol.', 'Jed.', 'Cena (RSD)', 'Ukupno (RSD)'] as string[]).map((h, i) =>
+                children: (['Rb.', 'Naziv', 'Kol.', 'Jed.', `Cena (${valuta})`, `Ukupno (${valuta})`] as string[]).map((h, i) =>
                   new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16 })] })],
+                    children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, color: 'FFFFFF', size: 16, ...lang })] })],
                     shading: { type: ShadingType.SOLID, color: ZELENA },
                     width: { size: [5, 40, 10, 8, 17, 20][i], type: WidthType.PERCENTAGE },
                   })
@@ -677,7 +687,7 @@ export async function POST(request: NextRequest) {
                   ).map((val, ci) =>
                     new TableCell({
                       children: [new Paragraph({
-                        children: [new TextRun({ text: val, size: 18 })],
+                        children: [new TextRun({ text: val, size: 18, ...lang })],
                         alignment: ci >= 4 ? AlignmentType.RIGHT : ci === 2 || ci === 3 ? AlignmentType.CENTER : AlignmentType.LEFT,
                       })],
                       shading: i % 2 === 1 ? { type: ShadingType.SOLID, color: 'F9FAFB' } : undefined,
@@ -690,26 +700,42 @@ export async function POST(request: NextRequest) {
           }),
 
           new Paragraph({ text: '', spacing: { after: 200 } }),
-          new Paragraph({ children: [new TextRun({ text: `Ukupno bez PDV: ${fmtN(ukupnoBezPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT }),
-          ...(pdvStopa > 0 ? [new Paragraph({ children: [new TextRun({ text: `PDV (${pdvStopa}%): ${fmtN(iznosPdv)} RSD`, size: 18 })], alignment: AlignmentType.RIGHT })] : []),
-          new Paragraph({ children: [new TextRun({ text: `Ukupno za uplatu: ${fmtN(ukupnoSaPdv)} RSD`, bold: true, size: 22, color: ZELENA })], alignment: AlignmentType.RIGHT }),
+          new Paragraph({ children: [new TextRun({ text: `Ukupno bez PDV: ${fmtN(ukupnoBezPdv)} ${valuta}`, size: 18, ...lang })], alignment: AlignmentType.RIGHT }),
+          ...(pdvStopa > 0 ? [new Paragraph({ children: [new TextRun({ text: `PDV (${pdvStopa}%): ${fmtN(iznosPdv)} ${valuta}`, size: 18, ...lang })], alignment: AlignmentType.RIGHT })] : []),
+          new Paragraph({ children: [new TextRun({ text: `Ukupno za uplatu: ${fmtN(ukupnoSaPdv)} ${valuta}`, bold: true, size: 22, color: ZELENA, ...lang })], alignment: AlignmentType.RIGHT }),
 
           new Paragraph({ text: '', spacing: { after: 300 } }),
 
-          ...(data.izdavalac_tekuci_racun ? [
-            new Paragraph({ children: [new TextRun({ text: 'Podaci za plaćanje', bold: true, size: 18 })] }),
-            new Paragraph({ children: [new TextRun({ text: `Račun: ${data.izdavalac_tekuci_racun}`, size: 18 })] }),
-            ...(data.poziv_na_broj ? [new Paragraph({ children: [new TextRun({ text: `Poziv na broj: ${data.poziv_na_broj}`, size: 18 })] })] : []),
+          ...(intl ? [
+            new Paragraph({ children: [new TextRun({ text: 'Payment details / Podaci za plaćanje', bold: true, size: 18, ...lang })] }),
+            new Paragraph({ children: [new TextRun({ text: `Beneficiary: ${data.izdavalac_naziv}`, size: 18, ...lang })] }),
+            ...(data.iban ? [new Paragraph({ children: [new TextRun({ text: `IBAN: ${data.iban}`, size: 18, ...lang })] })] : []),
+            ...(data.swift_bic ? [new Paragraph({ children: [new TextRun({ text: `SWIFT / BIC: ${data.swift_bic}`, size: 18, ...lang })] })] : []),
+            ...(data.naziv_banke ? [new Paragraph({ children: [new TextRun({ text: `Bank: ${data.naziv_banke}`, size: 18, ...lang })] })] : []),
+            ...(data.poziv_na_broj ? [new Paragraph({ children: [new TextRun({ text: `Reference: ${data.poziv_na_broj}`, size: 18, ...lang })] })] : []),
+            new Paragraph({ children: [new TextRun({ text: `Amount: ${fmtN(ukupnoSaPdv)} ${valuta}`, size: 18, ...lang })] }),
+          ] : data.izdavalac_tekuci_racun ? [
+            new Paragraph({ children: [new TextRun({ text: 'Podaci za plaćanje', bold: true, size: 18, ...lang })] }),
+            new Paragraph({ children: [new TextRun({ text: `Račun: ${data.izdavalac_tekuci_racun}`, size: 18, ...lang })] }),
+            ...(data.poziv_na_broj ? [new Paragraph({ children: [new TextRun({ text: `Poziv na broj: ${data.poziv_na_broj}`, size: 18, ...lang })] })] : []),
+            new Paragraph({ children: [new TextRun({ text: `Iznos: ${fmtN(ukupnoSaPdv)} ${valuta}`, size: 18, ...lang })] }),
           ] : []),
 
           ...(!data.izdavalac_pdv_obveznik ? [
             new Paragraph({ text: '', spacing: { after: 200 } }),
-            new Paragraph({ children: [new TextRun({ text: 'Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obračunat.', size: 16, color: '92400E' })] }),
+            new Paragraph({
+              children: [new TextRun({
+                text: intl
+                  ? 'VAT not charged pursuant to Article 12(4) of the Serbian VAT Act — issuer is not registered for VAT in Serbia. / PDV nije obračunat u skladu sa članom 12. stav 4. Zakona o PDV Republike Srbije.'
+                  : 'Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obračunat.',
+                size: 16, color: '92400E', ...lang,
+              })],
+            }),
           ] : []),
 
           ...(data.napomena ? [
             new Paragraph({ text: '', spacing: { after: 100 } }),
-            new Paragraph({ children: [new TextRun({ text: `Napomena: ${data.napomena}`, size: 18, italics: true })] }),
+            new Paragraph({ children: [new TextRun({ text: `Napomena: ${data.napomena}`, size: 18, italics: true, ...lang })] }),
           ] : []),
         ],
       }],
