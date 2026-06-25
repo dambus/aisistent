@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllPostMeta } from '@/lib/blog'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Blog — AIsistent | Poslovni saveti za srpske preduzetnike',
   description: 'Vodiči, kalkulatori i pravni saveti za srpske preduzetnike i freelancere.',
