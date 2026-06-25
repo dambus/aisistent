@@ -43,6 +43,13 @@ const ARCHIVE_TIPS = [
     content: 'Dokument možete poslati direktno klijentu — kliknite na ikonicu koverte pored dokumenta.',
     maxDocs: 10,
   },
+  {
+    id: 'archive-search',
+    title: 'Pretražite arhivu',
+    content: 'Koristite pretragu i filtere iznad liste da brzo pronađete dokument po nazivu ili tipu.',
+    minDocs: 5,
+    maxDocs: 25,
+  },
 ]
 
 const PRIMARY = '#1B6B4A'
@@ -133,6 +140,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 
 export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
   const router = useRouter()
+  const hasVersionedDocs = documents.some(d => d.version > 1)
   const [filter, setFilter] = useState<FilterValue>('all')
   const [loadingKey, setLoadingKey] = useState<string | null>(null)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
@@ -462,7 +470,18 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
         </div>
       )}
 
-      <TipSequence tips={ARCHIVE_TIPS} docCount={documents.length} />
+      <TipSequence
+        tips={[
+          ...ARCHIVE_TIPS,
+          ...(hasVersionedDocs ? [{
+            id: 'archive-version-badge',
+            title: 'Verzionisani dokumenti',
+            content: 'Oznaka v2, v3... pokazuje da je dokument imao izmene. Sve verzije su sačuvane — originalni dokument ostaje netaknut.',
+            maxDocs: 20,
+          }] : []),
+        ]}
+        docCount={documents.length}
+      />
 
       {emailDoc && (
         <SendEmailModal

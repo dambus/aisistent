@@ -36,7 +36,7 @@ export function useTip(id: string, delay = 1500) {
 }
 
 export function useFirstUnseenTip(
-  tips: { id: string; maxDocs?: number }[],
+  tips: { id: string; maxDocs?: number; minDocs?: number }[],
   delay = 1500,
   docCount?: number,
 ) {
@@ -49,6 +49,7 @@ export function useFirstUnseenTip(
       const first = tips.find(t => {
         if (seen.includes(t.id)) return false
         if (t.maxDocs !== undefined && docCount !== undefined && docCount > t.maxDocs) return false
+        if (t.minDocs !== undefined && docCount !== undefined && docCount < t.minDocs) return false
         return true
       })?.id ?? null
       setActiveTipId(first)

@@ -71,6 +71,7 @@ export interface TipDefinition {
   title: string
   content: string
   maxDocs?: number
+  minDocs?: number
 }
 
 interface TipSequenceProps {
