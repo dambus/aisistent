@@ -50,8 +50,11 @@ interface Props {
   }
 }
 
+function fmtNum(n: number) {
+  return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
 function fmt(n: number, valuta = 'RSD') {
-  return `${n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${valuta}`
+  return `${fmtNum(n)} ${valuta}`
 }
 
 function formatDate(iso: string) {
@@ -202,7 +205,7 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
             <View key={i} style={[s.tableRow, i % 2 === 1 ? s.tableRowAlt : {}]}>
               <Text style={[s.tableCell, s.colRb]}>{stavka.rb}.</Text>
               <Text style={[s.tableCell, s.colNaziv]}>{sanitizeText(stavka.naziv)}</Text>
-              <Text style={[s.tableCell, s.colKol]}>{fmt(stavka.kolicina)}</Text>
+              <Text style={[s.tableCell, s.colKol]}>{fmtNum(stavka.kolicina)}</Text>
               <Text style={[s.tableCell, s.colJed]}>{sanitizeText(stavka.jedinica)}</Text>
               <Text style={[s.tableCell, s.colCena]}>{fmt(stavka.cena_bez_pdv, valuta)}</Text>
               <Text style={[s.tableCell, s.colUkupno]}>{fmt(ukupno, valuta)}</Text>
@@ -299,7 +302,7 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
           <View style={s.pdvNapomena}>
             <Text style={s.pdvNapomenaText}>
               {intl
-                ? 'The issuer is not registered for VAT in the Republic of Serbia. VAT is not applicable. / Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.'
+                ? 'VAT not charged pursuant to Article 12(4) of the Serbian VAT Act — issuer is not registered for VAT in Serbia. / PDV nije obracunat u skladu sa clanom 12. stav 4. Zakona o PDV Republike Srbije.'
                 : 'Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.'}
             </Text>
           </View>

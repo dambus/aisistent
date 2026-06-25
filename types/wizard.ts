@@ -474,6 +474,11 @@ export interface FakturaData {
   izdavalac_email?: string
   izdavalac_telefon?: string
   izdavalac_pdv_obveznik: boolean
+  medjunarodno_placanje?: boolean
+  valuta?: 'EUR' | 'USD' | 'GBP' | 'CHF'
+  iban?: string
+  swift_bic?: string
+  naziv_banke?: string
   primalac_naziv: string
   primalac_pib?: string
   primalac_adresa: string
