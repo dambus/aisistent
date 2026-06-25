@@ -35,6 +35,11 @@ const ARCHIVE_TIPS = [
     title: 'Kreirajte sličan dokument',
     content: '"Kreiraj sličan" kopira sve podatke u novi nezavisni dokument — idealno za isti tip ugovora sa drugom stranom.',
   },
+  {
+    id: 'archive-email',
+    title: 'Pošaljite dokument emailom',
+    content: 'Dokument možete poslati direktno klijentu — kliknite na ikonicu koverte pored dokumenta.',
+  },
 ]
 
 const PRIMARY = '#1B6B4A'
