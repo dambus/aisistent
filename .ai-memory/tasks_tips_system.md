@@ -20,8 +20,7 @@ Commit: `1f5e6df` — jun 2026.
 ## Sledeći saveti za dodati
 
 - [x] `profile-logo` — u CompaniesTab, samo za Pro/Business/Agency (`canUseLogo`)
-- [ ] `dashboard-recommended` — na dashboardu, sekcija "Preporučeno za vas"
-  Tekst: "Preporučeni alati su prilagođeni vašoj delatnosti. Promenite ih u podešavanjima."
+- [x] `dashboard-recommended` — na dashboardu, samo kad `featuredTools.length > 0`
 - [ ] `archive-email` — u ArchiveList, za slanje emailom
   Tekst: "Dokument možete poslati direktno klijentu emailom — klikom na ikonicu koverte."
 
