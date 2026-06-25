@@ -16,7 +16,7 @@ import { sanitizeFilename } from '@/lib/sanitizeFilename'
 
 export const maxDuration = 60
 
-const LOGO_PLANS = ['pro', 'business']
+const LOGO_PLANS = ['pro', 'business', 'agency']
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
