@@ -31,8 +31,8 @@ const navLinks = [
 
 const TOPICS = ['Ugovori', 'Porezi', 'Freelance', 'Registracija firme', 'HR', 'Kalkulatori']
 
-export default function BlogPage() {
-  const posts = getAllPostMeta()
+export default async function BlogPage() {
+  const posts = await getAllPostMeta()
   const [featured, ...rest] = posts
 
   return (

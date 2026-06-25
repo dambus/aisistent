@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:doc": "tsx --tsconfig tsconfig.json scripts/test-doc.ts"
+    "test:doc": "tsx --tsconfig tsconfig.json scripts/test-doc.ts",
+    "seed:blog": "tsx --tsconfig tsconfig.json scripts/seed-blog.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

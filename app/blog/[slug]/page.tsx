@@ -6,9 +6,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  return getAllPostMeta().map(p => ({ slug: p.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -85,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPost(slug)
   if (!post) notFound()
 
-  const allPosts = getAllPostMeta()
+  const allPosts = await getAllPostMeta()
   const related = allPosts.filter(p => p.slug !== slug).slice(0, 3)
   const eyebrow = post.keywords[0] ?? 'Blog'
   const dateFormatted = formatDateSr(post.date)
