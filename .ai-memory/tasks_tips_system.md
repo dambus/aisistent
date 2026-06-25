@@ -20,7 +20,7 @@ Commit: `1f5e6df` — jun 2026.
 ## Sledeći saveti za dodati
 
 - [x] `profile-logo` — u CompaniesTab, samo za Pro/Business/Agency (`canUseLogo`)
-- [x] `dashboard-recommended` — na dashboardu, samo kad `featuredTools.length > 0`
+- [x] `dashboard-recommended` + `dashboard-kalkulatori` — TipSequence na dashboardu
 - [x] `archive-email` — u ArchiveList, treći u ARCHIVE_TIPS sekvenci
 
 ## Arhitektura (za referencu)
