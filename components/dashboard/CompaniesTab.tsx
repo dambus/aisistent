@@ -33,6 +33,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { PencilIcon, Trash2Icon, StarIcon, SearchIcon, BuildingIcon } from 'lucide-react'
+import { TipCard } from '@/components/ui/TipCard'
 
 interface CompaniesTabProps {
   initialCompanies: Company[]
@@ -691,6 +692,14 @@ export function CompaniesTab({ initialCompanies, logoDisplayUrls, plan }: Compan
           </div>
         </DialogContent>
       </Dialog>
+
+      {canUseLogo && (
+        <TipCard
+          tipId="profile-logo"
+          title="Brendirani dokumenti"
+          content="Dodajte logo firme u podešavanjima — automatski se pojavljuje na svim generisanim PDF dokumentima."
+        />
+      )}
     </div>
   )
 }
