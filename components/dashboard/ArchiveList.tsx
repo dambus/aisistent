@@ -22,6 +22,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { TipSequence } from '@/components/ui/TipCard'
+
+const ARCHIVE_TIPS = [
+  {
+    id: 'archive-nova-verzija',
+    title: 'Nova verzija dokumenta',
+    content: 'Kliknite "Nova verzija" pored dokumenta da kreirate izmenjenu kopiju — original ostaje netaknut u arhivi.',
+  },
+  {
+    id: 'archive-kreiraj-slican',
+    title: 'Kreirajte sličan dokument',
+    content: '"Kreiraj sličan" kopira sve podatke u novi nezavisni dokument — idealno za isti tip ugovora sa drugom stranom.',
+  },
+]
 
 const PRIMARY = '#1B6B4A'
 
@@ -439,6 +453,8 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
           ))}
         </div>
       )}
+
+      <TipSequence tips={ARCHIVE_TIPS} />
 
       {emailDoc && (
         <SendEmailModal

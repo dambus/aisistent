@@ -9,6 +9,7 @@ import { CompanySelectModal } from './CompanySelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
 import { FakturaStavkeField } from './FakturaStavkeField'
 import { Switch } from '@/components/ui/switch'
+import { TipSequence, type TipDefinition } from '@/components/ui/TipCard'
 
 interface WizardFormProps {
   steps: WizardStep[]
@@ -113,6 +114,19 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [showCompanyModal, setShowCompanyModal] = useState(!isAgency && companies.length > 0)
+
+  const wizardTips: TipDefinition[] = [
+    ...(companies.length > 0 ? [{
+      id: 'wizard-company-autofill',
+      title: 'Automatsko popunjavanje',
+      content: 'Odaberite firmu — njeni podaci (naziv, adresa, PIB) automatski se upisuju u dokument.',
+    }] : []),
+    {
+      id: 'wizard-draft-save',
+      title: 'Čuvamo vaš napredak',
+      content: 'Ako napustite stranicu, unosi se automatski čuvaju. Sledeći put nastavljate tačno gde ste stali.',
+    },
+  ]
 
   const visibleSteps = getVisibleSteps(steps, values)
   const step = visibleSteps[currentStep] ?? visibleSteps[0]
@@ -327,6 +341,9 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
           {apiError}
         </p>
       )}
+
+      {/* Tips */}
+      <TipSequence tips={wizardTips} />
 
       {/* Navigation */}
       <div className="mt-6 flex gap-3">
