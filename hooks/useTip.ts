@@ -35,14 +35,22 @@ export function useTip(id: string, delay = 1500) {
   return { visible, dismiss, disableAll }
 }
 
-export function useFirstUnseenTip(ids: string[], delay = 1500) {
+export function useFirstUnseenTip(
+  tips: { id: string; maxDocs?: number }[],
+  delay = 1500,
+  docCount?: number,
+) {
   const [activeTipId, setActiveTipId] = useState<string | null>(null)
 
   useEffect(() => {
     try {
       if (localStorage.getItem(DISABLED_KEY) === 'true') return
       const seen: string[] = JSON.parse(localStorage.getItem(SEEN_KEY) ?? '[]')
-      const first = ids.find(id => !seen.includes(id)) ?? null
+      const first = tips.find(t => {
+        if (seen.includes(t.id)) return false
+        if (t.maxDocs !== undefined && docCount !== undefined && docCount > t.maxDocs) return false
+        return true
+      })?.id ?? null
       setActiveTipId(first)
     } catch {}
   }, []) // eslint-disable-line react-hooks/exhaustive-deps

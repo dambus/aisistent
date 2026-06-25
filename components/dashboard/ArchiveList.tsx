@@ -29,16 +29,19 @@ const ARCHIVE_TIPS = [
     id: 'archive-nova-verzija',
     title: 'Nova verzija dokumenta',
     content: 'Kliknite "Nova verzija" pored dokumenta da kreirate izmenjenu kopiju — original ostaje netaknut u arhivi.',
+    maxDocs: 10,
   },
   {
     id: 'archive-kreiraj-slican',
     title: 'Kreirajte sličan dokument',
     content: '"Kreiraj sličan" kopira sve podatke u novi nezavisni dokument — idealno za isti tip ugovora sa drugom stranom.',
+    maxDocs: 10,
   },
   {
     id: 'archive-email',
     title: 'Pošaljite dokument emailom',
     content: 'Dokument možete poslati direktno klijentu — kliknite na ikonicu koverte pored dokumenta.',
+    maxDocs: 10,
   },
 ]
 
@@ -459,7 +462,7 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
         </div>
       )}
 
-      <TipSequence tips={ARCHIVE_TIPS} />
+      <TipSequence tips={ARCHIVE_TIPS} docCount={documents.length} />
 
       {emailDoc && (
         <SendEmailModal

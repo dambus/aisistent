@@ -70,17 +70,20 @@ export interface TipDefinition {
   id: string
   title: string
   content: string
+  maxDocs?: number
 }
 
 interface TipSequenceProps {
   tips: TipDefinition[]
   delay?: number
+  docCount?: number
 }
 
-export function TipSequence({ tips, delay }: TipSequenceProps) {
+export function TipSequence({ tips, delay, docCount }: TipSequenceProps) {
   const { activeTipId, dismiss, disableAll } = useFirstUnseenTip(
-    tips.map(t => t.id),
+    tips.map(t => ({ id: t.id, maxDocs: t.maxDocs })),
     delay,
+    docCount,
   )
   const [visible, setVisible] = useState(false)
 
