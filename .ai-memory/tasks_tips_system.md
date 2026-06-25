@@ -19,9 +19,7 @@ Commit: `1f5e6df` — jun 2026.
 
 ## Sledeći saveti za dodati
 
-- [ ] `profile-logo` — u CompaniesTab, korisnicima koji još nemaju logo
-  Tekst: "Dodajte logo firme — automatski se pojavljuje na svim PDF dokumentima."
-  Uslov: prikazati samo korisnicima na Pro/Business/Agency planu
+- [x] `profile-logo` — u CompaniesTab, samo za Pro/Business/Agency (`canUseLogo`)
 - [ ] `dashboard-recommended` — na dashboardu, sekcija "Preporučeno za vas"
   Tekst: "Preporučeni alati su prilagođeni vašoj delatnosti. Promenite ih u podešavanjima."
 - [ ] `archive-email` — u ArchiveList, za slanje emailom
