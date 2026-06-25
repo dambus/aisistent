@@ -21,8 +21,7 @@ Commit: `1f5e6df` — jun 2026.
 
 - [x] `profile-logo` — u CompaniesTab, samo za Pro/Business/Agency (`canUseLogo`)
 - [x] `dashboard-recommended` — na dashboardu, samo kad `featuredTools.length > 0`
-- [ ] `archive-email` — u ArchiveList, za slanje emailom
-  Tekst: "Dokument možete poslati direktno klijentu emailom — klikom na ikonicu koverte."
+- [x] `archive-email` — u ArchiveList, treći u ARCHIVE_TIPS sekvenci
 
 ## Arhitektura (za referencu)
 
