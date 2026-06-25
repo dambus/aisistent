@@ -20,6 +20,7 @@ export const fixture: UgovorODeluData = {
   datum_zavrsetka: '2026-08-15',
   fazno: true,
   opis_faza: 'Faza 1 (do 15.7): Wireframeovi i arhitektura ekrana. Faza 2 (do 1.8): Vizuelni dizajn. Faza 3 (do 15.8): Prototip i predaja asseta.',
+  tip_prihoda: 'autorsko_delo',
   iznos: 180000,
   nacin_isplate: 'Po fazama — 40% avans, 30% po završetku Faze 2, 30% po konačnoj predaji',
   avans: 40,

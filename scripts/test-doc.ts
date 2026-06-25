@@ -77,6 +77,7 @@ async function main() {
   const { AisistentDocument } = await import('../lib/pdf/AisistentDocument.js')
 
   const buffer = await renderToBuffer(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     React.createElement(AisistentDocument, {
       generatedText,
       documentTitle: `TEST — ${docType}`,
@@ -86,7 +87,7 @@ async function main() {
       documentType: docType,
       logoUrl: null,
       companyData: null,
-    })
+    }) as React.ReactElement<any>
   )
 
   // Save output

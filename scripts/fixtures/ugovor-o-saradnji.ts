@@ -28,6 +28,9 @@ export const fixture: UgovorOSaradnjiZajmuData = {
   opis_ekskl: 'Zabrana saradnje sa direktnom konkurencijom u oblasti automatizacije dokumentacije tokom trajanja ugovora',
   nda: true,
   vlasnistvo_ip: 'Svaka strana zadržava vlasništvo nad svojom preegzistentnom IP. Zajednički razvijeni IP u suvlasništvu 50/50.',
+  prevremena: false,
+  sredstvo: 'N/A',
+  zatezna: 'zakonska zatezna kamata',
   napomene: 'Kvartalnim izveštajima prati se realizacija i ostvareni prihodi. Reinvesticija 10% prihoda u razvoj.',
   broj_ugovora: 'US-2026-001',
 }
