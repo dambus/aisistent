@@ -176,6 +176,92 @@ Agency plan razlike vs Business: "Firme" → "Klijenti" rebrand, dedicated /klij
 Limit check: `profiles.documents_this_month >= limit` u `/api/generate/route.ts`
 Free tier dodatno nema pristup arhivi i email slanju dokumenata.
 
+## Blog sistem (Supabase-based)
+
+Blog je u potpunosti baziran na Supabase — nema filesystem čitanja, novi postovi su živi bez redeployа.
+
+### Tabele
+
+```sql
+blog_posts (
+  id uuid PRIMARY KEY,
+  slug text UNIQUE NOT NULL,
+  title text NOT NULL,
+  description text,
+  content_md text,           -- markdown, konvertuje se u HTML pri renderovanju
+  date date,
+  read_time text,
+  keywords text[],
+  published boolean DEFAULT true,
+  created_at timestamptz,
+  updated_at timestamptz
+)
+-- RLS: public SELECT WHERE published = true | service_role za write
+
+blog_keywords (
+  id uuid PRIMARY KEY,
+  keyword text NOT NULL,
+  naslov text,               -- predloženi naslov posta
+  alat text,                 -- npr. 'ponuda-klijentu'
+  format text DEFAULT 'long-form',  -- 'long-form' | 'kratki' | 'listicle'
+  status text DEFAULT 'pending',    -- 'pending' | 'in-progress' | 'done' | 'skip'
+  blog_post_id uuid REFERENCES blog_posts(id),
+  created_at timestamptz
+)
+-- RLS: samo service_role (interno, n8n i Supabase dashboard)
+```
+
+### Renderovanje
+
+`lib/blog.ts` — anon Supabase client (bez cookie konteksta):
+- `getAllPostMeta()` — dohvata slug, title, date, description, read_time, keywords
+- `getPost(slug)` — dohvata content_md + konvertuje u HTML via `remark + remark-gfm + remark-html`
+
+Obe blog stranice imaju `export const dynamic = 'force-dynamic'` — uvek svež fetch iz baze.
+
+### n8n Blog Automation Workflow
+
+```
+Schedule (nedeljno)
+  ↓
+Supabase Get many rows — SELECT * FROM blog_keywords WHERE status = 'pending' LIMIT 1
+  ↓
+Code — pravi Claude prompt (keyword + naslov + alat + format)
+  ↓
+Message a Model — Claude generiše post (vraća JSON: title, description, content_md, read_time, keywords)
+  ↓
+Code — parsuje JSON, strippuje markdown fences
+  ↓
+Supabase Create — INSERT u blog_posts (published = false → draft)
+  ↓
+Supabase Update — blog_keywords SET status = 'done', blog_post_id = <novi uuid>
+  ↓
+Telegram — notifikacija adminu sa linkom za odobravanje
+```
+
+Post se kreira kao `published = false` (draft). Admin odobrava u `/admin/blog`.
+
+### Admin panel
+
+`/admin/blog` — lista svih postova (published + draft):
+- Toggle `published` dugme (odobravanje/vraćanje u draft)
+- Brisanje posta
+
+API: `PATCH /api/admin/blog` (toggle published), `DELETE /api/admin/blog` (brisanje).
+Oba endpointa zahtevaju `is_admin = true` na profilu.
+
+### Dodavanje posta ručno (CLI)
+
+Za brzi upsert postojećeg markdown sadržaja:
+```
+npm run seed:blog           # upsertuje sve fajlove iz content/blog/*.md
+```
+
+Za batch insert keyword lista:
+```
+npm run seed:blog-keywords  # ako postoji scripts/seed-blog-keywords.ts
+```
+
 ## Monetizacija
 
 - **Paddle** — payment gateway (čeka APR registraciju preduzetnika)

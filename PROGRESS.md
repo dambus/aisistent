@@ -165,6 +165,33 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - `?from=` parametar (Nova verzija / Kreiraj sličan) uvek ima prednost nad draftom
 - Draft se briše posle uspešnog generisanja dokumenta
 
+#### jun 2026. — Blog sistem + n8n automatizacija
+
+**Supabase blog migracija**
+- `blog_posts` tabela (slug, title, description, content_md, date, read_time, keywords[], published)
+- RLS: public SELECT za published postove, service_role za write
+- `lib/blog.ts` — zamena filesystem čitanja Supabase anon clientom
+- `remark-gfm` — podrška za Markdown tabele, strikethrough, task liste
+- Obe blog stranice: `force-dynamic` — novi postovi živi bez redeployа
+- `npm run seed:blog` — migracija 6 postojećih MD postova u bazu
+
+**Blog redesign**
+- Lista: editorial index format (numerisani redovi, ne kartice), featured post banner, hero sa brojačem
+- Post: `ReadingProgressBar` (scroll progress, client component), CSS drop-cap, breadcrumb, meta pill row
+- Numerisani "Nastavi čitanje" strip umesto kartica
+- `components/blog/ReadingProgressBar.tsx` — nova komponenta
+
+**Admin panel — Blog**
+- `/admin/blog` — lista svih postova (published + draft), toggle objava, brisanje
+- `PATCH/DELETE /api/admin/blog` — admin-only endpointi
+- `AdminNav` — dodat Blog link
+
+**n8n SEO blog workflow (aktivan)**
+- `blog_keywords` tabela — keyword, naslov, alat, format, status (pending/done), blog_post_id FK
+- n8n workflow: Schedule → GET pending keyword → Claude generiše post → INSERT blog_posts (draft) → UPDATE blog_keywords status=done → Telegram notifikacija
+- Post kreira se kao `published = false`; admin odobrava u `/admin/blog`
+- 11 inicijalnih keyword redova upisano
+
 ### Blokirano
 - Payment gateway (Paddle) — čeka APR registraciju
 - APR API / PIB lookup — čeka APR ugovor (samo pravna lica)
