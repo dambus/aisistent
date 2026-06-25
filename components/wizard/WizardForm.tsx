@@ -308,6 +308,8 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
             const pdvObveznik = values['izdavalac_pdv_obveznik'] as boolean
             const pdvStopaStr = values['pdv_stopa'] as string
             const pdvStopa = pdvObveznik ? (parseInt(pdvStopaStr) || 0) : 0
+            const intlPlacanje = values['medjunarodno_placanje'] === true
+            const valuta = intlPlacanje ? ((values['valuta'] as string) || 'EUR') : 'RSD'
             return (
               <div key={field.id}>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -317,6 +319,7 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
                 <FakturaStavkeField
                   value={(values[field.id] as string) ?? '[]'}
                   pdvStopa={pdvStopa}
+                  valuta={valuta}
                   onChange={val => setValue(field.id, val)}
                 />
                 {field.helperText && <HelperText text={field.helperText} />}

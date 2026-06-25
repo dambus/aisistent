@@ -13,10 +13,11 @@ interface Stavka {
 interface Props {
   value: string
   pdvStopa: number
+  valuta?: string
   onChange: (value: string) => void
 }
 
-export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
+export function FakturaStavkeField({ value, pdvStopa, valuta = 'RSD', onChange }: Props) {
   const [stavke, setStavke] = useState<Stavka[]>(() => {
     try { return JSON.parse(value) } catch { return [{ rb: 1, naziv: '', kolicina: 1, jedinica: 'kom', cena_bez_pdv: 0 }] }
   })
@@ -95,7 +96,7 @@ export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
                 />
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Cena (RSD)</label>
+                <label className="text-xs text-gray-500 mb-1 block">Cena ({valuta})</label>
                 <input
                   type="number"
                   value={stavka.cena_bez_pdv}
@@ -107,7 +108,7 @@ export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
               </div>
             </div>
             <div className="flex justify-end text-sm text-gray-600">
-              <span>Ukupno: <strong>{fmt(stavka.kolicina * stavka.cena_bez_pdv)} RSD</strong></span>
+              <span>Ukupno: <strong>{fmt(stavka.kolicina * stavka.cena_bez_pdv)} {valuta}</strong></span>
             </div>
           </div>
         ))}
@@ -120,7 +121,7 @@ export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
           <span>Naziv usluge / robe</span>
           <span>Kol.</span>
           <span>Jed.</span>
-          <span className="text-right">Cena (RSD)</span>
+          <span className="text-right">Cena ({valuta})</span>
           <span />
         </div>
         {stavke.map((stavka, i) => (
@@ -179,17 +180,17 @@ export function FakturaStavkeField({ value, pdvStopa, onChange }: Props) {
       <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-1.5">
         <div className="flex justify-between text-sm text-gray-600">
           <span>Ukupno bez PDV:</span>
-          <span>{fmt(ukupnoBezPdv)} RSD</span>
+          <span>{fmt(ukupnoBezPdv)} {valuta}</span>
         </div>
         {pdvStopa > 0 && (
           <div className="flex justify-between text-sm text-gray-600">
             <span>PDV ({pdvStopa}%):</span>
-            <span>{fmt(iznosPdv)} RSD</span>
+            <span>{fmt(iznosPdv)} {valuta}</span>
           </div>
         )}
         <div className="flex justify-between border-t border-gray-300 pt-1.5 text-base font-bold text-gray-900">
           <span>Ukupno za uplatu:</span>
-          <span>{fmt(ukupnoSaPdv)} RSD</span>
+          <span>{fmt(ukupnoSaPdv)} {valuta}</span>
         </div>
       </div>
     </div>
