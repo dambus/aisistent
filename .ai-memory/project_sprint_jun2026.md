@@ -1,0 +1,30 @@
+---
+name: project-sprint-jun2026
+description: Aktuelno stanje jun 2026 — šta je novo, šta je blokirano
+metadata: 
+  node_type: memory
+  type: project
+---
+
+## Kompletiran jun 2026.
+
+- Industry-based onboarding (`/onboarding/dobrodoslica`) — tier-specific flow, `lib/industryConfig.ts`, "Preporučeno za vas" sekcija na dashboardu
+- Free tier ograničenja: 3 dokumenta/mesec, watermark na PDF (pdf-lib), arhiva blokirana, email blokiran, kreiranje firme blokirano
+- Vokativ sistem: `lib/data/vokativ.json` (1971 ime) + `lib/utils/vocative.ts`, deterministički lookup u 7 prompt fajlova
+- Agency plan + `/klijenti` dedicated stranica (grid klijenata, brzo kreiranje, dokumenti po klijentu)
+- Verzionisanje dokumenata (`version` + `root_document_id`, "Nova verzija" dugme, `?from=<id>` pre-populacija)
+- Proširenje profila firme: `delatnost`, `ziro_racun`, `pdv_obveznik`, `website`; companyFieldMap za 7 tipova
+- Redesign CompaniesTab — Sheet forma, avatar kartice, AlertDialog za brisanje
+- Ocenjivanje dokumenata: `document_ratings` tabela, thumbs up/down u DocumentPreview i ArchiveList, n8n polling via `processed` kolona
+- n8n → GitHub issues: korisnikov thumbs-down kreira issue sa labelama `feedback` + `prompt-improvement`
+- "Kreiraj sličan" dugme u arhivi (`?from=id&copy=1`, novi nezavisan dokument)
+- Draft save u wizardu — localStorage auto-save, banner "Nastavljate gde ste stali"
+- `test:doc` skripta — `npm run test:doc <type>`, generiše PDF direktno bez UI-ja (fixture podaci)
+- PDF renderer serija fixeva: orphan headings, sanitizacija inputData/companyData, determinizam sekcije potpisa, strip markdown code fences iz Claude outputa
+
+## Blokirano
+- Timski nalozi — čeka Paddle aktivaciju (workspace model, invite, role)
+- Paddle payment gateway — čeka APR registraciju
+
+## Tekući razvoj
+- Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

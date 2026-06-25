@@ -6,6 +6,12 @@ Web platforma za generisanje poslovnih dokumenata za srpsko tržište.
 - **GitHub:** https://github.com/dambus/aisistent
 - **Stack:** Next.js 16, Supabase, Claude API, Vercel
 
+## Memorija — učitaj na početku svake sesije
+
+Fajlovi u `.ai-memory/` su cross-machine persistentna memorija — sinhronizovana putem gita.
+Na početku svake sesije pročitati `.ai-memory/MEMORY.md` i relevantne memory fajlove.
+Kada upisuješ novu memoriju, pisati u **oba** mesta: lokalni `~/.claude/projects/.../memory/` i `.ai-memory/` u repou.
+
 ## Dokumentacija — čitaj pre pisanja koda
 
 | Fajl | Kada čitati |
