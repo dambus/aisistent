@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { GreetingHeader } from '@/components/dashboard/GreetingHeader'
 import { RecentDocuments } from '@/components/dashboard/RecentDocuments'
 import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
+import { TipCard } from '@/components/ui/TipCard'
 
 interface ToolItem {
   type: string
@@ -122,6 +123,14 @@ export default async function DashboardPage() {
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Nedavno</h2>
         <RecentDocuments documents={recentDocs ?? []} />
       </div>
+
+      {featuredTools.length > 0 && (
+        <TipCard
+          tipId="dashboard-recommended"
+          title="Prilagođeno vašoj delatnosti"
+          content="Preporučeni alati su odabrani na osnovu vaše delatnosti. Promenite ih u podešavanjima profila."
+        />
+      )}
 
       {featuredTools.length > 0 && (
         <section className="mb-8">
