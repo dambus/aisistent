@@ -25,6 +25,11 @@ interface FakturaData {
   izdavalac_email?: string
   izdavalac_telefon?: string
   izdavalac_pdv_obveznik: boolean
+  medjunarodno_placanje?: boolean
+  valuta?: string
+  iban?: string
+  swift_bic?: string
+  naziv_banke?: string
   primalac_naziv: string
   primalac_pib?: string
   primalac_adresa: string
@@ -45,8 +50,8 @@ interface Props {
   }
 }
 
-function fmt(n: number) {
-  return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+function fmt(n: number, valuta = 'RSD') {
+  return `${n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${valuta}`
 }
 
 function formatDate(iso: string) {
@@ -118,6 +123,8 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
   const ukupnoBezPdv = stavke.reduce((sum, stavka) => sum + stavka.kolicina * stavka.cena_bez_pdv, 0)
   const iznosPdv = ukupnoBezPdv * pdvStopa / 100
   const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
+  const valuta = data.medjunarodno_placanje ? (data.valuta || 'EUR') : 'RSD'
+  const intl = !!data.medjunarodno_placanje
 
   const izdavalac = kompanija ? {
     naziv: kompanija.naziv,
@@ -197,8 +204,8 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
               <Text style={[s.tableCell, s.colNaziv]}>{sanitizeText(stavka.naziv)}</Text>
               <Text style={[s.tableCell, s.colKol]}>{fmt(stavka.kolicina)}</Text>
               <Text style={[s.tableCell, s.colJed]}>{sanitizeText(stavka.jedinica)}</Text>
-              <Text style={[s.tableCell, s.colCena]}>{fmt(stavka.cena_bez_pdv)}</Text>
-              <Text style={[s.tableCell, s.colUkupno]}>{fmt(ukupno)}</Text>
+              <Text style={[s.tableCell, s.colCena]}>{fmt(stavka.cena_bez_pdv, valuta)}</Text>
+              <Text style={[s.tableCell, s.colUkupno]}>{fmt(ukupno, valuta)}</Text>
             </View>
           )
         })}
@@ -206,17 +213,17 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
         <View style={s.sumaBlok}>
           <View style={s.sumaRed}>
             <Text style={s.sumaLabel}>Ukupno bez PDV:</Text>
-            <Text style={s.sumaValue}>{fmt(ukupnoBezPdv)} RSD</Text>
+            <Text style={s.sumaValue}>{fmt(ukupnoBezPdv, valuta)}</Text>
           </View>
           {pdvStopa > 0 && (
             <View style={s.sumaRed}>
               <Text style={s.sumaLabel}>PDV ({pdvStopa}%):</Text>
-              <Text style={s.sumaValue}>{fmt(iznosPdv)} RSD</Text>
+              <Text style={s.sumaValue}>{fmt(iznosPdv, valuta)}</Text>
             </View>
           )}
           <View style={s.sumaUkupnoRed}>
             <Text style={s.sumaUkupnoLabel}>Ukupno za uplatu:</Text>
-            <Text style={s.sumaUkupnoValue}>{fmt(ukupnoSaPdv)} RSD</Text>
+            <Text style={s.sumaUkupnoValue}>{fmt(ukupnoSaPdv, valuta)}</Text>
           </View>
         </View>
 
@@ -229,7 +236,43 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
               </>
             )}
           </View>
-          {(data.izdavalac_tekuci_racun || data.poziv_na_broj) && (
+          {intl ? (
+            <View style={s.placanjeBok}>
+              <Text style={s.placanjeLabel}>Payment details / Podaci za placanje</Text>
+              <View style={s.placanjeRed}>
+                <Text style={s.placanjeKey}>Beneficiary:</Text>
+                <Text style={s.placanjeVal}>{sanitizeText(izdavalac.naziv)}</Text>
+              </View>
+              {data.iban && (
+                <View style={s.placanjeRed}>
+                  <Text style={s.placanjeKey}>IBAN:</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.iban)}</Text>
+                </View>
+              )}
+              {data.swift_bic && (
+                <View style={s.placanjeRed}>
+                  <Text style={s.placanjeKey}>SWIFT / BIC:</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.swift_bic)}</Text>
+                </View>
+              )}
+              {data.naziv_banke && (
+                <View style={s.placanjeRed}>
+                  <Text style={s.placanjeKey}>Bank:</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.naziv_banke)}</Text>
+                </View>
+              )}
+              {data.poziv_na_broj && (
+                <View style={s.placanjeRed}>
+                  <Text style={s.placanjeKey}>Reference:</Text>
+                  <Text style={s.placanjeVal}>{sanitizeText(data.poziv_na_broj)}</Text>
+                </View>
+              )}
+              <View style={s.placanjeRed}>
+                <Text style={s.placanjeKey}>Amount:</Text>
+                <Text style={s.placanjeVal}>{fmt(ukupnoSaPdv, valuta)}</Text>
+              </View>
+            </View>
+          ) : (data.izdavalac_tekuci_racun || data.poziv_na_broj) ? (
             <View style={s.placanjeBok}>
               <Text style={s.placanjeLabel}>Podaci za placanje</Text>
               {data.izdavalac_tekuci_racun && (
@@ -246,16 +289,18 @@ export function FakturaPDF({ data, logoUrl, kompanija }: Props) {
               )}
               <View style={s.placanjeRed}>
                 <Text style={s.placanjeKey}>Iznos:</Text>
-                <Text style={s.placanjeVal}>{fmt(ukupnoSaPdv)} RSD</Text>
+                <Text style={s.placanjeVal}>{fmt(ukupnoSaPdv, valuta)}</Text>
               </View>
             </View>
-          )}
+          ) : null}
         </View>
 
         {!data.izdavalac_pdv_obveznik && (
           <View style={s.pdvNapomena}>
             <Text style={s.pdvNapomenaText}>
-              Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.
+              {intl
+                ? 'The issuer is not registered for VAT in the Republic of Serbia. VAT is not applicable. / Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.'
+                : 'Napomena: Izdavalac fakture nije u sistemu PDV-a u smislu Zakona o PDV Republike Srbije. PDV nije obracunat.'}
             </Text>
           </View>
         )}
