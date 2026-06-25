@@ -7,206 +7,173 @@ export const metadata: Metadata = {
   description: 'Vodiči, kalkulatori i pravni saveti za srpske preduzetnike i freelancere.',
 }
 
-const PRIMARY = '#1B6B4A'
-const DARK = '#052e16'
-const BLOG_CTA_STYLES = `
-.blog-cta-btn {
-  border: 1px solid white;
-  color: white;
-  background: transparent;
-  transition: all 0.15s ease;
-}
+const P = '#1B6B4A'
+const D = '#052e16'
 
-.blog-cta-btn:hover {
-  background: white;
-  color: ${DARK};
-}
-`
-
-const navLinks = [
+const NAV = [
   { href: '/#alati', label: 'Alati' },
   { href: '/blog', label: 'Blog' },
   { href: '/#cenovnik', label: 'Cenovnik' },
 ]
 
-const TOPICS = ['Ugovori', 'Porezi', 'Freelance', 'Registracija firme', 'HR', 'Kalkulatori']
+function categoryFromKeywords(keywords: string[]): string {
+  const kw = keywords[0] ?? ''
+  if (/ugovor|nda|punomo/i.test(kw)) return 'Ugovori'
+  if (/porez|paušal|doo|freelanc/i.test(kw)) return 'Porezi'
+  if (/registr|osniv|apr/i.test(kw)) return 'Osnivanje'
+  if (/gdpr|zzpl|privat/i.test(kw)) return 'Pravo'
+  return 'Saveti'
+}
 
 export default async function BlogPage() {
   const posts = await getAllPostMeta()
   const [featured, ...rest] = posts
 
   return (
-    <div className="min-h-screen bg-white" style={{ color: '#111827' }}>
-      <style dangerouslySetInnerHTML={{ __html: BLOG_CTA_STYLES }} />
+    <div className="min-h-screen bg-white">
 
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          <a href="/" className="flex items-center">
-            <img
-              src="/logo/AIsistent-Logo_6003x180.png"
-              alt="AIsistent"
-              height={32}
-              style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
-            />
+      {/* ── NAV ── */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <nav className="mx-auto max-w-6xl px-5 lg:px-8 h-14 flex items-center justify-between">
+          <a href="/">
+            <img src="/logo/AIsistent-Logo_6003x180.png" alt="AIsistent" height={28}
+              style={{ maxWidth: 140, width: 'auto', objectFit: 'contain' }} />
           </a>
-          <div className="hidden items-center gap-6 md:flex">
-            {navLinks.map(l => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900"
-              >
+          <div className="hidden md:flex items-center gap-6">
+            {NAV.map(l => (
+              <a key={l.href} href={l.href}
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
                 {l.label}
               </a>
             ))}
           </div>
-          <a
-            href="/register"
-            className="rounded-lg px-4 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: PRIMARY }}
-          >
+          <a href="/register" className="text-sm font-bold text-white rounded-lg px-4 py-2 transition-opacity hover:opacity-90"
+            style={{ backgroundColor: P }}>
             Počnite besplatno
           </a>
         </nav>
       </header>
 
-      <section style={{ backgroundColor: DARK }} className="px-5 py-20 lg:px-8">
-        <div className="mx-auto max-w-4xl">
-          <p
-            className="mb-4 inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-            style={{ backgroundColor: '#14532d', color: '#6ee7b7', letterSpacing: '0.12em' }}
-          >
-            Resursi
+      {/* ── HERO ── */}
+      <section style={{ backgroundColor: D }}>
+        <div className="mx-auto max-w-6xl px-5 lg:px-8 pt-16 pb-12">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#6ee7b7' }}>
+                Resursi za preduzetnike
+              </p>
+              <h1 className="text-5xl sm:text-6xl font-extrabold text-white tracking-tight leading-none">
+                Blog
+              </h1>
+            </div>
+            <div className="hidden sm:flex flex-col items-end gap-1 pb-1">
+              <p className="text-4xl font-bold tabular-nums" style={{ color: '#6ee7b7' }}>{posts.length}</p>
+              <p className="text-xs text-green-600 uppercase tracking-widest">članaka</p>
+            </div>
+          </div>
+          <p className="mt-5 text-base leading-relaxed max-w-xl" style={{ color: '#86efac' }}>
+            Vodiči, pravni saveti i finansijski kalkulatori za srpske preduzetnike i freelancere.
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Saveti za preduzetnike
-          </h1>
-          <p className="mt-4 text-lg leading-relaxed" style={{ color: '#86efac' }}>
-            Vodiči, kalkulatori i pravni saveti za srpske preduzetnike i freelancere.
-          </p>
+        </div>
+        {/* Dekorativna linija */}
+        <div className="h-px mx-auto max-w-6xl px-5 lg:px-8">
+          <div className="h-px opacity-20" style={{ background: `linear-gradient(to right, ${P}, transparent)` }} />
         </div>
       </section>
 
-      <main className="mx-auto max-w-4xl px-5 py-14 lg:px-8">
+      <main className="mx-auto max-w-6xl px-5 lg:px-8">
+
+        {/* ── ISTAKNUTI POST ── */}
         {featured && (
-          <Link
-            href={`/blog/${featured.slug}`}
-            className="group mb-12 block rounded-2xl bg-white p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
-            style={{
-              borderLeft: `4px solid ${PRIMARY}`,
-              boxShadow: '0 1px 4px rgba(0,0,0,0.07)',
-            }}
-          >
-            <p
-              className="mb-3 text-xs font-bold uppercase tracking-widest"
-              style={{ color: PRIMARY, letterSpacing: '0.1em' }}
-            >
-              Istaknuto
-            </p>
-            <h2 className="text-2xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-primary sm:text-3xl">
-              {featured.title}
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-gray-500 line-clamp-2">
-              {featured.description}
-            </p>
-            <div className="mt-6 flex items-center justify-between">
-              <span className="text-sm font-semibold" style={{ color: PRIMARY }}>
-                Pročitajte →
-              </span>
-              <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                <time dateTime={featured.date}>{featured.date}</time>
-                {featured.readTime && (
-                  <>
-                    <span>·</span>
-                    <span>{featured.readTime} čitanja</span>
-                  </>
-                )}
+          <Link href={`/blog/${featured.slug}`} className="group block">
+            <div className="py-10 sm:py-14 border-b-2 border-gray-100 grid sm:grid-cols-[1fr_320px] gap-8 sm:gap-16 items-end">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] mb-4" style={{ color: P }}>
+                  Istaknuto
+                </p>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight group-hover:text-green-800 transition-colors">
+                  {featured.title}
+                </h2>
+                <p className="mt-4 text-base text-gray-500 leading-relaxed line-clamp-2">
+                  {featured.description}
+                </p>
+              </div>
+              <div className="flex sm:flex-col sm:items-end gap-4 sm:gap-3">
+                <div className="flex sm:flex-col sm:items-end gap-2 text-xs text-gray-400">
+                  <time dateTime={featured.date}>{featured.date}</time>
+                  {featured.readTime && <span>· {featured.readTime} čitanja</span>}
+                </div>
+                <span className="text-sm font-bold transition-transform group-hover:translate-x-1 inline-block" style={{ color: P }}>
+                  Pročitajte →
+                </span>
               </div>
             </div>
           </Link>
         )}
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_220px]">
-          <div className="grid gap-6 sm:grid-cols-2">
-            {rest.map(post => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="group flex flex-col rounded-xl bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-                style={{
-                  borderTop: `3px solid ${PRIMARY}`,
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                }}
-              >
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="text-lg font-semibold leading-snug text-gray-900 transition-colors group-hover:text-primary">
-                    {post.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-500 line-clamp-3">
-                    {post.description}
-                  </p>
-                  <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4 text-xs text-gray-400">
-                    <time dateTime={post.date}>{post.date}</time>
-                    {post.readTime && <span>{post.readTime} čitanja</span>}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+        {/* ── EDITORIAL INDEX ── */}
+        {rest.length > 0 && (
+          <section className="py-10">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-400 mb-6">
+              Svi članci
+            </p>
+            <div>
+              {rest.map((post, i) => {
+                const category = categoryFromKeywords(post.keywords)
+                return (
+                  <Link key={post.slug} href={`/blog/${post.slug}`}
+                    className="group flex items-baseline gap-5 py-5 border-b border-gray-100 hover:border-green-200 transition-colors">
 
-          <aside className="hidden lg:block">
-            <div className="rounded-xl p-5" style={{ backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-widest" style={{ color: PRIMARY, letterSpacing: '0.1em' }}>
-                Popularne teme
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {TOPICS.map(topic => (
-                  <span
-                    key={topic}
-                    className="rounded-full px-3 py-1.5 text-xs font-semibold"
-                    style={{ backgroundColor: '#dcfce7', color: '#166534' }}
-                  >
-                    {topic}
-                  </span>
-                ))}
-              </div>
+                    {/* Redni broj */}
+                    <span className="text-xs font-bold tabular-nums text-gray-300 group-hover:text-green-400 transition-colors w-6 shrink-0">
+                      {String(i + 2).padStart(2, '0')}
+                    </span>
+
+                    {/* Kategorija */}
+                    <span className="hidden sm:block text-[10px] font-bold uppercase tracking-widest shrink-0 w-24"
+                      style={{ color: P }}>
+                      {category}
+                    </span>
+
+                    {/* Naslov */}
+                    <span className="flex-1 text-base font-semibold text-gray-800 leading-snug group-hover:text-green-800 transition-colors line-clamp-1">
+                      {post.title}
+                    </span>
+
+                    {/* Meta */}
+                    <div className="hidden md:flex items-center gap-3 text-xs text-gray-400 shrink-0">
+                      <time dateTime={post.date}>{post.date}</time>
+                      {post.readTime && <span>{post.readTime}</span>}
+                    </div>
+
+                    {/* Arrow */}
+                    <span className="text-gray-300 group-hover:text-green-500 transition-all group-hover:translate-x-0.5 text-sm shrink-0">
+                      →
+                    </span>
+                  </Link>
+                )
+              })}
             </div>
+          </section>
+        )}
 
-            <div className="mt-6 rounded-xl p-5" style={{ backgroundColor: DARK }}>
-              <h3 className="mb-2 text-sm font-bold text-white">Generišite dokument</h3>
-              <p className="mb-4 text-xs leading-relaxed" style={{ color: '#86efac' }}>
-                Ugovor, faktura, poslovni mejl — AI generiše za 60 sekundi.
-              </p>
-              <a
-                href="/register"
-                className="block rounded-lg py-2.5 text-center text-xs font-bold text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: PRIMARY }}
-              >
-                Počnite besplatno
-              </a>
-            </div>
-          </aside>
-        </div>
-
-        <section className="mt-16 rounded-2xl px-8 py-12 text-center" style={{ backgroundColor: DARK }}>
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+        {/* ── CTA BLOK ── */}
+        <section className="my-10 rounded-2xl px-8 py-12 text-center" style={{ backgroundColor: D }}>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Treba vam dokument odmah?
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed" style={{ color: '#86efac' }}>
-            Naši AI alati generišu profesionalne dokumente za 60 sekundi.
+          <p className="mt-3 text-sm leading-relaxed max-w-md mx-auto" style={{ color: '#86efac' }}>
+            AI alati generišu profesionalne dokumente za 60 sekundi.
           </p>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             {[
               ['Ugovor o radu', '/ugovor-o-radu'],
               ['NDA sporazum', '/nda'],
               ['Poslovni mejl', '/poslovni-mejl'],
               ['Ugovor o delu', '/ugovor-o-delu'],
             ].map(([label, href]) => (
-              <a
-                key={href}
-                href={href}
-                className="blog-cta-btn rounded-xl px-4 py-3 text-sm font-semibold"
-              >
+              <a key={href} href={href}
+                className="rounded-xl border border-white/20 text-white px-5 py-2.5 text-sm font-semibold hover:bg-white hover:text-green-900 transition-all">
                 {label}
               </a>
             ))}
@@ -214,66 +181,35 @@ export default async function BlogPage() {
         </section>
       </main>
 
-      <footer style={{ backgroundColor: DARK, color: '#d1fae5' }} className="py-12 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="font-semibold text-white mb-4">Alati</h3>
-              <ul className="space-y-2 text-sm">
-                {[
-                  ['Ugovor o radu', '/ugovor-o-radu'],
-                  ['Ugovor o delu', '/ugovor-o-delu'],
-                  ['NDA sporazum', '/nda'],
-                  ['Ugovor o zakupu', '/ugovor-o-zakupu'],
-                  ['Ugovor o saradnji', '/ugovor-o-saradnji'],
-                  ['Punomoćje', '/punomocje'],
-                  ['Opšti uslovi', '/opsti-uslovi'],
-                ].map(([label, href]) => (
-                  <li key={href}>
-                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-white mb-4">Resursi</h3>
-              <ul className="space-y-2 text-sm">
-                {[
-                  ['Blog', '/blog'],
-                  ['Kalkulator zarade', '/kalkulator-zarade'],
-                  ['Kalkulator paušala', '/kalkulator-pausala'],
-                  ['Poslovni mejl', '/poslovni-mejl'],
-                  ['Oglas za posao', '/oglas-za-posao'],
-                ].map(([label, href]) => (
-                  <li key={href}>
-                    <a href={href} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors">
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-white mb-4">AIsistent</h3>
-              <ul className="space-y-2 text-sm" style={{ color: '#6ee7b7' }}>
-                <li>
-                  <a href="mailto:info@aisistent.rs" className="hover:text-white transition-colors">
-                    info@aisistent.rs
-                  </a>
-                </li>
-                <li>Napravljeno u Srbiji</li>
-              </ul>
-            </div>
+      {/* ── FOOTER ── */}
+      <footer style={{ backgroundColor: D, color: '#d1fae5' }} className="py-12 px-5">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+          <div>
+            <p className="font-semibold text-white mb-4 text-sm">Alati</p>
+            <ul className="space-y-2 text-sm">
+              {[['Ugovor o radu','/ugovor-o-radu'],['Ugovor o delu','/ugovor-o-delu'],['NDA sporazum','/nda'],['Punomoćje','/punomocje'],['Opšti uslovi','/opsti-uslovi']].map(([l,h])=>(
+                <li key={h}><a href={h} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors text-sm">{l}</a></li>
+              ))}
+            </ul>
           </div>
-          <div
-            className="border-t pt-6 text-xs text-center space-y-1"
-            style={{ borderColor: '#14532d', color: '#6ee7b7' }}
-          >
-            <p>© 2026 AIsistent. Sva prava zadržana.</p>
-            <p>Dokumenti generisani uz pomoć AIsistenta. Preporučuje se pravna provera pre upotrebe.</p>
+          <div>
+            <p className="font-semibold text-white mb-4 text-sm">Resursi</p>
+            <ul className="space-y-2">
+              {[['Blog','/blog'],['Kalkulator zarade','/kalkulator-zarade'],['Kalkulator paušala','/kalkulator-pausala']].map(([l,h])=>(
+                <li key={h}><a href={h} style={{ color: '#6ee7b7' }} className="hover:text-white transition-colors text-sm">{l}</a></li>
+              ))}
+            </ul>
           </div>
+          <div>
+            <p className="font-semibold text-white mb-4 text-sm">AIsistent</p>
+            <ul className="space-y-2" style={{ color: '#6ee7b7' }}>
+              <li><a href="mailto:info@aisistent.rs" className="hover:text-white transition-colors text-sm">info@aisistent.rs</a></li>
+              <li className="text-sm">Napravljeno u Srbiji</li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t pt-6 text-xs text-center space-y-1" style={{ borderColor: '#14532d', color: '#6ee7b7' }}>
+          <p>© 2026 AIsistent. Sva prava zadržana.</p>
         </div>
       </footer>
     </div>

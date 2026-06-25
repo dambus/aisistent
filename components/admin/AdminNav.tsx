@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: '/admin', label: 'Pregled' },
   { href: '/admin/korisnici', label: 'Korisnici' },
   { href: '/admin/dokumenti', label: 'Dokumenti' },
+  { href: '/admin/blog', label: 'Blog' },
 ]
 
 export function AdminNav() {
