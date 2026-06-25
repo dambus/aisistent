@@ -13,11 +13,12 @@
 ### Dokumenti i generisanje
 - 17 tipova AI dokumenata ✅
 - Faktura / Profaktura (bez AI, direktno renderovanje) ✅
+- Faktura — međunarodno plaćanje: SWIFT/IBAN/valuta u wizardu, PDF i DOCX ✅
 - Putni nalog — wizard, PDF renderer, DOCX, preview, email ✅
 - PDF i DOCX export za sve tipove ✅
 - Email slanje dokumenata (Resend) ✅
 - Blur preview za free korisnike ✅
-- Brendiranje firme — logo u PDF/DOCX (Pro/Business) ✅
+- Brendiranje firme — logo u PDF/DOCX (Pro/Business/Agency) ✅
 
 ### UI / UX
 - Wizard sa helper tekstovima i tooltipovima ✅

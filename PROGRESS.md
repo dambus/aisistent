@@ -192,6 +192,24 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - Post kreira se kao `published = false`; admin odobrava u `/admin/blog`
 - 11 inicijalnih keyword redova upisano
 
+#### jun 2026. — Faktura međunarodno plaćanje + bug fixevi
+
+**Međunarodno plaćanje (SWIFT/IBAN)**
+- Toggle `medjunarodno_placanje` u Izdavalac koraku wizarda
+- Conditional polja: `valuta` (EUR/USD/GBP/CHF), `iban`, `swift_bic`, `naziv_banke`
+- PDF: IBAN/SWIFT blok ("Payment details / Podaci za plaćanje"), iznosi u izabranoj valuti
+- DOCX: isti blok, srpska jezička oznaka (sr-RS) za eliminaciju Word spellcheck crtica
+- PDV napomena bilingual za međunarodne fakture (čl. 12 st. 4 Zakona o PDV)
+- Wizard stavke prikazuje valutu dinamički: "Cena (EUR)" umesto "Cena (RSD)"
+- `fakturaSchema` u generate/route.ts — dodata nova polja (Zod ih je strippovao)
+- `types/wizard.ts` FakturaData interface sinhronizovan
+- `fmtNum()` izdvojen za količinu (bez valute), `fmt()` za novčane iznose
+
+**Bug fixevi**
+- Agency plan nije mogao da preuzme DOCX (nedostajao u `DOCX_PLANS`)
+- Agency plan nije imao logo u PDF-u (nedostajao u `LOGO_PLANS` oba export route-a)
+- DOCX faktura: email/telefon izdavaoca ranije nisu ispisivani
+
 ### Blokirano
 - Payment gateway (Paddle) — čeka APR registraciju
 - APR API / PIB lookup — čeka APR ugovor (samo pravna lica)
