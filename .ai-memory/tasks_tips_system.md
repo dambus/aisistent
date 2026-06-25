@@ -23,10 +23,20 @@ Commit: `1f5e6df` — jun 2026.
 - [x] `dashboard-recommended` + `dashboard-kalkulatori` — TipSequence na dashboardu
 - [x] `archive-email` — u ArchiveList, treći u ARCHIVE_TIPS sekvenci
 
+## Urađeno — nastavak
+
+- [x] `maxDocs` uslov — tip se preskače ako korisnik ima više dokumenata od praga
+- [x] `minDocs` uslov — tip se preskače ako korisnik ima manje dokumenata od praga
+- [x] `archive-search` — minDocs=5, maxDocs=25
+- [x] `archive-version-badge` — samo kad postoji v2+ dokument, maxDocs=20
+- [x] `dashboard-kalkulatori` — TipSequence sa dashboard-recommended
+
 ## Arhitektura (za referencu)
 
 - localStorage ključevi: `aisistent_tips_seen` (JSON niz ID-eva), `aisistent_tips_disabled` (bool)
 - `TipSequence` — prikazuje prvi neviđeni tip iz prosleđene liste; svaki tip se vidi samo jednom
 - `TipCard` — za mesta gde postoji tačno jedan tip (bez sekvence)
+- `TipDefinition.minDocs` / `maxDocs` — prag dokumenata za prikazivanje
+- Uslovni tipovi (npr. badge, company autofill) — uslovno se dodaju u niz pre prosleđivanja
 - Delay: 1500ms (default) — kartica se pojavljuje tiho nakon učitavanja stranice
 - Pozicija: `fixed bottom-6 right-6 z-50`, 288px širina
