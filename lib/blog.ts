@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { remark } from 'remark'
 import html from 'remark-html'
+import remarkGfm from 'remark-gfm'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -47,7 +48,7 @@ export async function getPost(slug: string): Promise<Post | null> {
 
   if (!data) return null
 
-  const processed = await remark().use(html).process(data.content_md)
+  const processed = await remark().use(remarkGfm).use(html).process(data.content_md)
 
   return {
     slug: data.slug,

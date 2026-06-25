@@ -62,6 +62,10 @@ const STYLES = `
 .prose code { font-family: monospace; background: #f3f4f6; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
 .prose pre { background: #f8f9fa; border: 1px solid #e5e7eb; padding: 1em; border-radius: 8px; overflow-x: auto; margin-bottom: 1.4em; }
 .prose pre code { background: none; padding: 0; font-size: 13px; }
+.prose table { width: 100%; border-collapse: collapse; margin-bottom: 1.4em; font-size: 15px; }
+.prose th { background: #f0fdf4; color: ${D}; font-weight: 700; text-align: left; padding: 10px 14px; border: 1px solid #d1fae5; }
+.prose td { padding: 9px 14px; border: 1px solid #e5e7eb; color: #374151; }
+.prose tr:nth-child(even) td { background: #fafafa; }
 
 /* Drop-cap na prvom paragrafu */
 .prose p:first-of-type::first-letter {
