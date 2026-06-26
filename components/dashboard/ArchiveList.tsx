@@ -371,6 +371,16 @@ export function ArchiveList({ documents }: { documents: ArchiveDocument[] }) {
                     </svg>
                   </button>
 
+                  <Link
+                    href={`/arhiva/${doc.id}`}
+                    title="Otvori dokument"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </Link>
+
                   <button
                     type="button"
                     onClick={() => router.push(`/dokumenti/${doc.type}?from=${doc.id}&copy=1`)}
