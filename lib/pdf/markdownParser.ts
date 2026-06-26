@@ -108,6 +108,10 @@ export function parseMarkdown(text: string): Block[] {
     if (/^sporazum\s+potpisuju/i.test(line)) break
     if (/^mesto\s+i\s+datum\s+potpisivanja/i.test(line)) break
     if (/^u\s+\S+,?\s+dana\s+_{2,}/i.test(line)) break
+    // Claude ponekad ubaci ZA PRVU/DRUGU STRANU blok u telo pri AI poboljšanju
+    if (/^\*{0,2}za\s+(prvu|drugu|tre[cć]u)\s+stranu/i.test(line)) break
+    if (/^(prva|druga|tre[cć]a)\s+strana\s*:?\s*$/i.test(line)) break
+    if (/^potpisnik\s+(1|2|jedan|dva)/i.test(line)) break
 
     if (isTableRow(line) && !isTableSeparator(line)) {
       const tableLines: string[] = []
