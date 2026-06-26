@@ -50,6 +50,13 @@ const ARCHIVE_TIPS = [
     minDocs: 5,
     maxDocs: 25,
   },
+  {
+    id: 'archive-poboljsaj',
+    title: 'Izmenite dokument jednom rečenicom',
+    content: 'Otvorite dokument i kliknite "Poboljšaj dokument" — opišite izmenu, AI je primenjuje za sekunde.',
+    minDocs: 1,
+    maxDocs: 15,
+  },
 ]
 
 const PRIMARY = '#1B6B4A'

@@ -76,6 +76,8 @@
 - SEF integracija — ~~slanje fakture na Sistem elektronskih faktura~~
   Blokirano: zahteva registraciju pravnog lica + dozvolu MF kao informacioni posrednik
 - **Verzionisanje dokumenata** ✅ — version + root_document_id, "Nova verzija" dugme, ?from= pre-populacija
+- **"Poboljšaj dokument"** ✅ — AI chat za izmene, ImprovePanel Sheet, rate limit po planu, /api/improve
+- **/arhiva/[id]** ✅ — dedicated stranica za svaki dokument sa svim akcijama, floating save banner
 - **Proširenje profila firme** ✅ — delatnost, ziro_racun, pdv_obveznik, website; companyFieldMap za 7 tipova
 - **Redesign CompaniesTab** ✅ — Sheet forma, avatar kartice, ikonska dugmad, AlertDialog, pretraga
 - **Timski nalozi** — Blokiran: čeka Paddle aktivaciju. Arhitektura: workspace model, invite, role (owner/member)

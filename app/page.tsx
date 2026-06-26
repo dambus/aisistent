@@ -47,8 +47,8 @@ const steps = [
   {
     num: '3',
     icon: '📥',
-    title: 'Preuzmite i koristite',
-    text: 'PDF ili Word format, spreman za potpisivanje. Sačuvan u arhivi za buduće korišćenje.',
+    title: 'Preuzmite i doradite',
+    text: 'PDF ili Word format, spreman za potpisivanje. Sačuvan u arhivi — izmenite jednom rečenicom kad god zatrebaju.',
   },
 ]
 
@@ -118,8 +118,8 @@ const withAisistent = [
   'Gotov dokument za 2 minuta',
   'Mesečna pretplata jeftinija od jednog sata pravnih usluga',
   'Prilagođeno srpskom pravu i poslovnoj praksi',
-  'Svi dokumenti na jednom mestu',
-  'Arhiva za ponovno korišćenje',
+  'Svi dokumenti na jednom mestu — arhiva sa preuzimanjem kad god zatrebaju',
+  'AI izmene jednom rečenicom — bez ponovnog generisanja',
 ]
 
 const pricing: (PricingPlan & { features: [string, string][] })[] = [
@@ -145,6 +145,7 @@ const pricing: (PricingPlan & { features: [string, string][] })[] = [
       ['✓', 'PDF bez watermark-a'],
       ['✓', 'Email slanje dokumenata'],
       ['✓', 'Arhiva dokumenata'],
+      ['✓', 'AI izmene dokumenta (15/dan)'],
       ['✕', 'Word (DOCX) format'],
     ],
   },
@@ -161,6 +162,7 @@ const pricing: (PricingPlan & { features: [string, string][] })[] = [
       ['✓', 'PDF i Word (DOCX) export'],
       ['✓', 'Brendiranje sa logom firme'],
       ['✓', 'Email slanje dokumenata'],
+      ['✓', 'AI izmene dokumenta (neograničeno)'],
     ],
   },
 
@@ -179,6 +181,7 @@ const pricing: (PricingPlan & { features: [string, string][] })[] = [
       ['✓', 'Logo firme u dokumentima'],
       ['✓', 'Arhiva po klijentu'],
       ['✓', 'Email slanje dokumenta klijentu'],
+      ['✓', 'AI izmene dokumenta (neograničeno)'],
       ['✕', 'Više korisnika na nalogu (uskoro)'],
     ],
   },

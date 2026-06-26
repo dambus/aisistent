@@ -41,5 +41,8 @@ metadata:
 - Bugovi koji su nađeni uz put: Agency plan nedostajao u `DOCX_PLANS` i `LOGO_PLANS`
 - Root cause fix: `fakturaSchema` u `generate/route.ts` nije imao nova polja → Zod ih je strippovao → `generated_text` nije imao IBAN/SWIFT
 
+- **"Poboljšaj dokument" AI chat**: `ImprovePanel` Sheet komponenta u `DocumentPreview`; `POST /api/improve`; rate limit (starter: 15/dan, pro/agency: 50/dan); free blokiran (403); starter UI: 3-dot brojač po sesiji (limit 3); izmena se broji čim AI vrati odgovor (`onTextUpdated` → `textSaved(false)`); panel se može zatvoriti bez blokade; floating "Sačuvaj" dugme direktno u amber banneru u `DocumentPreview`; PDF/DOCX/email disabled dok ima nesačuvanih izmena; `PATCH /api/documents/[id]` za čuvanje
+- **`/arhiva/[id]`**: dedicated stranica za svaki dokument — server fetch + pun `DocumentPreview`; breadcrumb; `GET /api/documents/[id]` vraća i `generated_text`, `title`, `is_free`; `onReset` prop opcionalan; ArchiveList ima "Otvori" ikonu (external link); `/klijenti/[id]` "Otvori →" fiksiran na `/arhiva/[id]`
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

@@ -29,6 +29,33 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 26. jun 2026. — "Poboljšaj dokument" + /arhiva/[id] + UX fixevi
+
+**"Poboljšaj dokument" AI panel — redesign i workflow fix**
+- `ImprovePanel.tsx`: potpuni redizajn — proper padding/spacing, konzistentno sa app dizajnom
+- Workflow fix: izmena se broji čim AI vrati odgovor (`onTextUpdated`), ne čeka Save
+- Panel se može zatvoriti u svakom trenutku bez blokade
+- Ctrl+Enter shortcut za slanje instrukcije
+- History primenjenih izmena sa SVG checkmark ikonama
+
+**Floating save + guard**
+- Bug fix: `onTextUpdated` sada pravilno postavlja `textSaved(false)` — Save dugme više nije uvek disabled
+- Amber banner "Imate nesačuvane izmene" ima direktno "Sačuvaj" dugme (van panela)
+- PDF, DOCX i email akcije su disabled dok postoje nesačuvane izmene
+
+**`/arhiva/[id]` — dedicated stranica za svaki dokument**
+- Server component: fetch dokumenta iz Supabase + profile plan
+- Prikazuje pun `DocumentPreview` sa svim akcijama (poboljšaj, PDF, DOCX, email, nova verzija)
+- Breadcrumb "Arhiva › Naziv dokumenta" sa verzijom badge-om
+- `GET /api/documents/[id]` proširen: vraća i `generated_text`, `title`, `is_free`
+- `onReset` prop na `DocumentPreview` je sada opcionalan (arhiva ne prikazuje post-gen header)
+
+**ArchiveList — "Otvori dokument" link**
+- Nova ikona (external link) u redu svake stavke → `/arhiva/[id]`
+
+**`/klijenti/[id]` fix**
+- "Otvori →" link vodi na `/arhiva/[id]` umesto `/arhiva?docId=` (koji nije radio)
+
 #### 26. jun 2026. — Uklonjen Business plan + pricing layout fix
 
 **Uklonjen Business plan**
