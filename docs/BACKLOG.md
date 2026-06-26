@@ -54,6 +54,12 @@
 
 ## 🟡 Srednji prioritet
 
+- **DOCX formatiranje — audit i fix** — Prijavljeno 26. jun 2026. na primeru NDA:
+  - Nedostaje "POVERLJIVO" watermark/oznaka u zaglavlju (kao u PDF-u)
+  - Viseći naslovi — `Član X.` ostaje na dnu strane bez sadržaja koji sledi
+  - Sekcija potpisa izgleda čudno — tabela/raspored nije konzistentan sa PDF-om
+  - Uraditi audit svih tipova dokumenta u DOCX formatu, ne samo NDA
+
 - **APR API / PIB lookup** — ~~Istražiti~~ Blokirano: zahteva ugovor sa APR,
   dostupno samo pravnim licima. Implementirati tek nakon otvaranja firme.
 
