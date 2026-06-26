@@ -251,7 +251,7 @@ export default async function KlijentDetailPage({ params }: PageProps) {
           {docs.map(doc => (
             <Link
               key={doc.id}
-              href={`/arhiva?docId=${doc.id}`}
+              href={`/arhiva/${doc.id}`}
               className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-colors group"
             >
               <div className="min-w-0 flex-1">

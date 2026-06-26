@@ -17,7 +17,7 @@ interface DocumentPreviewProps {
   isFree?: boolean
   plan?: string
   selectedCompany?: Company | null
-  onReset: () => void
+  onReset?: () => void
 }
 
 type ExportFormat = 'pdf' | 'docx'
@@ -79,7 +79,7 @@ async function downloadExport(documentId: string, format: ExportFormat): Promise
 
 type RatingState = 'idle' | 'negative-comment' | 'done'
 
-export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, onReset }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, onReset = undefined }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
@@ -129,6 +129,22 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
   const clientPrefill = isAgency && selectedCompany?.email
     ? { email: selectedCompany.email, name: selectedCompany.naziv }
     : undefined
+
+  const [improveSaveLoading, setImproveSaveLoading] = useState(false)
+
+  async function handleImproveSave() {
+    setImproveSaveLoading(true)
+    try {
+      const res = await fetch(`/api/documents/${documentId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ generated_text: activeText }),
+      })
+      if (res.ok) setTextSaved(true)
+    } finally {
+      setImproveSaveLoading(false)
+    }
+  }
 
   async function handleExport(format: ExportFormat) {
     setError('')
@@ -681,24 +697,36 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">Vaš dokument je spreman</h2>
-          <p className="text-sm text-gray-500">Proverite sadržaj i preuzmite u željenom formatu.</p>
+      {onReset && (
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Vaš dokument je spreman</h2>
+            <p className="text-sm text-gray-500">Proverite sadržaj i preuzmite u željenom formatu.</p>
+          </div>
+          <button
+            onClick={onReset}
+            className="text-sm text-gray-500 underline underline-offset-2 transition-colors hover:text-gray-800"
+          >
+            ← Novi dokument
+          </button>
         </div>
-        <button
-          onClick={onReset}
-          className="text-sm text-gray-500 underline underline-offset-2 transition-colors hover:text-gray-800"
-        >
-          ← Novi dokument
-        </button>
-      </div>
+      )}
 
       {reminder && <ReminderBox reminder={reminder} />}
 
       {!textSaved && (
-        <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
-          Imate nesačuvane izmene — sačuvajte ih u panelu pre preuzimanja.
+        <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5">
+          <p className="text-sm text-amber-700">
+            Imate nesačuvane izmene — sačuvajte pre preuzimanja.
+          </p>
+          <button
+            onClick={handleImproveSave}
+            disabled={improveSaveLoading}
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-60"
+            style={{ backgroundColor: '#1B6B4A' }}
+          >
+            {improveSaveLoading ? 'Čuvam...' : 'Sačuvaj'}
+          </button>
         </div>
       )}
 
@@ -720,7 +748,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         />
         <button
           type="button"
-          disabled={loading !== null}
+          disabled={loading !== null || !textSaved}
           onClick={() => isFree ? setShowEmailUpgrade(true) : setShowEmailModal(true)}
           className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
             clientPrefill
@@ -774,7 +802,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         documentType={documentType}
         plan={plan ?? 'free'}
         currentText={activeText}
-        onTextUpdated={(newText) => setActiveText(newText)}
+        onTextUpdated={(newText) => { setActiveText(newText); setTextSaved(false) }}
         onTextSaved={(newText) => { setActiveText(newText); setTextSaved(true) }}
       />
 

@@ -11,7 +11,7 @@ export async function GET(_request: Request, ctx: RouteContext<'/api/documents/[
 
   const { data: document, error } = await supabase
     .from('documents')
-    .select('id, type, input_data, version, root_document_id, user_id')
+    .select('id, type, title, input_data, generated_text, is_free, version, root_document_id, user_id')
     .eq('id', id)
     .maybeSingle()
 
@@ -22,7 +22,10 @@ export async function GET(_request: Request, ctx: RouteContext<'/api/documents/[
   return NextResponse.json({
     id: document.id,
     type: document.type,
+    title: document.title,
     input_data: document.input_data,
+    generated_text: document.generated_text,
+    is_free: document.is_free,
     version: document.version,
     root_document_id: document.root_document_id,
   })
