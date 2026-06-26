@@ -6,6 +6,7 @@ import { documentReminders } from '@/data/reminders'
 import { ReminderBox } from '@/components/wizard/ReminderBox'
 import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 import { UpgradeModal } from '@/components/wizard/UpgradeModal'
+import { ImprovePanel } from '@/components/wizard/ImprovePanel'
 import type { Company } from '@/types/database'
 
 interface DocumentPreviewProps {
@@ -83,10 +84,16 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
   const [showEmailUpgrade, setShowEmailUpgrade] = useState(false)
+  const [showImprovePanel, setShowImprovePanel] = useState(false)
+  const [activeText, setActiveText] = useState(text)
+  const [textSaved, setTextSaved] = useState(true)
   const [ratingState, setRatingState] = useState<RatingState>('idle')
   const [ratingValue, setRatingValue] = useState<boolean | null>(null)
   const [ratingComment, setRatingComment] = useState('')
   const [ratingSubmitting, setRatingSubmitting] = useState(false)
+
+  const isJsonDoc = isFakturaJson(text) || isOtpremnicaJson(text) || isPonudaZaRadoveJson(text) || isPutniNalogJson(text)
+  const canImprove = !isFree && !isJsonDoc
 
   async function submitRating(rating: boolean, comment?: string) {
     setRatingSubmitting(true)
@@ -689,12 +696,18 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
       {reminder && <ReminderBox reminder={reminder} />}
 
+      {!textSaved && (
+        <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-700">
+          Imate nesačuvane izmene — sačuvajte ih u panelu pre preuzimanja.
+        </div>
+      )}
+
       <div className="mb-4 flex flex-wrap gap-2">
         <ExportButton
           label="Preuzmi PDF"
           format="pdf"
           loading={loading === 'pdf'}
-          disabled={loading !== null}
+          disabled={loading !== null || !textSaved}
           onClick={() => handleExport('pdf')}
           primary
         />
@@ -702,7 +715,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           label="Preuzmi DOCX"
           format="docx"
           loading={loading === 'docx'}
-          disabled={loading !== null}
+          disabled={loading !== null || !textSaved}
           onClick={() => handleExport('docx')}
         />
         <button
@@ -725,6 +738,18 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           </svg>
           {clientPrefill ? 'Pošalji klijentu' : 'Pošalji emailom'}
         </button>
+        {canImprove && (
+          <button
+            type="button"
+            onClick={() => setShowImprovePanel(true)}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Uredi
+          </button>
+        )}
       </div>
 
       <SendEmailModal
@@ -742,6 +767,16 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         />
       )}
 
+      <ImprovePanel
+        open={showImprovePanel}
+        onClose={() => setShowImprovePanel(false)}
+        documentId={documentId}
+        documentType={documentType}
+        plan={plan ?? 'free'}
+        currentText={activeText}
+        onTextSaved={(newText) => { setActiveText(newText); setTextSaved(true) }}
+      />
+
       {error && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
           {error}
@@ -751,9 +786,9 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
           {withFreeBlur(putniNalogPreview) ?? withFreeBlur(fakturaPreview) ?? withFreeBlur(otpremnicaPreview) ?? withFreeBlur(ponudaZaRadovePreview) ?? (() => {
-            const lines = text.split('\n')
+            const lines = activeText.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
-            const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : text
+            const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : activeText
             const blurredText = isFree ? lines.slice(cutoff).join('\n') : ''
 
             return (
