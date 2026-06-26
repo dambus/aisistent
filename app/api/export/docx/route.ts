@@ -10,8 +10,8 @@ import {
 
 export const maxDuration = 60
 
-const DOCX_PLANS = ['starter', 'pro', 'business', 'agency']
-const LOGO_PLANS = ['pro', 'business', 'agency']
+const DOCX_PLANS = ['starter', 'pro', 'agency']
+const LOGO_PLANS = ['pro', 'agency']
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()

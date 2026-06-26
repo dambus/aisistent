@@ -3,15 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
 const PLAN_LABELS: Record<string, string> = {
-  free: 'Besplatni', starter: 'Starter', pro: 'Pro', business: 'Business', agency: 'Agencija'
+  free: 'Besplatni', starter: 'Starter', pro: 'Pro', agency: 'Agencija'
 }
 
 const PLAN_COLORS_DARK: Record<string, { border: string; text: string; badge: string }> = {
-  free:     { border: 'border-zinc-700',    text: 'text-zinc-300',    badge: 'text-zinc-400' },
-  starter:  { border: 'border-blue-500/30', text: 'text-blue-400',    badge: 'text-blue-400' },
-  pro:      { border: 'border-green-500/30',text: 'text-green-400',   badge: 'text-green-400' },
-  business: { border: 'border-amber-500/30',text: 'text-amber-400',   badge: 'text-amber-400' },
-  agency:   { border: 'border-violet-500/30',text: 'text-violet-400', badge: 'text-violet-400' },
+  free:    { border: 'border-zinc-700',     text: 'text-zinc-300',    badge: 'text-zinc-400' },
+  starter: { border: 'border-blue-500/30',  text: 'text-blue-400',    badge: 'text-blue-400' },
+  pro:     { border: 'border-green-500/30', text: 'text-green-400',   badge: 'text-green-400' },
+  agency:  { border: 'border-violet-500/30',text: 'text-violet-400',  badge: 'text-violet-400' },
 }
 
 export default async function AdminPage() {
@@ -92,7 +91,7 @@ export default async function AdminPage() {
       <div>
         <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">Korisnici po planu</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {['free', 'starter', 'pro', 'business', 'agency'].map(plan => {
+          {['free', 'starter', 'pro', 'agency'].map(plan => {
             const count = planCounts[plan] ?? 0
             const c = PLAN_COLORS_DARK[plan]
             return (

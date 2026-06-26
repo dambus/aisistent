@@ -106,11 +106,10 @@ const agencyNav: NavItem[] = [
 ]
 
 const planLabels: Record<string, { label: string; cls: string }> = {
-  free:     { label: 'Besplatno', cls: 'bg-gray-700 text-gray-300' },
-  starter:  { label: 'Starter',   cls: 'bg-blue-900 text-blue-200' },
-  pro:      { label: 'Pro',       cls: 'bg-purple-900 text-purple-200' },
-  business: { label: 'Business',  cls: 'bg-amber-900 text-amber-200' },
-  agency:   { label: 'Agencija',  cls: 'bg-indigo-900 text-indigo-200' },
+  free:    { label: 'Besplatno', cls: 'bg-gray-700 text-gray-300' },
+  starter: { label: 'Starter',   cls: 'bg-blue-900 text-blue-200' },
+  pro:     { label: 'Pro',       cls: 'bg-purple-900 text-purple-200' },
+  agency:  { label: 'Agencija',  cls: 'bg-indigo-900 text-indigo-200' },
 }
 
 function SidebarLogo({ height = 28, maxWidth = 160 }: { height?: number; maxWidth?: number }) {

@@ -7,11 +7,10 @@ import { toVocative } from '@/lib/utils/vocative'
 const PRIMARY = '#1B6B4A'
 
 const planLabels: Record<string, { label: string; cls: string }> = {
-  free:     { label: 'Besplatno', cls: 'bg-gray-100 text-gray-600' },
-  starter:  { label: 'Starter',   cls: 'bg-blue-100 text-blue-700' },
-  pro:      { label: 'Pro',       cls: 'bg-purple-100 text-purple-700' },
-  business: { label: 'Business',  cls: 'bg-amber-100 text-amber-700' },
-  agency:   { label: 'Agencija',  cls: 'bg-indigo-100 text-indigo-700' },
+  free:    { label: 'Besplatno', cls: 'bg-gray-100 text-gray-600' },
+  starter: { label: 'Starter',   cls: 'bg-blue-100 text-blue-700' },
+  pro:     { label: 'Pro',       cls: 'bg-purple-100 text-purple-700' },
+  agency:  { label: 'Agencija',  cls: 'bg-indigo-100 text-indigo-700' },
 }
 
 interface GreetingHeaderProps {

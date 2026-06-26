@@ -3,11 +3,10 @@ import { createClient } from '@/lib/supabase/server'
 import type { Company } from '@/types/database'
 
 const PLAN_LIMITS: Record<string, number | null> = {
-  free:     0,
-  starter:  1,
-  pro:      3,
-  business: null,
-  agency:   null,
+  free:    0,
+  starter: 1,
+  pro:     3,
+  agency:  null,
 }
 
 export async function GET() {

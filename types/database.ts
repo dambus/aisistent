@@ -1,4 +1,4 @@
-export type Plan = 'free' | 'starter' | 'pro' | 'business'
+export type Plan = 'free' | 'starter' | 'pro' | 'agency'
 export type SubscriptionStatus = 'active' | 'canceled' | 'past_due' | 'trialing' | 'incomplete'
 export type DocumentType =
   | 'ugovor-o-radu'

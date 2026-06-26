@@ -8,19 +8,17 @@ import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
 import type { Company } from '@/types/database'
 
 const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
-  free:     { bg: '#F3F4F6', text: '#6B7280' },
-  starter:  { bg: '#EFF6FF', text: '#2563EB' },
-  pro:      { bg: '#F0FDF4', text: '#16A34A' },
-  business: { bg: '#FEF3C7', text: '#D97706' },
-  agency:   { bg: '#EEF2FF', text: '#4338CA' },
+  free:    { bg: '#F3F4F6', text: '#6B7280' },
+  starter: { bg: '#EFF6FF', text: '#2563EB' },
+  pro:     { bg: '#F0FDF4', text: '#16A34A' },
+  agency:  { bg: '#EEF2FF', text: '#4338CA' },
 }
 
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
-  free:     { label: 'Besplatni plan',  desc: '3 dokumenta mesečno',         limit: 3    },
-  starter:  { label: 'Starter plan',   desc: '20 dokumenata mesečno',        limit: 20   },
-  pro:      { label: 'Pro plan',        desc: 'Neograničen broj dokumenata',  limit: null },
-  business: { label: 'Business plan',  desc: 'Do 5 korisnika',               limit: null },
-  agency:   { label: 'Agencija plan',  desc: 'Neograničen broj klijenata',   limit: null },
+  free:    { label: 'Besplatni plan', desc: '3 dokumenta mesečno',        limit: 3    },
+  starter: { label: 'Starter plan',  desc: '20 dokumenata mesečno',       limit: 20   },
+  pro:     { label: 'Pro plan',       desc: 'Neograničen broj dokumenata', limit: null },
+  agency:  { label: 'Agencija plan', desc: 'Neograničen broj klijenata',  limit: null },
 }
 
 const SERBIAN_MONTHS = ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar']

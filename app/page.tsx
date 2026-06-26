@@ -163,19 +163,7 @@ const pricing: (PricingPlan & { features: [string, string][] })[] = [
       ['✓', 'Email slanje dokumenata'],
     ],
   },
-  {
-    name: 'Business',
-    price: '7.200 RSD / mes.',
-    euroEquivalent: '(≈ 60 EUR)',
-    cta: 'Kontaktirajte nas',
-    waitlistPlan: 'business',
-    features: [
-      ['✓', 'Neograničen broj dokumenata'],
-      ['✓', 'Sve iz Pro plana'],
-      ['✓', 'Do 5 korisnika'],
-      ['✓', 'Prioritetna podrška'],
-    ],
-  },
+
   {
     name: 'Agencija',
     price: '9.990 RSD',

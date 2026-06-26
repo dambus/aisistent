@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getResend } from '@/lib/resend'
 
-const VALID_PLANS = ['starter', 'pro', 'business'] as const
+const VALID_PLANS = ['starter', 'pro'] as const
 
 const PLAN_LABELS: Record<string, string> = {
   starter: 'Starter',
   pro: 'Pro',
-  business: 'Business',
 }
 
 const FROM_EMAIL = 'AIsistent <noreply@aisistent.rs>'

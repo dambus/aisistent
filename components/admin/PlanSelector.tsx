@@ -3,14 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-const PLANS = ['free', 'starter', 'pro', 'business', 'agency']
+const PLANS = ['free', 'starter', 'pro', 'agency']
 
 const PLAN_COLORS_DARK: Record<string, { border: string; text: string; bg: string }> = {
-  free:     { border: '#3f3f46', text: '#a1a1aa', bg: '#27272a' },
-  starter:  { border: '#1d4ed8', text: '#60a5fa', bg: '#1e3a5f' },
-  pro:      { border: '#15803d', text: '#4ade80', bg: '#14532d' },
-  business: { border: '#b45309', text: '#fbbf24', bg: '#451a03' },
-  agency:   { border: '#6d28d9', text: '#a78bfa', bg: '#2e1065' },
+  free:    { border: '#3f3f46', text: '#a1a1aa', bg: '#27272a' },
+  starter: { border: '#1d4ed8', text: '#60a5fa', bg: '#1e3a5f' },
+  pro:     { border: '#15803d', text: '#4ade80', bg: '#14532d' },
+  agency:  { border: '#6d28d9', text: '#a78bfa', bg: '#2e1065' },
 }
 
 interface Props {

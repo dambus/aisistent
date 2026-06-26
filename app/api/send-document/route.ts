@@ -13,7 +13,7 @@ import { sanitizeFilename } from '@/lib/sanitizeFilename'
 
 export const maxDuration = 60
 
-const LOGO_PLANS = ['pro', 'business']
+const LOGO_PLANS = ['pro', 'agency']
 const FROM_EMAIL = 'AIsistent <noreply@aisistent.rs>'
 
 function escapeHtml(str: string): string {

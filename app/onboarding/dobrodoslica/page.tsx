@@ -60,23 +60,12 @@ const unlockByPlan: Record<string, string[]> = {
     'Logo firme u dokumentima',
     'Prioritetna podrška',
   ],
-  business: [
-    '20 dokumenata mesečno',
-    'PDF bez AIsistent oznake',
-    'DOCX export',
-    'Čuvanje dokumenata u arhivi',
-    'Email slanje dokumenata',
-    'Podešavanje profila firme',
-    'Neograničeno generisanje',
-    'Logo firme u dokumentima',
-    'Prioritetna podrška',
-  ],
+
 }
 
 function planLabel(plan: string) {
   if (plan === 'starter') return 'Starter'
   if (plan === 'pro') return 'Pro'
-  if (plan === 'business') return 'Business'
   if (plan === 'agency') return 'Agencija'
   return 'AIsistent'
 }

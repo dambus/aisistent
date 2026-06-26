@@ -14,11 +14,11 @@ export interface PricingPlan {
   cta: string
   href?: string
   featured?: boolean
-  waitlistPlan?: 'starter' | 'pro' | 'business'
+  waitlistPlan?: 'starter' | 'pro'
 }
 
 export default function PricingSection({ plans }: { plans: PricingPlan[] }) {
-  const [modal, setModal] = useState<'starter' | 'pro' | 'business' | null>(null)
+  const [modal, setModal] = useState<'starter' | 'pro' | null>(null)
 
   const mainPlans = plans.length === 5 ? plans.slice(0, 4) : plans
   const agencyPlan = plans.length === 5 ? plans[4] : null

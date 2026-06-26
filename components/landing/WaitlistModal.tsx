@@ -5,13 +5,12 @@ import { useState } from 'react'
 const PLAN_LABELS: Record<string, string> = {
   starter: 'Starter',
   pro: 'Pro',
-  business: 'Business',
 }
 
 const PRIMARY = '#1B6B4A'
 
 interface WaitlistModalProps {
-  plan: 'starter' | 'pro' | 'business'
+  plan: 'starter' | 'pro'
   onClose: () => void
 }
 

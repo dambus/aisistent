@@ -675,11 +675,10 @@ const documentConfigs = {
 
 const rateLimitStore = new Map<string, number[]>()
 const PLAN_LIMITS: Record<string, number | null> = {
-  free: 3,
+  free:    3,
   starter: 20,
-  pro: null,
-  business: null,
-  agency: null,
+  pro:     null,
+  agency:  null,
 }
 
 function checkRateLimit(userId: string): boolean {

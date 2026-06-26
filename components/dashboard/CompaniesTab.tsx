@@ -42,14 +42,13 @@ interface CompaniesTabProps {
 }
 
 const PLAN_LIMITS: Record<string, number | null> = {
-  free:     0,
-  starter:  1,
-  pro:      3,
-  business: null,
-  agency:   null,
+  free:    0,
+  starter: 1,
+  pro:     3,
+  agency:  null,
 }
 
-const LOGO_PLANS = ['pro', 'business', 'agency']
+const LOGO_PLANS = ['pro', 'agency']
 
 const emptyForm = {
   naziv: '',
