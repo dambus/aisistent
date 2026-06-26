@@ -5,6 +5,7 @@ import { GreetingHeader } from '@/components/dashboard/GreetingHeader'
 import { RecentDocuments } from '@/components/dashboard/RecentDocuments'
 import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
 import { TipCard, TipSequence } from '@/components/ui/TipCard'
+import { LimitsCard } from '@/components/dashboard/LimitsCard'
 
 interface ToolItem {
   type: string
@@ -119,9 +120,15 @@ export default async function DashboardPage() {
         documentsThisMonth={documentsThisMonth}
       />
 
-      <div className="mb-10">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Nedavno</h2>
-        <RecentDocuments documents={recentDocs ?? []} />
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="sm:col-span-2 lg:col-span-2">
+          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Nedavno</h2>
+          <RecentDocuments documents={recentDocs ?? []} />
+        </div>
+        <div>
+          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Limiti</h2>
+          <LimitsCard plan={plan} documentsThisMonth={documentsThisMonth} />
+        </div>
       </div>
 
       <TipSequence tips={[
