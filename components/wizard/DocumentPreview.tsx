@@ -774,6 +774,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         documentType={documentType}
         plan={plan ?? 'free'}
         currentText={activeText}
+        onTextUpdated={(newText) => setActiveText(newText)}
         onTextSaved={(newText) => { setActiveText(newText); setTextSaved(true) }}
       />
 
