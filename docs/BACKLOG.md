@@ -18,7 +18,7 @@
 - PDF i DOCX export za sve tipove ✅
 - Email slanje dokumenata (Resend) ✅
 - Blur preview za free korisnike ✅
-- Brendiranje firme — logo u PDF/DOCX (Pro/Business/Agency) ✅
+- Brendiranje firme — logo u PDF/DOCX (Pro/Agency) ✅
 
 ### UI / UX
 - Wizard sa helper tekstovima i tooltipovima ✅
@@ -80,8 +80,8 @@
 - **Redesign CompaniesTab** ✅ — Sheet forma, avatar kartice, ikonska dugmad, AlertDialog, pretraga
 - **Timski nalozi** — Blokiran: čeka Paddle aktivaciju. Arhitektura: workspace model, invite, role (owner/member)
 
-#### UI — Dedicated stranica za upravljanje klijentima (high-tier)
-Za Agency/Business plan: dedicated `/klijenti` stranica umesto taba u dashboardu.
+#### UI — Dedicated stranica za upravljanje klijentima (Agency)
+Za Agency plan: dedicated `/klijenti` stranica umesto taba u dashboardu.
 - Klijenti → Dokumenti po klijentu (dedicated view)
 - Skalabilno za timske naloge
 - Uraditi tek kada se implementiraju timski nalozi

@@ -17,7 +17,7 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - ✅ Ponuda za radove — wizard, PDF (Roboto), DOCX, stavke sa cenama, jedan potpis
 - ✅ PDF i DOCX export za sve tipove
 - ✅ Email slanje dokumenata (Resend, noreply@aisistent.rs)
-- ✅ Brendiranje firme — logo u PDF/DOCX (Pro/Business)
+- ✅ Brendiranje firme — logo u PDF/DOCX (Pro/Agency)
 - ✅ Arhiva sa search i filterima
 - ✅ Profil — firme, avatar inicijali, plan badge
 - ✅ Podešavanja — lozinka, odjava, brisanje naloga
@@ -28,6 +28,19 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 - ✅ Kompletna projektna dokumentacija (docs/)
 
 ### Aktivne sesije i izmene
+
+#### 26. jun 2026. — Uklonjen Business plan + pricing layout fix
+
+**Uklonjen Business plan**
+- Odluka: ići direktno Free → Starter → Pro → Agencija (bez Business sloja)
+- Plan nije bio lansiran (bio "Uskoro" na sajtu) — nema realnih korisnika na njemu
+- Uklonjeno iz 19 fajlova: Plan type, svih PLAN_LIMITS/PLAN_LABELS/PLAN_COLORS objekata, LOGO_PLANS/DOCX_PLANS feature flagova, waitlist API-ja, WaitlistModal, admin panela, onboarding stranice
+- send-document/route.ts: LOGO_PLANS `['pro', 'business']` → `['pro', 'agency']` (agency je bio izostavljen)
+- DOCX error poruka: "Starter, Pro i Business" → "Starter, Pro i Agencija"
+
+**Pricing kartica layout fix**
+- Agency kartica je bila sama u drugom redu (`grid-cols-4` + 5 kartica)
+- PricingSection.tsx: prva 4 plana u gridu, 5. (Agency) u centiranom flex containeru ispod sa `lg:w-1/4`
 
 #### jun 2026. — Agency Faza 2 (kompletna)
 

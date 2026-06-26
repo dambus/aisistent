@@ -30,7 +30,7 @@ app/
       pdf/              — generisanje PDF-a (POST)
       docx/             — generisanje DOCX-a (POST)
     companies/          — CRUD za sačuvane firme/klijente
-    companies/[id]/logo/ — upload/delete loga firme (Pro/Business/Agency)
+    companies/[id]/logo/ — upload/delete loga firme (Pro/Agency)
     documents/[id]/     — GET (sa ownership check) + DELETE dokumenata iz arhive
     profile/            — set-name, delete naloga
     send-document/      — slanje dokumenta emailom (Resend)
@@ -83,7 +83,7 @@ docs/                   — projektna dokumentacija
 ```sql
 profiles (
   id uuid PRIMARY KEY,          -- = auth.users.id
-  plan text DEFAULT 'free',     -- 'free' | 'starter' | 'pro' | 'business' | 'agency'
+  plan text DEFAULT 'free',     -- 'free' | 'starter' | 'pro' | 'agency'
   documents_this_month int,     -- brojač, resetuje se 1. u mesecu
   display_name text,
   stripe_customer_id text,
@@ -163,15 +163,14 @@ RLS je uključen na svim tabelama — korisnik vidi samo svoje podatke.
 
 ## Plan limiti
 
-| Plan     | Dokumenti/mes | PDF | DOCX | Logo | Firme | Arhiva | Email |
-|----------|--------------|-----|------|------|-------|--------|-------|
-| free     | 3 (watermark)| ✅  | ❌   | ❌   | 0     | ❌     | ❌    |
-| starter  | 20           | ✅  | ❌   | ❌   | 1     | ✅     | ✅    |
-| pro      | neograničeno | ✅  | ✅   | ✅   | 3     | ✅     | ✅    |
-| business | neograničeno | ✅  | ✅   | ✅   | ∞     | ✅     | ✅    |
-| agency   | neograničeno | ✅  | ✅   | ✅   | ∞     | ✅     | ✅    |
+| Plan    | Dokumenti/mes | PDF | DOCX | Logo | Firme | Arhiva | Email |
+|---------|--------------|-----|------|------|-------|--------|-------|
+| free    | 3 (watermark)| ✅  | ❌   | ❌   | 0     | ❌     | ❌    |
+| starter | 20           | ✅  | ✅   | ❌   | 1     | ✅     | ✅    |
+| pro     | neograničeno | ✅  | ✅   | ✅   | 3     | ✅     | ✅    |
+| agency  | neograničeno | ✅  | ✅   | ✅   | ∞     | ✅     | ✅    |
 
-Agency plan razlike vs Business: "Firme" → "Klijenti" rebrand, dedicated /klijenti stranica, company_id tracking po dokumentu, inline quick-switch dropdown u wizardu.
+Agency plan razlike vs Pro: "Firme" → "Klijenti" rebrand, dedicated /klijenti stranica, company_id tracking po dokumentu, inline quick-switch dropdown u wizardu.
 
 Limit check: `profiles.documents_this_month >= limit` u `/api/generate/route.ts`
 Free tier dodatno nema pristup arhivi i email slanju dokumenata.

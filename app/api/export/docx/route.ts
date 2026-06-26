@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   if (!profile || !DOCX_PLANS.includes(profile.plan)) {
     return NextResponse.json(
-      { error: 'DOCX export je dostupan samo korisnicima Starter, Pro i Business plana. Pređite na plaćeni plan da biste preuzeli Word dokument bez watermark-a.' },
+      { error: 'DOCX export je dostupan samo korisnicima Starter, Pro i Agencija plana. Pređite na plaćeni plan da biste preuzeli Word dokument bez watermark-a.' },
       { status: 403 }
     )
   }
