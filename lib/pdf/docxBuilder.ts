@@ -339,12 +339,16 @@ function blockToDocxChild(block: Block): Paragraph | Table {
       return new Paragraph({ spacing: { after: 80 } })
     case 'table':
       return markdownTableToTable(block)
-    default:
+    default: {
+      // Bold-only paragraphs are likely article/section headers (e.g. "Član 8.") — keep with next
+      const allBold = block.spans.length > 0 && block.spans.every(s => s.type === 'bold' || s.type === 'bold-italic')
       return new Paragraph({
         alignment: AlignmentType.JUSTIFIED,
         spacing: { after: 80, line: 240 },
+        keepNext: allBold,
         children: spansToRuns(block.spans),
       })
+    }
   }
 }
 
@@ -608,58 +612,85 @@ export async function buildDocx(
                 options.documentType === 'nda' &&
                 (options.inputData?.oznacavanje === true || options.inputData?.oznacavanje === 'Da')
 
-              const headerParagraphs: Paragraph[] = [
-                new Paragraph({
-                  alignment: (options.logoBuffer && options.logoMimeType !== 'image/svg+xml') ? AlignmentType.LEFT : AlignmentType.CENTER,
-                  spacing: { after: showConfidential ? 40 : 120 },
-                  children: options.logoBuffer && options.logoMimeType !== 'image/svg+xml'
-                    ? (() => {
-                        const dims = sizeOf(options.logoBuffer!)
-                        const srcW = dims.width ?? 120
-                        const srcH = dims.height ?? 36
-                        const scale = 36 / srcH
-                        const finalWidth = Math.round(srcW * scale)
-                        const imgType = (options.logoMimeType === 'image/png' ? 'png'
-                          : options.logoMimeType === 'image/webp' ? 'png'
-                          : 'jpg') as 'png' | 'jpg'
-                        return [new ImageRun({
-                          data: options.logoBuffer!,
-                          transformation: { width: finalWidth, height: 36 },
-                          type: imgType,
-                        })]
-                      })()
-                    : [
-                        new TextRun({
-                          text: options.logoBuffer
-                            ? dateStr
-                            : `AIsistent  |  ${dateStr}  |  aisistent.rs`,
-                          font: FONT_FAMILY,
-                          size: HEADER_SIZE,
-                          color: '6B7280',
-                        }),
-                      ],
-                }),
-              ]
+              const hasLogo = !!(options.logoBuffer && options.logoMimeType !== 'image/svg+xml')
 
-              if (showConfidential) {
-                headerParagraphs.push(
-                  new Paragraph({
-                    alignment: AlignmentType.RIGHT,
-                    spacing: { after: 80 },
+              const noBorders = {
+                top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+                bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+                left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+                right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+                insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+                insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+              }
+
+              const leftChildren: TextRun[] | ImageRun[] = hasLogo
+                ? (() => {
+                    const dims = sizeOf(options.logoBuffer!)
+                    const srcW = dims.width ?? 120
+                    const srcH = dims.height ?? 36
+                    const scale = 36 / srcH
+                    const finalWidth = Math.round(srcW * scale)
+                    const imgType = (options.logoMimeType === 'image/png' ? 'png'
+                      : options.logoMimeType === 'image/webp' ? 'png'
+                      : 'jpg') as 'png' | 'jpg'
+                    return [new ImageRun({
+                      data: options.logoBuffer!,
+                      transformation: { width: finalWidth, height: 36 },
+                      type: imgType,
+                    })]
+                  })()
+                : [new TextRun({
+                    text: `AIsistent  |  ${dateStr}  |  aisistent.rs`,
+                    font: FONT_FAMILY,
+                    size: HEADER_SIZE,
+                    color: '6B7280',
+                  })]
+
+              if (!showConfidential) {
+                return [new Paragraph({
+                  alignment: hasLogo ? AlignmentType.LEFT : AlignmentType.CENTER,
+                  spacing: { after: 120 },
+                  children: leftChildren,
+                })]
+              }
+
+              return [new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                layout: TableLayoutType.FIXED,
+                borders: noBorders,
+                rows: [
+                  new TableRow({
                     children: [
-                      new TextRun({
-                        text: 'POVERLJIVO',
-                        font: FONT_FAMILY,
-                        size: HEADER_SIZE,
-                        bold: true,
-                        color: 'DC2626',
+                      new TableCell({
+                        width: { size: 70, type: WidthType.PERCENTAGE },
+                        borders: noBorders,
+                        verticalAlign: 'center' as const,
+                        children: [new Paragraph({
+                          alignment: hasLogo ? AlignmentType.LEFT : AlignmentType.LEFT,
+                          spacing: { after: 0 },
+                          children: leftChildren,
+                        })],
+                      }),
+                      new TableCell({
+                        width: { size: 30, type: WidthType.PERCENTAGE },
+                        borders: noBorders,
+                        verticalAlign: 'center' as const,
+                        children: [new Paragraph({
+                          alignment: AlignmentType.RIGHT,
+                          spacing: { after: 0 },
+                          children: [new TextRun({
+                            text: 'POVERLJIVO',
+                            font: FONT_FAMILY,
+                            size: HEADER_SIZE,
+                            bold: true,
+                            color: 'DC2626',
+                          })],
+                        })],
                       }),
                     ],
                   }),
-                )
-              }
-
-              return headerParagraphs
+                ],
+              })]
             })(),
           }),
         },
