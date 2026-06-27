@@ -71,6 +71,8 @@ function sanitizeGeneratedText(text: string): string {
     const line = raw.trim()
     if (/^#{0,3}\s*POTPISI\s*$/im.test(line)) break
     if (/VAŽNE NAPOMENE ZA POSLODAVCA/i.test(line) || /NAPOMENE ZA POSLODAVCA/i.test(line)) break
+    if (/^za\s+stranu\s+koja\s+(otkriva|prima)/i.test(line)) break
+    if (/^za\s+(prvu|drugu|tre[cć]u)\s+stranu/i.test(line)) break
     lines.push(raw)
   }
 
@@ -288,7 +290,7 @@ function markdownTableToTable(block: Extract<Block, { type: 'table' }>): Table {
   })
 }
 
-function blockToDocxChild(block: Block): Paragraph | Table {
+function blockToDocxChild(block: Block, keepNext = false): Paragraph | Table {
   switch (block.type) {
     case 'h1':
       return new Paragraph({
@@ -336,16 +338,15 @@ function blockToDocxChild(block: Block): Paragraph | Table {
       })
     case 'spacer':
     case 'separator':
-      return new Paragraph({ spacing: { after: 80 } })
+      return new Paragraph({ spacing: { after: 80 }, keepNext })
     case 'table':
       return markdownTableToTable(block)
     default: {
-      // Bold-only paragraphs are likely article/section headers (e.g. "Član 8.") — keep with next
       const allBold = block.spans.length > 0 && block.spans.every(s => s.type === 'bold' || s.type === 'bold-italic')
       return new Paragraph({
         alignment: AlignmentType.JUSTIFIED,
         spacing: { after: 80, line: 240 },
-        keepNext: allBold,
+        keepNext: keepNext || allBold,
         children: spansToRuns(block.spans),
       })
     }
@@ -476,7 +477,25 @@ export async function buildDocx(
       break
     }
   }
-  const bodyChildren = blocks.map(blockToDocxChild)
+  // Propagate keepNext through spacers after headings/bold paragraphs
+  function needsKeepNext(block: Block): boolean {
+    if (block.type === 'h2' || block.type === 'h3') return true
+    if (block.type === 'paragraph' && block.spans.length > 0 &&
+        block.spans.every(s => s.type === 'bold' || s.type === 'bold-italic')) return true
+    return false
+  }
+  const keepNextSet = new Set<number>()
+  for (let i = 0; i < blocks.length; i++) {
+    if (needsKeepNext(blocks[i])) {
+      keepNextSet.add(i)
+      let j = i + 1
+      while (j < blocks.length && blocks[j].type === 'spacer') {
+        keepNextSet.add(j)
+        j++
+      }
+    }
+  }
+  const bodyChildren = blocks.map((b, i) => blockToDocxChild(b, keepNextSet.has(i)))
 
   const signatureTable = buildSignatureTable(options.documentType, options.inputData)
 
