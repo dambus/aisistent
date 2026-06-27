@@ -307,6 +307,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
       return new Paragraph({
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 240, after: 120 },
+        keepNext: true,
         children: block.spans.map(span => new TextRun({
           text: span.text,
           font: FONT_FAMILY,
@@ -319,6 +320,7 @@ function blockToDocxChild(block: Block): Paragraph | Table {
       return new Paragraph({
         heading: HeadingLevel.HEADING_3,
         spacing: { before: 160, after: 60 },
+        keepNext: true,
         children: block.spans.map(span => new TextRun({
           text: span.text,
           font: FONT_FAMILY,
@@ -481,10 +483,15 @@ export async function buildDocx(
   if (signatureTable) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const sig = buildSigData(options.documentType ?? '', options.inputData ?? {})!
+    const sigPreamble = options.documentType === 'nda'
+      ? 'Sporazum potpisuju:'
+      : options.documentType === 'punomocje'
+      ? 'Punomoćje potpisuje:'
+      : 'Ugovor potpisuju:'
     children.push(
       new Paragraph({
         spacing: { before: 260, after: 80 },
-        children: [new TextRun({ text: 'Ugovor potpisuju:', font: FONT_FAMILY, size: BODY_SIZE, color: '6B7280' })],
+        children: [new TextRun({ text: sigPreamble, font: FONT_FAMILY, size: BODY_SIZE, color: '6B7280' })],
       }),
       new Paragraph({
         spacing: { after: 180 },
@@ -596,39 +603,64 @@ export async function buildDocx(
         },
         headers: {
           default: new Header({
-            children: [
-              new Paragraph({
-                alignment: (options.logoBuffer && options.logoMimeType !== 'image/svg+xml') ? AlignmentType.LEFT : AlignmentType.CENTER,
-                spacing: { after: 120 },
-                children: options.logoBuffer && options.logoMimeType !== 'image/svg+xml'
-                  ? (() => {
-                      const dims = sizeOf(options.logoBuffer!)
-                      const srcW = dims.width ?? 120
-                      const srcH = dims.height ?? 36
-                      const scale = 36 / srcH
-                      const finalWidth = Math.round(srcW * scale)
-                      const imgType = (options.logoMimeType === 'image/png' ? 'png'
-                        : options.logoMimeType === 'image/webp' ? 'png'
-                        : 'jpg') as 'png' | 'jpg'
-                      return [new ImageRun({
-                        data: options.logoBuffer!,
-                        transformation: { width: finalWidth, height: 36 },
-                        type: imgType,
-                      })]
-                    })()
+            children: (() => {
+              const showConfidential =
+                options.documentType === 'nda' &&
+                (options.inputData?.oznacavanje === true || options.inputData?.oznacavanje === 'Da')
 
-                  : [
+              const headerParagraphs: Paragraph[] = [
+                new Paragraph({
+                  alignment: (options.logoBuffer && options.logoMimeType !== 'image/svg+xml') ? AlignmentType.LEFT : AlignmentType.CENTER,
+                  spacing: { after: showConfidential ? 40 : 120 },
+                  children: options.logoBuffer && options.logoMimeType !== 'image/svg+xml'
+                    ? (() => {
+                        const dims = sizeOf(options.logoBuffer!)
+                        const srcW = dims.width ?? 120
+                        const srcH = dims.height ?? 36
+                        const scale = 36 / srcH
+                        const finalWidth = Math.round(srcW * scale)
+                        const imgType = (options.logoMimeType === 'image/png' ? 'png'
+                          : options.logoMimeType === 'image/webp' ? 'png'
+                          : 'jpg') as 'png' | 'jpg'
+                        return [new ImageRun({
+                          data: options.logoBuffer!,
+                          transformation: { width: finalWidth, height: 36 },
+                          type: imgType,
+                        })]
+                      })()
+                    : [
+                        new TextRun({
+                          text: options.logoBuffer
+                            ? dateStr
+                            : `AIsistent  |  ${dateStr}  |  aisistent.rs`,
+                          font: FONT_FAMILY,
+                          size: HEADER_SIZE,
+                          color: '6B7280',
+                        }),
+                      ],
+                }),
+              ]
+
+              if (showConfidential) {
+                headerParagraphs.push(
+                  new Paragraph({
+                    alignment: AlignmentType.RIGHT,
+                    spacing: { after: 80 },
+                    children: [
                       new TextRun({
-                        text: options.logoBuffer
-                          ? dateStr
-                          : `AIsistent  |  ${dateStr}  |  aisistent.rs`,
+                        text: 'POVERLJIVO',
                         font: FONT_FAMILY,
                         size: HEADER_SIZE,
-                        color: '6B7280',
+                        bold: true,
+                        color: 'DC2626',
                       }),
                     ],
-              }),
-            ],
+                  }),
+                )
+              }
+
+              return headerParagraphs
+            })(),
           }),
         },
         footers: {
