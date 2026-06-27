@@ -69,10 +69,18 @@ function sanitizeGeneratedText(text: string): string {
 
   for (const raw of text.split('\n')) {
     const line = raw.trim()
-    if (/^#{0,3}\s*POTPISI\s*$/im.test(line)) break
+    if (/^#{0,3}\s*POTPISI\s*$/i.test(line)) break
     if (/VAŽNE NAPOMENE ZA POSLODAVCA/i.test(line) || /NAPOMENE ZA POSLODAVCA/i.test(line)) break
-    if (/^za\s+stranu\s+koja\s+(otkriva|prima)/i.test(line)) break
-    if (/^za\s+(prvu|drugu|tre[cć]u)\s+stranu/i.test(line)) break
+    if (/^ugovor\s+potpisuju/i.test(line)) break
+    if (/^strane\s+potpisuju/i.test(line)) break
+    if (/^ugovorne\s+strane\s+potpisuju/i.test(line)) break
+    if (/^sporazum\s+potpisuju/i.test(line)) break
+    if (/^mesto\s+i\s+datum\s+potpisivanja/i.test(line)) break
+    if (/^u\s+\S+,?\s+dana\s+_{2,}/i.test(line)) break
+    if (/^\*{0,2}za\s+(prvu|drugu|tre[cć]u)\s+stranu/i.test(line)) break
+    if (/^\*{0,2}za\s+stranu\s+koja\s+(otkriva|prima)/i.test(line)) break
+    if (/^(prva|druga|tre[cć]a)\s+strana\s*:?\s*$/i.test(line)) break
+    if (/^potpisnik\s+(1|2|jedan|dva)/i.test(line)) break
     lines.push(raw)
   }
 
