@@ -25,7 +25,7 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const SUPPORTED = ['ugovor-o-zakupu', 'ugovor-o-radu', 'nda', 'ugovor-o-delu', 'ugovor-o-saradnji'] as const
+const SUPPORTED = ['ugovor-o-zakupu', 'ugovor-o-radu', 'nda', 'ugovor-o-delu', 'ugovor-o-saradnji', 'oglas-za-posao'] as const
 type SupportedType = typeof SUPPORTED[number]
 
 async function main() {
@@ -72,6 +72,32 @@ async function main() {
 
   console.log(`✅ Tekst generisan (${generatedText.length} karaktera)`)
 
+  // Za oglas: prikaži oba bloka i validiraj separatore
+  if (docType === 'oglas-za-posao') {
+    const hasLinkedin = generatedText.includes('---LINKEDIN---')
+    const hasInfostud = generatedText.includes('---INFOSTUD---')
+    console.log(`\n🔍 Dual output validacija:`)
+    console.log(`   ---LINKEDIN--- separator: ${hasLinkedin ? '✅' : '❌ NEDOSTAJE'}`)
+    console.log(`   ---INFOSTUD--- separator: ${hasInfostud ? '✅' : '❌ NEDOSTAJE'}`)
+    if (hasLinkedin && hasInfostud) {
+      const linkedinMatch = generatedText.match(/---LINKEDIN---([\s\S]*?)---INFOSTUD---/)
+      const infostudMatch = generatedText.match(/---INFOSTUD---([\s\S]*)$/)
+      console.log(`\n─── LINKEDIN (${linkedinMatch?.[1]?.trim().length ?? 0} kar) ───`)
+      console.log(linkedinMatch?.[1]?.trim().slice(0, 300) + '...')
+      console.log(`\n─── INFOSTUD (${infostudMatch?.[1]?.trim().length ?? 0} kar) ───`)
+      console.log(infostudMatch?.[1]?.trim().slice(0, 300) + '...')
+    }
+    console.log()
+  }
+
+  // Za oglas: za PDF koristimo LinkedIn verziju (bez separatora)
+  let pdfText = generatedText
+  if (docType === 'oglas-za-posao' && generatedText.includes('---LINKEDIN---')) {
+    const linkedinMatch = generatedText.match(/---LINKEDIN---([\s\S]*?)---INFOSTUD---/)
+    if (linkedinMatch?.[1]) pdfText = linkedinMatch[1].trim()
+    console.log('ℹ️  PDF renderuje LinkedIn verziju oglasa\n')
+  }
+
   // Render PDF
   console.log('⏳ Renderujem PDF...')
   const { AisistentDocument } = await import('../lib/pdf/AisistentDocument.js')
@@ -79,7 +105,7 @@ async function main() {
   const buffer = await renderToBuffer(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     React.createElement(AisistentDocument, {
-      generatedText,
+      generatedText: pdfText,
       documentTitle: `TEST — ${docType}`,
       createdAt: new Date().toISOString(),
       isFree: false,
