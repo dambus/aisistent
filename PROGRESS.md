@@ -29,6 +29,28 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 27-28. jun 2026. — DOCX audit i fix
+
+**keepNext — viseći naslovi**
+- `keepNext: true` na h2/h3 headingima
+- `keepNext` chain kroz spacer blokove koji slede posle headinga/bold paragrafa
+- `keepNext` na bold-only paragrafima (article headers tipa "Član X.") — detektovano po tome što su svi spans bold
+
+**Stop uslovi — dupli potpis**
+- `sanitizeGeneratedText` u `docxBuilder.ts` sinhronizovan sa `markdownParser.ts` — identičnih 12 uslova za sve tipove
+- Novi stop uslovi: `za stranu koja otkriva/prima`, `za prvu/drugu/treću stranu` (Claude ih ubacuje u telo pri AI poboljšanju)
+
+**NDA specifično**
+- POVERLJIVO u DOCX headeru — logo/datum levo 70%, POVERLJIVO desno 30% (tabela bez bordera) — uslov isti kao u PDF-u (`oznacavanje === true`)
+- "Sporazum potpisuju:" za NDA, "Punomoćje potpisuje:" za punomoćje (umesto "Ugovor potpisuju:")
+
+**LimitsCard + landing page + docs**
+- `LimitsCard` komponenta na dashboardu — progress bar za dokumente/mesec, statički prikaz AI izmena limita po planu
+- Landing page: ažurirani "sa AIsistentom" lista, Korak 3, pricing features
+- PROGRESS.md, .ai-memory, BACKLOG.md ažurirani
+
+**Testirano na produkciji:** NDA DOCX ✅, Ugovor o radu DOCX ✅
+
 #### 26. jun 2026. — "Poboljšaj dokument" + /arhiva/[id] + UX fixevi
 
 **"Poboljšaj dokument" AI panel — redesign i workflow fix**
