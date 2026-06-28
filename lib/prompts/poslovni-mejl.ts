@@ -151,7 +151,7 @@ export const wizardSteps: WizardStep[] = [
         required: false,
         placeholder: 'npr. Dogovorili smo početak projekta 1. avgusta, Milan šalje ugovor do petka...',
         helperText: 'Ukratko navedite šta je dogovoreno — biće uključeno u mejl',
-        showIf: { field: 'tip_mejla', value: 'Follow-up posle sastanka' },
+        conditional: { field: 'tip_mejla', value: 'Follow-up posle sastanka' },
       },
       { id: 'hitno', label: 'Da li je hitno?', type: 'toggle', required: false, defaultValue: false, helperText: 'Utiče na ton — hitniji i direktniji mejl' },
       { id: 'predmet', label: 'Predmet mejla (opciono)', type: 'text', required: false, placeholder: 'npr. Ponuda za web razvoj — jul 2026.', helperText: 'Subject line mejla (opciono)' },
