@@ -20,6 +20,17 @@ Na osnovu podataka koje korisnik dostavi pišeš gotov odgovor kandidatu. Ton pr
 - poziv na intervju: profesionalan, topao i konkretan
 - prihvatanje ponude: pozitivan, jasan i motivišući
 - odbijanje: korektan, human i dostojanstven
+- feedback posle intervjua: topao i konstruktivan, bez izvinjenja
+
+## TIPOVI ODGOVORA
+
+'Feedback posle intervjua':
+- Ton je topao i konstruktivan, bez izvinjenja
+- Uvek počni sa zahvalnošću za vreme i trud kandidata
+- Navedi pozitivne strane ako su dostavljene
+- Razlog odbijanja formuliši neutralno i profesionalno ako je naveden
+- Ako ostaje_u_bazi = true: završi sa iskrenom ponudom da ostane u evidenciji
+- Nikad ne ostavljaj kandidata bez bar jedne pozitivne napomene
 
 Uvek koristiš ime kandidata u pravilnom padežu i pišeš tekst kao mejl ili poruku spremnu za slanje.
 
@@ -67,7 +78,12 @@ KANDIDAT:
 TIP ODGOVORA:
 - Tip: ${data.tip_odgovora}${data.tip_odgovora === 'Poziv na intervju' ? `\n- Datum intervjua: ${data.datum_intervjua ?? '[POPUNITI: datum intervjua]'}\n- Vreme intervjua: ${data.vreme_intervjua ?? '[POPUNITI: vreme intervjua]'}${data.format_intervjua ? `\n- Format intervjua: ${data.format_intervjua}` : ''}\n- Adresa ili link: ${data.adresa_ili_link ?? '[POPUNITI: adresa ili link za intervju]'}` : ''}${data.datum_pocetka ? `\n- Datum početka rada: ${data.datum_pocetka}` : ''}${data.tip_odgovora === 'Prihvatanje ponude' ? `\n- Bruto zarada: ${typeof data.bruto_zarada === 'number' ? `${data.bruto_zarada.toLocaleString('sr-RS')} RSD` : '[POPUNITI: bruto zarada]'}` : ''}${data.napomena ? `\n- Dodatna napomena: ${data.napomena}` : ''}
 
-Svi podaci su u nominativu. Molim te da imena dekliniraš ispravno prema kontekstu.`
+Svi podaci su u nominativu. Molim te da imena dekliniraš ispravno prema kontekstu.${data.tip_odgovora === 'Feedback posle intervjua' ? `
+
+FEEDBACK:
+- Šta je bilo dobro: ${data.feedback_pozitivno ?? '[nije navedeno]'}
+- Razlog neodabira: ${data.feedback_razlog ?? '[nije navedeno — ne pominjati]'}
+- Ostaje u bazi: ${data.ostaje_u_bazi ? 'Da — pomenuti u mejlu' : 'Ne'}` : ''}`
 }
 
 export const wizardSteps: WizardStep[] = [
@@ -103,6 +119,7 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Prihvatanje ponude', label: 'Prihvatanje ponude' },
           { value: 'Odbijanje — ušao u uži izbor', label: 'Odbijanje — ušao u uži izbor' },
           { value: 'Odbijanje — nije ušao u uži izbor', label: 'Odbijanje — nije ušao u uži izbor' },
+          { value: 'Feedback posle intervjua', label: 'Feedback posle intervjua' },
         ],
       },
       { id: 'datum_intervjua', label: 'Datum intervjua', type: 'date', required: false, conditional: { field: 'tip_odgovora', value: 'Poziv na intervju' }, helperText: 'Datum planiranog intervjua' },
@@ -124,6 +141,33 @@ export const wizardSteps: WizardStep[] = [
       { id: 'datum_pocetka', label: 'Datum početka rada', type: 'date', required: false, conditional: { field: 'tip_odgovora', value: 'Prihvatanje ponude' }, helperText: 'Kada kandidat treba da započne angažman' },
       { id: 'bruto_zarada', label: 'Bruto zarada', type: 'number', required: false, conditional: { field: 'tip_odgovora', value: 'Prihvatanje ponude' }, helperText: 'Iznos u RSD' },
       { id: 'napomena', label: 'Dodatna napomena', type: 'textarea', required: false, placeholder: 'npr. Donesite portfelj, pripremite se za tehnički test...', helperText: 'Opciono — dodatne informacije za kandidata' },
+      {
+        id: 'feedback_pozitivno',
+        label: 'Šta je bilo dobro',
+        type: 'textarea',
+        required: false,
+        placeholder: 'npr. Odlično tehnično znanje, jasna komunikacija, dobre reference...',
+        helperText: 'Konkretne pozitivne strane kandidata',
+        conditional: { field: 'tip_odgovora', value: 'Feedback posle intervjua' },
+      },
+      {
+        id: 'feedback_razlog',
+        label: 'Zašto nije odabran/a (opciono)',
+        type: 'textarea',
+        required: false,
+        placeholder: 'npr. Odabrali smo kandidata sa više iskustva u ovoj oblasti...',
+        helperText: 'Konstruktivan razlog — ostavite prazno ako ne želite da navedete',
+        conditional: { field: 'tip_odgovora', value: 'Feedback posle intervjua' },
+      },
+      {
+        id: 'ostaje_u_bazi',
+        label: 'Kandidat ostaje u bazi za buduće pozicije?',
+        type: 'toggle',
+        required: false,
+        defaultValue: false,
+        helperText: 'Utiče na završnu poruku mejla',
+        conditional: { field: 'tip_odgovora', value: 'Feedback posle intervjua' },
+      },
     ],
   },
 ]

@@ -299,6 +299,7 @@ export interface PoslovniMejlData {
   ton: string
   hitno: boolean
   predmet?: string
+  teme_sa_sastanka?: string
 }
 
 export interface OglasZaPosaoData {
@@ -357,6 +358,9 @@ export interface OdgovorKandidatuData {
   datum_pocetka?: string
   bruto_zarada?: number
   napomena?: string
+  feedback_pozitivno?: string
+  feedback_razlog?: string
+  ostaje_u_bazi?: boolean
 }
 
 export interface PreporukaData {

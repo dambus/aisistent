@@ -28,6 +28,10 @@ Na osnovu podataka koje korisnik dostavi pišeš kratak, jasan i upotrebljiv pos
 
 Prilagođavaš ton tipu mejla: formalniji za opomenu, topliji za zahvalnicu, smiren za žalbu, konkretan za ponudu ili podsetnik.
 
+Za 'Follow-up posle sastanka': rezimiraj ključne tačke i dogovore, navedi sledeće korake i rokove.
+Za 'Uvod u novu saradnju': topao ali profesionalan ton, naglasi šta firma nudi i zašto si kontaktirao.
+Za 'Zahtev za referencu ili preporuku': jasno navedi za šta je referenca potrebna i do kada.
+
 ${declensionRules}
 
 ## TON I STIL
@@ -78,7 +82,7 @@ MEJL:
 - Tip mejla: ${data.tip_mejla}
 - Kontekst/detalji: ${data.kontekst ?? '[POPUNITI: kontekst i detalji mejla]'}
 - Ton: ${data.ton}
-- Hitno: ${data.hitno ? 'Da' : 'Ne'}${data.predmet ? `\n- Predmet mejla: ${data.predmet}` : ''}
+- Hitno: ${data.hitno ? 'Da' : 'Ne'}${data.predmet ? `\n- Predmet mejla: ${data.predmet}` : ''}${data.teme_sa_sastanka ? `\n- Teme/dogovori sa sastanka: ${data.teme_sa_sastanka}` : ''}
 
 Svi podaci su u nominativu. Dekliniraš ispravno.`
 }
@@ -119,6 +123,9 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Zahtev za produženje roka', label: 'Zahtev za produženje roka' },
           { value: 'Žalba na uslugu', label: 'Žalba na uslugu' },
           { value: 'Uvodni mejl / predstavljanje', label: 'Uvodni mejl / predstavljanje' },
+          { value: 'Follow-up posle sastanka', label: 'Follow-up posle sastanka' },
+          { value: 'Uvod u novu saradnju', label: 'Uvod u novu saradnju' },
+          { value: 'Zahtev za referencu ili preporuku', label: 'Zahtev za referencu ili preporuku' },
           { value: 'Podsetnik na sastanak', label: 'Podsetnik na sastanak' },
           { value: 'Otkazivanje sastanka', label: 'Otkazivanje sastanka' },
           { value: 'Ostalo', label: 'Ostalo' },
@@ -136,6 +143,15 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Profesionalan', label: 'Profesionalan' },
           { value: 'Topao', label: 'Topao' },
         ],
+      },
+      {
+        id: 'teme_sa_sastanka',
+        label: 'Teme i dogovori sa sastanka',
+        type: 'textarea',
+        required: false,
+        placeholder: 'npr. Dogovorili smo početak projekta 1. avgusta, Milan šalje ugovor do petka...',
+        helperText: 'Ukratko navedite šta je dogovoreno — biće uključeno u mejl',
+        showIf: { field: 'tip_mejla', value: 'Follow-up posle sastanka' },
       },
       { id: 'hitno', label: 'Da li je hitno?', type: 'toggle', required: false, defaultValue: false, helperText: 'Utiče na ton — hitniji i direktniji mejl' },
       { id: 'predmet', label: 'Predmet mejla (opciono)', type: 'text', required: false, placeholder: 'npr. Ponuda za web razvoj — jul 2026.', helperText: 'Subject line mejla (opciono)' },
