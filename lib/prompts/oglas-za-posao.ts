@@ -54,7 +54,30 @@ ${declensionRules}
 
 ## FORMAT IZLAZA
 
-Generiši oglas sa jasnim naslovima i kratkim pasusima. Na kraju dodaj:
+Generisi DVA oglasa odvojena tačno ovim separatorom (bez razmaka pre i posle):
+
+---LINKEDIN---
+
+**Format za LinkedIn** (250-400 reči):
+- Počni sa hook rečenicom koja privlači pažnju
+- Kratak, narativni opis firme (2-3 rečenice)
+- Opis posla u prozi, ne kao lista
+- Šta firma nudi — naglasi kulturu i rast
+- Jasna CTA na kraju ("Pošalji CV na..." ili "Prijavi se do...")
+- Hashtags na kraju: 3-5 relevantnih (#posao #[delatnost] #[grad])
+
+---INFOSTUD---
+
+**Format za Infostud** (strukturisano, 300-500 reči):
+- Naziv pozicije kao naslov
+- O firmi: kratko (3-4 rečenice)
+- Opis posla: bullet lista zadataka
+- Uslovi: stručna sprema, iskustvo, veštine (bullet lista)
+- Nudimo: bullet lista benefita i uslova
+- Kako aplicirati: jasan korak
+- Rok prijave
+
+Na kraju Infostud sekcije dodaj:
 Generisano uz pomoć AIsistent.rs
 
 ## ŠTA NE RADIŠ

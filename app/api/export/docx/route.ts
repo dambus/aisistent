@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Niste prijavljeni.' }, { status: 401 })
   }
 
-  let body: { document_id?: string }
+  let body: { document_id?: string; override_text?: string }
   try {
     body = await request.json()
   } catch {
@@ -763,7 +763,7 @@ export async function POST(request: NextRequest) {
 
   let docxBuffer: Buffer
   try {
-    docxBuffer = await buildDocx(doc.generated_text, doc.title, doc.created_at, {
+    docxBuffer = await buildDocx(body.override_text ?? doc.generated_text, doc.title, doc.created_at, {
       documentType: doc.type,
       inputData: (doc.input_data as Record<string, unknown>) ?? undefined,
       isFree: doc.is_free ?? false,

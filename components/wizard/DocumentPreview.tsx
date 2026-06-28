@@ -51,11 +51,11 @@ function isPutniNalogJson(text: string): boolean {
   }
 }
 
-async function downloadExport(documentId: string, format: ExportFormat): Promise<string | null> {
+async function downloadExport(documentId: string, format: ExportFormat, overrideText?: string): Promise<string | null> {
   const res = await fetch(`/api/export/${format}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ document_id: documentId }),
+    body: JSON.stringify({ document_id: documentId, ...(overrideText ? { override_text: overrideText } : {}) }),
   })
 
   if (!res.ok) {
@@ -132,6 +132,23 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
 
   const [improveSaveLoading, setImproveSaveLoading] = useState(false)
 
+  type OglasTab = 'linkedin' | 'infostud'
+  const [activeOglasTab, setActiveOglasTab] = useState<OglasTab>('linkedin')
+
+  function parseOglasOutput(t: string): { linkedin: string; infostud: string } | null {
+    if (!t.includes('---LINKEDIN---') || !t.includes('---INFOSTUD---')) return null
+    const linkedinMatch = t.match(/---LINKEDIN---([\s\S]*?)---INFOSTUD---/)
+    const infostudMatch = t.match(/---INFOSTUD---([\s\S]*)$/)
+    if (!linkedinMatch || !infostudMatch) return null
+    return {
+      linkedin: linkedinMatch[1].trim(),
+      infostud: infostudMatch[1].trim(),
+    }
+  }
+
+  const oglasData = documentType === 'oglas-za-posao' ? parseOglasOutput(activeText) : null
+  const oglasActiveText = oglasData ? (activeOglasTab === 'linkedin' ? oglasData.linkedin : oglasData.infostud) : null
+
   async function handleImproveSave() {
     setImproveSaveLoading(true)
     try {
@@ -149,7 +166,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
   async function handleExport(format: ExportFormat) {
     setError('')
     setLoading(format)
-    const err = await downloadExport(documentId, format)
+    const err = await downloadExport(documentId, format, oglasActiveText ?? undefined)
     if (err) setError(err)
     setLoading(null)
   }
@@ -812,12 +829,31 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
         </div>
       )}
 
+      {oglasData && (
+        <div className="mb-3 flex gap-2">
+          {(['linkedin', 'infostud'] as OglasTab[]).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveOglasTab(tab)}
+              className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+                activeOglasTab === tab
+                  ? 'bg-[#1B6B4A] text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {tab === 'linkedin' ? 'LinkedIn' : 'Infostud / Opšti'}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="prose prose-sm max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-relaxed prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:font-semibold">
           {withFreeBlur(putniNalogPreview) ?? withFreeBlur(fakturaPreview) ?? withFreeBlur(otpremnicaPreview) ?? withFreeBlur(ponudaZaRadovePreview) ?? (() => {
-            const lines = activeText.split('\n')
+            const renderText = oglasActiveText ?? activeText
+            const lines = renderText.split('\n')
             const cutoff = Math.max(8, Math.floor(lines.length * 0.30))
-            const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : activeText
+            const visibleText = isFree ? lines.slice(0, cutoff).join('\n') : renderText
             const blurredText = isFree ? lines.slice(cutoff).join('\n') : ''
 
             return (

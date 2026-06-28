@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Niste prijavljeni.' }, { status: 401 })
   }
 
-  let body: { document_id?: string }
+  let body: { document_id?: string; override_text?: string }
   try {
     body = await request.json()
   } catch {
@@ -269,7 +269,7 @@ export async function POST(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pdfBuffer = await renderToBuffer(
       createElement(AisistentDocument, {
-        generatedText: doc.generated_text,
+        generatedText: body.override_text ?? doc.generated_text,
         documentTitle: doc.title,
         createdAt: doc.created_at,
         isFree: doc.is_free,
