@@ -52,6 +52,7 @@ const TOOL_CATEGORIES: ToolCategory[] = [
       { type: 'preporuka',                 title: 'Preporuka/Referenca',       desc: 'Profesionalna preporuka za zaposlenog ili saradnika', icon: '⭐', href: '/dokumenti/preporuka' },
       { type: 'resenje-godisnji-odmor',    title: 'Rešenje o godišnjem odmoru',desc: 'Formalno rešenje u skladu sa Zakonom o radu',         icon: '🌴', href: '/dokumenti/resenje-godisnji-odmor' },
       { type: 'pravilnik-o-radu',          title: 'Pravilnik o radu',          desc: 'Interni akt o radnom vremenu, zaradama i disciplini', icon: '📌', href: '/dokumenti/pravilnik-o-radu' },
+      { type: 'obavestenje-o-promeni-uslova', title: 'Obaveštenje o promeni uslova', desc: 'Formalno obaveštenje zaposlenom o promeni radnog vremena, zarade ili mesta rada', icon: '📋', href: '/dokumenti/obavestenje-o-promeni-uslova' },
     ],
   },
   {

@@ -16,6 +16,7 @@ import { wizardSteps as odgovorKandidatuSteps } from '@/lib/prompts/odgovor-kand
 import { wizardSteps as preporukaSteps } from '@/lib/prompts/preporuka'
 import { wizardSteps as resenjeGodisnjiSteps } from '@/lib/prompts/resenje-godisnji-odmor'
 import { wizardSteps as pravilnikORaduSteps } from '@/lib/prompts/pravilnik-o-radu'
+import { wizardSteps as obavestenjeSteps } from '@/lib/prompts/obavestenje-o-promeni-uslova'
 import { wizardSteps as opisProizvodaSteps } from '@/lib/prompts/opis-proizvoda'
 import { wizardSteps as bioONamaSteps } from '@/lib/prompts/bio-o-nama'
 import { wizardSteps as zapisnikSastanakSteps } from '@/lib/prompts/zapisnik-sastanak'
@@ -42,8 +43,9 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'odgovor-kandidatu':        { title: 'Odgovor kandidatu',                  steps: odgovorKandidatuSteps },
   'preporuka':                { title: 'Preporuka/Referenca',                steps: preporukaSteps },
   'resenje-godisnji-odmor':   { title: 'Rešenje o godišnjem odmoru',         steps: resenjeGodisnjiSteps },
-  'pravilnik-o-radu':         { title: 'Pravilnik o radu',                   steps: pravilnikORaduSteps },
-  'opis-proizvoda':           { title: 'Opis proizvoda/usluge',              steps: opisProizvodaSteps },
+  'pravilnik-o-radu':                { title: 'Pravilnik o radu',                        steps: pravilnikORaduSteps },
+  'obavestenje-o-promeni-uslova':    { title: 'Obaveštenje o promeni uslova rada',        steps: obavestenjeSteps },
+  'opis-proizvoda':                  { title: 'Opis proizvoda/usluge',                    steps: opisProizvodaSteps },
   'bio-o-nama':               { title: 'Bio / O nama',                       steps: bioONamaSteps },
   'zapisnik-sastanak':        { title: 'Zapisnik sa sastanka',               steps: zapisnikSastanakSteps },
   'faktura':                  { title: 'Faktura / Profaktura',               steps: fakturaSteps },
@@ -74,7 +76,7 @@ export function WizardPageClient({ type, companies, plan, initialValues, rootDoc
     if (['poslovni-mejl','ponuda-klijentu'].includes(type)) {
       return 'Popunite podatke i AI će generisati profesionalan poslovni tekst.'
     }
-    if (['oglas-za-posao','odgovor-kandidatu','preporuka','resenje-godisnji-odmor','pravilnik-o-radu'].includes(type)) {
+    if (['oglas-za-posao','odgovor-kandidatu','preporuka','resenje-godisnji-odmor','pravilnik-o-radu','obavestenje-o-promeni-uslova'].includes(type)) {
       return 'Popunite podatke i AI će generisati kompletan HR dokument.'
     }
     if (type === 'faktura') {

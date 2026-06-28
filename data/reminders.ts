@@ -104,6 +104,13 @@ export const documentReminders: Record<string, DocumentReminder> = {
     learnMoreUrl: null,
     type: 'warning',
   },
+  'obavestenje-o-promeni-uslova': {
+    title: 'Zakonska obaveza',
+    message:
+      'Zaposleni ima pravo da odbije izmenu uslova rada. U tom slučaju, poslodavac može ponuditi otkaz uz otkazni rok (čl. 172-174 ZOR). Preporučuje se dostavljanje obaveštenja u pisanoj formi uz potvrdu prijema.',
+    learnMoreUrl: null,
+    type: 'warning',
+  },
   'opis-proizvoda': {
     title: 'Savet',
     message:

@@ -64,6 +64,7 @@ const navCategories: NavCategory[] = [
       { label: 'Preporuka/Referenca',        href: '/dokumenti/preporuka' },
       { label: 'Rešenje o godišnjem odmoru', href: '/dokumenti/resenje-godisnji-odmor' },
       { label: 'Pravilnik o radu',           href: '/dokumenti/pravilnik-o-radu' },
+      { label: 'Obaveštenje o promeni uslova', href: '/dokumenti/obavestenje-o-promeni-uslova' },
     ],
   },
   {

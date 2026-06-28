@@ -345,6 +345,12 @@ function buildSigData(documentType: string, d: Record<string, unknown>): SigData
         leftPerson: g('zastupnik'),
         rightLabel: '', rightOrg: '', rightPerson: '', city: '',
       }
+    case 'obavestenje-o-promeni-uslova':
+      return {
+        leftLabel: g('funkcija'), leftOrg: g('naziv_firme'),
+        leftPerson: g('zastupnik'),
+        rightLabel: '', rightOrg: '', rightPerson: '', city: '',
+      }
     case 'preporuka':
       return {
         leftLabel: g('pozicija_preporucioca'), leftOrg: g('naziv_firme'),

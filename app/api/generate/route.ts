@@ -18,10 +18,11 @@ import { systemPrompt as odgovorKandidatuSystem, buildUserMessage as buildOdgovo
 import { systemPrompt as preporukaSystem, buildUserMessage as buildPreporukaMessage } from '@/lib/prompts/preporuka'
 import { systemPrompt as resenjeGodisnjiSystem, buildUserMessage as buildResenjeGodisnjiMessage } from '@/lib/prompts/resenje-godisnji-odmor'
 import { systemPrompt as pravilnikORaduSystem, buildUserMessage as buildPravilnikORaduMessage } from '@/lib/prompts/pravilnik-o-radu'
+import { systemPrompt as obavestenjeSystem, buildUserMessage as buildObavestenjeMessage } from '@/lib/prompts/obavestenje-o-promeni-uslova'
 import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProizvodaMessage } from '@/lib/prompts/opis-proizvoda'
 import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
-import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
+import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, ObavestenjeOPromeniUslovaData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
 
@@ -394,6 +395,23 @@ const pravilnikORaduSchema = z.object({
   posebna_oprema: z.string().optional(),
 })
 
+const obavestenjeOPromeniUslovaSchema = z.object({
+  naziv_firme: z.string().min(1),
+  pib: z.string().min(1),
+  adresa: z.string().min(1),
+  zastupnik: z.string().min(1),
+  funkcija: z.string().min(1),
+  ime_prezime: z.string().min(1),
+  radno_mesto: z.string().min(1),
+  tip_promene: z.string().min(1),
+  staro_stanje: z.string().min(1),
+  novo_stanje: z.string().min(1),
+  datum_primene: z.string().min(1),
+  opis_promene: z.string().optional(),
+  razlog_promene: z.string().optional(),
+  rok_za_izjasnjavanje: z.string().optional(),
+})
+
 const opisProizvodaSchema = z.object({
   naziv_firme: z.string().min(1),
   kanal: z.string().min(1),
@@ -529,7 +547,7 @@ const requestSchema = z.object({
   type: z.enum([
     'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
     'punomocje', 'opsti-uslovi', 'poslovni-mejl', 'oglas-za-posao', 'ponuda-klijentu',
-    'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
+    'odgovor-kandidatu', 'preporuka', 'resenje-godisnji-odmor', 'pravilnik-o-radu', 'obavestenje-o-promeni-uslova',
     'opis-proizvoda', 'bio-o-nama', 'zapisnik-sastanak', 'faktura', 'putni-nalog', 'otpremnica', 'ponuda-za-radove',
   ]),
   data: z.record(z.string(), z.unknown()),
@@ -624,6 +642,13 @@ const documentConfigs = {
     systemPrompt: pravilnikORaduSystem,
     buildUserMessage: (data: PravilnikORaduData) => buildPravilnikORaduMessage(data),
     buildTitle: (data: PravilnikORaduData) => `Pravilnik o radu - ${data.naziv_firme ?? ''}`,
+  },
+  'obavestenje-o-promeni-uslova': {
+    schema: obavestenjeOPromeniUslovaSchema,
+    systemPrompt: obavestenjeSystem,
+    buildUserMessage: (data: ObavestenjeOPromeniUslovaData) => buildObavestenjeMessage(data),
+    buildTitle: (data: ObavestenjeOPromeniUslovaData) =>
+      `Obaveštenje o promeni uslova rada - ${data.ime_prezime ?? ''} (${data.tip_promene ?? ''})`,
   },
   'opis-proizvoda': {
     schema: opisProizvodaSchema,

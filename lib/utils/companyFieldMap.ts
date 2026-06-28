@@ -77,6 +77,13 @@ export const companyFieldMap: Record<string, Record<string, string>> = {
     zastupnik:            'zastupnik',
     delatnost:            'delatnost',
   },
+  'obavestenje-o-promeni-uslova': {
+    naziv:                'naziv_firme',
+    pib:                  'pib',
+    adresa:               'adresa',
+    zastupnik:            'zastupnik',
+    funkcija_zastupnika:  'funkcija',
+  },
   'preporuka': {
     naziv:                'naziv_firme',
     zastupnik:            'ime_preporucioca',

@@ -413,6 +413,23 @@ export interface PravilnikORaduData {
   posebna_oprema?: string
 }
 
+export interface ObavestenjeOPromeniUslovaData {
+  naziv_firme: string
+  pib: string
+  adresa: string
+  zastupnik: string
+  funkcija: string
+  ime_prezime: string
+  radno_mesto: string
+  tip_promene: string
+  staro_stanje: string
+  novo_stanje: string
+  datum_primene: string
+  opis_promene?: string
+  razlog_promene?: string
+  rok_za_izjasnjavanje?: string
+}
+
 export interface OpisProizvodaData {
   naziv_firme: string
   kanal: string
@@ -533,6 +550,7 @@ export type WizardFormData =
   | PreporukaData
   | ResenjeGodisnjiOdmorData
   | PravilnikORaduData
+  | ObavestenjeOPromeniUslovaData
   | OpisProizvodaData
   | BioONamaData
   | ZapisnikSastanakData
