@@ -51,5 +51,12 @@ metadata:
 - NDA DOCX: POVERLJIVO inline sa logom u headeru (tabela bez bordera, 70/30); "Sporazum potpisuju:"
 - Testirano: NDA ✅, Ugovor o radu ✅
 
+## HR i komunikacija poboljšanja — jun 2026. (kompletno)
+
+- **poslovni-mejl**: 3 nova tipa mejla (Follow-up posle sastanka, Uvod u novu saradnju, Zahtev za referencu ili preporuku); kondicionalno polje `teme_sa_sastanka`
+- **odgovor-kandidatu**: novi tip "Feedback posle intervjua"; 3 kondicionalna polja (`feedback_pozitivno`, `feedback_razlog`, `ostaje_u_bazi` toggle)
+- **oglas-za-posao**: dual output LinkedIn + Infostud u jednom API pozivu; `---LINKEDIN---` / `---INFOSTUD---` separatori; tab UI u DocumentPreview; export šalje `override_text` aktivnog taba; test skripta proširena
+- **obavestenje-o-promeni-uslova**: 20. tip dokumenta; čl. 172-174 ZOR; wizard 3 koraka; sve prateće izmene (route, wizard, sidebar, dashboard, companyFieldMap, reminders, documentTypes, PDF/DOCX sig)
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

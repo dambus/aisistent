@@ -35,15 +35,15 @@ Kada upisuješ novu memoriju, pisati u **oba** mesta: lokalni `~/.claude/project
 - **Email:** Resend | **Deployment:** Vercel
 - **Plaćanje:** Paddle (čeka APR registraciju)
 
-## 19 tipova dokumenata
+## 20 tipova dokumenata
 
 Ugovori (7): ugovor-o-radu, ugovor-o-delu, nda, ugovor-o-zakupu,
              ugovor-o-saradnji-zajmu, punomocje, opsti-uslovi
 
 Komunikacija (2): poslovni-mejl, ponuda-klijentu
 
-HR (5): oglas-za-posao, odgovor-kandidatu, preporuka,
-        resenje-godisnji-odmor, pravilnik-o-radu
+HR (6): oglas-za-posao, odgovor-kandidatu, preporuka,
+        resenje-godisnji-odmor, pravilnik-o-radu, obavestenje-o-promeni-uslova
 
 Marketing (3): opis-proizvoda, bio-o-nama, zapisnik-sastanak
 

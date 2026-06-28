@@ -74,6 +74,7 @@
 - ~~Porudžbenica~~ — odbačeno, zastareo B2B enterprise dokument van scope-a
 - ~~Trebovanje~~ — odbačeno, interni dokument za velike sisteme van scope-a
 - Ponuda za radove — dinamička tabela (majstori, izvođači) ✅
+- Obaveštenje o promeni uslova rada — čl. 172-174 ZOR ✅
 
 ### Napredne funkcionalnosti
 

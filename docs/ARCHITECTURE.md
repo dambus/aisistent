@@ -37,7 +37,7 @@ app/
   page.tsx              — Landing page
 
 lib/
-  prompts/              — 17 TypeScript fajlova, jedan po tipu
+  prompts/              — 20 TypeScript fajlova, jedan po tipu
   pdf/
     markdownParser.ts   — Markdown → PDF blokovi (parseMarkdown)
     AisistentDocument.tsx — React PDF template + buildSigData()

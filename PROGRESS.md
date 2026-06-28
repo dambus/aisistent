@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 28. jun 2026. — HR i komunikacija poboljšanja
+
+**poslovni-mejl** — 3 nova tipa mejla (Follow-up posle sastanka, Uvod u novu saradnju, Zahtev za referencu ili preporuku). Kondicionalno polje `teme_sa_sastanka` za Follow-up tip.
+
+**odgovor-kandidatu** — novi tip "Feedback posle intervjua" sa 3 kondicionalna polja: `feedback_pozitivno`, `feedback_razlog`, `ostaje_u_bazi` (toggle). System prompt proširen sa sekcijom TIPOVI ODGOVORA.
+
+**oglas-za-posao** — dual output u jednom API pozivu. Prompt generiše LinkedIn (narativ, hook, hashtags) i Infostud (struktura, bullet liste) format razdvojen `---LINKEDIN---` / `---INFOSTUD---` separatorima. `DocumentPreview` parsira i prikazuje tabove. Export šalje `override_text` aktivnog taba. Test skripta proširena: `scripts/fixtures/oglas-za-posao.ts`, validacija separatora u konzoli.
+
+**obavestenje-o-promeni-uslova** — potpuno novi tip dokumenta (20. tip). Zakonska obaveza po čl. 172-174 ZOR. Wizard 3 koraka: firma, zaposleni, promena (tip, staro/novo stanje, datum primene, opcioni razlog i rok za izjašnjavanje). Prateće izmene: route.ts, WizardPageClient, Sidebar, dashboard, companyFieldMap, reminders, documentTypes, PDF i DOCX buildSigData.
+
 #### 27-28. jun 2026. — DOCX audit i fix
 
 **keepNext — viseći naslovi**
