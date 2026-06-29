@@ -7,3 +7,4 @@
 - [Codex delegacija](feedback_codex_delegation.md) — kada Claude delegira Codexu, kada zadržava zadatak
 - [GitHub issues workflow](reference_github_issues.md) — n8n kreira issues od user feedbacka, rešavamo po prioritetu; gh.exe na C:\Program Files\GitHub CLI\
 - [Sistem saveta — taskovi](tasks_tips_system.md) — urađeno/sledeće za contextual tips feature
+- [Autofill istraživanje](project_autofill_research.md) — sačuvani kontakti/katalog/zaposleni + Upload & Fill za tuđe obrasce (AcroForm PDF, DOCX); preduslov za Upload & Fill su kontakti+katalog
