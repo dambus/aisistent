@@ -11,7 +11,7 @@ interface ContactSelectModalProps {
 }
 
 export function ContactSelectModal({ contacts, onSelect, onSkip, isOpen }: ContactSelectModalProps) {
-  if (!isOpen) return null
+  if (!isOpen || contacts.length === 0) return null
 
   const tipLabels: Record<string, string> = {
     firma: 'Firma',
