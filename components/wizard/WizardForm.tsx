@@ -8,7 +8,7 @@ import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
 import { ContactSelectModal } from './ContactSelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
-import { buildContactFields, CONTACT_SUPPORTED_TYPES } from '@/lib/utils/contactFieldMap'
+import { buildContactFields, buildCompanyAsContactFields, CONTACT_SUPPORTED_TYPES, AGENCY_BILLING_TYPES } from '@/lib/utils/contactFieldMap'
 import { FakturaStavkeField } from './FakturaStavkeField'
 import { Switch } from '@/components/ui/switch'
 import { TipSequence, type TipDefinition } from '@/components/ui/TipCard'
@@ -243,8 +243,14 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
     const company = companies.find(c => c.id === companyId)
     if (!company) return
     setSelectedCompanyId(companyId)
-    const fields = buildCompanyFields(company, documentType)
-    setValues(prev => ({ ...prev, ...fields }))
+    if (AGENCY_BILLING_TYPES.has(documentType)) {
+      // Za billing dokumente: agencija = izdavalac, klijent = primalac
+      const contactFields = buildCompanyAsContactFields(company, documentType)
+      setValues(prev => ({ ...prev, ...contactFields }))
+    } else {
+      const companyFields = buildCompanyFields(company, documentType)
+      setValues(prev => ({ ...prev, ...companyFields }))
+    }
   }
 
   return (
@@ -300,8 +306,8 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
         </div>
       </div>
 
-      {/* Agency client switcher */}
-      {isAgency && (
+      {/* Agency client switcher — samo na prvom koraku */}
+      {isAgency && currentStep === 0 && (
         <div className="mb-4 flex items-center gap-3">
           <span className="text-sm font-medium text-gray-600 shrink-0">Klijent:</span>
           {companies.length >= 2 ? (
