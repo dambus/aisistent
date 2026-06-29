@@ -29,6 +29,29 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 30. jun 2026. — Sačuvani kontakti + Agency wizard fix
+
+**Sačuvani kontakti** — nova funkcionalnost za Starter/Pro/Agency planove.
+- Nova `contacts` tabela (naziv, pib, adresa, grad, zastupnik, email, telefon, ziro_racun, tip)
+- SQL migracija primenjena na produkciji
+- Plan limiti: free=0, starter=5, pro/agency=neograničeno
+- `ContactsTab` komponenta u `/profil` — Sheet forma, kartice sa edit/delete, pretraga
+- `ContactSelectModal` u wizardu — pojavljuje se posle CompanySelectModal za podržane tipove dokumenta, skip ako nema kontakata
+- `contactFieldMap.ts` — mapiranje contact polja na wizard polja za 8 tipova: faktura, otpremnica, ponuda-za-radove, ugovor-o-delu, nda, ugovor-o-zakupu, ugovor-o-saradnji-zajmu, ponuda-klijentu
+- `buildContactFields()` — puni wizard polja iz Contact objekta
+- `buildCompanyAsContactFields()` — puni "drugu stranu" iz Company objekta (za agency plan)
+- `AGENCY_BILLING_TYPES` — set billing dokumenata gde agencija = izdavalac, klijent = primalac
+- SendEmailModal i send-document API ažurirani za novi Contact model
+
+**Agency wizard dropdown fix**
+- Agency "Klijent:" dropdown prikazuje se samo na koraku 0 (ne na svakom koraku)
+- Za billing tipove (faktura, otpremnica, ponuda-za-radove, ponuda-klijentu): prebacivanje klijenta puni primalac/naručilac polja, ne izdavalac
+- Za ostale tipove (ugovori, NDA...): postojeće ponašanje (puni firmu/stranu dokumenta)
+
+**TODO za korisnika — prezentovati nove funkcionalnosti**
+- Kontakti su u produkciji ali korisnici ne znaju za njih
+- Potreban tip/onboarding banner u profilu i/ili wizardu
+
 #### 28. jun 2026. — HR i komunikacija poboljšanja
 
 **poslovni-mejl** — 3 nova tipa mejla (Follow-up posle sastanka, Uvod u novu saradnju, Zahtev za referencu ili preporuku). Kondicionalno polje `teme_sa_sastanka` za Follow-up tip.

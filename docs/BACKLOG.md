@@ -43,6 +43,12 @@
 
 ## 🔴 Visok prioritet
 
+- **Prezentovati nove funkcionalnosti korisnicima** — Sačuvani kontakti su u produkciji ali korisnici nisu obavešteni.
+  Opcije: TipCard u `/profil` uz ContactsTab, onboarding banner u wizardu, ili email/notifikacija.
+  Minimalno: TipCard "Novo — Sačuvajte kupce i partnere" u profilu + TipCard u wizardu za podržane tipove.
+
+## 🔴 Visok prioritet — blokirano
+
 - **Payment gateway (Paddle)** — čeka APR registraciju preduzetnika
   Kontakt: paddle.com, seller account za Srbiju
   Blokira: naplatu pretplate

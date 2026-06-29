@@ -58,5 +58,17 @@ metadata:
 - **oglas-za-posao**: dual output LinkedIn + Infostud u jednom API pozivu; `---LINKEDIN---` / `---INFOSTUD---` separatori; tab UI u DocumentPreview; export šalje `override_text` aktivnog taba; test skripta proširena
 - **obavestenje-o-promeni-uslova**: 20. tip dokumenta; čl. 172-174 ZOR; wizard 3 koraka; sve prateće izmene (route, wizard, sidebar, dashboard, companyFieldMap, reminders, documentTypes, PDF/DOCX sig)
 
+## Sačuvani kontakti + Agency fix — jun 2026. (kompletno, migracija primenjena)
+
+- Nova `contacts` tabela (naziv, pib, adresa, grad, zastupnik, email, telefon, ziro_racun, tip); SQL migracija primenjena na produkciji
+- Plan limiti: free=0, starter=5, pro/agency=neograničeno
+- `ContactsTab` u `/profil` — Sheet forma (identičan pattern kao CompaniesTab), kartice, pretraga
+- `ContactSelectModal` u wizardu — pojavljuje se posle CompanySelectModal; skip ako nema kontakata
+- `contactFieldMap.ts`: mapiranje za 8 tipova (faktura, otpremnica, ponuda-za-radove, ugovor-o-delu, nda, ugovor-o-zakupu, ugovor-o-saradnji-zajmu, ponuda-klijentu)
+- `buildContactFields()`, `buildCompanyAsContactFields()`, `AGENCY_BILLING_TYPES`, `CONTACT_SUPPORTED_TYPES`
+- `SendEmailModal` + `send-document` API ažurirani za novi Contact model
+- Agency "Klijent:" dropdown — prikazuje se samo na koraku 0; za billing tipove puni primalac/naručilac polja
+- **TODO**: prezentovati korisnicima — TipCard u profilu + wizardu (u backlogu)
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
