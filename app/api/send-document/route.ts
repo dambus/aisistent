@@ -315,15 +315,12 @@ export async function POST(request: NextRequest) {
   if (body.save_contact) {
     await admin
       .from('contacts')
-      .upsert(
-        {
-          user_id: user.id,
-          ime: body.contact_name?.trim() || null,
-          email: body.recipient_email.trim().toLowerCase(),
-          firma: body.contact_firma?.trim() || null,
-        },
-        { onConflict: 'user_id,email' }
-      )
+      .insert({
+        user_id: user.id,
+        naziv: body.contact_name?.trim() || body.contact_firma?.trim() || body.recipient_email.trim(),
+        email: body.recipient_email.trim().toLowerCase(),
+        tip: body.contact_firma?.trim() ? 'firma' : 'fizicko_lice',
+      })
   }
 
   return NextResponse.json({ success: true })

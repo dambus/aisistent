@@ -27,7 +27,7 @@ import { wizardSteps as ponudaZaRadoveSteps } from '@/lib/prompts/ponuda-za-rado
 import { WizardForm } from '@/components/wizard/WizardForm'
 import { DocumentPreview } from '@/components/wizard/DocumentPreview'
 import type { WizardStep } from '@/types/wizard'
-import type { Company } from '@/types/database'
+import type { Company, Contact } from '@/types/database'
 
 const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
   'ugovor-o-radu':     { title: 'Ugovor o radu',                       steps: raduSteps },
@@ -57,13 +57,14 @@ const documentMeta: Record<string, { title: string; steps: WizardStep[] }> = {
 interface WizardPageClientProps {
   type: string
   companies: Company[]
+  contacts: Contact[]
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
   preselectedClientId?: string
 }
 
-export function WizardPageClient({ type, companies, plan, initialValues, rootDocumentId, preselectedClientId }: WizardPageClientProps) {
+export function WizardPageClient({ type, companies, contacts, plan, initialValues, rootDocumentId, preselectedClientId }: WizardPageClientProps) {
   const meta = documentMeta[type]
   const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null } | null>(null)
 
@@ -122,6 +123,7 @@ export function WizardPageClient({ type, companies, plan, initialValues, rootDoc
         steps={meta.steps}
         documentType={type}
         companies={companies}
+        contacts={contacts}
         plan={plan}
         initialValues={initialValues}
         rootDocumentId={rootDocumentId}

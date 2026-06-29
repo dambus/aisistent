@@ -10,9 +10,15 @@ export type DocumentType =
 export interface Contact {
   id: string
   user_id: string
-  ime: string | null
-  email: string
-  firma: string | null
+  naziv: string
+  pib: string | null
+  adresa: string | null
+  grad: string | null
+  zastupnik: string | null
+  email: string | null
+  telefon: string | null
+  ziro_racun: string | null
+  tip: string
   created_at: string
 }
 
@@ -208,23 +214,41 @@ export interface Database {
         Row: {
           id: string
           user_id: string
-          ime: string | null
-          email: string
-          firma: string | null
+          naziv: string
+          pib: string | null
+          adresa: string | null
+          grad: string | null
+          zastupnik: string | null
+          email: string | null
+          telefon: string | null
+          ziro_racun: string | null
+          tip: string
           created_at: string
         }
         Insert: {
           id?: string
           user_id: string
-          ime?: string | null
-          email: string
-          firma?: string | null
+          naziv: string
+          pib?: string | null
+          adresa?: string | null
+          grad?: string | null
+          zastupnik?: string | null
+          email?: string | null
+          telefon?: string | null
+          ziro_racun?: string | null
+          tip?: string
           created_at?: string
         }
         Update: {
-          ime?: string | null
-          email?: string
-          firma?: string | null
+          naziv?: string
+          pib?: string | null
+          adresa?: string | null
+          grad?: string | null
+          zastupnik?: string | null
+          email?: string | null
+          telefon?: string | null
+          ziro_racun?: string | null
+          tip?: string
         }
         Relationships: []
       }

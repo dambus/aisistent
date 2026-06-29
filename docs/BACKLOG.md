@@ -94,5 +94,122 @@ Za Agency plan: dedicated `/klijenti` stranica umesto taba u dashboardu.
 - Skalabilno za timske naloge
 - Uraditi tek kada se implementiraju timski nalozi
 
+#### Automatsko popunjavanje formulara — Smart Autofill
+
+**Kontekst:** `companyFieldMap` već popunjava *tvoju* firmu u wizard polju. Praznina je **druga strana** — kupac, naručilac, zakupac, izvođač — koji se kuca iznova svaki put. Ovo je najrepetitivniji bol, posebno za korisnike koji imaju isti krug od 5-10 klijenata.
+
+**Šta korisnici ponavljaju (prema tipovima dokumenata):**
+
+| Scenario | Ponavljanje |
+|----------|-------------|
+| Faktura istom kupcu svaki mesec | naziv, PIB, adresa kupca, iste stavke/usluge |
+| Ponuda klijentu — isti klijent, nova ponuda | naziv, PIB, adresa primaoca |
+| Ugovor o delu — isti izvođači | ime, JMBG, adresa, žiro račun izvođača |
+| Ugovor o zakupu — isti zakupci | ime/naziv, JMBG/PIB, adresa zakupca |
+| Putni nalog — isti zaposleni | ime, pozicija, destinacija |
+| Oglas za posao — isti grad, ista delatnost | (već popunjava iz firme) |
+
+**Tri nezavisna pod-featura:**
+
+**1. Sačuvani kontakti/primaoci (druga strana)** — Starter+
+Ekvivalent `companies` tabele ali za drugu stranu. Korisnik jednom sačuva kupca/klijenta, sledeći put klikne "Popuni iz kontakata".
+- Nova tabela `contacts` (naziv, PIB/JMBG, adresa, email, telefon, tip: firma/fizičko lice)
+- Nova `contactFieldMap` analogna `companyFieldMap` — mapira `contact.*` → wizard polja za drugu stranu
+- UI: CompanySelectModal dobija drugi modal/tab "Odaberi primaoca"
+- Dokumenti gde se primenjuje: faktura (kupac), ugovor-o-delu (izvođač), nda (strana 2), ugovor-o-zakupu (zakupac), ugovor-o-saradnji (strana 2), ponuda-klijentu (primalac), ugovor-o-saradnji-zajmu (zajmoprimac)
+
+**2. Katalog usluga/artikala** — Pro+
+Za fakture, ponude i otpremnice — najrepetitivnija stavka su iste usluge/artikli sa istim cenama.
+- Nova tabela `catalog_items` (naziv, opis, cena, PDV, jedinica mere)
+- Dropdown "Dodaj iz kataloga" umesto ručnog unosa stavke
+- Primenjuje se na: faktura, ponuda-klijentu, ponuda-za-radove, otpremnica
+- Bonus: automatski predlaže poslednje korišćene stavke za datog klijenta
+
+**3. Sačuvani zaposleni** — Pro+
+Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
+- Nova tabela `employees` (ime, JMBG, pozicija, datum_zaposlenja, email, plata_osnova)
+- Primenjuje se na: ugovor-o-radu, resenje-godisnji-odmor, odgovor-kandidatu, putni-nalog (putnik)
+- Napomena: osetljivi podaci (JMBG, plata) — zahteva pažnju oko RLS i prikaza
+
+**Prioritet implementacije:**
+1. Sačuvani kontakti (najveći ROI, najmanja kompleksnost, direktno replicira companies pattern)
+2. Katalog usluga (blokira Power User retenciju — faktura/mesec je top use-case)
+3. Sačuvani zaposleni (manje urgentno, ali HR korisnici imaju visoku retenciju)
+
+**Tehničke napomene:**
+- Contacts pattern je identičan Companies — isti CRUD, isti Sheet UI, iste kartice
+- `contactFieldMap` treba pokriti sve tipove gde postoji "druga strana" (vid. tabelu iznad)
+- Plan limite treba definisati: Starter (1-3 kontakta?), Pro (10+), Agency (∞)
+- APR PIB lookup (kada se odblokira) — koristiti i za brzo punjenje contact kartice
+
+#### [ISTRAŽIVANJE] Upload & Fill — automatsko popunjavanje tuđih obrazaca
+
+**Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
+
+**Use case:** Preduzetnik/HR/finansijski službenik koji redovno dobija RFQ, tendere, anekse ili interne obrasce od velikih partnera (SAP, DMS sistemi) u PDF/DOCX formatu i mora ručno da popunjava ista polja iznova.
+
+**Tehnička analiza (jun 2026):**
+
+| Tip dokumenta | Pouzdanost | Kompleksnost |
+|--------------|-----------|--------------|
+| AcroForm PDF (SAP, DMS) | 95%+ | Niska — `pdf-lib` čita named fields direktno |
+| DOCX sa placeholderima | 90%+ | Niska — `mammoth.js` + Claude pattern matching |
+| Flat PDF (skenirani) | 70-80% | Visoka — Claude Vision po stranici, overlay problem |
+
+**Cena tokena:** ~$0.02 po analizi obrasca. Nije faktor čak ni na velikom volumenu.
+**Vreme odgovora:** 3-7 sekundi (ekstrakcija + API poziv). Prihvatljivo.
+
+**Workflow:**
+```
+1. Upload obrasca (PDF AcroForm ili DOCX)
+2. Ekstrakcija polja (pdf-lib / mammoth.js)
+3. Claude mapira polja na profil firme → JSON sa confidence
+4. UI: mini-wizard — zelena (auto) + prazna (ručni unos) polja
+5. Output:
+   — AcroForm PDF / DOCX: direktno popunjen fajl
+   — Flat PDF: strukturiran "uputstvo za popunjavanje" ispisni pregled
+```
+
+**Preduslov za vrednost:** Feature je slab ako profil firme ima samo naziv/PIB/adresu (3-5 polja od 20+). Postaje koristan differentiator tek kada postoje sačuvani kontakti + katalog usluga + zaposleni — tada auto-fill pokriva 40-50% obrasca.
+
+**Redosled implementacije:**
+1. Sačuvani kontakti (druga strana) ← uraditi prvo
+2. Katalog usluga ← uraditi prvo
+3. **Upload & Fill MVP** — AcroForm PDF + DOCX, Pro/Agency plan
+
+**Ne ulaziti u:** flat PDF direktan fill (overlay problem), web forme državnih portala (ePorezi, APR).
+
+#### [ISTRAŽIVANJE] Kontekstualni asistent — chatbot za srpsko preduzetništvo
+
+**Ideja:** AI asistent koji odgovara na pitanja o preduzetništvu i poslovanju, integrisan sa korisničkim profilom — zna firmu, plan i istoriju dokumenata, i može da predloži ili pokrene generisanje dokumenta.
+
+**Tri moguće verzije (po vrednosti):**
+
+| Verzija | Opis | Diferencijacija | Preporuka |
+|---------|------|----------------|-----------|
+| Generički bot | System prompt + Claude | Nula — ChatGPT to već radi | Ne raditi |
+| RAG sa zakonima | Korpus ZOR, PDV, paušal... citira članove | Jaka, ali skupo za održavanje | Dugoročno |
+| **Kontekstualni (integrisani)** | Zna profil firme + istoriju dokumenata + može da triggeruje generisanje | **Jedinstven — ChatGPT ne može** | **MVP** |
+
+**Kontekstualni MVP workflow:**
+```
+Korisnik: "Kako da zaposlim prvog radnika?"
+Bot: zna firmu korisnika, plan, dokumente →
+     "Za zapošljavanje trebaš Ugovor o radu i M-A obrazac.
+      Vidim da imaš firmu 'ABC d.o.o.' — generišemo Ugovor o radu sada?"
+```
+
+**Tehničke napomene:**
+- System prompt: srpsko poslovno znanje + disclaimer + kontekst iz baze (profil firme, plan, poslednji dokumenti)
+- Cena: ~$0.008-0.04 po razgovoru. 1000 korisnika × 5 pitanja/mesec ≈ $40/mes — nije faktor
+- Rate limiting: Free (5 pitanja/dan), Starter+ (neograničeno)
+- Intencija → shortcut ka generisanju dokumenta je ključni differentiator
+
+**Najveći rizik — pravna odgovornost:**
+Srpski zakoni (paušal, PDV pragovi, doprinosi) se menjaju redovno. Claude knowledge cutoff može biti zastareo. Pogrešan odgovor o porezu može naneti štetu korisniku.
+Obavezno: jak disclaimer + pozicioniranje kao "informativno, ne pravni/poreski savet" + preporuka da se konsultuje računovođa/pravnik.
+
+**Preduslov:** Nije tehnički blokiran ničim. Može se raditi nezavisno, ali vrednost raste sa bogatijim profilom (kontakti, katalog, zaposleni).
+
 #### API
 - Javni API za generisanje dokumenata (dugoročno)

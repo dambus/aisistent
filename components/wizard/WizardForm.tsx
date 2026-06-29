@@ -2,11 +2,13 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
-import type { Company } from '@/types/database'
+import type { Company, Contact } from '@/types/database'
 import { UpgradeModal } from './UpgradeModal'
 import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
+import { ContactSelectModal } from './ContactSelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
+import { buildContactFields, CONTACT_SUPPORTED_TYPES } from '@/lib/utils/contactFieldMap'
 import { FakturaStavkeField } from './FakturaStavkeField'
 import { Switch } from '@/components/ui/switch'
 import { TipSequence, type TipDefinition } from '@/components/ui/TipCard'
@@ -15,6 +17,7 @@ interface WizardFormProps {
   steps: WizardStep[]
   documentType: string
   companies?: Company[]
+  contacts?: Contact[]
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
@@ -84,7 +87,7 @@ function clearDraft(documentType: string) {
   } catch {}
 }
 
-export function WizardForm({ steps, documentType, companies = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], contacts = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
   const preselectedCompany = preselectedClientId ? (companies.find(c => c.id === preselectedClientId) ?? null) : null
   const defaultCompany = preselectedCompany ?? companies.find(c => c.is_default) ?? companies[0] ?? null
@@ -113,7 +116,9 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
-  const [showCompanyModal, setShowCompanyModal] = useState(!isAgency && companies.length > 0)
+  const hasContactSupport = CONTACT_SUPPORTED_TYPES.has(documentType)
+  const [showCompanyModal, setShowCompanyModal] = useState(!isAgency && companies.length > 0 && !initialValues)
+  const [showContactModal, setShowContactModal] = useState(false)
 
   const wizardTips: TipDefinition[] = [
     ...(companies.length > 0 ? [{
@@ -223,6 +228,15 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
     const fields = buildCompanyFields(company, documentType)
     setValues(prev => ({ ...prev, ...fields }))
     setShowCompanyModal(false)
+    if (hasContactSupport && contacts.length > 0 && !initialValues) {
+      setShowContactModal(true)
+    }
+  }
+
+  function handleContactSelect(contact: Contact) {
+    const fields = buildContactFields(contact, documentType)
+    setValues(prev => ({ ...prev, ...fields }))
+    setShowContactModal(false)
   }
 
   function handleAgencySwitch(companyId: string) {
@@ -241,7 +255,19 @@ export function WizardForm({ steps, documentType, companies = [], plan, initialV
         companies={companies}
         isOpen={showCompanyModal}
         onSelect={handleCompanySelect}
-        onSkip={() => setShowCompanyModal(false)}
+        onSkip={() => {
+          setShowCompanyModal(false)
+          if (hasContactSupport && contacts.length > 0 && !initialValues) {
+            setShowContactModal(true)
+          }
+        }}
+      />
+
+      <ContactSelectModal
+        contacts={contacts}
+        isOpen={showContactModal}
+        onSelect={handleContactSelect}
+        onSkip={() => setShowContactModal(false)}
       />
 
       {/* Draft restored banner */}

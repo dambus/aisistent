@@ -5,7 +5,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { ProfileCard } from '@/components/dashboard/ProfileCard'
 import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
-import type { Company } from '@/types/database'
+import { ContactsTab } from '@/components/dashboard/ContactsTab'
+import type { Company, Contact } from '@/types/database'
 
 const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
   free:    { bg: '#F3F4F6', text: '#6B7280' },
@@ -41,12 +42,19 @@ export default async function ProfilPage() {
     .eq('id', user.id)
     .single()
 
-  const { data: companies } = await supabase
-    .from('companies')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('is_default', { ascending: false })
-    .order('created_at', { ascending: true })
+  const [{ data: companies }, { data: contacts }] = await Promise.all([
+    supabase
+      .from('companies')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('is_default', { ascending: false })
+      .order('created_at', { ascending: true }),
+    supabase
+      .from('contacts')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true }),
+  ])
 
   const plan = profile?.plan ?? 'free'
 
@@ -88,6 +96,12 @@ export default async function ProfilPage() {
       <CompaniesTab
         initialCompanies={(companies ?? []) as Company[]}
         logoDisplayUrls={logoDisplayUrls}
+        plan={plan}
+      />
+
+      {/* Kartica 4 — Sačuvani kontakti */}
+      <ContactsTab
+        initialContacts={(contacts ?? []) as Contact[]}
         plan={plan}
       />
 

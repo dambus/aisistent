@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { WizardPageClient } from './WizardPageClient'
-import type { Company } from '@/types/database'
+import type { Company, Contact } from '@/types/database'
 
 const SUPPORTED_TYPES = new Set([
   'ugovor-o-radu',
@@ -43,17 +43,23 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
   const { data: { user } } = await supabase.auth.getUser()
 
   let companies: Company[] = []
+  let contacts: Contact[] = []
   let plan = 'free'
   let initialValues: Record<string, string | number | boolean> | undefined
   let rootDocumentId: string | undefined
 
   if (user) {
-    const [companiesRes, profileRes] = await Promise.all([
+    const [companiesRes, contactsRes, profileRes] = await Promise.all([
       supabase
         .from('companies')
         .select('*')
         .eq('user_id', user.id)
         .order('is_default', { ascending: false })
+        .order('created_at', { ascending: true }),
+      supabase
+        .from('contacts')
+        .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: true }),
       supabase
         .from('profiles')
@@ -63,6 +69,7 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
     ])
 
     companies = (companiesRes.data ?? []) as Company[]
+    contacts = (contactsRes.data ?? []) as Contact[]
     plan = profileRes.data?.plan ?? 'free'
 
     if (from) {
@@ -85,6 +92,7 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
     <WizardPageClient
       type={type}
       companies={companies}
+      contacts={contacts}
       plan={plan}
       initialValues={initialValues}
       rootDocumentId={rootDocumentId}

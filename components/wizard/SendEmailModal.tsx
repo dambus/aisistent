@@ -71,8 +71,8 @@ export function SendEmailModal({ documentId, documentTitle, isOpen, onClose, pre
     }
     const c = contacts.find(x => x.id === contactId)
     if (c) {
-      setRecipientEmail(c.email)
-      setRecipientName(c.ime ?? '')
+      setRecipientEmail(c.email ?? '')
+      setRecipientName(c.zastupnik ?? c.naziv)
     }
   }
 
@@ -170,7 +170,7 @@ export function SendEmailModal({ documentId, documentTitle, isOpen, onClose, pre
                     <option value="">— Unesite ručno —</option>
                     {contacts.map(c => (
                       <option key={c.id} value={c.id}>
-                        {[c.ime, c.email, c.firma ? `(${c.firma})` : ''].filter(Boolean).join(' — ')}
+                        {[c.naziv, c.email].filter(Boolean).join(' — ')}
                       </option>
                     ))}
                   </select>
