@@ -18,6 +18,7 @@ const SUPPORTED_TYPES = new Set([
   'preporuka',
   'resenje-godisnji-odmor',
   'pravilnik-o-radu',
+  'obavestenje-o-promeni-uslova',
   'opis-proizvoda',
   'bio-o-nama',
   'zapisnik-sastanak',
