@@ -9,7 +9,6 @@ export function getResend(): Resend {
   return _resend
 }
 
-// Keep named export for backward compatibility
 export const resend = {
   emails: {
     send: (...args: Parameters<Resend['emails']['send']>) => getResend().emails.send(...args),

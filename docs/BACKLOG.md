@@ -30,6 +30,7 @@
 - Podešavanja — lozinka, odjava, brisanje naloga ✅
 - shadcn/ui Faza 1 — ScrollArea, Select ✅
 - shadcn/ui Faza 2 — Switch, Tooltip, AlertDialog, Dialog ✅
+- shadcn/ui Faza 3 — Sheet za mobilni sidebar ✅
 - Mobilna responsivnost — wizard, sidebar, faktura stavke ✅
 - Tooltip fix — click-only za mobilne uređaje ✅
 
@@ -62,8 +63,6 @@
 
 - **APR API / PIB lookup** — ~~Istražiti~~ Blokirano: zahteva ugovor sa APR,
   dostupno samo pravnim licima. Implementirati tek nakon otvaranja firme.
-
-- **shadcn Faza 3** — Sheet za mobilni sidebar (slide-in) ✅
 
 ---
 

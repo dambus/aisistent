@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { downloadExport } from '@/lib/client/downloadExport'
 
 export function PdfButton({ documentId }: { documentId: string }) {
   const [loading, setLoading] = useState(false)
@@ -10,27 +11,8 @@ export function PdfButton({ documentId }: { documentId: string }) {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/export/pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ document_id: documentId }),
-      })
-      if (!res.ok) {
-        const json = await res.json().catch(() => ({}))
-        setError((json as { error?: string }).error ?? 'Greška')
-        return
-      }
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      const disposition = res.headers.get('Content-Disposition') ?? ''
-      const match = disposition.match(/filename="([^"]+)"/)
-      a.href = url
-      a.download = match?.[1] ?? 'dokument.pdf'
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      URL.revokeObjectURL(url)
+      const err = await downloadExport(documentId, 'pdf')
+      if (err) setError(err)
     } catch {
       setError('Greška pri preuzimanju.')
     } finally {

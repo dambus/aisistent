@@ -8,6 +8,8 @@ import { SendEmailModal } from '@/components/wizard/SendEmailModal'
 import { UpgradeModal } from '@/components/wizard/UpgradeModal'
 import { ImprovePanel } from '@/components/wizard/ImprovePanel'
 import type { Company } from '@/types/database'
+import { downloadExport } from '@/lib/client/downloadExport'
+import { fmtNum, fmtDate } from '@/lib/utils/formatting'
 
 interface DocumentPreviewProps {
   text: string
@@ -51,31 +53,6 @@ function isPutniNalogJson(text: string): boolean {
   }
 }
 
-async function downloadExport(documentId: string, format: ExportFormat, overrideText?: string): Promise<string | null> {
-  const res = await fetch(`/api/export/${format}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ document_id: documentId, ...(overrideText ? { override_text: overrideText } : {}) }),
-  })
-
-  if (!res.ok) {
-    const json = await res.json().catch(() => ({}))
-    return (json as { error?: string }).error ?? 'Greška pri generisanju fajla.'
-  }
-
-  const blob = await res.blob()
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  const disposition = res.headers.get('Content-Disposition') ?? ''
-  const match = disposition.match(/filename="([^"]+)"/)
-  a.href = url
-  a.download = match?.[1] ?? `dokument.${format}`
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-  URL.revokeObjectURL(url)
-  return null
-}
 
 type RatingState = 'idle' | 'negative-comment' | 'done'
 
@@ -177,11 +154,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     let data: Record<string, unknown> = {}
     try { data = JSON.parse(text) } catch {}
 
-    function fmtDate(iso: string) {
-      if (!iso) return '___________'
-      const d = new Date(iso)
-      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
-    }
+    const fmtDatePN = (iso: string) => fmtDate(iso, '___________')
 
     const troskovi = [
       data.dnevnica && 'Dnevnica',
@@ -201,7 +174,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
             )}
           </div>
           <div className="text-right text-sm text-gray-500 space-y-0.5">
-            <p>Datum izdavanja: {fmtDate(data.datum_izdavanja as string)}</p>
+            <p>Datum izdavanja: {fmtDatePN(data.datum_izdavanja as string)}</p>
           </div>
         </div>
 
@@ -247,14 +220,14 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
               </thead>
               <tbody>
                 <tr className="bg-white">
-                  <td className="px-3 py-2 text-gray-600">{fmtDate(data.datum_polaska as string)}</td>
+                  <td className="px-3 py-2 text-gray-600">{fmtDatePN(data.datum_polaska as string)}</td>
                   <td className="px-3 py-2 text-gray-900">{data.polaziste as string}</td>
                   <td className="px-3 py-2 text-gray-900">{data.odrediste as string}</td>
                   <td className="px-3 py-2 text-right text-gray-400">___</td>
                 </tr>
                 <tr className="bg-gray-50">
                   <td className="px-3 py-2 text-gray-600">
-                    {data.datum_povratka ? fmtDate(data.datum_povratka as string) : '___________'}
+                    {fmtDatePN(data.datum_povratka as string)}
                   </td>
                   <td className="px-3 py-2 text-gray-900">{data.odrediste as string}</td>
                   <td className="px-3 py-2 text-gray-900">{data.polaziste as string}</td>
@@ -328,16 +301,6 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     const iznosPdv = ukupnoBezPdv * pdvStopa / 100
     const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
 
-    function fmt(n: number) {
-      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    }
-
-    function fmtDate(iso: string) {
-      if (!iso) return ''
-      const d = new Date(iso)
-      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
-    }
-
     return (
       <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6">
         <div className="flex items-start justify-between">
@@ -387,11 +350,11 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
                 <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
                   <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
                   <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmtNum(s.kolicina)}</td>
                   <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.cena_bez_pdv)}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmtNum(s.cena_bez_pdv)}</td>
                   <td className="px-3 py-2 text-right font-medium text-gray-900">
-                    {fmt(s.kolicina * s.cena_bez_pdv)}
+                    {fmtNum(s.kolicina * s.cena_bez_pdv)}
                   </td>
                 </tr>
               ))}
@@ -403,17 +366,17 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           <div className="min-w-[240px] space-y-1.5">
             <div className="flex justify-between text-sm text-gray-600">
               <span>Ukupno bez PDV:</span>
-              <span>{fmt(ukupnoBezPdv)} RSD</span>
+              <span>{fmtNum(ukupnoBezPdv)} RSD</span>
             </div>
             {pdvStopa > 0 && (
               <div className="flex justify-between text-sm text-gray-600">
                 <span>PDV ({pdvStopa}%):</span>
-                <span>{fmt(iznosPdv)} RSD</span>
+                <span>{fmtNum(iznosPdv)} RSD</span>
               </div>
             )}
             <div className="flex justify-between border-t border-gray-200 pt-2 text-base font-bold" style={{ color: '#1B6B4A' }}>
               <span>Ukupno za uplatu:</span>
-              <span>{fmt(ukupnoSaPdv)} RSD</span>
+              <span>{fmtNum(ukupnoSaPdv)} RSD</span>
             </div>
           </div>
         </div>
@@ -437,7 +400,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
             )}
             <div className="flex justify-between border-t border-gray-100 pt-1">
               <span className="text-gray-500">Ukupno:</span>
-              <span className="font-bold" style={{ color: '#1B6B4A' }}>{fmt(ukupnoSaPdv)} RSD</span>
+              <span className="font-bold" style={{ color: '#1B6B4A' }}>{fmtNum(ukupnoSaPdv)} RSD</span>
             </div>
           </div>
         )}
@@ -475,15 +438,6 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     const primalacAdresa = (data.primalac_adresa as string) ?? ''
     const nacinIsporuke = (data.nacin_isporuke as string) ?? ''
     const napomena = (data.napomena as string) ?? ''
-    function fmt(n: number) {
-      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    }
-
-    function fmtDate(iso: string) {
-      if (!iso) return ''
-      const d = new Date(iso)
-      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
-    }
 
     return (
       <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6">
@@ -530,7 +484,7 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
                   <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
                   <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
                   <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmtNum(s.kolicina)}</td>
                 </tr>
               ))}
             </tbody>
@@ -559,15 +513,6 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
     const ukupnoBezPdv = stavke.reduce((sum, s) => sum + s.kolicina * s.cena_bez_pdv, 0)
     const iznosPdv = pdvObveznik && pdvStopaRaw !== 'oslobodjeno' ? ukupnoBezPdv * pdvStopa / 100 : 0
     const ukupnoSaPdv = ukupnoBezPdv + iznosPdv
-
-    function fmt(n: number) {
-      return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    }
-    function fmtDate(iso: string) {
-      if (!iso) return ''
-      const d = new Date(iso)
-      return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}.`
-    }
 
     return (
       <div className="space-y-5 rounded-2xl border border-gray-200 bg-white p-6">
@@ -622,10 +567,10 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
                 <tr key={i} className={i % 2 === 1 ? 'bg-gray-50' : 'bg-white'}>
                   <td className="px-3 py-2 text-gray-500">{s.rb}.</td>
                   <td className="px-3 py-2 text-gray-900">{s.naziv}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.kolicina)}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmtNum(s.kolicina)}</td>
                   <td className="px-3 py-2 text-center text-gray-500">{s.jedinica}</td>
-                  <td className="px-3 py-2 text-right text-gray-700">{fmt(s.cena_bez_pdv)}</td>
-                  <td className="px-3 py-2 text-right font-medium text-gray-900">{fmt(s.kolicina * s.cena_bez_pdv)}</td>
+                  <td className="px-3 py-2 text-right text-gray-700">{fmtNum(s.cena_bez_pdv)}</td>
+                  <td className="px-3 py-2 text-right font-medium text-gray-900">{fmtNum(s.kolicina * s.cena_bez_pdv)}</td>
                 </tr>
               ))}
             </tbody>
@@ -636,17 +581,17 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
           <div className="min-w-60 space-y-1.5">
             <div className="flex justify-between text-sm text-gray-600">
               <span>Ukupno bez PDV:</span>
-              <span>{fmt(ukupnoBezPdv)} RSD</span>
+              <span>{fmtNum(ukupnoBezPdv)} RSD</span>
             </div>
             {pdvObveznik && pdvStopaRaw !== 'oslobodjeno' && pdvStopa > 0 && (
               <div className="flex justify-between text-sm text-gray-600">
                 <span>PDV ({pdvStopa}%):</span>
-                <span>{fmt(iznosPdv)} RSD</span>
+                <span>{fmtNum(iznosPdv)} RSD</span>
               </div>
             )}
             <div className="flex justify-between border-t border-gray-200 pt-2 text-base font-bold" style={{ color: '#1B6B4A' }}>
               <span>Ukupna vrednost:</span>
-              <span>{fmt(ukupnoSaPdv)} RSD</span>
+              <span>{fmtNum(ukupnoSaPdv)} RSD</span>
             </div>
           </div>
         </div>

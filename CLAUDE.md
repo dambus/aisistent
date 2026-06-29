@@ -35,7 +35,7 @@ Kada upisuješ novu memoriju, pisati u **oba** mesta: lokalni `~/.claude/project
 - **Email:** Resend | **Deployment:** Vercel
 - **Plaćanje:** Paddle (čeka APR registraciju)
 
-## 20 tipova dokumenata
+## 22 tipa dokumenta
 
 Ugovori (7): ugovor-o-radu, ugovor-o-delu, nda, ugovor-o-zakupu,
              ugovor-o-saradnji-zajmu, punomocje, opsti-uslovi
@@ -53,3 +53,5 @@ Kalkulatori (3): kalkulator-zarade, kalkulator-pausala,
 Faktura/Profaktura (1): faktura
 
 Putni nalog (1): putni-nalog
+
+Komercijalni dokumenti (2): otpremnica, ponuda-za-radove
