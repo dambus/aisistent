@@ -40,6 +40,41 @@ Format:
 
 Ako nema dodatnih polja, vrati prazan niz: []`
 
+// Keyword matching za AcroForm polja — bez Claude API poziva
+type CompanyRow = {
+  naziv: string | null; pib: string | null; maticni_broj: string | null
+  adresa: string | null; grad: string | null; zastupnik: string | null
+  email: string | null; telefon: string | null; ziro_racun: string | null
+  delatnost: string | null; pdv_obveznik: boolean | null; website: string | null
+}
+
+const FIELD_MATCHERS: Array<{ kw: string[]; field: keyof CompanyRow; label: string }> = [
+  { kw: ['pib', 'poreski', 'tax_id', 'taxid', 'пиб'],                             field: 'pib',          label: 'PIB' },
+  { kw: ['naziv', 'ime', 'name', 'firma', 'company', 'poslovno', 'назив', 'пун'], field: 'naziv',        label: 'Naziv / Poslovno ime' },
+  { kw: ['maticni', 'mbs', 'mb_', '_mb', 'matični', 'matičan', 'матич'],          field: 'maticni_broj', label: 'Matični broj' },
+  { kw: ['adresa', 'address', 'sedište', 'sediste', 'адреса', 'седиш'],            field: 'adresa',       label: 'Adresa sedišta' },
+  { kw: ['grad', 'city', 'mesto', 'opština', 'opstina', 'место', 'град'],          field: 'grad',         label: 'Grad / Opština' },
+  { kw: ['email', 'mail', 'eposta', 'е-пошта'],                                   field: 'email',        label: 'E-mail' },
+  { kw: ['tel', 'phone', 'mobil', 'контакт', 'telefon'],                           field: 'telefon',      label: 'Telefon' },
+  { kw: ['zastupnik', 'direktor', 'ovlascen', 'odgovor', 'потпис', 'одговор'],    field: 'zastupnik',    label: 'Odgovorno lice' },
+  { kw: ['ziro', 'racun', 'racun', 'bank', 'account', 'жиро', 'рачун'],           field: 'ziro_racun',   label: 'Žiro račun' },
+  { kw: ['delatnost', 'sifra', 'activity', 'делатн'],                              field: 'delatnost',    label: 'Pretežna delatnost' },
+]
+
+function mapAcroField(fieldName: string, company: CompanyRow): MappedField {
+  const lower = fieldName.toLowerCase()
+  for (const { kw, field, label } of FIELD_MATCHERS) {
+    if (kw.some(k => lower.includes(k))) {
+      const raw = company[field]
+      const value = raw !== null && raw !== undefined ? String(raw) : null
+      if (value) return { key: fieldName, label, value, source: 'profile' }
+    }
+  }
+  // Nema match — čitljiv label iz naziva polja
+  const label = fieldName.replace(/[_.\-/\\]/g, ' ').replace(/\s{2,}/g, ' ').trim().slice(0, 60)
+  return { key: fieldName, label: label || fieldName, value: null, source: 'manual' }
+}
+
 function extractPlaceholders(text: string): string[] {
   const found = new Set<string>()
 
@@ -66,28 +101,19 @@ function parsePDF(buffer: Buffer): Promise<string> {
   })
 }
 
-async function extractFields(
-  buffer: Buffer,
-  type: 'acroform' | 'docx',
-): Promise<string> {
-  if (type === 'acroform') {
-    const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true })
-    const fields = pdfDoc.getForm().getFields()
-    const names = fields.map(f => f.getName()).filter(Boolean)
-    return `Polja AcroForm obrasca:\n${names.join('\n')}`
-  }
+function extractAcroFieldNames(buffer: Buffer): Promise<string[]> {
+  return PDFDocument.load(buffer, { ignoreEncryption: true }).then(pdfDoc =>
+    pdfDoc.getForm().getFields().map(f => f.getName()).filter(Boolean)
+  )
+}
 
-  if (type === 'docx') {
-    const { value: rawText } = await mammoth.extractRawText({ buffer })
-    const placeholders = extractPlaceholders(rawText)
-    if (placeholders.length === 0) {
-      // Nema prepoznatih placeholder-a — šalji tekst Claudeu da sam proceni
-      return `Tekst DOCX dokumenta (pronađi mesta za popunjavanje):\n${rawText.slice(0, 3000)}`
-    }
-    return `Placeholder-i pronađeni u DOCX obrascu:\n${placeholders.join('\n')}`
+async function extractDocxContent(buffer: Buffer): Promise<string> {
+  const { value: rawText } = await mammoth.extractRawText({ buffer })
+  const placeholders = extractPlaceholders(rawText)
+  if (placeholders.length === 0) {
+    return `Tekst DOCX dokumenta (pronađi mesta za popunjavanje):\n${rawText.slice(0, 3000)}`
   }
-
-  return ''
+  return `Placeholder-i pronađeni u DOCX obrascu:\n${placeholders.join('\n')}`
 }
 
 export async function POST(req: NextRequest) {
@@ -200,13 +226,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ fields: [...profileFields, ...extraFields] })
   }
 
-  // AcroForm i DOCX: Claude mapira polja na profil
+  // AcroForm: deterministički keyword matching, bez Claude poziva
+  if (type === 'acroform') {
+    let fieldNames: string[]
+    try {
+      fieldNames = await extractAcroFieldNames(buffer)
+    } catch (err) {
+      console.error('AcroForm extract error:', err)
+      return NextResponse.json({ error: 'Greška pri čitanju PDF obrasca.' }, { status: 500 })
+    }
+
+    const fields: MappedField[] = fieldNames.map(name => mapAcroField(name, company ?? {} as CompanyRow))
+    return NextResponse.json({ fields })
+  }
+
+  // DOCX: Claude mapira placeholder-e na profil
   let docContent: string
   try {
-    docContent = await extractFields(buffer, type as 'acroform' | 'docx')
+    docContent = await extractDocxContent(buffer)
   } catch (err) {
-    console.error('Analyze extract error:', err)
-    return NextResponse.json({ error: 'Greška pri čitanju dokumenta.' }, { status: 500 })
+    console.error('DOCX extract error:', err)
+    return NextResponse.json({ error: 'Greška pri čitanju DOCX dokumenta.' }, { status: 500 })
   }
 
   let fields: MappedField[]
@@ -221,14 +261,14 @@ export async function POST(req: NextRequest) {
       }],
     })
 
-    const text = message.content[0].type === 'text' ? message.content[0].text.trim() : ''
-    const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
-    fields = JSON.parse(cleaned)
-
-    if (!Array.isArray(fields)) throw new Error('Nije niz')
+    const raw = message.content[0].type === 'text' ? message.content[0].text.trim() : '[]'
+    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
+    const match = cleaned.match(/\[[\s\S]*\]/)
+    fields = match ? JSON.parse(match[0]) : []
+    if (!Array.isArray(fields)) fields = []
   } catch (err) {
     console.error('Analyze Claude error:', err)
-    return NextResponse.json({ error: 'Greška pri analizi dokumenta.' }, { status: 500 })
+    return NextResponse.json({ error: 'Greška pri analizi DOCX dokumenta.' }, { status: 500 })
   }
 
   return NextResponse.json({ fields })
