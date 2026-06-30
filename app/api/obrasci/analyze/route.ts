@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
 
   // Preuzmi fajl iz Storage
   const { data: fileData, error: downloadError } = await admin.storage
-    .from('obrasci-uploads')
+    .from('obrasci-upload')
     .download(fileRef)
 
   if (downloadError || !fileData) {

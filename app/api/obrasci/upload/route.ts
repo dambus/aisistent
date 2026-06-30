@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
   const fileRef = `${user.id}/${randomUUID()}.${ext}`
 
   const { error: uploadError } = await admin.storage
-    .from('obrasci-uploads')
+    .from('obrasci-upload')
     .upload(fileRef, buffer, { contentType: file.type, upsert: false })
 
   if (uploadError) {
