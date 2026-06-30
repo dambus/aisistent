@@ -79,7 +79,24 @@ Stranica privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 
 **Fundamentalni problem:** Srpski državni obrasci (PPDG, M4, ekotaksa) koriste numeričke nazive polja (T1–T189). Vizuelna semantika nije u metapodacima — app ne razume kontekst.
 
-**Tri puta razmatrana:** A) JSON baza poznatih obrazaca (ručno, MVP-friendly), B) PDF koordinatno parsiranje (kompleksno), C) Vision AI na slici stranice (najrobusnije, ali zahteva Puppeteer mimo Vercel serverless). Preporučena Faza 1: ručno mapirati 20-30 najčešćih srpskih obrazaca kao JSON. Odluka o nastavku na čekanju.
+**Izabrani put — geometrijsko prepoznavanje:** Azure DI `prebuilt-layout` + geometrijsko poklapanje (polje ↔ labela) + Claude semantičko mapiranje. Korak 1–4 kompletni.
+
+## Upload & Fill — Faza 1 pipeline (jun 2026., Korak 1–4 kompletni)
+
+Spec: `docs/obrasci/FAZA1_PREPOZNAVANJE_OBRAZACA_1.md`  
+Uputstvo za skripte: `docs/obrasci/SKRIPTE_UPUTSTVO.md`
+
+- `analyzeLayout.ts`: Azure DI `prebuilt-layout`; `DiLayoutResult` sa `lines` (novo) + `paragraphs` + `words` + `tables`
+- `extractAcroFormFields.ts`: AcroForm polja sa pouzdanim brojevima strana via `widget.P()` → `pageRefMap`
+- `matchFieldLabels.ts`: same-line matching via `lines` (fix za T2/T3 — paragraphs spajaju više vizuelnih redova); confidence = relativna margina (primarna) + DI word conf (sekundarna) + apsolutna dist (solo); pragovi u konstantama, kalibrisati
+- Kalibracioni harness: `run-calibration-test.mjs` (DI keš, JSON + HTML overlay), `record-ground-truth.mjs` (HTTP server :7789, URL hash highlight po polju), `recalculate-thresholds.mjs` (F1 optimizacija)
+- PPDG-1S (198 polja): 119 high / 79 low sa relativnom marginom umesto grube dist formule
+
+**Sledeći koraci:**
+- Korak 5: flat PDF branch (DI tables + paragraphs, bez AcroForm; test na eko-taksa)
+- Korak 6: Claude semantičko mapiranje — prima samo (labela, polje) parove, nikad T1/T189 direktno
+- Korak 7: UI na `/obrasci` ruti
+- Korak 8: validacija na 5+ dokumenata
 
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

@@ -30,7 +30,16 @@
       "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:d[k] for k in ['scripts','dependencies','devDependencies'] if k in d}, indent=2\\)\\)\")",
       "Bash(npx next *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3333/)",
-      "Bash(npx playwright *)"
+      "Bash(npx playwright *)",
+      "PowerShell(cd D:\\\\Development\\\\2026\\\\aisistent; npx tsc --noEmit 2>&1 | Where-Object { $_ -match \"arhiva|DocumentPreview|ImprovePanel|klijenti\" } | Select-Object -First 20)",
+      "PowerShell(cd D:\\\\Development\\\\2026\\\\aisistent; npx tsc --noEmit 2>&1 | Where-Object { $_ -notmatch \"remark-gfm\" } | Select-Object -First 15)",
+      "Skill(claude-in-chrome)",
+      "PowerShell(cd D:\\\\Development\\\\2026\\\\aisistent; npx tsc --noEmit 2>&1 | Where-Object { $_ -match \"docxBuilder\" } | Select-Object -First 10)",
+      "Bash(npx tsx *)",
+      "Bash(grep -v \"//\")",
+      "PowerShell(cd \"D:\\\\Development\\\\2026\\\\aisistent\"; npx tsc --noEmit 2>&1 | Where-Object { $_ -notmatch \"remark-gfm\" })",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Stop-Process *)"
     ]
   }
 }

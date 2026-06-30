@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
+    "@azure-rest/ai-document-intelligence": "^1.1.0",
     "@base-ui/react": "^1.5.0",
     "@react-pdf/renderer": "^4.5.1",
     "@supabase/ssr": "^0.10.3",
@@ -47,6 +48,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
+    "pdfjs-dist": "^6.1.200",
     "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",

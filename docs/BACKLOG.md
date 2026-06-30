@@ -148,7 +148,7 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 - Plan limite treba definisati: Starter (1-3 kontakta?), Pro (10+), Agency (∞)
 - APR PIB lookup (kada se odblokira) — koristiti i za brzo punjenje contact kartice
 
-#### [PRIVREMENO PAUZIRANO] Upload & Fill — automatsko popunjavanje tuđih obrazaca
+#### Upload & Fill — automatsko popunjavanje tuđih obrazaca
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
@@ -173,7 +173,16 @@ Srpski državni obrasci (PPDG, M4, ekotaksa...) koriste numeričke nazive polja 
 1. Faza 1: Ručno mapirati PPDG-1S-p.pdf kao proof of concept (JSON baza poznatih obrazaca)
 2. Faza 2 (ako Faza 1 potvrdi vrednost): Vision pipeline na posebnom servisu
 
-**Ne ulaziti u:** web forme državnih portala (ePorezi, APR) — nisu PDF/DOCX.
+**Ne ulaziti u:** flat PDF direktan fill (overlay problem), web forme državnih portala (ePorezi, APR).
+
+**Redosled implementacije:**
+1. Sačuvani kontakti (druga strana) ← ✅ urađeno
+2. Katalog usluga ← uraditi
+3. **Upload & Fill MVP** — AcroForm PDF + DOCX, Pro/Agency plan
+
+**Status pipeline-a za prepoznavanje obrazaca (jun 2026.):**
+- Korak 1–4 ✅: DI layout, AcroForm ekstrakcija, geometrijsko poklapanje, kalibracioni harness + HTML overlay
+- Sledeće: Korak 5 (flat PDF branch), Korak 6 (Claude semantičko mapiranje), Korak 7 (UI), Korak 8 (validacija na 5+ dokumenata)
 
 #### [ISTRAŽIVANJE] Kontekstualni asistent — chatbot za srpsko preduzetništvo
 

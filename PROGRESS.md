@@ -79,6 +79,25 @@ Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 - Kontakti su u produkciji ali korisnici ne znaju za njih
 - Potreban tip/onboarding banner u profilu i/ili wizardu
 
+#### 30. jun 2026. — Upload & Fill Faza 1 — pipeline za prepoznavanje obrazaca
+
+**Obrasci pipeline — Korak 1–4 kompletni** (spec: `docs/obrasci/FAZA1_PREPOZNAVANJE_OBRAZACA_1.md`)
+
+- `lib/documentIntelligence/analyzeLayout.ts` — Azure DI `prebuilt-layout` klijent, `DiLayoutResult` sa `pages`, `paragraphs`, `lines`, `tables`, `words`; `lines` dodat za same-line matching (finer granularity od paragraphs)
+- `lib/documentIntelligence/extractAcroFormFields.ts` — AcroForm ekstrakcija sa pouzdanim brojevima strana (via `widget.P()` → `pageRefMap`), sanity check T42/T43/T44 = str.1
+- `lib/documentIntelligence/matchFieldLabels.ts` — geometrijsko poklapanje: same-line matching via `lines` (fix: paragraphs spajaju više vizuelnih redova → pogrešan Y centar), fallback "iznad" via `paragraphs`; confidence formula: relativna margina (primarna) + DI word confidence (sekundarna) + apsolutna dist (solo tie-breaker)
+- Kalibracioni harness: `run-calibration-test.mjs` (DI keš, matching, JSON + HTML overlay), `record-ground-truth.mjs` (CLI sa overlay serverom na :7789, URL sa hashem po polju), `recalculate-thresholds.mjs` (F1 optimizacija)
+- Rezultati na PPDG-1S (198 polja): 119 high / 79 low pre linija-fixa; očekuje se poboljšanje za T2/T3 bug
+
+**Bug fiksevi u ovoj sesiji:**
+- T2/T3 pogrešna labela — DI spajao naslov + labelu u jedan paragraph; prebacivanje na `page.lines` rešava (yCtr individualnih linija pouzdan za 0.12in prag)
+- polygon flat array format u novom SDK (`@azure-rest/ai-document-intelligence@1.1.0`) — `number[]` umesto `{x,y}[]`
+- Broja strana pouzdanost — `widget.P()` → `pageRefMap` lookup umesto pretpostavljanja po Y koordinati
+
+**UX poboljšanje — overlay highlight u record-ground-truth.mjs:**
+- HTML overlay dobio `id="field-{name}"` + JS koji čita URL hash i highlight-uje polje (plavi border, sticky banner)
+- `record-ground-truth.mjs` pokreće HTTP server na :7789, ispisuje `http://localhost:7789/...-overlay.html#{fieldName}` za svako polje — otvori jednom u browseru, overlay se auto-scroll-uje
+
 #### 28. jun 2026. — HR i komunikacija poboljšanja
 
 **poslovni-mejl** — 3 nova tipa mejla (Follow-up posle sastanka, Uvod u novu saradnju, Zahtev za referencu ili preporuku). Kondicionalno polje `teme_sa_sastanka` za Follow-up tip.
