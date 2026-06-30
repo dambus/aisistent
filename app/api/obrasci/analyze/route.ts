@@ -27,8 +27,18 @@ Pravila:
 - Ako polje odgovara podatku iz profila firme: source=profile, value=taj podatak
 - Ako ne odgovara ili nema podatka: source=manual, value=null
 - label mora biti kratak i jasan na srpskom (npr. "Naziv firme", "PIB", "Datum ugovora")
-- key je originalni naziv polja, placeholder string, ili kratak slug
-- Za flat PDF: analiziraj tekst, prepoznaj prazna mesta za unos — vrati SAMO polja koja stvarno treba popuniti, bez poznatog sadržaja`
+- key je originalni naziv polja, placeholder string, ili kratak slug`
+
+const FLAT_EXTRA_PROMPT = `Ti si asistent koji analizira poslovne obrasce.
+
+Biće ti dat tekst obrasca. Podaci o firmi (naziv, PIB, adresa itd.) su VEĆ uključeni odvojeno — ne dodavaj ih.
+Identifikuj SAMO polja koja nisu podaci o firmi: datumi, iznosi, procenti, izbori (zaokruživanje), potpisi, specifični podaci za ovaj obrazac.
+Vrati ISKLJUČIVO validan JSON niz — bez teksta, objašnjenja ili markdown oznaka.
+
+Format:
+[{"key":"slug","label":"Naziv na srpskom","value":null,"source":"manual"}]
+
+Ako nema dodatnih polja, vrati prazan niz: []`
 
 function extractPlaceholders(text: string): string[] {
   const found = new Set<string>()
@@ -58,7 +68,7 @@ function parsePDF(buffer: Buffer): Promise<string> {
 
 async function extractFields(
   buffer: Buffer,
-  type: 'acroform' | 'docx' | 'flat',
+  type: 'acroform' | 'docx',
 ): Promise<string> {
   if (type === 'acroform') {
     const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true })
@@ -77,9 +87,7 @@ async function extractFields(
     return `Placeholder-i pronađeni u DOCX obrascu:\n${placeholders.join('\n')}`
   }
 
-  // flat PDF
-  const rawText = await parsePDF(buffer)
-  return `Tekst PDF dokumenta (flat, identifikuj mesta za popunjavanje):\n${rawText.slice(0, 3000)}`
+  return ''
 }
 
 export async function POST(req: NextRequest) {
@@ -149,17 +157,57 @@ export async function POST(req: NextRequest) {
       ].filter(Boolean).join('\n')
     : 'Nema podataka o firmi.'
 
-  // Ekstraktuj polja/tekst iz dokumenta
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+  // Za flat PDF: profil uvek prikazujemo direktno, Claude traži samo dodatna polja
+  if (type === 'flat') {
+    const profileFields: MappedField[] = [
+      company?.naziv        && { key: 'naziv',        label: 'Poslovno ime / Naziv',        value: company.naziv,        source: 'profile' as const },
+      company?.pib          && { key: 'pib',          label: 'PIB',                          value: company.pib,          source: 'profile' as const },
+      company?.maticni_broj && { key: 'maticni_broj', label: 'Matični broj',                 value: company.maticni_broj, source: 'profile' as const },
+      company?.adresa       && { key: 'adresa',       label: 'Adresa sedišta',               value: company.adresa,       source: 'profile' as const },
+      company?.grad         && { key: 'grad',         label: 'Grad',                         value: company.grad,         source: 'profile' as const },
+      company?.zastupnik    && { key: 'zastupnik',    label: 'Odgovorno lice (ime i prezime)',value: company.zastupnik,    source: 'profile' as const },
+      company?.email        && { key: 'email',        label: 'E-mail',                       value: company.email,        source: 'profile' as const },
+      company?.telefon      && { key: 'telefon',      label: 'Telefon',                      value: company.telefon,      source: 'profile' as const },
+      company?.ziro_racun   && { key: 'ziro_racun',   label: 'Žiro račun',                   value: company.ziro_racun,   source: 'profile' as const },
+      company?.delatnost    && { key: 'delatnost',    label: 'Pretežna delatnost',           value: company.delatnost,    source: 'profile' as const },
+    ].filter(Boolean) as MappedField[]
+
+    // Claude traži SAMO dodatna polja specifična za ovaj obrazac
+    let extraFields: MappedField[] = []
+    try {
+      let flatText = ''
+      try { flatText = await parsePDF(buffer) } catch { /* ako ne uspe ekstrakcija, OK */ }
+
+      if (flatText.trim().length > 20) {
+        const message = await anthropic.messages.create({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 800,
+          system: FLAT_EXTRA_PROMPT,
+          messages: [{ role: 'user', content: flatText.slice(0, 3000) }],
+        })
+        const text = message.content[0].type === 'text' ? message.content[0].text.trim() : '[]'
+        const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
+        const parsed = JSON.parse(cleaned)
+        if (Array.isArray(parsed)) extraFields = parsed
+      }
+    } catch (err) {
+      console.error('Flat extra fields error:', err)
+      // Nije kritično — nastavljamo bez ekstra polja
+    }
+
+    return NextResponse.json({ fields: [...profileFields, ...extraFields] })
+  }
+
+  // AcroForm i DOCX: Claude mapira polja na profil
   let docContent: string
   try {
-    docContent = await extractFields(buffer, type as 'acroform' | 'docx' | 'flat')
+    docContent = await extractFields(buffer, type as 'acroform' | 'docx')
   } catch (err) {
     console.error('Analyze extract error:', err)
     return NextResponse.json({ error: 'Greška pri čitanju dokumenta.' }, { status: 500 })
   }
-
-  // Claude mapiranje
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
   let fields: MappedField[]
   try {
