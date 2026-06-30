@@ -17,6 +17,7 @@ declare module 'pdf2json' {
     constructor(context?: null, verbosity?: number)
     loadPDF(path: string): void
     parseBuffer(buffer: Buffer): void
+    getRawTextContent(): string
     on(event: 'pdfParser_dataReady', listener: (data: PDFData) => void): this
     on(event: 'pdfParser_dataError', listener: (err: { parserError: Error }) => void): this
   }
