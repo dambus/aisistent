@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { PencilIcon, Trash2Icon, UsersIcon, SearchIcon } from 'lucide-react'
+import { TipCard } from '@/components/ui/TipCard'
 
 interface ContactsTabProps {
   initialContacts: Contact[]
@@ -412,6 +413,12 @@ export function ContactsTab({ initialContacts, plan }: ContactsTabProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <TipCard
+        tipId="profile-contacts-new"
+        title="Novo — Sačuvani kontakti"
+        content="Sačuvajte kupce, klijente i partnere. Kada sledeći put pravite fakturu, ugovor ili ponudu — jedan klik ih popunjava automatski."
+      />
     </div>
   )
 }

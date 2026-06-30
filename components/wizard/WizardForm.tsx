@@ -131,6 +131,11 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
       title: 'Čuvamo vaš napredak',
       content: 'Ako napustite stranicu, unosi se automatski čuvaju. Sledeći put nastavljate tačno gde ste stali.',
     },
+    ...(hasContactSupport && contacts.length === 0 ? [{
+      id: 'wizard-contacts-tip',
+      title: 'Novo — Sačuvajte drugu stranu',
+      content: 'U Profilu možete sačuvati kupce, klijente i partnere. Sledeći put ih popunjavate jednim klikom.',
+    }] : []),
   ]
 
   const visibleSteps = getVisibleSteps(steps, values)
