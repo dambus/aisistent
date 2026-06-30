@@ -148,42 +148,32 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 - Plan limite treba definisati: Starter (1-3 kontakta?), Pro (10+), Agency (∞)
 - APR PIB lookup (kada se odblokira) — koristiti i za brzo punjenje contact kartice
 
-#### [ISTRAŽIVANJE] Upload & Fill — automatsko popunjavanje tuđih obrazaca
+#### [PRIVREMENO PAUZIRANO] Upload & Fill — automatsko popunjavanje tuđih obrazaca
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Use case:** Preduzetnik/HR/finansijski službenik koji redovno dobija RFQ, tendere, anekse ili interne obrasce od velikih partnera (SAP, DMS sistemi) u PDF/DOCX formatu i mora ručno da popunjava ista polja iznova.
+**Status:** MVP izgrađen i testiran jun 2026. Stranica privremeno nedostupna. Kod u repou (`app/api/obrasci/`, `components/obrasci/`).
 
-**Tehnička analiza (jun 2026):**
+**Šta radi:**
+- AcroForm PDF + DOCX sa named/placeholder poljima → automatski wizard ✅
+- Flat PDF → guide sa Copy dugmadima za profil vrednosti ✅
 
-| Tip dokumenta | Pouzdanost | Kompleksnost |
-|--------------|-----------|--------------|
-| AcroForm PDF (SAP, DMS) | 95%+ | Niska — `pdf-lib` čita named fields direktno |
-| DOCX sa placeholderima | 90%+ | Niska — `mammoth.js` + Claude pattern matching |
-| Flat PDF (skenirani) | 70-80% | Visoka — Claude Vision po stranici, overlay problem |
+**Šta ne radi (fundamentalni problem):**
+Srpski državni obrasci (PPDG, M4, ekotaksa...) koriste numeričke nazive polja (T1–T189). Vizuelna semantika forme živi u PDF vizuelnom sloju — ne u metapodacima koje aplikacija čita. Bez konteksta "T3 = PIB" nema smislenog auto-fill-a.
 
-**Cena tokena:** ~$0.02 po analizi obrasca. Nije faktor čak ni na velikom volumenu.
-**Vreme odgovora:** 3-7 sekundi (ekstrakcija + API poziv). Prihvatljivo.
+**Tri tehnička puta:**
 
-**Workflow:**
-```
-1. Upload obrasca (PDF AcroForm ili DOCX)
-2. Ekstrakcija polja (pdf-lib / mammoth.js)
-3. Claude mapira polja na profil firme → JSON sa confidence
-4. UI: mini-wizard — zelena (auto) + prazna (ručni unos) polja
-5. Output:
-   — AcroForm PDF / DOCX: direktno popunjen fajl
-   — Flat PDF: strukturiran "uputstvo za popunjavanje" ispisni pregled
-```
+| Put | Pristup | Za | Protiv |
+|-----|---------|-----|--------|
+| **A — Baza poznatih obrazaca** | JSON mapping za svaki obrazac: `{ "PPDG-1S": { T1: "naziv", T3: "pib" } }` | Precizno, brzo, jeftino | Ručno održavanje, ~30-50 formi za 80% pokrivenosti |
+| **B — Koordinatno parsiranje** | pdf-lib daje x,y polja, text extractor daje tekst sa koordinatama, matchovati | Automatski za strukturisane obrasce | Kompleksno, ćirilica problematična, višekolonični layout |
+| **C — Vision AI** | PDF → slika → Claude Vision → mapira polja vizuelno | Najrobusnije, bilo koji obrazac | Server-side PDF rendering (Puppeteer ne radi na Vercel) |
 
-**Preduslov za vrednost:** Feature je slab ako profil firme ima samo naziv/PIB/adresu (3-5 polja od 20+). Postaje koristan differentiator tek kada postoje sačuvani kontakti + katalog usluga + zaposleni — tada auto-fill pokriva 40-50% obrasca.
+**Preporučeni sledeći korak (kada se nastavi):**
+1. Faza 1: Ručno mapirati PPDG-1S-p.pdf kao proof of concept (JSON baza poznatih obrazaca)
+2. Faza 2 (ako Faza 1 potvrdi vrednost): Vision pipeline na posebnom servisu
 
-**Redosled implementacije:**
-1. Sačuvani kontakti (druga strana) ← uraditi prvo
-2. Katalog usluga ← uraditi prvo
-3. **Upload & Fill MVP** — AcroForm PDF + DOCX, Pro/Agency plan
-
-**Ne ulaziti u:** flat PDF direktan fill (overlay problem), web forme državnih portala (ePorezi, APR).
+**Ne ulaziti u:** web forme državnih portala (ePorezi, APR) — nisu PDF/DOCX.
 
 #### [ISTRAŽIVANJE] Kontekstualni asistent — chatbot za srpsko preduzetništvo
 

@@ -35,6 +35,15 @@ Korisnik uploaduje RFQ, tender ili interni obrazac partnera (SAP/DMS), aplikacij
 
 **MVP scope:** AcroForm PDF + DOCX, Pro/Agency plan. Ne ulaziti u flat PDF overlay ni web forme državnih portala (ePorezi, APR).
 
-**Status:** Istraživanje — u backlogu, ne pokreće se dok se ne završe kontakti i katalog. Vidi `docs/BACKLOG.md`.
+**Status (jun 2026.):** MVP izgrađen i testiran. Pauziran. Kod u repou (`app/api/obrasci/`, `components/obrasci/`), stranica nedostupna.
+
+**Šta je otkriveno implementacijom:**
+- AcroForm sa described poljem + DOCX sa placeholderima → radi dobro ✅
+- Srpski državni obrasci (PPDG-1S, ekotaksa...) → T1–T189 numerički nazivi polja; keyword matching beskoristan
+- Fundamentalni problem: vizuelna semantika forme je u PDF vizuelnom sloju, ne u AcroForm metapodacima
+- Tri puta napred: JSON baza poznatih obrazaca (preporučen MVP), koordinatno parsiranje, Vision AI
+- Vision AI (Put C) je najrobustniji ali zahteva Puppeteer van Vercel serverless
+
+**Sledeći korak kad se nastavi:** Faza 1 — JSON mapiranje za ~30 najčešćih srpskih obrazaca.
 
 **Why:** Diferenciator za preduzetnika koji redovno odgovara na tendere velikih kupaca ili HR koji popunjava iste anekse za zaposlene u DOCX formatu klijenta.

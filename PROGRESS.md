@@ -29,6 +29,33 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 30. jun 2026. — /obrasci MVP + strateška analiza
+
+**Šta je izgrađeno (kod u repou, privremeno nedostupno):**
+- `POST /api/obrasci/upload` — multipart upload u Supabase Storage bucket `obrasci-upload` (private, 10MB), detekcija tipa: docx / acroform / flat
+- `POST /api/obrasci/analyze` — ekstrakcija polja iz AcroForm (pdf-lib), DOCX (mammoth), flat PDF (pdf2json + Claude); keyword matching za AcroForm bez Claude poziva
+- `POST /api/obrasci/fill` — fillAcroForm (pdf-lib), fillDocx (pizzip direktna XML zamena); original se briše iz Storage nakon preuzimanja
+- `ObraściClient` — state machine (idle/uploading/analyzing/wizard/guide/error), drag-and-drop upload
+- `WizardView` — input polja sa zelenim "Iz profila" badge-ovima, download dugme
+- `GuideView` — "Vrednosti iz profila firme" sa Copy dugmadima + "Popuniti ručno" lista + Print vodič
+- `TipCard` za sačuvane kontakte — u `/profil` ContactsTab i u wizardu
+- Sidebar: "Obrasci" link za paid planove
+
+**Ključni problemi otkriveni testiranjem:**
+1. Flat PDF (eko-taksa, ćirilica) — pdf2json lošo čita ćirilicu; Claude ne može matchovati polja → fix: profil polja uvek direktno iz baze, Claude samo za dodatna polja
+2. AcroForm sa numeričkim poljem (PPDG-1S, T1–T189) — keyword matching ne može matchovati T1; fix: detektuje non-descriptive nazive (>50% polja) → prebacuje u guide mode
+3. Fundamentalni problem ostaje: vizuelna semantika forme živi u PDF vizuelnom sloju, ne u metapodacima
+
+**Strateška odluka — pauzirati:**
+Upload & Fill je fundamentalno teži problem od početne procene. AcroForm named fields i DOCX placeholderi rade (privatni obrasci partnerskih firmi). Ali srpski državni obrasci (PPDG, ekotaksa, M4...) koriste numeričke labele — aplikacija nema kontekst za popunjavanje.
+
+Tri tehnička puta analizirana:
+- **Put A:** Baza poznatih obrazaca (JSON mapping T1→PIB za svaki obrazac) — brzo za MVP, ~30-50 formi pokriva 80% potreba
+- **Put B:** PDF koordinatno parsiranje (matchovati polje sa okolnim tekstom) — kompleksno, ćirilica problematična
+- **Put C:** Vision AI (render stranice → slika → Claude Vision → mapira polja) — najrobusnije, zahteva server-side PDF rendering (Puppeteer ne radi na Vercel serverless)
+
+Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
+
 #### 30. jun 2026. — Sačuvani kontakti + Agency wizard fix
 
 **Sačuvani kontakti** — nova funkcionalnost za Starter/Pro/Agency planove.

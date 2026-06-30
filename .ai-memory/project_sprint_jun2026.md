@@ -70,5 +70,16 @@ metadata:
 - Agency "Klijent:" dropdown — prikazuje se samo na koraku 0; za billing tipove puni primalac/naručilac polja
 - **TODO**: prezentovati korisnicima — TipCard u profilu + wizardu (u backlogu)
 
+## /obrasci MVP — jun 2026. (pauzirano, kod u repou)
+
+Izgrađen kompletan upload/analyze/fill flow: AcroForm PDF, DOCX, flat PDF guide.
+Stranica privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
+
+**Šta radi:** AcroForm sa described poljima (privatni poslovni obrasci), DOCX sa placeholderima, flat PDF guide sa copy dugmadima.
+
+**Fundamentalni problem:** Srpski državni obrasci (PPDG, M4, ekotaksa) koriste numeričke nazive polja (T1–T189). Vizuelna semantika nije u metapodacima — app ne razume kontekst.
+
+**Tri puta razmatrana:** A) JSON baza poznatih obrazaca (ručno, MVP-friendly), B) PDF koordinatno parsiranje (kompleksno), C) Vision AI na slici stranice (najrobusnije, ali zahteva Puppeteer mimo Vercel serverless). Preporučena Faza 1: ručno mapirati 20-30 najčešćih srpskih obrazaca kao JSON. Odluka o nastavku na čekanju.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
