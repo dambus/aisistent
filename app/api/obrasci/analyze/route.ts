@@ -236,6 +236,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Greška pri čitanju PDF obrasca.' }, { status: 500 })
     }
 
+    // Detektuj non-descriptive nazive polja (T1, T2... ili kratki alfanumerički)
+    // Državni obrasci koriste numeričke labele — keyword matching ne može da pomogne
+    const nonDescriptive = (name: string) => /^[A-Za-z]{0,2}\d+$/.test(name) || name.length <= 2
+    const nonDescriptiveRatio = fieldNames.filter(nonDescriptive).length / (fieldNames.length || 1)
+
+    if (nonDescriptiveRatio > 0.5) {
+      // Preterao sa numeričkim imenima — prebaci u guide mode sa profil podacima
+      const profileFields: MappedField[] = [
+        company?.naziv        && { key: 'naziv',        label: 'Poslovno ime / Naziv',         value: company.naziv,        source: 'profile' as const },
+        company?.pib          && { key: 'pib',          label: 'PIB',                           value: company.pib,          source: 'profile' as const },
+        company?.maticni_broj && { key: 'maticni_broj', label: 'Matični broj',                  value: company.maticni_broj, source: 'profile' as const },
+        company?.adresa       && { key: 'adresa',       label: 'Adresa sedišta',                value: company.adresa,       source: 'profile' as const },
+        company?.grad         && { key: 'grad',         label: 'Grad',                          value: company.grad,         source: 'profile' as const },
+        company?.zastupnik    && { key: 'zastupnik',    label: 'Odgovorno lice (ime i prezime)', value: company.zastupnik,    source: 'profile' as const },
+        company?.email        && { key: 'email',        label: 'E-mail',                        value: company.email,        source: 'profile' as const },
+        company?.telefon      && { key: 'telefon',      label: 'Telefon',                       value: company.telefon,      source: 'profile' as const },
+        company?.ziro_racun   && { key: 'ziro_racun',   label: 'Žiro račun',                    value: company.ziro_racun,   source: 'profile' as const },
+        company?.delatnost    && { key: 'delatnost',    label: 'Pretežna delatnost',            value: company.delatnost,    source: 'profile' as const },
+      ].filter(Boolean) as MappedField[]
+
+      return NextResponse.json({ fields: profileFields, type: 'flat' })
+    }
+
     const fields: MappedField[] = fieldNames.map(name => mapAcroField(name, company ?? {} as CompanyRow))
     return NextResponse.json({ fields })
   }

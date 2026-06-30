@@ -52,6 +52,7 @@ export function ObraściClient() {
     setStage({ status: 'analyzing', fileRef, type, filename })
 
     let fields: MappedField[]
+    let resolvedType: DocType = type
     try {
       const res = await fetch('/api/obrasci/analyze', {
         method: 'POST',
@@ -61,15 +62,17 @@ export function ObraściClient() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Greška pri analizi.')
       fields = data.fields
+      // API može da vrati type override (npr. AcroForm sa numeričkim poljima → flat guide)
+      if (data.type === 'flat') resolvedType = 'flat'
     } catch (err) {
       setStage({ status: 'error', message: err instanceof Error ? err.message : 'Greška pri analizi.' })
       return
     }
 
-    if (type === 'flat') {
+    if (resolvedType === 'flat') {
       setStage({ status: 'guide', filename, fields })
     } else {
-      setStage({ status: 'wizard', fileRef, type, filename, fields })
+      setStage({ status: 'wizard', fileRef, type: resolvedType as 'acroform' | 'docx', filename, fields })
     }
   }
 
