@@ -106,13 +106,13 @@ export async function fillAcroFormFields(
     const value = toDocumentScript(field.suggestedValue, script);
     const maxLen = pdfField.getMaxLength();
     const finalVal = maxLen !== undefined && value.length > maxLen ? value.slice(0, maxLen) : value;
-    // setFontSize(0) = auto-size — pdf-lib će prilagoditi veličinu tekstu i visini polja
-    pdfField.setFontSize(0);
+    // Fiksni 9pt — konzistentan font size bez obzira na visinu polja
+    pdfField.setFontSize(9);
     pdfField.setText(finalVal);
     result.filledCount++;
   }
 
-  // updateFieldAppearances jednom za sva polja — konzistentan rendering
+  // updateFieldAppearances jednom za sva polja
   form.updateFieldAppearances(customFont);
 
   return result;

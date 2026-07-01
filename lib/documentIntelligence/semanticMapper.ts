@@ -79,6 +79,8 @@ PRAVILA — moraju biti ispoštovana bez izuzetka:
 2. Ako labela nije jasna ili ne odgovara nijednom profil ključu → vrati profileKey: null.
 3. Polja koja popunjava institucija, ne podnosilac (npr. "Organizaciona jedinica poreske uprave", "Broj predmeta", "Šifra opštine") → vrati isInternal: true, profileKey: null.
 4. Nikad ne nagađaj. Ako nisi siguran, vrati null.
+5. SUB-KOMPONENTE ADRESE: Polja koja traže samo deo adrese (samo naziv ulice bez broja, samo kućni broj, samo sprat, samo stan, samo slovo) → vrati profileKey: null. Profil ima adresu kao jednu celinu — ne možemo pouzdano da je rastavimo. Ovo se odnosi na labele tipa: "Naziv ulice", "Кућни број", "Broj", "Sprat", "Broj stana", "Slovo", "Ulica i broj" (samo ulica), i slično kada je jasno da se traži samo jedna komponenta. Izuzetak: ako labela eksplicitno traži punu adresu ("Adresa sedišta", "Adresa", "Место становања и адреса") → mapiraj na adresa.
+6. SUB-KOMPONENTE TELEFONA: Polja koja traže samo deo broja telefona (pozivni broj, lokalni broj, faks posebno) → vrati profileKey: null osim prvog polja za telefon. Ako labela kaže "Телефон" bez dodatnih reči → mapiraj na telefon. Ako kaže "Телефон — факс", "Телефон/факс", "Факс" → vrati null.
 
 Odgovori ISKLJUČIVO validnim JSON nizom, bez ikakvog teksta pre ili posle:
 [{"id":"...","profileKey":"naziv"|null,"isInternal":false}]`;
