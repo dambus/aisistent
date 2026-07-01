@@ -84,7 +84,14 @@ const diWords = (analyzeResult.pages ?? []).flatMap(p =>
   }))
 );
 
-// ─── 3. AcroForm ekstrakcija ──────────────────────────────────────────────────
+const diSelectionMarks = (analyzeResult.pages ?? []).flatMap(p =>
+  (p.selectionMarks ?? []).map(s => ({
+    state: s.state, confidence: s.confidence ?? 0, page: p.pageNumber,
+    boundingBox: polyToBB(s.polygon)
+  }))
+);
+
+// ─── 3. Detekcija tipa PDF-a + AcroForm ekstrakcija ──────────────────────────
 const pdfBuffer = readFileSync(pdfPath);
 const pdf       = await PDFDocument.load(pdfBuffer);
 const pdfPages  = pdf.getPages();
@@ -104,7 +111,10 @@ for (const field of pdf.getForm().getFields()) {
   }
 }
 
-// ─── 4. Geometrijsko poklapanje ───────────────────────────────────────────────
+const pdfType = acroFields.length > 0 ? 'acroform' : 'flat';
+console.log(`Tip PDF-a: ${pdfType}  |  AcroForm polja: ${acroFields.length}`);
+
+// ─── 4a. ACROFORM — geometrijsko poklapanje ───────────────────────────────────
 // Pragovi — isti kao u matchFieldLabels.ts (PRIVREMENI, kalibrisati)
 const SAME_LINE_Y   = 0.12;
 const MARGIN_MIN    = 0.20;
@@ -129,62 +139,212 @@ function computeConf(dist, margin, diConf) {
   return margin >= MARGIN_MIN && confOk ? 'high' : 'low';
 }
 
-const matches = acroFields.map(f => {
-  const pageH   = pageHeightsPt[f.page - 1] ?? 841.89;
-  const xLeft   = f.x / 72;
-  const yCtr    = (pageH - (f.y + f.h / 2)) / 72;
-  const fieldBB = { x: xLeft, y: yCtr - (f.h/72)/2, w: f.w/72, h: f.h/72 };
+// ─── 4b. FLAT PDF — tabele + podvlake ────────────────────────────────────────
+const UNDERLINE_RE = /^[_\-\.]{4,}$/;
 
-  // Same-line: koristimo lines (jednolinijski), ne paragraphs
-  const pageLines = diLines.filter(l => l.page === f.page);
-  const sameLine = pageLines
-    .filter(l => {
-      const lyCtr  = l.boundingBox.y + l.boundingBox.h / 2;
-      const lRight = l.boundingBox.x + l.boundingBox.w;
-      return Math.abs(lyCtr - yCtr) < SAME_LINE_Y && lRight <= xLeft + 0.05;
+function flatIsEmpty(content) {
+  const t = content.trim();
+  return t === '' || t === ':unselected:' || t === ':selected:';
+}
+
+function flatIsSelMark(content) {
+  const t = content.trim();
+  return t === ':selected:' || t === ':unselected:';
+}
+
+function insideTableBB(page, bb, cellBBs) {
+  const cx = bb.x + bb.w / 2, cy = bb.y + bb.h / 2;
+  return cellBBs.some(c =>
+    c.page === page &&
+    cx >= c.bb.x && cx <= c.bb.x + c.bb.w &&
+    cy >= c.bb.y && cy <= c.bb.y + c.bb.h
+  );
+}
+
+function extractFlatMatches() {
+  const result = [];
+  const cellBBs = (analyzeResult.tables ?? []).flatMap(t =>
+    t.cells.map(c => {
+      const r = c.boundingRegions?.[0];
+      return { page: r?.pageNumber ?? 1, bb: polyToBB(r?.polygon) };
     })
-    .map(l => ({ content: l.content, boundingBox: l.boundingBox,
-                 dist: +(xLeft - (l.boundingBox.x + l.boundingBox.w)).toFixed(4),
-                 diConf: avgWordConf(l.boundingBox, f.page) }))
-    .sort((a,b) => a.dist - b.dist);
+  );
 
-  if (sameLine.length > 0) {
-    const best = sameLine[0], second = sameLine[1];
-    const margin = second ? +(second.dist - best.dist).toFixed(4) : null;
-    return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
-             label: best.content,
-             confidence: computeConf(best.dist, margin, best.diConf),
-             matchType: 'same-line', groundTruth: null,
-             signals: { distanceIn: best.dist, relativeMarginIn: margin,
-                        diConfidence: best.diConf !== null ? +best.diConf.toFixed(4) : null } };
+  // 1. Tabele — primarni mehanizam (high confidence)
+  (analyzeResult.tables ?? []).forEach((table, tableIdx) => {
+    const rowMap = new Map();
+    for (const cell of table.cells) {
+      const r  = cell.boundingRegions?.[0];
+      const pg = r?.pageNumber ?? 1;
+      const bb = polyToBB(r?.polygon);
+      if (!rowMap.has(cell.rowIndex)) rowMap.set(cell.rowIndex, []);
+      rowMap.get(cell.rowIndex).push({ ...cell, page: pg, boundingBox: bb });
+    }
+
+    for (const [rowIdx, cells] of rowMap.entries()) {
+      const sorted = [...cells].sort((a, b) => a.columnIndex - b.columnIndex);
+
+      for (const cell of sorted) {
+        if (!flatIsEmpty(cell.content)) continue;
+
+        // Labela: najbliža neprazna ćelija u istom redu LEVO
+        const leftCells = sorted.filter(c => c.columnIndex < cell.columnIndex && !flatIsEmpty(c.content));
+        const labelCell = leftCells.at(-1) ?? null;
+
+        // Fallback: prethodni red, isti columnIndex
+        let aboveCell = null;
+        if (!labelCell) {
+          const prevRow = rowMap.get(rowIdx - 1) ?? [];
+          aboveCell = prevRow.find(c => c.columnIndex === cell.columnIndex && !flatIsEmpty(c.content)) ?? null;
+        }
+
+        const found = labelCell ?? aboveCell;
+        const matchType = flatIsSelMark(cell.content) ? 'selection-mark' : 'table-cell';
+
+        result.push({
+          fieldName: `table${tableIdx}_r${rowIdx}c${cell.columnIndex}`,
+          page: cell.page,
+          boundingBox: cell.boundingBox,
+          label: found?.content ?? null,
+          labelBoundingBox: found?.boundingBox ?? null,
+          confidence: found ? 'high' : 'low',
+          matchType,
+          groundTruth: null,
+          signals: { distanceIn: null, relativeMarginIn: null, diConfidence: null },
+        });
+      }
+    }
+  });
+
+  // 2. Standalone selection marks — checkboxovi van tabela
+  let smIdx = 0;
+  for (const sm of diSelectionMarks) {
+    if (insideTableBB(sm.page, sm.boundingBox, cellBBs)) continue;
+
+    const smYCtr  = sm.boundingBox.y + sm.boundingBox.h / 2;
+    const smXLeft = sm.boundingBox.x;
+
+    const sameLine = diLines
+      .filter(l => {
+        if (l.page !== sm.page || UNDERLINE_RE.test(l.content.trim())) return false;
+        const lyCtr  = l.boundingBox.y + l.boundingBox.h / 2;
+        const lRight = l.boundingBox.x + l.boundingBox.w;
+        return Math.abs(lyCtr - smYCtr) < SAME_LINE_Y && lRight <= smXLeft + 0.05;
+      })
+      .sort((a, b) =>
+        (smXLeft - (a.boundingBox.x + a.boundingBox.w)) -
+        (smXLeft - (b.boundingBox.x + b.boundingBox.w))
+      );
+
+    const labelLine = sameLine[0] ?? null;
+    result.push({
+      fieldName: `selmark_${smIdx++}`,
+      page: sm.page,
+      boundingBox: sm.boundingBox,
+      label: labelLine?.content ?? null,
+      labelBoundingBox: labelLine?.boundingBox ?? null,
+      confidence: labelLine ? 'high' : 'low',
+      matchType: 'selection-mark',
+      groundTruth: null,
+      signals: { distanceIn: null, relativeMarginIn: null, diConfidence: sm.confidence },
+    });
   }
 
-  // Fallback "iznad": paragraphs su ok ovde (ne radimo precizno y poređenje)
-  const pageParas = diParagraphs.filter(p => p.page === f.page);
-  const above = pageParas
-    .filter(p => {
-      const pXCtr = p.boundingBox.x + p.boundingBox.w / 2;
-      return p.boundingBox.y > yCtr && p.boundingBox.y < yCtr + ABOVE_MAX_Y &&
-             Math.abs(pXCtr - xLeft) < ABOVE_MAX_X;
-    })
-    .sort((a,b) => a.boundingBox.y - b.boundingBox.y);
+  // 3. Podvlake van tabela — sekundarni mehanizam (low confidence)
+  let ulIdx = 0;
+  for (const line of diLines) {
+    if (!UNDERLINE_RE.test(line.content.trim())) continue;
+    if (insideTableBB(line.page, line.boundingBox, cellBBs)) continue;
 
-  if (above.length > 0) {
-    const best = above[0];
-    return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
-             label: best.content, confidence: 'low', matchType: 'above', groundTruth: null,
-             signals: { distanceIn: null, relativeMarginIn: null,
-                        diConfidence: avgWordConf(best.boundingBox, f.page) } };
+    const lineYCtr  = line.boundingBox.y + line.boundingBox.h / 2;
+    const lineXLeft = line.boundingBox.x;
+
+    const sameLine = diLines
+      .filter(l => {
+        if (l.page !== line.page || UNDERLINE_RE.test(l.content.trim())) return false;
+        const lyCtr  = l.boundingBox.y + l.boundingBox.h / 2;
+        const lRight = l.boundingBox.x + l.boundingBox.w;
+        return Math.abs(lyCtr - lineYCtr) < SAME_LINE_Y && lRight <= lineXLeft + 0.05;
+      })
+      .sort((a, b) =>
+        (lineXLeft - (a.boundingBox.x + a.boundingBox.w)) -
+        (lineXLeft - (b.boundingBox.x + b.boundingBox.w))
+      );
+
+    const labelLine = sameLine[0] ?? null;
+    result.push({
+      fieldName: `underline_${ulIdx++}`,
+      page: line.page,
+      boundingBox: line.boundingBox,
+      label: labelLine?.content ?? null,
+      labelBoundingBox: labelLine?.boundingBox ?? null,
+      confidence: 'low',
+      matchType: 'underline',
+      groundTruth: null,
+      signals: { distanceIn: null, relativeMarginIn: null, diConfidence: null },
+    });
   }
 
-  return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
-           label: null, confidence: 'low', matchType: 'none', groundTruth: null,
-           signals: { distanceIn: null, relativeMarginIn: null, diConfidence: null } };
-});
+  return result;
+}
+
+// ─── 4. Pokretanje odgovarajuće grane ─────────────────────────────────────────
+const matches = pdfType === 'flat'
+  ? extractFlatMatches()
+  : acroFields.map(f => {
+      const pageH   = pageHeightsPt[f.page - 1] ?? 841.89;
+      const xLeft   = f.x / 72;
+      const yCtr    = (pageH - (f.y + f.h / 2)) / 72;
+      const fieldBB = { x: xLeft, y: yCtr - (f.h/72)/2, w: f.w/72, h: f.h/72 };
+
+      const pageLines = diLines.filter(l => l.page === f.page);
+      const sameLine = pageLines
+        .filter(l => {
+          const lyCtr  = l.boundingBox.y + l.boundingBox.h / 2;
+          const lRight = l.boundingBox.x + l.boundingBox.w;
+          return Math.abs(lyCtr - yCtr) < SAME_LINE_Y && lRight <= xLeft + 0.05;
+        })
+        .map(l => ({ content: l.content, boundingBox: l.boundingBox,
+                     dist: +(xLeft - (l.boundingBox.x + l.boundingBox.w)).toFixed(4),
+                     diConf: avgWordConf(l.boundingBox, f.page) }))
+        .sort((a,b) => a.dist - b.dist);
+
+      if (sameLine.length > 0) {
+        const best = sameLine[0], second = sameLine[1];
+        const margin = second ? +(second.dist - best.dist).toFixed(4) : null;
+        return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
+                 label: best.content,
+                 confidence: computeConf(best.dist, margin, best.diConf),
+                 matchType: 'same-line', groundTruth: null,
+                 signals: { distanceIn: best.dist, relativeMarginIn: margin,
+                            diConfidence: best.diConf !== null ? +best.diConf.toFixed(4) : null } };
+      }
+
+      const pageParas = diParagraphs.filter(p => p.page === f.page);
+      const above = pageParas
+        .filter(p => {
+          const pXCtr = p.boundingBox.x + p.boundingBox.w / 2;
+          return p.boundingBox.y > yCtr && p.boundingBox.y < yCtr + ABOVE_MAX_Y &&
+                 Math.abs(pXCtr - xLeft) < ABOVE_MAX_X;
+        })
+        .sort((a,b) => a.boundingBox.y - b.boundingBox.y);
+
+      if (above.length > 0) {
+        const best = above[0];
+        return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
+                 label: best.content, confidence: 'low', matchType: 'above', groundTruth: null,
+                 signals: { distanceIn: null, relativeMarginIn: null,
+                            diConfidence: avgWordConf(best.boundingBox, f.page) } };
+      }
+
+      return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
+               label: null, confidence: 'low', matchType: 'none', groundTruth: null,
+               signals: { distanceIn: null, relativeMarginIn: null, diConfidence: null } };
+    });
 
 // ─── 5. Sačuvaj kalibracioni JSON ─────────────────────────────────────────────
 const calJson = {
-  _meta: { pdfPath, label, generatedAt: new Date().toISOString(),
+  _meta: { pdfPath, label, pdfType, generatedAt: new Date().toISOString(),
            thresholds: { SAME_LINE_Y, MARGIN_MIN, DI_CONF_MIN, SOLO_MAX_DIST } },
   pages: diPages,
   fields: matches,
@@ -195,8 +355,16 @@ writeFileSync(outPath, JSON.stringify(calJson, null, 2));
 const high = matches.filter(m => m.confidence === 'high').length;
 const low  = matches.filter(m => m.confidence === 'low').length;
 const none = matches.filter(m => m.matchType === 'none').length;
-console.log(`\n=== ${label} ===`);
-console.log(`Stranica: ${diPages.length}  |  AcroForm polja: ${matches.length}`);
+console.log(`\n=== ${label} (${pdfType}) ===`);
+if (pdfType === 'flat') {
+  const tableCells  = matches.filter(m => m.matchType === 'table-cell').length;
+  const selMarks    = matches.filter(m => m.matchType === 'selection-mark').length;
+  const underlines  = matches.filter(m => m.matchType === 'underline').length;
+  console.log(`Stranica: ${diPages.length}  |  Flat PDF polja: ${matches.length}`);
+  console.log(`  table-cell: ${tableCells}  selection-mark: ${selMarks}  underline: ${underlines}`);
+} else {
+  console.log(`Stranica: ${diPages.length}  |  AcroForm polja: ${matches.length}`);
+}
 console.log(`  high: ${high}  low: ${low}  bez labele: ${none}`);
 console.log(`Kalibracioni JSON: ${outPath}`);
 
@@ -221,19 +389,21 @@ const pageHtml = diPages.map(pg => {
     const width  = (bb.w * PX_PER_INCH).toFixed(1);
     const height = (bb.h * PX_PER_INCH).toFixed(1);
 
-    const color = m.confidence === 'high'
-      ? (m.matchType === 'none' ? '#aaa' : '#22c55e')   // zelena
-      : (m.matchType === 'none' ? '#ef4444' : '#f59e0b'); // crvena / narandžasta
+    // Boja po tipu: selection-mark=plava, underline=siva, table-cell/AcroForm=zelena/narandžasta/crvena
+    const color = m.matchType === 'selection-mark' ? '#2563eb'
+      : m.matchType === 'underline' ? '#94a3b8'
+      : m.confidence === 'high' ? '#22c55e'
+      : m.label ? '#f59e0b' : '#ef4444';
 
     const s = m.signals;
     const tooltip = [
       `Polje: ${m.fieldName}`,
       `Labela: ${m.label ?? 'null'}`,
-      `Confidence: ${m.confidence}  (${m.matchType})`,
-      `Dist: ${s.distanceIn?.toFixed(3) ?? 'n/a'}in`,
-      `Margina: ${s.relativeMarginIn?.toFixed(3) ?? '∞'}in`,
-      `DI conf: ${s.diConfidence?.toFixed(3) ?? 'n/a'}`,
-    ].join('&#10;');
+      `Tip: ${m.matchType}  |  Confidence: ${m.confidence}`,
+      s.distanceIn != null ? `Dist: ${s.distanceIn.toFixed(3)}in` : null,
+      s.relativeMarginIn != null ? `Margina: ${s.relativeMarginIn.toFixed(3)}in` : null,
+      s.diConfidence != null ? `DI conf: ${s.diConfidence.toFixed(3)}` : null,
+    ].filter(Boolean).join('&#10;');
 
     return `<div class="field ${m.confidence}" id="field-${m.fieldName}"
       style="left:${left}px;top:${top}px;width:${width}px;height:${height}px;border-color:${color}"
@@ -313,10 +483,11 @@ const html = `<!DOCTYPE html>
 <div id="current-banner"></div>
 <h1>${label} — kalibracioni overlay</h1>
 <div class="legend">
-  <div class="dot" style="border-color:#22c55e;background:rgba(34,197,94,.2)"></div> high confidence
-  <div class="dot" style="border-color:#f59e0b;background:rgba(245,158,11,.2)"></div> low confidence (ima labelu)
+  <div class="dot" style="border-color:#22c55e;background:rgba(34,197,94,.2)"></div> high (label nađena)
+  <div class="dot" style="border-color:#f59e0b;background:rgba(245,158,11,.2)"></div> low (ima labelu)
   <div class="dot" style="border-color:#ef4444;background:rgba(239,68,68,.1)"></div> bez labele
-  <div class="dot" style="border-color:#2563eb;background:rgba(37,99,235,.2)"></div> trenutno polje (review)
+  <div class="dot" style="border-color:#2563eb;background:rgba(37,99,235,.2)"></div> selection mark / trenutno polje
+  <div class="dot" style="border-color:#94a3b8;background:rgba(148,163,184,.15)"></div> podvlaka (underline)
 </div>
 <div class="stats">
   Polja ukupno: ${matches.length} &nbsp;|&nbsp;
@@ -343,6 +514,17 @@ function applyHash() {
 }
 window.addEventListener('hashchange', applyHash);
 window.addEventListener('load', applyHash);
+
+// Auto-navigacija iz record-ground-truth.mjs CLI via SSE
+// Kada CLI pređe na sledeće polje, browser dobija push i automatski scroll-uje.
+// Ako server nije aktivan (samo pregled bez CLI), EventSource tiho pada.
+(function() {
+  try {
+    const es = new EventSource('http://localhost:7789/events');
+    es.onmessage = (e) => { if (e.data) window.location.hash = e.data; };
+    es.onerror = () => {};
+  } catch {}
+})();
 </script>
 </body>
 </html>`;

@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react'
 import { WizardView } from './WizardView'
 import { GuideView } from './GuideView'
 import type { MappedField } from '@/app/api/obrasci/analyze/route'
+import type { GuideField } from '@/types/obrasci'
 
 type DocType = 'acroform' | 'docx' | 'flat'
 
@@ -11,8 +12,8 @@ type Stage =
   | { status: 'idle' }
   | { status: 'uploading' }
   | { status: 'analyzing'; fileRef: string; type: DocType; filename: string }
-  | { status: 'wizard'; fileRef: string; type: 'acroform' | 'docx'; filename: string; fields: MappedField[] }
-  | { status: 'guide'; filename: string; fields: MappedField[] }
+  | { status: 'wizard'; fileRef: string; type: 'docx'; filename: string; fields: MappedField[] }
+  | { status: 'di-guide'; filename: string; fields: GuideField[] }
   | { status: 'error'; message: string }
 
 const ACCEPTED = '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -30,7 +31,7 @@ export function ObraściClient() {
       return
     }
 
-    // Upload + detekcija
+    // Korak 1: upload + detekcija tipa
     setStage({ status: 'uploading' })
     const formData = new FormData()
     formData.append('file', file)
@@ -47,33 +48,47 @@ export function ObraściClient() {
     }
 
     const { fileRef, type, filename } = uploadRes
-
-    // Analiza
     setStage({ status: 'analyzing', fileRef, type, filename })
 
-    let fields: MappedField[]
-    let resolvedType: DocType = type
+    // Korak 2: analiza
+    // PDF (acroform/flat) → DI pipeline → guide sa 3 stanja
+    // DOCX → stari Claude pipeline → wizard za auto-popunjavanje
+    if (type === 'docx') {
+      let fields: MappedField[]
+      try {
+        const res = await fetch('/api/obrasci/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileRef, type }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error ?? 'Greška pri analizi.')
+        fields = data.fields
+      } catch (err) {
+        setStage({ status: 'error', message: err instanceof Error ? err.message : 'Greška pri analizi.' })
+        return
+      }
+      setStage({ status: 'wizard', fileRef, type: 'docx', filename, fields })
+      return
+    }
+
+    // PDF: DI pipeline (acroform i flat)
+    let fields: GuideField[]
     try {
-      const res = await fetch('/api/obrasci/analyze', {
+      const res = await fetch('/api/obrasci/di-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fileRef, type }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Greška pri analizi.')
+      if (!res.ok) throw new Error(data.error ?? 'Greška pri DI analizi.')
       fields = data.fields
-      // API može da vrati type override (npr. AcroForm sa numeričkim poljima → flat guide)
-      if (data.type === 'flat') resolvedType = 'flat'
     } catch (err) {
-      setStage({ status: 'error', message: err instanceof Error ? err.message : 'Greška pri analizi.' })
+      setStage({ status: 'error', message: err instanceof Error ? err.message : 'Greška pri analizi PDF-a.' })
       return
     }
 
-    if (resolvedType === 'flat') {
-      setStage({ status: 'guide', filename, fields })
-    } else {
-      setStage({ status: 'wizard', fileRef, type: resolvedType as 'acroform' | 'docx', filename, fields })
-    }
+    setStage({ status: 'di-guide', filename, fields })
   }
 
   function onFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -101,7 +116,7 @@ export function ObraściClient() {
     )
   }
 
-  if (stage.status === 'guide') {
+  if (stage.status === 'di-guide') {
     return (
       <GuideView
         fields={stage.fields}
@@ -147,7 +162,12 @@ export function ObraściClient() {
               {stage.status === 'uploading' ? 'Učitavanje...' : 'Analiza dokumenta...'}
             </p>
             {stage.status === 'analyzing' && (
-              <p className="mt-1 text-xs text-gray-400">{stage.filename}</p>
+              <>
+                <p className="mt-1 text-xs text-gray-400">{stage.filename}</p>
+                {(stage.type === 'acroform' || stage.type === 'flat') && (
+                  <p className="mt-1 text-xs text-gray-400">Ovo može potrajati do 30 sekundi.</p>
+                )}
+              </>
             )}
           </>
         ) : (
@@ -186,8 +206,8 @@ export function ObraściClient() {
         <div className="rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
           <p className="text-xs text-gray-500 leading-relaxed">
             <span className="font-medium text-gray-700">Podržani tipovi: </span>
-            PDF obrasci sa poljima za popunjavanje (AcroForm) i DOCX sa placeholderima se automatski popunjavaju.
-            Ostali PDF-ovi dobijaju vodič za ručno popunjavanje.
+            PDF obrasci se analiziraju i sistem predlaže vrednosti iz profila firme.
+            DOCX dokumenti sa placeholderima se automatski popunjavaju.
           </p>
         </div>
       )}

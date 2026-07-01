@@ -34,8 +34,30 @@ const calDir     = path.dirname(path.resolve(calPath));
 const htmlFile   = `${label}-overlay.html`;
 const htmlPath   = path.join(calDir, htmlFile);
 
-// Mini HTTP server za overlay
+// SSE klijenti — browser se konektuje na /events i prima ime trenutnog polja
+const sseClients = new Set();
+
+function pushField(name) {
+  for (const res of sseClients) {
+    try { res.write(`data: ${name}\n\n`); } catch {}
+  }
+}
+
+// Mini HTTP server za overlay + SSE
 const server = createServer((req, res) => {
+  // SSE endpoint — browser overlay se konektuje ovde
+  if (req.url === '/events') {
+    res.writeHead(200, {
+      'Content-Type':                'text/event-stream',
+      'Cache-Control':               'no-cache',
+      'Connection':                  'keep-alive',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.write('\n'); // initial keep-alive
+    sseClients.add(res);
+    req.on('close', () => sseClients.delete(res));
+    return;
+  }
   const file = req.url === '/' ? htmlFile : req.url.replace(/^\//, '').split('?')[0].split('#')[0];
   const fullPath = path.join(calDir, file);
   try {
@@ -50,8 +72,9 @@ const server = createServer((req, res) => {
 
 if (existsSync(htmlPath)) {
   server.listen(PORT, () => {
-    console.log(`\nOverlay server: http://localhost:${PORT}/${htmlFile}`);
-    console.log(`Otvori gornji URL u browseru — polje će se automatski highlight-ovati.\n`);
+    console.log(`\nOverlay: http://localhost:${PORT}/${htmlFile}`);
+    console.log(`→ Otvori URL jednom u browseru i ostavi otvoren.`);
+    console.log(`→ Svako sledeće polje će se automatski highlight-ovati i scroll-ovati.\n`);
   });
 } else {
   console.log(`\nNapomena: overlay HTML nije pronađen (${htmlPath}).`);
@@ -91,8 +114,11 @@ for (const f of pending) {
     ? `http://localhost:${PORT}/${htmlFile}#${f.fieldName}`
     : null;
 
+  // Pushuj ime polja svim konektovanim browser-ima — overlay se automatski pomera
+  pushField(f.fieldName);
+
   console.log(`\n[${done+1}/${pending.length}]  ${f.fieldName}  (str.${f.page})`);
-  if (overlayUrl) console.log(`  Overlay:   ${overlayUrl}`);
+  if (overlayUrl && sseClients.size === 0) console.log(`  Overlay:   ${overlayUrl}`);
   console.log(`  Labela:    "${f.label}"`);
   console.log(`  Confidence: ${f.confidence}  (${f.matchType})`);
   console.log(`  Dist:      ${s.distanceIn?.toFixed(3) ?? 'n/a'} in`);

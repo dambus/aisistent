@@ -48,12 +48,20 @@ export interface DiLine {
   page: number;
 }
 
+export interface DiSelectionMark {
+  state: 'selected' | 'unselected';
+  confidence: number;
+  boundingBox: { x: number; y: number; w: number; h: number };
+  page: number;
+}
+
 export interface DiLayoutResult {
   pages: DiPage[];
   paragraphs: DiParagraph[]; // koristiti samo za "above" fallback
   lines: DiLine[];            // koristiti za same-line matching
   tables: DiTable[];
   words: DiWord[];            // potrebno za confidence signal u kalibracionom harnessu (spec 5.4)
+  selectionMarks: DiSelectionMark[];
   _raw?: AnalyzeResultOutput;
 }
 
@@ -138,5 +146,14 @@ export async function analyzeLayout(input: Buffer): Promise<DiLayoutResult> {
     }))
   );
 
-  return { pages, paragraphs, lines, tables, words, _raw: analyzeResult };
+  const selectionMarks: DiSelectionMark[] = (analyzeResult.pages ?? []).flatMap((p) =>
+    ((p as any).selectionMarks ?? []).map((s: any) => ({
+      state: s.state as 'selected' | 'unselected',
+      confidence: s.confidence ?? 0,
+      boundingBox: toBoundingBox(s.polygon),
+      page: p.pageNumber,
+    }))
+  );
+
+  return { pages, paragraphs, lines, tables, words, selectionMarks, _raw: analyzeResult };
 }
