@@ -7,6 +7,7 @@ interface GuideViewProps {
   fields: GuideField[]
   filename: string
   onReset: () => void
+  onAutoFill?: (confirmedFields: GuideField[]) => void
 }
 
 function CheckIcon() {
@@ -113,7 +114,7 @@ function ManualCard({ field }: { field: GuideField }) {
   )
 }
 
-export function GuideView({ fields, filename, onReset }: GuideViewProps) {
+export function GuideView({ fields, filename, onReset, onAutoFill }: GuideViewProps) {
   const [copied, setCopied] = useState<string | null>(null)
   const [manualExpanded, setManualExpanded] = useState(false)
 
@@ -215,12 +216,22 @@ export function GuideView({ fields, filename, onReset }: GuideViewProps) {
         <p className="text-sm text-gray-400 text-center py-4">Nisu pronađena polja za popunjavanje.</p>
       )}
 
-      <button
-        onClick={() => window.print()}
-        className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors print:hidden"
-      >
-        Odštampaj vodič
-      </button>
+      <div className="flex flex-col gap-2 print:hidden">
+        {onAutoFill && suggestedCount > 0 && (
+          <button
+            onClick={() => onAutoFill(fields)}
+            className="w-full rounded-lg bg-[#1B6B4A] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#155a3d] transition-colors"
+          >
+            Popuni automatski →
+          </button>
+        )}
+        <button
+          onClick={() => window.print()}
+          className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+        >
+          Odštampaj vodič
+        </button>
+      </div>
     </div>
   )
 }

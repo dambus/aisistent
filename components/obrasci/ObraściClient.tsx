@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { WizardView } from './WizardView'
 import { GuideView } from './GuideView'
+import { PreviewView } from './PreviewView'
 import type { MappedField } from '@/app/api/obrasci/analyze/route'
 import type { GuideField } from '@/types/obrasci'
 
@@ -13,7 +14,8 @@ type Stage =
   | { status: 'uploading' }
   | { status: 'analyzing'; fileRef: string; type: DocType; filename: string }
   | { status: 'wizard'; fileRef: string; type: 'docx'; filename: string; fields: MappedField[] }
-  | { status: 'di-guide'; filename: string; fields: GuideField[] }
+  | { status: 'di-guide'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[] }
+  | { status: 'di-preview'; fileRef: string; type: 'acroform' | 'flat'; filename: string; confirmedFields: GuideField[] }
   | { status: 'error'; message: string }
 
 const ACCEPTED = '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -88,7 +90,7 @@ export function ObraściClient() {
       return
     }
 
-    setStage({ status: 'di-guide', filename, fields })
+    setStage({ status: 'di-guide', fileRef, type: type as 'acroform' | 'flat', filename, fields })
   }
 
   function onFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -121,6 +123,36 @@ export function ObraściClient() {
       <GuideView
         fields={stage.fields}
         filename={stage.filename}
+        onReset={reset}
+        onAutoFill={(confirmedFields) =>
+          setStage({
+            status: 'di-preview',
+            fileRef: stage.fileRef,
+            type: stage.type,
+            filename: stage.filename,
+            confirmedFields,
+          })
+        }
+      />
+    )
+  }
+
+  if (stage.status === 'di-preview') {
+    return (
+      <PreviewView
+        fileRef={stage.fileRef}
+        pdfType={stage.type}
+        filename={stage.filename}
+        confirmedFields={stage.confirmedFields}
+        onBack={(fields) =>
+          setStage({
+            status: 'di-guide',
+            fileRef: stage.fileRef,
+            type: stage.type,
+            filename: stage.filename,
+            fields,
+          })
+        }
         onReset={reset}
       />
     )
