@@ -79,6 +79,24 @@ Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 - Kontakti su u produkciji ali korisnici ne znaju za njih
 - Potreban tip/onboarding banner u profilu i/ili wizardu
 
+#### 1. jul 2026. — Label matching bugfix sesija (overlay istraživanje)
+
+**Testiranje na 5 novih obrazaca** (`C:\Users\milan\Downloads\novi obrasci\`):
+- 3040-113-015 (flat), Dodatak_15_PR (acroform), JRPPS_PR Osnivanje (acroform, 10 str., 211 polja), M-A (flat sken — 0 polja, van opsega), Obrazac_PPI-2 (flat)
+- Vizuelni pregled overlaya u browseru otkrio 3 klase grešaka
+
+**Bugfix — 3 nova patterna u `matchFieldLabels.ts` i `extractFlatPdfFields.ts`:**
+1. **Checkbox labela desno** — same-line right fallback (0.5" radijus, uvek low conf); pokriva checkbox + lista/tekst desno (prethodni filter tražio samo levo)
+2. **Textarea vizuelno iznad** — za AcroForm polja visine >0.5": traži paragrafe sa *manjim* Y (visually above u DI koordinatama), do 2.0"; prethodni "above" fallback gledao u suprotnom smeru
+3. **Table external DI line** — u `extractFlatPdfFields.ts`: kad su sve ćelije u redu prazne (tabela bez header ćelija), traži DI `line` van tabele na istoj Y liniji levo od ćelije
+
+**Rezultat:** Bez labele 4→0 (Dodatak_15), 16→0 (JRPPS), nula bez-labele na svim parsabilnim PDF-ovima.
+**Commit:** `f2ae22f` — 3 fajla, 157 insertions
+
+**Poznate limitacije:**
+- `3040-113-015` table3 r3–r9: labele su section headings 0.4" iznad grupe redova — van same-line praga, nema per-row labele u PDF-u; null label je ispravan fallback
+- `M-A.pdf`: rasterizovani sken, DI nema tekst — van opsega pipeline-a
+
 #### 1. jul 2026. — Upload & Fill Faza 1 — Korak 5–7 + produkcija
 
 **Obrasci pipeline — Korak 5–7 kompletni, stranica aktivna u produkciji.**

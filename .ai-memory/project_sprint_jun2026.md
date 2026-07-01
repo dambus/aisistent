@@ -81,7 +81,13 @@ Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.
 - Korak 7 (jul): `GuideView` sa 3 eksplicitna stanja — high (zeleno), low (narandžasto), manual (sivo); `/api/obrasci/di-analyze` endpoint; ObraściClient ruting (PDF→DI, DOCX→stari wizard)
 - Bug fix: `semanticMapper.ts` stripa markdown code block iz Claude odgovora pre `JSON.parse`
 
-**Sledeće (Korak 8):** Validacija na 5+ obrazaca. Poznati bug: Tb1-Tb4 labele (numbered list je DESNO od checkbox polja, ne levo — current filter `rightEdge <= fieldX` ih isključuje).
+**Label matching bugfix (1. jul, sesija 2):** 3 nova patterna — commit `f2ae22f`
+- Checkbox labela desno: same-line right fallback (0.5" radijus, low conf)
+- Textarea vizuelno iznad: polja h>0.5" traže paragrafe sa manjim Y, do 2.0"
+- Table external DI line: `extractFlatPdfFields.ts` — kad sve ćelije u redu prazne, traži DI line van tabele
+- Testirano na 5 novih obrazaca: 0 bez-labele na svim parsabilnim (Dodatak_15: 4→0, JRPPS: 16→0)
+
+**Korak 8 (sledeće):** Validacija na 5+ obrazaca — PPDG-1S, Dodatak_15, JRPPS, PPI-2, 3040. Tb1-Tb4 checkbox labele desno su pokrivene novim fix-om.
 
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
