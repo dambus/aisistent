@@ -35,15 +35,18 @@ Korisnik uploaduje RFQ, tender ili interni obrazac partnera (SAP/DMS), aplikacij
 
 **MVP scope:** AcroForm PDF + DOCX, Pro/Agency plan. Ne ulaziti u flat PDF overlay ni web forme državnih portala (ePorezi, APR).
 
-**Status (jun 2026.):** MVP izgrađen i testiran. Pauziran. Kod u repou (`app/api/obrasci/`, `components/obrasci/`), stranica nedostupna.
+**Status (jul 2026.):** Faza 1 Korak 1–7 kompletni. Stranica aktivna u produkciji.
 
-**Šta je otkriveno implementacijom:**
-- AcroForm sa described poljem + DOCX sa placeholderima → radi dobro ✅
-- Srpski državni obrasci (PPDG-1S, ekotaksa...) → T1–T189 numerički nazivi polja; keyword matching beskoristan
-- Fundamentalni problem: vizuelna semantika forme je u PDF vizuelnom sloju, ne u AcroForm metapodacima
-- Tri puta napred: JSON baza poznatih obrazaca (preporučen MVP), koordinatno parsiranje, Vision AI
-- Vision AI (Put C) je najrobustniji ali zahteva Puppeteer van Vercel serverless
+**Implementiran pristup — Azure DI + geometrijsko matching + Claude semantički mapper:**
+- `analyzeLayout.ts` — Azure DI `prebuilt-layout`; vraća `lines`, `paragraphs`, `words`, `tables`, `selectionMarks`
+- `extractAcroFormFields.ts` — AcroForm polja sa pouzdanim brojevima strana via `widget.P()`
+- `matchFieldLabels.ts` — same-line matching via `lines` (ne paragraphs); confidence = relativna margina + DI word conf + solo dist
+- `extractFlatPdfFields.ts` — flat PDF: prazne table-ćelije (high), selection marks (high/low), podvlake (low)
+- `semanticMapper.ts` — Claude mapira (labela, polje) parove na 13 profil ključeva; null-label → automatski null bez API poziva
+- `GuideView.tsx` — 3 eksplicitna stanja: high (zeleno), low (narandžasto), manual (sivo)
+- `/api/obrasci/di-analyze` — orchestration endpoint, `maxDuration: 60`
+- PPDG-1S: 7 polja mapirana iz profila, 191 manual (računovodstvene pozicije nisu u profilu firme)
 
-**Sledeći korak kad se nastavi:** Faza 1 — JSON mapiranje za ~30 najčešćih srpskih obrazaca.
+**Sledeće (Korak 8):** Validacija na 5+ obrazaca; Tb1-Tb4 bug (numbered list desno od checkboxova).
 
 **Why:** Diferenciator za preduzetnika koji redovno odgovara na tendere velikih kupaca ili HR koji popunjava iste anekse za zaposlene u DOCX formatu klijenta.

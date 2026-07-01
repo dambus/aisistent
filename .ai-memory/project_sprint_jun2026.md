@@ -70,33 +70,18 @@ metadata:
 - Agency "Klijent:" dropdown — prikazuje se samo na koraku 0; za billing tipove puni primalac/naručilac polja
 - **TODO**: prezentovati korisnicima — TipCard u profilu + wizardu (u backlogu)
 
-## /obrasci MVP — jun 2026. (pauzirano, kod u repou)
+## /obrasci Upload & Fill — Faza 1 Korak 1–7 KOMPLETNO (jul 2026.)
 
-Izgrađen kompletan upload/analyze/fill flow: AcroForm PDF, DOCX, flat PDF guide.
-Stranica privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
+Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.
 
-**Šta radi:** AcroForm sa described poljima (privatni poslovni obrasci), DOCX sa placeholderima, flat PDF guide sa copy dugmadima.
+**Pipeline:**
+- Korak 1–4 (jun): `analyzeLayout.ts`, `extractAcroFormFields.ts`, `matchFieldLabels.ts`, kalibracioni harness
+- Korak 5 (jul): `extractFlatPdfFields.ts` — flat PDF: prazne table-ćelije, selection marks, podvlake
+- Korak 6 (jul): `semanticMapper.ts` — Claude mapira labele na 13 profil ključeva; null-label → null bez API poziva; STOP checkpoint prošao (PPDG-1S: 7 mapiranih, 191 manual, T1=isInternal)
+- Korak 7 (jul): `GuideView` sa 3 eksplicitna stanja — high (zeleno), low (narandžasto), manual (sivo); `/api/obrasci/di-analyze` endpoint; ObraściClient ruting (PDF→DI, DOCX→stari wizard)
+- Bug fix: `semanticMapper.ts` stripa markdown code block iz Claude odgovora pre `JSON.parse`
 
-**Fundamentalni problem:** Srpski državni obrasci (PPDG, M4, ekotaksa) koriste numeričke nazive polja (T1–T189). Vizuelna semantika nije u metapodacima — app ne razume kontekst.
-
-**Izabrani put — geometrijsko prepoznavanje:** Azure DI `prebuilt-layout` + geometrijsko poklapanje (polje ↔ labela) + Claude semantičko mapiranje. Korak 1–4 kompletni.
-
-## Upload & Fill — Faza 1 pipeline (jun 2026., Korak 1–4 kompletni)
-
-Spec: `docs/obrasci/FAZA1_PREPOZNAVANJE_OBRAZACA_1.md`  
-Uputstvo za skripte: `docs/obrasci/SKRIPTE_UPUTSTVO.md`
-
-- `analyzeLayout.ts`: Azure DI `prebuilt-layout`; `DiLayoutResult` sa `lines` (novo) + `paragraphs` + `words` + `tables`
-- `extractAcroFormFields.ts`: AcroForm polja sa pouzdanim brojevima strana via `widget.P()` → `pageRefMap`
-- `matchFieldLabels.ts`: same-line matching via `lines` (fix za T2/T3 — paragraphs spajaju više vizuelnih redova); confidence = relativna margina (primarna) + DI word conf (sekundarna) + apsolutna dist (solo); pragovi u konstantama, kalibrisati
-- Kalibracioni harness: `run-calibration-test.mjs` (DI keš, JSON + HTML overlay), `record-ground-truth.mjs` (HTTP server :7789, URL hash highlight po polju), `recalculate-thresholds.mjs` (F1 optimizacija)
-- PPDG-1S (198 polja): 119 high / 79 low sa relativnom marginom umesto grube dist formule
-
-**Sledeći koraci:**
-- Korak 5: flat PDF branch (DI tables + paragraphs, bez AcroForm; test na eko-taksa)
-- Korak 6: Claude semantičko mapiranje — prima samo (labela, polje) parove, nikad T1/T189 direktno
-- Korak 7: UI na `/obrasci` ruti
-- Korak 8: validacija na 5+ dokumenata
+**Sledeće (Korak 8):** Validacija na 5+ obrazaca. Poznati bug: Tb1-Tb4 labele (numbered list je DESNO od checkbox polja, ne levo — current filter `rightEdge <= fieldX` ih isključuje).
 
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

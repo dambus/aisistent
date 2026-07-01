@@ -79,6 +79,25 @@ Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 - Kontakti su u produkciji ali korisnici ne znaju za njih
 - Potreban tip/onboarding banner u profilu i/ili wizardu
 
+#### 1. jul 2026. — Upload & Fill Faza 1 — Korak 5–7 + produkcija
+
+**Obrasci pipeline — Korak 5–7 kompletni, stranica aktivna u produkciji.**
+
+- `lib/documentIntelligence/extractFlatPdfFields.ts` — ekstrakcija polja iz flat PDF-a: prazne table-ćelije (high conf), standalone selection marks (high conf ako labela levo), podvlake van tabela (low conf); isti same-line Y prag 0.12in kao AcroForm grana
+- `lib/documentIntelligence/semanticMapper.ts` — Claude mapira isključivo stvarne (labela, polje) parove na 13 profil ključeva; polja bez labele nikad ne stižu do Claudea (automatski `null`); `max_tokens: 4096` za forme sa 190+ polja; stripa markdown code block iz odgovora
+- `types/obrasci.ts` — `GuideField` sa eksplicitnim `state: 'high' | 'low' | 'manual'` (nikad implicitno, uvek determinsitički)
+- `app/api/obrasci/di-analyze/route.ts` — novi endpoint koji orkestrira DI + geometric matching + semantic mapping; `maxDuration: 60`; PDF (acroform/flat) → `GuideField[]`
+- `components/obrasci/GuideView.tsx` — tri vizuelna stanja: zeleno (Iz profila, direktno kopiraj), narandžasto (Proverite), sivo (Popunite ručno); manual polja skupljeni po default-u
+- `components/obrasci/ObraściClient.tsx` — PDF → `/api/obrasci/di-analyze`; DOCX → stari Claude analyze → wizard (nepromenjen)
+- `app/(dashboard)/obrasci/page.tsx` — uklonjen "Uskoro dostupno" placeholder, renderuje `ObraściClient`
+- `analyzeLayout.ts` — dodat `selectionMarks: DiSelectionMark[]` iz `pages[i].selectionMarks`
+
+**Korak 6 STOP checkpoint:** `scripts/test-semantic-mapper.mjs` demonstrira da null-label polja dobijaju `suggestedValue: null` bez Claude poziva (PPDG-1S: 7 mapiranih profil vrednosti, 191 manual, T1 isInternal = poreska uprava).
+
+**Infrastruktura:** Azure DI ključevi dodati u Vercel production env vars. Bug fix post-deployment: Claude vraća JSON u markdown code bloku — `semanticMapper.ts` nije stripovao wrapper (JSON.parse grešio).
+
+**Kalibracioni harness (SSE):** `run-calibration-test.mjs` dodaje EventSource listener u overlay HTML; `record-ground-truth.mjs` pokreće HTTP server na :7789 sa `/events` SSE endpoint-om koji auto-navigira overlay po polju.
+
 #### 30. jun 2026. — Upload & Fill Faza 1 — pipeline za prepoznavanje obrazaca
 
 **Obrasci pipeline — Korak 1–4 kompletni** (spec: `docs/obrasci/FAZA1_PREPOZNAVANJE_OBRAZACA_1.md`)

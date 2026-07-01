@@ -152,21 +152,26 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Status:** MVP izgrađen i testiran jun 2026. Stranica privremeno nedostupna. Kod u repou (`app/api/obrasci/`, `components/obrasci/`).
+**Status:** Faza 1 Korak 1–7 kompletni (jul 2026.). Stranica aktivna u produkciji.
 
-**Šta radi:**
-- AcroForm PDF + DOCX sa named/placeholder poljima → automatski wizard ✅
-- Flat PDF → guide sa Copy dugmadima za profil vrednosti ✅
+**Šta radi (jul 2026.):**
+- AcroForm PDF → Azure DI + geometrijsko matching + Claude semantičko mapiranje → GuideView sa 3 stanja ✅
+- Flat PDF → Azure DI table/selection mark/underline detekcija → isti GuideView ✅
+- DOCX sa placeholderima → stari Claude wizard (automatsko popunjavanje) ✅
+- GuideView: zeleno (visoka pouzdanost iz profila), narandžasto (proverite), sivo (popunite ručno)
 
-**Šta ne radi (fundamentalni problem):**
-Srpski državni obrasci (PPDG, M4, ekotaksa...) koriste numeričke nazive polja (T1–T189). Vizuelna semantika forme živi u PDF vizuelnom sloju — ne u metapodacima koje aplikacija čita. Bez konteksta "T3 = PIB" nema smislenog auto-fill-a.
+**Sledeće (Korak 8):**
+- Validacija na minimum 5 različitih obrazaca (trenutno: PPDG-1S, eko-taksa)
+- Tb1-Tb4 bug: numbered list stavke su DESNO od checkbox polja — current filter pretpostavlja labelu levo
+- Skeniran dokument (OCR) — testirati kvalitet DI analize
 
-**Tri tehnička puta:**
+**Tri tehnička puta bili su (odluka doneta: Put B/C hybrid — Azure DI):**
 
-| Put | Pristup | Za | Protiv |
-|-----|---------|-----|--------|
-| **A — Baza poznatih obrazaca** | JSON mapping za svaki obrazac: `{ "PPDG-1S": { T1: "naziv", T3: "pib" } }` | Precizno, brzo, jeftino | Ručno održavanje, ~30-50 formi za 80% pokrivenosti |
-| **B — Koordinatno parsiranje** | pdf-lib daje x,y polja, text extractor daje tekst sa koordinatama, matchovati | Automatski za strukturisane obrasce | Kompleksno, ćirilica problematična, višekolonični layout |
+| Put | Status |
+|-----|--------|
+| A — Baza poznatih obrazaca | Odbačen — ručno održavanje za svaki obrazac |
+| **B — Koordinatno parsiranje (Azure DI)** | **Implementiran** — geometrijsko matching, kalibracioni harness |
+| C — Vision AI | Nije potreban — DI daje strukturu bez OCR screenshota |
 | **C — Vision AI** | PDF → slika → Claude Vision → mapira polja vizuelno | Najrobusnije, bilo koji obrazac | Server-side PDF rendering (Puppeteer ne radi na Vercel) |
 
 **Preporučeni sledeći korak (kada se nastavi):**
