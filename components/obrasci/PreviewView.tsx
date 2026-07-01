@@ -150,14 +150,14 @@ export function PreviewView({
           <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
             Popunite sami u dokumentu ({manualFields.length})
           </p>
-          <div className="space-y-1.5">
+          <div style={{ maxHeight: '12rem', overflowY: 'auto' }} className="space-y-1.5 pr-1">
             {manualFields.map(field => (
-              <div key={field.id} className="flex items-center gap-2 rounded-lg border border-dashed border-gray-200 px-3 py-2">
-                <span className="text-gray-300">·</span>
-                <span className="text-sm text-gray-500 truncate">
-                  {field.label ?? <span className="italic text-gray-300">polje bez labele</span>}
-                </span>
-              </div>
+              field.label ? (
+                <div key={field.id} className="flex items-center gap-2 rounded-lg border border-dashed border-gray-200 px-3 py-2">
+                  <span className="text-gray-300">·</span>
+                  <span className="text-sm text-gray-500 truncate">{field.label}</span>
+                </div>
+              ) : null
             ))}
           </div>
         </div>
@@ -165,17 +165,15 @@ export function PreviewView({
 
       {/* ── Confirm + Download ────────────────────────────────────────────── */}
       <div className="pt-1 space-y-3">
-        {!confirmed && (
-          <label className="flex items-center gap-2.5 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={confirmed}
-              onChange={e => setConfirmed(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-[#1B6B4A] focus:ring-[#1B6B4A]"
-            />
-            <span className="text-sm text-gray-600">Pregledao/la sam vrednosti i potvrđujem</span>
-          </label>
-        )}
+        <label className="flex items-center gap-2.5 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={confirmed}
+            onChange={e => setConfirmed(e.target.checked)}
+            className="h-4 w-4 rounded border-gray-300 text-[#1B6B4A] focus:ring-[#1B6B4A]"
+          />
+          <span className="text-sm text-gray-600">Pregledao/la sam vrednosti i potvrđujem</span>
+        </label>
 
         {error && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{error}</p>
