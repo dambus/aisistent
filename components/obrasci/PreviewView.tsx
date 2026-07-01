@@ -116,8 +116,8 @@ export function PreviewView({
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <p className="text-xs text-blue-700 leading-relaxed">
-          Pregledajte vrednosti koje će biti upisane. Možete izmeniti tekst ili isključiti polje klikanjem na{' '}
-          <span className="font-medium">×</span>. Scroll do kraja da biste aktivirali preuzimanje.
+          Pregledajte vrednosti koje će biti upisane. Možete izmeniti tekst ili isključiti polje (×).
+          Skrolujte listu do kraja ili čekirajte potvrdu ispod da biste preuzeli.
         </p>
       </div>
 
@@ -129,7 +129,8 @@ export function PreviewView({
           </p>
           <div
             ref={listRef}
-            className="space-y-2 max-h-72 overflow-y-auto pr-1 scrollbar-thin"
+            style={{ maxHeight: '18rem', overflowY: 'auto' }}
+            className="space-y-2 pr-1"
           >
             {autoFields.map(field => (
               <AutoFieldRow
