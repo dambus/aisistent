@@ -117,10 +117,11 @@ export async function mapFieldsToProfile(
   });
 
   const raw = response.content[0].type === 'text' ? response.content[0].text : '';
+  const stripped = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
 
   let claudeResults: Array<{ id: string; profileKey: string | null; isInternal: boolean }> = [];
   try {
-    claudeResults = JSON.parse(raw);
+    claudeResults = JSON.parse(stripped);
   } catch {
     throw new Error(`semanticMapper: Claude nije vratio validan JSON.\nOdgovor: ${raw}`);
   }
