@@ -161,19 +161,79 @@ export function matchFieldLabels(
       continue;
     }
 
+    // 1b. Same-line desno — labela je desno od polja (npr. checkbox + numerisana lista).
+    //     Uvek low confidence jer je neobičan raspored; služi kao fallback pre "above".
+    const SAME_LINE_RIGHT_MAX_DIST_IN = 0.5;
+    const fieldRightEdge = fc.xLeft + fc.w;
+    const sameLineRight = pageLines
+      .filter((l) => {
+        return (
+          Math.abs(yCenter(l.boundingBox) - fc.yCtr) < THRESHOLD_SAME_LINE_Y_IN &&
+          l.boundingBox.x >= fieldRightEdge - 0.05 &&
+          l.boundingBox.x - fieldRightEdge <= SAME_LINE_RIGHT_MAX_DIST_IN
+        );
+      })
+      .map((l) => ({
+        content:     l.content,
+        boundingBox: l.boundingBox,
+        dist:        +(l.boundingBox.x - fieldRightEdge).toFixed(4),
+        diConf:      avgWordConfidence(l.boundingBox, field.page, di.words),
+      }))
+      .sort((a, b) => a.dist - b.dist);
+
+    if (sameLineRight.length > 0) {
+      const best = sameLineRight[0];
+      results.push({
+        fieldName:        field.name,
+        page:             field.page,
+        boundingBox:      fieldBB,
+        label:            best.content,
+        labelBoundingBox: best.boundingBox,
+        confidence:       'low',
+        matchType:        'same-line',
+        signals: {
+          distanceIn:       best.dist,
+          relativeMarginIn: null,
+          diConfidence:     best.diConf !== null ? +best.diConf.toFixed(4) : null,
+        },
+      });
+      continue;
+    }
+
     // 2. Fallback: labela iznad polja — paragraphs su ok za ovu heuristiku
-    //    jer ne radimo precizno vertikalno poređenje, samo "u blizini iznad"
+    //    jer ne radimo precizno vertikalno poređenje, samo "u blizini iznad".
+    //    Za textarea polja (visoka polja) koristimo veći Y prag — labela
+    //    može biti daleko iznad (naslov sekcije ili opis polja).
+    const TEXTAREA_H_IN = 0.5;
+    const aboveYMax = fc.h > TEXTAREA_H_IN ? 2.0 : ABOVE_MAX_Y_IN;
     const pageParas = di.paragraphs.filter((p) => p.page === field.page);
     const above = pageParas
       .filter((p) => {
         const pXCtr = p.boundingBox.x + p.boundingBox.w / 2;
         return (
           p.boundingBox.y > fc.yCtr &&
-          p.boundingBox.y < fc.yCtr + ABOVE_MAX_Y_IN &&
+          p.boundingBox.y < fc.yCtr + aboveYMax &&
           Math.abs(pXCtr - fc.xLeft) < ABOVE_MAX_X_IN
         );
       })
       .sort((a, b) => a.boundingBox.y - b.boundingBox.y);
+
+    // 2b. Za textarea polja (fc.h > 0.5"): traži i vizuelno iznad gornje ivice polja
+    //     (paragraf sa manjim Y od gornje ivice — standardna "label iznad" pozicija)
+    if (above.length === 0 && fc.h > TEXTAREA_H_IN) {
+      const fieldTopY = fc.yCtr - fc.h / 2;
+      const visuallyAbove = pageParas
+        .filter((p) => {
+          const pXCtr = p.boundingBox.x + p.boundingBox.w / 2;
+          return (
+            p.boundingBox.y < fieldTopY &&
+            p.boundingBox.y > fieldTopY - 2.0 &&
+            Math.abs(pXCtr - fc.xLeft) < ABOVE_MAX_X_IN
+          );
+        })
+        .sort((a, b) => b.boundingBox.y - a.boundingBox.y); // najbliži iznad prvi
+      above.push(...visuallyAbove);
+    }
 
     if (above.length > 0) {
       const best   = above[0];

@@ -191,14 +191,41 @@ function extractFlatMatches() {
         const leftCells = sorted.filter(c => c.columnIndex < cell.columnIndex && !flatIsEmpty(c.content));
         const labelCell = leftCells.at(-1) ?? null;
 
-        // Fallback: prethodni red, isti columnIndex
+        // Fallback 1: prethodni red, isti columnIndex
         let aboveCell = null;
         if (!labelCell) {
           const prevRow = rowMap.get(rowIdx - 1) ?? [];
           aboveCell = prevRow.find(c => c.columnIndex === cell.columnIndex && !flatIsEmpty(c.content)) ?? null;
         }
 
-        const found = labelCell ?? aboveCell;
+        // Fallback 2: DI line van tabele na istoj Y liniji levo od ćelije
+        let externalLine = null;
+        if (!labelCell && !aboveCell) {
+          const cellYCtr = cell.boundingBox.y + cell.boundingBox.h / 2;
+          const cellXLeft = cell.boundingBox.x;
+          const candidates = diLines.filter(l => {
+            if (l.page !== cell.page) return false;
+            const lYCtr = l.boundingBox.y + l.boundingBox.h / 2;
+            const lRight = l.boundingBox.x + l.boundingBox.w;
+            if (Math.abs(lYCtr - cellYCtr) >= SAME_LINE_Y) return false;
+            if (lRight > cellXLeft + 0.05) return false;
+            // Isključi linije koje su unutar neke tabele
+            const cx = l.boundingBox.x + l.boundingBox.w / 2;
+            const cy = lYCtr;
+            return !cellBBs.some(c =>
+              c.page === l.page &&
+              cx >= c.bb.x && cx <= c.bb.x + c.bb.w &&
+              cy >= c.bb.y && cy <= c.bb.y + c.bb.h
+            );
+          });
+          if (candidates.length > 0) {
+            candidates.sort((a, b) => (cellXLeft - (a.boundingBox.x + a.boundingBox.w)) - (cellXLeft - (b.boundingBox.x + b.boundingBox.w)));
+            externalLine = candidates[0];
+          }
+        }
+
+        const found = labelCell ?? aboveCell ?? externalLine;
+        const confidence = (labelCell || aboveCell) ? 'high' : (externalLine ? 'low' : 'low');
         const matchType = flatIsSelMark(cell.content) ? 'selection-mark' : 'table-cell';
 
         result.push({
@@ -207,7 +234,7 @@ function extractFlatMatches() {
           boundingBox: cell.boundingBox,
           label: found?.content ?? null,
           labelBoundingBox: found?.boundingBox ?? null,
-          confidence: found ? 'high' : 'low',
+          confidence,
           matchType,
           groundTruth: null,
           signals: { distanceIn: null, relativeMarginIn: null, diConfidence: null },
@@ -320,6 +347,30 @@ const matches = pdfType === 'flat'
                             diConfidence: best.diConf !== null ? +best.diConf.toFixed(4) : null } };
       }
 
+      // Same-line desno — labela desno od polja (npr. checkbox + tekst desno)
+      const SAME_LINE_RIGHT_MAX_DIST = 0.5;
+      const fieldRight = xLeft + f.w / 72;
+      const sameLineRight = pageLines
+        .filter(l => {
+          const lyCtr = l.boundingBox.y + l.boundingBox.h / 2;
+          return Math.abs(lyCtr - yCtr) < SAME_LINE_Y &&
+                 l.boundingBox.x >= fieldRight - 0.05 &&
+                 l.boundingBox.x - fieldRight <= SAME_LINE_RIGHT_MAX_DIST;
+        })
+        .map(l => ({ content: l.content, boundingBox: l.boundingBox,
+                     dist: +(l.boundingBox.x - fieldRight).toFixed(4),
+                     diConf: avgWordConf(l.boundingBox, f.page) }))
+        .sort((a,b) => a.dist - b.dist);
+
+      if (sameLineRight.length > 0) {
+        const best = sameLineRight[0];
+        return { fieldName: f.name, page: f.page, boundingBox: fieldBB,
+                 label: best.content, confidence: 'low', matchType: 'same-line', groundTruth: null,
+                 signals: { distanceIn: best.dist, relativeMarginIn: null,
+                            diConfidence: best.diConf !== null ? +best.diConf.toFixed(4) : null } };
+      }
+
+      const fieldHeightIn = f.h / 72;
       const pageParas = diParagraphs.filter(p => p.page === f.page);
       const above = pageParas
         .filter(p => {
@@ -328,6 +379,19 @@ const matches = pdfType === 'flat'
                  Math.abs(pXCtr - xLeft) < ABOVE_MAX_X;
         })
         .sort((a,b) => a.boundingBox.y - b.boundingBox.y);
+
+      // Za textarea polja (visoka): traži i vizuelno iznad gornje ivice (manji Y)
+      if (above.length === 0 && fieldHeightIn > 0.5) {
+        const fieldTopY = yCtr - fieldHeightIn / 2;
+        const visuallyAbove = pageParas
+          .filter(p => {
+            const pXCtr = p.boundingBox.x + p.boundingBox.w / 2;
+            return p.boundingBox.y < fieldTopY && p.boundingBox.y > fieldTopY - 2.0 &&
+                   Math.abs(pXCtr - xLeft) < ABOVE_MAX_X;
+          })
+          .sort((a,b) => b.boundingBox.y - a.boundingBox.y);
+        above.push(...visuallyAbove);
+      }
 
       if (above.length > 0) {
         const best = above[0];

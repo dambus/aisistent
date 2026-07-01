@@ -54,6 +54,10 @@ function isInsideTable(
   );
 }
 
+// Max Y prag za "above" fallback za textarea polja (visina > ovog praga)
+const TEXTAREA_HEIGHT_THRESHOLD_IN = 0.5;
+const ABOVE_MAX_Y_TEXTAREA_IN = 2.0;
+
 export function extractFlatPdfFields(di: DiLayoutResult): FlatPdfField[] {
   const fields: FlatPdfField[] = [];
 
@@ -88,7 +92,7 @@ export function extractFlatPdfFields(di: DiLayoutResult): FlatPdfField[] {
         );
         const labelCell = leftCandidates.at(-1) ?? null; // highest colIdx still left of empty
 
-        // Fallback: prethodni red, isti columnIndex
+        // Fallback 1: prethodni red, isti columnIndex
         let aboveCell: DiCell | null = null;
         if (!labelCell) {
           const prevRow = rowMap.get(rowIdx - 1) ?? [];
@@ -96,7 +100,28 @@ export function extractFlatPdfFields(di: DiLayoutResult): FlatPdfField[] {
             prevRow.find((c) => c.columnIndex === cell.columnIndex && !isEmpty(c.content)) ?? null;
         }
 
-        const found = labelCell ?? aboveCell;
+        // Fallback 2: DI line van tabele na istoj Y liniji levo od ćelije
+        // Pokriva slučaj kada je labela reda tekstualni blok van tabele (ne ćelija)
+        let externalLine: { content: string; boundingBox: { x: number; y: number; w: number; h: number } } | null = null;
+        if (!labelCell && !aboveCell) {
+          const cellYCtr = yCenter(cell.boundingBox);
+          const cellXLeft = cell.boundingBox.x;
+          const candidates = di.lines.filter((l) => {
+            if (l.page !== cell.page) return false;
+            if (isInsideTable(l.page, l.boundingBox, cellBBs)) return false;
+            return (
+              Math.abs(yCenter(l.boundingBox) - cellYCtr) < SAME_LINE_Y_IN &&
+              rightEdge(l.boundingBox) <= cellXLeft + 0.05
+            );
+          });
+          if (candidates.length > 0) {
+            candidates.sort((a, b) => (cellXLeft - rightEdge(a.boundingBox)) - (cellXLeft - rightEdge(b.boundingBox)));
+            externalLine = candidates[0];
+          }
+        }
+
+        const found = labelCell ?? aboveCell ?? externalLine;
+        const confidence: 'high' | 'low' = (labelCell || aboveCell) ? 'high' : (externalLine ? 'low' : 'low');
 
         fields.push({
           id: `table${tableIdx}_r${rowIdx}c${cell.columnIndex}_p${cell.page}`,
@@ -104,7 +129,7 @@ export function extractFlatPdfFields(di: DiLayoutResult): FlatPdfField[] {
           boundingBox: cell.boundingBox,
           label: found?.content ?? null,
           labelBoundingBox: found?.boundingBox ?? null,
-          confidence: found ? 'high' : 'low',
+          confidence,
           sourceType: isSelectionMark(cell.content) ? 'selection-mark' : 'table-cell',
         });
       }
