@@ -394,9 +394,45 @@ Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 - SEF integracija — čeka APR registraciju + dozvolu MF
 - Timski nalozi (Agency Faza 2, korak 5) — zavisi od Paddle aktivacije
 
+#### 1. jul 2026. — Faza 2 Koraci 1–7 (overlay generator + preview UI)
+
+**Kompletiran end-to-end flow:** Upload → Analiza → GuideView → "Popuni automatski" → PreviewView → potvrdi → download popunjenog PDF-a.
+
+**Novi fajlovi:**
+- `lib/documentIntelligence/pdfCoordinates.ts` — `diToPdfCoords()`: DI inči → pdf-lib pt (Y-flip, 72dpi). Verifikovano vizuelno (Korak 3 debug-bbox.pdf — crveni pravougaonik tačno na ПИБ ćeliji eko-takse).
+- `lib/documentIntelligence/transliterate.ts` — `latinToCyrillic`, `cyrillicToLatin`, `detectScript`, `toDocumentScript`; digraph-first (lj→љ, nj→њ, dž→џ pre jednoslovnih).
+- `lib/documentIntelligence/pdfOverlay.ts` — `fillAcroFormFields` (Korak 5A) + `fillTableCells` (Korak 4):
+  - AcroForm: `setFontSize(9)` fiksni font, `setText`, `form.updateFieldAppearances(customFont)`, `maxLength` poštovanje sa truncate
+  - Table cells: Roboto embed (Cyrillic), `diToPdfCoords`, `fitText` (shrink do 6pt, ellipsis), potpis skip
+- `components/obrasci/PreviewView.tsx` — editabilna lista predloga (inline input + × toggle), manual podsetnici, checkbox potvrde, download dugme
+- `app/api/obrasci/generate-filled/route.ts` — Korak 7 endpoint: AcroForm→`fillAcroFormFields`+`flatten`, flat→DI re-run+`fillTableCells`; original se briše iz Storage tek nakon uspešnog generisanja; brisanje ne fail-uje response ako ne uspe
+- `types/fontkit.d.ts` — CJS deklaracija za fontkit modul
+
+**Izmenjeni fajlovi:**
+- `components/obrasci/ObraściClient.tsx` — `di-guide` nosi `fileRef`+`type`; novi `di-preview` stage
+- `components/obrasci/GuideView.tsx` — "Popuni automatski →" dugme (vidljivo samo kad postoje predlozi)
+- `lib/documentIntelligence/semanticMapper.ts` — Pravila 5+6: sub-komponente adrese (naziv ulice, kućni broj, sprat, stan) i parcijalni telefon (faks) → `profileKey: null`; fiksira "FRU"/"FR" truncate bug
+
+**Test skripte (scripts/):**
+- `debug-bbox.mjs` — Korak 3 vizuelna verifikacija koordinata (crveni pravougaonik)
+- `test-korak4-fill.mjs` — flat PDF table cell fill test (eko-taksa)
+- `test-korak5a-acroform.mjs` — AcroForm fill test (PPDG-1S)
+
+**Potvrđeno na produkciji (PPDG-1S):**
+- ✅ Ime, PIB, Mesto tačno u odgovarajućim AcroForm poljima
+- ✅ Ćirilica čitljiva, Roboto font odličan
+- ✅ Potpis polja prazna
+- ✅ Font size konzistentan (9pt) — prethodni auto-size davao različite veličine po visini polja
+- ✅ Adresa sub-komponente prazne nakon mapper fix-a (ranije davalo "FRU"/"FR")
+- ⚠️ Telefon: T15="063" (maxLength=3, by-design), T16=composite secondary→manual (by-design)
+
+**Commits:** `b879889`, `23b075f`, `5ae343a`, `17d034b`, `8df1d3b`
+
+**Sledeće (Korak 8):** End-to-end validacija na 3+ obrazaca (mešavina AcroForm i flat). 5B slobodne linije čeka novi test obrazac. Potencijalni backlog: adresa split (ulica+broj iz jedne vrednosti profila).
+
 ### Sledeće
 - Kontaktirati računovodstvene agencije za feedback na Agency plan i /klijenti flow
 - High-tier management section: dedicated views po klijentu sa timskim pregledom (kad timski nalozi budu gotovi)
 
 ---
-*Poslednje ažuriranje: jun 2026.*
+*Poslednje ažuriranje: 1. jul 2026.*

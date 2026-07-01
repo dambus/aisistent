@@ -70,6 +70,25 @@ metadata:
 - Agency "Klijent:" dropdown — prikazuje se samo na koraku 0; za billing tipove puni primalac/naručilac polja
 - **TODO**: prezentovati korisnicima — TipCard u profilu + wizardu (u backlogu)
 
+## /obrasci Upload & Fill — Faza 2 Koraci 1–7 KOMPLETNO (1. jul 2026.)
+
+**End-to-end flow radi u produkciji:** Upload → DI analiza → GuideView → "Popuni automatski" → PreviewView (editabilni predlozi + manual podsetnici + checkbox + download) → `/api/obrasci/generate-filled` → PDF download.
+
+**Novi lib fajlovi:** `pdfCoordinates.ts` (DI→pdf-lib Y-flip), `transliterate.ts` (lat↔cir, detectScript), `pdfOverlay.ts` (`fillAcroFormFields` 5A + `fillTableCells` Korak 4).
+
+**API:** `/api/obrasci/generate-filled` — AcroForm: form API + flatten (bez DI re-run); flat: DI re-run + fillTableCells; original briše se tek posle uspešnog generisanja.
+
+**UI:** `PreviewView` (editable lista, manual sekcija, scroll-to-confirm ili checkbox), "Popuni automatski →" u GuideView.
+
+**Potvrđeno na produkciji (PPDG-1S):** ime/PIB/mesto ✅, ćirilica ✅, potpisi prazni ✅, font 9pt konzistentan ✅, adresa sub-komponente prazne ✅.
+
+**Poznate limitacije:**
+- Telefon: T15="063" (maxLength=3 by-design), ostala composite polja su manual — ispravan behavior
+- 5B slobodne linije (datum, podvlake bez AcroForm) — implementacija pauzirana dok ne stigne test obrazac
+- Adresa split (ulica+broj iz jedne vrednosti) — u backlogu
+
+**Sledeće (Korak 8):** validacija na 3+ obrazaca mešovitog tipa.
+
 ## /obrasci Upload & Fill — Faza 1 Korak 1–7 KOMPLETNO (jul 2026.)
 
 Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.
