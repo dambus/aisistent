@@ -29,7 +29,21 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
-#### 2. jul 2026. — Preview iframe, telefon hint, Korak 8 validacija
+#### 2. jul 2026. (treća sesija) — Faza 3 Koraci 1-4: template keš + wizard
+
+Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` i `FAZA3_IMPLEMENTACIJA_UPUTSTVO.md`, korak-po-korak sa STOP checkpoint-ima.
+
+**Korak 1 — form_templates keš + fingerprint** (`7e4d288`): `form_templates` tabela (RLS bez policy-ja, samo service-role) + `increment_form_template_hit` RPC, migracija primenjena na produkciju. `computeFingerprint.ts`: sha256(pageCount|prvih500normalizovanihKaraktera prve strane|acroFormFieldCount) — pageCount/acroFormFieldCount lokalno (pdf-lib), samo OCR prve strane ide na DI (`analyzeLayout` prošireno sa `{pages}` opcijom). `templateCache.ts` (getTemplate/saveTemplate/incrementHitCount) — **nije još povezan u pipeline** (to je Korak 5). Testirano: deterministički, bez kolizija na 3 realna obrasca.
+
+**Korak 2 — detekcija sekcija** (`853a8db`): `detectSections.ts` — naslov sekcije = DI `role` (sectionHeading/title) ili 2/3 uslova (caps>80%, dužina<80, bold preko DI `styles` span overlap-a). `analyzeLayout.ts` proširen sa `paragraph.role/spans` i top-level `styles`. Sekcija ide u Claude prompt kao dodatni kontekst (semanticMapper.ts pravilo 7, ne menja postojećih 6). Testirano na PPDG-1S: 19 sekcija.
+
+**Korak 3 — SectionWizardView (izolovano)** (`8f17f3f`, `a7f8347`): **Važno:** `components/obrasci/WizardView.tsx` već postoji (stari Faza 1 DOCX wizard, aktivan u `ObraściClient.tsx`) — nova komponenta zove se `SectionWizardView`. Sekcijska nav (desktop: vertikalna skrolabilna lista; mobilni: native `<select>` dropdown — horizontalni tab bar postaje neupotrebljiv kod 10+ sekcija, testirano na 19 pravih PPDG-1S naslova). `isSignatureField` izdvojen u `signatureLabels.ts` (bez Node-only zavisnosti, bezbedan za client). Review pre integracije otkrio: dugme "Generiši PDF" preimenovano u "Pregledaj i preuzmi" (vodi na postojeći preview, ne generiše direktno — sprečava "mislim da sam gotov" zabunu) + non-blocking napomena o nepregledanim sekcijama.
+
+**Korak 4 — integracija** (`2c42ead`): `di-analyze/route.ts` sad vraća i `sections: FormSection[]` (grupisano server-side dok extractedFields još nose page/yCtr). `ObraściClient.tsx`: novi `di-wizard` stage; sekcije se ne čuvaju kao zaseban snapshot nego kao `SectionShape` (title/page/fieldIds) + `fields` ostaje jedini izvor istine — sprečava desinhronizaciju guide→wizard→nazad→wizard. `GuideView.tsx` dobio "Popuni sve →" dugme. **Dva bagfixa nađena code-review-om PRE integracije** (korisnik tražio proveru shape-a): `updateValue` sad prebacuje `state: 'manual'→'low'` kad korisnik upiše vrednost (bez ovoga bi pdfOverlay i PreviewView tiho izgubili unos), `onBack` sad nosi vrednosti nazad (isti pattern kao PreviewView). E2E verifikovano na stvarnim PPDG-1S podacima (198 polja/19 sekcija) kroz privremenu izolovanu stranicu — state-flip potvrđen uživo, PreviewView matematika se slaže (12 auto + 186 manual = 198).
+
+**Preostalo za Fazu 3:** Korak 5 (template keš integracija u pipeline), Korak 6 (template feedback thumbs up/down), Korak 7 (validacija na 3+ obrazaca uključujući novi od Milana).
+
+#### 2. jul 2026. (druga sesija) — Preview iframe, telefon hint, Korak 8 validacija
 
 **Preview PDF u iframe pre downloada** — `generate-filled` prima `preview: boolean`; kad je `true`, ne briše original iz Storage-a i vraća `Content-Disposition: inline`. `PreviewView` generiše pregled automatski pri otvaranju (blob URL u `<iframe>`) + ručno "Osveži pregled" dugme (namerno bez auto-refresh na svaki keystroke — flat PDF pregled ponovo pokreće DI).
 

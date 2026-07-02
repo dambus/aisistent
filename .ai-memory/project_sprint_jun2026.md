@@ -116,5 +116,16 @@ Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.
 
 **Korak 8 (sledeće):** Validacija na 5+ obrazaca — PPDG-1S, Dodatak_15, JRPPS, PPI-2, 3040. Tb1-Tb4 checkbox labele desno su pokrivene novim fix-om.
 
+## /obrasci — Faza 3 Koraci 1-4: template keš + SectionWizardView (2. jul 2026., treća sesija)
+
+Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` + `FAZA3_IMPLEMENTACIJA_UPUTSTVO.md`, korak-po-korak sa STOP checkpoint-ima (dokumenti su prosleđeni od korisnika u ovoj sesiji).
+
+- **Korak 1** (`7e4d288`): `form_templates` tabela (RLS bez policy, service-role only) + `increment_form_template_hit` RPC, migracija na produkciji. `computeFingerprint.ts` (sha256 na pageCount+prvih500karaktera prve strane+acroFormFieldCount), `templateCache.ts` — **još nije povezan u pipeline** (Korak 5)
+- **Korak 2** (`853a8db`): `detectSections.ts` — DI role signal ili 2/3 heuristika (caps/dužina/bold). Sekcija ide Claude-u kao dodatni prompt kontekst. 19 sekcija na PPDG-1S
+- **Korak 3** (`8f17f3f`, `a7f8347`): `SectionWizardView.tsx` (NE `WizardView.tsx` — taj je zauzet starim DOCX wizard-om). Mobilna nav: dropdown ne tab bar (testirano na 19 sekcija). Review pre integracije: preimenovano dugme "Generiši PDF"→"Pregledaj i preuzmi", dodata non-blocking napomena o nepregledanim sekcijama
+- **Korak 4** (`2c42ead`): integracija u `ObraściClient.tsx`/`GuideView.tsx`. Dva bagfixa nađena pre-integration code review-om (korisnik tražio proveru shape-a fields↔sections): state manual→low flip kad korisnik upiše vrednost (inače se tiho gubi), onBack nosi vrednosti nazad. E2E potvrđeno na pravim PPDG-1S podacima
+
+**Preostalo:** Korak 5 (template keš u pipeline — pažnja: keš čuva SAMO strukturu, suggestedValue mora ostati svež po korisniku čak i na cache hit), Korak 6 (template_feedback — treba nova migracija, ne postoji još), Korak 7 (validacija 3+ obrazaca). Detalji u `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
