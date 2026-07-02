@@ -252,8 +252,49 @@ export interface Database {
         }
         Relationships: []
       }
+      form_templates: {
+        Row: {
+          id: string
+          fingerprint: string
+          name: string | null
+          page_count: number
+          source_type: string
+          fields: unknown
+          sections: unknown
+          hit_count: number
+          created_at: string
+          last_seen_at: string
+        }
+        Insert: {
+          id?: string
+          fingerprint: string
+          name?: string | null
+          page_count: number
+          source_type: string
+          fields: unknown
+          sections?: unknown
+          hit_count?: number
+          created_at?: string
+          last_seen_at?: string
+        }
+        Update: {
+          name?: string | null
+          page_count?: number
+          source_type?: string
+          fields?: unknown
+          sections?: unknown
+          hit_count?: number
+          last_seen_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      increment_form_template_hit: {
+        Args: { p_fingerprint: string }
+        Returns: void
+      }
+    }
   }
 }

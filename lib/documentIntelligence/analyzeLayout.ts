@@ -75,7 +75,14 @@ function toBoundingBox(polygon: number[] | undefined): { x: number; y: number; w
   return { x, y, w: Math.max(...xs) - x, h: Math.max(...ys) - y };
 }
 
-export async function analyzeLayout(input: Buffer): Promise<DiLayoutResult> {
+export interface AnalyzeLayoutOptions {
+  // Ogranicava DI analizu na dati opseg strana (npr. "1") — koristi se za jeftin
+  // fingerprint poziv koji ne treba pun dokument. Isti model/verzija kao pun poziv,
+  // samo uzi query parametar.
+  pages?: string;
+}
+
+export async function analyzeLayout(input: Buffer, options?: AnalyzeLayoutOptions): Promise<DiLayoutResult> {
   const endpoint = process.env.AZURE_DOC_INTEL_ENDPOINT;
   const key = process.env.AZURE_DOC_INTEL_KEY;
   if (!endpoint || !key) throw new Error('AZURE_DOC_INTEL_ENDPOINT i AZURE_DOC_INTEL_KEY moraju biti postavljeni u .env');
@@ -87,6 +94,7 @@ export async function analyzeLayout(input: Buffer): Promise<DiLayoutResult> {
     .post({
       contentType: 'application/octet-stream',
       body: input,
+      queryParameters: options?.pages ? { pages: options.pages } : undefined,
     });
 
   if (isUnexpected(initialResponse)) {
