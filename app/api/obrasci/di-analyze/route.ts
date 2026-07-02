@@ -8,7 +8,7 @@ import { matchFieldLabels } from '@/lib/documentIntelligence/matchFieldLabels'
 import { extractFlatPdfFields } from '@/lib/documentIntelligence/extractFlatPdfFields'
 import { mapFieldsToProfile } from '@/lib/documentIntelligence/semanticMapper'
 import { detectSectionHeadings, assignSections } from '@/lib/documentIntelligence/detectSections'
-import type { GuideField } from '@/types/obrasci'
+import type { GuideField, FormSection } from '@/types/obrasci'
 
 export const maxDuration = 60
 
@@ -190,5 +190,33 @@ export async function POST(req: NextRequest) {
     return f
   })
 
-  return NextResponse.json({ fields })
+  // Grupisanje u FormSection[] za SectionWizardView (Faza 3 Korak 4) — mora se raditi
+  // ovde, ne na klijentu, jer sectionMap koristi page/yCtr iz extractedFields koji se
+  // nikad ne šalju klijentu (isti princip kao "Claude prima samo {id,label}", GuideField
+  // ne nosi sirove koordinate). Redosled prati extractedFields (prirodni ekstrakcioni
+  // redosled), "Strana N" fallback grupe ubačene gde nema detektovanog naslova.
+  const fieldById = new Map(fields.map(f => [f.id, f]))
+  const sectionOrder: string[] = []
+  const sectionFieldsMap = new Map<string, GuideField[]>()
+  const sectionPageMap = new Map<string, number>()
+
+  for (const ef of extractedFields) {
+    const field = fieldById.get(ef.id)
+    if (!field) continue
+    const title = sectionMap.get(ef.id) ?? `Strana ${ef.page}`
+    if (!sectionFieldsMap.has(title)) {
+      sectionOrder.push(title)
+      sectionFieldsMap.set(title, [])
+      sectionPageMap.set(title, ef.page)
+    }
+    sectionFieldsMap.get(title)!.push(field)
+  }
+
+  const sections: FormSection[] = sectionOrder.map(title => ({
+    title,
+    page: sectionPageMap.get(title)!,
+    fields: sectionFieldsMap.get(title)!,
+  }))
+
+  return NextResponse.json({ fields, sections })
 }

@@ -20,7 +20,7 @@ import { extractFlatPdfFields } from '../lib/documentIntelligence/extractFlatPdf
 import { mapFieldsToProfile } from '../lib/documentIntelligence/semanticMapper'
 import { detectSectionHeadings, assignSections } from '../lib/documentIntelligence/detectSections'
 import { fillAcroFormFields, fillTableCells } from '../lib/documentIntelligence/pdfOverlay'
-import type { GuideField } from '../types/obrasci'
+import type { GuideField, FormSection } from '../types/obrasci'
 import type { Company } from '../types/database'
 
 config({ path: '.env.local' })
@@ -177,6 +177,34 @@ async function main() {
   const compositeCount = [...compositeSecondary.keys()].length
   if (compositeCount > 0) {
     console.log(`\nComposite grupe detektovane: ${compositeCount}`)
+  }
+
+  // Grupisanje u FormSection[] — identično di-analyze/route.ts (Faza 3 Korak 4)
+  const fieldById = new Map(fields.map(f => [f.id, f]))
+  const sectionOrder: string[] = []
+  const sectionFieldsMap = new Map<string, GuideField[]>()
+  const sectionPageMap = new Map<string, number>()
+  for (const ef of extractedFields) {
+    const field = fieldById.get(ef.id)
+    if (!field) continue
+    const title = sectionMap.get(ef.id) ?? `Strana ${ef.page}`
+    if (!sectionFieldsMap.has(title)) {
+      sectionOrder.push(title)
+      sectionFieldsMap.set(title, [])
+      sectionPageMap.set(title, ef.page)
+    }
+    sectionFieldsMap.get(title)!.push(field)
+  }
+  const sections: FormSection[] = sectionOrder.map(title => ({
+    title,
+    page: sectionPageMap.get(title)!,
+    fields: sectionFieldsMap.get(title)!,
+  }))
+
+  if (process.argv.includes('--dump-json')) {
+    const jsonPath = path.join(outDir, `${label}-fields-sections.json`)
+    fs.writeFileSync(jsonPath, JSON.stringify({ fields, sections }, null, 2))
+    console.log(`\nJSON fixture (fields + sections): ${jsonPath}`)
   }
 
   // ─── Overlay — pravi fillAcroFormFields / fillTableCells ───────────────────

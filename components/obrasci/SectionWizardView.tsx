@@ -8,7 +8,9 @@ interface SectionWizardViewProps {
   sections: FormSection[]
   filename: string
   onComplete: (fields: GuideField[]) => void
-  onBack: () => void
+  // Nosi trenutne vrednosti nazad (isti pattern kao PreviewView.onBack) — izmene u
+  // wizard-u se ne gube kad se korisnik vrati na GuideView.
+  onBack: (fields: GuideField[]) => void
 }
 
 export function SectionWizardView({ sections, filename, onComplete, onBack }: SectionWizardViewProps) {
@@ -34,9 +36,18 @@ export function SectionWizardView({ sections, filename, onComplete, onBack }: Se
 
   function updateValue(fieldId: string, value: string) {
     setFieldsBySection(prev =>
-      prev.map((fields, i) =>
-        i !== activeIdx ? fields : fields.map(f => (f.id === fieldId ? { ...f, suggestedValue: value || null } : f))
-      )
+      prev.map((fields, i) => {
+        if (i !== activeIdx) return fields
+        return fields.map(f => {
+          if (f.id !== fieldId) return f
+          const suggestedValue = value || null
+          // Kad korisnik upiše vrednost u polje koje je stiglo kao 'manual', state mora
+          // da se pomeri — inace ga i pdfOverlay (skipNoValue kad state==='manual') i
+          // PreviewView (manual bucket ne prikazuje vrednost) tiho ignorišu nizvodno.
+          const state = suggestedValue !== null && f.state === 'manual' ? ('low' as const) : f.state
+          return { ...f, suggestedValue, state }
+        })
+      })
     )
   }
 
@@ -48,7 +59,7 @@ export function SectionWizardView({ sections, filename, onComplete, onBack }: Se
     return (
       <div className="bg-white rounded-2xl border border-gray-200 p-6">
         <p className="text-sm text-gray-400 text-center py-8">Nema polja za popunjavanje.</p>
-        <button onClick={onBack} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">← Nazad</button>
+        <button onClick={() => onBack(fieldsBySection.flat())} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">← Nazad</button>
       </div>
     )
   }
@@ -60,7 +71,7 @@ export function SectionWizardView({ sections, filename, onComplete, onBack }: Se
         <h2 className="text-base font-semibold text-gray-900 truncate">Popunjavanje: {filename}</h2>
         <div className="flex items-center gap-3 shrink-0">
           <span className="text-xs font-medium text-gray-400">[{activeIdx + 1}/{sections.length}]</span>
-          <button onClick={onBack} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={() => onBack(fieldsBySection.flat())} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
             ← Nazad
           </button>
         </div>

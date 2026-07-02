@@ -8,6 +8,9 @@ interface GuideViewProps {
   filename: string
   onReset: () => void
   onAutoFill?: (confirmedFields: GuideField[]) => void
+  // Otvara SectionWizardView (Faza 3) — struktura sekcija se gradi u ObraściClient
+  // (potreban je fields + sectionShapes, koje GuideView ne drži), zato bez argumenata.
+  onWizard?: () => void
 }
 
 function CheckIcon() {
@@ -117,7 +120,7 @@ function ManualCard({ field }: { field: GuideField }) {
   )
 }
 
-export function GuideView({ fields, filename, onReset, onAutoFill }: GuideViewProps) {
+export function GuideView({ fields, filename, onReset, onAutoFill, onWizard }: GuideViewProps) {
   const [copied, setCopied] = useState<string | null>(null)
   const [manualExpanded, setManualExpanded] = useState(false)
 
@@ -226,6 +229,14 @@ export function GuideView({ fields, filename, onReset, onAutoFill }: GuideViewPr
             className="w-full rounded-lg bg-[#1B6B4A] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#155a3d] transition-colors"
           >
             Popuni automatski →
+          </button>
+        )}
+        {onWizard && (suggestedCount > 0 || manualFields.length > 0) && (
+          <button
+            onClick={onWizard}
+            className="w-full rounded-lg border border-[#1B6B4A] px-4 py-2.5 text-sm font-semibold text-[#1B6B4A] hover:bg-green-50 transition-colors"
+          >
+            Popuni sve →
           </button>
         )}
         <button

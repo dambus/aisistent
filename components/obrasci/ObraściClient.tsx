@@ -4,18 +4,39 @@ import { useState, useRef, useCallback } from 'react'
 import { WizardView } from './WizardView'
 import { GuideView } from './GuideView'
 import { PreviewView } from './PreviewView'
+import { SectionWizardView } from './SectionWizardView'
 import type { MappedField } from '@/app/api/obrasci/analyze/route'
-import type { GuideField } from '@/types/obrasci'
+import type { GuideField, FormSection } from '@/types/obrasci'
 
 type DocType = 'acroform' | 'docx' | 'flat'
+
+// Struktura sekcija (naslov, strana, redosled id-jeva polja) — bez vrednosti. Vrednosti
+// uvek žive u fields; sections za SectionWizardView se grade spajanjem shape + fields
+// (buildSections niže). Ovo sprečava da dva "izvora istine" (fields vs sections.fields)
+// odu iz sinhronizacije kad korisnik ide guide → wizard → nazad → wizard ponovo.
+interface SectionShape {
+  title: string
+  page: number
+  fieldIds: string[]
+}
+
+function buildSections(fields: GuideField[], shapes: SectionShape[]): FormSection[] {
+  const byId = new Map(fields.map(f => [f.id, f]))
+  return shapes.map(s => ({
+    title: s.title,
+    page: s.page,
+    fields: s.fieldIds.map(id => byId.get(id)).filter((f): f is GuideField => !!f),
+  }))
+}
 
 type Stage =
   | { status: 'idle' }
   | { status: 'uploading' }
   | { status: 'analyzing'; fileRef: string; type: DocType; filename: string }
   | { status: 'wizard'; fileRef: string; type: 'docx'; filename: string; fields: MappedField[] }
-  | { status: 'di-guide'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[] }
-  | { status: 'di-preview'; fileRef: string; type: 'acroform' | 'flat'; filename: string; confirmedFields: GuideField[] }
+  | { status: 'di-guide'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[] }
+  | { status: 'di-wizard'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[] }
+  | { status: 'di-preview'; fileRef: string; type: 'acroform' | 'flat'; filename: string; confirmedFields: GuideField[]; sectionShapes: SectionShape[] }
   | { status: 'error'; message: string }
 
 const ACCEPTED = '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -76,6 +97,7 @@ export function ObraściClient() {
 
     // PDF: DI pipeline (acroform i flat)
     let fields: GuideField[]
+    let sectionShapes: SectionShape[]
     try {
       const res = await fetch('/api/obrasci/di-analyze', {
         method: 'POST',
@@ -85,12 +107,17 @@ export function ObraściClient() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Greška pri DI analizi.')
       fields = data.fields
+      sectionShapes = (data.sections as FormSection[] ?? []).map(s => ({
+        title: s.title,
+        page: s.page,
+        fieldIds: s.fields.map(f => f.id),
+      }))
     } catch (err) {
       setStage({ status: 'error', message: err instanceof Error ? err.message : 'Greška pri analizi PDF-a.' })
       return
     }
 
-    setStage({ status: 'di-guide', fileRef, type: type as 'acroform' | 'flat', filename, fields })
+    setStage({ status: 'di-guide', fileRef, type: type as 'acroform' | 'flat', filename, fields, sectionShapes })
   }
 
   function onFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -131,6 +158,46 @@ export function ObraściClient() {
             type: stage.type,
             filename: stage.filename,
             confirmedFields,
+            sectionShapes: stage.sectionShapes,
+          })
+        }
+        onWizard={() =>
+          setStage({
+            status: 'di-wizard',
+            fileRef: stage.fileRef,
+            type: stage.type,
+            filename: stage.filename,
+            fields: stage.fields,
+            sectionShapes: stage.sectionShapes,
+          })
+        }
+      />
+    )
+  }
+
+  if (stage.status === 'di-wizard') {
+    return (
+      <SectionWizardView
+        sections={buildSections(stage.fields, stage.sectionShapes)}
+        filename={stage.filename}
+        onComplete={(confirmedFields) =>
+          setStage({
+            status: 'di-preview',
+            fileRef: stage.fileRef,
+            type: stage.type,
+            filename: stage.filename,
+            confirmedFields,
+            sectionShapes: stage.sectionShapes,
+          })
+        }
+        onBack={(fields) =>
+          setStage({
+            status: 'di-guide',
+            fileRef: stage.fileRef,
+            type: stage.type,
+            filename: stage.filename,
+            fields,
+            sectionShapes: stage.sectionShapes,
           })
         }
       />
@@ -151,6 +218,7 @@ export function ObraściClient() {
             type: stage.type,
             filename: stage.filename,
             fields,
+            sectionShapes: stage.sectionShapes,
           })
         }
         onReset={reset}
