@@ -4,10 +4,11 @@
 // SectionWizardView sa mock podacima, van auth-a radi lakšeg testiranja.
 // Ukloniti kad se komponenta poveže u pravi flow (Korak 4).
 
+import { useState } from 'react'
 import { SectionWizardView } from '@/components/obrasci/SectionWizardView'
 import type { FormSection } from '@/types/obrasci'
 
-const MOCK_SECTIONS: FormSection[] = [
+const SMALL_SECTIONS: FormSection[] = [
   {
     title: '1. ПОДАЦИ О ПОРЕСКОМ ОБВЕЗНИКУ',
     page: 1,
@@ -45,13 +46,53 @@ const MOCK_SECTIONS: FormSection[] = [
   },
 ]
 
+// Stvarni naslovi detektovani na PPDG-1S (Korak 2 test) — za proveru navigacije na skali (19 sekcija)
+const PPDG_TITLES = [
+  'МИНИСТАРСТВО ФИНАНСИЈА HOPECKA yПРАВА',
+  '1. ПОДАЦИ О ПОРЕСКОМ ОБВЕЗНИКУ:',
+  '2. ПОДАЦИ О РАДЊИ:',
+  '3. ПОДАЦИ О ДЕЛАТНОСТИ:',
+  '4. ПОДАЦИ О РАЧУНУ У БАНЦИ:',
+  '5. ПОДАЦИ О ПОСЕБНИМ ПРОСТОРИМА - ИЗДВОЈЕНИМ ПОСЛОВНИМ ЈЕДИНИЦАМА:',
+  'ПОДАЦИ О ПОСЛОВНОМ РЕЗУЛТАТУ:',
+  'ПОДАЦИ ОД ЗНАЧАЈА ЗА ОСТВАРИВАЊЕ ПОРЕСКИХ ПОДСТИЦАЈА И ПОРЕСКИХ КРЕДИТА:',
+  'ПОДАЦИ О ПОРЕСКОЈ ОСНОВИЦИ И ОБРАЧУНАТОМ ПОРЕЗУ:',
+  'ПОДАЦИ О ОСНОВИЦИ ДОПРИНОСА И ОБРАЧУНАТИМ ДОПРИНОСИМА:',
+  'ПОДАЦИ ОД ЗНАЧАЈА ЗА УТВРЂИВАЊЕ ВИСИНЕ АКОНТАЦИЈЕ ПОРЕЗА И ДОПРИНОСА:',
+  'ПОДАЦИ ОД ЗНАЧАЈА ЗА ИЗМЕНУ МЕСЕЧНЕ АКОНТАЦИЈЕ:',
+  'ПОСЕБНИ ПОДАЦИ:',
+  '13.3.1. Укупна вредност основних средстава',
+  '14. ПОПИС ПРИЛОЖЕНИХ ДОКАЗА:',
+  '15. НАПОМЕНА ПОРЕСКОГ ОБВЕЗНИКА / ПУНОМОЋНИКА / ЗАСТУПНИКА:',
+  'попуњава подносилац пореске пријаве:',
+  'М.П.',
+  'попуњава Пореска управа:',
+]
+
+const BIG_SECTIONS: FormSection[] = PPDG_TITLES.map((title, i) => ({
+  title,
+  page: 1 + Math.floor(i / 5),
+  fields: [
+    { id: `big-${i}-a`, label: `Polje A sekcije ${i + 1}`, suggestedValue: i % 3 === 0 ? 'Testna Firma d.o.o.' : null, profileKey: null, isInternal: false, state: i % 3 === 0 ? 'high' as const : 'manual' as const },
+    { id: `big-${i}-b`, label: `Polje B sekcije ${i + 1}`, suggestedValue: null, profileKey: null, isInternal: false, state: 'manual' as const },
+  ],
+}))
+
 export default function DevWizardPreviewPage() {
+  const [big, setBig] = useState(false)
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto space-y-3">
+        <button
+          onClick={() => setBig(b => !b)}
+          className="text-xs text-gray-500 underline"
+        >
+          Mock: {big ? '19 sekcija (PPDG-1S)' : '3 sekcije'} — klikni za {big ? '3 sekcije' : '19 sekcija'}
+        </button>
         <SectionWizardView
-          sections={MOCK_SECTIONS}
-          filename="PPDG-1S-mock.pdf"
+          key={big ? 'big' : 'small'}
+          sections={big ? BIG_SECTIONS : SMALL_SECTIONS}
+          filename={big ? 'PPDG-1S-p.pdf' : 'PPDG-1S-mock.pdf'}
           onComplete={(fields) => console.log('onComplete', fields)}
           onBack={() => console.log('onBack')}
         />
