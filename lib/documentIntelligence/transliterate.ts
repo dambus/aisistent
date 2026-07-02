@@ -95,8 +95,17 @@ export function detectScript(text: string): 'cyrillic' | 'latin' {
   return cyr > lat ? 'cyrillic' : 'latin';
 }
 
+// Email adrese, veb sajtovi i slične tehničke vrednosti nikad ne smeju biti
+// transliterisane — @ i domen moraju ostati latinicom bez obzira na pismo dokumenta.
+const NON_TRANSLITERABLE_RE = /@|^(https?:\/\/|www\.)/i;
+
+export function isNonTransliterable(value: string): boolean {
+  return NON_TRANSLITERABLE_RE.test(value.trim());
+}
+
 // Konvertuje vrednost prema pismu dokumenta
 export function toDocumentScript(value: string, script: 'cyrillic' | 'latin'): string {
+  if (isNonTransliterable(value)) return value;
   const valueScript = detectScript(value);
   if (script === 'cyrillic' && valueScript === 'latin') return latinToCyrillic(value);
   if (script === 'latin' && valueScript === 'cyrillic') return cyrillicToLatin(value);
