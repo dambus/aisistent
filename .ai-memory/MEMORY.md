@@ -9,3 +9,4 @@
 - [Sistem saveta — taskovi](tasks_tips_system.md) — urađeno/sledeće za contextual tips feature
 - [Autofill istraživanje](project_autofill_research.md) — sačuvani kontakti/katalog/zaposleni + Upload & Fill za tuđe obrasce (AcroForm PDF, DOCX); preduslov za Upload & Fill su kontakti+katalog
 - [Chatbot istraživanje](project_chatbot_research.md) — kontekstualni asistent za srpsko preduzetništvo; jedino što vredi je verzija integrisana sa profilom/dokumentima (ne generički bot); obavezan disclaimer
+- [Sledeća sesija — podsetnik](next_session_note.md) — gde smo stali, šta je sledeće (ažurira se svaku sesiju)

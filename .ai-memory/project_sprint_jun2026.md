@@ -89,6 +89,12 @@ metadata:
 
 **Sledeće (Korak 8):** validacija na 3+ obrazaca mešovitog tipa.
 
+## /obrasci — Preview iframe + telefon hint + Korak 8 validacija (2. jul 2026.)
+
+Preview PDF u iframe (`generate-filled` prima `preview: boolean`, ne briše original, `PreviewView` prikazuje pre downloada) + telefon composite UX hint (`GuideField.hint`) — na produkciji, commit `a8e5d46`.
+
+Korak 8 validacija na 3 nova obrasca (`scripts/test-full-pipeline.ts`, novi E2E test bez UI/auth): Образац 1.pdf radi odlično (7/9 profil polja), PK2-o-z1.pdf ispravno sve manual (finansijska tabela). **Otkriven novi gap**: forme sa zaglavljem tipa "natpis ispod/pored praznog prostora, bez podvučene linije, bez tabele" (PIB/adresa/ime) su pipeline-u potpuno nevidljive — ne pojave se ni u manual listi. Korisnik odlučio da se zabeleži u backlog, ne implementira odmah. Detalji u `next_session_note.md`.
+
 ## /obrasci Upload & Fill — Faza 1 Korak 1–7 KOMPLETNO (jul 2026.)
 
 Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.

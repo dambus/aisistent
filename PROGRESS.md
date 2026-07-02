@@ -29,6 +29,20 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 2. jul 2026. — Preview iframe, telefon hint, Korak 8 validacija
+
+**Preview PDF u iframe pre downloada** — `generate-filled` prima `preview: boolean`; kad je `true`, ne briše original iz Storage-a i vraća `Content-Disposition: inline`. `PreviewView` generiše pregled automatski pri otvaranju (blob URL u `<iframe>`) + ručno "Osveži pregled" dugme (namerno bez auto-refresh na svaki keystroke — flat PDF pregled ponovo pokreće DI).
+
+**Telefon composite UX hint** — `GuideField` dobio opciono `hint` polje. `di-analyze/route.ts` composite-detekcija (isti label, ista Y linija) sad prepoznaje kad je primarno polje mapirano na `telefon` i dodaje napomenu i primarnom i sekundarnom polju umesto da sekundarno tiho ostane bez objašnjenja. Prikazuje se u `GuideView` i `PreviewView`.
+
+**Korak 8 — validacija na 3 nova obrasca** (`scripts/test-full-pipeline.ts`, novi E2E test bez UI/auth — provlači PDF kroz stvarne module: DI, matching, semanticMapper sa pravim Claude pozivom, overlay):
+- **Образац 1.pdf** — radi odlično, 7/9 profil polja tačno mapirano (naziv, matični broj, PIB, delatnost, adresa, telefon, email), tabela zaposlenih ispravno manual
+- **PK2-o-z1.pdf** (poreski kredit) — sve manual i ispravno je (čista tabela finansijskih izračunavanja bez profil podataka)
+- **Novi otkriveni gap**: PK2 i "zahtev za pristup informacijama" obrasci imaju zaglavlja (PIB, adresa, ime) u layout-u "natpis ispod/pored praznog prostora, bez podvučene linije, bez tabele" — ovaj četvrti šablon je pipeline-u potpuno nevidljiv (extractFlatPdfFields prepoznaje samo table-cell/selection-mark/underscore-tekst). Ta polja se ne pojave ni u manual listi — korisnik ih ne vidi uopšte. Ovo je šire od originalno planiranog 5B-a (koji je pretpostavljao da underscore-detekcija već postoji). **Odluka: zabeleženo u backlog, ne implementira se odmah** — trenutni pipeline dobro pokriva strukturirane obrasce (tabela/AcroForm) kao PPDG-1S i Образац 1.
+- Dodatan nalaz: "zahtev za pristup informacijama" ima 9 checkboxova zbijenih u jedan pasus — nijedan nije dobio labelu (same-line matching prezahtevan za ovaj layout)
+
+**Commit:** `a8e5d46`
+
 #### 30. jun 2026. — /obrasci MVP + strateška analiza
 
 **Šta je izgrađeno (kod u repou, privremeno nedostupno):**
