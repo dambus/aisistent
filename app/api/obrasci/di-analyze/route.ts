@@ -7,6 +7,7 @@ import { extractAcroFormFields } from '@/lib/documentIntelligence/extractAcroFor
 import { matchFieldLabels } from '@/lib/documentIntelligence/matchFieldLabels'
 import { extractFlatPdfFields } from '@/lib/documentIntelligence/extractFlatPdfFields'
 import { mapFieldsToProfile } from '@/lib/documentIntelligence/semanticMapper'
+import { detectSectionHeadings, assignSections } from '@/lib/documentIntelligence/detectSections'
 import type { GuideField } from '@/types/obrasci'
 
 export const maxDuration = 60
@@ -112,10 +113,16 @@ export async function POST(req: NextRequest) {
     }))
   }
 
-  // Semantičko mapiranje — Claude prima samo {id, label}[], nikad sirova imena polja
+  // Detekcija sekcija — naslov dela obrasca iznad svakog polja, na istoj strani.
+  // Ide kao dodatni kontekst u Claude prompt (semanticMapper.ts) da razlikuje polja
+  // sa istom labelom u različitim delovima obrasca.
+  const sectionHeadings = detectSectionHeadings(diResult)
+  const sectionMap = assignSections(extractedFields, sectionHeadings)
+
+  // Semantičko mapiranje — Claude prima {id, label, section?}, nikad sirova imena polja
   let mappedFields
   try {
-    const mappingInput = extractedFields.map(f => ({ id: f.id, label: f.label }))
+    const mappingInput = extractedFields.map(f => ({ id: f.id, label: f.label, section: sectionMap.get(f.id) ?? null }))
     mappedFields = await mapFieldsToProfile(mappingInput, company)
   } catch (err) {
     console.error('[di-analyze] semantic mapper error:', err)

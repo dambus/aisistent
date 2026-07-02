@@ -11,10 +11,27 @@ export interface DiWord {
   page: number;
 }
 
+export interface DiSpan {
+  offset: number;
+  length: number;
+}
+
 export interface DiParagraph {
   content: string;
   boundingBox: { x: number; y: number; w: number; h: number };
   page: number;
+  // DI-ova semanticka uloga paragrafa ("sectionHeading", "title"...) — jak signal za
+  // detekciju sekcija (Faza 3 Korak 2), kad je dostupan pouzdaniji od caps/duzina heuristike.
+  role?: string;
+  spans: DiSpan[];
+}
+
+// Font stilovi (bold/italic) na nivou celog dokumenta — DI ih vraca odvojeno od paragraphs,
+// povezani preko span offset/length u zajednicki 'content' string. Koristi se kao fallback
+// signal za detekciju naslova sekcije kad paragraph.role nije popunjen.
+export interface DiStyle {
+  fontWeight?: string;
+  spans: DiSpan[];
 }
 
 export interface DiCell {
@@ -62,6 +79,7 @@ export interface DiLayoutResult {
   tables: DiTable[];
   words: DiWord[];            // potrebno za confidence signal u kalibracionom harnessu (spec 5.4)
   selectionMarks: DiSelectionMark[];
+  styles: DiStyle[];           // bold detekcija za detectSections.ts (Faza 3 Korak 2)
   _raw?: AnalyzeResultOutput;
 }
 
@@ -119,8 +137,15 @@ export async function analyzeLayout(input: Buffer, options?: AnalyzeLayoutOption
       content: p.content,
       boundingBox: toBoundingBox(region?.polygon),
       page: region?.pageNumber ?? 1,
+      role: p.role,
+      spans: (p.spans ?? []).map((s) => ({ offset: s.offset, length: s.length })),
     };
   });
+
+  const styles: DiStyle[] = (analyzeResult.styles ?? []).map((s) => ({
+    fontWeight: s.fontWeight,
+    spans: (s.spans ?? []).map((sp) => ({ offset: sp.offset, length: sp.length })),
+  }));
 
   const tables: DiTable[] = (analyzeResult.tables ?? []).map((t) => ({
     rowCount: t.rowCount,
@@ -163,5 +188,5 @@ export async function analyzeLayout(input: Buffer, options?: AnalyzeLayoutOption
     }))
   );
 
-  return { pages, paragraphs, lines, tables, words, selectionMarks, _raw: analyzeResult };
+  return { pages, paragraphs, lines, tables, words, selectionMarks, styles, _raw: analyzeResult };
 }

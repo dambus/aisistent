@@ -18,6 +18,7 @@ import { extractAcroFormFields } from '../lib/documentIntelligence/extractAcroFo
 import { matchFieldLabels } from '../lib/documentIntelligence/matchFieldLabels'
 import { extractFlatPdfFields } from '../lib/documentIntelligence/extractFlatPdfFields'
 import { mapFieldsToProfile } from '../lib/documentIntelligence/semanticMapper'
+import { detectSectionHeadings, assignSections } from '../lib/documentIntelligence/detectSections'
 import { fillAcroFormFields, fillTableCells } from '../lib/documentIntelligence/pdfOverlay'
 import type { GuideField } from '../types/obrasci'
 import type { Company } from '../types/database'
@@ -101,8 +102,13 @@ async function main() {
   }
 
   console.log(`Ekstrahovano polja: ${extractedFields.length}`)
+
+  const sectionHeadings = detectSectionHeadings(diResult)
+  const sectionMap = assignSections(extractedFields, sectionHeadings)
+  console.log(`Detektovano sekcija: ${sectionHeadings.length}`)
+
   console.log('Semantičko mapiranje (Claude)...')
-  const mappingInput = extractedFields.map(f => ({ id: f.id, label: f.label }))
+  const mappingInput = extractedFields.map(f => ({ id: f.id, label: f.label, section: sectionMap.get(f.id) ?? null }))
   const mappedFields = await mapFieldsToProfile(mappingInput, MOCK_COMPANY)
   const mappedMap = new Map(mappedFields.map(m => [m.id, m]))
 
