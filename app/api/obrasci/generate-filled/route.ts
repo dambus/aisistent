@@ -29,14 +29,14 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  let body: { fileRef?: string; type?: string; confirmedFields?: GuideField[] }
+  let body: { fileRef?: string; type?: string; confirmedFields?: GuideField[]; preview?: boolean }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Neispravan zahtev.' }, { status: 400 })
   }
 
-  const { fileRef, type, confirmedFields } = body
+  const { fileRef, type, confirmedFields, preview } = body
   if (!fileRef || !type || !['acroform', 'flat'].includes(type) || !Array.isArray(confirmedFields)) {
     return NextResponse.json({ error: 'Nedostaju obavezna polja.' }, { status: 400 })
   }
@@ -89,20 +89,25 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // Obrišemo originalni tek nakon uspešnog generisanja
-  // Ako brisanje ne uspe — logujemo ali ne fail-ujemo (korisnik je već dobio fajl)
-  admin.storage
-    .from('obrasci-upload')
-    .remove([fileRef])
-    .then(({ error }) => {
-      if (error) console.error('[generate-filled] Storage brisanje nije uspelo:', error.message)
-    })
+  // Preview zahtev ne briše original — korisnik se još nije opredelio za download
+  if (!preview) {
+    // Obrišemo originalni tek nakon uspešnog generisanja
+    // Ako brisanje ne uspe — logujemo ali ne fail-ujemo (korisnik je već dobio fajl)
+    admin.storage
+      .from('obrasci-upload')
+      .remove([fileRef])
+      .then(({ error }) => {
+        if (error) console.error('[generate-filled] Storage brisanje nije uspelo:', error.message)
+      })
+  }
 
   return new NextResponse(Buffer.from(filledBytes), {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="popunjen-obrazac.pdf"',
+      'Content-Disposition': preview
+        ? 'inline; filename="pregled-obrasca.pdf"'
+        : 'attachment; filename="popunjen-obrazac.pdf"',
       'Content-Length': filledBytes.byteLength.toString(),
     },
   })

@@ -28,6 +28,10 @@ export function PreviewView({
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const listRef = useRef<HTMLDivElement>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [previewLoading, setPreviewLoading] = useState(false)
+  const [previewError, setPreviewError] = useState<string | null>(null)
+  const previewUrlRef = useRef<string | null>(null)
 
   const autoFields = fields.filter(f => f.state !== 'manual' && f.suggestedValue !== null)
   const manualFields = fields.filter(f => f.state === 'manual' || f.suggestedValue === null)
@@ -46,6 +50,40 @@ export function PreviewView({
       return { ...f, state: 'manual' as const, suggestedValue: null }
     }))
   }
+
+  async function generatePreview() {
+    setPreviewLoading(true)
+    setPreviewError(null)
+    try {
+      const res = await fetch('/api/obrasci/generate-filled', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileRef, type: pdfType, confirmedFields: fields, preview: true }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        throw new Error(d.error ?? 'Greška pri generisanju pregleda.')
+      }
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
+      previewUrlRef.current = url
+      setPreviewUrl(url)
+    } catch (err) {
+      setPreviewError(err instanceof Error ? err.message : 'Greška pri generisanju pregleda.')
+    } finally {
+      setPreviewLoading(false)
+    }
+  }
+
+  // Pregled se generiše jednom pri otvaranju — dalje ručno preko "Osveži pregled"
+  useEffect(() => {
+    generatePreview()
+    return () => {
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function download() {
     setDownloading(true)
@@ -121,6 +159,32 @@ export function PreviewView({
         </p>
       </div>
 
+      {/* ── PDF pregled ───────────────────────────────────────────────────── */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Pregled</p>
+          <button
+            onClick={generatePreview}
+            disabled={previewLoading}
+            className="text-xs text-[#1B6B4A] hover:text-[#155a3d] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {previewLoading ? 'Osvežavanje...' : 'Osveži pregled'}
+          </button>
+        </div>
+        {previewError && (
+          <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2 mb-2">{previewError}</p>
+        )}
+        <div className="rounded-xl border border-gray-200 overflow-hidden bg-gray-50" style={{ height: '24rem' }}>
+          {previewUrl ? (
+            <iframe src={previewUrl} title="Pregled popunjenog obrasca" className="w-full h-full" />
+          ) : (
+            <div className="flex items-center justify-center h-full text-sm text-gray-400">
+              {previewLoading ? 'Generisanje pregleda...' : 'Pregled nije dostupan.'}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* ── Polja koja se upisuju automatski ─────────────────────────────── */}
       {autoFields.length > 0 && (
         <div>
@@ -153,9 +217,12 @@ export function PreviewView({
           <div style={{ maxHeight: '12rem', overflowY: 'auto' }} className="space-y-1.5 pr-1">
             {manualFields.map(field => (
               field.label ? (
-                <div key={field.id} className="flex items-center gap-2 rounded-lg border border-dashed border-gray-200 px-3 py-2">
+                <div key={field.id} className="flex items-start gap-2 rounded-lg border border-dashed border-gray-200 px-3 py-2">
                   <span className="text-gray-300">·</span>
-                  <span className="text-sm text-gray-500 truncate">{field.label}</span>
+                  <div className="min-w-0">
+                    <span className="text-sm text-gray-500 truncate block">{field.label}</span>
+                    {field.hint && <span className="text-[11px] text-gray-400 block mt-0.5">{field.hint}</span>}
+                  </div>
                 </div>
               ) : null
             ))}
@@ -223,6 +290,7 @@ function AutoFieldRow({ field, onValueChange, onToggle }: AutoFieldRowProps) {
           onChange={e => onValueChange(e.target.value)}
           className="w-full bg-transparent text-sm font-medium text-gray-900 outline-none disabled:text-gray-400"
         />
+        {field.hint && <p className="text-[11px] text-gray-400 mt-0.5">{field.hint}</p>}
       </div>
       <button
         onClick={onToggle}

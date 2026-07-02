@@ -10,4 +10,6 @@ export interface GuideField {
   // 'low'    = DI slabo pouzdan match + vrednost iz profila → narandžasto, proveri pre unosa
   // 'manual' = nema predloga (intern, null label, nije u profilu) → sivo, popuni sâm
   state: 'high' | 'low' | 'manual';
+  // Kratka napomena za korisnika (npr. telefon podeljen u više polja obrasca) — prikazuje se kao sitan tekst ispod labele
+  hint?: string | null;
 }

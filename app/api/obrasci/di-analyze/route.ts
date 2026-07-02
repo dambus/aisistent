@@ -143,7 +143,8 @@ export async function POST(req: NextRequest) {
   // (npr. Телефон = pozivni broj + lokalni broj). Samo prvi po X dobija suggestedValue;
   // ostali dobijaju state: 'manual' i suggestedValue: null.
   const SAME_LINE_Y_IN = 0.12
-  const compositeSecondary = new Set<string>()
+  const compositeSecondary = new Map<string, string>() // secondaryId -> primaryId
+  const compositePrimary = new Set<string>()
 
   for (let i = 0; i < extractedFields.length; i++) {
     const a = extractedFields[i]
@@ -155,19 +156,32 @@ export async function POST(req: NextRequest) {
       if (Math.abs(b.yCtr - a.yCtr) >= SAME_LINE_Y_IN) continue
       // Ista labela, ista strana, ista Y linija → composite grupa
       // Sortiraj po X: levi (manji xLeft) je primarni
-      if (b.xLeft > a.xLeft) {
-        compositeSecondary.add(b.id)
-      } else {
-        compositeSecondary.add(a.id)
-      }
+      const [primary, secondary] = b.xLeft > a.xLeft ? [a, b] : [b, a]
+      compositeSecondary.set(secondary.id, primary.id)
+      compositePrimary.add(primary.id)
     }
   }
 
-  const fields: GuideField[] = rawFields.map(f =>
-    compositeSecondary.has(f.id)
-      ? { ...f, suggestedValue: null, state: 'manual' as const }
-      : f,
-  )
+  // Telefon podeljen u više polja (npr. pozivni broj polje ima maxLength=3) je zbunjujuć bez
+  // objašnjenja — korisnik vidi samo "063" i ne zna zašto je broj skraćen. Dodajemo napomenu
+  // i primarnom i sekundarnom polju kad je primarni profileKey telefon.
+  const PHONE_PRIMARY_HINT = 'Broj telefona je podeljen u više polja obrasca — proverite da li ceo broj staje.'
+  const PHONE_SECONDARY_HINT = 'Nastavak broja telefona iz susednog polja.'
+
+  const fields: GuideField[] = rawFields.map(f => {
+    const primaryId = compositeSecondary.get(f.id)
+    if (primaryId) {
+      const primaryMapped = mappedMap.get(primaryId)
+      const hint = primaryMapped?.profileKey === 'telefon' ? PHONE_SECONDARY_HINT : null
+      return { ...f, suggestedValue: null, state: 'manual' as const, hint }
+    }
+    if (compositePrimary.has(f.id)) {
+      const mapped = mappedMap.get(f.id)
+      const hint = mapped?.profileKey === 'telefon' ? PHONE_PRIMARY_HINT : null
+      return { ...f, hint }
+    }
+    return f
+  })
 
   return NextResponse.json({ fields })
 }

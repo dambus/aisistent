@@ -64,6 +64,7 @@ function HighCard({ field, copied, onCopy }: FieldCardProps) {
       <div className="min-w-0 flex-1">
         <p className="text-[11px] text-emerald-700/70 leading-none mb-0.5 truncate">{field.label}</p>
         <p className="text-sm font-medium text-gray-900 truncate">{field.suggestedValue}</p>
+        {field.hint && <p className="text-[11px] text-emerald-700/60 mt-0.5">{field.hint}</p>}
       </div>
       <button
         onClick={() => onCopy(field.id, field.suggestedValue!)}
@@ -85,6 +86,7 @@ function LowCard({ field, copied, onCopy }: FieldCardProps) {
       <div className="min-w-0 flex-1">
         <p className="text-[11px] text-amber-700/70 leading-none mb-0.5 truncate">{field.label}</p>
         <p className="text-sm font-medium text-gray-900 truncate">{field.suggestedValue}</p>
+        {field.hint && <p className="text-[11px] text-amber-700/60 mt-0.5">{field.hint}</p>}
       </div>
       <button
         onClick={() => onCopy(field.id, field.suggestedValue!)}
@@ -109,6 +111,7 @@ function ManualCard({ field }: { field: GuideField }) {
         ) : (
           <p className="text-sm text-gray-300 italic">polje bez labele</p>
         )}
+        {field.hint && <p className="text-[11px] text-gray-400 mt-0.5">{field.hint}</p>}
       </div>
     </div>
   )
