@@ -152,42 +152,32 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Status:** Faza 1 Korak 1–7 kompletni (jul 2026.). Stranica aktivna u produkciji.
+**Status (2. jul 2026.):** Faza 1 i Faza 2 kompletne, Faza 3 Koraci 1–4 kompletni. Stranica aktivna u produkciji. Detaljna istorija po sesijama: `PROGRESS.md`, tekući kontekst za sledeću sesiju: `.ai-memory/next_session_note.md`. Specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`.
 
-**Šta radi (jul 2026.):**
-- AcroForm PDF → Azure DI + geometrijsko matching + Claude semantičko mapiranje → GuideView sa 3 stanja ✅
-- Flat PDF → Azure DI table/selection mark/underline detekcija → isti GuideView ✅
-- DOCX sa placeholderima → stari Claude wizard (automatsko popunjavanje) ✅
-- GuideView: zeleno (visoka pouzdanost iz profila), narandžasto (proverite), sivo (popunite ručno)
+**Odabran tehnički put:** Azure Document Intelligence (`prebuilt-layout`) + geometrijsko matching (labela ↔ polje po koordinatama) + Claude semantičko mapiranje (labela → profil ključ). Baza poznatih obrazaca (ručno mapiranje po obrascu) i Vision AI (screenshot + Claude Vision) razmatrani i odbačeni u ranoj fazi — DI daje strukturisan output bez potrebe za render-to-image korakom.
 
-**Sledeće (Korak 8):**
-- Validacija na minimum 5 različitih obrazaca (trenutno: PPDG-1S, eko-taksa)
-- Tb1-Tb4 bug: numbered list stavke su DESNO od checkbox polja — current filter pretpostavlja labelu levo
-- Skeniran dokument (OCR) — testirati kvalitet DI analize
+**Šta radi:**
+- AcroForm i flat PDF → Azure DI + geometrijsko matching + Claude semantičko mapiranje → GuideView (zeleno/narandžasto/sivo) ✅
+- DOCX sa placeholderima → stari Claude wizard (nezavisan flow, `WizardView.tsx`) ✅
+- Preview PDF u iframe pre downloada, telefon/email transliteracija fixevi ✅
+- Detekcija sekcija obrasca (naslov dela forme) + `SectionWizardView` — sekcijski wizard za ručno dopunjavanje svih polja na jednom mestu, sa "Popuni sve →" iz GuideView ✅
+- `form_templates` keš (fingerprint → struktura obrasca) — tabela postoji, **još nije povezan u pipeline**
 
-**Tri tehnička puta bili su (odluka doneta: Put B/C hybrid — Azure DI):**
+**Sledeće (Faza 3 Korak 5–7):**
+- Korak 5: povezati template keš u `di-analyze` — cache hit preskače DI+Claude poziv za strukturu, ali vrednosti (suggestedValue) moraju ostati sveže po trenutnom profilu (keš čuva samo strukturu, nikad korisničke podatke)
+- Korak 6: template feedback (thumbs up/down) — treba nova `template_feedback` migracija
+- Korak 7: validacija na 3+ obrazaca uključujući nov materijal od Milana
 
-| Put | Status |
-|-----|--------|
-| A — Baza poznatih obrazaca | Odbačen — ručno održavanje za svaki obrazac |
-| **B — Koordinatno parsiranje (Azure DI)** | **Implementiran** — geometrijsko matching, kalibracioni harness |
-| C — Vision AI | Nije potreban — DI daje strukturu bez OCR screenshota |
-| **C — Vision AI** | PDF → slika → Claude Vision → mapira polja vizuelno | Najrobusnije, bilo koji obrazac | Server-side PDF rendering (Puppeteer ne radi na Vercel) |
-
-**Preporučeni sledeći korak (kada se nastavi):**
-1. Faza 1: Ručno mapirati PPDG-1S-p.pdf kao proof of concept (JSON baza poznatih obrazaca)
-2. Faza 2 (ako Faza 1 potvrdi vrednost): Vision pipeline na posebnom servisu
-
-**Ne ulaziti u:** flat PDF direktan fill (overlay problem), web forme državnih portala (ePorezi, APR).
+**Poznati bagovi/gapovi (zabeleženo u backlog, niži prioritet):**
+- Duplikat-upis kad prazne ćelije u različitim redovima dele identičan label tekst (vizuelno potvrđeno na OPD-o.pdf)
+- "Caption bez podvlake/tabele" layout (PIB/adresa ispod praznog prostora bez teksta) je pipeline-u nevidljiv — potvrđeno na 4 realna obrasca
+- 5B slobodne linije (underscore-tekst detekcija postoji, `fillFreeLines` overlay ne postoji još)
+- Adresa split (ulica+broj iz jednog profil polja)
 
 **Redosled implementacije:**
 1. Sačuvani kontakti (druga strana) ← ✅ urađeno
 2. Katalog usluga ← uraditi
-3. **Upload & Fill MVP** — AcroForm PDF + DOCX, Pro/Agency plan
-
-**Status pipeline-a za prepoznavanje obrazaca (jun 2026.):**
-- Korak 1–4 ✅: DI layout, AcroForm ekstrakcija, geometrijsko poklapanje, kalibracioni harness + HTML overlay
-- Sledeće: Korak 5 (flat PDF branch), Korak 6 (Claude semantičko mapiranje), Korak 7 (UI), Korak 8 (validacija na 5+ dokumenata)
+3. **Upload & Fill** — AcroForm PDF + DOCX, Pro/Agency plan ← ✅ u produkciji, Faza 3 u toku
 
 #### [ISTRAŽIVANJE] Kontekstualni asistent — chatbot za srpsko preduzetništvo
 
