@@ -43,6 +43,19 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 **Commit:** `a8e5d46`
 
+#### 2. jul 2026. (nastavak) — email transliteracija fix + Korak 8 validacija na 6 dodatnih obrazaca
+
+**Bug fix:** `toDocumentScript` u `transliterate.ts` je slepo transliterisao SVE vrednosti kad je pismo obrasca ćirilica — uključujući email adrese (`info@firma.rs` → nevalidan `инфо@фирма.рс`). Dodata `isNonTransliterable()` provera (regex na `@` ili `http(s)://`/`www.`) pre transliteracije. Utiče na `fillAcroFormFields` i `fillTableCells`. **Commit:** `d1b9d9c`
+
+**Korak 8 — 6 novih obrazaca** (instaliran `pymupdf` lokalno za vizuelnu proveru popunjenih PDF-ova — `pdftoppm` nije dostupan na ovoj mašini):
+- **ERP-osn.pdf** — radi dobro, 8/20 polja tačno mapirano
+- **BU-o.pdf** (Bilans uspeha), **PB2-o.pdf** (Poreski bilans) — ispravno sve manual, čiste finansijske kalkulacione tabele
+- **zahtev-pu-o.pdf** — 4. potvrđen slučaj već poznatog gap-a ("natpis bez podvlake/tabele" zaglavlje, vidi Korak 8 iz prošle sesije)
+- **Novi bug, vizuelno potvrđen — OPD-o.pdf**: kad prazne ćelije u RAZLIČITIM redovima dele identičan label tekst (tipično: uska ćelija odmah pored labele + red kućica cifra-po-cifra ispod, npr. "11. Матични број из регистра"), `extractFlatPdfFields.ts` ih tretira kao dva nezavisna polja i upisuje istu vrednost dvaput — jednom skraćeno pored labele, jednom preko linija kućica ispod (vizuelno razbija PDF, linije kućica se seku sa tekstom). Composite-dedup u `di-analyze/route.ts` ovo ne hvata jer proverava samo istu Y liniju (isti red), ne isti label kroz različite redove. **Odluka: zabeleženo u backlog** (korisnik želeo da stane za danas), nije implementiran fix.
+- **Manji nalaz — OA-o.pdf**: u tabelama gde prva kolona ima redni broj ("I", "II", "III"...), taj redni broj otima labelu za ceo red umesto pravog naslova kolone. U ovom obrascu (amortizacija) bez praktične posledice — ništa u toj tabeli ionako ne mapira na profil — ali labela u manual listi bi bila pogrešna.
+
+**Novi lokalni alat:** `pymupdf` (Python) instaliran globalno — `python -c "import fitz; ..."` za rendering PDF stranica u PNG bez potrebe za poppler/pdftoppm.
+
 #### 30. jun 2026. — /obrasci MVP + strateška analiza
 
 **Šta je izgrađeno (kod u repou, privremeno nedostupno):**

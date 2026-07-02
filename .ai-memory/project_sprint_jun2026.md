@@ -95,6 +95,8 @@ Preview PDF u iframe (`generate-filled` prima `preview: boolean`, ne briše orig
 
 Korak 8 validacija na 3 nova obrasca (`scripts/test-full-pipeline.ts`, novi E2E test bez UI/auth): Образац 1.pdf radi odlično (7/9 profil polja), PK2-o-z1.pdf ispravno sve manual (finansijska tabela). **Otkriven novi gap**: forme sa zaglavljem tipa "natpis ispod/pored praznog prostora, bez podvučene linije, bez tabele" (PIB/adresa/ime) su pipeline-u potpuno nevidljive — ne pojave se ni u manual listi. Korisnik odlučio da se zabeleži u backlog, ne implementira odmah. Detalji u `next_session_note.md`.
 
+**Nastavak iste teme (2. jul, druga sesija):** email/website transliteracija bug fix (commit `d1b9d9c`) — `toDocumentScript` je slepo transliterisao email adrese na ćirilicu, sad ima `isNonTransliterable()` guard. Korak 8 validacija na dodatnih 6 obrazaca — otkriven **noviji, ozbiljniji bug**: kad prazne ćelije u različitim redovima dele identičan label (npr. "11. Матични број"), pipeline upisuje istu vrednost DVAPUT, vizuelno razbija PDF (potvrđeno slikom). Composite-dedup u di-analyze/route.ts hvata samo isti red, ne isti label kroz redove. Zabeleženo u backlog, nije implementiran fix. Instaliran `pymupdf` lokalno za vizuelnu proveru (`pdftoppm` nije dostupan). Detalji u `next_session_note.md`.
+
 ## /obrasci Upload & Fill — Faza 1 Korak 1–7 KOMPLETNO (jul 2026.)
 
 Stranica aktivna u produkciji. Azure DI ključevi u Vercel env vars.
