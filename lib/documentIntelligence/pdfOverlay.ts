@@ -5,26 +5,16 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { diToPdfCoords } from './pdfCoordinates';
 import { detectScript, toDocumentScript } from './transliterate';
+import { isSignatureField } from './signatureLabels';
 import type { DiLayoutResult } from './analyzeLayout';
 import type { GuideField } from '@/types/obrasci';
+
+export { isSignatureField } from './signatureLabels';
 
 // Sistematski X offset: DI bbox uključuje border ćelije (~1mm) + 2pt text padding
 const TEXT_X_OFFSET_PT = 3;
 const FONT_SIZE_MAX = 10;
 const FONT_SIZE_MIN = 6;
-
-// Labele koje označavaju potpis — nikad ne upisivati
-const SIGNATURE_LABELS = [
-  'потпис', 'potpis', 'одговорно лице', 'odgovorno lice',
-  'директор', 'direktor', 'ovlašćeno lice', 'ovlasceno lice',
-  'lice ovlašćeno', 'lice ovlasceno', 'печат', 'pecat', 'м.п', 'м.п.',
-];
-
-function isSignatureField(label: string | null): boolean {
-  if (!label) return false;
-  const l = label.toLowerCase();
-  return SIGNATURE_LABELS.some((s) => l.includes(s));
-}
 
 function getFontPath(): string {
   // Roboto-Regular podržava ćirilicu i već je u projektu

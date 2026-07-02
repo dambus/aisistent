@@ -13,3 +13,10 @@ export interface GuideField {
   // Kratka napomena za korisnika (npr. telefon podeljen u više polja obrasca) — prikazuje se kao sitan tekst ispod labele
   hint?: string | null;
 }
+
+// Faza 3 Korak 2/3 — grupa polja pod jednim naslovom (detectSections.ts), konzumira je WizardView.
+export interface FormSection {
+  title: string;
+  page: number;
+  fields: GuideField[];
+}
