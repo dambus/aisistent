@@ -24,6 +24,7 @@ import { extractAcroFormFields } from '../lib/documentIntelligence/extractAcroFo
 import { matchFieldLabels } from '../lib/documentIntelligence/matchFieldLabels'
 import { extractFlatPdfFields } from '../lib/documentIntelligence/extractFlatPdfFields'
 import { mapFieldsToProfile, profileValue, PROFILE_KEYS, type ProfileKey } from '../lib/documentIntelligence/semanticMapper'
+import { composeGuideFields, groupIntoSections, type ExtractedFieldLite } from '../lib/documentIntelligence/composeGuideFields'
 import { detectSectionHeadings, assignSections } from '../lib/documentIntelligence/detectSections'
 import { computeFingerprint } from '../lib/documentIntelligence/computeFingerprint'
 import {
@@ -96,18 +97,15 @@ function rehydrateFields(structs: TemplateFieldStruct[], company: Company): Guid
   })
 }
 
-// Pun pipeline — identičan di-analyze/route.ts (i test-full-pipeline.ts)
+// Pun pipeline — koristi ZAJEDNIČKI produkcijski kod (composeGuideFields.ts),
+// isti koji koristi di-analyze/route.ts
 async function runFullPipeline(buffer: Buffer, company: Company) {
   const diResult = await analyzeLayout(buffer)
   const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true })
   const { fields: acroFields } = await extractAcroFormFields(buffer)
   const type: 'acroform' | 'flat' = acroFields.length > 0 ? 'acroform' : 'flat'
 
-  type ExtractedField = {
-    id: string; label: string | null; confidence: 'high' | 'low'
-    page: number; xLeft: number; yCtr: number
-  }
-  let extractedFields: ExtractedField[]
+  let extractedFields: ExtractedFieldLite[]
 
   if (type === 'acroform') {
     const pageHeightsPt = pdfDoc.getPages().map(p => p.getSize().height)
@@ -115,12 +113,14 @@ async function runFullPipeline(buffer: Buffer, company: Company) {
     extractedFields = matches.map(m => ({
       id: m.fieldName, label: m.label, confidence: m.confidence,
       page: m.page, xLeft: m.boundingBox.x, yCtr: m.boundingBox.y + m.boundingBox.h / 2,
+      width: m.boundingBox.w,
     }))
   } else {
     const flatFields = extractFlatPdfFields(diResult)
     extractedFields = flatFields.map(f => ({
       id: f.id, label: f.label, confidence: f.confidence,
       page: f.page, xLeft: f.boundingBox.x, yCtr: f.boundingBox.y + f.boundingBox.h / 2,
+      width: f.boundingBox.w,
     }))
   }
 
@@ -129,73 +129,11 @@ async function runFullPipeline(buffer: Buffer, company: Company) {
 
   const mappingInput = extractedFields.map(f => ({ id: f.id, label: f.label, section: sectionMap.get(f.id) ?? null }))
   const mappedFields = await mapFieldsToProfile(mappingInput, company)
-  const mappedMap = new Map(mappedFields.map(m => [m.id, m]))
 
-  const rawFields: GuideField[] = extractedFields.map(ef => {
-    const mapped = mappedMap.get(ef.id)
-    const suggestedValue = mapped?.suggestedValue ?? null
-    const isInternal = mapped?.isInternal ?? false
-    const profileKey = mapped?.profileKey ?? null
-    let state: GuideField['state'] = 'manual'
-    if (!isInternal && suggestedValue !== null) state = ef.confidence
-    return { id: ef.id, label: ef.label, suggestedValue, profileKey, isInternal, state }
-  })
+  const { fields, neverAutofill } = composeGuideFields(extractedFields, mappedFields)
+  const sections: FormSection[] = groupIntoSections(extractedFields, fields, sectionMap)
 
-  const SAME_LINE_Y_IN = 0.12
-  const compositeSecondary = new Map<string, string>()
-  const compositePrimary = new Set<string>()
-  for (let i = 0; i < extractedFields.length; i++) {
-    const a = extractedFields[i]
-    if (!a.label) continue
-    for (let j = i + 1; j < extractedFields.length; j++) {
-      const b = extractedFields[j]
-      if (b.label !== a.label) continue
-      if (b.page !== a.page) continue
-      if (Math.abs(b.yCtr - a.yCtr) >= SAME_LINE_Y_IN) continue
-      const [primary, secondary] = b.xLeft > a.xLeft ? [a, b] : [b, a]
-      compositeSecondary.set(secondary.id, primary.id)
-      compositePrimary.add(primary.id)
-    }
-  }
-
-  const PHONE_PRIMARY_HINT = 'Broj telefona je podeljen u više polja obrasca — proverite da li ceo broj staje.'
-  const PHONE_SECONDARY_HINT = 'Nastavak broja telefona iz susednog polja.'
-
-  const fields: GuideField[] = rawFields.map(f => {
-    const primaryId = compositeSecondary.get(f.id)
-    if (primaryId) {
-      const primaryMapped = mappedMap.get(primaryId)
-      const hint = primaryMapped?.profileKey === 'telefon' ? PHONE_SECONDARY_HINT : null
-      return { ...f, suggestedValue: null, state: 'manual' as const, hint }
-    }
-    if (compositePrimary.has(f.id)) {
-      const mapped = mappedMap.get(f.id)
-      const hint = mapped?.profileKey === 'telefon' ? PHONE_PRIMARY_HINT : null
-      return { ...f, hint }
-    }
-    return f
-  })
-
-  const fieldById = new Map(fields.map(f => [f.id, f]))
-  const sectionOrder: string[] = []
-  const sectionFieldsMap = new Map<string, GuideField[]>()
-  const sectionPageMap = new Map<string, number>()
-  for (const ef of extractedFields) {
-    const field = fieldById.get(ef.id)
-    if (!field) continue
-    const title = sectionMap.get(ef.id) ?? `Strana ${ef.page}`
-    if (!sectionFieldsMap.has(title)) {
-      sectionOrder.push(title)
-      sectionFieldsMap.set(title, [])
-      sectionPageMap.set(title, ef.page)
-    }
-    sectionFieldsMap.get(title)!.push(field)
-  }
-  const sections: FormSection[] = sectionOrder.map(title => ({
-    title, page: sectionPageMap.get(title)!, fields: sectionFieldsMap.get(title)!,
-  }))
-
-  return { fields, sections, extractedFields, compositeSecondary, type }
+  return { fields, sections, extractedFields, neverAutofill, type }
 }
 
 function normalizeField(f: GuideField) {
@@ -260,7 +198,7 @@ async function main() {
     label: f.label,
     profileKey: f.profileKey,
     isInternal: f.isInternal,
-    confidence: full.compositeSecondary.has(f.id) ? null : (efConfidence.get(f.id) ?? 'low'),
+    confidence: full.neverAutofill.has(f.id) ? null : (efConfidence.get(f.id) ?? 'low'),
     hint: f.hint ?? null,
   }))
   const templateSections: TemplateSectionShape[] = full.sections.map(s => ({
