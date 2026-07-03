@@ -20,6 +20,7 @@ import { extractFlatPdfFields } from '../lib/documentIntelligence/extractFlatPdf
 import { mapFieldsToProfile } from '../lib/documentIntelligence/semanticMapper'
 import { detectSectionHeadings, assignSections } from '../lib/documentIntelligence/detectSections'
 import { fillAcroFormFields, fillTableCells } from '../lib/documentIntelligence/pdfOverlay'
+import { isSignatureField } from '../lib/documentIntelligence/signatureLabels'
 import type { GuideField, FormSection } from '../types/obrasci'
 import type { Company } from '../types/database'
 
@@ -200,6 +201,22 @@ async function main() {
     page: sectionPageMap.get(title)!,
     fields: sectionFieldsMap.get(title)!,
   }))
+
+  // --fill-manual: simulira korisnikov unos u wizardu — upisuje test vrednosti u prvih
+  // nekoliko manual polja sa labelom (isti state flip manual→low kao SectionWizardView.updateValue),
+  // da se verifikuje da manual unos završava u finalnom PDF-u (Korak 7 validacija).
+  if (process.argv.includes('--fill-manual')) {
+    let injected = 0
+    for (const f of fields) {
+      if (injected >= 5) break
+      if (f.state !== 'manual' || !f.label || f.isInternal) continue
+      if (isSignatureField(f.label)) continue
+      f.suggestedValue = `TEST-UNOS-${injected + 1}`
+      f.state = 'low'
+      injected++
+      console.log(`  --fill-manual: "${f.label}" (${f.id}) = "TEST-UNOS-${injected}"`)
+    }
+  }
 
   if (process.argv.includes('--dump-json')) {
     const jsonPath = path.join(outDir, `${label}-fields-sections.json`)

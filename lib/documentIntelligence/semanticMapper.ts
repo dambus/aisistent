@@ -88,6 +88,7 @@ PRAVILA — moraju biti ispoštovana bez izuzetka:
 5. SUB-KOMPONENTE ADRESE: Polja koja traže samo deo adrese (samo naziv ulice bez broja, samo kućni broj, samo sprat, samo stan, samo slovo) → vrati profileKey: null. Profil ima adresu kao jednu celinu — ne možemo pouzdano da je rastavimo. Ovo se odnosi na labele tipa: "Naziv ulice", "Кућни број", "Broj", "Sprat", "Broj stana", "Slovo", "Ulica i broj" (samo ulica), i slično kada je jasno da se traži samo jedna komponenta. Izuzetak: ako labela eksplicitno traži punu adresu ("Adresa sedišta", "Adresa", "Место становања и адреса") → mapiraj na adresa.
 6. SUB-KOMPONENTE TELEFONA: Polja koja traže samo deo broja telefona (pozivni broj, lokalni broj, faks posebno) → vrati profileKey: null osim prvog polja za telefon. Ako labela kaže "Телефон" bez dodatnih reči → mapiraj na telefon. Ako kaže "Телефон — факс", "Телефон/факс", "Факс" → vrati null.
 7. SEKCIJA (ako je prosleđena): naslov dela obrasca iz kog polje dolazi, iz istog dokumenta — ne opšte znanje. Koristi je samo da razlikuješ dva polja sa istom labelom u različitim sekcijama (npr. "ПИБ" u sekciji o poreskom obvezniku vs "ПИБ" u sekciji o poslovnoj jedinici mogu se odnositi na različita lica). Ne menja pravila 1-6.
+8. SUB-KOMPONENTE DELATNOSTI: Polja koja traže SAMO šifru delatnosti (labela "Шифра", "Šifra", "Шифра делатности") → vrati profileKey: null. Profil čuva delatnost kao jedan tekst (opis + šifra) — ne možemo pouzdano izdvojiti samo šifru, a upis celog teksta u kratko polje za šifru razbija obrazac. Mapiraj na delatnost samo labele koje traže naziv/opis delatnosti ili celu pretežnu delatnost ("Назив", "Претежна делатност", "Назив и шифра претежне делатности").
 
 Odgovori ISKLJUČIVO validnim JSON nizom, bez ikakvog teksta pre ili posle:
 [{"id":"...","profileKey":"naziv"|null,"isInternal":false}]`;
@@ -96,9 +97,14 @@ export async function mapFieldsToProfile(
   fields: FieldForMapping[],
   company: Company,
 ): Promise<MappedField[]> {
-  // Polja bez labele odmah dobijaju null — Claude ih ne vidi
-  const withLabel    = fields.filter((f) => f.label !== null && f.label.trim() !== '');
-  const withoutLabel = fields.filter((f) => !f.label || f.label.trim() === '');
+  // Polja bez labele odmah dobijaju null — Claude ih ne vidi.
+  // Isto važi za čisto numeričke labele (redni brojevi tipa "1.", "2.5.4.") — bez
+  // ijednog slova labela ne nosi semantiku, a sekcijski kontekst je Claude-a navodio
+  // da pogađa (PPDG-1S: "1." u sekciji o računu u banci → ziro_racun u pogrešnoj koloni).
+  const isMappable   = (f: FieldForMapping) =>
+    f.label !== null && f.label.trim() !== '' && /\p{L}/u.test(f.label);
+  const withLabel    = fields.filter(isMappable);
+  const withoutLabel = fields.filter((f) => !isMappable(f));
 
   const nullResults: MappedField[] = withoutLabel.map((f) => ({
     id: f.id,
