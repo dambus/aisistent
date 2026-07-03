@@ -127,5 +127,13 @@ Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` + `FAZA3_IMPLEMENTACIJA_UP
 
 **Preostalo:** Korak 5 (template keš u pipeline — pažnja: keš čuva SAMO strukturu, suggestedValue mora ostati svež po korisniku čak i na cache hit), Korak 6 (template_feedback — treba nova migracija, ne postoji još), Korak 7 (validacija 3+ obrazaca). Detalji u `next_session_note.md`.
 
+## /obrasci — Faza 3 Koraci 5-7: keš live, feedback, validacija (3. jul 2026.) — FAZA 3 KOMPLETNA
+
+- **Korak 5** (`80feefd`): keš integrisan u `di-analyze` — fingerprint (DI prva strana) → HIT preskače pun DI + Claude (113ms vs 40s na PPDG-1S), `suggestedValue` UVEK svež iz profila trenutnog korisnika (`rehydrateFields` + eksportovan `profileValue`); MISS čuva samo strukturu. Keš greška nikad ne obara zahtev. Response nosi `fingerprint` + `cached`.
+- **Korak 6** (`80feefd`): migracija `20260703000001` (template_feedback + needs_review) primenjena na produkciju (Milan, SQL editor); endpoint `/api/obrasci/template-feedback` (samo negativan, 3+ → needs_review); 👍/👎 u PreviewView.
+- **Korak 7**: validacija lokalno na PPDG-1S (acroform), Обrazac 1 eko taksa (flat), PPI-2 (flat, 0 auto = ispravno — traži podatke o nepokretnosti). Nova `--fill-manual` opcija u test-full-pipeline simulira wizard unos. 2 mapper bagfixa: numeričke labele → null deterministički (sekcija navodila Claude-a da pogađa "1." → ziro_racun), prompt pravilo 8 za "Шифра" sub-komponentu delatnosti.
+- **Test alat:** `scripts/test-template-cache.ts` — determinizam, leak check, HIT/MISS identičnost, hit_count, svež profil za drugi nalog.
+- **ČEKA verifikaciju na produkciji** (Supabase tehnički problemi tokom sesije): dupli upload → brži drugi, hit_count, feedback tok. Detalji u `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

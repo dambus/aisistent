@@ -29,6 +29,25 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 3. jul 2026. — Faza 3 Koraci 5-7: keš u pipeline-u, feedback, validacija
+
+**Korak 5 — template keš integrisan u `di-analyze`** (`80feefd`): fingerprint (DI samo prva strana, ~6s) → `getTemplate`. HIT: preskače pun DI + Claude — struktura iz keša, `suggestedValue` se puni SVEŽE iz profila trenutnog korisnika (`rehydrateFields` u route + eksportovan `profileValue` iz semanticMapper-a), `hit_count` raste. MISS: pun pipeline pa `saveTemplate` — čuva samo strukturu (`TemplateFieldStruct`: label/profileKey/isInternal/confidence/hint; `confidence: null` = composite sekundarno polje koje se nikad ne auto-popunjava). Sekcije u kešu kao `TemplateSectionShape` (title/page/fieldIds — isti oblik kao SectionShape na klijentu). Greška keš sloja NIKAD ne obara zahtev — fallback na pun pipeline. Response sad nosi `fingerprint` + `cached`.
+
+**Korak 6 — template feedback** (`80feefd`): migracija `20260703000001` (tabela `template_feedback` + `needs_review` kolona, RLS bez policy-ja) — primenjena na produkciju ručno (SQL editor). Endpoint `/api/obrasci/template-feedback` — loguje SAMO negativan (spec), 3+ negativna → `needs_review: true`. `PreviewView`: opcioni 👍/👎 blok iznad downloada, fire-and-forget, nikad ne blokira. `ObraściClient` provlači `fingerprint` kroz sve di-stage-ove.
+
+**Test keša** (`scripts/test-template-cache.ts`, faze A-E, protiv prave Supabase + DI + Claude): fingerprint deterministički (2× DI → isti hash), provera curenja korisničkih podataka u strukturu (nema), **HIT 113ms vs pun pipeline 40.4s** na PPDG-1S (198 polja/19 sekcija), output iz keša IDENTIČAN punom pipeline-u, hit_count raste, rehydrate sa drugim profilom daje sveže vrednosti. Isto sve prošlo i na flat tipu (eko taksa: HIT 111ms vs 9.6s).
+
+**Korak 7 — validacija na 3 obrasca** (lokalno, `test-full-pipeline.ts` + nova `--fill-manual` opcija koja simulira wizard unos sa state flip manual→low; vizuelna provera pymupdf renderom):
+- **PPDG-1S** (acroform, 198 polja/19 sekcija): auto-fill tačan (ćirilica, comb polja, potpisi prazni), manual unos završava u PDF-u
+- **Обrazac 1 eko taksa** (flat, 11 polja): 5/5 auto tačno u pravim ćelijama, manual unos radi
+- **PPI-2** (flat, 23 polja/13 sekcija): 0 auto — ISPRAVNO (obrazac traži podatke o nepokretnosti, ne o firmi), manual unos u pravim poljima
+
+**Dva bagfixa iz validacije** (semanticMapper):
+1. Čisto numeričke labele ("1.", "2.5.4.") više ne idu Claude-u — deterministički guard `/\p{L}/u`. Sekcijski kontekst je navodio Claude-a da pogađa: "1." u sekciji "ПОДАЦИ О РАЧУНУ У БАНЦИ" → ziro_racun upisan u kolonu Место.
+2. Novo pravilo 8 u promptu: polja koja traže SAMO šifru delatnosti ("Шифра") → null (profil čuva delatnost kao jedan tekst; upis celog teksta u kratko comb polje razbija obrazac). "Назив и шифра претежне делатности" i dalje mapira ✅.
+
+**Čeka verifikaciju na produkciji** (Supabase je imao tehničkih problema u trenutku sesije): upload istog obrasca 2× → drugi vidljivo brži, red u `form_templates`, `hit_count` raste, 👍/👎 u preview-u.
+
 #### 2. jul 2026. (treća sesija) — Faza 3 Koraci 1-4: template keš + wizard
 
 Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` i `FAZA3_IMPLEMENTACIJA_UPUTSTVO.md`, korak-po-korak sa STOP checkpoint-ima.
