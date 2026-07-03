@@ -262,6 +262,7 @@ export interface Database {
           fields: unknown
           sections: unknown
           hit_count: number
+          needs_review: boolean
           created_at: string
           last_seen_at: string
         }
@@ -274,6 +275,7 @@ export interface Database {
           fields: unknown
           sections?: unknown
           hit_count?: number
+          needs_review?: boolean
           created_at?: string
           last_seen_at?: string
         }
@@ -284,7 +286,26 @@ export interface Database {
           fields?: unknown
           sections?: unknown
           hit_count?: number
+          needs_review?: boolean
           last_seen_at?: string
+        }
+        Relationships: []
+      }
+      template_feedback: {
+        Row: {
+          id: string
+          fingerprint: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          fingerprint: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          fingerprint?: string
         }
         Relationships: []
       }

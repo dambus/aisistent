@@ -39,8 +39,10 @@ export interface MappedField {
   isInternal: boolean;
 }
 
-// Vrednost profil ključa kao string za prikaz korisniku
-function profileValue(key: ProfileKey, company: Company): string | null {
+// Vrednost profil ključa kao string za prikaz korisniku.
+// Eksportovano: template keš (Faza 3 Korak 5) na cache HIT preskače Claude poziv
+// (profileKey je poznat iz keša) ali vrednost MORA biti sveža iz trenutnog profila.
+export function profileValue(key: ProfileKey, company: Company): string | null {
   switch (key) {
     case 'naziv':              return company.naziv || null;
     case 'pib':                return company.pib || null;

@@ -34,9 +34,9 @@ type Stage =
   | { status: 'uploading' }
   | { status: 'analyzing'; fileRef: string; type: DocType; filename: string }
   | { status: 'wizard'; fileRef: string; type: 'docx'; filename: string; fields: MappedField[] }
-  | { status: 'di-guide'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[] }
-  | { status: 'di-wizard'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[] }
-  | { status: 'di-preview'; fileRef: string; type: 'acroform' | 'flat'; filename: string; confirmedFields: GuideField[]; sectionShapes: SectionShape[] }
+  | { status: 'di-guide'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[]; fingerprint: string | null }
+  | { status: 'di-wizard'; fileRef: string; type: 'acroform' | 'flat'; filename: string; fields: GuideField[]; sectionShapes: SectionShape[]; fingerprint: string | null }
+  | { status: 'di-preview'; fileRef: string; type: 'acroform' | 'flat'; filename: string; confirmedFields: GuideField[]; sectionShapes: SectionShape[]; fingerprint: string | null }
   | { status: 'error'; message: string }
 
 const ACCEPTED = '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -98,15 +98,17 @@ export function ObraściClient() {
     // PDF: DI pipeline (acroform i flat)
     let fields: GuideField[]
     let sectionShapes: SectionShape[]
+    let fingerprint: string | null
     try {
       const res = await fetch('/api/obrasci/di-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileRef, type }),
+        body: JSON.stringify({ fileRef, type, filename }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Greška pri DI analizi.')
       fields = data.fields
+      fingerprint = data.fingerprint ?? null
       sectionShapes = (data.sections as FormSection[] ?? []).map(s => ({
         title: s.title,
         page: s.page,
@@ -117,7 +119,7 @@ export function ObraściClient() {
       return
     }
 
-    setStage({ status: 'di-guide', fileRef, type: type as 'acroform' | 'flat', filename, fields, sectionShapes })
+    setStage({ status: 'di-guide', fileRef, type: type as 'acroform' | 'flat', filename, fields, sectionShapes, fingerprint })
   }
 
   function onFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -159,6 +161,7 @@ export function ObraściClient() {
             filename: stage.filename,
             confirmedFields,
             sectionShapes: stage.sectionShapes,
+            fingerprint: stage.fingerprint,
           })
         }
         onWizard={() =>
@@ -169,6 +172,7 @@ export function ObraściClient() {
             filename: stage.filename,
             fields: stage.fields,
             sectionShapes: stage.sectionShapes,
+            fingerprint: stage.fingerprint,
           })
         }
       />
@@ -188,6 +192,7 @@ export function ObraściClient() {
             filename: stage.filename,
             confirmedFields,
             sectionShapes: stage.sectionShapes,
+            fingerprint: stage.fingerprint,
           })
         }
         onBack={(fields) =>
@@ -198,6 +203,7 @@ export function ObraściClient() {
             filename: stage.filename,
             fields,
             sectionShapes: stage.sectionShapes,
+            fingerprint: stage.fingerprint,
           })
         }
       />
@@ -211,6 +217,7 @@ export function ObraściClient() {
         pdfType={stage.type}
         filename={stage.filename}
         confirmedFields={stage.confirmedFields}
+        fingerprint={stage.fingerprint}
         onBack={(fields) =>
           setStage({
             status: 'di-guide',
@@ -219,6 +226,7 @@ export function ObraściClient() {
             filename: stage.filename,
             fields,
             sectionShapes: stage.sectionShapes,
+            fingerprint: stage.fingerprint,
           })
         }
         onReset={reset}

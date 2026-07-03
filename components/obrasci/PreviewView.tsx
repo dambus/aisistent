@@ -8,6 +8,9 @@ interface PreviewViewProps {
   pdfType: 'acroform' | 'flat'
   filename: string
   confirmedFields: GuideField[]
+  // Fingerprint obrasca iz di-analyze — za template feedback (Faza 3 Korak 6).
+  // null kad fingerprint nije izračunat; feedback blok se tada ne prikazuje.
+  fingerprint?: string | null
   onBack: (fields: GuideField[]) => void
   onReset: () => void
 }
@@ -17,6 +20,7 @@ export function PreviewView({
   pdfType,
   filename,
   confirmedFields,
+  fingerprint,
   onBack,
   onReset,
 }: PreviewViewProps) {
@@ -32,6 +36,8 @@ export function PreviewView({
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewError, setPreviewError] = useState<string | null>(null)
   const previewUrlRef = useRef<string | null>(null)
+  // Template feedback (Korak 6) — opciono, ne blokira download. Samo negativan se loguje.
+  const [feedbackGiven, setFeedbackGiven] = useState<'up' | 'down' | null>(null)
 
   const autoFields = fields.filter(f => f.state !== 'manual' && f.suggestedValue !== null)
   const manualFields = fields.filter(f => f.state === 'manual' || f.suggestedValue === null)
@@ -111,6 +117,19 @@ export function PreviewView({
       setError(err instanceof Error ? err.message : 'Greška pri preuzimanju.')
     } finally {
       setDownloading(false)
+    }
+  }
+
+  function sendFeedback(kind: 'up' | 'down') {
+    setFeedbackGiven(kind)
+    // Pozitivan se ne loguje (spec) — samo negativan ide u template_feedback.
+    // Fire-and-forget: neuspeh ne prikazujemo, feedback nikad ne blokira flow.
+    if (kind === 'down' && fingerprint) {
+      fetch('/api/obrasci/template-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fingerprint }),
+      }).catch(() => {})
     }
   }
 
@@ -227,6 +246,39 @@ export function PreviewView({
               ) : null
             ))}
           </div>
+        </div>
+      )}
+
+      {/* ── Template feedback (opciono, ne blokira download) ─────────────── */}
+      {fingerprint && (
+        <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-2.5">
+          {feedbackGiven ? (
+            <p className="text-xs text-gray-500">
+              {feedbackGiven === 'up'
+                ? 'Hvala na povratnoj informaciji!'
+                : 'Hvala — zabeležili smo da prepoznavanje nije bilo dobro.'}
+            </p>
+          ) : (
+            <>
+              <p className="text-xs text-gray-500">Da li su polja obrasca dobro prepoznata?</p>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={() => sendFeedback('up')}
+                  title="Dobro prepoznato"
+                  className="rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-sm hover:border-emerald-300 hover:bg-emerald-50 transition-colors"
+                >
+                  👍
+                </button>
+                <button
+                  onClick={() => sendFeedback('down')}
+                  title="Loše prepoznato"
+                  className="rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-sm hover:border-red-300 hover:bg-red-50 transition-colors"
+                >
+                  👎
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
