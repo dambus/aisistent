@@ -21,10 +21,16 @@ Supabase je imao tehničkih problema pa checkpoint nije odrađen na produkciji:
 
 ## Šta je sledeće posle verifikacije
 
-- **Duplikat-upis bug** (najozbiljniji u backlogu): prazne ćelije u RAZLIČITIM redovima sa istim labelom (npr. "11. Матични број") → ista vrednost upisana dvaput, vizuelno razbija PDF. Composite-dedup u di-analyze hvata samo isti red (SAME_LINE_Y_IN), ne isti label kroz redove. Repro: OPD-o.pdf (na drugoj mašini).
+- ~~Duplikat-upis bug~~ **FIXIRAN 3. jula** — cross-row dedup u novom `composeGuideFields.ts` (vidi dole)
 - "Caption bez podvlake/tabele" gap — polja nevidljiva pipeline-u, potvrđeno 4×
 - 5B slobodne linije, adresa split — niži prioritet
 - Backlog/GitHub issues po prioritetu
+
+## composeGuideFields.ts (3. jul, refaktor + duplikat fix) — bitno ako se dira pipeline
+
+Post-processing (rawFields → composite same-line → cross-row duplikat dedup → telefon hintovi) + `groupIntoSections` IZDVOJENI u `lib/documentIntelligence/composeGuideFields.ts`. Ranije TRI kopije (di-analyze route, test-full-pipeline, test-template-cache) — sad SVE koristi ovaj modul; test skripte provlače pravi produkcijski kod. Ne vraćati logiku inline.
+
+**Cross-row duplikat dedup** (fix za OPD-o bug): ista labela + ista strana + nije same-line composite → vrednost zadržava samo NAJŠIRI box, ostali manual + hint. Kriterijum STRUKTURNI (profileKey, ne trenutna vrednost) — namerno, da bi se odluka keširala u form_templates i važila za svakog korisnika na cache hit. `neverAutofill` set (composite sekundarna + duplikati) ide u template struct kao `confidence: null`.
 
 ## Tehnički kontekst keša (Korak 5) — bitno ako se dira
 

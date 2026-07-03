@@ -152,7 +152,7 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Status (2. jul 2026.):** Faza 1 i Faza 2 kompletne, Faza 3 Koraci 1–4 kompletni. Stranica aktivna u produkciji. Detaljna istorija po sesijama: `PROGRESS.md`, tekući kontekst za sledeću sesiju: `.ai-memory/next_session_note.md`. Specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`.
+**Status (3. jul 2026.):** Faze 1, 2 i 3 kompletne. Stranica aktivna u produkciji. Detaljna istorija po sesijama: `PROGRESS.md`, tekući kontekst za sledeću sesiju: `.ai-memory/next_session_note.md`. Specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`.
 
 **Odabran tehnički put:** Azure Document Intelligence (`prebuilt-layout`) + geometrijsko matching (labela ↔ polje po koordinatama) + Claude semantičko mapiranje (labela → profil ključ). Baza poznatih obrazaca (ručno mapiranje po obrascu) i Vision AI (screenshot + Claude Vision) razmatrani i odbačeni u ranoj fazi — DI daje strukturisan output bez potrebe za render-to-image korakom.
 
@@ -161,15 +161,12 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 - DOCX sa placeholderima → stari Claude wizard (nezavisan flow, `WizardView.tsx`) ✅
 - Preview PDF u iframe pre downloada, telefon/email transliteracija fixevi ✅
 - Detekcija sekcija obrasca (naslov dela forme) + `SectionWizardView` — sekcijski wizard za ručno dopunjavanje svih polja na jednom mestu, sa "Popuni sve →" iz GuideView ✅
-- `form_templates` keš (fingerprint → struktura obrasca) — tabela postoji, **još nije povezan u pipeline**
+- `form_templates` keš povezan u `di-analyze` — cache hit preskače DI+Claude (113ms vs 40s), vrednosti uvek sveže iz trenutnog profila; template feedback (👍/👎 u preview) ✅
+- Cross-row duplikat dedup — ista labela u različitim redovima se upisuje samo jednom (najširi box), fix za OPD-o duplikat-upis bug ✅
 
-**Sledeće (Faza 3 Korak 5–7):**
-- Korak 5: povezati template keš u `di-analyze` — cache hit preskače DI+Claude poziv za strukturu, ali vrednosti (suggestedValue) moraju ostati sveže po trenutnom profilu (keš čuva samo strukturu, nikad korisničke podatke)
-- Korak 6: template feedback (thumbs up/down) — treba nova `template_feedback` migracija
-- Korak 7: validacija na 3+ obrazaca uključujući nov materijal od Milana
+**Čeka verifikaciju na produkciji** (Supabase tehnički problemi 3. jula): dupli upload istog obrasca → drugi brži, `hit_count` raste, feedback tok.
 
 **Poznati bagovi/gapovi (zabeleženo u backlog, niži prioritet):**
-- Duplikat-upis kad prazne ćelije u različitim redovima dele identičan label tekst (vizuelno potvrđeno na OPD-o.pdf)
 - "Caption bez podvlake/tabele" layout (PIB/adresa ispod praznog prostora bez teksta) je pipeline-u nevidljiv — potvrđeno na 4 realna obrasca
 - 5B slobodne linije (underscore-tekst detekcija postoji, `fillFreeLines` overlay ne postoji još)
 - Adresa split (ulica+broj iz jednog profil polja)

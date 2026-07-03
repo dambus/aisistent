@@ -48,6 +48,8 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 **Čeka verifikaciju na produkciji** (Supabase je imao tehničkih problema u trenutku sesije): upload istog obrasca 2× → drugi vidljivo brži, red u `form_templates`, `hit_count` raste, 👍/👎 u preview-u.
 
+**Duplikat-upis bug FIXIRAN (nastavak sesije)** — OPD-o.pdf repro: DI vidi dve prazne ćelije u RAZLIČITIM redovima sa istom labelom ("11. Матични број" — uska ćelija do labele + comb red ispod) → ista vrednost upisana dvaput, vizuelno razbija PDF. Same-line composite dedup to nije hvatao. Fix: cross-row duplikat dedup — ista labela + ista strana + nije same-line → vrednost zadržava samo NAJŠIRI box (najverovatnije pravo polje za upis), ostali idu na manual sa napomenom. Kriterijum je STRUKTURNI (profileKey, ne trenutna vrednost) da bi se odluka ispravno keširala u form_templates i reprodukovala na cache hit za drugog korisnika. Usput refaktor: post-processing (composite + duplikati + hintovi + sekcije) izdvojen u `lib/documentIntelligence/composeGuideFields.ts` — do sada TRI kopije iste logike (route + 2 test skripte), sad test skripte provlače pravi produkcijski kod. Verifikovano: OPD-o (svaka vrednost jednom, u pravom boxu), PPDG-1S i eko taksa bez regresija. Napomena: jedan PPDG-1S run nije mapirao "Место" — Claude nondeterminizam (potvrđeno ponovnim runom), ne dedup.
+
 #### 2. jul 2026. (treća sesija) — Faza 3 Koraci 1-4: template keš + wizard
 
 Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` i `FAZA3_IMPLEMENTACIJA_UPUTSTVO.md`, korak-po-korak sa STOP checkpoint-ima.

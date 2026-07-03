@@ -134,6 +134,7 @@ Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` + `FAZA3_IMPLEMENTACIJA_UP
 - **Korak 7**: validacija lokalno na PPDG-1S (acroform), Обrazac 1 eko taksa (flat), PPI-2 (flat, 0 auto = ispravno — traži podatke o nepokretnosti). Nova `--fill-manual` opcija u test-full-pipeline simulira wizard unos. 2 mapper bagfixa: numeričke labele → null deterministički (sekcija navodila Claude-a da pogađa "1." → ziro_racun), prompt pravilo 8 za "Шифра" sub-komponentu delatnosti.
 - **Test alat:** `scripts/test-template-cache.ts` — determinizam, leak check, HIT/MISS identičnost, hit_count, svež profil za drugi nalog.
 - **ČEKA verifikaciju na produkciji** (Supabase tehnički problemi tokom sesije): dupli upload → brži drugi, hit_count, feedback tok. Detalji u `next_session_note.md`.
+- **Duplikat-upis bug FIXIRAN** (OPD-o repro): cross-row dedup — ista labela u različitim redovima → vrednost samo u najširem boxu, strukturni kriterijum (keširа se ispravno). Refaktor: post-processing izdvojen u `composeGuideFields.ts` (bila 3 kopije — route + 2 test skripte), testovi sad provlače produkcijski kod.
 
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
