@@ -136,5 +136,9 @@ Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` + `FAZA3_IMPLEMENTACIJA_UP
 - **ČEKA verifikaciju na produkciji** (Supabase tehnički problemi tokom sesije): dupli upload → brži drugi, hit_count, feedback tok. Detalji u `next_session_note.md`.
 - **Duplikat-upis bug FIXIRAN** (OPD-o repro): cross-row dedup — ista labela u različitim redovima → vrednost samo u najširem boxu, strukturni kriterijum (keširа se ispravno). Refaktor: post-processing izdvojen u `composeGuideFields.ts` (bila 3 kopije — route + 2 test skripte), testovi sad provlače produkcijski kod.
 
+## /obrasci — PIVOT na biblioteku obrazaca (4. jul 2026.)
+
+Milan testirao Upload & Fill na produkciji: keš radi, ali previše grešaka čitanja — feature u ovom obliku frustrira umesto da pomaže. Odluka: **kurirana biblioteka zvaničnih obrazaca** — pre-filled samo zelenim profil podacima, download kao editabilan PDF (AcroForm bez flatten), ostatak korisnik ručno u Adobe-u. Faza 1–3 pipeline = interni kuratorski alat; Upload & Fill se sklanja iz navigacije (kod ostaje). Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` — **čeka Milanov review** (otvorena pitanja u sekciji 12).
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

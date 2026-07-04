@@ -1,30 +1,35 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — gde smo stali 3. jul 2026., šta je sledeće
+description: Poruka za sledeću sesiju — PIVOT na biblioteku obrazaca (4. jul), FAZA4 spec čeka review
 metadata:
   type: project
 ---
 
-## Gde smo stali (3. jul 2026., kraj sesije)
+## ⚠️ PIVOT — Biblioteka obrazaca (4. jul 2026., PRVO PROČITATI)
+
+Milan testirao Upload & Fill na produkciji (PPDG-1, Obrazac 1, OPD-o): **keširanje radi** (produkcijski checkpoint keša time neformalno potvrđen), ali zaključak je da feature u ovom obliku nema vrednost — previše grešaka (pogrešno/nepročitana polja), zbunjujuća polja, automatsko/ručno popunjavanje kroz app frustrira umesto da pomaže.
+
+**Nova ideja (Milanova, Claude se složio):** kurirana biblioteka bitnih zvaničnih obrazaca (sa sajtova javnih ustanova), svi na jednom mestu, pre-filled SAMO zelenim profil podacima, download kao EDITABILAN PDF (AcroForm bez flatten) — ostatak korisnik popunjava ručno u Adobe-u (nije naša odgovornost). Faza 1–3 pipeline postaje interni kuratorski alat (prvi predlog mapiranja koji čovek verifikuje); kod se NE briše; Upload & Fill se sklanja iz navigacije.
+
+**Spec napisan: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` — čeka Milanov review pre implementacije.** Sadrži i otvorena pitanja (plan gating, sudbina Upload & Fill, inicijalna lista obrazaca, kategorije, naming) — proći kroz njih sa Milanom pre Koraka 1.
+
+## Gde smo stali (3. jul 2026., kraj prethodne sesije)
 
 Faza 3 KOMPLETNA (Koraci 1-7). Korak 5 (template keš u pipeline-u) + Korak 6 (template feedback) implementirani i pushovani (`80feefd` + bugfix commit). Korak 7 validacija odrađena LOKALNO na 3 obrasca (PPDG-1S acroform, Обrazac 1 eko taksa flat, PPI-2 flat) — sve prošlo, 2 mapper bagfixa usput.
 
 **Migracija `20260703000001_add_template_feedback.sql` primenjena na produkciju** (Milan, ručno kroz SQL editor — supabase CLI nije ulogovan na ovoj mašini).
 
-## ČEKA VERIFIKACIJU NA PRODUKCIJI (prvo sledeće)
+## ~~ČEKA VERIFIKACIJU NA PRODUKCIJI~~ → potvrđeno 4. jula (Milan: "kesiranje radi")
 
-Supabase je imao tehničkih problema pa checkpoint nije odrađen na produkciji:
-1. Upload istog obrasca 2× u `/obrasci` → drugi upload mora biti vidljivo brži (bez punog DI + Claude)
-2. Supabase: red u `form_templates` (name = originalni filename), `hit_count` raste na drugi upload
-3. 👍/👎 blok u preview stage-u — negativan upisuje red u `template_feedback`
-4. `needs_review` prelazi na true posle 3 negativna za isti fingerprint
+## Šta je sledeće
 
-## Šta je sledeće posle verifikacije
+1. **Milanov review FAZA4 spec-a** + odgovori na otvorena pitanja (sekcija 12 spec-a)
+2. Implementacija Faze 4 po koracima iz spec-a (Korak 1: migracija + fill bez flatten)
+3. Stari pipeline gapovi ("caption bez podvlake", 5B, adresa split) — sada relevantni samo kao ograničenja KURATORSKOG alata, ne user-facing bug
 
-- ~~Duplikat-upis bug~~ **FIXIRAN 3. jula** — cross-row dedup u novom `composeGuideFields.ts` (vidi dole)
-- "Caption bez podvlake/tabele" gap — polja nevidljiva pipeline-u, potvrđeno 4×
-- 5B slobodne linije, adresa split — niži prioritet
-- Backlog/GitHub issues po prioritetu
+## Napomena za kuratorski alat (Faza 4 Korak 2)
+
+`scripts/test-full-pipeline.ts` + `composeGuideFields.ts` su osnova za `curate-form.ts`. Duplikat/composite/potpis guardovi važe i za kuratorske predloge.
 
 ## composeGuideFields.ts (3. jul, refaktor + duplikat fix) — bitno ako se dira pipeline
 
