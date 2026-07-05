@@ -42,3 +42,6 @@ next-env.d.ts
 
 .vercel
 scripts/output/
+
+# Harvest — skinuti PDF-ovi izvora (state je u scripts/curation/harvest-state.json)
+scripts/harvest/

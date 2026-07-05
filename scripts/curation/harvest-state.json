@@ -1,0 +1,532 @@
+{
+  "https://www.apr.gov.rs/upload/Portals/0/Arhiv_Usluge/Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf",
+    "sha256": "227d686a91fdab588e4ce9ac688baa29bb917405dfe58c52bc487f6fe7edc36d",
+    "pages": 2,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/Opsti%20obrasci%20za%20sve%20registre/2022/Zahtev_za_povracaj_vise_pogresno_uplacenih_sredstava_APR.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_povracaj_vise_pogresno_uplacenih_sredstava_APR.pdf",
+    "sha256": "4962602af117a992be88dc5fed552a415950447dd69b00721627b5e08391745d",
+    "pages": 1,
+    "acroFields": 20,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/gradjevinske%20dozvole/%D0%9A%D0%BE%D1%80%D0%B8%D1%81%D0%BD%D0%B8%D1%87%D0%BA%D0%BE%20%D1%83%D0%BF%D1%83%D1%82%D1%81%D1%82%D0%B2%D0%BE%20-%20%D0%94%D0%B8%D0%B3%D0%B8%D1%82%D0%B0%D0%BB%D0%BD%D0%BE%20%D0%BF%D0%BE%D1%82%D0%BF%D0%B8%D1%81%D0%B8%D0%B2%D0%B0%D1%9A%D0%B5.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "_-_.pdf",
+    "sha256": "275e54936abce4e58aaac7080f04ac10a3e396f412739ce6f1d67a89446d05b3",
+    "pages": 14,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Prijava_za_REZERVACIJU_naziva_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Prijava_za_REZERVACIJU_naziva_2025_T.pdf",
+    "sha256": "13a50ab4da13fe9d32b27176a2087883c4cea3f6ea6fe976a9e2216ac7e56a22",
+    "pages": 2,
+    "acroFields": 36,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_ispravku_greske_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_ispravku_greske_2025_T.pdf",
+    "sha256": "255bce3299ce92a1410a02e561c0164182f3578dfc14a513a4ec7442c311e772",
+    "pages": 1,
+    "acroFields": 23,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_izdavanje_potvrde_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_izdavanje_potvrde_2025_T.pdf",
+    "sha256": "3b7cd4113bb12122db17eead275929d8dc1bfaca3a6799bddcd9bb785a5d8c1f",
+    "pages": 2,
+    "acroFields": 55,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_izdavanje_prepisa_resenja_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_izdavanje_prepisa_resenja_2025_T.pdf",
+    "sha256": "5ce2b3707bd47d711035e3bd18a1d8564767b68ee2522924343c62fac574fb4d",
+    "pages": 1,
+    "acroFields": 20,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_01_PS___Poslovno_ime_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_01_PS___Poslovno_ime_T.pdf",
+    "sha256": "f04dadbcd4760c98c85a81b0ab5d541a4965abb7b5aad41f358248b231acb780",
+    "pages": 1,
+    "acroFields": 11,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_02_PS___Prevodi_poslovnog_imena_i_ili_skracenog_poslovnog_imena_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_02_PS___Prevodi_poslovnog_imena_i_ili_skracenog_poslovnog_imena_T.pdf",
+    "sha256": "9559fcc41bc55e3b251f03967d89a9c27ecdf1dc82a39641cc874468bd95b4cf",
+    "pages": 1,
+    "acroFields": 16,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_04_PS___Pretezna_delatnost_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_04_PS___Pretezna_delatnost_T.pdf",
+    "sha256": "be6c36321729662e2723fd96e3168ed6f3979c5d989ef8db09401525769b65ba",
+    "pages": 1,
+    "acroFields": 7,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_05_PS___Vreme_trajanja_drustva_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_05_PS___Vreme_trajanja_drustva_T.pdf",
+    "sha256": "255bce375cfb2f473f7f84970d25ed30c27db8e9ae95305ec8620403bda8abed",
+    "pages": 1,
+    "acroFields": 8,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_16_PS___Istovremeno_povecanje_i_smanjenje_kapitalaT.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_16_PS___Istovremeno_povecanje_i_smanjenje_kapitalaT.pdf",
+    "sha256": "c8cf64c9fca5e244ef440f6dd1d02508ea12b8a87b441cb5bcd425ae573da35a",
+    "pages": 1,
+    "acroFields": 21,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_19_PS___Promena_pravne_forme_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_19_PS___Promena_pravne_forme_T.pdf",
+    "sha256": "8f96a097a4a54f971c9d0e10f24eead7c00103561087ded2a02b8e84d988e26f",
+    "pages": 1,
+    "acroFields": 9,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_20_PS___Statusna_promena_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_20_PS___Statusna_promena_T.pdf",
+    "sha256": "af5d3afc8fe34b8eee95bfc5accb6e8012fa0a845cadf1e67d549831f0e6f3c8",
+    "pages": 1,
+    "acroFields": 22,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_26_PS___Oglas_o_ugovoru_o_kontroli_i_upravljanju_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_26_PS___Oglas_o_ugovoru_o_kontroli_i_upravljanju_T.pdf",
+    "sha256": "dcce68e24a8c1cba2f4158f2c99e849a80bb1eecb05fc11ae56a39150af7d41c",
+    "pages": 1,
+    "acroFields": 19,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_29_PS____Zabelezba_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_29_PS____Zabelezba_T.pdf",
+    "sha256": "72f3cdc8d0d6e4433c6ea807385311412a52dc26f26399019403cc432ea5635f",
+    "pages": 1,
+    "acroFields": 13,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_30_PS___Ogranicanja_ovlascenja_za_zastupanje_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_30_PS___Ogranicanja_ovlascenja_za_zastupanje_T.pdf",
+    "sha256": "46b649562ac7fccc113c8ab1c699740f31f986650d1f5451006d0bb807ed0991",
+    "pages": 1,
+    "acroFields": 2,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_32_PS___Vrsta_zadruge_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_32_PS___Vrsta_zadruge_T.pdf",
+    "sha256": "84b2dd1ee32e5807982b55b8e549bc90cdbb90c134786c4fce8d8f7f1f69b846",
+    "pages": 1,
+    "acroFields": 19,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_06_PS___Zakonski_zastupnici_jun22.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_06_PS___Zakonski_zastupnici_jun22.pdf",
+    "sha256": "f94c2d60f208ac78d022c6e2c5d63c7fa941f85b078ee70820f3af02bfe593ff",
+    "pages": 1,
+    "acroFields": 31,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_08_PS___Direktori_odbori_akcionarskog_drustva_T_jun22.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_08_PS___Direktori_odbori_akcionarskog_drustva_T_jun22.pdf",
+    "sha256": "c8c6b565308008779c65ed5de8c2a704c5fb3d7770d98701ae8c117b12dd6d87",
+    "pages": 1,
+    "acroFields": 32,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_09_PS___Nadzorni_odbor_T_jun22.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_09_PS___Nadzorni_odbor_T_jun22.pdf",
+    "sha256": "a245edd900698009ab34b11ce1cb1599cd63cd35cbb74661212ec56f5c606cfd",
+    "pages": 1,
+    "acroFields": 41,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_10_PS___Upravni_odbor_T_jun22.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_10_PS___Upravni_odbor_T_jun22.pdf",
+    "sha256": "1384feca4aa680f57cfc4a35f55f0737bcfce60186f9a99911ff022750c6c387",
+    "pages": 1,
+    "acroFields": 41,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_11_PS___Prokura_T_jun22.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_11_PS___Prokura_T_jun22.pdf",
+    "sha256": "94b849d4477160a27d454a3f563e9125692ff72722b92939a0df464bc77ec760",
+    "pages": 1,
+    "acroFields": 39,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_21_PS___Pokretanje_postupka_likvidacije_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_21_PS___Pokretanje_postupka_likvidacije_T.pdf",
+    "sha256": "840d63b1f2172089ad32c05217949ca17a7f8ea4bd1601ce5f00c50874b19a37",
+    "pages": 1,
+    "acroFields": 28,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_22_PS___Obustava_postupka_likvidacije_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_22_PS___Obustava_postupka_likvidacije_T.pdf",
+    "sha256": "9472440c33ba671c4eb449a1c942b3a48e5cfb55780c5edc2ff564f28dbf85c5",
+    "pages": 1,
+    "acroFields": 31,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_24_PS___Otvaranje_stecaja_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_24_PS___Otvaranje_stecaja_T.pdf",
+    "sha256": "3887ae19a1d90b5b2df969b98dbb086f93fd0573d23ce3500a20de361dac1319",
+    "pages": 1,
+    "acroFields": 14,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_25_PS___Obustava_stecaja_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_25_PS___Obustava_stecaja_T.pdf",
+    "sha256": "614441ebbacd8a67d0f0c3e02b67da012a81269b75d9eacaa9730e0375540c65",
+    "pages": 1,
+    "acroFields": 31,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_33_PS___Status_socijalnog_preduzetnistva.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_33_PS___Status_socijalnog_preduzetnistva.pdf",
+    "sha256": "e1ce0c0e5748f9f29de1f87f07c2583b8091ab74825b1049a52125e5d6a32f4b",
+    "pages": 1,
+    "acroFields": 11,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2024/Dodatak_13_PS_Licni_podaci_registrovanih_lica.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_13_PS_Licni_podaci_registrovanih_lica.pdf",
+    "sha256": "e202264940e68487cea87b7a8e17af76ef680f27d9e87fd26725e10d27ad1c35",
+    "pages": 2,
+    "acroFields": 58,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2024/Dodatak_14_PS___Povecanje_kapitala.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_14_PS___Povecanje_kapitala.pdf",
+    "sha256": "ac31c2a6d155834c1df3174749c3e92029aecdd6d62375d9a43119bf3621cf9b",
+    "pages": 1,
+    "acroFields": 30,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2024/Dodatak_15_PS___Smanjenje_kapitala.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_15_PS___Smanjenje_kapitala.pdf",
+    "sha256": "0f5f213beed8d0eab370a1dfa1fa0e467a91f9e37d56037872ec322c09874bc3",
+    "pages": 1,
+    "acroFields": 25,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Dodatak_12_PS___Clanovi_udeli_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_12_PS___Clanovi_udeli_T.pdf",
+    "sha256": "2a8cb1d24cb569bd845f2931629883b1729bbf030a3290b1b0c722b306338273",
+    "pages": 1,
+    "acroFields": 31,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Akcionarsko_drustvo_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Akcionarsko_drustvo_2025_T.pdf",
+    "sha256": "db7972ac0366f1acfaf56b8c9fa1d01c4c6f8c4ae151c97a000ec760d56fe81a",
+    "pages": 14,
+    "acroFields": 315,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___DOO_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___DOO_2025_T.pdf",
+    "sha256": "876e2730a0c142f7031cd87bf5aa5b94fe58b23809ab8228ba0d86559cabda44",
+    "pages": 14,
+    "acroFields": 307,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Javno_preduzece_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Javno_preduzece_2025_T.pdf",
+    "sha256": "860fcf2ad0914897b7fef2789d5cbd36c69fbec894606266b7dfea377e210e83",
+    "pages": 13,
+    "acroFields": 251,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Komanditno_drustvo_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Komanditno_drustvo_2025_T.pdf",
+    "sha256": "1e45359583601331c07b310b279b633464806fcd3b97d6b5627a631429aaf25c",
+    "pages": 13,
+    "acroFields": 240,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Ogranak_stranog_privrednog_drustva_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Ogranak_stranog_privrednog_drustva_2025_T.pdf",
+    "sha256": "ec818650e240d03b3f7e739e6ce4e2b0c90e498e481267f68377db21ee912b54",
+    "pages": 7,
+    "acroFields": 108,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Ortacko_drustvo_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Ortacko_drustvo_2025_T.pdf",
+    "sha256": "abdd90d37721efa2751698fa318dfe92e02e0c0ad09229e76f94bd933077edf4",
+    "pages": 13,
+    "acroFields": 241,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Predstavnistvo_stranog_privrednog_drustva_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Predstavnistvo_stranog_privrednog_drustva_2025_T.pdf",
+    "sha256": "9baa800869f3dd980ed79c3640680fe39d24ed92bab534b6e1352e8ddcaeee68",
+    "pages": 7,
+    "acroFields": 108,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Zadruga_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Zadruga_2025_T.pdf",
+    "sha256": "ecca47f23384d521b48c9205012edb55be77050b1126ca516ea3e169fa46f30a",
+    "pages": 14,
+    "acroFields": 295,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Zadruzni_savez_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "JRPPS___Zadruzni_savez_2025_T.pdf",
+    "sha256": "42d101ab15951aaba4da209d6a58986d5433abd4708314693b12f94eb6eeb600",
+    "pages": 11,
+    "acroFields": 246,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Registraciona_prijava_brisanja_subjekata_upisanih_u_Registar_PS_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Registraciona_prijava_brisanja_subjekata_upisanih_u_Registar_PS_2025_T.pdf",
+    "sha256": "3982efd2d11f4dfa43b20322cd4c5570a8e0135d7080671f3fd84a6760ca40b6",
+    "pages": 2,
+    "acroFields": 51,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Registraciona_prijava_promene_podataka_o_subjektima_upisanim_u_Registar_PS_T_sa_spiskom_dodataka_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Registraciona_prijava_promene_podataka_o_subjektima_upisanim_u_Registar_PS_T_sa_spiskom_dodataka_2025_T.pdf",
+    "sha256": "2b13854924e42a93b60e2a3bc807fa7d582834c02144fb3bb56ad9b0ef19f2da",
+    "pages": 2,
+    "acroFields": 57,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Zahtev_za_izdavanje_izvoda_PS_2025_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Zahtev_za_izdavanje_izvoda_PS_2025_T.pdf",
+    "sha256": "09679f965dc4d7c4167f536a36849925e060d411498b0ef0dce2dd6d3efccafa",
+    "pages": 1,
+    "acroFields": 21,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_03_PS___Sediste_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_03_PS___Sediste_T.pdf",
+    "sha256": "d2de39f1f1dbb40842d4771fc6b401270addae6f37b39a40ac8ce65529a53edf",
+    "pages": 1,
+    "acroFields": 15,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_07_PS___Ostali_zastupnici_T_nov24.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_07_PS___Ostali_zastupnici_T_nov24.pdf",
+    "sha256": "20098b9dd18000249d566f2460eee85a8f8d7b897e33dd2e0ef683151cfd03bc",
+    "pages": 1,
+    "acroFields": 26,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_17a_PS___Upis_ogranka.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_17a_PS___Upis_ogranka.pdf",
+    "sha256": "9ba585ad2d95fecfb1a903e014c9eebd02541409c2b906acbbe6c2df77b8dd05",
+    "pages": 1,
+    "acroFields": 43,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_17b_PS___Brisanje_ogranka_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_17b_PS___Brisanje_ogranka_T.pdf",
+    "sha256": "2107980c019879f71587b2a147444a0a65fca8ea9b76c838253013f2690b886a",
+    "pages": 1,
+    "acroFields": 43,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_18_PS___Promena_podataka_o_registrovanom_ogranku_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_18_PS___Promena_podataka_o_registrovanom_ogranku_T.pdf",
+    "sha256": "44f803b15a91b2b7e3165f62ffd78c92283317acb76e7bb42f1a69130109ebd8",
+    "pages": 1,
+    "acroFields": 45,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_31_PS___Elektronska_posta___Kontakt_podaci_T.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_31_PS___Elektronska_posta___Kontakt_podaci_T.pdf",
+    "sha256": "bbc56409f298e6fbd06df88e6fd25b10e120fa31f5ec2dbf5330cd2e140196bd",
+    "pages": 1,
+    "acroFields": 23,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/Dodatak_28_PS____Objava_i_registracija_akta_122023.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_28_PS____Objava_i_registracija_akta_122023.pdf",
+    "sha256": "98b2e0a1b2e3da6f47f2948fc2a16ab47cfae2ec93725f2239ff39643e8604dc",
+    "pages": 1,
+    "acroFields": 52,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Opsti%20obrasci/Dodatak_27_PS_Objava_dokumenta.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "Dodatak_27_PS_Objava_dokumenta.pdf",
+    "sha256": "38d9c7f996ed5ff742b75bc41e66eeed37de5e0ea36808bced29dc6e45cdc939",
+    "pages": 1,
+    "acroFields": 28,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  },
+  "https://www.apr.gov.rs/upload/documents/zahtev%20za%20slobodan%20pristup%20informacijama%20od%20javnog%20zna%C4%8Daja%20cir.pdf": {
+    "sourceId": "apr-privredna-drustva",
+    "filename": "zahtev_za_slobodan_pristup_informacijama_od_javnog_zna_aja_cir.pdf",
+    "sha256": "37c5916162224c521b01438c2affb10d8af37392e8fe5c346fe3facce6dcbf5e",
+    "pages": 1,
+    "acroFields": 19,
+    "type": "acroform",
+    "firstSeen": "2026-07-05T11:08:28.583Z",
+    "lastSeen": "2026-07-05T11:08:48.773Z"
+  }
+}

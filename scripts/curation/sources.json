@@ -1,0 +1,11 @@
+{
+  "_comment": "Registar izvora za harvest-sources.ts — stranice javnih institucija sa obrascima. Dodavanje novog izvora = novi red ovde, ništa u kodu.",
+  "sources": [
+    {
+      "id": "apr-privredna-drustva",
+      "institution": "Agencija za privredne registre",
+      "category": "apr",
+      "url": "https://www.apr.gov.rs/registri/privredna-drustva/obrasci.2042.html"
+    }
+  ]
+}
