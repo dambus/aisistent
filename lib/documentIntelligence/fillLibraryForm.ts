@@ -97,7 +97,13 @@ export async function fillLibraryForm(
       }
       const maxLen = pdfField.getMaxLength();
       const finalVal = maxLen !== undefined && value.length > maxLen ? value.slice(0, maxLen) : value;
-      pdfField.setFontSize(9);
+      try {
+        pdfField.setFontSize(9);
+      } catch {
+        // Neki obrasci (APR) nemaju DA entry pa setFontSize baca MissingDAEntryError —
+        // postavljanje default appearance-a direktno daje isti rezultat (9pt).
+        pdfField.acroField.setDefaultAppearance('/Helv 9 Tf 0 g');
+      }
       pdfField.setText(finalVal);
       touchedAcroForm = true;
       result.filledCount++;

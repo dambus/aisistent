@@ -126,7 +126,8 @@ export async function mapFieldsToProfile(
 
   const response = await client.messages.create({
     model: 'claude-sonnet-4-5',
-    max_tokens: 4096,
+    // 4096 je bilo premalo za velike obrasce (JRPPS DOO: 307 polja → isečen JSON)
+    max_tokens: 16384,
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: userMessage }],
   });

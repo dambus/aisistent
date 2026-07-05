@@ -37,7 +37,8 @@
     "acroFields": 36,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-rezervacija-naziva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_ispravku_greske_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -427,7 +428,8 @@
     "acroFields": 57,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-prijava-promene-privredna-drustva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Zahtev_za_izdavanje_izvoda_PS_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -437,7 +439,8 @@
     "acroFields": 21,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-izvod-privredna-drustva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_03_PS___Sediste_T.pdf": {
     "sourceId": "apr-privredna-drustva",
