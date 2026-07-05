@@ -83,7 +83,7 @@ export default async function LibraryFormPage({ params }: Props) {
 
           <h1 className="text-white font-extrabold leading-tight tracking-tight"
             style={{ fontSize: 'clamp(24px, 4.5vw, 38px)' }}>
-            {form.title}
+            <span style={{ color: '#6ee7b7' }}>{form.shortName}</span> — {form.title}
           </h1>
 
           <div className="mt-6 flex items-center gap-3 flex-wrap">

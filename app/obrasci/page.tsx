@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { getAllLibraryForms, CATEGORY_LABELS, formatDateSr } from '@/lib/libraryForms'
+import { getAllLibraryForms, CATEGORY_LABELS } from '@/lib/libraryForms'
+import { ObrasciSearch } from '@/components/obrasci/ObrasciSearch'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,14 +21,6 @@ const NAV = [
 
 export default async function ObrasciLibraryPage() {
   const forms = await getAllLibraryForms()
-
-  // Grupisanje po kategoriji — redosled prati CATEGORY_LABELS
-  const byCategory = new Map<string, typeof forms>()
-  for (const key of Object.keys(CATEGORY_LABELS)) byCategory.set(key, [])
-  for (const f of forms) {
-    if (!byCategory.has(f.category)) byCategory.set(f.category, [])
-    byCategory.get(f.category)!.push(f)
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -82,43 +74,14 @@ export default async function ObrasciLibraryPage() {
       </section>
 
       <main className="mx-auto max-w-6xl px-5 lg:px-8">
-        {forms.length === 0 && (
+        {forms.length === 0 ? (
           <p className="py-16 text-center text-sm text-gray-400">
             Biblioteka se puni — prvi obrasci stižu uskoro.
           </p>
-        )}
-
-        {[...byCategory.entries()].map(([category, items]) =>
-          items.length === 0 ? null : (
-            <section key={category} className="py-8 border-b border-gray-100 last:border-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-400 mb-5">
-                {CATEGORY_LABELS[category] ?? category}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {items.map(form => (
-                  <Link key={form.slug} href={`/obrasci/${form.slug}`}
-                    className="group rounded-2xl border border-gray-200 p-5 hover:border-green-300 hover:shadow-sm transition-all">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest rounded-full px-2.5 py-1"
-                        style={{ backgroundColor: '#f0fdf4', color: P }}>
-                        {form.shortName}
-                      </span>
-                      <span className="text-gray-300 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all text-sm">→</span>
-                    </div>
-                    <h2 className="mt-3 text-sm font-semibold text-gray-800 leading-snug group-hover:text-green-800 transition-colors line-clamp-2">
-                      {form.title}
-                    </h2>
-                    {form.description && (
-                      <p className="mt-2 text-xs text-gray-500 leading-relaxed line-clamp-2">{form.description}</p>
-                    )}
-                    <p className="mt-3 text-[11px] text-gray-400">
-                      {form.sourceInstitution} · proveren {formatDateSr(form.verifiedAt)}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )
+        ) : (
+          <div className="py-8">
+            <ObrasciSearch forms={forms} categoryLabels={CATEGORY_LABELS} categoryOrder={Object.keys(CATEGORY_LABELS)} />
+          </div>
         )}
 
         {/* ── CTA ── */}
