@@ -214,3 +214,20 @@ Obavezno: jak disclaimer + pozicioniranje kao "informativno, ne pravni/poreski s
 
 #### API
 - Javni API za generisanje dokumenata (dugoročno)
+
+#### [ZA RAZMATRANJE] Granularniji profil firme — adresa/telefon sub-komponente
+
+**Kontekst (5. jul 2026., posle kuracije ~10 APR obrazaca):** dosta državnih obrazaca traži adresu i telefon razdvojene na sub-komponente (ulica, kućni broj, opština, mesto, poštanski broj / pozivni broj + broj telefona), dok `companies` tabela danas ima samo `adresa` (slobodan tekst) i `telefon` (slobodan tekst). `semanticMapper.ts` ima eksplicitna pravila (5, 6, 8) koja sub-komponente uvek mapiraju na `profileKey: null` — nikad ne pogađa deo teksta — pa se ta polja u biblioteci obrazaca trenutno NE popunjavaju automatski.
+
+**Vrednost:** ako je split-layout čest kroz izvore (APR, verovatno i Poreska/RFZO/PIO), granularniji model direktno povećava % automatski popunjenih polja po obrascu — to je suština vrednosti biblioteke. Pre bilo kakve promene šeme, izbrojati koliko `null` mapiranja u već kuriranim obrascima su baš adresa/telefon sub-komponente (ako je mali %, verovatno ne vredi truda).
+
+**Šta razbijanje profila povlači sa sobom (ako se radi puna šema):**
+1. Migracija postojećih `companies` redova — `adresa` je slobodan tekst, rastavljanje zahteva ili da korisnici popune ponovo, ili parsiranje postojećeg teksta (nepouzdano — srpske adrese nisu strogo standardizovane, sprat/stan opciono).
+2. Prompt moduli (`lib/prompts/*`) i 21 tip dokumenta danas ubacuju "u [adresa], [grad]" prirodno u prozu — treba computed "puna adresa" getter da proza i dalje zvuči normalno (duplirana logika: strukturirano za PDF popunjavanje, string za AI prozu).
+3. Nove `PROFILE_KEYS` u `semanticMapper.ts` + izmena/brisanje pravila 5/6/8 + re-kuracija VEĆ objavljenih obrazaca u biblioteci (mogli bi sad popuniti polja koja su ranije bila `null`).
+4. Onboarding/profil UI trenje — više polja na formi pri registraciji, za vrednost koja se ostvaruje tek kasnije.
+5. Opština vs grad/mesto nisu pravno isto u Srbiji (opština je upravna jedinica) — ako se radi kako treba, nije trivijalno mapiranje 1:1 sa trenutnim grubim "grad" poljem.
+
+**Predloženi srednji put (umesto pune šeme):** zadržati JEDNO kanonsko polje (`adresa`, `telefon`) kao izvor istine na profilu (nema dodatnog onboarding trenja), i parsirati deterministički (regex, ne LLM nagađanje) pri popunjavanju obrasca kad forma traži baš tu sub-komponentu. Ovo je drugačiji rizik od pravila "nikad ne nagađaj" iz `semanticMapper.ts` (to pravilo je o LLM-u koji pogađa NAMERU labele; ovde je parsiranje VEĆ POZNATOG korisničkog podatka, deterministički i testabilno).
+
+**Status:** samo diskusija, ništa implementirano. Vratiti se kad se nakupi dovoljno kuriranih obrazaca da se proceni koliko je split-layout zaista čest.
