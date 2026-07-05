@@ -13,6 +13,19 @@ interface LibraryDownloadButtonsProps {
 export function LibraryDownloadButtons({ slug, shortName }: LibraryDownloadButtonsProps) {
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [reported, setReported] = useState(false)
+  const [reporting, setReporting] = useState(false)
+
+  async function reportOutdated() {
+    if (reported || reporting) return
+    setReporting(true)
+    try {
+      const res = await fetch(`/api/obrasci/library/${slug}/report-outdated`, { method: 'POST' })
+      if (res.ok) setReported(true)
+    } finally {
+      setReporting(false)
+    }
+  }
 
   async function downloadFilled() {
     setDownloading(true)
@@ -78,6 +91,14 @@ export function LibraryDownloadButtons({ slug, shortName }: LibraryDownloadButto
         ručno u Adobe Reader-u ili drugom PDF softveru — za tačnost i kompletnost obrasca
         odgovoran je podnosilac.
       </p>
+
+      <button
+        onClick={reportOutdated}
+        disabled={reported || reporting}
+        className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 disabled:no-underline disabled:cursor-default"
+      >
+        {reported ? 'Hvala na prijavi — proveravamo obrazac.' : 'Obrazac je zastareo ili ima grešku?'}
+      </button>
     </div>
   )
 }
