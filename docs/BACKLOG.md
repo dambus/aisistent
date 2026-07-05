@@ -152,9 +152,11 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Status (4. jul 2026.): PIVOT → Biblioteka obrazaca (Faza 4).** Milan testirao Upload & Fill na produkciji: keširanje radi, ali previše grešaka (pogrešno/neprочитана polja, zbunjujuća polja) — automatsko čitanje proizvoljnih obrazaca više frustrira nego pomaže. Nova ideja: kurirana biblioteka zvaničnih obrazaca, pre-filled samo zelenim profil podacima, download kao EDITABILAN PDF (bez flatten) — korisnik ostatak popunjava ručno u Adobe-u. Faza 1–3 pipeline postaje interni kuratorski alat, kod se ne briše. **Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` — čeka Milanov review pre implementacije.**
+**Status (5. jul 2026.): Faza 4 biblioteka obrazaca NA PRODUKCIJI.** Javna `/obrasci` biblioteka sa 3 APR obrasca (izvod, prijava promene, rezervacija naziva), download popunjeno (Starter+) / prazno (javno), editabilan PDF bez flatten. Kuratorski CLI + harvester (APR: 51 AcroForm kandidat, sha256 change detection). Upload & Fill uklonjen iz UI, pipeline = kuratorski alat. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
 
-Istorija Faza 1–3: `PROGRESS.md`; specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`.
+**Sledeće za biblioteku:** kuracija ~30 APR kandidata (batch propose + Claude draft opisa), novi izvori (APR preduzetnici, Poreska, RFZO, PIO), n8n cron za harvester, "obrazac je zastareo?" feedback dugme (Korak 5), flat→AcroForm konverzija pri kuraciji (otključava flat obrasce).
+
+Istorija Faza 1–4: `PROGRESS.md`; specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`, `FAZA4_*`.
 
 **Odabran tehnički put:** Azure Document Intelligence (`prebuilt-layout`) + geometrijsko matching (labela ↔ polje po koordinatama) + Claude semantičko mapiranje (labela → profil ključ). Baza poznatih obrazaca (ručno mapiranje po obrascu) i Vision AI (screenshot + Claude Vision) razmatrani i odbačeni u ranoj fazi — DI daje strukturisan output bez potrebe za render-to-image korakom.
 

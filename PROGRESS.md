@@ -29,6 +29,24 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 4-5. jul 2026. — Faza 4: PIVOT na biblioteku obrazaca — implementirano i NA PRODUKCIJI
+
+**Pivot odluka (4. jul):** Milan testirao Upload & Fill na produkciji — keš radi, ali previše grešaka čitanja proizvoljnih obrazaca (feature frustrira umesto da pomaže). Nova ideja: kurirana biblioteka zvaničnih obrazaca, pre-filled SAMO zelenim profil podacima, download kao EDITABILAN PDF. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` (odluke 12: gating potvrđen, Upload & Fill potpuno sakriti, jedna zajednička biblioteka, naming "Obrasci").
+
+**Korak 1** (`b2e860b`): `library_forms` tabela (javno čitanje samo published — SEO; pisanje service-role) + `obrasci-library` bucket + `script` kolona (pismo se određuje pri kuraciji, na download nema DI). `fillLibraryForm()`: AcroForm polja ostaju ŽIVA (bez flatten — editabilnost je poenta), flat overlay na koordinate iz baze, 0 API poziva na download. Test: PPDG-1S 8/8 za 703ms, 198 polja i dalje editabilno.
+
+**Korak 2** (`2623a5c`): kuratorski CLI `scripts/curate-form.ts` — propose (postojeći pipeline kao PRVI PREDLOG koji čovek verifikuje) / publish (validacije + testni fill + Storage + upsert published=false) / go-live. Demonstriran ceo ciklus na OPD-u uklj. kurator fix (preuska DI ćelija ručno proširena).
+
+**Korak 3** (`ef5f73d`): javna `/obrasci` lista po kategorijama + `/obrasci/[slug]` SEO stranice (blog-style layout) + `GET /api/obrasci/library/[slug]/download` (prazan javan; `?filled=1` auth + Starter+; 401→login, 403→upgrade). Dashboard upload stranica UKLONJENA (ObraściClient/pipeline kod ostaje — interni alat), sitemap proširen.
+
+**Pravila kuracije iz prakse** (`742e232`, spec 6.1): (1) SAMO AcroForm — flat posle overlay-a korisnik ne može da popunjava kako reklamiramo (OPD flat → uklonjen iz biblioteke; flat→AcroForm konverzija = backlog); (2) meta tekst obavezno latinicom — publish auto-transliteruje; (3) proveriti način podnošenja — PPDG-1S ide isključivo kroz ePorezi pa pre-filled PDF nema vrednost.
+
+**Harvester** (`e0397f3`): `scripts/harvest-sources.ts` + `scripts/curation/sources.json` (registar izvora — novi izvor = novi red). Fetch stranice → PDF linkovi (noise filter) → sha256 + AcroForm klasifikacija → new/changed/unchanged u `harvest-state.json`; `curatedSlug` na state entry-ju → changed = alarm za re-kuraciju (mehanizam ažuriranja). Prvi run APR privredna društva: **51 AcroForm kandidat**, idempotentno. Slične stranice potvrđene za Poresku, RFZO, PIO, ZSO (u spec-u).
+
+**Prva 3 obrasca LIVE** (`7e707a1`, potvrđeno na produkciji 5. jul): Zahtev za izvod, Registraciona prijava promene, Rezervacija naziva (APR). Kuratorske odluke: JRPPS (osnivanje) preskočen — prefill podacima postojeće firme bi bio POGREŠAN za novi subjekt; Rezervacija: НАЗИВ se ne puni (novi naziv koji se rezerviše). Bagfixevi: APR polja bez DA entry-ja (`setDefaultAppearance` fallback u fillLibraryForm), semanticMapper `max_tokens` 4096→16384 (JRPPS 307 polja seklo JSON).
+
+**Sledeće:** kuracija preostalih ~30 APR kandidata (dodaci o promenama = najbolji fit), batch propose + Claude draft opisa, novi izvori u sources.json, n8n cron za harvester, Korak 5 (feedback "obrazac je zastareo?").
+
 #### 3. jul 2026. — Faza 3 Koraci 5-7: keš u pipeline-u, feedback, validacija
 
 **Korak 5 — template keš integrisan u `di-analyze`** (`80feefd`): fingerprint (DI samo prva strana, ~6s) → `getTemplate`. HIT: preskače pun DI + Claude — struktura iz keša, `suggestedValue` se puni SVEŽE iz profila trenutnog korisnika (`rehydrateFields` u route + eksportovan `profileValue` iz semanticMapper-a), `hit_count` raste. MISS: pun pipeline pa `saveTemplate` — čuva samo strukturu (`TemplateFieldStruct`: label/profileKey/isInternal/confidence/hint; `confidence: null` = composite sekundarno polje koje se nikad ne auto-popunjava). Sekcije u kešu kao `TemplateSectionShape` (title/page/fieldIds — isti oblik kao SectionShape na klijentu). Greška keš sloja NIKAD ne obara zahtev — fallback na pun pipeline. Response sad nosi `fingerprint` + `cached`.

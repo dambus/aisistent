@@ -138,7 +138,15 @@ Rad po `docs/obrasci/FAZA3_WIZARD_TEMPLATE_BAZA_1.md` + `FAZA3_IMPLEMENTACIJA_UP
 
 ## /obrasci — PIVOT na biblioteku obrazaca (4. jul 2026.)
 
-Milan testirao Upload & Fill na produkciji: keš radi, ali previše grešaka čitanja — feature u ovom obliku frustrira umesto da pomaže. Odluka: **kurirana biblioteka zvaničnih obrazaca** — pre-filled samo zelenim profil podacima, download kao editabilan PDF (AcroForm bez flatten), ostatak korisnik ručno u Adobe-u. Faza 1–3 pipeline = interni kuratorski alat; Upload & Fill se sklanja iz navigacije (kod ostaje). Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` — **čeka Milanov review** (otvorena pitanja u sekciji 12).
+Milan testirao Upload & Fill na produkciji: keš radi, ali previše grešaka čitanja — feature u ovom obliku frustrira umesto da pomaže. Odluka: **kurirana biblioteka zvaničnih obrazaca** — pre-filled samo zelenim profil podacima, download kao editabilan PDF (AcroForm bez flatten), ostatak korisnik ručno u Adobe-u. Faza 1–3 pipeline = interni kuratorski alat; Upload & Fill se sklanja iz navigacije (kod ostaje). Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
+
+## /obrasci — Faza 4 IMPLEMENTIRANA I NA PRODUKCIJI (5. jul 2026.)
+
+- **Koraci 1-3**: `library_forms` + `obrasci-library` bucket; `fillLibraryForm()` bez flatten (polja ostaju editabilna, 0 API poziva na download); kuratorski CLI `curate-form.ts` (propose/publish/go-live); javna `/obrasci` lista + `/obrasci/[slug]` SEO stranice + download API (prazan javan, filled=Starter+). Dashboard upload stranica obrisana.
+- **Pravila kuracije 6.1** (iz prakse): samo AcroForm (flat odbijen — OPD lekcija), meta latinicom (auto-transliteracija), prefill samo za obrasce o postojećem subjektu (JRPPS osnivanje preskočen), proveriti način podnošenja (PPDG-1S je e-only kroz ePorezi).
+- **Harvester** (`harvest-sources.ts` + `sources.json` + `harvest-state.json`): APR privredna društva → 51 AcroForm kandidat; sha256 change detection + curatedSlug alarm za re-kuraciju. Slične stranice potvrđene: Poreska, RFZO, PIO, ZSO.
+- **Live obrasci** (potvrđeno na produkciji): apr-izvod-privredna-drustva, apr-prijava-promene-privredna-drustva, apr-rezervacija-naziva.
+- Sledeće: kuracija ~30 APR kandidata (batch alat), novi izvori, n8n cron, "zastareo?" feedback. Detalji u `next_session_note.md`.
 
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
