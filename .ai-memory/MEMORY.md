@@ -10,3 +10,5 @@
 - [Autofill istraživanje](project_autofill_research.md) — sačuvani kontakti/katalog/zaposleni + Upload & Fill za tuđe obrasce (AcroForm PDF, DOCX); preduslov za Upload & Fill su kontakti+katalog
 - [Chatbot istraživanje](project_chatbot_research.md) — kontekstualni asistent za srpsko preduzetništvo; jedino što vredi je verzija integrisana sa profilom/dokumentima (ne generički bot); obavezan disclaimer
 - [Sledeća sesija — podsetnik](next_session_note.md) — gde smo stali, šta je sledeće (ažurira se svaku sesiju)
+- [Mapa kodne baze](project_codebase_map.md) — full architecture: routing, wizard→generate pipeline, obrasci Faza1-4 pivot, DB shema, srpska jezička logika (vokativ/rod/transliteracija)
+- [Handover progres](project_handover_progress.md) — docs/handover/ 00-12 KOMPLETNI; rok 7.7. pristup Sonnet 5; sledeće: razrada brainstorm ideja + batch kuracija
