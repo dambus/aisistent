@@ -309,6 +309,67 @@ export interface Database {
         }
         Relationships: []
       }
+      library_forms: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          short_name: string
+          category: string
+          description: string | null
+          source_institution: string
+          source_url: string
+          file_ref: string
+          source_type: string
+          script: string
+          page_count: number
+          fields: unknown
+          published: boolean
+          verified_at: string
+          outdated_reports: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          short_name: string
+          category: string
+          description?: string | null
+          source_institution: string
+          source_url: string
+          file_ref: string
+          source_type: string
+          script?: string
+          page_count: number
+          fields: unknown
+          published?: boolean
+          verified_at: string
+          outdated_reports?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          slug?: string
+          title?: string
+          short_name?: string
+          category?: string
+          description?: string | null
+          source_institution?: string
+          source_url?: string
+          file_ref?: string
+          source_type?: string
+          script?: string
+          page_count?: number
+          fields?: unknown
+          published?: boolean
+          verified_at?: string
+          outdated_reports?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: {

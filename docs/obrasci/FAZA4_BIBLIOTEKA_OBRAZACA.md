@@ -79,6 +79,7 @@ create table library_forms (
   source_url text not null,           -- zvanična stranica sa koje je obrazac preuzet
   file_ref text not null,             -- prazan original PDF u Storage bucket-u 'obrasci-library'
   source_type text not null check (source_type in ('acroform','flat')),
+  script text not null default 'cyrillic' check (script in ('cyrillic','latin')),  -- pismo obrasca, određeno pri kuraciji (na download nema DI poziva za detekciju)
   page_count int not null,
   fields jsonb not null,              -- SAMO verifikovana zelena polja (format ispod)
   published boolean not null default false,
@@ -216,10 +217,10 @@ Jedini pravi operativni rizik: institucije menjaju obrasce.
 
 ---
 
-## 12. Otvorena pitanja za Milana
+## 12. Odluke (Milan, 5. jul 2026.)
 
-1. **Plan gating**: predlog — lista i stranice obrazaca javne (SEO), prazan original javan ili uz besplatan nalog, "popunjeno mojim podacima" od Starter naviše (prirodan upgrade trigger). Potvrditi.
-2. **Upload & Fill sudbina**: potpuno sakriti, ili ostaviti kao "beta" link za Pro/Agency? (Predlog: potpuno skloniti u MVP-u, manje confusion-a.)
-3. **Inicijalna lista obrazaca**: kurator bira 10–15 — koje kategorije/institucije imaju prioritet za ciljne korisnike (paušalci, preduzetnici, mala d.o.o.)?
-4. **Kategorije**: predloženih 6 dovoljno? (poreska/apr/croso/rzzo/lokalna/ostalo)
-5. **Naming u UI**: "Biblioteka obrazaca" / "Obrasci" / "Zvanični obrasci"?
+1. **Plan gating**: potvrđeno — lista i stranice obrazaca javne (SEO), prazan original javan/besplatan nalog, "popunjeno mojim podacima" od Starter naviše.
+2. **Upload & Fill**: potpuno sakriti (kod ostaje, interni alat).
+3. **Inicijalna lista**: bez prioritizacije — jedna zajednička biblioteka za sve, korisnik traži po potrebi ("srpska birokratija je čudna i neobjašnjiva stvar, može sve da zatreba"). Kurator puni bitnim zvaničnim obrascima kojim redom stigne.
+4. **Kategorije**: 6 predloženih dovoljno za početak, menjaće se po potrebi.
+5. **Naming u UI**: **"Obrasci"**.
