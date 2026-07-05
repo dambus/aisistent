@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "slug": "apr-dodatak-30-ogranicenje-ovlascenja",
+    "title": "Dodatak 30 PS — Ograničenje ovlašćenja za zastupanje supotpisom",
+    "short_name": "Dodatak 30 — Ograničenje ovlašćenja za zastupanje",
+    "category": "apr",
+    "description": "Prijava ograničenja ovlašćenja zastupnika privrednog društva za zastupanje supotpisom sa drugim licem.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_30_PS___Ogranicanja_ovlascenja_za_zastupanje_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text13",
+      "profileKey": null,
+      "_label": "Име и презиме/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text15",
+      "profileKey": null,
+      "_label": "* НАПОМЕНА:",
+      "_state": "manual"
+    }
+  ]
+}

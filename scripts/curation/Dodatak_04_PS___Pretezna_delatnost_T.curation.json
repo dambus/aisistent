@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "slug": "apr-dodatak-04-pretezna-delatnost",
+    "title": "Dodatak 04 PS — Pretežna delatnost",
+    "short_name": "Dodatak 04 — Pretežna delatnost",
+    "category": "apr",
+    "description": "Prijava promene pretežne delatnosti privrednog društva.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_04_PS___Pretezna_delatnost_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "Шифра:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": "delatnost",
+      "_label": "Назив делатности:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Одлука о промени претежне делатности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Одобрење, сагласност или други акт надлежног органа (уколико је прописана за одређену делатност)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

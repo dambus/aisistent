@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "slug": "apr-dodatak-19-promena-pravne-forme",
+    "title": "Dodatak 19 PS — Promena pravne forme",
+    "short_name": "Dodatak 19 — Promena pravne forme",
+    "category": "apr",
+    "description": "Prijava promene pravne forme privrednog društva (npr. u d.o.o., a.d., ortačko ili komanditno društvo).",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_19_PS___Promena_pravne_forme_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Ортачко друштво",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Командитно друштво",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Друштво са ограниченом одговорношћу",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Акционарско друштво",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Јавно акционарско друштво",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box35",
+      "profileKey": null,
+      "_label": "Одлука надлежног органа о промени правне форме",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box36",
+      "profileKey": null,
+      "_label": "Измене оснивачког акта друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box37",
+      "profileKey": null,
+      "_label": "Статут друштва, ако друштво мења правну форму у акционарско друштво",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box38",
+      "profileKey": null,
+      "_label": "Одлука којом се именују чланови органа друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box39",
+      "profileKey": null,
+      "_label": "Документација прописана овим правилником за оснивање дате форме друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box40",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box41",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text42",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

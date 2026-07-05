@@ -78,7 +78,8 @@
     "acroFields": 11,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-dodatak-01-poslovno-ime"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_02_PS___Prevodi_poslovnog_imena_i_ili_skracenog_poslovnog_imena_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -98,7 +99,8 @@
     "acroFields": 7,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-dodatak-04-pretezna-delatnost"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_05_PS___Vreme_trajanja_drustva_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -108,7 +110,8 @@
     "acroFields": 8,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-dodatak-05-vreme-trajanja-drustva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_16_PS___Istovremeno_povecanje_i_smanjenje_kapitalaT.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -128,7 +131,8 @@
     "acroFields": 9,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-dodatak-19-promena-pravne-forme"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_20_PS___Statusna_promena_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -168,7 +172,8 @@
     "acroFields": 2,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-05T11:08:48.773Z"
+    "lastSeen": "2026-07-05T11:08:48.773Z",
+    "curatedSlug": "apr-dodatak-30-ogranicenje-ovlascenja"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_32_PS___Vrsta_zadruge_T.pdf": {
     "sourceId": "apr-privredna-drustva",

@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "slug": "apr-dodatak-01-poslovno-ime",
+    "title": "Dodatak 01 PS — Poslovno ime",
+    "short_name": "Dodatak 01 — Poslovno ime",
+    "category": "apr",
+    "description": "Prijava promene poslovnog imena ili skraćenog poslovnog imena privrednog društva.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_01_PS___Poslovno_ime_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "Назив:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "Правна",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "седишта:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": "naziv",
+      "_label": "Пословно име:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Одлука надлежног органа о промени пословног имена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Одлука надлежног органа о промени скраћеног пословног имена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box8",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text10",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    }
+  ]
+}

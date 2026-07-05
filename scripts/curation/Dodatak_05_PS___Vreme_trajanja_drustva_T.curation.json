@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "slug": "apr-dodatak-05-vreme-trajanja-drustva",
+    "title": "Dodatak 05 PS — Vreme trajanja društva",
+    "short_name": "Dodatak 05 — Vreme trajanja društva",
+    "category": "apr",
+    "description": "Prijava promene vremena trajanja privrednog društva (produženje ili neodređeno trajanje).",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_05_PS___Vreme_trajanja_drustva_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Мења се време трајања на неодређено:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "Продужава се време трајања друштва до:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Одлука о промени времена трајања друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

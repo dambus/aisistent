@@ -242,13 +242,14 @@ async function publish(pdfPath: string, jsonPath: string) {
       verified.push({ kind: 'flat', page: f.page, x: f.x, y: f.y, w: f.w, h: f.h, profileKey: f.profileKey })
     }
   }
+  // Obrazac bez ijednog autofill polja i dalje ulazi u biblioteku (referentni PDF, korisnik
+  // ga barem nalazi na jednom mestu) — samo se test-fill i AcroForm provera preskaču.
   if (verified.length === 0) {
-    console.error('❌ nijedno verifikovano polje (svi profileKey su null)')
-    process.exit(1)
+    console.log('⚠️  nijedno verifikovano polje — objavljuje se kao referentni PDF, bez autofill-a')
   }
 
   // AcroForm polja moraju postojati u PDF-u
-  if (meta.source_type === 'acroform') {
+  if (verified.length > 0 && meta.source_type === 'acroform') {
     const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true })
     const form = pdfDoc.getForm()
     for (const v of verified) {
@@ -263,19 +264,21 @@ async function publish(pdfPath: string, jsonPath: string) {
     }
   }
 
-  // Testni fill sa mock profilom — obavezna vizuelna kontrola pre go-live
-  console.log(`Testni fill (${verified.length} polja)...`)
-  const fillResult = await fillLibraryForm(buffer, verified, MOCK_COMPANY, meta.script)
-  const outDir = path.join(process.cwd(), 'scripts/output')
-  fs.mkdirSync(outDir, { recursive: true })
-  const testPath = path.join(outDir, `${meta.slug}-curated-fill.pdf`)
-  fs.writeFileSync(testPath, fillResult.bytes)
-  console.log(`  filled=${fillResult.filledCount} noValue=${fillResult.skippedNoValue} notFound=${fillResult.skippedNotFound}`)
-  if (fillResult.skippedNotFound > 0) {
-    console.error('❌ skippedNotFound > 0 — mapiranje pokazuje na nepostojeća polja')
-    process.exit(1)
+  // Testni fill sa mock profilom — obavezna vizuelna kontrola pre go-live (preskače se ako nema polja)
+  if (verified.length > 0) {
+    console.log(`Testni fill (${verified.length} polja)...`)
+    const fillResult = await fillLibraryForm(buffer, verified, MOCK_COMPANY, meta.script)
+    const outDir = path.join(process.cwd(), 'scripts/output')
+    fs.mkdirSync(outDir, { recursive: true })
+    const testPath = path.join(outDir, `${meta.slug}-curated-fill.pdf`)
+    fs.writeFileSync(testPath, fillResult.bytes)
+    console.log(`  filled=${fillResult.filledCount} noValue=${fillResult.skippedNoValue} notFound=${fillResult.skippedNotFound}`)
+    if (fillResult.skippedNotFound > 0) {
+      console.error('❌ skippedNotFound > 0 — mapiranje pokazuje na nepostojeća polja')
+      process.exit(1)
+    }
+    console.log(`  → ${testPath} (OBAVEZNO vizuelno pregledati)`)
   }
-  console.log(`  → ${testPath} (OBAVEZNO vizuelno pregledati)`)
 
   // Upload praznog originala u Storage
   const admin = createAdminClient()
@@ -315,7 +318,9 @@ async function publish(pdfPath: string, jsonPath: string) {
   }
 
   console.log(`library_forms: "${meta.slug}" upisan (published=false) ✅`)
-  console.log(`\nSledeće: pregledaj ${testPath}, pa: curate-form.ts go-live ${meta.slug}`)
+  console.log(verified.length > 0
+    ? `\nSledeće: pregledaj test-fill PDF, pa: curate-form.ts go-live ${meta.slug}`
+    : `\nSledeće (bez autofill-a, nema test-fill-a): curate-form.ts go-live ${meta.slug}`)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
