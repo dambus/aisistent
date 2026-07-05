@@ -35,7 +35,7 @@ import { extractFlatPdfFields } from '../lib/documentIntelligence/extractFlatPdf
 import { mapFieldsToProfile, PROFILE_KEYS } from '../lib/documentIntelligence/semanticMapper'
 import { composeGuideFields, groupIntoSections, type ExtractedFieldLite } from '../lib/documentIntelligence/composeGuideFields'
 import { detectSectionHeadings, assignSections } from '../lib/documentIntelligence/detectSections'
-import { detectScript } from '../lib/documentIntelligence/transliterate'
+import { detectScript, cyrillicToLatin } from '../lib/documentIntelligence/transliterate'
 import { isSignatureField } from '../lib/documentIntelligence/signatureLabels'
 import { fillLibraryForm, type LibraryField, type FormScript } from '../lib/documentIntelligence/fillLibraryForm'
 import { createAdminClient } from '../lib/supabase/admin'
@@ -98,6 +98,9 @@ async function propose(pdfPath: string) {
   const { fields: acroFields } = await extractAcroFormFields(buffer)
   const sourceType: 'acroform' | 'flat' = acroFields.length > 0 ? 'acroform' : 'flat'
   console.log(`Tip: ${sourceType} | strana: ${pdfDoc.getPageCount()} | AcroForm polja: ${acroFields.length}`)
+  if (sourceType === 'flat') {
+    console.warn('⚠️  FLAT obrazac — publish će ga ODBITI (biblioteka prima samo AcroForm; korisnik flat ne može da popuni u PDF čitaču).')
+  }
 
   // Ekstrakcija — čuvamo pun bbox (flat publish upisuje na ove koordinate, bez DI na download)
   let extractedFields: ExtractedFieldLite[]
@@ -186,6 +189,24 @@ async function publish(pdfPath: string, jsonPath: string) {
   const buffer = fs.readFileSync(pdfPath)
   const curation: CurationFile = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
   const { meta } = curation
+
+  // SAMO AcroForm obrasci ulaze u biblioteku — flat PDF posle overlay-a korisnik ne može
+  // da popunjava u Adobe Reader-u kako reklamiramo (Milan, 5. jul). Flat obrasci mogu ući
+  // tek uz buduće proširenje: dodavanje AcroForm polja pri kuraciji (spec sekcija 11).
+  if (meta.source_type !== 'acroform') {
+    console.error(`❌ Biblioteka prima samo AcroForm obrasce — "${meta.source_type}" korisnik ne može da popuni u PDF čitaču.`)
+    process.exit(1)
+  }
+
+  // Sajt je latiničан — sav meta tekst se auto-transliteruje (pravilo, Milan 5. jul).
+  // Sam obrazac (PDF) ostaje na svom pismu — pravilo važi samo za UI tekst.
+  for (const k of ['title', 'short_name', 'description', 'source_institution'] as const) {
+    const lat = cyrillicToLatin(meta[k] ?? '')
+    if (lat !== meta[k]) {
+      console.log(`  meta.${k}: transliterovano u latinicu`)
+      meta[k] = lat
+    }
+  }
 
   // Validacija meta
   const missing = (['slug', 'title', 'short_name', 'category', 'source_institution', 'source_url'] as const)

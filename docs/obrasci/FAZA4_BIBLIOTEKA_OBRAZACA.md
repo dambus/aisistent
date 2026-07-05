@@ -142,6 +142,14 @@ MVP je **CLI alat** (admin UI kasnije, van obima):
 
 Pipeline Faza 1–3 ovde radi tačno ono u čemu je dobar: **prvi predlog** koji čovek ispravi — umesto finalni output koji korisnik trpi.
 
+### 6.1 Pravila kvalifikacije obrasca (dopuna 5. jul, iz prve kuracije)
+
+1. **Samo AcroForm obrasci.** Flat PDF posle našeg overlay-a korisnik ne može da popunjava u Adobe Reader-u kako reklamiramo — publish ih odbija. (Prvi kuriran obrazac, OPD, bio je flat i uklonjen je iz biblioteke zbog ovoga.)
+2. **Meta tekst (title, opis, institucija) isključivo latinicom** — sajt je latiničан, pravilo bez izuzetka. Publish auto-transliteruje. Sam PDF ostaje na svom pismu.
+3. **Proveriti kako se obrazac stvarno podnosi.** Neki obrasci se podnose isključivo elektronski kroz portal (npr. PPDG-1S kroz ePorezi od 2017) — pre-filled PDF tada ima ograničenu/nikakvu vrednost i kurator odlučuje da li uopšte ulazi. Treće strane objavljuju "elektronske" PDF verzije zvaničnih obrazaca — izvor mora biti zvanična institucija.
+
+**Buduće proširenje (backlog):** flat → AcroForm konverzija pri kuraciji — pdf-lib može da DODA text polja na koordinate praznih ćelija, čime bilo koji flat obrazac postaje editabilan. Time bi se pravilo 1 relaksiralo. Van obima MVP-a.
+
 ---
 
 ## 7. UI
@@ -214,6 +222,8 @@ Jedini pravi operativni rizik: institucije menjaju obrasce.
 - Ne brisati Faza 1–3 kod — pipeline je kuratorski alat
 - Ne graditi admin UI za kuraciju u MVP-u — CLI je dovoljan dok katalog ne poraste
 - Ne publikovati obrazac bez `source_url` i ručne vizuelne provere testnog fill-a
+- Ne publikovati flat obrasce (samo AcroForm — vidi 6.1) ni ćirilični meta tekst (sajt je latiničан)
+- Ne publikovati obrazac koji se podnosi isključivo elektronski kroz portal bez izričite odluke kuratora
 
 ---
 
