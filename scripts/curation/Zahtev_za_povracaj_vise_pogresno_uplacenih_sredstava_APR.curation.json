@@ -1,0 +1,268 @@
+{
+  "meta": {
+    "slug": "povracaj-sredstava-apr",
+    "title": "Zahtev za povraćaj više/pogrešno uplaćenih sredstava — APR",
+    "short_name": "Povraćaj sredstava APR",
+    "category": "apr",
+    "description": "Zahtev za povraćaj viška ili pogrešno uplaćenih sredstava kod Agencije za privredne registre.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/Opsti%20obrasci%20za%20sve%20registre/2022/Zahtev_za_povracaj_vise_pogresno_uplacenih_sredstava_APR.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ПРИВРЕДНИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "СУБЈЕКАТА - ПРЕДУЗЕТНИК",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "СУБЈЕКАТА - ПРИВРЕДНА ДРУШТВА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР СТЕЧАЈНИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР СТЕЧАЈНИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ФИНАНСИЈСКОГ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР СУДСКИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР СУДСКИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ПОНУЂАЧА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ФИНАНСИЈСКИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ФИНАНСИЈСКИХ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "ПРЕДСТАВНИШТАВА СТРАНИХ ЗАДУЖ. И ФОНД.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ЗАЛОЖНОГ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР ЗАЛОЖНОГ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР УДРУЖЕЊА, ДРУШТАВА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР УСТАНОВА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Group1.0.0",
+      "profileKey": null,
+      "_label": "РЕГИСТАР УСТАНОВА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text19",
+      "profileKey": null,
+      "_label": "* НАПОМЕНА:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "ОСТАЛО:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.0",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.1",
+      "profileKey": "naziv",
+      "_label": "Назив:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6.0",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6.1",
+      "profileKey": "maticni_broj",
+      "_label": "Матични број:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": "ziro_racun",
+      "_label": "Број рачуна за повраћај средстава:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": "grad",
+      "_label": "Место:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9",
+      "profileKey": "telefon",
+      "_label": "Контакт телефон:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text10",
+      "profileKey": null,
+      "_label": "Улица и број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text11",
+      "profileKey": null,
+      "_label": "Улица и број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text12",
+      "profileKey": "email",
+      "_label": "Е - пошта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text13",
+      "profileKey": null,
+      "_label": "Датум:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text14",
+      "profileKey": null,
+      "_label": "Укупан уплаћен износ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text15",
+      "profileKey": null,
+      "_label": "уплаћена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text16",
+      "profileKey": null,
+      "_label": "је уплата коришћена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text17",
+      "profileKey": null,
+      "_label": "Потребна уплата:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text18",
+      "profileKey": null,
+      "_label": "Износ за повраћај:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text20",
+      "profileKey": null,
+      "_label": "одобрења са доказа",
+      "_state": "manual"
+    }
+  ]
+}

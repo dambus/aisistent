@@ -116,9 +116,11 @@ async function main() {
         const sha256 = createHash('sha256').update(buffer).digest('hex')
 
         const prev = state[url]
+        const localPath = path.join(outDir, filename)
         if (prev && prev.sha256 === sha256) {
           prev.lastSeen = now
           summary.unchanged++
+          if (!fs.existsSync(localPath)) fs.writeFileSync(localPath, buffer)
           continue
         }
 

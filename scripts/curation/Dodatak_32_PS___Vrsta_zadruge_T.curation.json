@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "slug": "dodatak-32",
+    "title": "Dodatak 32 PS — Vrsta zadruge",
+    "short_name": "Dodatak 32",
+    "category": "apr",
+    "description": "Obrazac za registraciju tipa zadruge i prilaganja dokumenata o ulozima, članarinama i izmenama zadružnih akata.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_32_PS___Vrsta_zadruge_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.0",
+      "profileKey": null,
+      "_label": "земљорадничка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.1",
+      "profileKey": null,
+      "_label": "земљорадничка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.2",
+      "profileKey": null,
+      "_label": "пољопривредна",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.3",
+      "profileKey": null,
+      "_label": "стамбена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.4",
+      "profileKey": null,
+      "_label": "потрошачка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.0",
+      "profileKey": null,
+      "_label": "радничка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.1",
+      "profileKey": null,
+      "_label": "радничка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.2",
+      "profileKey": null,
+      "_label": "студентско - омладинска",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.3",
+      "profileKey": null,
+      "_label": "ученичка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.4",
+      "profileKey": null,
+      "_label": "социјална",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.2.0.0",
+      "profileKey": null,
+      "_label": "друга:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.2.0.1",
+      "profileKey": null,
+      "_label": "Улози задругара:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.2.0.2",
+      "profileKey": null,
+      "_label": "Чланарине:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "друга:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.0",
+      "profileKey": null,
+      "_label": "Измена оснивачког акта и/или пречишћен текст оснивачког акта задруге",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.1",
+      "profileKey": null,
+      "_label": "Измена задружних правила и/или пречишћен текст задружних правила",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.2",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.3",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

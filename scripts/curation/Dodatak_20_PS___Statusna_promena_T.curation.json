@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "slug": "dodatak-20",
+    "title": "Dodatak 20 PS — Statusna promena",
+    "short_name": "Dodatak 20",
+    "category": "apr",
+    "description": "Prijava statusne promene privrednog društva (pripajanje, podela, izdvajanje) sa potrebnom dokumentacijom i finansijskim izveštajima.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_20_PS___Statusna_promena_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Подела уз припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Подела уз припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Издвајање уз оснивање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Издвајање уз припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text50",
+      "profileKey": "naziv",
+      "_label": "Пословно име:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text51",
+      "profileKey": "maticni_broj",
+      "_label": "Матични број:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text52",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text53",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text54",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text55",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text56",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text57",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box58",
+      "profileKey": null,
+      "_label": "Одлуке скупштина учесника у статусној промени, којима се одобрава статусна промена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box59",
+      "profileKey": null,
+      "_label": "Уговор о статусној промени",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box60",
+      "profileKey": null,
+      "_label": "План поделе друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box61",
+      "profileKey": null,
+      "_label": "Оснивачки акт/Статут привредног друштва које настаје статусном променом",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box62",
+      "profileKey": null,
+      "_label": "Измене и допуне оснивачког акта/статута",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box63",
+      "profileKey": null,
+      "_label": "Финансијски извештај учесника у статусној промени са мишљењем ревизора",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box64",
+      "profileKey": null,
+      "_label": "Извештај ревизора о извршеној статусној промени",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box66",
+      "profileKey": null,
+      "_label": "Изјава заступника друштва да су чланови сагласни да се извештаји не сачињавају",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box67",
+      "profileKey": null,
+      "_label": "Потврда Централни регистар хартија од вредности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box68",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box69",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text70",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

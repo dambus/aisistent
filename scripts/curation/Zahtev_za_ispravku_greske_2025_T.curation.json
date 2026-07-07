@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "slug": "ispravka-greske",
+    "title": "Zahtev za ispravku greške",
+    "short_name": "Ispravka greške",
+    "category": "apr",
+    "description": "Zahtev za ispravku grešaka u registarskim podacima pravnih lica, udruženja, zadužbina, fondacija ili privrednih komora.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_ispravku_greske_2025_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "послоВНО",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "регистарски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "Број решења на које се захтев односи:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": "Уместо:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "* НАПОМЕНА:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "Увид у садржај одлуке регистратора може се извршити преко интернет стране АПР-а, а писмени отправак одлуке доставља се искључиво на изричит захтев подносиоца.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "Лично у ОЈ АПР-а:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "подносиоца у",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "подносиоца у",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "за пријем поште",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Поштом на адресу",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Поштом на адресу",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text10",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text12",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text11",
+      "profileKey": null,
+      "_label": "ЈМБГ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text13",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text14",
+      "profileKey": null,
+      "_label": "(за странца):",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text15",
+      "profileKey": null,
+      "_label": "Општина:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text16",
+      "profileKey": "grad",
+      "_label": "Место:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text18",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text19",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text17",
+      "profileKey": null,
+      "_label": "Улица:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text20",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text21",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text22",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text23",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ПРАВНО ЛИЦЕ У РЕГИСТРУ ПРИВРЕДНИХ СУБЈЕКАТА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "УДРУЖЕЊЕ, ДРУШТВО И САВЕЗ У ОБЛАСТИ СПОРТА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ЗАДУЖБИНЕ И ФОНДАЦИЈЕ И ПРЕДСТАВНИШТВА ЗАДУЖБИНА И ФОНДАЦИЈА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Обавезно означити једну од понуђених опција:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ПРАВНО ЛИЦЕ У РЕГИСТРУ ПРИВРЕДНИХ СУБЈЕКАТА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "УДРУЖЕЊЕ, ДРУШТВО И САВЕЗ У ОБЛАСТИ СПОРТА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "УДРУЖЕЊЕ/ПРЕДСТАВНИШТВО СТРАНОГ УДРУЖЕЊА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ЗАДУЖБИНЕ И ФОНДАЦИЈЕ И ПРЕДСТАВНИШТВА ЗАДУЖБИНА И ФОНДАЦИЈА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ПРИВРЕДНЕ КОМОРЕ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "УДРУЖЕЊЕ/ПРЕДСТАВНИШТВО СТРАНОГ УДРУЖЕЊА",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "ПРИВРЕДНЕ КОМОРЕ",
+      "_state": "manual"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "slug": "dodatak-16",
+    "title": "Dodatak 16 PS — Istovremeno povećanje i smanjenje kapitala",
+    "short_name": "Dodatak 16",
+    "category": "apr",
+    "description": "Prijava istovremenog povećanja i smanjenja osnovnog kapitala privrednog društva sa podacima o novčanim i nenovčanim ulozima.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_16_PS___Istovremeno_povecanje_i_smanjenje_kapitalaT.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Новчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Неновчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text10",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9",
+      "profileKey": null,
+      "_label": "Уплаћен:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text11",
+      "profileKey": null,
+      "_label": "Унет:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12",
+      "profileKey": null,
+      "_label": "Новчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box13",
+      "profileKey": null,
+      "_label": "Неновчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text14",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text16",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text15",
+      "profileKey": null,
+      "_label": "Уплаћен:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text17",
+      "profileKey": null,
+      "_label": "Унет:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box26",
+      "profileKey": null,
+      "_label": "Новчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box27",
+      "profileKey": null,
+      "_label": "Неновчани улог:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text28",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text29",
+      "profileKey": null,
+      "_label": "Уплаћен:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text30",
+      "profileKey": null,
+      "_label": "Уписан:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text31",
+      "profileKey": null,
+      "_label": "Унет:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box32",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text34",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

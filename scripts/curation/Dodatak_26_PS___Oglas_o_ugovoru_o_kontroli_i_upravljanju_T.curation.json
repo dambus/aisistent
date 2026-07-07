@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "slug": "dodatak-26",
+    "title": "Dodatak 26 PS — Oglas o ugovoru o kontroli i upravljanju",
+    "short_name": "Dodatak 26",
+    "category": "apr",
+    "description": "Prijava zaključenja ili prestanka ugovora o kontroli i upravljanju između privrednih društava.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_26_PS___Oglas_o_ugovoru_o_kontroli_i_upravljanju_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text41",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text42",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box43",
+      "profileKey": null,
+      "_label": "Оглас о закључењу уговора о контроли и управљању:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text44",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text45",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text46",
+      "profileKey": "naziv",
+      "_label": "Пословно име:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text47",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box48",
+      "profileKey": null,
+      "_label": "Оглас о престанку уговора о контроли и управљању:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text49",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text50",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text51",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text52",
+      "profileKey": "maticni_broj",
+      "_label": "Матични број:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text53",
+      "profileKey": null,
+      "_label": "Пословно име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text54",
+      "profileKey": null,
+      "_label": "Матични број:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box55",
+      "profileKey": null,
+      "_label": "Уговор о контроли и управљању",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box56",
+      "profileKey": null,
+      "_label": "Доказ о престанку уговора о контроли и управљању",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box57",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box58",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text59",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    }
+  ]
+}

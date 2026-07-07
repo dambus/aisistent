@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "slug": "dodatak-29",
+    "title": "Dodatak 29 PS — Zabeležba",
+    "short_name": "Dodatak 29",
+    "category": "apr",
+    "description": "Služi za upis ili brisanje zabeležbi o prinudnom otkupu udela od naslednika, sporovima za pobijanje odluka društva i utvrđenje ništavosti registracije osnivanja u registru privrednih subjekata.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_29_PS____Zabelezba_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Одлука/обавештење о принудном откупу удела од наследника (чл. 173. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Забележба спора за побијање одлуке друштва (чл. 377. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Забележба постојања спора за утврђење ништавости регистрације оснивања (чл. 33. Закона о поступку регистрације у АПР-у)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Текст забележбе: :unselected: Уписује се: :unselected: Брише се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Одлука/обавештење о принудном откупу удела од наследника",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box8",
+      "profileKey": null,
+      "_label": "Тужба за побијање одлуке друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9",
+      "profileKey": null,
+      "_label": "Тужба за утврђење ништавости регистрације оснивања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box10",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text12",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    }
+  ]
+}

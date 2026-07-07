@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "slug": "dodatak-02-ps",
+    "title": "Dodatak 02 PS — Prevodi poslovnog imena i/ili skraćenog poslovnog imena",
+    "short_name": "Dodatak 02 PS",
+    "category": "apr",
+    "description": "Prijava prevoda poslovnog imena privrednog subjekta na strane jezike u registar.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_02_PS___Prevodi_poslovnog_imena_i_ili_skracenog_poslovnog_imena_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "Језик:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "Превод:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "Језик:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "Превод:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": "Језик:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Превод:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "Језик:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "Превод:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9",
+      "profileKey": null,
+      "_label": "Одлука о преводу пословног имена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box10",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text12",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button4",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button4",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button4",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    }
+  ]
+}

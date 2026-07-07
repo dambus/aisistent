@@ -148,5 +148,9 @@ Milan testirao Upload & Fill na produkciji: keš radi, ali previše grešaka či
 - **Live obrasci** (potvrđeno na produkciji): apr-izvod-privredna-drustva, apr-prijava-promene-privredna-drustva, apr-rezervacija-naziva.
 - Sledeće: kuracija ~30 APR kandidata (batch alat), novi izvori, n8n cron, "zastareo?" feedback. Detalji u `next_session_note.md`.
 
+## /obrasci — Faza 4 batch kuracija Runda 2 (7. jul 2026.)
+
+Biblioteka 8→18 obrazaca: `batch-curate.ts --limit 10` (propose + Claude meta draft za sledećih 10 APR kandidata) → ručni pregled/typo fix → `curate-form.ts publish` → pymupdf vizuelna provera test-fill PDF-ova → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Usput fiksiran harvester bug (fajl se nije upisivao na disk kad je sha256 "unchanged" ali fajl lokalno ne postoji — svež klon/gitignored folder) i Supabase env (`.env.local` pokazivao na mrtav lokalni `127.0.0.1:54321`, ažuriran na cloud URL + novi `sb_secret_` ključ). Detalji: `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
