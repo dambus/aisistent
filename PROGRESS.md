@@ -29,6 +29,10 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 7. jul 2026. (batch 3) — biblioteka 18→28 obrazaca
+
+`batch-curate.ts --limit 10` na sledećih 10 APR kandidata (Dodatak 06, 08, 09, 10, 11, 21, 22, 24, 25, 33) → ručni pregled JSON-ova (profileKey validacija) → `curate-form.ts publish` → pymupdf render provera test-fill PDF-ova → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Preostalo ~21 kandidat.
+
 #### 7. jul 2026. — Faza 4: biblioteka 8→18 obrazaca + reklamiranje + fixevi
 
 **Batch kuracija runda 2** (`d5748e4`): `scripts/batch-curate.ts --limit 10` (propose + Claude meta draft) na sledećih 10 APR kandidata → ručni pregled/typo fix → `curate-form.ts publish` → pymupdf vizuelna provera test-fill PDF-ova (bez preklapanja teksta, tačna polja) → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Novi obrasci: povraćaj sredstava, ispravka greške, potvrda, prepis rešenja, Dodaci 02/16/20/26/29/32. Preostalo ~31 kandidat od ukupno 51 AcroForm iz APR izvora.

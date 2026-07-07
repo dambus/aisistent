@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "slug": "dodatak-33",
+    "title": "Dodatak 33 PS — Status socijalnog preduzetništva",
+    "short_name": "Dodatak 33",
+    "category": "apr",
+    "description": "Registruje se upis, promena ili brisanje statusa socijalnog preduzetništva subjekta u registru.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2022/Dodatak_33_PS___Status_socijalnog_preduzetnistva.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Уписује се статус социјалног предузетништва:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Оснивачки акт субјекта социјалног предузетништва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Извештај о испуњавању друштвене улоге субјекта социјалног предузетништва (члан 13. Закона о социјалном предузетништву)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Изјава заступника субјекта социјалног предузетништва да је преосталу имовину и добит пренео на други субјект социјалног",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.0",
+      "profileKey": null,
+      "_label": "Оснивачки акт субјекта социјалног предузетништва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.1",
+      "profileKey": null,
+      "_label": "Извештај о испуњавању друштвене улоге субјекта социјалног предузетништва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.2",
+      "profileKey": null,
+      "_label": "Одлука надлежног органа о престанку статуса социјалног предузетништва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.3",
+      "profileKey": null,
+      "_label": "Изјава заступника субјекта социјалног предузетништва да је преосталу имовину и добит пренео на други субјект",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.4",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде за регистрацију",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.5",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    }
+  ]
+}

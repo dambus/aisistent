@@ -5,7 +5,11 @@ metadata:
   type: project
 ---
 
-## Gde smo stali (7. jul 2026.)
+## Gde smo stali (7. jul 2026., batch 3)
+
+**Biblioteka = 28 obrazaca** (bilo 18, +10 novih preko `batch-curate.ts --limit 10`, treći batch iste sesije): dodatak-06, 08, 09, 10, 11, 21, 22, 24, 25, 33. Isti tok kao prethodni batch: propose → ručni pregled JSON-a (profileKey validacija protiv PROFILE_KEYS iz semanticMapper.ts) → publish → pymupdf render provera (dodatak-06/21/22/25 imaju autofill test-fill, ostalih 6 su bez AcroForm predloga pa idu kao referentni PDF) → go-live. `curatedSlug` upisan u `harvest-state.json` za svih 10. Preostalo ~21 kandidat od originalnih 51 AcroForm.
+
+## Prethodna sesija (7. jul 2026., batch 2) — Faza 4: biblioteka 8→18 obrazaca
 
 **Biblioteka = 18 obrazaca** (bilo 8, kurirano + objavljeno još 10 APR kandidata preko `batch-curate.ts --limit 10` + ručni `curate-form.ts publish/go-live`): povracaj-sredstava-apr, ispravka-greske, zahtev-za-potvrdu-apr, prepis-resenja, dodatak-02-ps, dodatak-16, dodatak-20, dodatak-26, dodatak-29, dodatak-32. Vizuelno proverено (pymupdf render) pre go-live — sve čisto, bez preklapanja teksta. `curatedSlug` upisan u `harvest-state.json` za svih 10.
 
@@ -32,7 +36,7 @@ Urađeno u ovoj sesiji:
 
 ## Šta je sledeće (Milan bira)
 
-1. **Batch kuracija preostalih ~31 APR kandidata:** `npx tsx --tsconfig tsconfig.json scripts/batch-curate.ts --limit 10` → pregled JSON-ova → publish → vizuelna kontrola → go-live → curatedSlug u harvest-state (isti tok kao 7. jul)
+1. **Batch kuracija preostalih ~21 APR kandidata:** `npx tsx --tsconfig tsconfig.json scripts/batch-curate.ts --limit 10` → pregled JSON-ova → publish → vizuelna kontrola → go-live → curatedSlug u harvest-state (isti tok kao 7. jul)
 2. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
 3. Novi izvori obrazaca (uputstvo: `docs/handover/08-HARVESTER-OPS.md`)
 4. Brzi dobici iz brainstorma: SEO obrasci (D1), KPO knjiga (A2), rokovi podsetnik (A1)
