@@ -13,6 +13,12 @@ metadata:
 
 **Supabase kredencijali:** `.env.local` je bio zaglavljen na `http://127.0.0.1:54321` (mrtav lokalni Docker koji se više ne koristi — projekat je 100% cloud Supabase). Milan ažurirao na pravi cloud URL (`https://dgsuspjxegciwlzqpzxn.supabase.co`) + novi `sb_secret_...` format service role ključa. Radi ispravno sa `@supabase/supabase-js@2.107.0` (i PostgREST i Storage). Ako se ponovo pojavi "Invalid API key"/"Invalid Compact JWS" — prvo proveriti da li `.env.local` slučajno pokazuje na stari/lokalni URL.
 
+**Env var naming gotcha:** posle rotacije ključeva `.env.local` je imao `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase dashboard novi naziv za taj tip ključa) — ceo kod (`lib/supabase/client.ts`, `server.ts`, `lib/blog.ts`, `lib/libraryForms.ts`) čita `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Dev server je pucao sa "supabaseKey is required". Ako se ključevi ponovo rotiraju u Supabase dashboard-u — ime promenljive u `.env.local` MORA ostati `NEXT_PUBLIC_SUPABASE_ANON_KEY`, ne kopirati novi naziv sa dashboarda doslovno.
+
+**CTA fix:** `components/landing/ToolLandingPage.tsx` hero dugme je hardkodovalo "Generišite {toolLabel} besplatno" ignorišući `ctaLabel` prop — na kalkulator stranicama je pisalo "Generišite kalkulator..." (kalkulator se ne generiše). Fiksirano da koristi `ctaLabel`; dodat opcioni `ctaTitle` prop za mid-page naslov (kalkulatori sad imaju "Izračunajte odmah, besplatno" umesto "Napravite X za 60 sekundi"). Usput uočeno: `whyAisistent` prop se prosleđuje na svakoj landing stranici ali se NIGDE ne renderuje u komponenti (`void whyAisistent` — mrtav kod) — sadržaj koji svaka stranica definiše se nikad ne prikazuje korisniku. Nije popravljeno (van scope-a), vredi pogledati.
+
+**Marketing (7. jul):** dodat promo baner na homepage (dinamički broj obrazaca), nav link "Obrasci", footer link, "NOVO" bedž u dashboard sidebar-u, napomena na `/obrasci` da se biblioteka aktivno puni.
+
 ## Prethodna sesija (5. jul 2026., kasno veče)
 
 **⚠️ ROK: Milan gubi pristup Claude Sonnet 5 posle 7.7.2026** — zato je napisana kompletna handover dokumentacija.
