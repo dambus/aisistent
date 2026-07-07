@@ -99,7 +99,11 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://127.0.0.1:54321 --max-time 3)",
       "Bash(grep -o \"SUPABASE[^=]*=.\\\\{0,60\\\\}\" .env.local)",
       "Bash(grep -rl \"jose\" node_modules/@supabase)",
-      "Bash(find node_modules/@supabase -maxdepth 1 -type d)"
+      "Bash(find node_modules/@supabase -maxdepth 1 -type d)",
+      "Bash(curl -sf http://localhost:3000/ -o /dev/null)",
+      "Bash(break)",
+      "Bash(awk '{print NR\": \"length\\($0\\)\" chars\"}' .env.local)",
+      "Bash(curl -s http://localhost:3000/)"
     ]
   }
 }

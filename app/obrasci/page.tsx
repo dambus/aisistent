@@ -80,6 +80,12 @@ export default async function ObrasciLibraryPage() {
           </p>
         ) : (
           <div className="py-8">
+            <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              Biblioteka se aktivno puni novim obrascima svake nedelje — ako ne nađete obrazac koji
+              vam treba, javite nam se na{' '}
+              <a href="mailto:info@aisistent.rs" className="font-semibold underline">info@aisistent.rs</a>{' '}
+              i dodaćemo ga.
+            </p>
             <ObrasciSearch forms={forms} categoryLabels={CATEGORY_LABELS} categoryOrder={Object.keys(CATEGORY_LABELS)} />
           </div>
         )}

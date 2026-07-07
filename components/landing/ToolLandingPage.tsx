@@ -14,6 +14,7 @@ export interface ToolLandingPageProps {
   ctaHref: string
   ctaLabel: string
   ctaNote?: string
+  ctaTitle?: string
   relatedLinks: { href: string; label: string }[]
   faqs: FAQ[]
   previewSlug?: string
@@ -229,13 +230,14 @@ export function ToolLandingPage({
   ctaHref,
   ctaLabel,
   ctaNote,
+  ctaTitle: ctaTitleProp,
   relatedLinks,
   faqs,
   previewSlug,
   isLoggedIn,
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
-  const ctaTitle = `Napravite ${toolLabel} za 60 sekundi`
+  const ctaTitle = ctaTitleProp ?? `Napravite ${toolLabel} za 60 sekundi`
   const positioningBenefits = [
     'Nacrt dokumenta spreman za 60 sekundi — umesto sati pisanja od nule',
     'Svi obavezni elementi po srpskom pravu već su uključeni',
@@ -314,7 +316,7 @@ export function ToolLandingPage({
                   className="tool-primary-btn inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-bold"
                   style={{ backgroundColor: 'white', color: DARK }}
                 >
-                  Generišite {toolLabel} besplatno
+                  {ctaLabel}
                 </Link>
                 <a
                   href="#sta-sadrzi"

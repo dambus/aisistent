@@ -13,6 +13,7 @@ interface NavItem {
   label: string
   href: string
   icon?: string
+  badge?: string
 }
 
 interface NavCategory {
@@ -107,7 +108,7 @@ const agencyNav: NavItem[] = [
 ]
 
 const paidNav: NavItem[] = [
-  { label: 'Obrasci',     href: '/obrasci',     icon: '◧' },
+  { label: 'Obrasci',     href: '/obrasci',     icon: '◧', badge: 'NOVO' },
 ]
 
 const planLabels: Record<string, { label: string; cls: string }> = {
@@ -190,7 +191,15 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
             {item.icon}
           </span>
         )}
-        {item.label}
+        <span className="flex-1">{item.label}</span>
+        {item.badge && (
+          <span
+            className="ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold tracking-wide"
+            style={{ backgroundColor: PRIMARY, color: '#ffffff' }}
+          >
+            {item.badge}
+          </span>
+        )}
       </Link>
     )
   }

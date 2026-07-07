@@ -18,6 +18,7 @@ export default function Page() {
       intro="Brza procena paušalnog poreza i doprinosa za preduzetnike u Srbiji. Razumejte šta plaćate pre nego što se registrujete kao paušalni obveznik."
       ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
+      ctaTitle="Izračunajte odmah, besplatno"
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Procena paušalnog poreza', text: 'Brza procena mesečnog paušalnog poreza i doprinosa prema delatnosti i mestu.' },

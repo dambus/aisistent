@@ -18,6 +18,7 @@ export default function Page() {
       intro="Izračunajte koliko ćete stvarno primiti po ugovoru o delu — uz normiran trošak, porez na dohodak i doprinose za PIO i zdravstvo. Ažurirano za 2026."
       ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
+      ctaTitle="Izračunajte odmah, besplatno"
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Bruto → Neto obračun', text: 'Iz ugovorene naknade izračunajte tačan neto iznos koji izvodač prima na ruku.' },

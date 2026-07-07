@@ -18,6 +18,7 @@ export default function Page() {
       intro="Besplatno izračunajte neto zaradu iz bruto ili bruto zaradu iz neta. Ažurirani doprinosi i porez za 2026. godinu — za zaposlene, poslodavce i HR timove."
       ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
+      ctaTitle="Izračunajte odmah, besplatno"
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Bruto → Neto', text: 'Iz bruto zarade izračunajte tačan neto iznos koji zaposleni prima na ruku.' },

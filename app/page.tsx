@@ -4,6 +4,7 @@ import MobileMenu from '@/components/landing/MobileMenu'
 import { HeroAnimation } from '@/components/landing/HeroAnimation'
 import PricingSection from '@/components/landing/PricingSection'
 import type { PricingPlan } from '@/components/landing/PricingSection'
+import { getAllLibraryForms } from '@/lib/libraryForms'
 
 export const metadata: Metadata = {
   title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
@@ -27,6 +28,7 @@ const SURFACE = '#F8FAF9'
 const navLinks = [
   { href: '#kako-radi', label: 'Kako radi' },
   { href: '#alati', label: 'Alati' },
+  { href: '/obrasci', label: 'Obrasci' },
   { href: '#cenovnik', label: 'Cenovnik' },
   { href: '/blog', label: 'Blog' },
 ]
@@ -277,6 +279,7 @@ export default async function Home() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const isLoggedIn = !!user
+  const libraryForms = await getAllLibraryForms()
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
@@ -353,6 +356,34 @@ export default async function Home() {
               <p className="mt-2 leading-relaxed text-gray-600">{step.text}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* ── OBRASCI PROMO ── */}
+      <section className="border-b border-gray-100 px-5 py-10 lg:px-8" style={{ backgroundColor: '#052e16' }}>
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
+          <div>
+            <span
+              className="inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
+              style={{ backgroundColor: PRIMARY, color: '#ffffff' }}
+            >
+              Novo
+            </span>
+            <h3 className="mt-3 text-xl font-bold text-white sm:text-2xl">
+              Biblioteka zvaničnih obrazaca — {libraryForms.length} obrazaca i raste
+            </h3>
+            <p className="mt-1.5 max-w-xl text-sm leading-relaxed" style={{ color: '#a7f3d0' }}>
+              APR, poreski i drugi zvanični PDF obrasci na jednom mestu — preuzmite prazne ili
+              popunjene podacima vaše firme.
+            </p>
+          </div>
+          <a
+            href="/obrasci"
+            className="shrink-0 rounded-xl bg-white px-6 py-3 text-sm font-bold transition-opacity hover:opacity-90"
+            style={{ color: PRIMARY }}
+          >
+            Pogledajte obrasce →
+          </a>
         </div>
       </section>
 
@@ -495,6 +526,7 @@ export default async function Home() {
               <ul className="space-y-2 text-sm">
                 {[
                   ['Blog', '/blog'],
+                  ['Obrasci', '/obrasci'],
                   ['Kalkulator zarade', '/kalkulator-zarade'],
                   ['Kalkulator paušala', '/kalkulator-pausala'],
                   ['Poslovni mejl', '/poslovni-mejl'],
