@@ -152,9 +152,9 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
 
-**Status (5. jul 2026.): Faza 4 biblioteka obrazaca NA PRODUKCIJI.** Javna `/obrasci` biblioteka sa 3 APR obrasca (izvod, prijava promene, rezervacija naziva), download popunjeno (Starter+) / prazno (javno), editabilan PDF bez flatten. Kuratorski CLI + harvester (APR: 51 AcroForm kandidat, sha256 change detection). Upload & Fill uklonjen iz UI, pipeline = kuratorski alat. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
+**Status (7. jul 2026.): Faza 4 biblioteka obrazaca NA PRODUKCIJI, 18 obrazaca.** Javna `/obrasci` biblioteka (APR: izvodi, prijave promena, rezervacija naziva, ispravke, potvrde, prepisi rešenja, Dodaci 01/02/03/04/05/16/19/20/26/29/30/32), download popunjeno (Starter+) / prazno (javno), editabilan PDF bez flatten. Kuratorski CLI + harvester (APR: 51 AcroForm kandidat ukupno, ~31 preostalo za kuraciju). Upload & Fill uklonjen iz UI, pipeline = kuratorski alat. "Obrazac je zastareo?" feedback dugme live. Homepage promo baner + nav link + dashboard sidebar bedž — biblioteka se aktivno reklamira kao feature. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
 
-**Sledeće za biblioteku:** kuracija ~30 APR kandidata (batch propose + Claude draft opisa), novi izvori (APR preduzetnici, Poreska, RFZO, PIO), n8n cron za harvester, "obrazac je zastareo?" feedback dugme (Korak 5), flat→AcroForm konverzija pri kuraciji (otključava flat obrasce).
+**Sledeće za biblioteku:** kuracija preostalih ~31 APR kandidata (`scripts/batch-curate.ts --limit 10` po rundi), novi izvori (APR preduzetnici, Poreska, RFZO, PIO), n8n cron za harvester, flat→AcroForm konverzija pri kuraciji (otključava flat obrasce).
 
 Istorija Faza 1–4: `PROGRESS.md`; specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`, `FAZA4_*`.
 

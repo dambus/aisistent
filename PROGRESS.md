@@ -29,6 +29,26 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 7. jul 2026. — Faza 4: biblioteka 8→18 obrazaca + reklamiranje + fixevi
+
+**Batch kuracija runda 2** (`d5748e4`): `scripts/batch-curate.ts --limit 10` (propose + Claude meta draft) na sledećih 10 APR kandidata → ručni pregled/typo fix → `curate-form.ts publish` → pymupdf vizuelna provera test-fill PDF-ova (bez preklapanja teksta, tačna polja) → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Novi obrasci: povraćaj sredstava, ispravka greške, potvrda, prepis rešenja, Dodaci 02/16/20/26/29/32. Preostalo ~31 kandidat od ukupno 51 AcroForm iz APR izvora.
+
+**Bugfix — harvester** (`d5748e4`): `scripts/harvest-sources.ts` na svežoj mašini (`scripts/harvest/` gitignored, prazan) — kad sha256 matchuje `harvest-state.json`, fajl se nikad nije upisivao na disk (pretpostavka da već postoji), pa je `curate-form.ts propose` pucao sa ENOENT. Fix: proverava i `fs.existsSync` pre skipa.
+
+**Supabase env fix:** `.env.local` je pokazivao na mrtav lokalni Docker (`127.0.0.1:54321`, projekat je 100% cloud). Ažuriran na cloud URL + rotirani ključevi. Usput otkriven naming trap: Supabase dashboard novi ključevi se zovu "Publishable key" ali kod svuda čita `NEXT_PUBLIC_SUPABASE_ANON_KEY` — ako se `.env.local` puni doslovno sa dashboarda, ime promenljive mora ostati `ANON_KEY`.
+
+**Reklamiranje + CTA fix** (`ee449c4`): homepage promo baner (dinamički broj obrazaca, "NOVO" bedž), nav link "Obrasci", footer link, dashboard sidebar bedž. `/obrasci` dobio napomenu da se biblioteka aktivno puni (i kad lista nije prazna). Bug fix: `components/landing/ToolLandingPage.tsx` hero dugme je hardkodovalo "Generišite {tool} besplatno" ignorišući `ctaLabel` prop — na kalkulator stranicama pisalo "Generišite kalkulator..."; sad koristi `ctaLabel`, dodat `ctaTitle` override za mid-page naslov. Usput uočeno (nepopravljeno): `whyAisistent` prop se prosleđuje na svakoj landing stranici ali se nigde ne renderuje u komponenti — mrtav sadržaj.
+
+#### 5. jul 2026. (druga sesija) — Biblioteka 3→8, feedback dugme, batch-curate alat, handover dokumentacija
+
+**Biblioteka 3→8 obrazaca:** kurirano 5 novih APR Dodataka (01 poslovno ime, 04 delatnost, 05 vreme trajanja, 19 pravna forma, 30 ograničenje ovlašćenja). Novo pravilo: obrasci BEZ ijednog autofill polja se objavljuju kao referentni PDF (publish više ne odbija). Fiksiran dupliran naslov (short_name = kratak tag, ne kopija title).
+
+**Feedback dugme live:** "Obrazac je zastareo ili ima grešku?" na `/obrasci/[slug]`, `POST /api/obrasci/library/[slug]/report-outdated`, inkrement `outdated_reports`, bez auth.
+
+**`scripts/batch-curate.ts`:** masovni propose + Claude draft meta za sve nekurirane AcroForm kandidate — testiran, radi (osnova za rundu 2, 7. jul).
+
+**`docs/handover/00-12`:** kompletna handover dokumentacija (tech debt, implementaciona uputstva za backlog, 20+ brainstorm ideja, meta-uputstvo za slabije modele) — pisana zbog planiranog isteka pristupa Sonnet 5 posle 7.7.
+
 #### 4-5. jul 2026. — Faza 4: PIVOT na biblioteku obrazaca — implementirano i NA PRODUKCIJI
 
 **Pivot odluka (4. jul):** Milan testirao Upload & Fill na produkciji — keš radi, ali previše grešaka čitanja proizvoljnih obrazaca (feature frustrira umesto da pomaže). Nova ideja: kurirana biblioteka zvaničnih obrazaca, pre-filled SAMO zelenim profil podacima, download kao EDITABILAN PDF. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md` (odluke 12: gating potvrđen, Upload & Fill potpuno sakriti, jedna zajednička biblioteka, naming "Obrasci").
