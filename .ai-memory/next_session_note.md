@@ -1,11 +1,25 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — 18 obrazaca u biblioteci (7. jul), harvester bugfix, šta je sledeće
+description: Poruka za sledeću sesiju — 73 obrasca u biblioteci (8. jul), RFZO izbačen, apr-preduzetnici gotov, šta je sledeće
 metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., batch 4+5)
+## Gde smo stali (8. jul 2026., batch 6 — CROSO/PIO/RFZO/apr-preduzetnici)
+
+**Biblioteka = 73 obrasca** (bilo 51). Dodato: CROSO ovlašćenje pravno lice (+1), APR preduzetnici (+21, svih 21 AcroForm kandidata sa te stranice). PIO izvor dodat ali doneo 0 kandidata (18 flat, čeka flat→AcroForm). RFZO izvor proban pa **potpuno izbačen** — harvest doneo samo medicinske/pacijent-facing obrasce, nisu za naše korisnike (uklonjen iz sources.json, harvest-state.json, kategorija u kodu, docs; stari OPD-o flat dev-artefakt obrisan). apr-udruzenja provereno — 0 novih (sve preklapanje sa apr-privredna-drustva).
+
+**Preklapanje apr-preduzetnici vs apr-privredna-drustva:** 8 od 29 linkova bukvalno isti fajl (6 već publikovano, 2 flat) — nula dodatnog posla. Preostalih 21 su pravi PR-specifični obrasci (Dodatak_XX_PR, JRPPS PR Osnivanje, registracione prijave/zahtevi za preduzetnike) — svi kurirani.
+
+**Dva trajna bugfixa u `batch-curate.ts` (ne samo za ovu rundu):**
+1. Statički "www." prefiks pre input boxa (Dodatak 16 PR, isti bug kao Dodatak 31 iz batch 5) → website mapiranje se sad ručno skida kad god se ponovi.
+2. Slug kolizija kad Claude izbaci PR/PS sufiks iz short_name (pogodilo dodatak-03/10/17 danas, isti bag klase kao "jrpps" kolizija iz batch 4) → **trajno fiksirano**: slug se sad izvodi i iz imena fajla (regex na `_PR_`/`_PS_` token), ne samo iz Claude draft-a. Provereno da ne duplira sufiks ako short_name već sadrži token (jrpps-pr-osnivanje-pr edge case ulovljen i fiksiran).
+
+**JRPPS PR Osnivanje** — isto pravilo kao ostale JRPPS osnivačke forme (batch 4/5): nov subjekat, profileKey prefill ručno skinut sa svih 9 auto-mapiranih polja.
+
+Anthropic API kredit se ispraznio nasred batch-curate rande (7 od 21 kandidata palo na "credit balance too low") — Milan dopunio, nastavljeno bez gubitka rada (batch-curate preskače već-predložene fajlove).
+
+## Prethodna sesija (8. jul 2026., batch 4+5)
 
 **Biblioteka = 51 obrazac** (bilo 28, +10 pa +13 — svi AcroForm kandidati iz `apr-privredna-drustva` izvora sad kurirani). Batch 4 (+10): dodatak-12/13/14/15, jrpps-akcionarsko-drustvo, jrpps-javno-preduzece, jrpps-kd, ogranak-stranog-drustva, jrpps-ortaci, predstavnistvo-stranog-drustva. Batch 5 (+13): dodatak-03/07/17a/17b/18/27/28/31, jrpps-doo, jrpps-zadruga, jrpps-zadruzni-savez, prijava-brisanja-ps, zahtev-za-pristup-informacijama. **Preostalo samo 2 flat kandidata** (bez AcroForm polja, van batch-curate.ts obuhvata — `Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf` i jedan bez čitljivog imena `_-_.pdf`, treba ručno pogledati izvor pre kuracije).
 
@@ -50,19 +64,23 @@ Urađeno u ovoj sesiji:
 
 ## Šta je sledeće (Milan bira)
 
-1. **Poslednja 2 flat kandidata** — nemaju AcroForm polja, batch-curate.ts ih ne pokupi (filter `type==='acroform'`). Ručno propose (curate-form.ts propose direktno) ili proveriti da li su uopšte relevantni za biblioteku (jedan nema čitljivo ime fajla — proveriti sources.json/harvest da li je grešaka pri harvestu).
-2. **Novi izvori dodati u sources.json (Milan, van sesije):** `apr-udruzenja`, `apr-preduzetnici`, `croso-obrasci` — treba pokrenuti harvester (`scripts/harvest-sources.ts`) da povuče kandidate iz njih, pa nova runda batch-curate.
-3. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
-4. Brzi dobici iz brainstorma: SEO obrasci (D1), KPO knjiga (A2), rokovi podsetnik (A1)
+1. **Poslednja 2 flat kandidata iz apr-privredna-drustva** — nemaju AcroForm polja, batch-curate.ts ih ne pokupi (filter `type==='acroform'`). Ručno propose ili proveriti relevantnost (`Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf`, i jedan flat "gradjevinske dozvole" digitalno potpisivanje — 14 str).
+2. **Poreska uprava izvor** — treba dodati u sources.json (purs.gov.rs, 3 podstranice: fizička lica/preduzetnici/pravna lica = 3 izvora). VAŽNO: mnogi obrasci su e-only (podnose se kroz ePorezi) — proveriti svaki pre kuracije, PDF verzija tada nema vrednost.
+3. **flat→AcroForm konverzija** (backlog, veći posao) — otključava sve flat obrasce koji trenutno čekaju: PIO (18 M-obrazaca), preostala 2 iz apr-privredna-drustva, eventualno CROSO flat (6 preskočenih: uverenja/zahtevi).
+4. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
+5. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
+6. Brzi dobici iz brainstorma: SEO obrasci (D1), KPO knjiga (A2), rokovi podsetnik (A1)
 
 ## Ključna pravila kuracije (spec 6.1 — NE kršiti)
 
 - Samo AcroForm za autofill; obrasci bez autofill polja mogu kao referentni PDF (odluka 5. jul)
 - Meta latinicom (publish auto-transliteruje); PDF ostaje na svom pismu
 - Prefill samo za obrasce o POSTOJEĆEM subjektu; e-only obrasce (ePorezi) ne kurirati
-- **JRPPS "Registraciona prijava" (osnivanje nove firme) NIKAD ne dobija profileKey prefill** — subjekat još ne postoji, prefill bi upisao pogrešan naziv (dodato 8. jul, batch 4)
+- **JRPPS "Registraciona prijava" (osnivanje nove firme) NIKAD ne dobija profileKey prefill** — subjekat još ne postoji, prefill bi upisao pogrešan naziv (dodato 8. jul, batch 4; potvrđeno opet 8. jul batch 6 na JRPPS PR Osnivanje)
 - Vizuelna kontrola test-fill PDF-a mora proveriti TAČAN box, ne samo da je polje popunjeno — label-extraction može pogoditi susedni widget (dodato 8. jul, batch 4)
-- NIKAD ne mapirati `website` na polje čija je labela bukvalno "www." (statički prefiks) — profil ne garantuje bare-domain format, daje dupli "www." (dodato 8. jul, batch 5)
+- NIKAD ne mapirati `website` na polje čija je labela bukvalno "www." (statički prefiks) — profil ne garantuje bare-domain format, daje dupli "www." (dodato 8. jul, batch 5; ponovilo se batch 6 na Dodatak 16 PR)
+- **Slug se izvodi i iz imena fajla (PR/PS token), ne samo iz Claude short_name draft-a** — sprečava koliziju kad Claude izbaci sufiks (trajno fiksirano u batch-curate.ts, 8. jul batch 6)
+- Novi izvor koji se preklapa sa postojećim (isti institucija, druga podstranica) često donese 0 ili malo novih kandidata — harvester automatski prepoznaje već-viđene URL-ove kao "unchanged", nema duplog rada
 - Harvest ≠ publish — kurator (Milan) uvek odobrava go-live
 
 ## Tehnički kontekst — vidi

@@ -152,5 +152,19 @@ Milan testirao Upload & Fill na produkciji: keš radi, ali previše grešaka či
 
 Biblioteka 8→18 obrazaca: `batch-curate.ts --limit 10` (propose + Claude meta draft za sledećih 10 APR kandidata) → ručni pregled/typo fix → `curate-form.ts publish` → pymupdf vizuelna provera test-fill PDF-ova → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Usput fiksiran harvester bug (fajl se nije upisivao na disk kad je sha256 "unchanged" ali fajl lokalno ne postoji — svež klon/gitignored folder) i Supabase env (`.env.local` pokazivao na mrtav lokalni `127.0.0.1:54321`, ažuriran na cloud URL + novi `sb_secret_` ključ). Detalji: `next_session_note.md`.
 
+## /obrasci — Faza 4 batch 4/5 + novi izvori (8. jul 2026.)
+
+Biblioteka 18→73 obrasca. Batch 4 (+10) i batch 5 (+13): svi preostali AcroForm kandidati iz `apr-privredna-drustva` kurirani — izvor iscrpljen (samo 2 flat kandidata ostala, van batch-curate obuhvata). Novo pravilo: JRPPS "Registraciona prijava" (osnivanje NOVE firme) nikad ne dobija profileKey prefill — subjekat još ne postoji.
+
+**RFZO izbačen u potpunosti** — harvest doneo samo medicinske/pacijent-facing obrasce (obim i sadržaj prava na zdravstvenu zaštitu), nisu za poslovne korisnike. Uklonjen iz `sources.json`, `harvest-state.json`, kategorija (`libraryForms.ts` CATEGORY_LABELS, `curate-form.ts` CATEGORIES), docs. `OPD-o.curation.json` (stari flat dev-artefakt, nikad publikovan) obrisan.
+
+**Novi izvori:** CROSO (`croso-obrasci`, +1 obrazac — "Ovlašćenje CROSO" pravno lice) i PIO (`pio-maticna-evidencija`, 0 AcroForm kandidata — svih 18 flat, čeka flat→AcroForm konverziju; kategorija privremeno `ostalo`).
+
+**APR preduzetnici** (`apr-preduzetnici`, +21 obrazac): stranica se najvećim delom preklapa sa apr-privredna-drustva (8 od 29 linkova bukvalno isti fajl/URL — 6 već publikovano, 2 flat), ali 21 su pravi PR-specifični obrasci (Dodatak_XX_PR, JRPPS PR Osnivanje, registracione prijave/zahtevi) — kurirani i objavljeni. **apr-udruzenja** provereno — 0 novih kandidata, sve već pokriveno preko apr-privredna-drustva.
+
+Dva trajna bugfixa u `batch-curate.ts`: (1) statički "www." prefiks pre input boxa → website mapiranje se briše (isti bug kao Dodatak 31 iz batch 5, sad se ponovio na Dodatak 16 PR); (2) slug se sad izvodi i iz imena fajla (PR/PS token), ne samo iz Claude draft short_name — sprečava koliziju kad Claude izbaci sufiks (pogodilo dodatak-03/10/17 danas).
+
+Detalji: `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
