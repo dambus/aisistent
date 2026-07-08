@@ -20,6 +20,7 @@ export default function Page() {
       ctaLabel="Napravite otpremnicu besplatno"
       ctaNote="Kompletna otpremnica u PDF ili Word formatu za manje od 60 sekundi"
       ctaTitle="Napravite otpremnicu za 60 sekundi"
+      heroImage="/images/hero/ugovori.jpg"
       features={[
         { icon: '🏢', title: 'Isporučilac i primalac', text: 'Puni podaci obe strane — naziv, PIB, adresa, tekući račun — jasno razdvojeni na dokumentu.' },
         { icon: '📦', title: 'Stavke i količine', text: 'Neograničen broj stavki robe koja se isporučuje, sa jedinicom mere i količinom po stavci.' },

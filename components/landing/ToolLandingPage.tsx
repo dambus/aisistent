@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { HeroPreview } from './HeroPreview'
+import { RevealSection } from './RevealSection'
 
 export interface FAQ {
   q: string
@@ -18,6 +19,7 @@ export interface ToolLandingPageProps {
   relatedLinks: { href: string; label: string }[]
   faqs: FAQ[]
   previewSlug?: string
+  heroImage?: string
   isLoggedIn?: boolean
 }
 
@@ -234,6 +236,7 @@ export function ToolLandingPage({
   relatedLinks,
   faqs,
   previewSlug,
+  heroImage,
   isLoggedIn,
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
@@ -330,7 +333,16 @@ export function ToolLandingPage({
             </div>
 
             <div className="tool-doc-preview">
-              <HeroPreview previewSlug={previewSlug} />
+              {previewSlug ? (
+                <HeroPreview previewSlug={previewSlug} />
+              ) : heroImage ? (
+                <img
+                  src={heroImage}
+                  alt=""
+                  className="w-full max-w-[360px] rounded-2xl object-cover"
+                  style={{ boxShadow: '0 24px 60px rgba(0,0,0,0.35)' }}
+                />
+              ) : null}
             </div>
           </div>
         </section>
@@ -348,21 +360,22 @@ export function ToolLandingPage({
             </h2>
             <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="tool-feature-card rounded-2xl bg-white p-6"
-                  style={{ boxShadow: '0 8px 24px rgba(15, 23, 42, 0.05)' }}
-                >
+                <RevealSection key={index} delay={index * 0.06}>
                   <div
-                    className="mb-4 flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white"
-                    style={{ backgroundColor: PRIMARY }}
-                    aria-hidden="true"
+                    className={`tool-feature-card h-full rounded-2xl bg-white p-6 ${index === 0 ? 'xl:col-span-2' : ''}`}
+                    style={{ boxShadow: '0 8px 24px rgba(15, 23, 42, 0.05)' }}
                   >
-                    ✓
+                    <div
+                      className="mb-4 flex h-10 w-10 items-center justify-center rounded-full text-lg"
+                      style={{ backgroundColor: '#f0fdf4' }}
+                      aria-hidden="true"
+                    >
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900">{feature.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-gray-600">{feature.text}</p>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-gray-600">{feature.text}</p>
-                </div>
+                </RevealSection>
               ))}
             </div>
           </div>

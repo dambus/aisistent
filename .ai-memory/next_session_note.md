@@ -1,11 +1,33 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — 234 obrasca u biblioteci (8. jul), marketing audit + fix homepage/pricing/dashboard, šta je sledeće
+description: Poruka za sledeću sesiju — tip kartice CTA + changelog mehanizam gotovi, redizajn alata stranica u toku (hero vizual odbačen, pauza)
 metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., marketing audit posle batch 8)
+## Gde smo stali (9. jul 2026., rano jutro — TipCard/changelog gotovi, redizajn alata pauziran)
+
+**Završeno i pušovano ovu sesiju:**
+1. TipCard u profilu za sačuvane kontakte (Starter+, kad nema kontakata) — backlog stavka "prezentovati featur korisnicima" (delimično, wizard tip je već postojao od ranije).
+2. TipCard/TipDefinition dobio opcioni `href`/`ctaLabel`, `TipSequence` ga prosleđuje — postojeći tipovi (kalkulatori, biblioteka obrazaca, wizard kontakti) sad imaju klikabilan CTA.
+3. TipCard vizuelno doteran (zeleni akcent na levoj ivici, jači obojen shadow) — ranije se stapao sa belom pozadinom.
+4. **Changelog mehanizam** — `lib/changelog.ts` (statička lista najava, ručno dodaješ red), `hooks/useChangelog.ts` (localStorage seen-state), `components/dashboard/ChangelogBell.tsx` (zvonce sa bedžem u sidebar/mobile headeru, zamenilo statičan "NOVO" bedž na `/obrasci`).
+
+**U toku, NIJE gotovo — redizajn stranica alata (`/ugovor-o-radu`, `/otpremnica`... svih 25+ landing stranica preko deljenog `ToolLandingPage.tsx`):**
+
+Milan je tražio audit jer stranice "deluju flat i slop". Koristio `design-taste-frontend` skill za smernice. Nalazi (i dalje važe):
+- Feature kartice su imale hardkodovan ✓ krug na svih 6 kartica, ignorišući `feature.icon` prop (dead code, isti bag klase kao `whyAisistent` ranije) — **ovo je POPRAVLJENO i vredi zadržati**, svaka kartica sad prikazuje svoju emoji ikonu iz postojećeg sadržaja.
+- Dodat `RevealSection` (motion/react, scroll-reveal na feature karticama) — **dobro, Milan je rekao "animacije su ok"**.
+- Hero sekcija je imala prazan prostor na stranicama bez `previewSlug` — pokušano popuniti generisanom slikom (fal.ai, `flux/dev`) preko novog `scripts/gen-hero-image.mjs`. **ODBAČENO — Milan: slika "izgleda kao da je neko pucao zelenim metkom u papir i zamalo promašio".** Loš prompt/kompozicija (wax seal + floating paper na gradijent pozadini nije upalilo vizuelno). Testirano samo na `/otpremnica` (`heroImage="/images/hero/ugovori.jpg"`), NIJE rollovano na ostale stranice.
+
+**Šta ostaje otvoreno za sledeću sesiju:**
+1. **Preispitati hero vizual pravac potpuno** — ili drugačiji prompt/stil (manje "3D render metak", možda flatnija ilustracija ili real photography stil), ili odustati od generisane slike i naći drugo rešenje za prazan hero prostor (možda samo bogatiji gradijent/mesh bez foto-realističnog objekta, ili sačekati sveže ideje).
+2. `feature.icon` fix + `RevealSection` motion su OK i mogu ostati/rollovati dalje kad se hero reši — ne treba ih revertovati.
+3. Nisu dirane: "Prednosti" sekcija (i dalje ponovljena ✓ lista, tamna pozadina) i "Pogledajte i" grid (identične kartice) — čekaju isti tretman kad se pravac razjasni.
+4. `scripts/gen-hero-image.mjs` + `@fal-ai/client` ostaju u repou (funkcionalan alat, samo loš prompt ovog puta) — FAL_AI_API_KEY već u `.env.local`.
+5. Pre nastavka: odlučiti da li ide image-gen pravac uopšte, ili redizajn rešava flat-cards/motion/spacing bez foto-realističnih generisanih slika (možda dovoljno + bezbednije).
+
+## Prethodna sesija (8. jul 2026., marketing audit posle batch 8)
 
 Milan tražio audit (page-cro skill) da li su vredni featuri dobro reklamirani na homepage/notifikacijama/landing stranicama, s obzirom da je biblioteka obrazaca danas skočila 51→234. Nalazi i popravke:
 
