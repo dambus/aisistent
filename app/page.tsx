@@ -104,6 +104,14 @@ const toolCategories: ToolCategory[] = [
       { name: 'Zapisnik sa sastanka',  desc: 'Zaključci, akcije i odluke sa poslovnih sastanaka',  type: 'zapisnik-sastanak' },
     ],
   },
+  {
+    title: '🧮 Besplatni kalkulatori',
+    tools: [
+      { name: 'Kalkulator zarade',            desc: 'Neto iz bruto ili bruto iz neto, bez registracije', type: 'kalkulator-zarade' },
+      { name: 'Kalkulator paušala',           desc: 'Poreske obaveze paušalnog preduzetnika po delatnosti', type: 'kalkulator-pausala' },
+      { name: 'Kalkulator ugovora o delu',    desc: 'Neto isplata i troškovi poslodavca za ugovor o delu', type: 'kalkulator-ugovora-o-delu' },
+    ],
+  },
 ]
 
 const upcomingTools: { name: string; desc: string }[] = []
@@ -124,70 +132,76 @@ const withAisistent = [
   'AI izmene jednom rečenicom — bez ponovnog generisanja',
 ]
 
-const pricing: (PricingPlan & { features: [string, string][] })[] = [
-  {
-    name: 'Besplatno',
-    price: 'Besplatno',
-    cta: 'Počnite besplatno',
-    href: '/register',
-    features: [
-      ['✓', '1 dokument mesečno'],
-      ['✓', 'PDF sa watermarkom'],
-      ['✓', 'Arhiva dokumenata'],
-    ],
-  },
-  {
-    name: 'Starter',
-    price: '1.080 RSD / mes.',
-    euroEquivalent: '(≈ 9 EUR)',
-    cta: 'Izaberite Starter',
-    waitlistPlan: 'starter',
-    features: [
-      ['✓', '20 dokumenata mesečno'],
-      ['✓', 'PDF bez watermark-a'],
-      ['✓', 'Email slanje dokumenata'],
-      ['✓', 'Arhiva dokumenata'],
-      ['✓', 'AI izmene dokumenta (15/dan)'],
-      ['✕', 'Word (DOCX) format'],
-    ],
-  },
-  {
-    name: 'Pro',
-    price: '3.000 RSD / mes.',
-    euroEquivalent: '(≈ 25 EUR)',
-    badge: 'Najpopularnije',
-    cta: 'Izaberite Pro',
-    waitlistPlan: 'pro',
-    featured: true,
-    features: [
-      ['✓', 'Neograničen broj dokumenata'],
-      ['✓', 'PDF i Word (DOCX) export'],
-      ['✓', 'Brendiranje sa logom firme'],
-      ['✓', 'Email slanje dokumenata'],
-      ['✓', 'AI izmene dokumenta (neograničeno)'],
-    ],
-  },
+function getPricing(obrasciCount: number): (PricingPlan & { features: [string, string][] })[] {
+  return [
+    {
+      name: 'Besplatno',
+      price: 'Besplatno',
+      cta: 'Počnite besplatno',
+      href: '/register',
+      features: [
+        ['✓', '1 dokument mesečno'],
+        ['✓', 'PDF sa watermarkom'],
+        ['✓', 'Arhiva dokumenata'],
+        ['✓', `Biblioteka od ${obrasciCount} zvaničnih obrazaca (preuzimanje praznih)`],
+      ],
+    },
+    {
+      name: 'Starter',
+      price: '1.080 RSD / mes.',
+      euroEquivalent: '(≈ 9 EUR)',
+      cta: 'Izaberite Starter',
+      waitlistPlan: 'starter',
+      features: [
+        ['✓', '20 dokumenata mesečno'],
+        ['✓', 'PDF bez watermark-a'],
+        ['✓', 'Email slanje dokumenata'],
+        ['✓', 'Arhiva dokumenata'],
+        ['✓', 'AI izmene dokumenta (15/dan)'],
+        ['✓', `Biblioteka obrazaca — automatski popunjeno podacima firme`],
+        ['✕', 'Word (DOCX) format'],
+      ],
+    },
+    {
+      name: 'Pro',
+      price: '3.000 RSD / mes.',
+      euroEquivalent: '(≈ 25 EUR)',
+      badge: 'Najpopularnije',
+      cta: 'Izaberite Pro',
+      waitlistPlan: 'pro',
+      featured: true,
+      features: [
+        ['✓', 'Neograničen broj dokumenata'],
+        ['✓', 'PDF i Word (DOCX) export'],
+        ['✓', 'Brendiranje sa logom firme'],
+        ['✓', 'Email slanje dokumenata'],
+        ['✓', 'AI izmene dokumenta (neograničeno)'],
+        ['✓', `Biblioteka obrazaca — automatski popunjeno podacima firme`],
+      ],
+    },
 
-  {
-    name: 'Agencija',
-    price: '9.990 RSD',
-    euroEquivalent: '≈ 83 EUR/mes',
-    badge: 'Za računovođe',
-    badgeColor: '#4338CA',
-    cta: 'Kontaktirajte nas',
-    href: 'mailto:hello@aisistent.rs?subject=Agency plan',
-    features: [
-      ['✓', 'Neograničen broj klijentskih firmi'],
-      ['✓', 'Neograničen broj dokumenata'],
-      ['✓', 'PDF + DOCX export'],
-      ['✓', 'Logo firme u dokumentima'],
-      ['✓', 'Arhiva po klijentu'],
-      ['✓', 'Email slanje dokumenta klijentu'],
-      ['✓', 'AI izmene dokumenta (neograničeno)'],
-      ['✕', 'Više korisnika na nalogu (uskoro)'],
-    ],
-  },
-]
+    {
+      name: 'Agencija',
+      price: '9.990 RSD',
+      euroEquivalent: '≈ 83 EUR/mes',
+      badge: 'Za računovođe',
+      badgeColor: '#4338CA',
+      cta: 'Kontaktirajte nas',
+      href: 'mailto:hello@aisistent.rs?subject=Agency plan',
+      features: [
+        ['✓', 'Neograničen broj klijentskih firmi'],
+        ['✓', 'Neograničen broj dokumenata'],
+        ['✓', 'PDF + DOCX export'],
+        ['✓', 'Logo firme u dokumentima'],
+        ['✓', 'Arhiva po klijentu'],
+        ['✓', 'Email slanje dokumenta klijentu'],
+        ['✓', 'AI izmene dokumenta (neograničeno)'],
+        ['✓', `Biblioteka obrazaca — automatski popunjeno po izabranom klijentu`],
+        ['✕', 'Više korisnika na nalogu (uskoro)'],
+      ],
+    },
+  ]
+}
 
 function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -273,6 +287,9 @@ const toolLandingPages: Record<string, string> = {
   'poslovni-mejl': '/poslovni-mejl',
   'oglas-za-posao': '/oglas-za-posao',
   'ponuda-klijentu': '/ponuda-klijentu',
+  'kalkulator-zarade': '/kalkulator-zarade',
+  'kalkulator-pausala': '/kalkulator-pausala',
+  'kalkulator-ugovora-o-delu': '/kalkulator-ugovora-o-delu',
 }
 
 export default async function Home() {
@@ -390,7 +407,7 @@ export default async function Home() {
       {/* ── ALATI ── */}
       <section id="alati" className="bg-white px-5 py-20 lg:px-8">
         <SectionHeading
-          eyebrow="18 tipova dokumenata"
+          eyebrow="21 alat i tip dokumenta"
           title="Sve što je potrebno vašem biznisu"
           text="Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
         />
@@ -471,7 +488,7 @@ export default async function Home() {
           title="Jednostavne cene, bez iznenađenja"
           text="Otkažite kad hoćete. Bez ugovora."
         />
-        <PricingSection plans={pricing} />
+        <PricingSection plans={getPricing(libraryForms.length)} />
         <p className="mx-auto mt-8 max-w-6xl text-sm text-gray-400">
           * Cene su u dinarima. Plaćanje karticom ili bankovnim transferom.
         </p>

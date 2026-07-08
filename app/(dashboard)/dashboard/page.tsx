@@ -6,6 +6,7 @@ import { RecentDocuments } from '@/components/dashboard/RecentDocuments'
 import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
 import { TipCard, TipSequence } from '@/components/ui/TipCard'
 import { LimitsCard } from '@/components/dashboard/LimitsCard'
+import { getAllLibraryForms } from '@/lib/libraryForms'
 
 interface ToolItem {
   type: string
@@ -86,6 +87,7 @@ export default async function DashboardPage() {
     .single()
 
   const profile = profileRaw as unknown as { plan?: string; display_name?: string | null; industry?: string | null } | null
+  const libraryForms = await getAllLibraryForms()
 
   const plan = profile?.plan ?? 'free'
   const displayName = profile?.display_name ?? undefined
@@ -142,6 +144,11 @@ export default async function DashboardPage() {
           id: 'dashboard-kalkulatori',
           title: 'Besplatni kalkulatori',
           content: 'Izračunajte neto zaradu, paušalni porez ili troškove ugovora o delu — bez registracije, u sekundi.',
+        },
+        {
+          id: 'dashboard-obrasci',
+          title: 'Biblioteka zvaničnih obrazaca',
+          content: `${libraryForms.length} zvaničnih obrazaca (APR, Poreska uprava, CROSO, PIO) na jednom mestu — preuzmite popunjene vašim podacima.`,
         },
       ]} />
 
