@@ -105,6 +105,15 @@ const toolCategories: ToolCategory[] = [
     ],
   },
   {
+    title: '📦 Komercijalni dokumenti',
+    tools: [
+      { name: 'Otpremnica',            desc: 'Isporuka robe — stavke, količine, izdavalac i primalac', type: 'otpremnica' },
+      { name: 'Ponuda za radove',      desc: 'Za izvođače, majstore i zanatlije — stavke, cene, PDV',   type: 'ponuda-za-radove' },
+      { name: 'Putni nalog',           desc: 'Službena putovanja — vozač, vozilo, ruta, troškovi',       type: 'putni-nalog' },
+      { name: 'Obaveštenje o promeni uslova rada', desc: 'Formalno obaveštenje po čl. 172-174 ZOR', type: 'obavestenje-o-promeni-uslova' },
+    ],
+  },
+  {
     title: '🧮 Besplatni kalkulatori',
     tools: [
       { name: 'Kalkulator zarade',            desc: 'Neto iz bruto ili bruto iz neto, bez registracije', type: 'kalkulator-zarade' },
@@ -290,6 +299,10 @@ const toolLandingPages: Record<string, string> = {
   'kalkulator-zarade': '/kalkulator-zarade',
   'kalkulator-pausala': '/kalkulator-pausala',
   'kalkulator-ugovora-o-delu': '/kalkulator-ugovora-o-delu',
+  'otpremnica': '/otpremnica',
+  'ponuda-za-radove': '/ponuda-za-radove',
+  'putni-nalog': '/putni-nalog',
+  'obavestenje-o-promeni-uslova': '/obavestenje-o-promeni-uslova',
 }
 
 export default async function Home() {
@@ -407,7 +420,7 @@ export default async function Home() {
       {/* ── ALATI ── */}
       <section id="alati" className="bg-white px-5 py-20 lg:px-8">
         <SectionHeading
-          eyebrow="21 alat i tip dokumenta"
+          eyebrow="25 alata i tipova dokumenata"
           title="Sve što je potrebno vašem biznisu"
           text="Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
         />

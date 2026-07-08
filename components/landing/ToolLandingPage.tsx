@@ -238,15 +238,6 @@ export function ToolLandingPage({
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
   const ctaTitle = ctaTitleProp ?? `Napravite ${toolLabel} za 60 sekundi`
-  const positioningBenefits = [
-    'Nacrt dokumenta spreman za 60 sekundi — umesto sati pisanja od nule',
-    'Svi obavezni elementi po srpskom pravu već su uključeni',
-    'PDF i Word format — spreman za pregled i potpisivanje',
-    'Arhiva svih dokumenata na jednom mestu',
-    'Pravnik koji proverava gotov nacrt troši manje vremena — a vi plaćate manje',
-    'Idealno za tipične situacije — konsultujte stručnjaka za složene slučajeve',
-  ]
-  void whyAisistent
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -392,7 +383,7 @@ export function ToolLandingPage({
               AIsistent pripremi nacrt — vi (ili vaš pravnik) ga finalizujete.
             </p>
             <div className="mt-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
-              {positioningBenefits.map((item, index) => (
+              {whyAisistent.map((item, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <span className="mt-1 text-lg font-bold" style={{ color: '#6ee7b7' }}>
                     ✓

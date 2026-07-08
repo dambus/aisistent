@@ -41,8 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/ponuda-klijentu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-zarade`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/kalkulator-pausala`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/kalkulator-ugovora-o-delu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/otpremnica`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/ponuda-za-radove`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/putni-nalog`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/obavestenje-o-promeni-uslova`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     ...blogRoutes,
     ...obrasciRoutes,
-    { url: `${BASE}/kalkulator-ugovora-o-delu`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 }
