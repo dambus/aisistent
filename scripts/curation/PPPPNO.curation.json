@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "nezivotna-osiguranja",
+    "title": "Poreska prijava poreza na premije neživotnih osiguranja",
+    "short_name": "Neživotna osiguranja",
+    "category": "poreska",
+    "description": "Podnose osiguravajuća društva za obračun i plaćanje poreza na premije neživotnih osiguranja.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/469700/PPPPNO.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

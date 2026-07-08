@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "amortizacija-nepokretnosti",
+    "title": "Obračun amortizacije nepokretnosti",
+    "short_name": "Amortizacija nepokretnosti",
+    "category": "poreska",
+    "description": "Poreske obveznike koji vrše obračun amortizacije na poslovne nepokretnosti i podnose ga uz godišnju poresku prijavu.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/472006/ObrazacOA-I.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

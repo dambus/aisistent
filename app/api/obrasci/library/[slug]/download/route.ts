@@ -52,6 +52,10 @@ export async function GET(
   }
 
   // ── filled=1: auth + plan + profil ──
+  if (!Array.isArray(form.fields) || form.fields.length === 0) {
+    return NextResponse.json({ error: 'no-autofill' }, { status: 400 })
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {

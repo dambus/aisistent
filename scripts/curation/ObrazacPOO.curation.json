@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-o-obavezi-2",
+    "title": "Potvrda o obavezi",
+    "short_name": "Potvrda o obavezi",
+    "category": "poreska",
+    "description": "Poreski obveznici podnose radi potvrđivanja postojanja poreske obaveze prema Poreskoj upravi.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490348/ObrazacPOO.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

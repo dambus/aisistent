@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pausalno-promet",
+    "title": "Knjiga o ostvarenom prometu paušalno oporezovanih obveznika",
+    "short_name": "Paušalno - promet",
+    "category": "poreska",
+    "description": "Paušalno oporezovani obveznici vode evidenciju ostvarenog prometa roba i usluga tokom poreskog perioda.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490342/ObrazacKPO.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

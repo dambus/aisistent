@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "evidencija-komision-robe",
+    "title": "Evidencija prodate, isplaćene i vraćene komisione robe",
+    "short_name": "Evidencija komisione robe",
+    "category": "poreska",
+    "description": "Podnose obveznici poreza na dodatu vrednost koji vode evidenciju o prodatoj, isplaćenoj i vraćenoj robi primljenoj na komisiju.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490341/ObrazacKP-1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

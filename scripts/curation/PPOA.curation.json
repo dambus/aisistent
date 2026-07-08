@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "obracun-akcize",
+    "title": "Poreska prijava o obračunu akcize",
+    "short_name": "Obračun akcize",
+    "category": "poreska",
+    "description": "Obveznici akcize podnose mesečno radi obračuna i plaćanja akcize na proizvode kao što su derivati nafte, duvan, alkohol i kafu.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477358/PPOA.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

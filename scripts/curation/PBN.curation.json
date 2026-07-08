@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-nedobitne",
+    "title": "Poreski bilans za nedobitnu organizaciju",
+    "short_name": "Poreski bilans nedobitne",
+    "category": "poreska",
+    "description": "Podnose nedobitne organizacije koje primenjuju kontni plan za budzetski sistem, uz godisnju poresku prijavu.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/461268/PBN.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

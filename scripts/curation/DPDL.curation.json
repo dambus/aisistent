@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "dividenda-u-likvidaciji",
+    "title": "Dividenda člana privrednog društva u likvidaciji",
+    "short_name": "Dividenda u likvidaciji",
+    "category": "poreska",
+    "description": "Podnosi privredni subjekt u likvidaciji prilikom isplate dividende članovima društva, radi obračuna poreza po odbitku.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/459650/DPDL.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "otpis-kamate",
+    "title": "Zahtev za otpis kamate na dospele obaveze",
+    "short_name": "Otpis kamate",
+    "category": "poreska",
+    "description": "Poreske obveznice podnose kada žele otpis kamate na dospele obaveze po osnovu odredjenih poreza i doprinosa za obavezno socijalno osiguranje.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/459686/ZOK.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

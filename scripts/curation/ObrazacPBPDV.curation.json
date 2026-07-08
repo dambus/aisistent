@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "brisanje-pdv-2",
+    "title": "Potvrda o brisanju iz evidencije obveznika PDV",
+    "short_name": "Brisanje PDV",
+    "category": "poreska",
+    "description": "Poreska uprava izdaje potvrdu obvezniku koji je izbrisan iz evidencije obveznika poreza na dodatu vrednost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490546/ObrazacPBPDV.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

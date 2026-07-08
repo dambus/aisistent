@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "porez-po-odbitku",
+    "title": "Izjava o plaćenom porezu po odbitku",
+    "short_name": "Porez po odbitku",
+    "category": "poreska",
+    "description": "Podnosi isplatilac prihoda nakon obračuna i plaćanja poreza po odbitku na kamate, autorske naknade, zakupnine, dividende i usluge iz člana 53a Zakona.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478476/ObrazacIPD1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

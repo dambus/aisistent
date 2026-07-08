@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pp-kdzn",
+    "title": "Obrazac PP KDZN",
+    "short_name": "PP KDZN",
+    "category": "poreska",
+    "description": "Podnose poreski obveznici radi prijave za prijavljivanje, odjavljivanje ili promenu podataka u kontnom depozitnozaložnom sistemu kod Poreske uprave.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/484538/PDPOS.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

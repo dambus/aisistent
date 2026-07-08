@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "servisna-knjizica-2",
+    "title": "Servisna knjižica",
+    "short_name": "Servisna knjižica",
+    "category": "poreska",
+    "description": "Evidencija servisnih intervencija i održavanja opreme ili vozila, vodi se kontinuirano tokom eksploatacije.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490367/ObrazacSK.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 8
+  },
+  "fields": []
+}

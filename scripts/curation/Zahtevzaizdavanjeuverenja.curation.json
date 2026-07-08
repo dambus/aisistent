@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-zahtev",
+    "title": "Zahtev za izdavanje poreskog uverenja",
+    "short_name": "Poreski zahtev",
+    "category": "poreska",
+    "description": "Podnose ga pravna i fizička lica kada im je potrebna potvrda o izmirenim poreskim obavezama.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/497971/Zahtevzaizdavanjeuverenja.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

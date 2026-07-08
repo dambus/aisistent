@@ -106,24 +106,43 @@ export default async function LibraryFormPage({ params }: Props) {
           <p className="text-base text-gray-600 leading-relaxed mb-8">{form.description}</p>
         )}
 
-        <LibraryDownloadButtons slug={form.slug} shortName={form.shortName} />
+        <LibraryDownloadButtons slug={form.slug} shortName={form.shortName} hasAutofill={form.hasAutofill} />
 
         {/* Kako radi */}
         <section className="mt-10 rounded-2xl bg-gray-50 border border-gray-100 px-6 py-6">
           <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Kako radi</p>
           <ol className="space-y-3 text-sm text-gray-600">
-            <li className="flex gap-3">
-              <span className="font-bold shrink-0" style={{ color: P }}>1.</span>
-              Preuzmite obrazac — popunjen podacima vaše firme (naziv, PIB, matični broj...) ili prazan.
-            </li>
-            <li className="flex gap-3">
-              <span className="font-bold shrink-0" style={{ color: P }}>2.</span>
-              Otvorite ga u Adobe Reader-u ili drugom PDF softveru — polja ostaju izmenjiva.
-            </li>
-            <li className="flex gap-3">
-              <span className="font-bold shrink-0" style={{ color: P }}>3.</span>
-              Dopunite preostala polja, proverite podatke, odštampajte i potpišite.
-            </li>
+            {form.hasAutofill ? (
+              <>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>1.</span>
+                  Preuzmite obrazac — popunjen podacima vaše firme (naziv, PIB, matični broj...) ili prazan.
+                </li>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>2.</span>
+                  Otvorite ga u Adobe Reader-u ili drugom PDF softveru — polja ostaju izmenjiva.
+                </li>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>3.</span>
+                  Dopunite preostala polja, proverite podatke, odštampajte i potpišite.
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>1.</span>
+                  Preuzmite prazan obrazac sa zvaničnog izvora — proverili smo da je važeći.
+                </li>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>2.</span>
+                  Popunite ga ručno u Adobe Reader-u, drugom PDF softveru ili štampano.
+                </li>
+                <li className="flex gap-3">
+                  <span className="font-bold shrink-0" style={{ color: P }}>3.</span>
+                  Proverite podatke, odštampajte i potpišite.
+                </li>
+              </>
+            )}
           </ol>
         </section>
 

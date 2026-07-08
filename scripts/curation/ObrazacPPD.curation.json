@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "povracaj-za-novozaposlene",
+    "title": "Zahtev za povraćaj plaćenih poreza i doprinosa po osnovu zarada novozaposlenih lica",
+    "short_name": "Povraćaj za novozaposlene",
+    "category": "poreska",
+    "description": "Poslodavac podnosi radi povraćaja plaćenih poreza i doprinosa za novozaposlena lica u skladu sa Zakonom o porezu na dohodak građana.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477771/ObrazacPPD.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "srazmerno-ulaganje",
+    "title": "Srazmerni iznos ulaganja",
+    "short_name": "Srazmerno ulaganje",
+    "category": "poreska",
+    "description": "Pravna i fizička lica podnose pri utvrđivanju srazmernog iznosa ulaganja u poslovne aktivnosti radi oporezivanja.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/472816/SU2.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

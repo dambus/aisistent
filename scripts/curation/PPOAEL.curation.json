@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "akciza-elektricna-energija",
+    "title": "Poreska prijava o obračunu akcize na električnu energiju za krajnju potrošnju",
+    "short_name": "Akciza električna energija",
+    "category": "poreska",
+    "description": "Podnose snabdevači električne energije za obračun akcize na isporučenu električnu energiju krajnjim potrošačima.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477353/PPOAEL.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

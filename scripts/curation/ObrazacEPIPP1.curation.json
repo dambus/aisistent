@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "evidencija-prostora",
+    "title": "Prijava za evidentiranje poslovnog prostora i prostorija",
+    "short_name": "Evidencija prostora",
+    "category": "poreska",
+    "description": "Poreski obveznik podnosi pri otvaranju ili promeni poslovnog prostora, skladišta ili prostorija u kojima obavlja delatnost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/497334/ObrazacEPIPP1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

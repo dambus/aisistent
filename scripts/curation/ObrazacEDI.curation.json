@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "dnevni-izvestaji-2",
+    "title": "Evidencija dnevnih izveštaja",
+    "short_name": "Dnevni izveštaji",
+    "category": "poreska",
+    "description": "Podnose poreski obveznici koji vode evidenciju prometa za svaki radni dan, u skladu sa propisima o porezu na dodatu vrednost i fiskalnim uređajima.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490361/ObrazacEDI.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

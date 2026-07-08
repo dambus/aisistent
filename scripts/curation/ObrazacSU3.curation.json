@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "srazmerno-ulaganje-2",
+    "title": "Srazmerni iznos ulaganja kod preduzetnika",
+    "short_name": "Srazmerno ulaganje",
+    "category": "poreska",
+    "description": "Podnose preduzetnici radi utvrđivanja srazmernog iznosa ulaganja u poslovnu imovinu za poreske svrhe.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/485273/ObrazacSU3.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

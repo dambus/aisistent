@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "registracija-preduzetnika",
+    "title": "Prijava za registraciju preduzetnika",
+    "short_name": "Registracija preduzetnika",
+    "category": "poreska",
+    "description": "Fizičko lice podnosi prilikom otpočinjanja obavljanja delatnosti kao preduzetnik radi upisa u registar.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/485239/ObrazacPR-2.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

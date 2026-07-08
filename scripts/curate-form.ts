@@ -190,11 +190,11 @@ async function publish(pdfPath: string, jsonPath: string) {
   const curation: CurationFile = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
   const { meta } = curation
 
-  // SAMO AcroForm obrasci ulaze u biblioteku — flat PDF posle overlay-a korisnik ne može
-  // da popunjava u Adobe Reader-u kako reklamiramo (Milan, 5. jul). Flat obrasci mogu ući
-  // tek uz buduće proširenje: dodavanje AcroForm polja pri kuraciji (spec sekcija 11).
-  if (meta.source_type !== 'acroform') {
-    console.error(`❌ Biblioteka prima samo AcroForm obrasce — "${meta.source_type}" korisnik ne može da popuni u PDF čitaču.`)
+  // Flat obrasci ulaze kao čist download bez autofill pokušaja (8. jul, Milan) — overlay-fill
+  // na flat PDF nije editabilan u Adobe-u kako reklamiramo, pa se ne pokušava. Vrednost je da
+  // korisnik obrazac barem nađe na jednom mestu; frontend prikazuje napomenu "samo preuzimanje".
+  if (meta.source_type === 'flat' && curation.fields.some(f => f.profileKey)) {
+    console.error(`❌ flat obrazac ne sme imati mapirana polja — overlay-fill nije podržan, skini profileKey iz ${jsonPath}`)
     process.exit(1)
   }
 

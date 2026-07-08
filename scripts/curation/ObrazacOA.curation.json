@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "obracun-amortizacije-2",
+    "title": "Obračun amortizacije stalnih sredstava",
+    "short_name": "Obračun amortizacije",
+    "category": "poreska",
+    "description": "Podnosi ga pravno lice uz poresku prijavu, radi evidencije amortizacije osnovnih sredstava za poreske svrhe.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/483556/ObrazacOA.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

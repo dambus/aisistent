@@ -25,6 +25,9 @@ export interface LibraryFormMeta {
   sourceUrl: string
   pageCount: number
   verifiedAt: string
+  // false = referentni PDF (flat obrazac ili AcroForm bez ijednog mapiranog polja) —
+  // frontend sakriva "Preuzmi popunjeno" i prikazuje napomenu da se samo preuzima prazan
+  hasAutofill: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,13 +42,14 @@ function toMeta(row: any): LibraryFormMeta {
     sourceUrl: row.source_url,
     pageCount: row.page_count,
     verifiedAt: row.verified_at,
+    hasAutofill: Array.isArray(row.fields) && row.fields.length > 0,
   }
 }
 
 export async function getAllLibraryForms(): Promise<LibraryFormMeta[]> {
   const { data } = await supabase
     .from('library_forms')
-    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at')
+    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields')
     .eq('published', true)
     .order('category')
     .order('short_name')
@@ -56,7 +60,7 @@ export async function getAllLibraryForms(): Promise<LibraryFormMeta[]> {
 export async function getLibraryForm(slug: string): Promise<LibraryFormMeta | null> {
   const { data } = await supabase
     .from('library_forms')
-    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at')
+    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle()

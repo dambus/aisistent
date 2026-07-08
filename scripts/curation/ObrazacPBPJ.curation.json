@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-pj-2",
+    "title": "Poreski bilans poslovne jedinice",
+    "short_name": "Poreski bilans PJ",
+    "category": "poreska",
+    "description": "Podnosi obveznik poreza na dobit koji ima registrovane poslovne jedinice, uz godišnji poreski bilans.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478694/ObrazacPBPJ.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

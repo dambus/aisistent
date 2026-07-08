@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-pdv",
+    "title": "Potvrda o izvršenom evidentiranju za PDV",
+    "short_name": "Potvrda PDV",
+    "category": "poreska",
+    "description": "Potvrda koju izdaje Poreska uprava nakon registracije obveznika u evidenciju za porez na dodatu vrednost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490542/ObrazacPEPDV.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,11 +1,25 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — 73 obrasca u biblioteci (8. jul), RFZO izbačen, apr-preduzetnici gotov, šta je sledeće
+description: Poruka za sledeću sesiju — 214 obrazaca u biblioteci (8. jul), Poreska uprava flat-only ceo katalog, šta je sledeće
 metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., batch 6 — CROSO/PIO/RFZO/apr-preduzetnici)
+## Gde smo stali (8. jul 2026., batch 7 — Poreska uprava, flat obrasci kao referentni download)
+
+**Biblioteka = 214 obrazaca** (bilo 73). Poreska uprava (`poreska-pravna-lica` + `poreska-preduzetnici`, oba `renderJs: true` — sajt razrešava PDF linkove tek u browseru, CMS "box" shortcode ostaje kao HTML komentar u plain fetch-u) — **ceo katalog je flat, 0 AcroForm**. Od ~157 unikatnih (dedup po sha256) izbačeno 15 (common-sense filter: diplomatski/konzularni, putnički PDV povraćaj, crkva/verska zajednica, kupac (prvog) stana, "za lične potrebe nosioca prava"/"službeni nalog bez PDV/akciza" — sve diplomatska/personal-use izuzeća, ne poslovni obrasci; plus "Prijava za evidentiranje obveznika PDV" — e-only od 2020). Preostalih 142 katalogizovano i objavljeno.
+
+**Politička promena (Milan, 8. jul):** flat obrasci sad ULAZE u biblioteku BEZ pokušaja autofill-a — čist download, napomena na sajtu "ne može se automatski popuniti". Ranije pravilo ("samo AcroForm, flat odbijen — OPD lekcija") ostaje za autofill-pokušaje (overlay-fill na flat nije editabilan u Adobe-u), ali čist referentni download je druga stvar — vrednost je da korisnik SVE obrasce nađe na jednom mestu. `curate-form.ts publish` gate promenjen: flat prolazi ako `fields` prazan (flat sa mapiranim poljima i dalje odbijen — overlay-fill se ne pokušava).
+
+**Frontend:** `LibraryFormMeta.hasAutofill` (izvedeno iz `fields.length > 0`) — kad je false: "Preuzmi popunjeno" dugme sakriveno, "Kako radi" sekcija ima drugačiji tekst (bez pominjanja editabilnih polja), download API vraća 400 na `?filled=1` ako nema polja (odbrana i na server strani).
+
+**Novi alat — `scripts/catalog-flat-forms.ts`:** za institucije čiji je ceo katalog flat (nema smisla trošiti DI/Claude-field-mapping po obrascu kad se svejedno ništa ne mapira) — uzima STVARAN naziv obrasca sa izvorne stranice (ne kriptično ime fajla), Claude piše samo title/short_name/description, `fields: []`, publish+go-live odmah (nema šta vizuelno proveriti). Input JSON: `{label, url, sourceId, filename, pages, type}[]`.
+
+**Bag nađen i ispravljen (9+2 slučaja, uklj. 2 STARA iz batch 4/5 koja su promakla tada):** Claude/transliteracija ume da ostavi pokoje ćirilično (ili čak potpuno strano, npr. telugu) slovo usred latiničnog teksta (npr. "dobитke" umesto "dobitke", "zadругama" umesto "zadrugama"). **Novo pravilo:** posle svakog batch-a skenirati sve `.curation.json` meta polja (title/short_name/description) regexom za karaktere van `[a-zA-Z0-9šđčćžŠĐČĆŽ + interpunkcija]` — ne osloniti se na vizuelnu proveru, ovo se lako previdi u dužem tekstu. Ako se nađe, ispraviti I lokalni `.curation.json` I ponovo pokrenuti `publish`+`go-live` (upsert na slug, `publish` uvek postavlja `published:false` pa treba go-live ponovo).
+
+**Harvester renderJs opcija** (trajno, `sources.json` + `harvest-sources.ts`): `"renderJs": true` na izvoru → Playwright render umesto plain fetch, za sajtove koji PDF linkove ubacuju tek JS-om (purs.gov.rs pattern). Koristi postojeći `playwright` dependency.
+
+## Prethodna sesija (8. jul 2026., batch 6 — CROSO/PIO/RFZO/apr-preduzetnici)
 
 **Biblioteka = 73 obrasca** (bilo 51). Dodato: CROSO ovlašćenje pravno lice (+1), APR preduzetnici (+21, svih 21 AcroForm kandidata sa te stranice). PIO izvor dodat ali doneo 0 kandidata (18 flat, čeka flat→AcroForm). RFZO izvor proban pa **potpuno izbačen** — harvest doneo samo medicinske/pacijent-facing obrasce, nisu za naše korisnike (uklonjen iz sources.json, harvest-state.json, kategorija u kodu, docs; stari OPD-o flat dev-artefakt obrisan). apr-udruzenja provereno — 0 novih (sve preklapanje sa apr-privredna-drustva).
 
@@ -64,23 +78,27 @@ Urađeno u ovoj sesiji:
 
 ## Šta je sledeće (Milan bira)
 
-1. **Poslednja 2 flat kandidata iz apr-privredna-drustva** — nemaju AcroForm polja, batch-curate.ts ih ne pokupi (filter `type==='acroform'`). Ručno propose ili proveriti relevantnost (`Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf`, i jedan flat "gradjevinske dozvole" digitalno potpisivanje — 14 str).
-2. **Poreska uprava izvor** — treba dodati u sources.json (purs.gov.rs, 3 podstranice: fizička lica/preduzetnici/pravna lica = 3 izvora). VAŽNO: mnogi obrasci su e-only (podnose se kroz ePorezi) — proveriti svaki pre kuracije, PDF verzija tada nema vrednost.
-3. **flat→AcroForm konverzija** (backlog, veći posao) — otključava sve flat obrasce koji trenutno čekaju: PIO (18 M-obrazaca), preostala 2 iz apr-privredna-drustva, eventualno CROSO flat (6 preskočenih: uverenja/zahtevi).
-4. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
-5. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
-6. Brzi dobici iz brainstorma: SEO obrasci (D1), KPO knjiga (A2), rokovi podsetnik (A1)
+1. **Poslednja 2 flat kandidata iz apr-privredna-drustva** — sad mogu ući kao referentni download (pravilo promenjeno batch 7), koristiti `catalog-flat-forms.ts` ili ručni curation.json (`Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf`, flat "gradjevinske dozvole" digitalno potpisivanje — 14 str).
+2. **CROSO 6 preskočenih flat** (uverenja/zahtevi) — isto, sad mogu ući kao referentni download preko `catalog-flat-forms.ts`.
+3. **PIO 18 flat M-obrazaca** — isto, kandidat za `catalog-flat-forms.ts` (potreban label-extraction sličan poreskom, pio.rs stranica nije još provereno da li je JS-rendered kao purs.gov.rs).
+4. **flat→AcroForm konverzija** (backlog, veći posao) — i dalje vredi za obrasce gde BI autofill imao vrednost (npr. PPP-PD, PPDG-1S) — razdvojeno od "referentni download" odluke iz batch 7 koja rešava samo "korisnik nalazi obrazac", ne autofill.
+5. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
+6. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
+7. Brzi dobici iz brainstorma: SEO obrasci (D1), **KPO knjiga (A2) — obrazac već u biblioteci** (`/obrasci/pausalno-promet`, iz batch 7), rokovi podsetnik (A1)
 
 ## Ključna pravila kuracije (spec 6.1 — NE kršiti)
 
-- Samo AcroForm za autofill; obrasci bez autofill polja mogu kao referentni PDF (odluka 5. jul)
+- AcroForm sa mapiranim poljima = autofill; flat ili obrasci bez mapiranih polja = referentni download bez autofill-a, frontend prikazuje napomenu (`hasAutofill` u `LibraryFormMeta`) — pravilo promenjeno 8. jul batch 7 (ranije flat odbijen u potpunosti)
+- Flat obrazac NIKAD ne sme imati mapirana polja (profileKey) — overlay-fill na flat se ne pokušava, `curate-form.ts publish` to i dalje odbija
 - Meta latinicom (publish auto-transliteruje); PDF ostaje na svom pismu
 - Prefill samo za obrasce o POSTOJEĆEM subjektu; e-only obrasce (ePorezi) ne kurirati
 - **JRPPS "Registraciona prijava" (osnivanje nove firme) NIKAD ne dobija profileKey prefill** — subjekat još ne postoji, prefill bi upisao pogrešan naziv (dodato 8. jul, batch 4; potvrđeno opet 8. jul batch 6 na JRPPS PR Osnivanje)
 - Vizuelna kontrola test-fill PDF-a mora proveriti TAČAN box, ne samo da je polje popunjeno — label-extraction može pogoditi susedni widget (dodato 8. jul, batch 4)
 - NIKAD ne mapirati `website` na polje čija je labela bukvalno "www." (statički prefiks) — profil ne garantuje bare-domain format, daje dupli "www." (dodato 8. jul, batch 5; ponovilo se batch 6 na Dodatak 16 PR)
 - **Slug se izvodi i iz imena fajla (PR/PS token), ne samo iz Claude short_name draft-a** — sprečava koliziju kad Claude izbaci sufiks (trajno fiksirano u batch-curate.ts, 8. jul batch 6)
+- **Posle svakog batch-a skenirati sve curation.json meta polja za stray non-Latin karaktere** (regex van `[a-zA-Z0-9šđčćžŠĐČĆŽ+interpunkcija]`) — Claude/transliteracija povremeno ostavi ćirilično/egzotično slovo usred latiničnog teksta, lako se previdi vizuelno (dodato 8. jul, batch 7 — pogodilo 11 obrazaca uklj. 2 stara iz batch 4/5)
 - Novi izvor koji se preklapa sa postojećim (isti institucija, druga podstranica) često donese 0 ili malo novih kandidata — harvester automatski prepoznaje već-viđene URL-ove kao "unchanged", nema duplog rada
+- Sajt koji ne vraća PDF linkove u plain fetch-u možda ih ubacuje tek JS-om (purs.gov.rs pattern) — probaj `"renderJs": true` na izvoru pre nego što zaključiš da nema kandidata
 - Harvest ≠ publish — kurator (Milan) uvek odobrava go-live
 
 ## Tehnički kontekst — vidi

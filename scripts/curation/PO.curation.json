@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-o-odjavi",
+    "title": "Potvrda o odjavi registracije iz jedinstvenog registra poreskih obveznika",
+    "short_name": "Potvrda o odjavi",
+    "category": "poreska",
+    "description": "Potvrdu izdaje Poreska uprava nakon odjave obveznika iz jedinstvenog registra poreskih obveznika.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/18/759091/PO.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "komisiona-roba",
+    "title": "Prijemni-evidencioni list komisione robe",
+    "short_name": "Komisiona roba",
+    "category": "poreska",
+    "description": "Podnosi komitent prilikom prijema robe na komisiju radi evidencije i kontrole robnih zaliha kod komisionara.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490340/ObrazacKP.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "iosi",
+    "title": "Obrazac IOSI",
+    "short_name": "IOSI",
+    "category": "poreska",
+    "description": "Podnose lica koja obavljaju poslove posredovanja u prodaji robe preko elektronskih platformi u skladu sa propisima o porezu na dodatu vrednost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478518/ObrazacPPKDZN.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

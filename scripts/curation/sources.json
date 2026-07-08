@@ -30,6 +30,20 @@
       "institution": "Republički fond za penzijsko i invalidsko osiguranje",
       "category": "ostalo",
       "url": "https://www.pio.rs/sr/matichna-evidencija"
+    },
+    {
+      "id": "poreska-pravna-lica",
+      "institution": "Poreska uprava",
+      "category": "poreska",
+      "url": "https://www.purs.gov.rs/pravna-lica/poreske-prijave-i-obrasci.html",
+      "renderJs": true
+    },
+    {
+      "id": "poreska-preduzetnici",
+      "institution": "Poreska uprava",
+      "category": "poreska",
+      "url": "https://www.purs.gov.rs/preduzetnici/poreske-prijave-i-obrasci.html",
+      "renderJs": true
     }
   ]
 }

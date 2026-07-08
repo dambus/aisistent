@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "ppdg-4r",
+    "title": "Obrazac PPDG-4R",
+    "short_name": "PPDG-4R",
+    "category": "poreska",
+    "description": "Podnosi poslodavac za obračun i plaćanje poreza i doprinosa po odbitku na prihode fizičkih lica.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/18/759092/-4_.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

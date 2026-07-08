@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "dobit-koncesije",
+    "title": "Dobit od predmeta koncesije",
+    "short_name": "Dobit koncesije",
+    "category": "poreska",
+    "description": "Podnose obveznici poreza na dobit koji ostvaruju prihode od koncesionih djelatnosti, uz poresku prijavu za obračunski period.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/472805/DK.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

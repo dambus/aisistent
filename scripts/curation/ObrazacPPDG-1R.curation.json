@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pausalno-oporezivanje",
+    "title": "Poreska prijava za utvrđivanje poreza i doprinosa na paušalni prihod",
+    "short_name": "Paušalno oporezivanje",
+    "category": "poreska",
+    "description": "Podnose paušalni obveznici radi utvrđivanja iznosa poreza i doprinosa za obavezno socijalno osiguranje na paušalni prihod od samostalne delatnosti.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/486480/ObrazacPPDG-1R.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

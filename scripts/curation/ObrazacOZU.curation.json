@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "ugovori-estradni-programi",
+    "title": "Obaveštenje o zakljucenim ugovorima o izvođenju estradnih programa zabavne i narodne muzike",
+    "short_name": "Ugovori estradni programi",
+    "category": "poreska",
+    "description": "Organizatori dostavljaju poreskoj upravi podatke o zakljucenim ugovorima sa izvođačima zabavnih i estradnih programa.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478465/ObrazacOZU.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

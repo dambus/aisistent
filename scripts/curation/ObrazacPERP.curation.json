@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-evidentiranja-poslodavca",
+    "title": "Potvrda o izvršenom evidentiranju u registru poslodavaca",
+    "short_name": "Potvrda evidentiranja poslodavca",
+    "category": "poreska",
+    "description": "Poslodavac dobija od Poreske uprave kao dokaz da je upisan u registar poslodavaca nakon prijave prvog zaposlenog.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/459708/ObrazacPERP.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

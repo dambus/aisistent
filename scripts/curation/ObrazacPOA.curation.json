@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "amortizacija-od-2019-2",
+    "title": "Podaci o obračunatoj amortizaciji stalnih sredstava stečenih od 01.01.2019.",
+    "short_name": "Amortizacija od 2019",
+    "category": "poreska",
+    "description": "Podnose pravna lica i preduzetnici koji obračunavaju amortizaciju stalnih sredstava nabavljenih od početka 2019. godine za traženi period.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490184/ObrazacPOA.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

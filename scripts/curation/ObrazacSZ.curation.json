@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "zalihe-cigareta",
+    "title": "Stanje zaliha cigareta i alkoholnih pića",
+    "short_name": "Zalihe cigareta",
+    "category": "poreska",
+    "description": "Podnose proizvođači i trgovci cigareta i alkoholnih pića, periodično za evidenciju akciza.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/484842/ObrazacSZ.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

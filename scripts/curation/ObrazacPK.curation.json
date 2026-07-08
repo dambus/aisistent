@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-kredit-os",
+    "title": "Poreski kredit za ulaganja u osnovna sredstva",
+    "short_name": "Poreski kredit OS",
+    "category": "poreska",
+    "description": "Podnose obveznici poreza na dobit koji su ostvarili pravo na umanjenje poreske obaveze po osnovu ulaganja u mašine, opremu i objekte.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/483976/ObrazacPK.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

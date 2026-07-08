@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "doprinosi-osnivaci-clanovi",
+    "title": "Poreska prijava o obračunatim doprinosima za OSO za osnivače/članove privrednog društva",
+    "short_name": "Doprinosi osnivači/članovi",
+    "category": "poreska",
+    "description": "Privredna društva podnose mesečno radi prijave obračunatih doprinosa za obavezno socijalno osiguranje za svoje osnivače i članove.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/3/7/759119/Obrazac_PP_OD-O.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "refakcija-akcize-carinski-podaci",
+    "title": "Refakcija plaćene akcize na derivate nafte koji se koriste u industrijske svrhe - Podaci iz carinskih dokumenata",
+    "short_name": "Refakcija akcize - carinski podaci",
+    "category": "poreska",
+    "description": "Podnose pravna lica i preduzetnici koji su platili akcizu na derivate nafte korišćene u industrijske svrhe, uz prilog podataka iz carinskih dokumenata.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/464399/ObrazacREF-Ib.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

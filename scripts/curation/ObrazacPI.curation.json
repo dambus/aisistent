@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-o-usluzi-dorade",
+    "title": "Potvrda o izvršenoj usluzi na doradi materijala i popravci proizvoda",
+    "short_name": "Potvrda o usluzi dorade",
+    "category": "poreska",
+    "description": "Podnose pružaoci usluga koji vrše doradu materijala ili popravku proizvoda radi evidencije izvršenih uslužnih delatnosti.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490343/ObrazacPI.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

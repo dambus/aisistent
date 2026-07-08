@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "porez-na-kapitalne-dobitke",
+    "title": "Poreska prijava za utvrđivanje poreza na kapitalne dobitke",
+    "short_name": "Porez na kapitalne dobitke",
+    "category": "poreska",
+    "description": "Podnose fizička lica koja su ostvarila kapitalne dobitke od prodaje hartija od vrednosti, nekretnina ili drugih oblika kapitala.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/484496/ObrazacPPDG-3R.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 3
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-porezi-odbitak",
+    "title": "Potvrda o plaćenim porezima i doprinosima po odbitku",
+    "short_name": "Potvrda porezi odbitak",
+    "category": "poreska",
+    "description": "Poslodavac izdaje zaposlenom kao dokaz o izvršenim obavezama poreza i doprinosa zadržanih iz zarade.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477364/ObrazacPPPPO.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

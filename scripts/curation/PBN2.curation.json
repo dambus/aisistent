@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-ndo-banke",
+    "title": "Poreski bilans za nedobitnu organizaciju koja primenjuje kontni okvir za banke",
+    "short_name": "Poreski bilans NDO banke",
+    "category": "poreska",
+    "description": "Nedobitne organizacije koje primenjuju kontni okvir za banke podnose ovaj poreski bilans u skladu sa propisima o porezu na dobit.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/462302/PBN2.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

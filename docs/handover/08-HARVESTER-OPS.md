@@ -17,13 +17,12 @@ sources.json (dodaj izvor) → harvest-sources.ts (skini+klasifikuj+diff)
 
 | Izvor | URL | Napomena |
 |-------|-----|----------|
-| APR preduzetnici | apr.gov.rs — registri/preduzetnici | Nav je dinamičan (JS) — plain fetch možda ne vidi linkove; ako harvester nađe 0 PDF-ova, otvoriti stranicu u browseru i ručno naći direktan URL liste obrazaca, ili proširiti harvester da prati podstranice |
-| Poreska uprava | purs.gov.rs — poreske-prijave-i-obrasci (fizicka-lica / preduzetnici / pravna-lica — 3 podstranice = 3 izvora) | VAŽNO: mnogi obrasci su e-only (podnose se kroz ePorezi) — PDF verzija tada NEMA vrednost; proveriti za svaki pre kuracije (spec pravilo) |
-| PIO fond | pio.rs/sr/obrasci/republicki-fond | category: 'ostalo' (nema pio kategorije — ili dodati u CHECK constraint migracijom + CATEGORY_LABELS u lib/libraryForms.ts + CATEGORIES u curate-form.ts) |
-| ZSO | zso.gov.rs/obrasci.htm | starija stranica, verovatno flat obrasci — očekivati malo kandidata dok flat→AcroForm (07) ne proradi |
-| CROSO | croso.gov.rs | category 'croso' postoji; M-A i slični obrasci — proveriti AcroForm status |
+| Poreska uprava — fizička lica | purs.gov.rs/fizicka-lica/poreske-prijave-i-obrasci.html | Isti flat-only katalog kao pravna-lica/preduzetnici (batch 7), ali fizička lica manje relevantno za B2B — niži prioritet. `renderJs: true` obavezno (JS-rendered, isto kao ostale purs.gov.rs stranice). |
+| ZSO | zso.gov.rs/obrasci.htm | starija stranica, verovatno flat obrasci — probati `renderJs: true` ako harvester nađe 0, kao kod purs.gov.rs |
 
-Dodavanje = novi red u `scripts/curation/sources.json` (id, institution, category, url). NIŠTA u kodu, osim ako kategorija ne postoji (vidi PIO red).
+Dodavanje = novi red u `scripts/curation/sources.json` (id, institution, category, url; `"renderJs": true` ako sajt ubacuje PDF linkove tek JS-om — vidi purs.gov.rs primer, batch 7). NIŠTA u kodu, osim ako kategorija ne postoji.
+
+**Poreska uprava — pravna lica + preduzetnici, PIO, CROSO, APR preduzetnici/udruženja: gotovo** (batch 6+7, 8. jul). Poreska katalog je 100% flat — od 157 unikatnih 15 izbačeno common-sense filterom (diplomatski/putnički/crkva/prvi-stan/lične-potrebe izuzeća + jedan e-only), 142 katalogizovano preko `catalog-flat-forms.ts` kao referentni download (nema autofill, flat pravilo promenjeno — vidi next_session_note.md batch 7).
 
 `batch-curate.ts` ima `CATEGORY_BY_SOURCE` mapu i hardkodovan `source_institution` 'APR' — **pri dodavanju izvora proširiti oba** (mapa institution po sourceId).
 

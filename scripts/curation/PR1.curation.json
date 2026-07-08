@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "registracija-pravnog-lica",
+    "title": "Prijava za registraciju pravnog lica i poslovnih jedinica",
+    "short_name": "Registracija pravnog lica",
+    "category": "poreska",
+    "description": "Pravna lica podnose prilikom osnivanja ili otvaranja poslovnih jedinica radi registracije u poreskoj evidenciji.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/18/759089/PR1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 3
+  },
+  "fields": []
+}

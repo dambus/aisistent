@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "ispravka-gresaka",
+    "title": "Zahtev za ispravku grešaka",
+    "short_name": "Ispravka grešaka",
+    "category": "poreska",
+    "description": "Poreski obveznik podnosi kada je potrebno ispraviti greške u prethodno podnetim poreskim prijavama ili dokumentima.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/474382/obrazacZIG.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

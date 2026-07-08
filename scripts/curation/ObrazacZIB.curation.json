@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "fiskalne-kase-id-brojevi",
+    "title": "Zahtev za dodelu identifikacionih brojeva za fiskalne kase",
+    "short_name": "Fiskalne kase - ID brojevi",
+    "category": "poreska",
+    "description": "Obveznici PDV-a podnose kada nabavljaju nove fiskalne kase i treba im da dodele identifikacione brojeve za evidenciju prometa.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490365/ObrazacZIB.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

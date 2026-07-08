@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "konsolidovani-bilans",
+    "title": "Konsolidovani poreski bilans",
+    "short_name": "Konsolidovani bilans",
+    "category": "poreska",
+    "description": "Podnosi pravno lice koje je deo grupe povezanih lica za utvrđivanje konsolidovane poreske osnovice.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/475297/KPB.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

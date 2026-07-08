@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "radni-odnos-invaliditet",
+    "title": "Obaveštenje o zasnivanju/prestanku radnog odnosa sa licima sa invaliditetom",
+    "short_name": "Radni odnos - invaliditet",
+    "category": "poreska",
+    "description": "Poslodavci podnose pri zasnivanju ili prestanku radnog odnosa sa zaposlenim licima sa invaliditetom.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/466250/ONSZ-I.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

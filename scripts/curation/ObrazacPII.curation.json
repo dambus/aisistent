@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-o-izvozu",
+    "title": "Potvrda o izvršenom izvozu",
+    "short_name": "Potvrda o izvozu",
+    "category": "poreska",
+    "description": "Podnosi se carinskom organu radi potvrđivanja da je roba fizički izvezena iz Republike Srbije.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478522/ObrazacPII.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

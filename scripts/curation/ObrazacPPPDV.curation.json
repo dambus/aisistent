@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "ppp-pd-3",
+    "title": "Poreska prijava poreza na dodatu vrednost",
+    "short_name": "PPP-PD",
+    "category": "poreska",
+    "description": "Podnose obveznici PDV-a mesečno ili kvartalno, najkasnije do 15. dana u mesecu za prethodni poreski period.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490545/ObrazacPPPDV.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

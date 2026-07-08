@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "blokovi-fiskalnih-racuna",
+    "title": "Evidencija o blokovima fiskalnih računa izdatim u upotrebu",
+    "short_name": "Blokovi fiskalnih računa",
+    "category": "poreska",
+    "description": "Podnose obveznici PDV-a koji vode evidenciju o blokovima fiskalnih računa koje su izdali u upotrebu tokom poreskog perioda.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490359/ObrazacEFRU.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -33,6 +33,9 @@ interface Source {
   institution: string
   category: string
   url: string
+  // neki sajtovi (npr. purs.gov.rs) razrešavaju PDF linkove tek u browseru (CMS
+  // "box" shortcode ostaje kao HTML komentar u sirovom fetch-u) — renderuj sa Playwright-om
+  renderJs?: boolean
 }
 
 interface HarvestEntry {
@@ -77,6 +80,18 @@ async function fetchBuffer(url: string): Promise<Buffer> {
   return Buffer.from(await res.arrayBuffer())
 }
 
+async function fetchRenderedHtml(url: string): Promise<string> {
+  const { chromium } = await import('playwright')
+  const browser = await chromium.launch()
+  try {
+    const page = await browser.newPage({ userAgent: USER_AGENT })
+    await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 })
+    return await page.content()
+  } finally {
+    await browser.close()
+  }
+}
+
 async function main() {
   const onlySource = process.argv.includes('--source')
     ? process.argv[process.argv.indexOf('--source') + 1]
@@ -96,7 +111,9 @@ async function main() {
 
     let html: string
     try {
-      html = (await fetchBuffer(source.url)).toString('utf8')
+      html = source.renderJs
+        ? await fetchRenderedHtml(source.url)
+        : (await fetchBuffer(source.url)).toString('utf8')
     } catch (err) {
       console.error(`  ❌ stranica nedostupna: ${err instanceof Error ? err.message : err}`)
       summary.errors.push(`${source.id}: stranica nedostupna`)

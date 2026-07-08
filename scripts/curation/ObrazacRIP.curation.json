@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "registar-isplatilaca",
+    "title": "Prijava za upis u registar isplatilaca prihoda po osnovu estradnih programa",
+    "short_name": "Registar isplatilaca",
+    "category": "poreska",
+    "description": "Podnose pravna lica i preduzetnici koji isplaćuju prihode iz estradnih programa zabavne i narodne muzike radi upisa u registar Poreske uprave.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490376/ObrazacRIP.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

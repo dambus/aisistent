@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "nalog-za-ispravku-2",
+    "title": "Nalog za ispravku",
+    "short_name": "Nalog za ispravku",
+    "category": "poreska",
+    "description": "Podnosi poreski obveznik kada želi da ispravi grešku u prethodno podnetoj poreskoj prijavi ili dokumentu.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490360/ObrazacNI.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

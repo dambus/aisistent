@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-ndo",
+    "title": "Poreski bilans za nedobitnu organizaciju",
+    "short_name": "Poreski bilans NDO",
+    "category": "poreska",
+    "description": "Podnose nedobitne organizacije koje primenjuju kontni okvir za privredna društva i preduzetnike, uz godišnji finansijski izveštaj.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/475289/PBN1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

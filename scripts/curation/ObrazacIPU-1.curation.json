@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "fiskalizacija",
+    "title": "Zahtev za fiskalizaciju",
+    "short_name": "Fiskalizacija",
+    "category": "poreska",
+    "description": "Podnosi ga obveznik PDV-a radi registracije elektronskog fiskalnog uređaja kod Poreske uprave.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477917/ObrazacIPU-1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "opoziv-pdv-punomocstva-2",
+    "title": "Obaveštenje o opozivu/otkazu poreskog punomoćstva za PDV",
+    "short_name": "Opoziv PDV punomoćstva",
+    "category": "poreska",
+    "description": "Poreski obveznik podnosi kada opoziva ili otkazuje punomoćstvo svom punomoćniku za poslove u vezi sa porezom na dodatu vrednost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490536/ObrazacOOPPPDV.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

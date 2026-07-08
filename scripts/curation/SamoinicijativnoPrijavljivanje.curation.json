@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "samoinicijativno-prijavljivanje",
+    "title": "Samoinicijativno prijavljivanje",
+    "short_name": "Samoinicijativno prijavljivanje",
+    "category": "poreska",
+    "description": "Poreski obveznik podnosi kada želi da dobrovoljno prijavi neprijavljen ili nepotpuno prijavljen poreski dug pre kontrole Poreske uprave.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/459673/SamoinicijativnoPrijavljivanje.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

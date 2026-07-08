@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-rezidentnosti-2",
+    "title": "Potvrda o rezidentnosti",
+    "short_name": "Potvrda rezidentnosti",
+    "category": "poreska",
+    "description": "Podnose pravna i fizička lica radi dokazivanja poreske rezidentnosti u Republici Srbiji prema stranim poreskim vlastima.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/478636/ObrazacPOR-1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 8
+  },
+  "fields": []
+}

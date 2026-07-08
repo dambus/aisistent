@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-registracije",
+    "title": "Potvrda o izvrsenoj registraciji",
+    "short_name": "Potvrda registracije",
+    "category": "poreska",
+    "description": "Izdaje Poreska uprava nakon uspešno izvršene registracije poreskog obveznika.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/18/759090/REG.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

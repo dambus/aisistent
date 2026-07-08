@@ -5,12 +5,14 @@ import { useState } from 'react'
 interface LibraryDownloadButtonsProps {
   slug: string
   shortName: string
+  hasAutofill: boolean
 }
 
 // Dugmad za download obrasca iz biblioteke (Faza 4).
 // Prazan: direktan link (javan). Popunjen: fetch sa auth — 401 vodi na login,
 // 403 na upgrade, 400 (nema profila) na profil.
-export function LibraryDownloadButtons({ slug, shortName }: LibraryDownloadButtonsProps) {
+// hasAutofill=false (flat obrazac ili nema mapiranih polja) — samo download, bez "popunjeno" dugmeta.
+export function LibraryDownloadButtons({ slug, shortName, hasAutofill }: LibraryDownloadButtonsProps) {
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [reported, setReported] = useState(false)
@@ -65,20 +67,22 @@ export function LibraryDownloadButtons({ slug, shortName }: LibraryDownloadButto
   return (
     <div className="space-y-3">
       <div className="flex flex-col sm:flex-row gap-3">
-        <button
-          onClick={downloadFilled}
-          disabled={downloading}
-          className="flex-1 rounded-xl bg-[#1B6B4A] px-5 py-3 text-sm font-bold text-white
-            hover:bg-[#155a3d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {downloading ? 'Priprema...' : 'Preuzmi popunjeno mojim podacima'}
-        </button>
+        {hasAutofill && (
+          <button
+            onClick={downloadFilled}
+            disabled={downloading}
+            className="flex-1 rounded-xl bg-[#1B6B4A] px-5 py-3 text-sm font-bold text-white
+              hover:bg-[#155a3d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {downloading ? 'Priprema...' : 'Preuzmi popunjeno mojim podacima'}
+          </button>
+        )}
         <a
           href={`/api/obrasci/library/${slug}/download`}
           className="flex-1 rounded-xl border border-gray-300 px-5 py-3 text-sm font-bold text-gray-700
             text-center hover:bg-gray-50 transition-colors"
         >
-          Preuzmi prazan obrazac
+          Preuzmi obrazac
         </a>
       </div>
 
@@ -86,11 +90,17 @@ export function LibraryDownloadButtons({ slug, shortName }: LibraryDownloadButto
         <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{error}</p>
       )}
 
-      <p className="text-xs text-gray-400 leading-relaxed">
-        U popunjeni {shortName} upisujemo podatke iz vašeg profila firme. Ostala polja popunite
-        ručno u Adobe Reader-u ili drugom PDF softveru — za tačnost i kompletnost obrasca
-        odgovoran je podnosilac.
-      </p>
+      {hasAutofill ? (
+        <p className="text-xs text-gray-400 leading-relaxed">
+          U popunjeni {shortName} upisujemo podatke iz vašeg profila firme. Ostala polja popunite
+          ručno u Adobe Reader-u ili drugom PDF softveru — za tačnost i kompletnost obrasca
+          odgovoran je podnosilac.
+        </p>
+      ) : (
+        <p className="text-xs text-gray-400 leading-relaxed">
+          Ovaj obrazac se ne može automatski popuniti — preuzimate prazan {shortName} i popunjavate ga ručno.
+        </p>
+      )}
 
       <button
         onClick={reportOutdated}

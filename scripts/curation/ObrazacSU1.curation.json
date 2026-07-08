@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "srazmerna-ulaganja",
+    "title": "Srazmerni iznos ulaganja kod preduzetnika",
+    "short_name": "Srazmerna ulaganja",
+    "category": "poreska",
+    "description": "Preduzetnici podnose ovaj obrazac radi utvrđivanja srazmernog iznosa ulaganja u poslovne sredstva i obračuna poreskih olakšica.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490264/ObrazacSU1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

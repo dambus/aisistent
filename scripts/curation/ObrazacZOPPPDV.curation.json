@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poresko-punomocstvo-pdv",
+    "title": "Zahtev za odobravanje poreskog punomoćstva za PDV",
+    "short_name": "Poresko punomoćstvo PDV",
+    "category": "poreska",
+    "description": "Obveznik PDV-a podnosi kada želi da ovlasti treće lice za zastupanje pred Poreskom upravom u postupcima koji se odnose na porez na dodatu vrednost.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490535/ObrazacZOPPPDV.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

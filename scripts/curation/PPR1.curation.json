@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "promena-registracije",
+    "title": "Prijava za promenu-dopunu podataka o registraciji pravnog lica i poslovnih jedinica",
+    "short_name": "Promena registracije",
+    "category": "poreska",
+    "description": "Pravna lica podnose prilikom promene podataka u registraciji ili otvaranja, zatvaranja ili promene podataka o poslovnim jedinicama.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/18/759088/PPR1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

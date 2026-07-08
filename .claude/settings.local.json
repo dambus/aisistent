@@ -133,7 +133,12 @@
       "Bash(git config *)",
       "Bash(cd *)",
       "Bash(curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/src/tools/caveman-init.js)",
-      "Bash(xargs -I{} node -e \"try{const j=require\\('./{}'\\); console.log\\(j.meta.slug\\)}catch\\(e\\){}\")"
+      "Bash(xargs -I{} node -e \"try{const j=require\\('./{}'\\); console.log\\(j.meta.slug\\)}catch\\(e\\){}\")",
+      "WebFetch(domain:www.purs.gov.rs)",
+      "Bash(grep -rln \"obrasci/\\\\[slug\\\\]\\\\|LibraryForm\" app/obrasci)",
+      "Bash(find \"G:/Dev/2026/aisistent/app/obrasci\" -iname \"*.tsx\")",
+      "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); if\\(j.meta.category==='poreska'\\) console.log\\('{}', j.meta.title\\)\")",
+      "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); console.log\\(j.meta.slug, '|', j.meta.title\\)\")"
     ]
   }
 }

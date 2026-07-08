@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "samooporezivanje",
+    "title": "Poreska prijava za samooporezivanje - prihodi od samostalne delatnosti",
+    "short_name": "Samooporezivanje",
+    "category": "poreska",
+    "description": "Podnose preduzetnici paušalci i drugi obveznici koji ostvaruju prihode od samostalne delatnosti radi utvrđivanjaporeza i doprinosa.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/489548/ObrazacPPDG-1S.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 3
+  },
+  "fields": []
+}

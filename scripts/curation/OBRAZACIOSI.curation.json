@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "izvestaj-zaposljavanja-osi",
+    "title": "Izvestaj o izvrsenju obaveze zaposljavanja osoba sa invaliditetom",
+    "short_name": "Izvestaj - zaposljavanja OSI",
+    "category": "poreska",
+    "description": "Poslodavci podnose ovaj izvestaj radi evidencije ispunjenja zakonske obaveze zaposljavanja osoba sa invaliditetom.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/477100/OBRAZACIOSI.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

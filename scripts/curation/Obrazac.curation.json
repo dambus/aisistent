@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "s3",
+    "title": "Obrazac S3",
+    "short_name": "S3",
+    "category": "poreska",
+    "description": "Podnosi ga poslodavac za obračun doprinosa za obavezno socijalno osiguranje zaposlenih.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/3/17/759256/Obrazac.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

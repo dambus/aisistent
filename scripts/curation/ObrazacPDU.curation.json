@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "potvrda-o-dugu-2",
+    "title": "Potvrda o dugu",
+    "short_name": "Potvrda o dugu",
+    "category": "poreska",
+    "description": "Poreski obveznik podnosi kako bi dobio zvaničnu potvrdu Poreske uprave o stanju duga po osnovu poreza i doprinosa.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490349/ObrazacPDU.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

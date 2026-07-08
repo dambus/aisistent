@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-nbs",
+    "title": "Poreski bilans za nedobitnu organizaciju koja primenjuje kontni okvir za NBS",
+    "short_name": "Poreski bilans NBS",
+    "category": "poreska",
+    "description": "Podnose nedobitne organizacije koje koriste kontni okvir Narodne banke Srbije, uz godišnji poreski izveštaj.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/474259/PBN3.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pb-1",
+    "title": "Obrazac PB 1 - Poreski bilans",
+    "short_name": "PB 1",
+    "category": "poreska",
+    "description": "Poreske obveznike koji vode poslovne knjige po sistemu dvojnog knjigovodstva podnose radi utvrđivanja osnovice poreza na dobit pravnih lica.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/484440/AneksObrascaPB1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

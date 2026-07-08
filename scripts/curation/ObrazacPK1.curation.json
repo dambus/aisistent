@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poslovna-knjiga",
+    "title": "Poslovna knjiga prihoda i rashoda",
+    "short_name": "Poslovna knjiga",
+    "category": "poreska",
+    "description": "Paušalni obveznici vode za evidenciju ostvarenih prihoda i izvršenih rashoda u toku poreskog perioda.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490333/ObrazacPK1.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

@@ -166,5 +166,15 @@ Dva trajna bugfixa u `batch-curate.ts`: (1) statički "www." prefiks pre input b
 
 Detalji: `next_session_note.md`.
 
+## /obrasci — Faza 4 batch 7 — Poreska uprava, flat obrasci kao referentni download (8. jul 2026.)
+
+Biblioteka 73→214 obrazaca. **Politička promena:** flat obrasci sad ulaze u biblioteku bez autofill pokušaja — čist download, frontend prikazuje napomenu da se ne mogu automatski popuniti (`LibraryFormMeta.hasAutofill`, izvedeno iz `fields.length > 0`; "Preuzmi popunjeno" dugme sakriveno kad je false). Flat obrazac sa mapiranim poljima se i dalje odbija (overlay-fill se ne pokušava) — `curate-form.ts publish` gate promenjen u tom smislu, ne uklonjen.
+
+Poreska uprava (`poreska-pravna-lica` + `poreska-preduzetnici`) — **ceo katalog flat, 0 AcroForm** (purs.gov.rs razrešava PDF linkove tek u browseru; dodat `renderJs: true` u sources.json + Playwright render u `harvest-sources.ts`, trajna opcija za JS-rendered sajtove). Od ~157 unikatnih obrazaca, 15 izbačeno common-sense filterom (diplomatski/konzularni, putnički PDV povraćaj, crkva, kupac stana, "lične potrebe"/službeni nalog bez PDV-akciza — sve diplomatska izuzeća; plus jedan e-only VAT registracioni obrazac), 142 katalogizovano i objavljeno preko novog `scripts/catalog-flat-forms.ts` (uzima stvaran naziv sa sajta, Claude piše samo title/short_name/description, fields:[], publish+go-live odmah — nema fill-a za vizuelnu proveru).
+
+**Bag nađen (11 obrazaca uklj. 2 stara iz batch 4/5):** Claude/transliteracija ume da ostavi ćirilično/egzotično slovo usred latiničnog teksta ("dobитke" umesto "dobitke"). Novo pravilo: skenirati sve curation.json meta polja regexom posle svakog batch-a, ne osloniti se na vizuelnu proveru.
+
+Detalji: `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

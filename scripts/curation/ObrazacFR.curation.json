@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "fiskalni-racun-2",
+    "title": "Fiskalni račun",
+    "short_name": "Fiskalni račun",
+    "category": "poreska",
+    "description": "Obavezna evidencija prodaje koju izdaju svi obveznici PDV-a i korisnici elektronske fiskalizacije pri svakoj transakciji sa krajnjim kupcima.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490358/ObrazacFR.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,10 +1,10 @@
 {
   "meta": {
     "slug": "ogranak-stranog-drustva",
-    "title": "Prijava za registraciju ogranка stranog privrednog društva",
+    "title": "Prijava za registraciju ogranka stranog privrednog društva",
     "short_name": "Ogranak stranog društva",
     "category": "apr",
-    "description": "Registracija ogranка stranog privrednog društva u Agenciji za privredne registre.",
+    "description": "Registracija ogranka stranog privrednog društva u Agenciji za privredne registre.",
     "source_institution": "Agencija za privredne registre",
     "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Ogranak_stranog_privrednog_drustva_2025_T.pdf",
     "script": "cyrillic",

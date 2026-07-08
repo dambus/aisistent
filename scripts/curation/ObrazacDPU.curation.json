@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "dnevni-promet",
+    "title": "List dnevnog prometa ugostitelja",
+    "short_name": "Dnevni promet",
+    "category": "poreska",
+    "description": "Podnose ugostitelji koji vode evidenciju dnevnog prometa za potrebe poreske kontrole.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490336/ObrazacDPU.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

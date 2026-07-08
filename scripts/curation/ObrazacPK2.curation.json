@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "knjiga-os-i-sitnog-inventara",
+    "title": "Knjiga osnovnih sredstava i sitnog inventara",
+    "short_name": "Knjiga OS i sitnog inventara",
+    "category": "poreska",
+    "description": "Poreska uprava propisuje evidenciju osnovnih sredstava i sitnog inventara koju vode obveznici za potrebe obračuna amortizacije i praćenja poreske osnovice.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490334/ObrazacPK2.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

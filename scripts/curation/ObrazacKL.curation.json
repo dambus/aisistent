@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "kalkulacija-cene",
+    "title": "Kalkulacija prodajne cene",
+    "short_name": "Kalkulacija cene",
+    "category": "poreska",
+    "description": "Pravna lica i preduzetnici podnose pri utvrđivanju prodajne cene proizvoda ili usluga u skladu sa propisima o cenama.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/490335/ObrazacKL.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

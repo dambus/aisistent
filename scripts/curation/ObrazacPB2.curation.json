@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "poreski-bilans-samostalne-delatnosti",
+    "title": "Poreski bilans obveznika poreza na dohodak građana na prihode od samostalne delatnosti",
+    "short_name": "Poreski bilans samostalne delatnosti",
+    "category": "poreska",
+    "description": "Podnose preduzetnici i druga fizička lica koja obavljaju samostalnu delatnost, godišnje, radi utvrđivanja osnovice poreza na dohodak građana.",
+    "source_institution": "Poreska uprava",
+    "source_url": "https://www.purs.gov.rs/upload/media/2025/2/4/479690/ObrazacPB2.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 3
+  },
+  "fields": []
+}
