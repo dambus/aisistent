@@ -1,11 +1,28 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — 234 obrasca u biblioteci (8. jul), svi poznati flat ostaci katalogizovani, šta je sledeće
+description: Poruka za sledeću sesiju — 234 obrasca u biblioteci (8. jul), marketing audit + fix homepage/pricing/dashboard, šta je sledeće
 metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., batch 8 — flat ostaci: APR/CROSO/PIO)
+## Gde smo stali (8. jul 2026., marketing audit posle batch 8)
+
+Milan tražio audit (page-cro skill) da li su vredni featuri dobro reklamirani na homepage/notifikacijama/landing stranicama, s obzirom da je biblioteka obrazaca danas skočila 51→234. Nalazi i popravke:
+
+**Popravljeno:**
+- Pricing kartice (sve 4: Besplatno/Starter/Pro/Agencija) nisu pominjale biblioteku obrazaca nigde — dodat red po planu (Besplatno: "preuzimanje praznih", Starter/Pro: "automatski popunjeno", Agencija: "po izabranom klijentu"). `pricing` const → `getPricing(obrasciCount)` funkcija, broj sad dinamički kao i homepage baner.
+- Homepage "Alati" grid (18 tipova) nije uključivao 3 kalkulatora (postojali samo u footeru) — dodata kategorija "🧮 Besplatni kalkulatori", `toolLandingPages` mapa proširena. Eyebrow "18 tipova dokumenata" → "21 alat i tip dokumenta".
+- Dashboard `TipSequence` nije imao nijedan savet o biblioteci obrazaca (samo `dashboard-recommended` + `dashboard-kalkulatori`) — dodat `dashboard-obrasci` tip, broj dinamički (`getAllLibraryForms()` fetch dodat u dashboard page).
+
+**Nije popravljeno (zabeleženo, van scope-a ove runde):**
+- `whyAisistent` prop u `ToolLandingPage.tsx` i dalje mrtav kod (`void whyAisistent`, linija ~249) — poznato od 7. jula, još nerešeno.
+- 4 tipa dokumenta (otpremnica, putni-nalog, ponuda-za-radove, obavestenje-o-promeni-uslova) postoje u dashboard wizard-u ali nemaju NIKAKVU javnu promotivnu površinu (ni homepage grid, ni landing stranicu) — niži prioritet od kalkulatora jer su dashboard-only utility dokumenti, ne SEO/acquisition alati.
+- Nema changelog/announcement mehanizma za postojeće korisnike (npr. email ili in-app banner kad biblioteka naraste) — sidebar "NOVO" bedž na `/obrasci` je statičan, ne prati stvarne promene.
+- `TipCard`/`TipDefinition` nema podršku za link/CTA (samo tekst) — da bi savet o biblioteci vodio direktno na `/obrasci`, treba proširiti komponentu (nije urađeno, tip ostaje čisto informativan kao i ostali).
+
+**Napomena:** `taskkill /F /IM node.exe` gasi SVE node procese na mašini (koristio ga za gašenje dev servera posle vizuelne provere) — ubuduće ciljano gasiti samo taj proces/port, ne sve node.exe.
+
+## Prethodna sesija (8. jul 2026., batch 8 — flat ostaci: APR/CROSO/PIO)
 
 **Biblioteka = 234 obrasca** (bilo 214). Dovršeni svi poznati flat ostaci preko `catalog-flat-forms.ts` (proširen: `CATEGORY_BY_SOURCE`/`INSTITUTION_BY_SOURCE` mapa po sourceId, više nije hardkodovano na Poresku upravu):
 - **apr-privredna-drustva** (1 od 2 preostala flat): "Zahtev za uvid u spise i izdavanje kopija dokumenata" objavljen. Drugi (`_-_.pdf`) je zapravo **Korisničko uputstvo — Digitalno potpisivanje** (dekodirano ime fajla otkrilo da nije obrazac nego uputstvo) — isključen, ne obrazac.
@@ -92,6 +109,7 @@ Urađeno u ovoj sesiji:
 3. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
 4. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
 5. Brzi dobici iz brainstorma: SEO obrasci (D1), **KPO knjiga (A2) — obrazac već u biblioteci** (`/obrasci/pausalno-promet`, iz batch 7), rokovi podsetnik (A1)
+6. **Marketing audit ostaci (8. jul):** popraviti `whyAisistent` mrtav kod u `ToolLandingPage.tsx`; razmotriti landing stranice za otpremnica/putni-nalog/ponuda-za-radove/obavestenje-o-promeni-uslova; changelog/announcement mehanizam za postojeće korisnike; link/CTA podrška u `TipCard`/`TipDefinition`.
 
 ## Ključna pravila kuracije (spec 6.1 — NE kršiti)
 

@@ -182,5 +182,9 @@ Biblioteka 214→234 obrazaca. `catalog-flat-forms.ts` proširen na sve instituc
 
 Svi poznati harvest izvori sad iscrpljeni (APR, CROSO, PIO, Poreska uprava pravna lica+preduzetnici). Detalji: `next_session_note.md`.
 
+## Marketing audit — homepage/pricing/dashboard (8. jul 2026.)
+
+Milan tražio page-cro audit da li su vredni featuri dobro reklamirani. Popravljeno: pricing kartice (sve 4 plana) dobile red o biblioteci obrazaca (dinamički broj, `getPricing(count)`); homepage "Alati" grid dobio kategoriju kalkulatora (ranije samo footer); dashboard `TipSequence` dobio `dashboard-obrasci` tip. Otvoreno (van scope-a): `whyAisistent` mrtav prop u `ToolLandingPage.tsx` (poznato od 7. jula), 4 doc tipa bez javne promotivne površine, nema changelog mehanizma, `TipCard` nema link/CTA podršku. Detalji: `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete
