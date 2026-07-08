@@ -131,7 +131,8 @@
       "Bash(codex --version)",
       "Skill(codex:setup)",
       "Bash(git config *)",
-      "Bash(cd *)"
+      "Bash(cd *)",
+      "Bash(curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/src/tools/caveman-init.js)"
     ]
   }
 }

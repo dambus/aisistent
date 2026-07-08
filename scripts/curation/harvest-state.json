@@ -313,7 +313,8 @@
     "acroFields": 58,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "dodatak-13"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2024/Dodatak_14_PS___Povecanje_kapitala.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -323,7 +324,8 @@
     "acroFields": 30,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "dodatak-14"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2024/Dodatak_15_PS___Smanjenje_kapitala.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -333,7 +335,8 @@
     "acroFields": 25,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "dodatak-15"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Dodatak_12_PS___Clanovi_udeli_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -343,7 +346,8 @@
     "acroFields": 31,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "dodatak-12"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Akcionarsko_drustvo_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -353,7 +357,8 @@
     "acroFields": 315,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "jrpps-akcionarsko-drustvo"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___DOO_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -373,7 +378,8 @@
     "acroFields": 251,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "jrpps-javno-preduzece"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Komanditno_drustvo_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -383,7 +389,8 @@
     "acroFields": 240,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "jrpps-kd"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Ogranak_stranog_privrednog_drustva_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -393,7 +400,8 @@
     "acroFields": 108,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "ogranak-stranog-drustva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Ortacko_drustvo_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -403,7 +411,8 @@
     "acroFields": 241,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "jrpps-ortaci"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Predstavnistvo_stranog_privrednog_drustva_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -413,7 +422,8 @@
     "acroFields": 108,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "curatedSlug": "predstavnistvo-stranog-drustva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Zadruga_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",

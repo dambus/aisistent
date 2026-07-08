@@ -6,6 +6,24 @@
       "institution": "Agencija za privredne registre",
       "category": "apr",
       "url": "https://www.apr.gov.rs/registri/privredna-drustva/obrasci.2042.html"
+    },
+    {
+      "id": "apr-udruzenja",
+      "institution": "Agencija za privredne registre",
+      "category": "apr",
+      "url": "https://www.apr.gov.rs/registri/udruzenja/obrasci.2043.html"
+    },
+    {
+      "id": "apr-preduzetnici",
+      "institution": "Agencija za privredne registre",
+      "category": "apr",
+      "url": "https://www.apr.gov.rs/registri/preduzetnici/obrasci.1087.html"
+    },
+    {
+      "id": "croso-obrasci",
+      "institution": "Centralni registar obaveznog socijalnog osiguranja",
+      "category": "crosso",
+      "url": "https://www.croso.gov.rs/cir/Rad_na_portalu/Pravni_aspekt/Obrasci_za_preuzimanje/"
     }
   ]
 }

@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 8. jul 2026. (batch 4) — biblioteka 28→38 obrazaca + nova pravila kuracije
+
+`batch-curate.ts --limit 10` na sledećih 10 acroform kandidata (Dodatak 12/13/14/15, JRPPS Akcionarsko/Javno preduzeće/Komanditno/Ogranak stranog/Ortačko/Predstavništvo stranog). Otkriveno: 6 JRPPS formi su prijave za OSNIVANJE nove firme (subjekat još ne postoji u APR-u), auto-mapper im je ipak predložio `naziv`/`maticni_broj`/`delatnost` prefill iz postojećeg profila — pogrešno, jer bi upisao naziv postojeće firme korisnika u polje za novu firmu koja se tek registruje. Sve profileKey mape za tih 6 formi ručno skinute, objavljene kao referentni PDF. Novo pravilo upisano u spec 6.1 (vidi next_session_note.md).
+
+Bug nađen na Dodatak 13: vizuelna provera test-fill PDF-a (pymupdf render) pokazala da je `grad` vrednost pala u pogrešan susedni box ("Регистарски/матични број" umesto "Место седишта") — label-extraction heuristika pogodila pogrešan AcroForm widget u dvokolonom layoutu. Mapiranje skinuto, redo test-fill, čisto. Publish izveštaj "filled=N noValue=0" ne hvata ovu vrstu greške — obavezna vizuelna provera svakog polja.
+
+Slug kolizija: dve JRPPS forme dobile isti auto-generisani slug "jrpps" (batch-curate.ts ne proverava jedinstvenost) — ručno ispravljeno na jrpps-akcionarsko-drustvo / jrpps-javno-preduzece.
+
+Svih 10 go-live, `curatedSlug` upisan u `harvest-state.json`. Preostalo 13 acroform + 2 flat kandidata.
+
 #### 7. jul 2026. (batch 3) — biblioteka 18→28 obrazaca
 
 `batch-curate.ts --limit 10` na sledećih 10 APR kandidata (Dodatak 06, 08, 09, 10, 11, 21, 22, 24, 25, 33) → ručni pregled JSON-ova (profileKey validacija) → `curate-form.ts publish` → pymupdf render provera test-fill PDF-ova → `go-live` za svih 10 → `curatedSlug` upisan u `harvest-state.json`. Preostalo ~21 kandidat.
