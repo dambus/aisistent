@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "slug": "dodatak-27",
+    "title": "Dodatak 27 PS — Objava dokumenta",
+    "short_name": "Dodatak 27",
+    "category": "apr",
+    "description": "Prijava za objavu različitih korporativnih dokumenata, poziva, zapisnika, odluka i obaveštenja akcionarima, članovima društva ili zadrugarima u skladu sa Zakonom o privrednim društvima i Zakonom o zadругama.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Opsti%20obrasci/Dodatak_27_PS_Objava_dokumenta.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box60",
+      "profileKey": null,
+      "_label": "Позив члану друштва да изврши уплату/унос улога (чл. 48. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box62",
+      "profileKey": null,
+      "_label": "Понуда друштва за откуп сопствених акција (чл.285. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box63",
+      "profileKey": null,
+      "_label": "Позив акционарима за седницу скупштине (чл. 335. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box64",
+      "profileKey": null,
+      "_label": "Записник са седнице скупштине акционара (чл. 363. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box65",
+      "profileKey": null,
+      "_label": "Нацрт одлуке о промени правне форме са обавештењем о времену и месту где се може извршити увид у документа",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box66",
+      "profileKey": null,
+      "_label": "у документа и акта друштва (чл.495. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box70",
+      "profileKey": null,
+      "_label": "Позив члану друштва да изврши уплату/унос улога",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box71",
+      "profileKey": null,
+      "_label": "Обавештење о закљученом правном послу односно предузетој правној радњи у којој постоји лични интерес",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box72",
+      "profileKey": null,
+      "_label": "Обавештење акционарима о исплати дивиденде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box73",
+      "profileKey": null,
+      "_label": "Обавештење акционарима који имају право пречег уписа о издавању акција односно других хартија од вредности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box74",
+      "profileKey": null,
+      "_label": "Понуда друштва за откуп сопствених акција",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box75",
+      "profileKey": null,
+      "_label": "Позив акционарима за седницу скупштине",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box76",
+      "profileKey": null,
+      "_label": "Записник са седнице скупштине акционара",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box77",
+      "profileKey": null,
+      "_label": "Нацрт одлуке о промени правне форме",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Захтевам да ми се достави потврда о објављеним документима:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box67.0",
+      "profileKey": null,
+      "_label": "Правноснажна одлука суда о поништају одлуке о статусној промени (чл. 500. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box67.1",
+      "profileKey": null,
+      "_label": "Правноснажна одлука суда о одређивању више цене/повољније сразмере замене акција (чл. 565. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box67.2.0",
+      "profileKey": null,
+      "_label": "Књига задругара (задруга која послује са чланарином, чл. 78. Закона о задругама).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box67.2.1",
+      "profileKey": null,
+      "_label": "Закључак из коначног извештаја задружног ревизора (чл. 78. Закона о задругама).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box78.0",
+      "profileKey": null,
+      "_label": "Нацрт уговора/плана поделе о статусној промени",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box78.1",
+      "profileKey": null,
+      "_label": "Правноснажна одлука суда о одређивању више цене/повољније сразмере замене акција",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box78.2",
+      "profileKey": null,
+      "_label": "Правноснажна одлука суда о одређивању више цене/повољније сразмере замене акција",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box79.0",
+      "profileKey": null,
+      "_label": "Књига задругара",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box79.1.0",
+      "profileKey": null,
+      "_label": "Закључак из коначног извештаја задружног ревизора",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box79.1.1",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box61.0",
+      "profileKey": null,
+      "_label": "Објава намере закључења правног посла, односно предузимање правне радње за које је потребно одобрење у случају",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box61.1",
+      "profileKey": null,
+      "_label": "Обавештење акционарима о исплати дивиденде (чл. 272. ЗПД).",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box61.2",
+      "profileKey": null,
+      "_label": "Обавештење акционарима који имају право пречег уписа о издавању акција односно других хартија од вредности",
+      "_state": "manual"
+    }
+  ]
+}

@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 8. jul 2026. (batch 5) — biblioteka 38→51 obrazaca, svi AcroForm APR kandidati kurirani
+
+`batch-curate.ts --limit 13` na preostalih 13 acroform kandidata (dodatak-03/07/17a/17b/18/27/28/31, jrpps-doo, jrpps-zadruga, jrpps-zadruzni-savez, prijava-brisanja-ps, zahtev-za-pristup-informacijama). Dve stale curation.json datoteke iz ranije prekinute sesije (Dodatak_03, JRPPS DOO — prazna meta) obrisane i ponovo predložene.
+
+3 JRPPS osnivačke forme (DOO, Zadruga, Zadružni savez) — isto pravilo kao batch 4, profileKey mape skinute. `zahtev-za-pristup-informacijama` (ZOI zahtev) nije forma o privrednom subjektu — mapirana polja (grad iz boilerplate, zastupnik iz imena podnosioca) preslaba, skinuta.
+
+Bug #2 nađen na Dodatak 31: polje "Интернет адреса" ima odštampan "www." prefiks pre input boxa — test-fill sa `company.website="www.testnafirma.rs"` dao dupli "www. www.testnafirma.rs". Mapiranje website→null, redo test-fill, čisto. Ostalih 5 test-fill-ova (prijava-brisanja-ps, dodatak-07/17a/17b/18) vizuelno tačni iz prve.
+
+Svih 13 go-live. Biblioteka = 51 obrazac — **svi originalni 51 AcroForm kandidat iz `apr-privredna-drustva` izvora sad kurirani.** Preostalo samo 2 flat kandidata (van scope-a, batch-curate ih ne pokuplja). Milan dodao 3 nova izvora u `sources.json` (apr-udruzenja, apr-preduzetnici, croso-obrasci) za sledeći harvest krug.
+
 #### 8. jul 2026. (batch 4) — biblioteka 28→38 obrazaca + nova pravila kuracije
 
 `batch-curate.ts --limit 10` na sledećih 10 acroform kandidata (Dodatak 12/13/14/15, JRPPS Akcionarsko/Javno preduzeće/Komanditno/Ogranak stranog/Ortačko/Predstavništvo stranog). Otkriveno: 6 JRPPS formi su prijave za OSNIVANJE nove firme (subjekat još ne postoji u APR-u), auto-mapper im je ipak predložio `naziv`/`maticni_broj`/`delatnost` prefill iz postojećeg profila — pogrešno, jer bi upisao naziv postojeće firme korisnika u polje za novu firmu koja se tek registruje. Sve profileKey mape za tih 6 formi ručno skinute, objavljene kao referentni PDF. Novo pravilo upisano u spec 6.1 (vidi next_session_note.md).

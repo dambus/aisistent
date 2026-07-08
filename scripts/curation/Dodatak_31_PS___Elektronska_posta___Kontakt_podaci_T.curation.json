@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "slug": "dodatak-31",
+    "title": "Dodatak 31 PS — Elektronska pošta i kontakt podaci",
+    "short_name": "Dodatak 31",
+    "category": "apr",
+    "description": "Prijava, izmena ili brisanje podataka o elektronskoj pošti, telefonima, faksu i veb adresi privrednog subjekta.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_31_PS___Elektronska_posta___Kontakt_podaci_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": "email",
+      "_label": "Е-пошта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3.0",
+      "profileKey": "telefon",
+      "_label": "Телефон 1:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3.1",
+      "profileKey": null,
+      "_label": "Телефон 1:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4.0",
+      "profileKey": null,
+      "_label": "Факс:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4.1",
+      "profileKey": null,
+      "_label": "Факс:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.0",
+      "profileKey": null,
+      "_label": "Телефон 2:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.1",
+      "profileKey": null,
+      "_label": "Телефон 2:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6.0",
+      "profileKey": null,
+      "_label": "www.",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6.1",
+      "profileKey": null,
+      "_label": "www.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде за регистрацију адресе е - поште/адресе за пријем поште",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.0",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.2",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.0",
+      "profileKey": null,
+      "_label": "Општина:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.1",
+      "profileKey": null,
+      "_label": "Насељено",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.2",
+      "profileKey": null,
+      "_label": "Улица:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.0.0",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.0.1",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.1.1",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.1.0.0",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.1.0.1.0",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7.3.1.0.1.1",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    }
+  ]
+}

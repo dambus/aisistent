@@ -1,12 +1,12 @@
 {
   "meta": {
-    "slug": "",
-    "title": "",
-    "short_name": "Dodatak_03_PS___Sediste_T",
-    "category": "ostalo",
-    "description": "",
-    "source_institution": "",
-    "source_url": "",
+    "slug": "dodatak-03",
+    "title": "Dodatak 03 PS — Sedište",
+    "short_name": "Dodatak 03",
+    "category": "apr",
+    "description": "Prijava podataka o sedištu privrednog subjekta ili promene sedišta.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_03_PS___Sediste_T.pdf",
     "script": "cyrillic",
     "source_type": "acroform",
     "page_count": 1

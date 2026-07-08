@@ -1,0 +1,324 @@
+{
+  "meta": {
+    "slug": "dodatak-17b",
+    "title": "Dodatak 17b PS — Brisanje ogranka",
+    "short_name": "Dodatak 17b",
+    "category": "apr",
+    "description": "Prijava brisanja ogranka privrednog subjekta iz registra.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/2024/Dodatak_17b_PS___Brisanje_ogranka_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Брише се огранак:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text36",
+      "profileKey": null,
+      "_label": "Назив:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text37",
+      "profileKey": null,
+      "_label": "Шифра:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text38",
+      "profileKey": null,
+      "_label": "Назив делатности:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text39",
+      "profileKey": null,
+      "_label": "Општина:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text40",
+      "profileKey": null,
+      "_label": "Насељено",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text41",
+      "profileKey": null,
+      "_label": "Улица:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text54",
+      "profileKey": "maticni_broj",
+      "_label": "Матични број:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text55",
+      "profileKey": "naziv",
+      "_label": "Пословно име:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Функцију заступања врши преко својих заступника:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Функцију заступања врши преко пуномоћника:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text48",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text49",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text50",
+      "profileKey": null,
+      "_label": "ЈМБГ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text51",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text52",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box53",
+      "profileKey": null,
+      "_label": "Самостално заступа:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box61",
+      "profileKey": null,
+      "_label": "Самостално заступа:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text56",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text57",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text58",
+      "profileKey": null,
+      "_label": "ЈМБГ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text59",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text60",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text62",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text63",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text64",
+      "profileKey": null,
+      "_label": "ЈМБГ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text65",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text66",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box57",
+      "profileKey": null,
+      "_label": "Одлука о брисању огранка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box58",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box59",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text61",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    }
+  ]
+}

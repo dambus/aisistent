@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "slug": "zahtev-za-pristup-informacijama",
+    "title": "Zahtev za slobodan pristup informacijama od javnog značaja",
+    "short_name": "Zahtev za pristup informacijama",
+    "category": "apr",
+    "description": "Podnošenje zahteva organu vlasti za pristup informacijama od javnog značaja u skladu sa zakonom.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/documents/zahtev%20za%20slobodan%20pristup%20informacijama%20od%20javnog%20zna%C4%8Daja%20cir.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.0",
+      "profileKey": null,
+      "_label": "обавештење да ли поседује тражену информацију;",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.1",
+      "profileKey": null,
+      "_label": "увид у документ који садржи тражену информацију;",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.2",
+      "profileKey": null,
+      "_label": "копију документа који садржи тражену информацију;",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2.3",
+      "profileKey": null,
+      "_label": "достављање копије документа који садржи тражену информацију :*",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.0",
+      "profileKey": null,
+      "_label": "ПОШТОМ",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.1",
+      "profileKey": null,
+      "_label": "електронском поштом",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3.2",
+      "profileKey": null,
+      "_label": "на други начин :***",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "на други начин :***",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.0",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.1",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5.2",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "У",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "дана",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "201",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9.0",
+      "profileKey": null,
+      "_label": "Тражилац информације/Име и презиме",
+      "_state": "low"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9.1",
+      "profileKey": null,
+      "_label": ",",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9.2",
+      "profileKey": null,
+      "_label": "године",
+      "_state": "manual"
+    }
+  ]
+}

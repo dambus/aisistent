@@ -1,0 +1,436 @@
+{
+  "meta": {
+    "slug": "prijava-brisanja-ps",
+    "title": "Registraciona prijava brisanja subjekata upisanih u Registar privrednih subjekata",
+    "short_name": "Prijava brisanja PS",
+    "category": "apr",
+    "description": "Prijava za brisanje privrednog subjekta iz registra nakon likvidacije, stečaja ili statusne promene.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/Registraciona_prijava_brisanja_subjekata_upisanih_u_Registar_PS_2025_T.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 2
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "и захтевам да ми се изда потврда о поднетој пријави:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "* НАПОМЕНА:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text10",
+      "profileKey": null,
+      "_label": "ЈМБГ:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text11",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text12",
+      "profileKey": null,
+      "_label": "држава издавања",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text13",
+      "profileKey": null,
+      "_label": "Општина:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text16",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text17",
+      "profileKey": null,
+      "_label": "Број и назив",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text14",
+      "profileKey": null,
+      "_label": "Место:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text18",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text19",
+      "profileKey": null,
+      "_label": "Број и слово:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text15",
+      "profileKey": null,
+      "_label": "Улица:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text20",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text21",
+      "profileKey": null,
+      "_label": "Спрат и број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text22",
+      "profileKey": "telefon",
+      "_label": "Телефон:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text23",
+      "profileKey": "email",
+      "_label": "Е-пошта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Брисање након окончања поступка ликвидације:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Брисање након закључења стечајног поступка:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Брисање услед спровођења статусне промене:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button2",
+      "profileKey": null,
+      "_label": "Брисање услед одлуке оснивача представништва/огранка страног привредног друштва:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Одлука скупштине о окончању поступка ликвидације",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Извештај ликвидационог управника о спроведеној ликвидацији",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Изјава ликвидационог управника да су све обавезе по основу пријављених потраживања измирене у потпуности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Одлука о подели ликвидационог остатка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Одлука друштва о лицу коме се пословне књиге и документа поверавају на чување или изјава ликвидационог",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Докази о престанку пореских обавеза издати од стране надлежне организационе јединице Пореске управе РС",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text24",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box25",
+      "profileKey": null,
+      "_label": "Правноснажно решење суда о закључењу стечајног поступка",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box26",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box27",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text28",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Припајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Спајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button3",
+      "profileKey": null,
+      "_label": "Спајање",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box29",
+      "profileKey": null,
+      "_label": "Одлука скупштине привредног субјекта којом се одобрава статусна промена",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box30",
+      "profileKey": null,
+      "_label": "Уговор о статусној промени",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box31",
+      "profileKey": null,
+      "_label": "План поделе друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box32",
+      "profileKey": null,
+      "_label": "Финансијски извештај учесника у статусној промени са мишљењем ревизора",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33",
+      "profileKey": null,
+      "_label": "Извештај ревизора о извршеној статусној промени",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box35",
+      "profileKey": null,
+      "_label": "Изјава заступника друштва да су чланови сагласни да се финансијски извештаји не сачињавају",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box36",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box37",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9",
+      "profileKey": null,
+      "_label": "Одлука оснивача о брисању представништва/огранка страног привредног друштва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box10",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text38",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text38a",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box13",
+      "profileKey": null,
+      "_label": "Друго",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "подносиоца у",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "подносиоца у",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Поштом на адресу",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "за пријем поште",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Поштом на адресу",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": "naziv",
+      "_label": "ПОСЛОВНО",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": "maticni_broj",
+      "_label": "Матични",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Лично у ОЈ АПР-а:",
+      "_state": "manual"
+    }
+  ]
+}

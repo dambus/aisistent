@@ -1,0 +1,387 @@
+{
+  "meta": {
+    "slug": "dodatak-28",
+    "title": "Dodatak 28 PS — Objava i registracija akta",
+    "short_name": "Dodatak 28",
+    "category": "apr",
+    "description": "Prilaže se uz zahtev za objavu i registraciju različitih akata privrednog društva ili zadruge (osnivački akt, statut, odluke o kapitalu, likvidaciji i dr.).",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/Obrasci%20i%20primeri%20akata%202016/Dodatak_28_PS____Objava_i_registracija_akta_122023.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Измена оснивачког акта и/или пречишћен текст оснивачког акта ОД/КД/ДОО/задруге (чл. 12. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Измена статута АД и/или пречишћен текст статута АД (чл. 12. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Измене и/или пречишћен текст задружних правила / Правила задружног савеза (чл. 78. Закона о задругама)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Правноснажна пресуда којом се налаже промена назива друштва (чл. 28. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Процена вредности неновчаног улога (чл. 51. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Потврда надлежног органа друштва о вредности неновчаног улога (чл. 58. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box8",
+      "profileKey": null,
+      "_label": "Одлука о ограничењу или искључењу права пречег уписа (чл. 278. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9",
+      "profileKey": null,
+      "_label": "Одлука о издавању акција ради повећања основног капитала АД (чл. 294. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box10",
+      "profileKey": null,
+      "_label": "Одлука о повећању основног капитала (чл. 146. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11",
+      "profileKey": null,
+      "_label": "Одлука о повећању капитала друштва из нето имовине друштва (чл. 306. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12",
+      "profileKey": null,
+      "_label": "Одлука о одобреним акцијама (чл. 313. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box13",
+      "profileKey": null,
+      "_label": "Одлука о смањењу основног капитала АД (чл. 314. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box14",
+      "profileKey": null,
+      "_label": "Одлука о враћању додатних уплата (чл. 180. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box15",
+      "profileKey": null,
+      "_label": "Одлука о смањењу основног капитала (чл. 147. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box16",
+      "profileKey": null,
+      "_label": "Одлука о принудном откупу акција (чл. 515. и 516. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box17",
+      "profileKey": null,
+      "_label": "Одлука о покретању ликвидације (чл. 525. и 526. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box18",
+      "profileKey": null,
+      "_label": "Усвојени почетни ликвидациони извештај (чл. 536. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box19",
+      "profileKey": null,
+      "_label": "Годишњи ликвидациони извештај (чл. 537. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Постоји обавеза овере измена оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Radio Button1",
+      "profileKey": null,
+      "_label": "Не постоји обавеза овере измена оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box22",
+      "profileKey": null,
+      "_label": "Измена оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box23",
+      "profileKey": null,
+      "_label": "Пречишћен текст оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box24",
+      "profileKey": null,
+      "_label": "Измена статута АД",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box25",
+      "profileKey": null,
+      "_label": "Пречишћен текст статута АД",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box26",
+      "profileKey": null,
+      "_label": "Измене задружних правила / задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box27",
+      "profileKey": null,
+      "_label": "Пречишћен текст задружних правила / задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box28",
+      "profileKey": null,
+      "_label": "Правноснажна пресуда којом се налаже",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box29",
+      "profileKey": null,
+      "_label": "Процена вредности неновачног улога.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box30",
+      "profileKey": null,
+      "_label": "Потврда надлежног органа друштва о вредности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box31",
+      "profileKey": null,
+      "_label": "Одлука о ограничењу или искључењу права пречег уписа",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box32",
+      "profileKey": null,
+      "_label": "Одлука о издавању акција ради повећања основног капитала",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box34",
+      "profileKey": null,
+      "_label": "Измена оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box35",
+      "profileKey": null,
+      "_label": "Пречишћен текст оснивачког акта",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box36",
+      "profileKey": null,
+      "_label": "Измена статута АД",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box37",
+      "profileKey": null,
+      "_label": "Пречишћен текст статута АД",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box38",
+      "profileKey": null,
+      "_label": "Измене задружних правила / задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box39",
+      "profileKey": null,
+      "_label": "Пречишћен текст задружних правила / задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box40",
+      "profileKey": null,
+      "_label": "Правноснажна пресуда којом се налаже",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box41",
+      "profileKey": null,
+      "_label": "Процена вредности неновачног улога.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Одлука о обустави ликвидације (чл. 538. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box20",
+      "profileKey": null,
+      "_label": "Потврда надлежног органа друштва о вредности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box21",
+      "profileKey": null,
+      "_label": "Правноснажна пресуда којом се поништава одлука скупштине друштва (чл. 379. ЗПД)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box42",
+      "profileKey": null,
+      "_label": "Одлука о ограничењу или искључењу права пречег уписа",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box21a",
+      "profileKey": null,
+      "_label": "Оставка (чл. 396. ЗПД и др.)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box42a",
+      "profileKey": null,
+      "_label": "Одлука о издавању акција ради повећања основног капитала",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box21b",
+      "profileKey": null,
+      "_label": "Уговор о финансијском реструктурирању (чл. 17. Закона о споразумном финансијском реструктурирању)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box21b2",
+      "profileKey": null,
+      "_label": "Одлука о повлачењу акција са регулисаног тржишта, односно МТП (чл. 133. Закона о тржишту капитала)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33.0",
+      "profileKey": null,
+      "_label": "Одлука о повећању основног капитала",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33.1.0",
+      "profileKey": null,
+      "_label": "Одлука о повећању капитала друштва из нето",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33.1.1",
+      "profileKey": null,
+      "_label": "Одлука о принудном откупу акција",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box33.1.2",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box42b.0",
+      "profileKey": null,
+      "_label": "Одлука о повећању капитала друштва из нето",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box42b.1",
+      "profileKey": null,
+      "_label": "имовине друштва",
+      "_state": "manual"
+    }
+  ]
+}

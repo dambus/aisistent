@@ -5,9 +5,13 @@ metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., batch 4)
+## Gde smo stali (8. jul 2026., batch 4+5)
 
-**Biblioteka = 38 obrazaca** (bilo 28, +10): dodatak-12, dodatak-13, dodatak-14, dodatak-15, jrpps-akcionarsko-drustvo, jrpps-javno-preduzece, jrpps-kd, ogranak-stranog-drustva, jrpps-ortaci, predstavnistvo-stranog-drustva. Preostalo 13 acroform + 2 flat kandidata (JRPPS DOO, JRPPS Zadruga/Zadružni savez, Registraciona prijava brisanja, Dodatak 03/07/17a/17b/18/28/27/31, zahtev za uvid u spise, zahtev za slobodan pristup informacijama).
+**Biblioteka = 51 obrazac** (bilo 28, +10 pa +13 — svi AcroForm kandidati iz `apr-privredna-drustva` izvora sad kurirani). Batch 4 (+10): dodatak-12/13/14/15, jrpps-akcionarsko-drustvo, jrpps-javno-preduzece, jrpps-kd, ogranak-stranog-drustva, jrpps-ortaci, predstavnistvo-stranog-drustva. Batch 5 (+13): dodatak-03/07/17a/17b/18/27/28/31, jrpps-doo, jrpps-zadruga, jrpps-zadruzni-savez, prijava-brisanja-ps, zahtev-za-pristup-informacijama. **Preostalo samo 2 flat kandidata** (bez AcroForm polja, van batch-curate.ts obuhvata — `Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf` i jedan bez čitljivog imena `_-_.pdf`, treba ručno pogledati izvor pre kuracije).
+
+**Batch 5 dodatna pravila:** `prijava-brisanja-ps` (brisanje POSTOJEĆEG subjekta iz registra) je normalan prefill kandidat — nije osnivačka forma, mapirana polja vizuelno tačna. `zahtev-za-pristup-informacijama` (ZOI zahtev) NIJE forma o privrednom subjektu — mapirana polja (`grad` iz boilerplate "У ___", `zastupnik` iz imena podnosioca) preslaba/pogrešnog konteksta, skinuta, ide kao referentni PDF.
+
+**Bug #2 — statički "www." prefiks (Dodatak 31):** polje "Интернет адреса" ima odštampan "www." tekst odmah pre input boxa; `company.website` u profilu nema garantovan format (može već sadržati "www." ili "https://") pa je test-fill dao "www. www.testnafirma.rs". Mapiranje skinuto. **Novo pravilo: NIKAD ne mapirati `website` na polje čija je labela bukvalno "www." — profil ne garantuje bare-domain format.**
 
 **Novo pravilo kuracije (dodati u spec 6.1): JRPPS "Registraciona prijava" forme (osnivanje NOVE firme — akcionarsko/javno preduzeće/komanditno/ortačko/DOO/zadruga, ogranak/predstavništvo stranog društva) NIKAD ne dobijaju profileKey prefill.** Auto-mapper (isti semanticMapper koji radi za amandmanske Dodatak forme) je na ovoj rundi predložio `naziv`/`maticni_broj`/`delatnost` iz sekcije "ПОСЛОВНО ИМЕ" — ali to je naziv firme koja se TEK osniva, ne postojeći profil korisnika. Prefill bi upisao pogrešan naziv u polje za novu firmu — direktno krši postojeće pravilo "prefill samo za postojeći subjekat". Svih 6 JRPPS formi ove runde objavljeno kao referentni PDF (profileKey mape ručno skinute pre publish-a). Isto pravilo važi za preostale JRPPS DOO/Zadruga/Zadružni savez u sledećoj rundi. Registraciona prijava BRISANJA subjekta je druga priča (postojeći subjekat se briše) — normalna kandidat za prefill, proveriti posebno.
 
@@ -46,9 +50,9 @@ Urađeno u ovoj sesiji:
 
 ## Šta je sledeće (Milan bira)
 
-1. **Batch kuracija preostalih 13 acroform + 2 flat kandidata:** `npx tsx --tsconfig tsconfig.json scripts/batch-curate.ts --limit 10` → pregled JSON-ova (profileKey + JRPPS founding-forme skinuti mape, vidi pravilo ispod) → publish → vizuelna kontrola svakog box-a → go-live → curatedSlug u harvest-state (isti tok kao 7-8. jul)
-2. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
-3. Novi izvori obrazaca (uputstvo: `docs/handover/08-HARVESTER-OPS.md`)
+1. **Poslednja 2 flat kandidata** — nemaju AcroForm polja, batch-curate.ts ih ne pokupi (filter `type==='acroform'`). Ručno propose (curate-form.ts propose direktno) ili proveriti da li su uopšte relevantni za biblioteku (jedan nema čitljivo ime fajla — proveriti sources.json/harvest da li je grešaka pri harvestu).
+2. **Novi izvori dodati u sources.json (Milan, van sesije):** `apr-udruzenja`, `apr-preduzetnici`, `croso-obrasci` — treba pokrenuti harvester (`scripts/harvest-sources.ts`) da povuče kandidate iz njih, pa nova runda batch-curate.
+3. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
 4. Brzi dobici iz brainstorma: SEO obrasci (D1), KPO knjiga (A2), rokovi podsetnik (A1)
 
 ## Ključna pravila kuracije (spec 6.1 — NE kršiti)
@@ -58,6 +62,7 @@ Urađeno u ovoj sesiji:
 - Prefill samo za obrasce o POSTOJEĆEM subjektu; e-only obrasce (ePorezi) ne kurirati
 - **JRPPS "Registraciona prijava" (osnivanje nove firme) NIKAD ne dobija profileKey prefill** — subjekat još ne postoji, prefill bi upisao pogrešan naziv (dodato 8. jul, batch 4)
 - Vizuelna kontrola test-fill PDF-a mora proveriti TAČAN box, ne samo da je polje popunjeno — label-extraction može pogoditi susedni widget (dodato 8. jul, batch 4)
+- NIKAD ne mapirati `website` na polje čija je labela bukvalno "www." (statički prefiks) — profil ne garantuje bare-domain format, daje dupli "www." (dodato 8. jul, batch 5)
 - Harvest ≠ publish — kurator (Milan) uvek odobrava go-live
 
 ## Tehnički kontekst — vidi

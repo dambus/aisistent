@@ -1,15 +1,15 @@
 {
   "meta": {
-    "slug": "jrpps-doo",
-    "title": "Jedinstvena registraciona prijava privrednog subjekta — DOO",
-    "short_name": "JRPPS DOO",
+    "slug": "jrpps-zadruzni-savez",
+    "title": "Prijava za upis zadružnog saveza u Registar privrednih subjekata",
+    "short_name": "JRPPS Zadružni savez",
     "category": "apr",
-    "description": "Registracija privrednog društva sa ograničenom odgovornošću (DOO) u Agenciji za privredne registre.",
+    "description": "Prijava za registraciju zadružnog saveza sa osnovnim podacima o nazivu, sedištu i podnosiocu zahteva.",
     "source_institution": "Agencija za privredne registre",
-    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___DOO_2025_T.pdf",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2025/JRPPS___Zadruzni_savez_2025_T.pdf",
     "script": "cyrillic",
     "source_type": "acroform",
-    "page_count": 14
+    "page_count": 11
   },
   "fields": [
     {
@@ -275,42 +275,35 @@
       "kind": "acroform",
       "fieldName": "Text23",
       "profileKey": null,
-      "_label": "пословања у",
+      "_label": "Назив:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text24.0.0",
+      "fieldName": "Text24",
       "profileKey": null,
-      "_label": "*Назив:",
-      "_state": "high"
+      "_label": "савеза:",
+      "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text24.0.1",
-      "profileKey": null,
-      "_label": "Назив:",
-      "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text24.1",
+      "fieldName": "Text25",
       "profileKey": null,
       "_label": "седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text25.0",
+      "fieldName": "Text26",
       "profileKey": null,
-      "_label": "форма:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text25.1",
+      "fieldName": "Text27",
       "profileKey": null,
-      "_label": "форма:",
+      "_label": null,
       "_state": "manual"
     },
     {
@@ -371,100 +364,37 @@
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box117",
-      "profileKey": null,
-      "_label": "Превод пословног имена на: страни језик",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box118",
-      "profileKey": null,
-      "_label": "језик националне мањине",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box119",
-      "profileKey": null,
-      "_label": "Превод пословног имена на: страни језик",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box120",
-      "profileKey": null,
-      "_label": "језик националне мањине",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box121",
-      "profileKey": null,
-      "_label": "Превод скраћеног пословног имена на: страни језик",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box122",
-      "profileKey": null,
-      "_label": "језик националне мањине",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box123",
-      "profileKey": null,
-      "_label": "Превод скраћеног пословног имена на: страни језик",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box124",
-      "profileKey": null,
-      "_label": "језик националне мањине",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
       "fieldName": "Text36",
       "profileKey": null,
-      "_label": "*Општина:",
+      "_label": "Општина:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text37",
       "profileKey": null,
-      "_label": "*Место:",
+      "_label": "Место:",
       "_state": "high"
     },
     {
       "kind": "acroform",
       "fieldName": "Text38",
       "profileKey": null,
-      "_label": "*Улица:",
+      "_label": "Улица:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text39",
       "profileKey": null,
-      "_label": "*Број:",
+      "_label": "Број и слово:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text40.0",
+      "fieldName": "Text40",
       "profileKey": null,
-      "_label": "*Број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text40.1",
-      "profileKey": null,
-      "_label": "СЛОВО:",
+      "_label": "Број и слово:",
       "_state": "manual"
     },
     {
@@ -490,16 +420,9 @@
     },
     {
       "kind": "acroform",
-      "fieldName": "Text42.0",
+      "fieldName": "Text42",
       "profileKey": null,
       "_label": "Број и назив",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text42.1",
-      "profileKey": null,
-      "_label": "Додатни опис:",
       "_state": "manual"
     },
     {
@@ -560,1052 +483,912 @@
     },
     {
       "kind": "acroform",
-      "fieldName": "Text51.0",
+      "fieldName": "Text51",
       "profileKey": null,
       "_label": "Број и назив",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text51.1",
-      "profileKey": null,
-      "_label": "Додатни опис:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
       "fieldName": "Text52",
       "profileKey": null,
-      "_label": "*Е-пошта:",
+      "_label": "Е-пошта:",
       "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box53",
-      "profileKey": null,
-      "_label": "Друштво се оснива на неодређено време:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text54",
-      "profileKey": null,
-      "_label": "Друштво се оснива на одређено време до:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text55",
-      "profileKey": null,
-      "_label": "/",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text56",
-      "profileKey": null,
-      "_label": "/",
-      "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text57",
       "profileKey": null,
-      "_label": "*Шифра:",
+      "_label": "Шифра:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text58",
       "profileKey": null,
-      "_label": "*Назив делатности:",
+      "_label": "Назив делатности:",
       "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text116.0",
-      "profileKey": null,
-      "_label": "Телефон 1 .:",
-      "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text116.1",
-      "profileKey": null,
-      "_label": "Телефон 2 .:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text116.2",
-      "profileKey": null,
-      "_label": "Факс:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text116.3",
-      "profileKey": null,
-      "_label": "www.",
-      "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box125",
-      "profileKey": null,
-      "_label": "Постоји обавеза овере измена оснивачког акта:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box126",
-      "profileKey": null,
-      "_label": "Не постоји обавеза овере измена оснивачког акта:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box127",
-      "profileKey": null,
-      "_label": "Једнодомно:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box128",
-      "profileKey": null,
-      "_label": "Дводомно:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text95.0",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "high"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text95.1",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text96.0",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text96.1",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text97.0",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text97.1",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text98.0",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text98.1",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text99.0",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text99.1",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box100.0",
-      "profileKey": null,
-      "_label": "Самостално заступа:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box100.1",
-      "profileKey": null,
-      "_label": "Самостално заступа:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text102.0",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text102.1",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text104",
-      "profileKey": null,
-      "_label": "Матични број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text105",
-      "profileKey": null,
-      "_label": "Пословно име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4a",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко својих заступника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4a",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко пуномоћника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text106",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text107",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text108",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text109",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text110",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box113",
-      "profileKey": null,
-      "_label": "Самостално заступа:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text115",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text117",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text118",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text119",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text120",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text121",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text123",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text125",
-      "profileKey": null,
-      "_label": "Матични број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text126",
-      "profileKey": null,
-      "_label": "Пословно име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4b",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко својих заступника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4b",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко пуномоћника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text127",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text128",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text129",
       "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
+      "_label": "Фиксни:",
+      "_state": "high"
     },
     {
       "kind": "acroform",
       "fieldName": "Text130",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Мобилни:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text131",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Адреса за пријем електронске поште (обавезан податак):",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box132",
+      "profileKey": null,
+      "_label": "ПДВ ЕВИДЕНТИРАЊЕ",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text133",
       "profileKey": null,
+      "_label": "1.1. У наредних 12 месеци достављам процену укупног промета у износу од",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.0.0",
+      "profileKey": null,
+      "_label": "1.2.1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.0.1",
+      "profileKey": null,
+      "_label": "(шифра претежне делатности)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.1.0",
+      "profileKey": null,
+      "_label": "1.2.2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.1.1",
+      "profileKey": null,
+      "_label": "(шифра додатне делатности)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.2.0",
+      "profileKey": null,
+      "_label": "1.2.3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text134.2.1",
+      "profileKey": null,
+      "_label": "(шифра додатне делатности)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text95b",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text96b",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text97b",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text98b",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text99b",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text102b",
+      "profileKey": null,
+      "_label": "Заступник:",
+      "_state": "low"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text106b",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text107b",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text108b",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text109b",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text110b",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text114",
+      "profileKey": null,
+      "_label": "Функција:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text115b",
+      "profileKey": null,
       "_label": null,
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text223",
+      "fieldName": "Text106c",
       "profileKey": null,
-      "_label": "Име и презиме/",
+      "_label": "Име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text224",
+      "fieldName": "Text107c",
       "profileKey": null,
-      "_label": "Име и презиме/ пословно име:",
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text108c",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text109c",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text110c",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text114c",
+      "profileKey": null,
+      "_label": "Функција:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text115c",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.0",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.1",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.2",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.3",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.4",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.5",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1659.6",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.0",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.1",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.2",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.3",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.4",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.5",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1669.6",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.0",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.1",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.2",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.3",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.4",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.5",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1679.6",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.0",
+      "profileKey": null,
+      "_label": "Број пасоша странца",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.1",
+      "profileKey": null,
+      "_label": "Број пасоша странца",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.2",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.3",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.4",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.5",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1689.6",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.0",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.1",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.2",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.3",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.4",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.5",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1699.6",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011a",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012a",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013a",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014a",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115a",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011aa",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012aa",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013aa",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014aa",
+      "profileKey": null,
+      "_label": "Број пасоша странца",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115ab",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011c",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012ab",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013ab",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014ab",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115ac",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011aac",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012ac",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013ac",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014ac",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115ad",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011ac",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012ad",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013ad",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014ad",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115ae",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011ab",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012ae",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013ae",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014ae",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115af",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1011ad",
+      "profileKey": null,
+      "_label": "Име:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1012aba",
+      "profileKey": null,
+      "_label": "Презиме:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1013ada",
+      "profileKey": null,
+      "_label": "Евиденцијски",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1014af",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1115ace",
+      "profileKey": null,
+      "_label": "или личне карте странца:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text1",
       "profileKey": null,
-      "_label": "Име:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text2",
       "profileKey": null,
-      "_label": "Презиме:",
+      "_label": "регистарски број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Text53",
       "profileKey": null,
-      "_label": "Евиденцијски",
+      "_label": "Место седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text59",
+      "fieldName": "Text54",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text64",
+      "fieldName": "Text55",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text135",
+      "fieldName": "Text1a",
       "profileKey": null,
-      "_label": "Име:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text136",
+      "fieldName": "Text2a",
       "profileKey": null,
-      "_label": "Презиме:",
+      "_label": "регистарски број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text137",
+      "fieldName": "Text53a",
       "profileKey": null,
-      "_label": "Евиденцијски",
+      "_label": "Место седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text138",
+      "fieldName": "Text54a",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text139",
+      "fieldName": "Text55a",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text140",
+      "fieldName": "Text1b",
       "profileKey": null,
-      "_label": "Име:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text141",
+      "fieldName": "Text2b",
       "profileKey": null,
-      "_label": "Презиме:",
+      "_label": "регистарски број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text142",
+      "fieldName": "Text53b",
       "profileKey": null,
-      "_label": "Евиденцијски",
+      "_label": "Место седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text143",
+      "fieldName": "Text54b",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text144",
+      "fieldName": "Text55b",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text145",
+      "fieldName": "Text1c",
       "profileKey": null,
-      "_label": "Име:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text146",
+      "fieldName": "Text2c",
       "profileKey": null,
-      "_label": "Презиме:",
+      "_label": "регистарски број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text147",
+      "fieldName": "Text53c",
       "profileKey": null,
-      "_label": "Евиденцијски",
+      "_label": "Место седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text148",
+      "fieldName": "Text54c",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text149",
+      "fieldName": "Text55c",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text150",
+      "fieldName": "Text1d",
       "profileKey": null,
-      "_label": "Име:",
+      "_label": "Пословно име:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text151",
+      "fieldName": "Text2d",
       "profileKey": null,
-      "_label": "Презиме:",
+      "_label": "регистарски број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text152",
+      "fieldName": "Text53d",
       "profileKey": null,
-      "_label": "Евиденцијски",
+      "_label": "Место седишта:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text153",
+      "fieldName": "Text54d",
       "profileKey": null,
-      "_label": "или личне карте странца:",
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text154",
+      "fieldName": "Text55d",
       "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text155",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text156",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text157",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text158",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text159",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text160",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text161",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text162",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text163",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text164",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box20",
-      "profileKey": null,
-      "_label": "Уписује се:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text170",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text171",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text173",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text172",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text174",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text175",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text176",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text177",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text178",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text179",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text180",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text181",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text182",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text183",
-      "profileKey": null,
-      "_label": "Број пасоша странца",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text184",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text185",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text186",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text187",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text188",
-      "profileKey": null,
-      "_label": "Број пасоша странца",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text189",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box130",
-      "profileKey": null,
-      "_label": "Брише се:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box131",
-      "profileKey": null,
-      "_label": "Мења се обим овлашћења:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button3a",
-      "profileKey": null,
-      "_label": "Члан:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button3a",
-      "profileKey": null,
-      "_label": "Сувласник удела:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button3a",
-      "profileKey": null,
-      "_label": "Заједнички пуномоћник сувласника удела:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button3b",
-      "profileKey": null,
-      "_label": "Физичко лице:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button3b",
-      "profileKey": null,
-      "_label": "Правно лице:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text71",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text76",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text77",
-      "profileKey": null,
-      "_label": "Регистарски/ матични број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text72",
-      "profileKey": null,
-      "_label": "ЈМБГ / евиденцијски број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text78",
-      "profileKey": null,
-      "_label": "Држава:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text79",
-      "profileKey": null,
-      "_label": "ЈМБГ / евиденцијски број:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text73",
-      "profileKey": null,
-      "_label": "Број пасоша / личне карте странца и држава издавања:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text80",
-      "profileKey": null,
-      "_label": "Број пасоша / личне карте странца и држава издавања:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text74",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text75",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text81",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text82",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4",
-      "profileKey": null,
-      "_label": "Заснивам радни однос у привредном субјекту уз обавезу да у року од 8 дана од регистрације извршим пријаву на",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button4",
-      "profileKey": null,
-      "_label": "Не заснивам радни однос у привредном субјекту и овлашћујем Агенцију да изврши пријаву на осигурање ЦРОСО",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text83",
-      "profileKey": null,
-      "_label": "*Уписан:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text85",
-      "profileKey": null,
-      "_label": "Уписан:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text84",
-      "profileKey": null,
-      "_label": "Уплаћен:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text86",
-      "profileKey": null,
-      "_label": "Унет:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text87",
-      "profileKey": null,
-      "_label": "*Удео члана:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text88",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text89",
-      "profileKey": null,
-      "_label": "%",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text65",
-      "profileKey": null,
-      "_label": "Уписан:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text67",
-      "profileKey": null,
-      "_label": "Уписан:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text66",
-      "profileKey": null,
-      "_label": "Уплаћен:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text68",
-      "profileKey": null,
-      "_label": "Унет:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text69",
-      "profileKey": null,
-      "_label": "* НАПОМЕНА:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text70",
-      "profileKey": null,
-      "_label": null,
+      "_label": "Улица и број:",
       "_state": "manual"
     },
     {
@@ -1645,21 +1428,14 @@
     },
     {
       "kind": "acroform",
-      "fieldName": "Text193.0",
+      "fieldName": "Text192",
       "profileKey": null,
       "_label": "Број и назив",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text193.1",
-      "profileKey": null,
-      "_label": "Додатни",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text192",
+      "fieldName": "Text193",
       "profileKey": null,
       "_label": "Број и назив",
       "_state": "manual"
@@ -1750,539 +1526,308 @@
     },
     {
       "kind": "acroform",
-      "fieldName": "Text206",
+      "fieldName": "Text223",
       "profileKey": null,
-      "_label": "Матични број:",
+      "_label": "Име и презиме/",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Text207",
+      "fieldName": "Text224",
       "profileKey": null,
-      "_label": "Пословно име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button5a",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко својих заступника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Radio Button5a",
-      "profileKey": null,
-      "_label": "Функцију заступања врши преко пуномоћника:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text210",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text212",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text211",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text213",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text214",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box215",
-      "profileKey": null,
-      "_label": "Самостално заступа:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text216",
-      "profileKey": null,
-      "_label": null,
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text218",
-      "profileKey": null,
-      "_label": "Име:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text219",
-      "profileKey": null,
-      "_label": "Презиме:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text220",
-      "profileKey": null,
-      "_label": "Евиденцијски",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text221",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text222",
-      "profileKey": null,
-      "_label": "или личне карте странца:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text60",
-      "profileKey": null,
-      "_label": "Фиксни:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text61",
-      "profileKey": null,
-      "_label": "Мобилни:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text62",
-      "profileKey": null,
-      "_label": "Адреса за пријем електронске поште (обавезан податак):",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box17",
-      "profileKey": null,
-      "_label": "ПДВ ЕВИДЕНТИРАЊЕ",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text63",
-      "profileKey": null,
-      "_label": "1.1. У наредних 12 месеци достављам процену укупног промета у износу од",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.0.0",
-      "profileKey": null,
-      "_label": "1.2.1.",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.0.1",
-      "profileKey": null,
-      "_label": "(шифра претежне делатности)",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.1.0",
-      "profileKey": null,
-      "_label": "1.2.2.",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.1.1",
-      "profileKey": null,
-      "_label": "(шифра додатне делатности)",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.2.0",
-      "profileKey": null,
-      "_label": "1.2.3.",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text103.2.1",
-      "profileKey": null,
-      "_label": "(шифра додатне делатности)",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box8",
-      "profileKey": null,
-      "_label": "*Доказ о идентитету чланова друштва (за домаће физичко лице - фотокопија личне карте, а за странца - фотокопија",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box9",
-      "profileKey": null,
-      "_label": "Одлука о именовању заступника (ако није одређен оснивачким актом)",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box10",
-      "profileKey": null,
-      "_label": "Одлука о именовању председника и чланова надзорног одбора (ако је управљање друштвом дводомно, а председник и",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box11",
-      "profileKey": null,
-      "_label": "Потврда банке о уплати новчаног улога или",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box12",
-      "profileKey": null,
-      "_label": "споразум чланова о процени вредности неновчаног улога или",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box13",
-      "profileKey": null,
-      "_label": "процена вредности неновчаног улога, ако се улог уплаћује, односно уноси у друштво до оснивања",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box14",
-      "profileKey": null,
-      "_label": "Уколико је упис у регистар друштва условљен издавањем претходне дозволе сагласности или другог акта надлежног",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box15",
-      "profileKey": null,
-      "_label": "*Доказ о уплати накнаде",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box16.1",
-      "profileKey": null,
-      "_label": "Друго:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Text203",
-      "profileKey": null,
-      "_label": "Друго:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box3",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box4",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box5",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box6",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box18",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box19",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box21",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box22",
-      "profileKey": null,
-      "_label": "Мушки",
+      "_label": "* НАПОМЕНА:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
       "fieldName": "Check Box1",
       "profileKey": null,
+      "_label": "Уговор о оснивању задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Правила задружног савеза",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Одлука о именовању председника савеза односно другог заступника (ако није одређен уговором о оснивању)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box8",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text56",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.0",
+      "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box24",
+      "fieldName": "Check Box5.1",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.2",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6.0",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box25",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box27",
+      "fieldName": "Check Box6.1",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box28",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box29",
+      "fieldName": "Check Box6.2",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box30",
+      "fieldName": "Check Box9.0",
       "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box31",
+      "fieldName": "Check Box9.1",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9.2",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9.3",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9.4",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9.5",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box9.6",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box10.0",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box32",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box33",
+      "fieldName": "Check Box10.1",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box34.0",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.1",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.2",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.3",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.4",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.5",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box34.6",
-      "profileKey": null,
-      "_label": "Пол:",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box35.0",
+      "fieldName": "Check Box10.2",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.1",
+      "fieldName": "Check Box10.3",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.2",
+      "fieldName": "Check Box10.4",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.3",
+      "fieldName": "Check Box10.5",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.4",
+      "fieldName": "Check Box10.6",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.5",
+      "fieldName": "Check Box12.0",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box35.6",
+      "fieldName": "Check Box12.1",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box36",
+      "fieldName": "Check Box12.2",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12.3",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12.4",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12.5",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box12.6",
+      "profileKey": null,
+      "_label": "Мушки",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11.0",
       "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box37",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box38",
+      "fieldName": "Check Box11.1",
       "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box39",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box40",
+      "fieldName": "Check Box11.2",
       "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box41",
-      "profileKey": null,
-      "_label": "Мушки",
-      "_state": "manual"
-    },
-    {
-      "kind": "acroform",
-      "fieldName": "Check Box26",
+      "fieldName": "Check Box11.3",
       "profileKey": null,
       "_label": "Пол:",
       "_state": "manual"
     },
     {
       "kind": "acroform",
-      "fieldName": "Check Box42",
+      "fieldName": "Check Box11.4",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11.5",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box11.6",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box13",
+      "profileKey": null,
+      "_label": "Пол:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box14",
       "profileKey": null,
       "_label": "Мушки",
       "_state": "manual"
