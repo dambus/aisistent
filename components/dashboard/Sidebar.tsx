@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/auth/logout-button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { ChangelogBell } from '@/components/dashboard/ChangelogBell'
 
 const PRIMARY = '#1B6B4A'
 const SIDEBAR_ICON = '#9CA3AF'
@@ -108,7 +109,7 @@ const agencyNav: NavItem[] = [
 ]
 
 const paidNav: NavItem[] = [
-  { label: 'Obrasci',     href: '/obrasci',     icon: '◧', badge: 'NOVO' },
+  { label: 'Obrasci',     href: '/obrasci',     icon: '◧' },
 ]
 
 const planLabels: Record<string, { label: string; cls: string }> = {
@@ -216,9 +217,12 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
           >
             <SidebarLogo height={22} maxWidth={128} />
           </Link>
-          <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
-            {planMeta.label}
-          </span>
+          <div className="flex items-center gap-2">
+            <ChangelogBell />
+            <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
+              {planMeta.label}
+            </span>
+          </div>
         </div>
 
         {/* Nav categories — scrollable */}
@@ -371,11 +375,14 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
         <Link href="/dashboard" className="flex items-center">
           <SidebarLogo />
         </Link>
-        <div
-          className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
-          style={{ backgroundColor: PRIMARY }}
-        >
-          {userInitials}
+        <div className="flex items-center gap-2">
+          <ChangelogBell />
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ backgroundColor: PRIMARY }}
+          >
+            {userInitials}
+          </div>
         </div>
       </header>
 

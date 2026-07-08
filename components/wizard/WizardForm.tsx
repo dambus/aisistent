@@ -135,6 +135,8 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
       id: 'wizard-contacts-tip',
       title: 'Novo — Sačuvajte drugu stranu',
       content: 'U Profilu možete sačuvati kupce, klijente i partnere. Sledeći put ih popunjavate jednim klikom.',
+      href: '/profil',
+      ctaLabel: 'Idite na Profil →',
     }] : []),
   ]
 

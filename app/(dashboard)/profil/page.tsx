@@ -6,6 +6,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { ProfileCard } from '@/components/dashboard/ProfileCard'
 import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
 import { ContactsTab } from '@/components/dashboard/ContactsTab'
+import { TipCard } from '@/components/ui/TipCard'
 import type { Company, Contact } from '@/types/database'
 
 const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
@@ -104,6 +105,14 @@ export default async function ProfilPage() {
         initialContacts={(contacts ?? []) as Contact[]}
         plan={plan}
       />
+
+      {plan !== 'free' && (contacts ?? []).length === 0 && (
+        <TipCard
+          tipId="profil-contacts-tip"
+          title="Novo — Sačuvajte kupce i partnere"
+          content="Dodajte kontakte ovde i sledeći put u dokumentu ih popunjavate jednim klikom, bez ponovnog kucanja."
+        />
+      )}
 
       {/* Kartica 2 — Pretplata */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6">

@@ -144,11 +144,15 @@ export default async function DashboardPage() {
           id: 'dashboard-kalkulatori',
           title: 'Besplatni kalkulatori',
           content: 'Izračunajte neto zaradu, paušalni porez ili troškove ugovora o delu — bez registracije, u sekundi.',
+          href: '/kalkulator-zarade',
+          ctaLabel: 'Probajte kalkulator →',
         },
         {
           id: 'dashboard-obrasci',
           title: 'Biblioteka zvaničnih obrazaca',
           content: `${libraryForms.length} zvaničnih obrazaca (APR, Poreska uprava, CROSO, PIO) na jednom mestu — preuzmite popunjene vašim podacima.`,
+          href: '/obrasci',
+          ctaLabel: 'Otvorite biblioteku →',
         },
       ]} />
 
