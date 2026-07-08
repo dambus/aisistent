@@ -19,7 +19,6 @@ sources.json (dodaj izvor) → harvest-sources.ts (skini+klasifikuj+diff)
 |-------|-----|----------|
 | APR preduzetnici | apr.gov.rs — registri/preduzetnici | Nav je dinamičan (JS) — plain fetch možda ne vidi linkove; ako harvester nađe 0 PDF-ova, otvoriti stranicu u browseru i ručno naći direktan URL liste obrazaca, ili proširiti harvester da prati podstranice |
 | Poreska uprava | purs.gov.rs — poreske-prijave-i-obrasci (fizicka-lica / preduzetnici / pravna-lica — 3 podstranice = 3 izvora) | VAŽNO: mnogi obrasci su e-only (podnose se kroz ePorezi) — PDF verzija tada NEMA vrednost; proveriti za svaki pre kuracije (spec pravilo) |
-| RFZO | rfzo.rs/index.php/obrasci | category: 'rzzo' |
 | PIO fond | pio.rs/sr/obrasci/republicki-fond | category: 'ostalo' (nema pio kategorije — ili dodati u CHECK constraint migracijom + CATEGORY_LABELS u lib/libraryForms.ts + CATEGORIES u curate-form.ts) |
 | ZSO | zso.gov.rs/obrasci.htm | starija stranica, verovatno flat obrasci — očekivati malo kandidata dok flat→AcroForm (07) ne proradi |
 | CROSO | croso.gov.rs | category 'croso' postoji; M-A i slični obrasci — proveriti AcroForm status |

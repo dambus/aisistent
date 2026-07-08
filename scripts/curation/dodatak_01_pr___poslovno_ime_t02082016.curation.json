@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "slug": "dodatak-01-pr",
+    "title": "Dodatak 01 PR — Poslovno ime",
+    "short_name": "Dodatak 01 PR",
+    "category": "apr",
+    "description": "Prijava upisa ili brisanja poslovnog imena preduzetnika u registar.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/dodatak_01_pr___poslovno_ime_t02082016.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box6",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": "zastupnik",
+      "_label": "*Лично име и презиме:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "*ПРЕДУЗЕТНИК:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "*ПР:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4.0",
+      "profileKey": null,
+      "_label": "Предмет пословања:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4.1",
+      "profileKey": null,
+      "_label": "Назив:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4.2",
+      "profileKey": "grad",
+      "_label": "*Место седишта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": "zastupnik",
+      "_label": "Лично име и презиме:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box7",
+      "profileKey": null,
+      "_label": "ПРЕДУЗЕТНИК:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box8",
+      "profileKey": null,
+      "_label": "ПР:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text9",
+      "profileKey": null,
+      "_label": "Назив:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1",
+      "profileKey": null,
+      "_label": "Уписује се:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.2",
+      "profileKey": null,
+      "_label": "Брише се:",
+      "_state": "manual"
+    }
+  ]
+}

@@ -41,7 +41,7 @@ import { fillLibraryForm, type LibraryField, type FormScript } from '../lib/docu
 import { createAdminClient } from '../lib/supabase/admin'
 import type { Company } from '../types/database'
 
-const CATEGORIES = ['poreska', 'apr', 'croso', 'rzzo', 'lokalna', 'ostalo'] as const
+const CATEGORIES = ['poreska', 'apr', 'croso', 'lokalna', 'ostalo'] as const
 
 // Predlog jednog mapiranja — _label/_state su informativni za kuratora, brišu se pri publish-u.
 // profileKey: null = kandidat bez predloga; kurator upiše ključ da ga promoviše, inače se ignoriše.

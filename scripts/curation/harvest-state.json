@@ -7,7 +7,7 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-08T08:07:01.972Z"
   },
   "https://www.apr.gov.rs/upload/Portals/0/Opsti%20obrasci%20za%20sve%20registre/2022/Zahtev_za_povracaj_vise_pogresno_uplacenih_sredstava_APR.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -17,7 +17,7 @@
     "acroFields": 20,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "povracaj-sredstava-apr"
   },
   "https://www.apr.gov.rs/upload/Portals/0/gradjevinske%20dozvole/%D0%9A%D0%BE%D1%80%D0%B8%D1%81%D0%BD%D0%B8%D1%87%D0%BA%D0%BE%20%D1%83%D0%BF%D1%83%D1%82%D1%81%D1%82%D0%B2%D0%BE%20-%20%D0%94%D0%B8%D0%B3%D0%B8%D1%82%D0%B0%D0%BB%D0%BD%D0%BE%20%D0%BF%D0%BE%D1%82%D0%BF%D0%B8%D1%81%D0%B8%D0%B2%D0%B0%D1%9A%D0%B5.pdf": {
@@ -28,7 +28,7 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z"
+    "lastSeen": "2026-07-08T08:07:01.972Z"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Prijava_za_REZERVACIJU_naziva_2025_T.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -38,7 +38,7 @@
     "acroFields": 36,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "apr-rezervacija-naziva"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_ispravku_greske_2025_T.pdf": {
@@ -49,7 +49,7 @@
     "acroFields": 23,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "ispravka-greske"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_izdavanje_potvrde_2025_T.pdf": {
@@ -60,7 +60,7 @@
     "acroFields": 55,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "zahtev-za-potvrdu-apr"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_izdavanje_prepisa_resenja_2025_T.pdf": {
@@ -71,7 +71,7 @@
     "acroFields": 20,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "prepis-resenja"
   },
   "https://www.apr.gov.rs/upload/Portals/0/privredna%20drustva/2020/Promene/Dodatak_01_PS___Poslovno_ime_T.pdf": {
@@ -577,7 +577,489 @@
     "acroFields": 19,
     "type": "acroform",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-07T11:04:49.032Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
     "curatedSlug": "zahtev-za-pristup-informacijama"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Obrazac_zahteva_za_izvrsitelje.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "Obrazac_zahteva_za_izvrsitelje.pdf",
+    "sha256": "fec3eeecbdff9386829708c3eb9c6a94c282c379f9e9355deb631c132b6cd9aa",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/UverenjeNSZ.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "UverenjeNSZ.pdf",
+    "sha256": "956ff238ca753e3ae3b382e3c71a28d6afefa06497811e1e543b1a83fac31fbd",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za%20izdavanje_uverenja_rad_u_inostranstvu_.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "Zahtev_za_izdavanje_uverenja_rad_u_inostranstvu_.pdf",
+    "sha256": "75e267a82103818c73eb3089d809d25e891df756aae4db9f0d9667f8da120768",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za_izdavanje_uverenja_u_cilju_ostvarivanja_prava_na_povracaj_dela_poreza_i_doprinosa.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "Zahtev_za_izdavanje_uverenja_u_cilju_ostvarivanja_prava_na_povracaj_dela_poreza_i_doprinosa.pdf",
+    "sha256": "a472455980d3bcfa1d1a6d0a6a363d312315a4094f10fc5941671717cd95893a",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_fl_26112013.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "ovlascenje_fl_26112013.pdf",
+    "sha256": "fbf02821b259abe95a2578cd4511b7543f99bb49c32923dd760bfef095b2f950",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_pl_26112013.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "ovlascenje_pl_26112013.pdf",
+    "sha256": "eb223330be3303306115ae0acac7907464ee725b16b88ff52a853f6bfa9a7524",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z"
+  },
+  "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_pl_filable_09122013.pdf": {
+    "sourceId": "croso-obrasci",
+    "filename": "ovlascenje_pl_filable_09122013.pdf",
+    "sha256": "d25ecaabe63e8bfe707c3616f47c6979ad526d67fd8a2a59ae24cb1d94a3c5d8",
+    "pages": 1,
+    "acroFields": 75,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T07:01:39.770Z",
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "croso-ovlascenje-pravno-lice"
+  },
+  "https://www.pio.rs/sites/default/files/ISO-2024/POL-001%20Politika%20kvaliteta-2024.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "POL-001_Politika_kvaliteta-2024.pdf",
+    "sha256": "83c90e0191f10c96fc53a8a1aa593fe89010e111470f2f9fbfe7fe7850ac032e",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/ISO-2024/POL-002%20Politika%20bezbednosti%20informacija-2024.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "POL-002_Politika_bezbednosti_informacija-2024.pdf",
+    "sha256": "39d0b2242b7b592e6449d7bab7547e9cba52762e70ebbfaa7db92f7a42bce4b9",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/ISO/2026/Sertifikat_ISMS_2026.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "Sertifikat_ISMS_2026.pdf",
+    "sha256": "3c7514eec53c74654426ae54cdcb3829d56c3446c9c211520503c759473804fd",
+    "pages": 4,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/ISO/2026/Sertifikat_QMS_2026.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "Sertifikat_QMS_2026.pdf",
+    "sha256": "9d01bb64d9d48c85a1d825b5192731b96675667afe6132a130f00e8eb5ad53bc",
+    "pages": 4,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Obrasci/2013/M%20obrazac.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "M_obrazac.pdf",
+    "sha256": "120265bf4913c74fd0eee4ee2d5a9a010a494125dd6216ea775480b7aa9db0cc",
+    "pages": 2,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Obrasci/2015/maticna/30032%20OBR-1111%20ZAHTEV%20ZA%20PREDAJU%20PRIJAVA-maticna.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "30032_OBR-1111_ZAHTEV_ZA_PREDAJU_PRIJAVA-maticna.pdf",
+    "sha256": "80d0ecff88c47bf859f987f142f1833edc2eb46b0b4fd1368f398bbafaf73394",
+    "pages": 2,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-10.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-10.pdf",
+    "sha256": "8b4c482f068a5a4947607ff53722e4ac8a8e7c86890e398c6a3e0caf55680db0",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4%20sp.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-4_sp.pdf",
+    "sha256": "4026ef510d23057450b7670e09e0dd42738d12630267c0868228f3817e32cc85",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-4.pdf",
+    "sha256": "55b8f641ef396db4caa08afb10c1f87a344a61c69fa7bc9b6431e6eb23d3f163",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4k.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-4k.pdf",
+    "sha256": "ae04fb4b9908752690b2fd8d4713d41ad47f970d0dc05b9596ff8a9ec2b798b7",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4un.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-4un.pdf",
+    "sha256": "7afae069aa4dec7c4ad4e14b99692dbbd4f151468dc97336a4bc1480ec506694",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-6.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-6.pdf",
+    "sha256": "3a02d72893678ec4c82f36511c1fc43d664dfc05b14f214e2bc44de0081d062b",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-7%20ps.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-7_ps.pdf",
+    "sha256": "2cbb35180233ca86d34f802c3445c0508b62a305ebe4251225b44a62b5b0cf64",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8%20sp.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-8_sp.pdf",
+    "sha256": "47df7e9f7f75f870773c5c10aee25b7956dfd7d6c969b3d943ba2f6ecca832bf",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8%20un.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-8_un.pdf",
+    "sha256": "02fca5c7fba8ccb10b3e21f1f7234beb99d660cc94cdf83de327bb5af13810b0",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-8.pdf",
+    "sha256": "31712e94c15243e5f1248ea93396082ee43dedaf7900a6d3147c1ef91fe64965",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-un.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_m-un.pdf",
+    "sha256": "d5b370b7dee5ec41a3a5cf9af63a579f580dd328af76ece97183f075d28e038d",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20pskp.pdf": {
+    "sourceId": "pio-maticna-evidencija",
+    "filename": "obrazac_pskp.pdf",
+    "sha256": "9a96ed61ed3ebcf44d8334d609faf88a159c7528d6e266d7a4ee4fc4db2a10f2",
+    "pages": 1,
+    "acroFields": 0,
+    "type": "flat",
+    "firstSeen": "2026-07-08T08:04:02.098Z",
+    "lastSeen": "2026-07-08T08:04:02.098Z"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_08_PR___Promena_preduzetnika_.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_08_PR___Promena_preduzetnika_.pdf",
+    "sha256": "8f247d1fd99fa17b1573c63067d0f6b67eafd6de472345f60e89da14aaa4d75b",
+    "pages": 1,
+    "acroFields": 17,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-08-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_10_PR___Poslovodja.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_10_PR___Poslovodja.pdf",
+    "sha256": "88d5c3aa2ef79a6cbab42d1125a5f026ab6d205e16c0bd6d99e190ed032ed63d",
+    "pages": 1,
+    "acroFields": 22,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-10-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_13_PR___Prokurista.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_13_PR___Prokurista.pdf",
+    "sha256": "881e2a02b3ac360b25d6ac3eee4cff5c8b7025f6d87a3c31fdd264223bba6414",
+    "pages": 1,
+    "acroFields": 37,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-13-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_15_PR___Ogranicenja_ovlascenja_poslovodje_u_zastupanju.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_15_PR___Ogranicenja_ovlascenja_poslovodje_u_zastupanju.pdf",
+    "sha256": "55cc6775ee34c286741ab94430cfe4fe7ef339615b36b07f80b66903618a4759",
+    "pages": 1,
+    "acroFields": 13,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-15-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_17_PR___Status_socijalnog_preduzetnistva.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_17_PR___Status_socijalnog_preduzetnistva.pdf",
+    "sha256": "adb1f2aa12fb919de0d39a8b30c719256510d192d57dd9eb854e1df4c485e6f8",
+    "pages": 1,
+    "acroFields": 10,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-17-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2024/Dodatak_03_PR___Sedista_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_03_PR___Sedista_T.pdf",
+    "sha256": "643783c8d1801ce6e58d4733054c885194d3eb277426dd96e9a8e2e04972dbba",
+    "pages": 1,
+    "acroFields": 14,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-03-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2024/Dodatak_09_PR_Licni_podaci_registrovanih_lica_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_09_PR_Licni_podaci_registrovanih_lica_T.pdf",
+    "sha256": "fb4cde5fcbeb3a7e82529347a6959439cb71385e2f2ec9ff29a69cca231a268e",
+    "pages": 1,
+    "acroFields": 29,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-09-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2024/Dodatak_11_PR___Upis_brisanje_izdvojenog_mesta_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_11_PR___Upis_brisanje_izdvojenog_mesta_T.pdf",
+    "sha256": "98db2e023bc6089a15575eb6306cfb4f9dcd2918fff5116e8a84faf87b15e2fa",
+    "pages": 1,
+    "acroFields": 25,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-11-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2024/Dodatak_12_PR___Promena_podataka_o_registrovanom_izdvojenom_mestu_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_12_PR___Promena_podataka_o_registrovanom_izdvojenom_mestu_T.pdf",
+    "sha256": "506f37c215916efcb095a376e1d5c3ff49a4a8e5afcfc9705fe84833d3bcd3ba",
+    "pages": 1,
+    "acroFields": 38,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-12-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2024/Dodatak_16_PR___Elektronska_posta_Kontakt_podaci_Adresa_za_prijem_poste_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_16_PR___Elektronska_posta_Kontakt_podaci_Adresa_za_prijem_poste_T.pdf",
+    "sha256": "81a3a29c390289fc57c40f7dc0598bb219624f4250382f33bec588ce8c4cd558",
+    "pages": 1,
+    "acroFields": 23,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-16-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/JRPPS_PR___Osnivanje_2025_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "JRPPS_PR___Osnivanje_2025_T.pdf",
+    "sha256": "0a7ebff903fa896a6b8c3d14f440d087aa7ec341cdb25cfe04b8b04bd0cc69ca",
+    "pages": 10,
+    "acroFields": 197,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "jrpps-pr-osnivanje"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Registraciona_prijava_brisanja_preduzetnika_upisanog_u_registar_privrednih_subjekata_2025_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Registraciona_prijava_brisanja_preduzetnika_upisanog_u_registar_privrednih_subjekata_2025_T.pdf",
+    "sha256": "9c8ba4e5ffed7edf3c7e6705859a63852092434ec424f8e2548f075391dcb12a",
+    "pages": 2,
+    "acroFields": 30,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "brisanje-preduzetnika"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Registraciona_prijava_promene_podataka_o_preduzetniku_upisanom_u_Registar_PS_sa_spiskom_dodataka_T_2025.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Registraciona_prijava_promene_podataka_o_preduzetniku_upisanom_u_Registar_PS_sa_spiskom_dodataka_T_2025.pdf",
+    "sha256": "00634830110f966de05363b799a519dce586efc3e6565700ca6a8e6638fe5764",
+    "pages": 2,
+    "acroFields": 39,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "prijava-promene-ps"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2025/Zahtev_za_izdavanje_izvoda_preduzetnika_2025_T.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Zahtev_za_izdavanje_izvoda_preduzetnika_2025_T.pdf",
+    "sha256": "1b45748f8797dc4dbc8d8dc0ce0573fc50a8455e00ab23c451805e6f65b38644",
+    "pages": 1,
+    "acroFields": 21,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "izvod-preduzetnika"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2002%20PR%20-%20Prevodi%20poslovnog%20imena%20i-ili%20skracenog%20poslovnog%20imena%20T02082016.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_02_PR_-_Prevodi_poslovnog_imena_i-ili_skracenog_poslovnog_imena_T02082016.pdf",
+    "sha256": "c5e1afce92e2a85af67d542d66894ef89d105381e4d258da1e0eaff2ecdb43b6",
+    "pages": 1,
+    "acroFields": 15,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-02-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2004%20PR%20-%20Pocetak%20obavljanja%20delatnosti%20T02082016.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_04_PR_-_Pocetak_obavljanja_delatnosti_T02082016.pdf",
+    "sha256": "f310a65d63f6b49aef737cbe0e9fa4f6640a1de076cf6c44cff870e019a2645b",
+    "pages": 1,
+    "acroFields": 4,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-04-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2005%20PR%20-%20Vreme%20trajanja%20preduzetnika%20T02082016.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_05_PR_-_Vreme_trajanja_preduzetnika_T02082016.pdf",
+    "sha256": "5a77267b4fdcedfb514262c189d6311c530e7c22d06cff5e68e914545081789f",
+    "pages": 1,
+    "acroFields": 7,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-05-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2007%20PR%20-%20Pretezna%20delatnost%20T02082016.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_07_PR_-_Pretezna_delatnost_T02082016.pdf",
+    "sha256": "07534112a750dc770af5e572c18dadc24d9f8cfa0a5a93d25a347d45286e746a",
+    "pages": 1,
+    "acroFields": 6,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-07-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/dodatak_01_pr___poslovno_ime_t02082016.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "dodatak_01_pr___poslovno_ime_t02082016.pdf",
+    "sha256": "0ce4f326fe363dc53a5117469e1ead966931f7cb8f029dcbdf05d7f09d722d3a",
+    "pages": 1,
+    "acroFields": 16,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-01-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202019/Dodatak_14_PR___Zabelezbe_T01102019.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_14_PR___Zabelezbe_T01102019.pdf",
+    "sha256": "c34abc5c55144028b28c0c018e59864b3292a84fa76ea74692e0a7b73d79d49d",
+    "pages": 1,
+    "acroFields": 10,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-14-pr"
+  },
+  "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci_2023/Dodatak_06_PR___Prekid_i_nastavak_obavljanja_delatnosti_preduzetnika.pdf": {
+    "sourceId": "apr-preduzetnici",
+    "filename": "Dodatak_06_PR___Prekid_i_nastavak_obavljanja_delatnosti_preduzetnika.pdf",
+    "sha256": "39905458762aa591533195e9599790eeee3c3a6da049622850e75e3e6be58130",
+    "pages": 1,
+    "acroFields": 12,
+    "type": "acroform",
+    "firstSeen": "2026-07-08T08:07:01.972Z",
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "dodatak-06-pr"
   }
 }

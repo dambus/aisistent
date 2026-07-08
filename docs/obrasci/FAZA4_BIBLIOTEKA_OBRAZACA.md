@@ -44,7 +44,7 @@ Faza 1–3 kod se NE briše: pipeline postaje **interni alat kuratora** (prvi pr
 ## 3. Korisnički flow
 
 ```
-/obrasci  →  Biblioteka: lista po kategorijama (Poreska, APR, CROSO, RZZO, lokalna samouprava...)
+/obrasci  →  Biblioteka: lista po kategorijama (Poreska, APR, CROSO, lokalna samouprava...)
                 │
                 ▼
          Kartica obrasca: naziv, kratak opis "kada ti treba", izvor (link), datum provere
@@ -73,7 +73,7 @@ create table library_forms (
   slug text unique not null,          -- URL + SEO: "ppdg-1s", "opd", "eko-taksa-obrazac-1"
   title text not null,                -- "ППДГ-1С — Пореска пријава за аконтационо..."
   short_name text not null,           -- "PPDG-1S"
-  category text not null,             -- 'poreska' | 'apr' | 'croso' | 'rzzo' | 'lokalna' | 'ostalo'
+  category text not null,             -- 'poreska' | 'apr' | 'croso' | 'lokalna' | 'ostalo'
   description text,                   -- "kada ti treba" — markdown, i SEO sadržaj
   source_institution text not null,   -- "Poreska uprava RS"
   source_url text not null,           -- zvanična stranica sa koje je obrazac preuzet

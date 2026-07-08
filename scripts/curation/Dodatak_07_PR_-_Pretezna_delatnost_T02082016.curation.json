@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "slug": "dodatak-07-pr",
+    "title": "Dodatak 07 PR — Pretežna delatnost",
+    "short_name": "Dodatak 07",
+    "category": "apr",
+    "description": "Prijava pretežne delatnosti privrednog subjekta sa šifrom i nazivom delatnosti.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2007%20PR%20-%20Pretezna%20delatnost%20T02082016.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Text1",
+      "profileKey": null,
+      "_label": "Шифра:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": "delatnost",
+      "_label": "Назив делатности:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Одобрење, сагласност или други акт надлежног органа",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

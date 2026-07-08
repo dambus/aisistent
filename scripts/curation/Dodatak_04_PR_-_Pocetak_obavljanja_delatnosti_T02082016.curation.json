@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "slug": "dodatak-04-pr",
+    "title": "Dodatak 04 PR — Početak obavljanja delatnosti",
+    "short_name": "Dodatak 04 PR",
+    "category": "apr",
+    "description": "Prijavljuje se početak obavljanja registrovane delatnosti privrednog subjekta.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci%202016/Dodatak%2004%20PR%20-%20Pocetak%20obavljanja%20delatnosti%20T02082016.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Пријављујем почетак обављања делатности",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

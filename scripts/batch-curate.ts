@@ -35,6 +35,7 @@ interface HarvestEntry {
 
 const CATEGORY_BY_SOURCE: Record<string, string> = {
   'apr-privredna-drustva': 'apr',
+  'apr-preduzetnici': 'apr',
 }
 
 const META_SYSTEM_PROMPT = `Ti pišeš kratke, jasne meta podatke za obrazac državne institucije u srpskoj biblioteci obrazaca (na latinici).
@@ -109,10 +110,20 @@ async function main() {
       curation.meta.source_institution = 'Agencija za privredne registre'
       curation.meta.source_url = entry.sourceUrl
       // Grubi slug od short_name — kurator proverava/menja pre publish-a (validacija u publish-u i dalje važi)
-      curation.meta.slug = meta.short_name
+      let slug = meta.short_name
         .toLowerCase()
         .normalize('NFD').replace(/[̀-ͯ]/g, '') // skini dijakritiku
         .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+
+      // Claude ume da izbaci PR/PS iz short_name → slug bi se kosio sa istobrojnim obrascem
+      // drugog registra (npr. Dodatak 10 PS vs PR). Sufiks iz imena fajla je pouzdaniji izvor.
+      const variantMatch = entry.filename.match(/_(PR|PS)[_.]/)
+      if (variantMatch) {
+        const token = variantMatch[1].toLowerCase()
+        const alreadyHasToken = new RegExp(`(^|-)${token}(-|$)`).test(slug)
+        if (!alreadyHasToken) slug += `-${token}`
+      }
+      curation.meta.slug = slug
 
       fs.writeFileSync(curationPath, JSON.stringify(curation, null, 2))
       console.log(`  meta upisana: "${meta.title}" (${meta.short_name})\n`)

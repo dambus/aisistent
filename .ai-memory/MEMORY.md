@@ -14,3 +14,4 @@
 - [Handover progres](project_handover_progress.md) — docs/handover/ 00-12 KOMPLETNI; rok 7.7. pristup Sonnet 5; sledeće: razrada brainstorm ideja + batch kuracija
 - [Trello board](reference_trello_board.md) — board ID, liste, kredencijali u .env.local, kako se ažurira
 - [Trello/bash encoding gotcha](feedback_trello_encoding.md) — ne koristiti bash read/curl za srpski tekst, koristiti Node.js
+- [Instalirani skillovi/pluginovi](reference_installed_skills.md) — veliki set (caveman, superpowers, engineering-*, product/pm/marketing-skills, claude-seo, design/imagegen, dataviz...), kad posegnuti za kojim

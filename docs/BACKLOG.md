@@ -154,7 +154,7 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 
 **Status (7. jul 2026.): Faza 4 biblioteka obrazaca NA PRODUKCIJI, 18 obrazaca.** Javna `/obrasci` biblioteka (APR: izvodi, prijave promena, rezervacija naziva, ispravke, potvrde, prepisi rešenja, Dodaci 01/02/03/04/05/16/19/20/26/29/30/32), download popunjeno (Starter+) / prazno (javno), editabilan PDF bez flatten. Kuratorski CLI + harvester (APR: 51 AcroForm kandidat ukupno, ~31 preostalo za kuraciju). Upload & Fill uklonjen iz UI, pipeline = kuratorski alat. "Obrazac je zastareo?" feedback dugme live. Homepage promo baner + nav link + dashboard sidebar bedž — biblioteka se aktivno reklamira kao feature. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
 
-**Sledeće za biblioteku:** kuracija preostalih ~31 APR kandidata (`scripts/batch-curate.ts --limit 10` po rundi), novi izvori (APR preduzetnici, Poreska, RFZO, PIO), n8n cron za harvester, flat→AcroForm konverzija pri kuraciji (otključava flat obrasce).
+**Sledeće za biblioteku:** kuracija preostalih ~31 APR kandidata (`scripts/batch-curate.ts --limit 10` po rundi), novi izvori (APR preduzetnici, Poreska, PIO), n8n cron za harvester, flat→AcroForm konverzija pri kuraciji (otključava flat obrasce).
 
 Istorija Faza 1–4: `PROGRESS.md`; specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`, `FAZA4_*`.
 
@@ -219,7 +219,7 @@ Obavezno: jak disclaimer + pozicioniranje kao "informativno, ne pravni/poreski s
 
 **Kontekst (5. jul 2026., posle kuracije ~10 APR obrazaca):** dosta državnih obrazaca traži adresu i telefon razdvojene na sub-komponente (ulica, kućni broj, opština, mesto, poštanski broj / pozivni broj + broj telefona), dok `companies` tabela danas ima samo `adresa` (slobodan tekst) i `telefon` (slobodan tekst). `semanticMapper.ts` ima eksplicitna pravila (5, 6, 8) koja sub-komponente uvek mapiraju na `profileKey: null` — nikad ne pogađa deo teksta — pa se ta polja u biblioteci obrazaca trenutno NE popunjavaju automatski.
 
-**Vrednost:** ako je split-layout čest kroz izvore (APR, verovatno i Poreska/RFZO/PIO), granularniji model direktno povećava % automatski popunjenih polja po obrascu — to je suština vrednosti biblioteke. Pre bilo kakve promene šeme, izbrojati koliko `null` mapiranja u već kuriranim obrascima su baš adresa/telefon sub-komponente (ako je mali %, verovatno ne vredi truda).
+**Vrednost:** ako je split-layout čest kroz izvore (APR, verovatno i Poreska/PIO), granularniji model direktno povećava % automatski popunjenih polja po obrascu — to je suština vrednosti biblioteke. Pre bilo kakve promene šeme, izbrojati koliko `null` mapiranja u već kuriranim obrascima su baš adresa/telefon sub-komponente (ako je mali %, verovatno ne vredi truda).
 
 **Šta razbijanje profila povlači sa sobom (ako se radi puna šema):**
 1. Migracija postojećih `companies` redova — `adresa` je slobodan tekst, rastavljanje zahteva ili da korisnici popune ponovo, ili parsiranje postojećeg teksta (nepouzdano — srpske adrese nisu strogo standardizovane, sprat/stan opciono).

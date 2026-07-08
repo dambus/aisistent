@@ -11,7 +11,6 @@ export const CATEGORY_LABELS: Record<string, string> = {
   poreska: 'Poreska uprava',
   apr: 'APR',
   croso: 'CROSO',
-  rzzo: 'RFZO',
   lokalna: 'Lokalna samouprava',
   ostalo: 'Ostalo',
 }

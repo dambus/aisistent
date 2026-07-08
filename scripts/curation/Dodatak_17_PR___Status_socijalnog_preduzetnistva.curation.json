@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "slug": "dodatak-17-pr",
+    "title": "Dodatak 17 PR — Status socijalnog preduzetništva",
+    "short_name": "Dodatak 17 PR",
+    "category": "apr",
+    "description": "Registracija upisa ili brisanja statusa socijalnog preduzetništva sa priloženim izveštajima i izjavama o prenošenju dobiti.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_17_PR___Status_socijalnog_preduzetnistva.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1",
+      "profileKey": null,
+      "_label": "Уписује се статус социјалног предузетништва:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box2",
+      "profileKey": null,
+      "_label": "Извештај о испуњавању друштвене улоге субјекта социјалног предузетништва (члан 13. Закона о социјалном предузетништву)",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Брише се статус социјалног предузетништва:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Изјава предузетника да је преосталу добит пренео на други субјект социјалног предузетништва у форми јавнобележничке",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.0",
+      "profileKey": null,
+      "_label": "Изјава предузетника из члана 8. став 1. тачка 1) Закона о социјалном предузетништву",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.1",
+      "profileKey": null,
+      "_label": "Извештај о испуњавању друштвене улоге субјекта социјалног предузетништва",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.2",
+      "profileKey": null,
+      "_label": "Изјава предузетника са статусом социјалног предузетништва да је преосталу добит пренео на други субјект социјалног",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.3",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде за регистрацију",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box5.4",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    }
+  ]
+}

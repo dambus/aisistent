@@ -132,7 +132,8 @@
       "Skill(codex:setup)",
       "Bash(git config *)",
       "Bash(cd *)",
-      "Bash(curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/src/tools/caveman-init.js)"
+      "Bash(curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/src/tools/caveman-init.js)",
+      "Bash(xargs -I{} node -e \"try{const j=require\\('./{}'\\); console.log\\(j.meta.slug\\)}catch\\(e\\){}\")"
     ]
   }
 }

@@ -1,0 +1,548 @@
+{
+  "meta": {
+    "slug": "croso-ovlascenje-pravno-lice",
+    "title": "Ovlašćenje za rad na CROSO portalu — pravno lice",
+    "short_name": "Ovlašćenje CROSO",
+    "category": "croso",
+    "description": "Ovlašćenje kojim pravno lice ovlašćuje jednog ili više predstavnika za rad na CROSO portalu (prijava/promena/odjava osiguranika).",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_pl_filable_09122013.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "namena_ovlascenja",
+      "profileKey": null,
+      "_label": "Мењање обима",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "namena_ovlascenja",
+      "profileKey": null,
+      "_label": "Додела",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "namena_ovlascenja",
+      "profileKey": null,
+      "_label": "Додела",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "broj_ovlascenja",
+      "profileKey": null,
+      "_label": "Деловодни број",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_pib",
+      "profileKey": "pib",
+      "_label": "ПИБ:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_naziv",
+      "profileKey": "naziv",
+      "_label": "Назив :",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_adresa",
+      "profileKey": "adresa",
+      "_label": "Адреса седишта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_mesto",
+      "profileKey": "grad",
+      "_label": "Место седишта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_telefon",
+      "profileKey": "telefon",
+      "_label": "Телефон:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "obveznik_mail",
+      "profileKey": "email",
+      "_label": "Е-пошта:",
+      "_state": "high"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_1_1",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_1_2",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_1_3",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_1_4",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_1_5",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_2_1",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_1",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_2_2",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_2_3",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_2_4",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_2_5",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_3_1",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_3_2",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_3_3",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_3_4",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_3_5",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_4_1",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_4_2",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_4_3",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_4_4",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_4_5",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_5_1",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_5_2",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_5_3",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_5_4",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_5_5",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_6_1",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_6_2",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_6_3",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_6_4",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_6_5",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_7_1",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_7_2",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_7_3",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_7_4",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_7_5",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_2",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_2",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_2",
+      "profileKey": null,
+      "_label": "2.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_3",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_3",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_3",
+      "profileKey": null,
+      "_label": "3.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_4",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_4",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_4",
+      "profileKey": null,
+      "_label": "4.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_5",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_5",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_5",
+      "profileKey": null,
+      "_label": "5.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_6",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_6",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_6",
+      "profileKey": null,
+      "_label": "6.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_7",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_7",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_mail_7",
+      "profileKey": null,
+      "_label": "7.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "datum_izdavanja",
+      "profileKey": null,
+      "_label": "Датум издавања:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_imeprezime_1",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "ovl_jmbg_1",
+      "profileKey": null,
+      "_label": "1.",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_imeprezime_1",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_jmbg_1",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_imeprezime_2",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_imeprezime_3",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_imeprezime_4",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_imeprezime_5",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_jmbg_2",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_jmbg_3",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "zastupnik_jmbg_4",
+      "profileKey": null,
+      "_label": null,
+      "_state": "manual"
+    }
+  ]
+}

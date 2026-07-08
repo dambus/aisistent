@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "slug": "dodatak-06-pr",
+    "title": "Dodatak 06 PR — Prekid i nastavak obavljanja delatnosti preduzetnika",
+    "short_name": "Dodatak 06 PR",
+    "category": "apr",
+    "description": "Prijava prekida ili nastavka obavljanja delatnosti preduzetnika sa definisanjem datuma prekida odnosno nastavka.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/Obrasci_2023/Dodatak_06_PR___Prekid_i_nastavak_obavljanja_delatnosti_preduzetnika.pdf",
+    "script": "cyrillic",
+    "source_type": "acroform",
+    "page_count": 1
+  },
+  "fields": [
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box3",
+      "profileKey": null,
+      "_label": "Доказ о уплати накнаде",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box4",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text2",
+      "profileKey": null,
+      "_label": "Датум од ког ће обављање делатности бити прекинуто:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text3",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text4",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text5",
+      "profileKey": null,
+      "_label": "Датум од ког ће обављање делатности бити настављено:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text6",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text7",
+      "profileKey": null,
+      "_label": "/",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Text8",
+      "profileKey": null,
+      "_label": "Друго:",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.0",
+      "profileKey": null,
+      "_label": "Као датум прекида обављања делатности биће регистрован датум пријема пријаве у Агенцији",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.1.1",
+      "profileKey": null,
+      "_label": "Датум наставка обављања делатности ћу пријавити накнадно (подношењем пријаве промене и уплатом накнаде )",
+      "_state": "manual"
+    },
+    {
+      "kind": "acroform",
+      "fieldName": "Check Box1.0.1",
+      "profileKey": null,
+      "_label": "Као датум наставка обављања делатности биће регистрован датум пријема пријаве у Агенцији",
+      "_state": "manual"
+    }
+  ]
+}
