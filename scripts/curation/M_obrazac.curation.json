@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pio-obrazac-m",
+    "title": "Obrazac M - Prijava, odjava i promene u toku osiguranja",
+    "short_name": "PIO Obrazac M",
+    "category": "ostalo",
+    "description": "Poslodavci podnose radi prijave, odjave ili promene podataka zaposlenih u matičnoj evidenciji penzijskog i invalidskog osiguranja.",
+    "source_institution": "Republički fond za penzijsko i invalidsko osiguranje",
+    "source_url": "https://www.pio.rs/sites/default/files/old/images/dokumenta/Obrasci/2013/M%20obrazac.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

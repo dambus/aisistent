@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "pskp",
+    "title": "Obrazac PSKP - Prijava o smrti korisnika prava iz PIO",
+    "short_name": "PSKP",
+    "category": "ostalo",
+    "description": "Podnose naslednici ili lica koja su živela u zajedničkom domaćinstvu sa umrlim korisnikom penzije radi obaveštavanja Fonda PIO o prestanku prava.",
+    "source_institution": "Republički fond za penzijsko i invalidsko osiguranje",
+    "source_url": "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20pskp.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

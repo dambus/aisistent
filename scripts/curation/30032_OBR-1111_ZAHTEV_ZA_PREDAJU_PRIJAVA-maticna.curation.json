@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "predaja-m-4",
+    "title": "Zahtev za predaju prijava M-4, M-4K, M-4/SP",
+    "short_name": "Predaja M-4",
+    "category": "ostalo",
+    "description": "Poslodavac podnosi PIO fondu radi predaje mesečnih prijava o zaradama i doprinosima zaposlenih.",
+    "source_institution": "Republički fond za penzijsko i invalidsko osiguranje",
+    "source_url": "https://www.pio.rs/sites/default/files/old/images/dokumenta/Obrasci/2015/maticna/30032%20OBR-1111%20ZAHTEV%20ZA%20PREDAJU%20PRIJAVA-maticna.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "uverenje-dozvola",
+    "title": "Zahtev za izdavanje uverenja za dozvolu za rad",
+    "short_name": "Uverenje dozvola",
+    "category": "croso",
+    "description": "Pravna ili fizička lica podnose radi dobijanja ili produženja dozvole za obavljanje delatnosti.",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/UverenjeNSZ.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

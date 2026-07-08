@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "ovlascenje-fl",
+    "title": "Ovlašćenje za fizička lica",
+    "short_name": "Ovlašćenje FL",
+    "category": "croso",
+    "description": "Fizičko lice podnosi kada ovlašćuje drugo lice da u njegovo ime obavlja radnje na CROSO portalu.",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_fl_26112013.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

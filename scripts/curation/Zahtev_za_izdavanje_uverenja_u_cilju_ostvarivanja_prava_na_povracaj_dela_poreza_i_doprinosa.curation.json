@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "povracaj-poreza-i-doprinosa",
+    "title": "Zahtev za izdavanje uverenja u cilju ostvarivanja prava na povraćaj dela poreza i doprinosa",
+    "short_name": "Povraćaj poreza i doprinosa",
+    "category": "croso",
+    "description": "Podnosi poslodavac Poreskoj upravi kada zapošljava lica iz kategorija kojima pripada pravo na povraćaj dela poreza i doprinosa za obavezno socijalno osiguranje.",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za_izdavanje_uverenja_u_cilju_ostvarivanja_prava_na_povracaj_dela_poreza_i_doprinosa.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

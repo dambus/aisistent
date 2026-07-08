@@ -7,7 +7,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-05T11:08:28.583Z",
-    "lastSeen": "2026-07-08T08:07:01.972Z"
+    "lastSeen": "2026-07-08T08:07:01.972Z",
+    "curatedSlug": "uvid-u-spise"
   },
   "https://www.apr.gov.rs/upload/Portals/0/Opsti%20obrasci%20za%20sve%20registre/2022/Zahtev_za_povracaj_vise_pogresno_uplacenih_sredstava_APR.pdf": {
     "sourceId": "apr-privredna-drustva",
@@ -588,7 +589,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T07:01:39.770Z",
-    "lastSeen": "2026-07-08T07:01:39.770Z"
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "croso-zahtev"
   },
   "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/UverenjeNSZ.pdf": {
     "sourceId": "croso-obrasci",
@@ -598,7 +600,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T07:01:39.770Z",
-    "lastSeen": "2026-07-08T07:01:39.770Z"
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "uverenje-dozvola"
   },
   "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za%20izdavanje_uverenja_rad_u_inostranstvu_.pdf": {
     "sourceId": "croso-obrasci",
@@ -608,7 +611,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T07:01:39.770Z",
-    "lastSeen": "2026-07-08T07:01:39.770Z"
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "uverenje-rad-inostranstvo"
   },
   "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za_izdavanje_uverenja_u_cilju_ostvarivanja_prava_na_povracaj_dela_poreza_i_doprinosa.pdf": {
     "sourceId": "croso-obrasci",
@@ -618,7 +622,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T07:01:39.770Z",
-    "lastSeen": "2026-07-08T07:01:39.770Z"
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "povracaj-poreza-i-doprinosa"
   },
   "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_fl_26112013.pdf": {
     "sourceId": "croso-obrasci",
@@ -628,7 +633,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T07:01:39.770Z",
-    "lastSeen": "2026-07-08T07:01:39.770Z"
+    "lastSeen": "2026-07-08T07:01:39.770Z",
+    "curatedSlug": "ovlascenje-fl"
   },
   "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/ovlascenje_pl_26112013.pdf": {
     "sourceId": "croso-obrasci",
@@ -699,7 +705,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "pio-obrazac-m"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Obrasci/2015/maticna/30032%20OBR-1111%20ZAHTEV%20ZA%20PREDAJU%20PRIJAVA-maticna.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -709,7 +716,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "predaja-m-4"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-10.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -719,7 +727,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-10-pio"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4%20sp.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -729,7 +738,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-4-sp"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -739,7 +749,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-4-pio"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4k.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -749,7 +760,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-4k-pio"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-4un.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -759,7 +771,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-4un"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-6.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -769,7 +782,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-6-pio"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-7%20ps.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -779,7 +793,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-7-ps"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8%20sp.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -789,7 +804,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-8-sp"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8%20un.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -799,7 +815,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-8un-promene"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-8.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -809,7 +826,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-8-promena"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-un.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -819,7 +837,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "m-un"
   },
   "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20pskp.pdf": {
     "sourceId": "pio-maticna-evidencija",
@@ -829,7 +848,8 @@
     "acroFields": 0,
     "type": "flat",
     "firstSeen": "2026-07-08T08:04:02.098Z",
-    "lastSeen": "2026-07-08T08:04:02.098Z"
+    "lastSeen": "2026-07-08T08:04:02.098Z",
+    "curatedSlug": "pskp"
   },
   "https://www.apr.gov.rs/upload/Portals/0/preduzetnici/2022/Dodatak_08_PR___Promena_preduzetnika_.pdf": {
     "sourceId": "apr-preduzetnici",

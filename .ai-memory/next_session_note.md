@@ -1,11 +1,20 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — 214 obrazaca u biblioteci (8. jul), Poreska uprava flat-only ceo katalog, šta je sledeće
+description: Poruka za sledeću sesiju — 234 obrasca u biblioteci (8. jul), svi poznati flat ostaci katalogizovani, šta je sledeće
 metadata:
   type: project
 ---
 
-## Gde smo stali (8. jul 2026., batch 7 — Poreska uprava, flat obrasci kao referentni download)
+## Gde smo stali (8. jul 2026., batch 8 — flat ostaci: APR/CROSO/PIO)
+
+**Biblioteka = 234 obrasca** (bilo 214). Dovršeni svi poznati flat ostaci preko `catalog-flat-forms.ts` (proširen: `CATEGORY_BY_SOURCE`/`INSTITUTION_BY_SOURCE` mapa po sourceId, više nije hardkodovano na Poresku upravu):
+- **apr-privredna-drustva** (1 od 2 preostala flat): "Zahtev za uvid u spise i izdavanje kopija dokumenata" objavljen. Drugi (`_-_.pdf`) je zapravo **Korisničko uputstvo — Digitalno potpisivanje** (dekodirano ime fajla otkrilo da nije obrazac nego uputstvo) — isključen, ne obrazac.
+- **CROSO** (5 od 6 preskočenih flat): ovlašćenje FL, 3 uverenja (povraćaj poreza/doprinosa, dozvola za rad, rad u inostranstvu), zahtev za izvršitelje. Isključen: stari `ovlascenje_pl_26112013.pdf` (ne-fillable) — već imamo noviju AcroForm verziju live (`croso-ovlascenje-pravno-lice`), duplikat bez vrednosti.
+- **PIO** (svih 14 relevantnih od 18 flat): kompletan M-obrazac set (M, M-4, M-4K, M-4/SP, M-4UN, M-6, M-7/PS, M-8, M-8UN, M-8/SP, M-10, M-UN, PSKP) + "Zahtev za predaju prijava M-4/M-4K/M-4SP". Isključena 4: 2 ISO politike (kvaliteta/bezbednosti) + 2 ISO sertifikata — nisu obrasci, institucionalna dokumenta.
+
+Za PIO M-obrasce, pravi opisi (namena) izvučeni sa same stranice (pio.rs/sr/matichna-evidencija ima kratak opis pored svakog koda) umesto nagađanja iz kriptičnog imena fajla — pouzdanije za Claude meta-draft.
+
+## Prethodna sesija (8. jul 2026., batch 7 — Poreska uprava, flat obrasci kao referentni download)
 
 **Biblioteka = 214 obrazaca** (bilo 73). Poreska uprava (`poreska-pravna-lica` + `poreska-preduzetnici`, oba `renderJs: true` — sajt razrešava PDF linkove tek u browseru, CMS "box" shortcode ostaje kao HTML komentar u plain fetch-u) — **ceo katalog je flat, 0 AcroForm**. Od ~157 unikatnih (dedup po sha256) izbačeno 15 (common-sense filter: diplomatski/konzularni, putnički PDV povraćaj, crkva/verska zajednica, kupac (prvog) stana, "za lične potrebe nosioca prava"/"službeni nalog bez PDV/akciza" — sve diplomatska/personal-use izuzeća, ne poslovni obrasci; plus "Prijava za evidentiranje obveznika PDV" — e-only od 2020). Preostalih 142 katalogizovano i objavljeno.
 
@@ -78,13 +87,11 @@ Urađeno u ovoj sesiji:
 
 ## Šta je sledeće (Milan bira)
 
-1. **Poslednja 2 flat kandidata iz apr-privredna-drustva** — sad mogu ući kao referentni download (pravilo promenjeno batch 7), koristiti `catalog-flat-forms.ts` ili ručni curation.json (`Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf`, flat "gradjevinske dozvole" digitalno potpisivanje — 14 str).
-2. **CROSO 6 preskočenih flat** (uverenja/zahtevi) — isto, sad mogu ući kao referentni download preko `catalog-flat-forms.ts`.
-3. **PIO 18 flat M-obrazaca** — isto, kandidat za `catalog-flat-forms.ts` (potreban label-extraction sličan poreskom, pio.rs stranica nije još provereno da li je JS-rendered kao purs.gov.rs).
-4. **flat→AcroForm konverzija** (backlog, veći posao) — i dalje vredi za obrasce gde BI autofill imao vrednost (npr. PPP-PD, PPDG-1S) — razdvojeno od "referentni download" odluke iz batch 7 koja rešava samo "korisnik nalazi obrazac", ne autofill.
-5. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
-6. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
-7. Brzi dobici iz brainstorma: SEO obrasci (D1), **KPO knjiga (A2) — obrazac već u biblioteci** (`/obrasci/pausalno-promet`, iz batch 7), rokovi podsetnik (A1)
+1. **Novi izvori:** Poreska uprava — fizička lica (niži prioritet, individualni fokus), ZSO (probati `renderJs: true`).
+2. **flat→AcroForm konverzija** (backlog, veći posao) — vredi za obrasce gde BI autofill imao vrednost (npr. PPP-PD, PPDG-1S) — razdvojeno od "referentni download" odluke iz batch 7 koja rešava samo "korisnik nalazi obrazac", ne autofill.
+3. n8n cron za harvester (nedeljna provera izmena bez ručnog pokretanja) — infra postoji od blog workflow-a, nije povezano za obrasce.
+4. Razrada odabranih brainstorm ideja (`docs/handover/11-BRAINSTORM-FEATURES.md`) u detaljna uputstva
+5. Brzi dobici iz brainstorma: SEO obrasci (D1), **KPO knjiga (A2) — obrazac već u biblioteci** (`/obrasci/pausalno-promet`, iz batch 7), rokovi podsetnik (A1)
 
 ## Ključna pravila kuracije (spec 6.1 — NE kršiti)
 
@@ -99,6 +106,8 @@ Urađeno u ovoj sesiji:
 - **Posle svakog batch-a skenirati sve curation.json meta polja za stray non-Latin karaktere** (regex van `[a-zA-Z0-9šđčćžŠĐČĆŽ+interpunkcija]`) — Claude/transliteracija povremeno ostavi ćirilično/egzotično slovo usred latiničnog teksta, lako se previdi vizuelno (dodato 8. jul, batch 7 — pogodilo 11 obrazaca uklj. 2 stara iz batch 4/5)
 - Novi izvor koji se preklapa sa postojećim (isti institucija, druga podstranica) često donese 0 ili malo novih kandidata — harvester automatski prepoznaje već-viđene URL-ove kao "unchanged", nema duplog rada
 - Sajt koji ne vraća PDF linkove u plain fetch-u možda ih ubacuje tek JS-om (purs.gov.rs pattern) — probaj `"renderJs": true` na izvoru pre nego što zaključiš da nema kandidata
+- **Dekodirati kriptično/nečitljivo ime fajla pre kuracije** (npr. `_-_.pdf`) — često je Cyrillic URL koji se izgubio pri sanitizaciji imena; NOISE_RE filter u harvester-u radi nad URL-om, ne nad dekodiranim imenom, pa uputstva/priručnici sa ćiriličnim imenom mogu proći kao "flat kandidat" (dodato 8. jul, batch 8 — "Korisničko uputstvo — Digitalno potpisivanje" umalo katalogizovano kao obrazac)
+- Institucionalni dokumenti (ISO politike, sertifikati, izveštaji) nisu obrasci iako imaju 0 AcroForm polja — proveriti label pre kuracije, ne osloniti se samo na klasifikaciju flat/acroform (dodato 8. jul, batch 8 — PIO POL-001/002, Sertifikat ISMS/QMS isključeni)
 - Harvest ≠ publish — kurator (Milan) uvek odobrava go-live
 
 ## Tehnički kontekst — vidi

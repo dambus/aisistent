@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "uverenje-rad-inostranstvo",
+    "title": "Zahtev za izdavanje uverenja - upućivanje na rad u inostranstvo",
+    "short_name": "Uverenje rad inostranstvo",
+    "category": "croso",
+    "description": "Podnosi poslodavac ili fizičko lice kod Nacionalne službe za zapošljavanje radi dobijanja uverenja potrebnog za upućivanje radnika na rad u inostranstvo.",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Zahtev_za%20izdavanje_uverenja_rad_u_inostranstvu_.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "m-10-pio",
+    "title": "Obrazac M-10 — Prijava promene podataka za invalidsko osiguranje",
+    "short_name": "M-10 PIO",
+    "category": "ostalo",
+    "description": "Poslodavac podnosi kada se promene podaci o isplaćenim novčanim naknadama za zaposlene po osnovu invalidskog osiguranja.",
+    "source_institution": "Republički fond za penzijsko i invalidsko osiguranje",
+    "source_url": "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-10.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

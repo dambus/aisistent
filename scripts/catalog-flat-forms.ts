@@ -37,7 +37,27 @@ interface InputEntry {
   type: string
 }
 
-const META_SYSTEM_PROMPT = `Ti pišeš kratke, jasne meta podatke za obrazac Poreske uprave u srpskoj biblioteci obrazaca (na latinici).
+const CATEGORY_BY_SOURCE: Record<string, string> = {
+  'poreska-pravna-lica': 'poreska',
+  'poreska-preduzetnici': 'poreska',
+  'apr-privredna-drustva': 'apr',
+  'apr-preduzetnici': 'apr',
+  'apr-udruzenja': 'apr',
+  'croso-obrasci': 'croso',
+  'pio-maticna-evidencija': 'ostalo',
+}
+
+const INSTITUTION_BY_SOURCE: Record<string, string> = {
+  'poreska-pravna-lica': 'Poreska uprava',
+  'poreska-preduzetnici': 'Poreska uprava',
+  'apr-privredna-drustva': 'Agencija za privredne registre',
+  'apr-preduzetnici': 'Agencija za privredne registre',
+  'apr-udruzenja': 'Agencija za privredne registre',
+  'croso-obrasci': 'Centralni registar obaveznog socijalnog osiguranja',
+  'pio-maticna-evidencija': 'Republički fond za penzijsko i invalidsko osiguranje',
+}
+
+const META_SYSTEM_PROMPT = `Ti pišeš kratke, jasne meta podatke za obrazac državne institucije u srpskoj biblioteci obrazaca (na latinici).
 
 Dobićeš ZVANIČAN naziv obrasca sa sajta institucije. Vrati ISKLJUČIVO validan JSON:
 {"title":"...","short_name":"...","description":"..."}
@@ -115,9 +135,9 @@ async function main() {
           slug,
           title: meta.title,
           short_name: meta.short_name,
-          category: 'poreska',
+          category: CATEGORY_BY_SOURCE[entry.sourceId] ?? 'ostalo',
           description: meta.description,
-          source_institution: 'Poreska uprava',
+          source_institution: INSTITUTION_BY_SOURCE[entry.sourceId] ?? 'Nepoznato',
           source_url: entry.url,
           script: 'cyrillic',
           source_type: 'flat',

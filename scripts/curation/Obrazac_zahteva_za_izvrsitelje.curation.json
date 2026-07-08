@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "croso-zahtev",
+    "title": "Obrazac zahteva za izvršitelje (CROSO)",
+    "short_name": "CROSO zahtev",
+    "category": "croso",
+    "description": "Podnosioci zahteva za upis u Centralni registar ovlašćenih, odnosno stalnih sudskih veštaka, sudskih tumača i sudskih izvršitelja.",
+    "source_institution": "Centralni registar obaveznog socijalnog osiguranja",
+    "source_url": "https://www.croso.gov.rs/storage/files/obrasci_za_preuzimanje/Obrazac_zahteva_za_izvrsitelje.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

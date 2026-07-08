@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "uvid-u-spise",
+    "title": "Zahtev za uvid u spise i izdavanje kopija dokumenata",
+    "short_name": "Uvid u spise",
+    "category": "apr",
+    "description": "Podnosi fizičko ili pravno lice kada želi da izvrši uvid u spise predmeta ili zatraži kopije dokumenata iz predmeta.",
+    "source_institution": "Agencija za privredne registre",
+    "source_url": "https://www.apr.gov.rs/upload/Portals/0/Arhiv_Usluge/Zahtev_za_uvid_u_spise_i_izdavanje_kopija_dokumenata.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 2
+  },
+  "fields": []
+}

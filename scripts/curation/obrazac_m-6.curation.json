@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "slug": "m-6-pio",
+    "title": "Obrazac M-6 - Prijava podataka za invalidsko osiguranje",
+    "short_name": "M-6 PIO",
+    "category": "ostalo",
+    "description": "Poslodavac podnosi mesečno radi utvrđivanja iznosa isplaćenih novčanih naknada zaposlenih po osnovu invalidskog osiguranja.",
+    "source_institution": "Republički fond za penzijsko i invalidsko osiguranje",
+    "source_url": "https://www.pio.rs/sites/default/files/old/images/dokumenta/Osiguranje/obrazac%20m-6.pdf",
+    "script": "cyrillic",
+    "source_type": "flat",
+    "page_count": 1
+  },
+  "fields": []
+}

@@ -176,5 +176,11 @@ Poreska uprava (`poreska-pravna-lica` + `poreska-preduzetnici`) — **ceo katalo
 
 Detalji: `next_session_note.md`.
 
+## /obrasci — Faza 4 batch 8 — flat ostaci APR/CROSO/PIO (8. jul 2026.)
+
+Biblioteka 214→234 obrazaca. `catalog-flat-forms.ts` proširen na sve institucije (`CATEGORY_BY_SOURCE`/`INSTITUTION_BY_SOURCE`, ranije hardkodovano na Poresku upravu). Dovršeni svi preostali flat obrasci: APR (uvid u spise — drugi "kandidat" se ispostavio da je uputstvo, ne obrazac), CROSO (5 od 6 — ovlašćenje FL, 3 uverenja, zahtev za izvršitelje; stara ne-fillable verzija ovlašćenja PL isključena kao duplikat već-objavljene AcroForm verzije), PIO (kompletan M-obrazac set — M/M-4/M-4K/M-4SP/M-4UN/M-6/M-7PS/M-8/M-8UN/M-8SP/M-10/M-UN/PSKP; 4 ISO politike/sertifikata isključena kao ne-obrasci).
+
+Svi poznati harvest izvori sad iscrpljeni (APR, CROSO, PIO, Poreska uprava pravna lica+preduzetnici). Detalji: `next_session_note.md`.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

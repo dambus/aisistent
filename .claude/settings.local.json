@@ -138,7 +138,9 @@
       "Bash(grep -rln \"obrasci/\\\\[slug\\\\]\\\\|LibraryForm\" app/obrasci)",
       "Bash(find \"G:/Dev/2026/aisistent/app/obrasci\" -iname \"*.tsx\")",
       "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); if\\(j.meta.category==='poreska'\\) console.log\\('{}', j.meta.title\\)\")",
-      "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); console.log\\(j.meta.slug, '|', j.meta.title\\)\")"
+      "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); console.log\\(j.meta.slug, '|', j.meta.title\\)\")",
+      "WebFetch(domain:www.croso.gov.rs)",
+      "WebFetch(domain:www.pio.rs)"
     ]
   }
 }
