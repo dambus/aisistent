@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 
 export const metadata: Metadata = {
-  title: 'Otpremnica — generator otpremnica za isporuku robe | AIsistent',
+  title: 'Otpremnica — generator dokumenta za isporuku robe | AIsistent',
   description: 'Generator otpremnica za srpske firme. Stavke, količine, izdavalac i primalac — PDF ili Word za 60 sekundi.',
   openGraph: {
-    title: 'Otpremnica — generator za isporuku robe',
+    title: 'Otpremnica — generator dokumenta za isporuku robe',
     description: 'Generator otpremnica za srpske firme. Stavke, količine, izdavalac i primalac — PDF ili Word za 60 sekundi.',
     url: 'https://aisistent.rs/otpremnica',
   },
@@ -14,13 +14,13 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolLandingPage
-      h1="Otpremnica — generator za isporuku robe"
+      h1="Otpremnica — generator dokumenta za isporuku robe"
       intro="Napravite otpremnicu sa svim potrebnim podacima — izdavalac, primalac, stavke i količine. Dokument spreman za štampu i potpis za 60 sekundi."
       ctaHref="/register"
       ctaLabel="Napravite otpremnicu besplatno"
       ctaNote="Kompletna otpremnica u PDF ili Word formatu za manje od 60 sekundi"
       ctaTitle="Napravite otpremnicu za 60 sekundi"
-      heroImage="/images/hero/ugovori.jpg"
+      heroFlightLabel="Otpremnica"
       features={[
         { icon: '🏢', title: 'Isporučilac i primalac', text: 'Puni podaci obe strane — naziv, PIB, adresa, tekući račun — jasno razdvojeni na dokumentu.' },
         { icon: '📦', title: 'Stavke i količine', text: 'Neograničen broj stavki robe koja se isporučuje, sa jedinicom mere i količinom po stavci.' },

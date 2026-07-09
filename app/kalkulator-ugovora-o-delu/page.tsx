@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Kalkulator ugovora o delu — porez i doprinosi 2026"
+      heroFlightLabel="Obračun"
       intro="Izračunajte koliko ćete stvarno primiti po ugovoru o delu — uz normiran trošak, porez na dohodak i doprinose za PIO i zdravstvo. Ažurirano za 2026."
       ctaHref="/register"
       ctaLabel="Otvorite kalkulator"

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { HeroPreview } from './HeroPreview'
+import { HeroDocFlight } from './HeroDocFlight'
 import { RevealSection } from './RevealSection'
 
 export interface FAQ {
@@ -20,6 +21,7 @@ export interface ToolLandingPageProps {
   faqs: FAQ[]
   previewSlug?: string
   heroImage?: string
+  heroFlightLabel?: string
   isLoggedIn?: boolean
 }
 
@@ -237,6 +239,7 @@ export function ToolLandingPage({
   faqs,
   previewSlug,
   heroImage,
+  heroFlightLabel,
   isLoggedIn,
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
@@ -335,6 +338,8 @@ export function ToolLandingPage({
             <div className="tool-doc-preview">
               {previewSlug ? (
                 <HeroPreview previewSlug={previewSlug} />
+              ) : heroFlightLabel ? (
+                <HeroDocFlight label={heroFlightLabel} />
               ) : heroImage ? (
                 <img
                   src={heroImage}

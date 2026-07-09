@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Putni nalog — generator za službena putovanja"
+      heroFlightLabel="Putni nalog"
       intro="Napravite putni nalog sa svim podacima o putovanju, vozaču, vozilu i troškovima na teret firme. Dokument spreman za odobrenje i potpis za 60 sekundi."
       ctaHref="/register"
       ctaLabel="Napravite putni nalog besplatno"

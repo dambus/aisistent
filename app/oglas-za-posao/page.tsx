@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Oglas za posao — generator za HR menadžere i preduzetnike"
+      heroFlightLabel="Oglas"
       intro="Generišite profesionalan oglas za posao prilagođen srpskom tržištu rada. Format za Infostud, LinkedIn i vaš sajt — AI piše oglas koji privlači prave kandidate."
       ctaHref="/register"
       ctaLabel="Napišite oglas besplatno"

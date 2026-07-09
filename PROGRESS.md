@@ -29,6 +29,18 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 9. jul 2026. — Hero redizajn tool landing stranica (HeroDocFlight) + otpremnica copy fix
+
+Zamenjen statični hero (foto/ilustracija) animiranim `components/landing/HeroDocFlight.tsx`: jedan dokument radi entrance bounce (dva progresivna odskoka), zatim rotacija 1080° oko Y-ose uz progresivno popunjavanje sadržaja tokom rotacije, pa landing/settle — jednokratna sekvenca, bez loop-a (raniji koncept sa 3 kartice u loop-u odbačen, deluje bolje kao jedan "let" dokumenta). `motion` (framer-motion wrapper) korišćen direktno, ne `useAnimate`/`useReducedMotion` (nisu eksportovani iz `react` submodula ove verzije).
+
+Integrisan u `ToolLandingPage.tsx` kroz `heroFlightLabel` prop; rollout na svih 17 tool stranica (kalkulatori, otpremnica, ponuda-za-radove, ponuda-klijentu, poslovni-mejl, punomoćje, putni-nalog, oglas-za-posao, obaveštenje-o-promeni-uslova + 6 koje su ranije imale screenshot preview). Stari `public/images/hero/ugovori.jpg` obrisan (mrtav asset).
+
+**Copy fix (otpremnica):** naslov "Otpremnica — generator za isporuku robe" bio kružan/nezgrapan (generator ZA isporuku umesto generator dokumenta). Ispravljeno na "Otpremnica — generator dokumenta za isporuku robe" na sva 3 mesta: h1, `metadata.title`, OG title.
+
+Nov fajl `scripts/gen-hero-bg.mjs` (recraft-v3 + Sharp SVG→PNG) ostao iz eksperimentisanja sa statičnim hero pozadinama pre nego što je animirani pristup pobedio — čuva se za eventualnu buduću upotrebu, trenutno se ne koristi u produkciji.
+
+TypeScript čist, dev server verifikovan (screenshot sekvenca potvrdila punu animaciju bez looping-a).
+
 #### 8. jul 2026. (batch 5) — biblioteka 38→51 obrazaca, svi AcroForm APR kandidati kurirani
 
 `batch-curate.ts --limit 13` na preostalih 13 acroform kandidata (dodatak-03/07/17a/17b/18/27/28/31, jrpps-doo, jrpps-zadruga, jrpps-zadruzni-savez, prijava-brisanja-ps, zahtev-za-pristup-informacijama). Dve stale curation.json datoteke iz ranije prekinute sesije (Dodatak_03, JRPPS DOO — prazna meta) obrisane i ponovo predložene.

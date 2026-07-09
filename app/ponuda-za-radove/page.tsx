@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Ponuda za radove — generator za izvođače i majstore"
+      heroFlightLabel="Ponuda"
       intro="Napravite ponudu za izvođenje radova sa stavkama, cenama i uslovima. Za majstore, zanatlije i izvođače koji nude usluge sa jasnim obimom posla."
       ctaHref="/register"
       ctaLabel="Napravite ponudu besplatno"

@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Punomoćje — generator za zastupanje u Srbiji"
+      heroFlightLabel="Punomoćje"
       intro="Generišite punomoćje za zastupanje pred organima, bankama, sudovima i firmama. Podržava opšte, specijalno i sudsko punomoćje u skladu sa srpskim pravom."
       ctaHref="/register"
       ctaLabel="Generišite punomoćje besplatno"

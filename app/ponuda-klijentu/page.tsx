@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Ponuda klijentu — generator za preduzetnike i agencije"
+      heroFlightLabel="Ponuda"
       intro="Generišite strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent očekuje. Cena, rok isporuke, uslovi plaćanja, validnost — sve na jednom mestu."
       ctaHref="/register"
       ctaLabel="Napišite ponudu besplatno"

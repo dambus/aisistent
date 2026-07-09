@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Poslovni mejl — AI generator za B2B komunikaciju"
+      heroFlightLabel="Mejl"
       intro="Generišite profesionalan poslovni mejl za 30 sekundi. Ponude, opomene, zahvalnice, odbijanja — AI prilagođava ton i sadržaj vašoj situaciji."
       ctaHref="/register"
       ctaLabel="Napišite mejl besplatno"

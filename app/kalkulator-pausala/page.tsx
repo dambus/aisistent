@@ -15,6 +15,7 @@ export default function Page() {
   return (
     <ToolLandingPage
       h1="Kalkulator paušalnog poreza — Srbija 2026"
+      heroFlightLabel="Obračun"
       intro="Brza procena paušalnog poreza i doprinosa za preduzetnike u Srbiji. Razumejte šta plaćate pre nego što se registrujete kao paušalni obveznik."
       ctaHref="/register"
       ctaLabel="Otvorite kalkulator"
