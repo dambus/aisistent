@@ -24,6 +24,7 @@ Kada upisuješ novu memoriju, pisati u **oba** mesta: lokalni `~/.claude/project
 | `docs/BACKLOG.md` | Pre početka nove sesije — šta je sledeće |
 | `docs/STRATEGIJA.md` | Kada radiš na UX-u, tekstovima ili poziconiranju |
 | `PROGRESS.md` | Log prethodnih sesija |
+| `docs/CLAUDE_PLUGINS_SETUP.md` | Prenos Claude Code plugina/marketplace-a na novu mašinu |
 
 ## Brzi pregled stack-a
 

@@ -29,6 +29,10 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 9. jul 2026. (dodatak) — Export Claude Code plugin/marketplace konfiguracije
+
+Laptop se ugasio usred sesije bez git auth podešenog na mašini (nema SSH key, nema cached PAT) — otkrilo potrebu da se i Claude Code plugin setup (ne samo kod) može preneti na novu mašinu. `docs/claude-plugins-export.json` — snapshot `extraKnownMarketplaces` + `enabledPlugins` iz `~/.claude/settings.json` (7 marketplace izvora: caveman, claude-code-skills, social-media-skills, agricidaniel-claude-seo, claude-plugins-official, thedotmack/claude-mem, openai-codex). Uputstvo za merge u `docs/CLAUDE_PLUGINS_SETUP.md`. MCP auth/API ključevi namerno izostavljeni — po mašini.
+
 #### 9. jul 2026. — Hero redizajn tool landing stranica (HeroDocFlight) + otpremnica copy fix
 
 Zamenjen statični hero (foto/ilustracija) animiranim `components/landing/HeroDocFlight.tsx`: jedan dokument radi entrance bounce (dva progresivna odskoka), zatim rotacija 1080° oko Y-ose uz progresivno popunjavanje sadržaja tokom rotacije, pa landing/settle — jednokratna sekvenca, bez loop-a (raniji koncept sa 3 kartice u loop-u odbačen, deluje bolje kao jedan "let" dokumenta). `motion` (framer-motion wrapper) korišćen direktno, ne `useAnimate`/`useReducedMotion` (nisu eksportovani iz `react` submodula ove verzije).
