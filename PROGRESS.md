@@ -29,6 +29,25 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 9. jul 2026. (treći dodatak) — UI bagovi: notifikacije, navbar, CTA (task 1-3 od 6)
+
+Milan prijavio 3 baga sa dev/produkcije. Napravljena lista od 6 taskova, urađena prva 3 — nastavak (task 4-6) na drugoj mašini.
+
+**1. ChangelogBell (zvono) panel clipping — 3 odvojena uzroka:**
+- Desktop: `components/dashboard/Sidebar.tsx` `SidebarContent()` root div imao `overflow-hidden`, sekao `absolute left-0` panel (288px) unutar 260px sidebar-a — video se samo deo panela unutar sidebar kolone. Fix: uklonjen `overflow-hidden` (scroll je već izolovan u unutrašnjem `.sidebar-scroll` divu).
+- Mobile: panel je `left-0` fiksno pozicioniran, ali mobile-header zvono sedi na desnoj ivici ekrana → panel izlazio van viewporta udesno. Fix: `ChangelogBell` dobio `align?: 'left'|'right'` prop, mobile header instanca koristi `align="right"`.
+- Mobile hamburger drawer (Sheet) je renderovao drugu instancu `SidebarContent`, sa svojim zvonom — duplikat onog u top headeru, primećeno posle prvog fixa. Fix: `SidebarContent` dobio `showBell` prop, Sheet instanca `showBell={false}`.
+
+**2. Mobile hamburger meni na `/blog` i `/blog/[slug]`** — obe stranice nisu imale nikakav mobile nav (linkovi ispod `md:flex` nestajali bez zamene). Dodat postojeći `components/landing/MobileMenu.tsx` + auth check (`createClient().auth.getUser()`), jer komponenta zahteva `isLoggedIn` za login-svestan CTA.
+
+**3. Konsolidacija navbara** — 4 nezavisne implementacije (landing 5 linkova, blog/tool-page 3 linka) razišle se kopi-pejstom, bez zajedničke komponente. Milan izabrao 5-link (landing) standard. Nova `components/landing/SiteHeader.tsx` (Kako radi/Alati/Obrasci/Cenovnik/Blog + login-svestan CTA + MobileMenu) zamenjuje sve 4 inline headera: `app/page.tsx` (`Header()` obrisan), `app/blog/page.tsx`, `app/blog/[slug]/page.tsx`, `components/landing/ToolLandingPage.tsx` (`LandingHeader()` obrisan). Anchor linkovi promenjeni na `/#kako-radi` stil (leading slash) da rade i van landing stranice.
+
+Uzgred nađen i ispravljen stariji bag: nijedna od 17 `app/<tool-slug>/page.tsx` stranica nikad nije prosleđivala `isLoggedIn` prop — CTA na svim tool-landing stranicama je uvek pisao "Počnite besplatno" čak i ulogovanim korisnicima, jer je `LandingHeader`/`ToolLandingPage` imao `isLoggedIn?: boolean` bez ijednog stvarnog pozivaoca koji ga šalje. Rešeno u korenu umesto po 17 fajlova: `ToolLandingPage` je sad `async function` i sam poziva `createClient().auth.getUser()`, `isLoggedIn` uklonjen iz `ToolLandingPageProps`.
+
+**Testirano:** `npx tsc --noEmit` čisto posle svake izmene; svaki fix vizuelno proveren u Chrome-u (1440x900 desktop + 390x844 mobile) preko chrome-devtools MCP — zvono na oba viewporta bez sečenja, drawer bez duplikata, blog hamburger sa login-svesnim CTA, tool-page navbar sa 5 linkova + "Moji dokumenti" umesto "Počnite besplatno" dok ulogovan.
+
+**Preostalo (task 4-6, sledeća sesija):** centralizovati tool metadata + `ctaLabel` po tipu dokumenta (obrazac za per-tip CTA glagol već postoji u 17 hardkodovanih `ctaLabel` propova, samo nije centralizovan; `lib/utils/documentTypes.ts` `TYPE_LABELS` je jedini centralizovani spisak slug→label, tool metadata inače duplirana na 3 mesta bez zajedničkog izvora), primeniti na landing kartice (trenutno generički "Napravite dokument →" svugde) i dashboard shortcut kartice (trenutno bez ikakvog CTA teksta). Detalji: `.ai-memory/next_session_note.md`.
+
 #### 9. jul 2026. (dodatak) — Export Claude Code plugin/marketplace konfiguracije
 
 Laptop se ugasio usred sesije bez git auth podešenog na mašini (nema SSH key, nema cached PAT) — otkrilo potrebu da se i Claude Code plugin setup (ne samo kod) može preneti na novu mašinu. `docs/claude-plugins-export.json` — snapshot `extraKnownMarketplaces` + `enabledPlugins` iz `~/.claude/settings.json` (7 marketplace izvora: caveman, claude-code-skills, social-media-skills, agricidaniel-claude-seo, claude-plugins-official, thedotmack/claude-mem, openai-codex). Uputstvo za merge u `docs/CLAUDE_PLUGINS_SETUP.md`. MCP auth/API ključevi namerno izostavljeni — po mašini.

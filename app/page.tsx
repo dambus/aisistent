@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
-import MobileMenu from '@/components/landing/MobileMenu'
+import { SiteHeader } from '@/components/landing/SiteHeader'
 import { HeroAnimation } from '@/components/landing/HeroAnimation'
 import PricingSection from '@/components/landing/PricingSection'
 import type { PricingPlan } from '@/components/landing/PricingSection'
@@ -24,14 +24,6 @@ export const metadata: Metadata = {
 const PRIMARY = '#1B6B4A'
 const PRIMARY_DARK = '#155a3e'
 const SURFACE = '#F8FAF9'
-
-const navLinks = [
-  { href: '#kako-radi', label: 'Kako radi' },
-  { href: '#alati', label: 'Alati' },
-  { href: '/obrasci', label: 'Obrasci' },
-  { href: '#cenovnik', label: 'Cenovnik' },
-  { href: '/blog', label: 'Blog' },
-]
 
 const steps = [
   {
@@ -212,65 +204,6 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
   ]
 }
 
-function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
-  return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <a href="/" className="flex items-center">
-          <img
-            src="/logo/AIsistent-Logo_6003x180.png"
-            alt="AIsistent"
-            height={32}
-            style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
-          />
-        </a>
-
-        <div className="hidden items-center gap-8 text-sm font-medium text-gray-600 md:flex">
-          {navLinks.map(link => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="transition-colors duration-200 hover:text-gray-900"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-
-        <div className="hidden items-center gap-3 md:flex">
-          {isLoggedIn ? (
-            <a
-              href="/dashboard"
-              className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
-              style={{ backgroundColor: PRIMARY }}
-            >
-              Moji dokumenti
-            </a>
-          ) : (
-            <>
-              <a
-                href="/login"
-                className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
-              >
-                Prijavi se
-              </a>
-              <a
-                href="/register"
-                className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
-                style={{ backgroundColor: PRIMARY }}
-              >
-                Počnite besplatno
-              </a>
-            </>
-          )}
-        </div>
-
-        <MobileMenu isLoggedIn={isLoggedIn} navLinks={navLinks} />
-      </nav>
-    </header>
-  )
-}
-
 function SectionHeading({ eyebrow, title, text }: { eyebrow?: string; title: string; text?: string }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
@@ -313,7 +246,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
-      <Header isLoggedIn={isLoggedIn} />
+      <SiteHeader isLoggedIn={isLoggedIn} />
 
       {/* ── HERO ── */}
       <section

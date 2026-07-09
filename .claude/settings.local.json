@@ -140,7 +140,25 @@
       "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); if\\(j.meta.category==='poreska'\\) console.log\\('{}', j.meta.title\\)\")",
       "Bash(xargs -I{} node -e \"const j=require\\('./{}'\\); console.log\\(j.meta.slug, '|', j.meta.title\\)\")",
       "WebFetch(domain:www.croso.gov.rs)",
-      "WebFetch(domain:www.pio.rs)"
+      "WebFetch(domain:www.pio.rs)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(where jq *)",
+      "Bash(where python3 *)",
+      "Bash(where curl *)",
+      "Bash(where python3.exe)",
+      "Bash(xargs grep -l \"curl\")",
+      "Bash(timeout 30 grep -rl \"curl\" ~/.claude/plugins/cache --include=\"hooks.json\")",
+      "Bash(timeout 30 grep -rl \"curl\" ~/.claude/plugins/cache --include=\"*.sh\")",
+      "Bash(grep -E \"^app/[^/]+/page.tsx$\")",
+      "Bash(echo \"started with PID $!\")",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__navigate_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_snapshot",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__click",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_screenshot",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__resize_page",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__evaluate_script",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_pages",
+      "mcp__plugin_chrome-devtools-mcp_chrome-devtools__emulate"
     ]
   }
 }

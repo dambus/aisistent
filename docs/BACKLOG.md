@@ -61,6 +61,8 @@
 
 ## 🟡 Srednji prioritet
 
+- **CTA konsolidacija (task 4-6 od 6, 9. jul)** — notifikacije/navbar bagovi rešeni (task 1-3), preostalo: centralizovati tool metadata + `ctaLabel` po tipu dokumenta (`lib/utils/documentTypes.ts` proširiti, obrazac već postoji u 17 hardkodovanih `ctaLabel` propova na tool-landing stranicama), primeniti na landing kartice (generički "Napravite dokument →" → per-tip glagol) i dashboard shortcut kartice (nemaju CTA tekst uopšte). Detalji: `.ai-memory/next_session_note.md`, `PROGRESS.md` (9. jul, treći dodatak).
+
 - **DOCX formatiranje — audit i fix** — Prijavljeno 26. jun 2026. na primeru NDA:
   - Nedostaje "POVERLJIVO" watermark/oznaka u zaglavlju (kao u PDF-u)
   - Viseći naslovi — `Član X.` ostaje na dnu strane bez sadržaja koji sledi

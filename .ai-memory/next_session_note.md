@@ -1,11 +1,37 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — tip kartice CTA + changelog mehanizam gotovi, redizajn alata stranica u toku (hero vizual odbačen, pauza)
+description: Poruka za sledeću sesiju — UI bagovi (notifikacije/navbar/CTA) task 3/6 gotovo, nastavak na task 4 (centralizacija CTA teksta)
 metadata:
   type: project
 ---
 
-## Gde smo stali (9. jul 2026., rano jutro — TipCard/changelog gotovi, redizajn alata pauziran)
+## Gde smo stali (9. jul 2026., popodne — UI bagovi: notifikacije/navbar/CTA, task 3/6 gotovo, nastavlja se na drugoj mašini)
+
+Milan prijavio 3 baga sa dev/produkcije (zvono notifikacija se seče, navbarovi nekonzistentni po stranicama, kartice nemaju/imaju pogrešan CTA tekst). Napravljena lista od 6 taskova (TaskCreate/TaskUpdate u sesiji), radi se redom. **Gotovo 1-3, task 4-6 ostaju za sledeću sesiju.**
+
+**Završeno ovu sesiju (committed):**
+
+1. **ChangelogBell (zvono) panel clipping — 3 odvojena uzroka, sva 3 fiksirana:**
+   - Desktop: `components/dashboard/Sidebar.tsx` root div u `SidebarContent()` imao `overflow-hidden`, sekao `absolute left-0` panel (288px) unutar 260px sidebar-a. Fix: uklonjen `overflow-hidden` (scroll već izolovan u `.sidebar-scroll` divu).
+   - Mobile: panel je `left-0` fiksno, ali mobile-header zvono je na DESNOJ ivici → panel izlazio van viewporta. Fix: `ChangelogBell` dobio `align?: 'left'|'right'` prop, mobile header koristi `align="right"`.
+   - Mobile hamburger drawer je renderovao DRUGU instancu zvona (duplikat) — Milan primetio posle prvog fixa. Fix: `SidebarContent` dobio `showBell` prop, Sheet/drawer instanca `showBell={false}`.
+
+2. **Mobile hamburger meni na `/blog` i `/blog/[slug]`** — nisu imale nikakav mobile nav (linkovi nestajali ispod `md:flex`, bez zamene). Dodat postojeći `components/landing/MobileMenu.tsx` + auth check (komponenta traži `isLoggedIn`).
+
+3. **Konsolidacija navbara — Milan izabrao 5-link (landing) standard preko 3-link (blog/tool-page).** Nova deljena `components/landing/SiteHeader.tsx` (Kako radi/Alati/Obrasci/Cenovnik/Blog + login-svestan CTA + MobileMenu), zamenjeni svi 4 inline headera (`app/page.tsx`, `app/blog/page.tsx`, `app/blog/[slug]/page.tsx`, `components/landing/ToolLandingPage.tsx`). Anchor linkovi promenjeni na `/#kako-radi` stil (leading slash, radi i van landinga).
+   - **Uzgred nađen i ispravljen stariji bag:** nijedna od 17 `app/<tool-slug>/page.tsx` stranica nikad nije slala `isLoggedIn` u `ToolLandingPage` — CTA je uvek pisao "Počnite besplatno" i ulogovanim korisnicima. Rešeno u korenu: `ToolLandingPage` je sad `async function` i sam računa `isLoggedIn` (`createClient().auth.getUser()`), prop uklonjen iz `ToolLandingPageProps` — ne zavisi više od toga da 17 fajlova nešto pošalju.
+
+**Testirano:** `npx tsc --noEmit` čisto posle svake izmene; svaki fix vizuelno proveren u Chrome-u (1440x900 desktop + 390x844 mobile emulacija, chrome-devtools MCP) — zvono na oba viewporta + drawer bez duplikata, blog hamburger sa login-svesnim CTA, tool-page 5-link navbar + "Moji dokumenti" umesto "Počnite besplatno" dok ulogovan.
+
+**Sledeće (task 4-6, nastaviti ovim redosledom):**
+
+4. **Centralizovati tool metadata + CTA po tipu.** `lib/utils/documentTypes.ts` (`TYPE_LABELS`) je jedini centralizovani spisak 22 tipa, samo slug→label. Tool metadata (naslov/opis/ikonica/href) duplirana na 3 mesta bez zajedničkog izvora: `app/page.tsx` (`toolCategories`+`toolLandingPages`), `app/(dashboard)/dashboard/page.tsx` (`TOOL_CATEGORIES`), `components/dashboard/Sidebar.tsx` (`navCategories`+`alatiCategory`). Plan: proširiti `TYPE_LABELS`/novi `docTypes` config poljem `ctaLabel` — obrazac već postoji kao 17 hardkodovanih `ctaLabel="..."` propova u `app/<slug>/page.tsx` (npr. "Generišite ugovor besplatno", "Napišite oglas besplatno", "Otvorite kalkulator"), samo nije centralizovan.
+5. **Per-tip CTA na landing kartice** — `app/page.tsx` hardkoduje generički "Napravite dokument →" za SVE kartice bez obzira na tip (ugovor/mejl/kalkulator). Zameniti specifičnim glagolom iz configa iz taska 4 (zavisi od njega).
+6. **CTA tekst na dashboard shortcut kartice** — `app/(dashboard)/dashboard/page.tsx` kartice ("Preporučeno za vas" + kategorije) nemaju NIKAKAV akcioni tekst, samo ikonica+naslov+opis (potvrđeno vizuelno tokom testiranja task 1). Dodati CTA iz istog configa.
+
+Odluka o tekstu CTA-a: razvrstati po alatima (ne generički isti tekst svugde) — obrazac iz task 3 nalaza već postoji u 17 tool-landing fajlova, samo ga centralizovati i proširiti na landing/dashboard kartice.
+
+## Prethodna sesija (9. jul 2026., rano jutro — TipCard/changelog gotovi, redizajn alata pauziran)
 
 **Završeno i pušovano ovu sesiju:**
 1. TipCard u profilu za sačuvane kontakte (Starter+, kad nema kontakata) — backlog stavka "prezentovati featur korisnicima" (delimično, wizard tip je već postojao od ranije).

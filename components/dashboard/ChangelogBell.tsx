@@ -6,7 +6,7 @@ import { useChangelog } from '@/hooks/useChangelog'
 
 const PRIMARY = '#1B6B4A'
 
-export function ChangelogBell() {
+export function ChangelogBell({ align = 'left' }: { align?: 'left' | 'right' }) {
   const { entries, unseenCount, markAllSeen, ready } = useChangelog()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -47,7 +47,7 @@ export function ChangelogBell() {
 
       {open && (
         <div
-          className="absolute left-0 top-10 z-50 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150"
+          className={`absolute top-10 z-50 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 ${align === 'right' ? 'right-0' : 'left-0'}`}
           style={{ borderTop: `2px solid ${PRIMARY}` }}
         >
           <div className="px-4 py-3 border-b border-white/10">

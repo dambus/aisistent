@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
 import { HeroPreview } from './HeroPreview'
 import { HeroDocFlight } from './HeroDocFlight'
 import { RevealSection } from './RevealSection'
+import { SiteHeader } from './SiteHeader'
 
 export interface FAQ {
   q: string
@@ -22,18 +24,11 @@ export interface ToolLandingPageProps {
   previewSlug?: string
   heroImage?: string
   heroFlightLabel?: string
-  isLoggedIn?: boolean
 }
 
 const PRIMARY = '#1B6B4A'
 const DARK = '#052e16'
 const DARK_ALT = '#0f1f0f'
-
-const navLinks = [
-  { href: '/#alati', label: 'Alati' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/#cenovnik', label: 'Cenovnik' },
-]
 
 const TOOL_LANDING_STYLES = `
 .tool-hero-grid {
@@ -114,51 +109,6 @@ function getToolLabel(h1: string) {
   return h1.split('—')[0]?.trim() || h1
 }
 
-function LandingHeader({ isLoggedIn }: { isLoggedIn?: boolean }) {
-  return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <Link href="/" className="flex items-center">
-          <img
-            src="/logo/AIsistent-Logo_6003x180.png"
-            alt="AIsistent"
-            height={32}
-            style={{ objectFit: 'contain', maxWidth: '160px', width: 'auto' }}
-          />
-        </Link>
-        <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        {isLoggedIn ? (
-          <Link
-            href="/dashboard"
-            className="rounded-lg px-4 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: PRIMARY }}
-          >
-            Moji dokumenti
-          </Link>
-        ) : (
-          <Link
-            href="/register"
-            className="rounded-lg px-4 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: PRIMARY }}
-          >
-            Počnite besplatno
-          </Link>
-        )}
-      </nav>
-    </header>
-  )
-}
-
 function LandingFooter() {
   return (
     <footer style={{ backgroundColor: DARK, color: '#d1fae5' }} className="px-6 py-12">
@@ -226,7 +176,7 @@ function LandingFooter() {
   )
 }
 
-export function ToolLandingPage({
+export async function ToolLandingPage({
   h1,
   intro,
   features,
@@ -240,10 +190,12 @@ export function ToolLandingPage({
   previewSlug,
   heroImage,
   heroFlightLabel,
-  isLoggedIn,
 }: ToolLandingPageProps) {
   const toolLabel = getToolLabel(h1)
   const ctaTitle = ctaTitleProp ?? `Napravite ${toolLabel} za 60 sekundi`
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const isLoggedIn = !!user
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -262,7 +214,7 @@ export function ToolLandingPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <style dangerouslySetInnerHTML={{ __html: TOOL_LANDING_STYLES }} />
-      <LandingHeader isLoggedIn={isLoggedIn} />
+      <SiteHeader isLoggedIn={!!isLoggedIn} />
 
       <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
         <section

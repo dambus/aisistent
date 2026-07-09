@@ -205,9 +205,9 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
     )
   }
 
-  function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
+  function SidebarContent({ onLinkClick, showBell = true }: { onLinkClick?: () => void; showBell?: boolean }) {
     return (
-      <div className="flex h-full flex-col overflow-hidden bg-[#111827]">
+      <div className="flex h-full flex-col bg-[#111827]">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-5">
           <Link
@@ -218,7 +218,7 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
             <SidebarLogo height={22} maxWidth={128} />
           </Link>
           <div className="flex items-center gap-2">
-            <ChangelogBell />
+            {showBell && <ChangelogBell />}
             <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${planMeta.cls}`}>
               {planMeta.label}
             </span>
@@ -368,7 +368,7 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
             </svg>
           </SheetTrigger>
           <SheetContent side="left" className="w-65 p-0 bg-[#111827] border-r border-white/10">
-            <SidebarContent onLinkClick={() => setSheetOpen(false)} />
+            <SidebarContent onLinkClick={() => setSheetOpen(false)} showBell={false} />
           </SheetContent>
         </Sheet>
 
@@ -376,7 +376,7 @@ export function Sidebar({ plan, userInitials, isAdmin }: Props) {
           <SidebarLogo />
         </Link>
         <div className="flex items-center gap-2">
-          <ChangelogBell />
+          <ChangelogBell align="right" />
           <div
             className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
             style={{ backgroundColor: PRIMARY }}

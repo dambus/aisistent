@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllPostMeta, getPost, formatDateSr, splitHtmlAtMidpoint } from '@/lib/blog'
 import { ReadingProgressBar } from '@/components/blog/ReadingProgressBar'
+import { createClient } from '@/lib/supabase/server'
+import { SiteHeader } from '@/components/landing/SiteHeader'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -29,12 +31,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const P = '#1B6B4A'
 const D = '#052e16'
-
-const NAV = [
-  { href: '/#alati', label: 'Alati' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/#cenovnik', label: 'Cenovnik' },
-]
 
 function extractDocName(title: string): string {
   const t = title.toLowerCase()
@@ -100,33 +96,16 @@ export default async function BlogPostPage({ params }: Props) {
   const docName = extractDocName(post.title)
   const [firstHalf, secondHalf] = splitHtmlAtMidpoint(post.contentHtml)
   const shareUrl = `https://aisistent.rs/blog/${slug}`
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const isLoggedIn = !!user
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <ReadingProgressBar />
 
-      {/* ── NAV ── */}
-      <header className="sticky top-0.5 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <nav className="mx-auto max-w-6xl px-5 lg:px-8 h-14 flex items-center justify-between">
-          <a href="/">
-            <img src="/logo/AIsistent-Logo_6003x180.png" alt="AIsistent" height={28}
-              style={{ maxWidth: 140, width: 'auto', objectFit: 'contain' }} />
-          </a>
-          <div className="hidden md:flex items-center gap-6">
-            {NAV.map(l => (
-              <a key={l.href} href={l.href}
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <a href="/register" className="text-sm font-bold text-white rounded-lg px-4 py-2 transition-opacity hover:opacity-90"
-            style={{ backgroundColor: P }}>
-            Počnite besplatno
-          </a>
-        </nav>
-      </header>
+      <SiteHeader isLoggedIn={isLoggedIn} />
 
       {/* ── HERO ── */}
       <section style={{ backgroundColor: D }}>
