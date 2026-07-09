@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Obaveštenje o promeni uslova rada — generator | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Obaveštenje"
       intro="Generišite formalno obaveštenje zaposlenom o promeni uslova rada u skladu sa čl. 172-174 Zakona o radu RS. Radno vreme, zarada, mesto rada ili naziv radnog mesta — jasno staro i novo stanje."
       ctaHref="/register"
-      ctaLabel="Napravite obaveštenje besplatno"
+      ctaLabel={TOOL_CONFIG['obavestenje-o-promeni-uslova'].ctaLabel}
       ctaNote="Zakonski usklađeno obaveštenje u PDF formatu za manje od 60 sekundi"
       features={[
         { icon: '⚖️', title: 'Usklađeno sa Zakonom o radu', text: 'Sadrži sve elemente propisane čl. 172-174 ZOR za formalno obaveštenje o promeni uslova rada.' },

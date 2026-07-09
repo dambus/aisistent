@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ugovor o radu Srbija — generator ugovora o radu | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="Ugovor o radu — generator za poslodavce u Srbiji"
       intro="Generišite ugovor o radu u skladu sa Zakonom o radu Republike Srbije. Svi obavezni elementi, ispravne klauzule, srpska terminologija — PDF ili Word za 60 sekundi."
       ctaHref="/register"
-      ctaLabel="Generišite ugovor besplatno"
+      ctaLabel={TOOL_CONFIG['ugovor-o-radu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '📋', title: 'Svi obavezni elementi', text: 'Naziv i opis posla, radno vreme, zarada, mesto rada — svi elementi propisani čl. 33. Zakona o radu.' },

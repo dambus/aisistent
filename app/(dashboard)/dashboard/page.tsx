@@ -7,6 +7,7 @@ import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
 import { TipCard, TipSequence } from '@/components/ui/TipCard'
 import { LimitsCard } from '@/components/dashboard/LimitsCard'
 import { getAllLibraryForms } from '@/lib/libraryForms'
+import { TOOL_CONFIG, DASHBOARD_CATEGORIES, CALCULATOR_SLUGS } from '@/lib/config/tools'
 
 interface ToolItem {
   type: string
@@ -14,6 +15,7 @@ interface ToolItem {
   desc: string
   icon: string
   href: string
+  ctaLabel: string
 }
 
 interface ToolCategory {
@@ -21,57 +23,14 @@ interface ToolCategory {
   tools: ToolItem[]
 }
 
+function toToolItem(slug: string): ToolItem {
+  const config = TOOL_CONFIG[slug]
+  return { type: config.slug, title: config.label, desc: config.desc, icon: config.icon, href: config.dashboardHref, ctaLabel: config.ctaLabel }
+}
+
 const TOOL_CATEGORIES: ToolCategory[] = [
-  {
-    label: 'Ugovori i dokumenti',
-    tools: [
-      { type: 'ugovor-o-radu', title: 'Ugovor o radu', desc: 'Angažovanje zaposlenog na puno radno vreme', icon: '👔', href: '/dokumenti/ugovor-o-radu' },
-      { type: 'ugovor-o-delu', title: 'Ugovor o delu', desc: 'Jednokratni ili projektni angažman', icon: '📋', href: '/dokumenti/ugovor-o-delu' },
-      { type: 'nda', title: 'NDA / Poverljivost', desc: 'Zaštita poslovnih tajni i informacija', icon: '🔒', href: '/dokumenti/nda' },
-      { type: 'ugovor-o-zakupu', title: 'Ugovor o zakupu', desc: 'Stan, poslovni prostor ili kratkoročni zakup', icon: '🏠', href: '/dokumenti/ugovor-o-zakupu' },
-      { type: 'ugovor-o-saradnji', title: 'Saradnja / Zajam', desc: 'Poslovna saradnja ili pozajmica novca', icon: '🤝', href: '/dokumenti/ugovor-o-saradnji' },
-      { type: 'punomocje', title: 'Punomoćje', desc: 'Opšte, specijalno ili sudsko punomoćje', icon: '✍️', href: '/dokumenti/punomocje' },
-      { type: 'opsti-uslovi', title: 'Opšti uslovi i PP', desc: 'Uslovi korišćenja i GDPR politika za vaš sajt', icon: '📄', href: '/dokumenti/opsti-uslovi' },
-      { type: 'faktura', title: 'Faktura / Profaktura', desc: 'Izdajte fakturu ili predračun za usluge i robu', icon: '🧾', href: '/dokumenti/faktura' },
-      { type: 'putni-nalog', title: 'Putni nalog', desc: 'Nalog za službeno putovanje sa obračunom troškova', icon: '✈️', href: '/dokumenti/putni-nalog' },
-      { type: 'otpremnica', title: 'Otpremnica', desc: 'Dokument o isporuci robe sa stavkama i potpisima', icon: '📦', href: '/dokumenti/otpremnica' },
-      { type: 'ponuda-za-radove', title: 'Ponuda za radove', desc: 'Specifikacija radova sa cenama za majstore i izvođače', icon: '🔨', href: '/dokumenti/ponuda-za-radove' },
-    ],
-  },
-  {
-    label: 'Poslovna komunikacija',
-    tools: [
-      { type: 'poslovni-mejl', title: 'Poslovni mejl', desc: 'B2B mejlovi: ponuda, opomena, zahvalnica i više', icon: '✉️', href: '/dokumenti/poslovni-mejl' },
-      { type: 'ponuda-klijentu', title: 'Ponuda klijentu', desc: 'Strukturirana B2B ponuda sa cenom i rokovima', icon: '💼', href: '/dokumenti/ponuda-klijentu' },
-    ],
-  },
-  {
-    label: 'HR i zapošljavanje',
-    tools: [
-      { type: 'oglas-za-posao',           title: 'Oglas za posao',            desc: 'Oglas za Infostud, LinkedIn i sajt firme',           icon: '👥', href: '/dokumenti/oglas-za-posao' },
-      { type: 'odgovor-kandidatu',         title: 'Odgovor kandidatu',         desc: 'Poziv na intervju, prihvatanje ili odbijanje',        icon: '📨', href: '/dokumenti/odgovor-kandidatu' },
-      { type: 'preporuka',                 title: 'Preporuka/Referenca',       desc: 'Profesionalna preporuka za zaposlenog ili saradnika', icon: '⭐', href: '/dokumenti/preporuka' },
-      { type: 'resenje-godisnji-odmor',    title: 'Rešenje o godišnjem odmoru',desc: 'Formalno rešenje u skladu sa Zakonom o radu',         icon: '🌴', href: '/dokumenti/resenje-godisnji-odmor' },
-      { type: 'pravilnik-o-radu',          title: 'Pravilnik o radu',          desc: 'Interni akt o radnom vremenu, zaradama i disciplini', icon: '📌', href: '/dokumenti/pravilnik-o-radu' },
-      { type: 'obavestenje-o-promeni-uslova', title: 'Obaveštenje o promeni uslova', desc: 'Formalno obaveštenje zaposlenom o promeni radnog vremena, zarade ili mesta rada', icon: '📋', href: '/dokumenti/obavestenje-o-promeni-uslova' },
-    ],
-  },
-  {
-    label: 'Marketing i prodaja',
-    tools: [
-      { type: 'opis-proizvoda',   title: 'Opis proizvoda/usluge', desc: 'Prodajni opis za sajt, katalog ili kampanju',        icon: '🛍️', href: '/dokumenti/opis-proizvoda' },
-      { type: 'bio-o-nama',       title: 'Bio / O nama',          desc: 'Tekst o firmi, preduzetnik bio ili LinkedIn profil', icon: '🏢', href: '/dokumenti/bio-o-nama' },
-      { type: 'zapisnik-sastanak',title: 'Zapisnik sa sastanka',  desc: 'Zaključci, akcije i odluke sa poslovnih sastanaka',  icon: '📝', href: '/dokumenti/zapisnik-sastanak' },
-    ],
-  },
-  {
-    label: '🧮 Alati',
-    tools: [
-      { type: 'kalkulator-zarade', title: 'Kalkulator zarade', desc: 'Bruto/neto preračun sa aktuelnim stopama za 2026.', icon: '🧮', href: '/alati/kalkulator-zarade' },
-      { type: 'kalkulator-pausala', title: 'Paušalno oporezivanje', desc: 'Informacije o paušalnom porezu i zvanični kalkulator', icon: '🧾', href: '/alati/kalkulator-pausala' },
-      { type: 'kalkulator-ugovora-o-delu', title: 'Kalkulator ugovora o delu', desc: 'Obračun poreza i troškova za ugovor o delu', icon: '📑', href: '/alati/kalkulator-ugovora-o-delu' },
-    ],
-  },
+  ...DASHBOARD_CATEGORIES.map(category => ({ label: category.title, tools: category.slugs.map(toToolItem) })),
+  { label: '🧮 Alati', tools: CALCULATOR_SLUGS.map(toToolItem) },
 ]
 
 export default async function DashboardPage() {
@@ -173,6 +132,7 @@ export default async function DashboardPage() {
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-gray-900">{tool.title}</div>
                   <div className="mt-0.5 text-xs text-gray-500">{tool.desc}</div>
+                  <div className="mt-1.5 text-xs font-semibold text-[#1B6B4A]">{tool.ctaLabel} →</div>
                 </div>
               </Link>
             ))}
@@ -199,6 +159,9 @@ export default async function DashboardPage() {
                       {tool.title}
                     </p>
                     <p className="mt-0.5 text-xs text-gray-500">{tool.desc}</p>
+                    <p className="mt-1.5 text-xs font-semibold text-gray-400 transition-colors group-hover:text-[#1B6B4A]">
+                      {tool.ctaLabel} →
+                    </p>
                   </div>
                 </Link>
               ))}

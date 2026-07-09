@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Putni nalog — generator putnih naloga za službena putovanja | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Putni nalog"
       intro="Napravite putni nalog sa svim podacima o putovanju, vozaču, vozilu i troškovima na teret firme. Dokument spreman za odobrenje i potpis za 60 sekundi."
       ctaHref="/register"
-      ctaLabel="Napravite putni nalog besplatno"
+      ctaLabel={TOOL_CONFIG['putni-nalog'].ctaLabel}
       ctaNote="Kompletan putni nalog u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '🗺️', title: 'Podaci o putovanju', text: 'Svrha putovanja, mesto polaska i odredište, datumi polaska i povratka.' },

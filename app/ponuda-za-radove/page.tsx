@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ponuda za radove — generator ponuda za izvođače i majstore | AIsistent',
@@ -18,9 +19,9 @@ export default function Page() {
       heroFlightLabel="Ponuda"
       intro="Napravite ponudu za izvođenje radova sa stavkama, cenama i uslovima. Za majstore, zanatlije i izvođače koji nude usluge sa jasnim obimom posla."
       ctaHref="/register"
-      ctaLabel="Napravite ponudu besplatno"
+      ctaLabel={TOOL_CONFIG['ponuda-za-radove'].ctaLabel}
       ctaNote="Kompletna ponuda za radove u PDF ili Word formatu za manje od 60 sekundi"
-      ctaTitle="Napravite ponudu za radove za 60 sekundi"
+      ctaTitle={TOOL_CONFIG['ponuda-za-radove'].ctaTitle}
       features={[
         { icon: '🏗️', title: 'Opis radova i lokacija', text: 'Detaljan opis obima radova i adresa gde se radovi izvode — jasno definisano.' },
         { icon: '🧾', title: 'Stavke sa cenama', text: 'Neograničen broj stavki — opis rada, količina, jedinica mere i cena po stavci.' },

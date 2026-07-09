@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Kalkulator ugovora o delu Srbija — porez i doprinosi | AIsistent',
@@ -18,8 +19,8 @@ export default function Page() {
       heroFlightLabel="Obračun"
       intro="Izračunajte koliko ćete stvarno primiti po ugovoru o delu — uz normiran trošak, porez na dohodak i doprinose za PIO i zdravstvo. Ažurirano za 2026."
       ctaHref="/register"
-      ctaLabel="Otvorite kalkulator"
-      ctaTitle="Izračunajte odmah, besplatno"
+      ctaLabel={TOOL_CONFIG['kalkulator-ugovora-o-delu'].ctaLabel}
+      ctaTitle={TOOL_CONFIG['kalkulator-ugovora-o-delu'].ctaTitle}
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Bruto → Neto obračun', text: 'Iz ugovorene naknade izračunajte tačan neto iznos koji izvodač prima na ruku.' },

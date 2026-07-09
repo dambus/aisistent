@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { LogoutButton } from '@/components/auth/logout-button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { ChangelogBell } from '@/components/dashboard/ChangelogBell'
+import { TOOL_CONFIG, DASHBOARD_CATEGORIES, CALCULATOR_SLUGS } from '@/lib/config/tools'
 
 const PRIMARY = '#1B6B4A'
 const SIDEBAR_ICON = '#9CA3AF'
@@ -25,62 +26,27 @@ interface NavCategory {
   items: NavItem[]
 }
 
-const navCategories: NavCategory[] = [
-  {
-    key: 'ugovori',
-    icon: '▤',
-    title: 'Ugovori i dokumenti',
-    defaultExpanded: true,
-    items: [
-      { label: 'Ugovor o radu',    href: '/dokumenti/ugovor-o-radu' },
-      { label: 'Ugovor o delu',    href: '/dokumenti/ugovor-o-delu' },
-      { label: 'NDA Sporazum',     href: '/dokumenti/nda' },
-      { label: 'Ugovor o zakupu',  href: '/dokumenti/ugovor-o-zakupu' },
-      { label: 'Ugovor o saradnji',href: '/dokumenti/ugovor-o-saradnji' },
-      { label: 'Punomoćje',        href: '/dokumenti/punomocje' },
-      { label: 'Opšti uslovi i PP',href: '/dokumenti/opsti-uslovi' },
-      { label: 'Faktura / Profaktura', href: '/dokumenti/faktura' },
-      { label: 'Putni nalog',          href: '/dokumenti/putni-nalog' },
-      { label: 'Otpremnica',           href: '/dokumenti/otpremnica' },
-      { label: 'Ponuda za radove',     href: '/dokumenti/ponuda-za-radove' },
-    ],
-  },
-  {
-    key: 'komunikacija',
-    icon: '✉',
-    title: 'Poslovna komunikacija',
-    defaultExpanded: false,
-    items: [
-      { label: 'Poslovni mejl',   href: '/dokumenti/poslovni-mejl' },
-      { label: 'Ponuda klijentu', href: '/dokumenti/ponuda-klijentu' },
-    ],
-  },
-  {
-    key: 'hr',
-    icon: '◎',
-    title: 'HR i zapošljavanje',
-    defaultExpanded: false,
-    items: [
-      { label: 'Oglas za posao',            href: '/dokumenti/oglas-za-posao' },
-      { label: 'Odgovor kandidatu',          href: '/dokumenti/odgovor-kandidatu' },
-      { label: 'Preporuka/Referenca',        href: '/dokumenti/preporuka' },
-      { label: 'Rešenje o godišnjem odmoru', href: '/dokumenti/resenje-godisnji-odmor' },
-      { label: 'Pravilnik o radu',           href: '/dokumenti/pravilnik-o-radu' },
-      { label: 'Obaveštenje o promeni uslova', href: '/dokumenti/obavestenje-o-promeni-uslova' },
-    ],
-  },
-  {
-    key: 'marketing',
-    icon: '◈',
-    title: 'Marketing i prodaja',
-    defaultExpanded: false,
-    items: [
-      { label: 'Opis proizvoda/usluge', href: '/dokumenti/opis-proizvoda' },
-      { label: 'Bio / O nama',          href: '/dokumenti/bio-o-nama' },
-      { label: 'Zapisnik sa sastanka',  href: '/dokumenti/zapisnik-sastanak' },
-    ],
-  },
-]
+const CATEGORY_ICONS: Record<string, string> = {
+  'Ugovori i dokumenti': '▤',
+  'Poslovna komunikacija': '✉',
+  'HR i zapošljavanje': '◎',
+  'Marketing i prodaja': '◈',
+}
+
+const CATEGORY_KEYS: Record<string, string> = {
+  'Ugovori i dokumenti': 'ugovori',
+  'Poslovna komunikacija': 'komunikacija',
+  'HR i zapošljavanje': 'hr',
+  'Marketing i prodaja': 'marketing',
+}
+
+const navCategories: NavCategory[] = DASHBOARD_CATEGORIES.map(category => ({
+  key: CATEGORY_KEYS[category.title],
+  icon: CATEGORY_ICONS[category.title],
+  title: category.title,
+  defaultExpanded: category.title === 'Ugovori i dokumenti',
+  items: category.slugs.map(slug => ({ label: TOOL_CONFIG[slug].label, href: TOOL_CONFIG[slug].dashboardHref })),
+}))
 
 const upcomingItems: string[] = []
 
@@ -89,11 +55,7 @@ const alatiCategory: NavCategory = {
   icon: '🧮',
   title: 'Alati',
   defaultExpanded: true,
-  items: [
-    { label: 'Kalkulator zarade', href: '/alati/kalkulator-zarade' },
-    { label: 'Paušalno oporezivanje', href: '/alati/kalkulator-pausala' },
-    { label: 'Kalkulator ugovora o delu', href: '/alati/kalkulator-ugovora-o-delu' },
-  ],
+  items: CALCULATOR_SLUGS.map(slug => ({ label: TOOL_CONFIG[slug].label, href: TOOL_CONFIG[slug].dashboardHref })),
 }
 
 const upcomingAlati: string[] = []

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Oglas za posao — generator oglasa za zapošljavanje | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Oglas"
       intro="Generišite profesionalan oglas za posao prilagođen srpskom tržištu rada. Format za Infostud, LinkedIn i vaš sajt — AI piše oglas koji privlači prave kandidate."
       ctaHref="/register"
-      ctaLabel="Napišite oglas besplatno"
+      ctaLabel={TOOL_CONFIG['oglas-za-posao'].ctaLabel}
       ctaNote="Profesionalan oglas za manje od 60 sekundi"
       features={[
         { icon: '🏢', title: 'Uvod o firmi', text: 'Kratak, privlačan uvod o firmi koji motiviše kandidate da se prijave.' },

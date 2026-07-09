@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ugovor o saradnji — generator za partnerstva | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="Ugovor o saradnji — generator za poslovne partnere"
       intro="Generišite kompletan ugovor o poslovnoj saradnji ili ugovor o zajmu prilagođen srpskom pravu. Wizard vas vodi kroz sve bitne klauzule — od podele prihoda do raskida."
       ctaHref="/register"
-      ctaLabel="Generišite ugovor besplatno"
+      ctaLabel={TOOL_CONFIG['ugovor-o-saradnji'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '🤝', title: 'Identifikacija strana', text: 'Tačna identifikacija obe ugovorne strane — firme, preduzetnici ili fizička lica.' },

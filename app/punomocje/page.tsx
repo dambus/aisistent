@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Punomoćje — generator opšteg i specijalnog punomoćja | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Punomoćje"
       intro="Generišite punomoćje za zastupanje pred organima, bankama, sudovima i firmama. Podržava opšte, specijalno i sudsko punomoćje u skladu sa srpskim pravom."
       ctaHref="/register"
-      ctaLabel="Generišite punomoćje besplatno"
+      ctaLabel={TOOL_CONFIG['punomocje'].ctaLabel}
       ctaNote="PDF ili Word dokument za manje od 60 sekundi"
       features={[
         { icon: '👤', title: 'Identifikacija strana', text: 'Vlastodavac i punomoćnik jasno identifikovani — fizička lica i firme.' },

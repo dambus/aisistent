@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Kalkulator paušalnog poreza Srbija 2026 | AIsistent',
@@ -18,8 +19,8 @@ export default function Page() {
       heroFlightLabel="Obračun"
       intro="Brza procena paušalnog poreza i doprinosa za preduzetnike u Srbiji. Razumejte šta plaćate pre nego što se registrujete kao paušalni obveznik."
       ctaHref="/register"
-      ctaLabel="Otvorite kalkulator"
-      ctaTitle="Izračunajte odmah, besplatno"
+      ctaLabel={TOOL_CONFIG['kalkulator-pausala'].ctaLabel}
+      ctaTitle={TOOL_CONFIG['kalkulator-pausala'].ctaTitle}
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Procena paušalnog poreza', text: 'Brza procena mesečnog paušalnog poreza i doprinosa prema delatnosti i mestu.' },

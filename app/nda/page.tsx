@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'NDA sporazum Srbija — generator ugovora o poverljivosti | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="NDA sporazum — generator ugovora o poverljivosti za Srbiju"
       intro="Zaštitite poslovne tajne i ideje pre pregovora, saradnje ili angažovanja. Jednostrani ili obostrani NDA prilagođen srpskom pravu — PDF za 60 sekundi."
       ctaHref="/register"
-      ctaLabel="Generišite NDA besplatno"
+      ctaLabel={TOOL_CONFIG['nda'].ctaLabel}
       ctaNote="Sporazum u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '🔒', title: 'Definicija poverljivih inf.', text: 'Precizna definicija šta je poverljivo i šta nije — sprečava osporavanje u sporu.' },

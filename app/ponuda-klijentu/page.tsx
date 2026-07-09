@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ponuda klijentu — generator poslovnih ponuda | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Ponuda"
       intro="Generišite strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent očekuje. Cena, rok isporuke, uslovi plaćanja, validnost — sve na jednom mestu."
       ctaHref="/register"
-      ctaLabel="Napišite ponudu besplatno"
+      ctaLabel={TOOL_CONFIG['ponuda-klijentu'].ctaLabel}
       ctaNote="Kompletna ponuda u PDF formatu za manje od 60 sekundi"
       features={[
         { icon: '🏢', title: 'Podaci o obe strane', text: 'Ponuđač i klijent jasno identifikovani sa svim poslovnim podacima.' },

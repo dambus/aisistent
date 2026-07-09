@@ -1,24 +1,5 @@
-export const TYPE_LABELS: Record<string, string> = {
-  'ugovor-o-radu':     'Ugovor o radu',
-  'ugovor-o-delu':     'Ugovor o delu',
-  'nda':               'NDA Sporazum',
-  'ugovor-o-zakupu':   'Ugovor o zakupu',
-  'ugovor-o-saradnji': 'Ugovor o saradnji/Zajmu',
-  'punomocje':         'Punomoćje',
-  'opsti-uslovi':      'Opšti uslovi i Politika privatnosti',
-  'poslovni-mejl':     'Poslovni mejl',
-  'oglas-za-posao':    'Oglas za posao',
-  'ponuda-klijentu':          'Ponuda klijentu',
-  'odgovor-kandidatu':        'Odgovor kandidatu',
-  'preporuka':                'Preporuka/Referenca',
-  'resenje-godisnji-odmor':   'Rešenje o godišnjem odmoru',
-  'pravilnik-o-radu':                'Pravilnik o radu',
-  'obavestenje-o-promeni-uslova':    'Obaveštenje o promeni uslova rada',
-  'opis-proizvoda':                  'Opis proizvoda/usluge',
-  'bio-o-nama':               'Bio / O nama',
-  'zapisnik-sastanak':        'Zapisnik sa sastanka',
-  'faktura':                  'Faktura / Profaktura',
-  'putni-nalog':              'Putni nalog',
-  'otpremnica':               'Otpremnica',
-  'ponuda-za-radove':         'Ponuda za radove',
-}
+import { TOOL_CONFIG } from '@/lib/config/tools'
+
+export const TYPE_LABELS: Record<string, string> = Object.fromEntries(
+  Object.entries(TOOL_CONFIG).map(([slug, config]) => [slug, config.label])
+)

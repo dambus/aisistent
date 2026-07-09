@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ugovor o delu Srbija — generator i kalkulator poreza | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="Ugovor o delu — generator za freelancere i firme"
       intro="Generišite ugovor o delu po Zakonu o obligacionim odnosima za konkretan zadatak ili projekat. Ispravne poreske klauzule, rokovi i isporuka — PDF za 60 sekundi."
       ctaHref="/register"
-      ctaLabel="Generišite ugovor besplatno"
+      ctaLabel={TOOL_CONFIG['ugovor-o-delu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '🎯', title: 'Predmet i rezultat', text: 'Precizno definisan konkretan zadatak i rezultat koji izvođač isporučuje — zaštita od nesporazuma.' },

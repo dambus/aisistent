@@ -5,6 +5,7 @@ import { HeroAnimation } from '@/components/landing/HeroAnimation'
 import PricingSection from '@/components/landing/PricingSection'
 import type { PricingPlan } from '@/components/landing/PricingSection'
 import { getAllLibraryForms } from '@/lib/libraryForms'
+import { TOOL_CONFIG, HOMEPAGE_CATEGORIES } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
@@ -43,75 +44,6 @@ const steps = [
     icon: '📥',
     title: 'Preuzmite i doradite',
     text: 'PDF ili Word format, spreman za potpisivanje. Sačuvan u arhivi — izmenite jednom rečenicom kad god zatrebaju.',
-  },
-]
-
-interface Tool {
-  name: string
-  desc: string
-  type: string
-}
-
-interface ToolCategory {
-  title: string
-  tools: Tool[]
-}
-
-const toolCategories: ToolCategory[] = [
-  {
-    title: '📄 Ugovori i dokumenti',
-    tools: [
-      { name: 'Ugovor o radu',    desc: 'Usklađen sa Zakonom o radu RS',               type: 'ugovor-o-radu' },
-      { name: 'Ugovor o delu',    desc: 'Za samostalne saradnike i projektnu saradnju',   type: 'ugovor-o-delu' },
-      { name: 'NDA Sporazum',     desc: 'Zaštitite poslovnu tajnu',                     type: 'nda' },
-      { name: 'Ugovor o zakupu',  desc: 'Za stanove i poslovne prostore',               type: 'ugovor-o-zakupu' },
-      { name: 'Ugovor o saradnji',desc: 'Za partnerstva i zajedničke projekte',          type: 'ugovor-o-saradnji' },
-      { name: 'Punomoćje',        desc: 'Za zastupanje pred organima i firmama',         type: 'punomocje' },
-      { name: 'Opšti uslovi i Politika privatnosti', desc: 'Obavezno za svaki veb sajt', type: 'opsti-uslovi' },
-      { name: 'Faktura / Profaktura', desc: 'Profesionalna faktura sa PDV logikom i stavkama', type: 'faktura' },
-    ],
-  },
-  {
-    title: '✉️ Poslovna komunikacija',
-    tools: [
-      { name: 'Poslovni mejl',    desc: 'Ponuda, opomena, zahvalnica i još 7 tipova',   type: 'poslovni-mejl' },
-      { name: 'Ponuda klijentu',  desc: 'Profesionalna poslovna ponuda za 2 minuta',    type: 'ponuda-klijentu' },
-    ],
-  },
-  {
-    title: '👥 HR i zapošljavanje',
-    tools: [
-      { name: 'Oglas za posao',            desc: 'Privucite prave kandidate na Infostud i LinkedIn',     type: 'oglas-za-posao' },
-      { name: 'Odgovor kandidatu',          desc: 'Poziv na intervju, prihvatanje ili odbijanje',         type: 'odgovor-kandidatu' },
-      { name: 'Preporuka/Referenca',        desc: 'Profesionalna preporuka za zaposlenog ili saradnika',  type: 'preporuka' },
-      { name: 'Rešenje o godišnjem odmoru', desc: 'Formalno rešenje u skladu sa Zakonom o radu',          type: 'resenje-godisnji-odmor' },
-      { name: 'Pravilnik o radu',           desc: 'Interni akt o radnom vremenu, zaradama i disciplini',  type: 'pravilnik-o-radu' },
-    ],
-  },
-  {
-    title: '🏢 Marketing i prodaja',
-    tools: [
-      { name: 'Opis proizvoda/usluge', desc: 'Prodajni opis za sajt, katalog ili kampanju',        type: 'opis-proizvoda' },
-      { name: 'Bio / O nama',          desc: 'Tekst o firmi, preduzetnik bio ili LinkedIn profil', type: 'bio-o-nama' },
-      { name: 'Zapisnik sa sastanka',  desc: 'Zaključci, akcije i odluke sa poslovnih sastanaka',  type: 'zapisnik-sastanak' },
-    ],
-  },
-  {
-    title: '📦 Komercijalni dokumenti',
-    tools: [
-      { name: 'Otpremnica',            desc: 'Isporuka robe — stavke, količine, izdavalac i primalac', type: 'otpremnica' },
-      { name: 'Ponuda za radove',      desc: 'Za izvođače, majstore i zanatlije — stavke, cene, PDV',   type: 'ponuda-za-radove' },
-      { name: 'Putni nalog',           desc: 'Službena putovanja — vozač, vozilo, ruta, troškovi',       type: 'putni-nalog' },
-      { name: 'Obaveštenje o promeni uslova rada', desc: 'Formalno obaveštenje po čl. 172-174 ZOR', type: 'obavestenje-o-promeni-uslova' },
-    ],
-  },
-  {
-    title: '🧮 Besplatni kalkulatori',
-    tools: [
-      { name: 'Kalkulator zarade',            desc: 'Neto iz bruto ili bruto iz neto, bez registracije', type: 'kalkulator-zarade' },
-      { name: 'Kalkulator paušala',           desc: 'Poreske obaveze paušalnog preduzetnika po delatnosti', type: 'kalkulator-pausala' },
-      { name: 'Kalkulator ugovora o delu',    desc: 'Neto isplata i troškovi poslodavca za ugovor o delu', type: 'kalkulator-ugovora-o-delu' },
-    ],
   },
 ]
 
@@ -216,26 +148,6 @@ function SectionHeading({ eyebrow, title, text }: { eyebrow?: string; title: str
       {text && <p className="mt-4 text-lg leading-relaxed text-gray-600">{text}</p>}
     </div>
   )
-}
-
-const toolLandingPages: Record<string, string> = {
-  'ugovor-o-radu': '/ugovor-o-radu',
-  'ugovor-o-delu': '/ugovor-o-delu',
-  'nda': '/nda',
-  'ugovor-o-zakupu': '/ugovor-o-zakupu',
-  'ugovor-o-saradnji': '/ugovor-o-saradnji',
-  'punomocje': '/punomocje',
-  'opsti-uslovi': '/opsti-uslovi',
-  'poslovni-mejl': '/poslovni-mejl',
-  'oglas-za-posao': '/oglas-za-posao',
-  'ponuda-klijentu': '/ponuda-klijentu',
-  'kalkulator-zarade': '/kalkulator-zarade',
-  'kalkulator-pausala': '/kalkulator-pausala',
-  'kalkulator-ugovora-o-delu': '/kalkulator-ugovora-o-delu',
-  'otpremnica': '/otpremnica',
-  'ponuda-za-radove': '/ponuda-za-radove',
-  'putni-nalog': '/putni-nalog',
-  'obavestenje-o-promeni-uslova': '/obavestenje-o-promeni-uslova',
 }
 
 export default async function Home() {
@@ -358,32 +270,35 @@ export default async function Home() {
           text="Švajcarski nož za srpske preduzetnike — u jednoj pretplati"
         />
         <div className="mx-auto mt-12 grid max-w-7xl gap-10">
-          {toolCategories.map(category => (
+          {HOMEPAGE_CATEGORIES.map(category => (
             <div key={category.title}>
               <div className="mb-5 flex items-center gap-3">
                 <h3 className="text-xl font-bold text-gray-900">{category.title}</h3>
                 <div className="h-px flex-1 bg-gray-200" />
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {category.tools.map(tool => (
-                  <article
-                    key={tool.name}
-                    className="flex min-h-40 flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                    style={{ ['--hover-border' as string]: PRIMARY }}
-                  >
-                    <div>
-                      <h4 className="text-base font-bold text-gray-900">{tool.name}</h4>
-                      <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{tool.desc}</p>
-                    </div>
-                    <a
-                      href={toolLandingPages[tool.type] ?? '/register'}
-                      className="mt-4 text-sm font-semibold transition-colors duration-200"
-                      style={{ color: PRIMARY }}
+                {category.slugs.map(slug => {
+                  const tool = TOOL_CONFIG[slug]
+                  return (
+                    <article
+                      key={slug}
+                      className="flex min-h-40 flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                      style={{ ['--hover-border' as string]: PRIMARY }}
                     >
-                      Napravite dokument →
-                    </a>
-                  </article>
-                ))}
+                      <div>
+                        <h4 className="text-base font-bold text-gray-900">{tool.icon} {tool.label}</h4>
+                        <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{tool.desc}</p>
+                      </div>
+                      <a
+                        href={tool.landingHref ?? '/register'}
+                        className="mt-4 text-sm font-semibold transition-colors duration-200"
+                        style={{ color: PRIMARY }}
+                      >
+                        {tool.ctaLabel} →
+                      </a>
+                    </article>
+                  )
+                })}
               </div>
             </div>
           ))}

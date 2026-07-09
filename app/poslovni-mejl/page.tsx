@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Poslovni mejl — AI generator profesionalnih mejlova | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       heroFlightLabel="Mejl"
       intro="Generišite profesionalan poslovni mejl za 30 sekundi. Ponude, opomene, zahvalnice, odbijanja — AI prilagođava ton i sadržaj vašoj situaciji."
       ctaHref="/register"
-      ctaLabel="Napišite mejl besplatno"
+      ctaLabel={TOOL_CONFIG['poslovni-mejl'].ctaLabel}
       ctaNote="Gotov tekst za manje od 30 sekundi"
       features={[
         { icon: '💼', title: '10 tipova mejlova', text: 'Ponuda, opomena za dugovanje, zahvalnica, odbijanje, uvodni mejl, zahtev za produženje roka i više.' },

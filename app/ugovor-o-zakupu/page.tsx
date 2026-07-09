@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Ugovor o zakupu Srbija — generator ugovora o najmu | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="Ugovor o zakupu — generator za stanodavce i zakupce"
       intro="Generišite ugovor o zakupu stana ili poslovnog prostora prilagođen srpskom pravu. Visina zakupnine, depozit, otkazni rok, stanje prostora — sve na jednom mestu."
       ctaHref="/register"
-      ctaLabel="Generišite ugovor besplatno"
+      ctaLabel={TOOL_CONFIG['ugovor-o-zakupu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"
       features={[
         { icon: '🏠', title: 'Stan ili poslovni prostor', text: 'Podržava zakup stambenog prostora i poslovnog prostora — prilagođene klauzule za svaki tip.' },

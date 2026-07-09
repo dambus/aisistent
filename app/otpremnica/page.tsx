@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Otpremnica — generator dokumenta za isporuku robe | AIsistent',
@@ -17,9 +18,9 @@ export default function Page() {
       h1="Otpremnica — generator dokumenta za isporuku robe"
       intro="Napravite otpremnicu sa svim potrebnim podacima — izdavalac, primalac, stavke i količine. Dokument spreman za štampu i potpis za 60 sekundi."
       ctaHref="/register"
-      ctaLabel="Napravite otpremnicu besplatno"
+      ctaLabel={TOOL_CONFIG['otpremnica'].ctaLabel}
       ctaNote="Kompletna otpremnica u PDF ili Word formatu za manje od 60 sekundi"
-      ctaTitle="Napravite otpremnicu za 60 sekundi"
+      ctaTitle={TOOL_CONFIG['otpremnica'].ctaTitle}
       heroFlightLabel="Otpremnica"
       features={[
         { icon: '🏢', title: 'Isporučilac i primalac', text: 'Puni podaci obe strane — naziv, PIB, adresa, tekući račun — jasno razdvojeni na dokumentu.' },

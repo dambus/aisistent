@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Kalkulator zarade Srbija 2026 — neto bruto | AIsistent',
@@ -18,8 +19,8 @@ export default function Page() {
       heroFlightLabel="Obračun"
       intro="Besplatno izračunajte neto zaradu iz bruto ili bruto zaradu iz neta. Ažurirani doprinosi i porez za 2026. godinu — za zaposlene, poslodavce i HR timove."
       ctaHref="/register"
-      ctaLabel="Otvorite kalkulator"
-      ctaTitle="Izračunajte odmah, besplatno"
+      ctaLabel={TOOL_CONFIG['kalkulator-zarade'].ctaLabel}
+      ctaTitle={TOOL_CONFIG['kalkulator-zarade'].ctaTitle}
       ctaNote="Besplatno za sve registrovane korisnike"
       features={[
         { icon: '🧮', title: 'Bruto → Neto', text: 'Iz bruto zarade izračunajte tačan neto iznos koji zaposleni prima na ruku.' },

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
   title: 'Opšti uslovi korišćenja — generator za srpske sajtove | AIsistent',
@@ -18,7 +19,7 @@ export default function Page() {
       h1="Opšti uslovi korišćenja — generator za srpske veb sajtove"
       intro="Generišite opšte uslove korišćenja i politiku privatnosti usklađene sa ZZPL-om i GDPR-om. Prilagođeno vašem tipu biznisa — e-commerce, SaaS, uslužna delatnost."
       ctaHref="/register"
-      ctaLabel="Generišite uslove besplatno"
+      ctaLabel={TOOL_CONFIG['opsti-uslovi'].ctaLabel}
       ctaNote="Oba dokumenta zajedno — za manje od 2 minuta"
       features={[
         { icon: '🏢', title: 'Podaci o pružaocu', text: 'Ko ste vi, šta nudite, kontakt podaci — sve što zakon zahteva.' },

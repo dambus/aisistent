@@ -1,13 +1,23 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — UI bagovi (notifikacije/navbar/CTA) task 3/6 gotovo, nastavak na task 4 (centralizacija CTA teksta)
+description: Poruka za sledeću sesiju — UI bagovi (notifikacije/navbar/CTA) SVIH 6 taskova gotovo, centralni TOOL_CONFIG uveden
 metadata:
   type: project
 ---
 
-## Gde smo stali (9. jul 2026., popodne — UI bagovi: notifikacije/navbar/CTA, task 3/6 gotovo, nastavlja se na drugoj mašini)
+## Gde smo stali (10. jul 2026. — UI bagovi: notifikacije/navbar/CTA, svih 6 taskova gotovo)
 
-Milan prijavio 3 baga sa dev/produkcije (zvono notifikacija se seče, navbarovi nekonzistentni po stranicama, kartice nemaju/imaju pogrešan CTA tekst). Napravljena lista od 6 taskova (TaskCreate/TaskUpdate u sesiji), radi se redom. **Gotovo 1-3, task 4-6 ostaju za sledeću sesiju.**
+Milan prijavio 3 baga sa dev/produkcije (zvono notifikacija se seče, navbarovi nekonzistentni po stranicama, kartice nemaju/imaju pogrešan CTA tekst). Napravljena lista od 6 taskova, urađeni redom kroz dve sesije. **Svih 6 gotovo, spremno za push.**
+
+**Task 4-6 (ova sesija, 10. jul):**
+
+4. **Centralni `lib/config/tools.ts`** — novi `TOOL_CONFIG: Record<slug, {label, desc, icon, landingHref?, dashboardHref, ctaLabel, ctaTitle?}>` za svih 25 tipova/alata + `HOMEPAGE_CATEGORIES`/`DASHBOARD_CATEGORIES`/`CALCULATOR_SLUGS` grupisanja. Zamenio ranije 3 nezavisno duplirana izvora (`app/page.tsx` toolCategories/toolLandingPages, dashboard `TOOL_CATEGORIES`, `Sidebar.tsx` navCategories/alatiCategory) koji su se međusobno razminuli (npr. NDA opis se razlikovao homepage vs dashboard). `lib/utils/documentTypes.ts` `TYPE_LABELS` sad izveden iz istog config-a. Svih 17 `app/<slug>/page.tsx` tool-landing ruta ažurirano da čitaju `ctaLabel`/`ctaTitle` iz `TOOL_CONFIG['<slug>']` umesto hardkodovanog stringa — ubuduće se CTA menja na jednom mestu.
+5. **Per-tip CTA na homepage kartice** — `app/page.tsx` "Alati" grid sad prikazuje ikonicu + specifičan CTA po tipu ("Generišite ugovor besplatno", "Izdajte fakturu besplatno"...) umesto generičkog "Napravite dokument →" za sve.
+6. **CTA tekst na dashboard shortcut kartice** — `app/(dashboard)/dashboard/page.tsx` "Preporučeno za vas" + kategorije kartice dobile red sa `tool.ctaLabel` ispod opisa (zeleno na hover), ranije samo ikonica+naslov+opis bez akcionog teksta.
+
+Testirano: `npx tsc --noEmit` čisto posle svake izmene. Homepage grid i `/otpremnica` landing vizuelno potvrđeni u browseru (Chrome MCP) — ikonice i per-tip CTA renderuju ispravno. Dashboard kartice NISU vizuelno potvrđene u browseru (zahteva login, nema test kredencijala na ovoj mašini) — potvrđeno samo statičkom analizom (ista JSX šema kao već-potvrđeni homepage grid, tsc čist).
+
+## Prethodna sesija (9. jul 2026., popodne — task 1-3)
 
 **Završeno ovu sesiju (committed):**
 
