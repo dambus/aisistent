@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="ugovor-o-delu"
       h1="Ugovor o delu — generator za freelancere i firme"
       intro="Generišite ugovor o delu po Zakonu o obligacionim odnosima za konkretan zadatak ili projekat. Ispravne poreske klauzule, rokovi i isporuka — PDF za 60 sekundi."
+      slug="ugovor-o-delu"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['ugovor-o-delu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"

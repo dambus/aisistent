@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="ugovor-o-zakupu"
       h1="Ugovor o zakupu — generator za stanodavce i zakupce"
       intro="Generišite ugovor o zakupu stana ili poslovnog prostora prilagođen srpskom pravu. Visina zakupnine, depozit, otkazni rok, stanje prostora — sve na jednom mestu."
+      slug="ugovor-o-zakupu"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['ugovor-o-zakupu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"

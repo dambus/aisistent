@@ -18,6 +18,7 @@ export default function Page() {
       h1="Obaveštenje o promeni uslova rada — generator za poslodavce"
       heroFlightLabel="Obaveštenje"
       intro="Generišite formalno obaveštenje zaposlenom o promeni uslova rada u skladu sa čl. 172-174 Zakona o radu RS. Radno vreme, zarada, mesto rada ili naziv radnog mesta — jasno staro i novo stanje."
+      slug="obavestenje-o-promeni-uslova"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['obavestenje-o-promeni-uslova'].ctaLabel}
       ctaNote="Zakonski usklađeno obaveštenje u PDF formatu za manje od 60 sekundi"

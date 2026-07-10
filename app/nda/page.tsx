@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="nda"
       h1="NDA sporazum — generator ugovora o poverljivosti za Srbiju"
       intro="Zaštitite poslovne tajne i ideje pre pregovora, saradnje ili angažovanja. Jednostrani ili obostrani NDA prilagođen srpskom pravu — PDF za 60 sekundi."
+      slug="nda"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['nda'].ctaLabel}
       ctaNote="Sporazum u PDF ili Word formatu za manje od 60 sekundi"

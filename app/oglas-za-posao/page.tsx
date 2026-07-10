@@ -18,6 +18,7 @@ export default function Page() {
       h1="Oglas za posao — generator za HR menadžere i preduzetnike"
       heroFlightLabel="Oglas"
       intro="Generišite profesionalan oglas za posao prilagođen srpskom tržištu rada. Format za Infostud, LinkedIn i vaš sajt — AI piše oglas koji privlači prave kandidate."
+      slug="oglas-za-posao"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['oglas-za-posao'].ctaLabel}
       ctaNote="Profesionalan oglas za manje od 60 sekundi"

@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="ugovor-o-radu"
       h1="Ugovor o radu — generator za poslodavce u Srbiji"
       intro="Generišite ugovor o radu u skladu sa Zakonom o radu Republike Srbije. Svi obavezni elementi, ispravne klauzule, srpska terminologija — PDF ili Word za 60 sekundi."
+      slug="ugovor-o-radu"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['ugovor-o-radu'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"

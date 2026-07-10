@@ -18,6 +18,7 @@ export default function Page() {
       h1="Poslovni mejl — AI generator za B2B komunikaciju"
       heroFlightLabel="Mejl"
       intro="Generišite profesionalan poslovni mejl za 30 sekundi. Ponude, opomene, zahvalnice, odbijanja — AI prilagođava ton i sadržaj vašoj situaciji."
+      slug="poslovni-mejl"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['poslovni-mejl'].ctaLabel}
       ctaNote="Gotov tekst za manje od 30 sekundi"

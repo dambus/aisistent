@@ -18,6 +18,7 @@ export default function Page() {
       h1="Kalkulator paušalnog poreza — Srbija 2026"
       heroFlightLabel="Obračun"
       intro="Brza procena paušalnog poreza i doprinosa za preduzetnike u Srbiji. Razumejte šta plaćate pre nego što se registrujete kao paušalni obveznik."
+      slug="kalkulator-pausala"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['kalkulator-pausala'].ctaLabel}
       ctaTitle={TOOL_CONFIG['kalkulator-pausala'].ctaTitle}

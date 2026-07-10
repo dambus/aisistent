@@ -18,6 +18,7 @@ export default function Page() {
       h1="Putni nalog — generator za službena putovanja"
       heroFlightLabel="Putni nalog"
       intro="Napravite putni nalog sa svim podacima o putovanju, vozaču, vozilu i troškovima na teret firme. Dokument spreman za odobrenje i potpis za 60 sekundi."
+      slug="putni-nalog"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['putni-nalog'].ctaLabel}
       ctaNote="Kompletan putni nalog u PDF ili Word formatu za manje od 60 sekundi"

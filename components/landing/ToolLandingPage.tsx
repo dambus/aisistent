@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { TOOL_CONFIG } from '@/lib/config/tools'
 import { HeroPreview } from './HeroPreview'
 import { HeroDocFlight } from './HeroDocFlight'
 import { RevealSection } from './RevealSection'
@@ -11,6 +12,7 @@ export interface FAQ {
 }
 
 export interface ToolLandingPageProps {
+  slug: string
   h1: string
   intro: string
   features: { icon: string; title: string; text: string }[]
@@ -177,6 +179,7 @@ function LandingFooter() {
 }
 
 export async function ToolLandingPage({
+  slug,
   h1,
   intro,
   features,
@@ -196,6 +199,9 @@ export async function ToolLandingPage({
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const isLoggedIn = !!user
+  // Registrovani korisnik ide direktno na alat u dashboard-u — ctaHref="/register" bi ga
+  // vratio na login/register ekran koji odmah redirektuje nazad na dashboard (petlja).
+  const finalCtaHref = isLoggedIn ? TOOL_CONFIG[slug]?.dashboardHref ?? ctaHref : ctaHref
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -261,7 +267,7 @@ export async function ToolLandingPage({
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
-                  href={ctaHref}
+                  href={finalCtaHref}
                   className="tool-primary-btn inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-bold"
                   style={{ backgroundColor: 'white', color: DARK }}
                 >
@@ -375,7 +381,7 @@ export async function ToolLandingPage({
               Bez registracije kreditne kartice.
             </p>
             <Link
-              href={ctaHref}
+              href={finalCtaHref}
               className="tool-primary-btn mt-8 inline-flex rounded-xl px-10 py-4 text-base font-bold"
               style={{ backgroundColor: 'white', color: DARK }}
             >

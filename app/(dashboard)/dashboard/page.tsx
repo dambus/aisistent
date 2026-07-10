@@ -125,14 +125,14 @@ export default async function DashboardPage() {
               <Link
                 key={tool.type}
                 href={tool.href}
-                className="flex items-start gap-3 rounded-xl border-2 p-4 transition-all hover:shadow-md"
+                className="flex h-full items-stretch gap-3 rounded-xl border-2 p-4 transition-all duration-150 hover:shadow-md"
                 style={{ borderColor: '#1B6B4A20', backgroundColor: '#F0F7F4' }}
               >
-                <span className="text-2xl">{tool.icon}</span>
-                <div className="min-w-0">
+                <span className="mt-0.5 shrink-0 text-2xl">{tool.icon}</span>
+                <div className="flex min-w-0 flex-1 flex-col">
                   <div className="text-sm font-semibold text-gray-900">{tool.title}</div>
                   <div className="mt-0.5 text-xs text-gray-500">{tool.desc}</div>
-                  <div className="mt-1.5 text-xs font-semibold text-[#1B6B4A]">{tool.ctaLabel} →</div>
+                  <div className="mt-auto pt-1.5 text-xs font-semibold text-[#1B6B4A]">{tool.ctaLabel} →</div>
                 </div>
               </Link>
             ))}
@@ -151,15 +151,15 @@ export default async function DashboardPage() {
                 <Link
                   key={tool.type}
                   href={tool.href}
-                  className="group flex items-start gap-3 rounded-xl border border-gray-200 bg-white px-4 py-4 transition-all duration-150 hover:border-l-2 hover:border-l-[#1B6B4A] hover:shadow-sm"
+                  className="group flex h-full items-stretch gap-3 rounded-xl border border-l-2 border-gray-200 border-l-transparent bg-white px-4 py-4 transition-all duration-150 hover:border-l-[#1B6B4A] hover:shadow-sm"
                 >
                   <span className="mt-0.5 shrink-0 text-2xl">{tool.icon}</span>
-                  <div>
+                  <div className="flex flex-1 flex-col">
                     <p className="text-sm font-semibold text-gray-900 transition-colors group-hover:text-[#1B6B4A]">
                       {tool.title}
                     </p>
                     <p className="mt-0.5 text-xs text-gray-500">{tool.desc}</p>
-                    <p className="mt-1.5 text-xs font-semibold text-gray-400 transition-colors group-hover:text-[#1B6B4A]">
+                    <p className="mt-auto pt-1.5 text-xs font-semibold text-gray-400 transition-colors group-hover:text-[#1B6B4A]">
                       {tool.ctaLabel} →
                     </p>
                   </div>

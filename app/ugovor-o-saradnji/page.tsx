@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="ugovor-o-saradnji"
       h1="Ugovor o saradnji — generator za poslovne partnere"
       intro="Generišite kompletan ugovor o poslovnoj saradnji ili ugovor o zajmu prilagođen srpskom pravu. Wizard vas vodi kroz sve bitne klauzule — od podele prihoda do raskida."
+      slug="ugovor-o-saradnji"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['ugovor-o-saradnji'].ctaLabel}
       ctaNote="Dokument u PDF ili Word formatu za manje od 60 sekundi"

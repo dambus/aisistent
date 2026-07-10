@@ -18,6 +18,7 @@ export default function Page() {
       h1="Kalkulator ugovora o delu — porez i doprinosi 2026"
       heroFlightLabel="Obračun"
       intro="Izračunajte koliko ćete stvarno primiti po ugovoru o delu — uz normiran trošak, porez na dohodak i doprinose za PIO i zdravstvo. Ažurirano za 2026."
+      slug="kalkulator-ugovora-o-delu"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['kalkulator-ugovora-o-delu'].ctaLabel}
       ctaTitle={TOOL_CONFIG['kalkulator-ugovora-o-delu'].ctaTitle}

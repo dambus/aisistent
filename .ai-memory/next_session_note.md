@@ -1,11 +1,23 @@
 ---
 name: next-session-note
-description: Poruka za sledeću sesiju — UI bagovi (notifikacije/navbar/CTA) SVIH 6 taskova gotovo, centralni TOOL_CONFIG uveden
+description: Poruka za sledeću sesiju — UI bagovi (notifikacije/navbar/CTA) SVIH 6 taskova gotovo + 2 dodatna baga nađena i fiksirana (CTA redirect petlja, obrasci navbar)
 metadata:
   type: project
 ---
 
-## Gde smo stali (10. jul 2026. — UI bagovi: notifikacije/navbar/CTA, svih 6 taskova gotovo)
+## Gde smo stali (10. jul 2026., nastavak — 2 dodatna baga nađena posle TOOL_CONFIG commit-a, oba fiksirana)
+
+Posle commit-a `5f3b2dd` (TOOL_CONFIG centralizacija, task 4-6 dole) Milan je uživo naišao na 2 bug-a van originalne liste od 6:
+
+1. **Dashboard kartice — hover layout shift + CTA neporavnat.** I kategorija-kartice i "Preporučeno za vas" kartice (`app/(dashboard)/dashboard/page.tsx`) su na hover pomerale sadržaj (border-width promena) i imale CTA na različitoj visini zavisno od dužine opisa. Fix: `flex h-full items-stretch` na kartici + `flex-1 flex-col` na unutrašnjem wrapperu + `mt-auto pt-1.5` na CTA (pinuje na dno). Kategorija-kartice: border stalno `border-l-2`, boja se menja samo na hover (bez promene širine). Preporučene kartice: border `border-2` fiksne boje (nije se ni menjao), samo stretch/CTA fix bio potreban.
+
+2. **CTA redirect petlja — svih 17 tool-landing stranica.** Milan: klik na CTA (npr. kalkulator na dashboard-u) vodi na tool landing stranicu, klik na CTA TAMO vraća nazad na dashboard umesto na sam alat. Uzrok: svih 17 `app/<slug>/page.tsx` hardkodovalo `ctaHref="/register"` bez obzira na login status — `ToolLandingPage` je računao `isLoggedIn` ali ga NIKAD nije koristio za CTA link, samo za `SiteHeader`. Ulogovan korisnik je klikom na CTA završavao na `/register`, koja ga odmah redirektuje nazad na `/dashboard` — petlja. Fix: `ToolLandingPageProps` dobio obavezan `slug` prop; komponenta računa `finalCtaHref = isLoggedIn ? TOOL_CONFIG[slug].dashboardHref : ctaHref` i koristi ga na oba CTA dugmeta (hero + bottom). Svih 17 stranica dobilo `slug="<tip>"` (isti string koji su već koristile za `TOOL_CONFIG['<tip>'].ctaLabel`).
+
+3. **`/obrasci` i `/obrasci/[slug]` navbar — propušteno u task 3 konsolidaciji.** SiteHeader konsolidacija (9. jul) je pokrila landing/blog/tool-page header-e, ali ne i biblioteku obrazaca — oba fajla su i dalje imala inline `<header>` sa 3 linka (Alati/Blog/Cenovnik ili Alati/Obrasci/Blog), bez login-svesnog CTA. Fix: zamenjen `SiteHeader` (5 linkova + login-svestan CTA + MobileMenu), dodat `createClient().auth.getUser()` po istom obrascu kao `app/blog/page.tsx`.
+
+Testirano: `npx tsc --noEmit` i `eslint` čisto posle svake izmene. Detalji: `PROGRESS.md` (10. jul 2026.).
+
+## Prethodna istorija iste sesije (10. jul, pre podne — task 4-6, TOOL_CONFIG commit)
 
 Milan prijavio 3 baga sa dev/produkcije (zvono notifikacija se seče, navbarovi nekonzistentni po stranicama, kartice nemaju/imaju pogrešan CTA tekst). Napravljena lista od 6 taskova, urađeni redom kroz dve sesije. **Svih 6 gotovo, spremno za push.**
 

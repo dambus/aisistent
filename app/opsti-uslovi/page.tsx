@@ -18,6 +18,7 @@ export default function Page() {
       previewSlug="opsti-uslovi"
       h1="Opšti uslovi korišćenja — generator za srpske veb sajtove"
       intro="Generišite opšte uslove korišćenja i politiku privatnosti usklađene sa ZZPL-om i GDPR-om. Prilagođeno vašem tipu biznisa — e-commerce, SaaS, uslužna delatnost."
+      slug="opsti-uslovi"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['opsti-uslovi'].ctaLabel}
       ctaNote="Oba dokumenta zajedno — za manje od 2 minuta"

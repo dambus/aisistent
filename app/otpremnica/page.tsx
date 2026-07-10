@@ -17,6 +17,7 @@ export default function Page() {
     <ToolLandingPage
       h1="Otpremnica — generator dokumenta za isporuku robe"
       intro="Napravite otpremnicu sa svim potrebnim podacima — izdavalac, primalac, stavke i količine. Dokument spreman za štampu i potpis za 60 sekundi."
+      slug="otpremnica"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['otpremnica'].ctaLabel}
       ctaNote="Kompletna otpremnica u PDF ili Word formatu za manje od 60 sekundi"

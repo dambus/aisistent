@@ -18,6 +18,7 @@ export default function Page() {
       h1="Ponuda klijentu — generator za preduzetnike i agencije"
       heroFlightLabel="Ponuda"
       intro="Generišite strukturiranu poslovnu ponudu sa svim elementima koje B2B klijent očekuje. Cena, rok isporuke, uslovi plaćanja, validnost — sve na jednom mestu."
+      slug="ponuda-klijentu"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['ponuda-klijentu'].ctaLabel}
       ctaNote="Kompletna ponuda u PDF formatu za manje od 60 sekundi"

@@ -29,6 +29,18 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 10. jul 2026. — Dashboard kartice, CTA redirect petlja, obrasci navbar (task 4-6 od 6, dovršeno)
+
+Nastavak sesije od 9. jula (task 1-3). Tri nezavisna fixa:
+
+**1. Dashboard kartice — hover layout shift i CTA poravnanje.** I kategorija-kartice i "Preporučeno za vas" kartice (`app/(dashboard)/dashboard/page.tsx`) su na hover pomerale sadržaj (border-width promena) i imale CTA na različitoj visini u zavisnosti od dužine opisa. Fix: `flex h-full items-stretch` na kartici + `flex-1 flex-col` na unutrašnjem wrapperu + `mt-auto pt-1.5` na CTA (pinuje na dno bez obzira na visinu). Za kategorija-kartice border je stalno `border-l-2` sa transparentnom bojom koja se menja samo na hover (bez promene širine); za preporučene kartice border je `border-2` fiksne boje (nije se ni menjao), samo je CTA/stretch fix bio potreban.
+
+**2. CTA redirect petlja — svih 17 tool-landing stranica.** Milan prijavio: klik na CTA (npr. kalkulator na dashboard-u) vodi na tool landing stranicu, klik na CTA tamo vraća nazad na dashboard umesto na sam alat. Uzrok: svih 17 `app/<slug>/page.tsx` je hardkodovalo `ctaHref="/register"` bez obzira na login status — `ToolLandingPage` je računao `isLoggedIn` ali ga nikad nije koristio za CTA link, samo za `SiteHeader`. Ulogovan korisnik je klikom na CTA završavao na `/register`, koja ga odmah redirektuje nazad na `/dashboard` — petlja. Fix: `ToolLandingPageProps` dobio obavezan `slug` prop; komponenta računa `finalCtaHref = isLoggedIn ? TOOL_CONFIG[slug].dashboardHref : ctaHref` i koristi ga na oba CTA dugmeta (hero + bottom). Svih 17 stranica dobilo `slug="<tip>"` prop (isti string koji su već koristile za `TOOL_CONFIG['<tip>'].ctaLabel`).
+
+**3. `/obrasci` i `/obrasci/[slug]` navbar — propušteno u konsolidaciji od 9. jula.** SiteHeader konsolidacija (9. jul, task 3) je pokrila landing/blog/tool-page header-e, ali ne i biblioteku obrazaca — oba fajla su i dalje imala svoj inline `<header>` sa NAV nizom od samo 3 linka (Alati/Blog/Cenovnik ili Alati/Obrasci/Blog), bez login-svesnog CTA. Fix: zamenjen `SiteHeader` (5 linkova + login-svesan CTA + MobileMenu), dodat `createClient().auth.getUser()` po istom obrascu kao `app/blog/page.tsx`.
+
+**Testirano:** `npx tsc --noEmit` i `eslint` čisto posle svake izmene.
+
 #### 9. jul 2026. (treći dodatak) — UI bagovi: notifikacije, navbar, CTA (task 1-3 od 6)
 
 Milan prijavio 3 baga sa dev/produkcije. Napravljena lista od 6 taskova, urađena prva 3 — nastavak (task 4-6) na drugoj mašini.

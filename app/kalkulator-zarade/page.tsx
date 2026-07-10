@@ -18,6 +18,7 @@ export default function Page() {
       h1="Kalkulator zarade Srbija 2026 — neto i bruto obračun"
       heroFlightLabel="Obračun"
       intro="Besplatno izračunajte neto zaradu iz bruto ili bruto zaradu iz neta. Ažurirani doprinosi i porez za 2026. godinu — za zaposlene, poslodavce i HR timove."
+      slug="kalkulator-zarade"
       ctaHref="/register"
       ctaLabel={TOOL_CONFIG['kalkulator-zarade'].ctaLabel}
       ctaTitle={TOOL_CONFIG['kalkulator-zarade'].ctaTitle}
