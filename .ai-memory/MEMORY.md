@@ -16,3 +16,4 @@
 - [Trello/bash encoding gotcha](feedback_trello_encoding.md) — ne koristiti bash read/curl za srpski tekst, koristiti Node.js
 - [Instalirani skillovi/pluginovi](reference_installed_skills.md) — veliki set (caveman, superpowers, engineering-*, product/pm/marketing-skills, claude-seo, design/imagegen, dataviz...), kad posegnuti za kojim
 - [Plugin export za novu mašinu](reference_plugin_export.md) — `docs/claude-plugins-export.json` u repou, kako preneti Claude Code setup
+- [Vercel + playwright deploy gotcha](feedback_vercel_playwright_deploy.md) — tih build fail bez greške = playwright Chromium download hang, fix je env var PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 na Vercelu
