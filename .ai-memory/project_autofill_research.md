@@ -19,34 +19,12 @@ Tri pod-featura (po prioritetu):
 
 ---
 
-## 2. Upload & Fill — automatsko popunjavanje tuđih obrazaca
+## 2. Upload & Fill — UKINUTO (10. jul 2026.)
 
-Korisnik uploaduje RFQ, tender ili interni obrazac partnera (SAP/DMS), aplikacija prepozna polja i auto-popuni iz profila firme.
+Ideja bila: korisnik uploaduje tuđi obrazac (RFQ, tender, partner-obrazac SAP/DMS), aplikacija prepozna polja i auto-popuni iz profila firme. Već 4. jula pivotirano dalje od korisnika (previše grešaka čitanja na produkciji, feature frustrirao umesto da pomaže) u interni kuratorski alat za biblioteku obrazaca.
 
-| Tip | Pouzdanost | Pristup |
-|-----|-----------|---------|
-| AcroForm PDF | 95%+ | `pdf-lib` čita named fields direktno |
-| DOCX sa placeholderima | 90%+ | `mammoth.js` + Claude pattern matching |
-| Flat PDF | 70-80% | Claude Vision — ne ulaziti za MVP |
+**Odluka (Milan, 10. jul): potpuno ukinuto — previše komplikovano i nepouzdano da bi vredelo dalje ulagati.** Obrisan sav mrtav UI/API kod: `components/obrasci/{ObraściClient,GuideView,SectionWizardView,PreviewView}.tsx`, `app/api/obrasci/{di-analyze,generate-filled,template-feedback}/route.ts`, `lib/documentIntelligence/{templateCache,computeFingerprint,pdfOverlay}.ts`, prateći test skriptovi (`test-full-pipeline.ts`, `test-template-cache.ts`, `test-fingerprint.ts`). Verifikovano `tsc`/`eslint` čisto posle brisanja (proverено da ništa drugo ne referencira obrisano pre brisanja — greppovano po repou).
 
-**Cena:** ~$0.02 po analizi. Vreme: 3-7s. Nisu faktori.
+**Zadržano** (deljena infrastruktura, i dalje aktivno koristi `scripts/curate-form.ts` za rast biblioteke obrazaca): `analyzeLayout.ts`, `extractAcroFormFields.ts`, `matchFieldLabels.ts`, `extractFlatPdfFields.ts`, `semanticMapper.ts`, `composeGuideFields.ts`, `detectSections.ts`, `transliterate.ts`, `signatureLabels.ts`, `fillLibraryForm.ts`, `pdfCoordinates.ts`, `types/obrasci.ts` (GuideField/FormSection tipovi, i dalje koristi composeGuideFields). `form_templates`/`template_feedback` Supabase tabele ostaju u bazi (nisu drop-ovane, van scope-a čišćenja).
 
-**Preduslov za vrednost:** Feature ima smisla tek kada postoje sačuvani kontakti + katalog — tada auto-fill pokriva 40-50% obrasca umesto 3-5 polja.
-
-**MVP scope:** AcroForm PDF + DOCX, Pro/Agency plan. Ne ulaziti u flat PDF overlay ni web forme državnih portala (ePorezi, APR).
-
-**Status (jul 2026.):** Faza 1 Korak 1–7 kompletni. Stranica aktivna u produkciji.
-
-**Implementiran pristup — Azure DI + geometrijsko matching + Claude semantički mapper:**
-- `analyzeLayout.ts` — Azure DI `prebuilt-layout`; vraća `lines`, `paragraphs`, `words`, `tables`, `selectionMarks`
-- `extractAcroFormFields.ts` — AcroForm polja sa pouzdanim brojevima strana via `widget.P()`
-- `matchFieldLabels.ts` — same-line matching via `lines` (ne paragraphs); confidence = relativna margina + DI word conf + solo dist
-- `extractFlatPdfFields.ts` — flat PDF: prazne table-ćelije (high), selection marks (high/low), podvlake (low)
-- `semanticMapper.ts` — Claude mapira (labela, polje) parove na 13 profil ključeva; null-label → automatski null bez API poziva
-- `GuideView.tsx` — 3 eksplicitna stanja: high (zeleno), low (narandžasto), manual (sivo)
-- `/api/obrasci/di-analyze` — orchestration endpoint, `maxDuration: 60`
-- PPDG-1S: 7 polja mapirana iz profila, 191 manual (računovodstvene pozicije nisu u profilu firme)
-
-**Sledeće (Korak 8):** Validacija na 5+ obrazaca; Tb1-Tb4 bug (numbered list desno od checkboxova).
-
-**Why:** Diferenciator za preduzetnika koji redovno odgovara na tendere velikih kupaca ili HR koji popunjava iste anekse za zaposlene u DOCX formatu klijenta.
+**Why:** Mrtav kod koji liči na aktivan feature zbunjuje buduće sesije (upravo se to i desilo — memorija je i dalje govorila o njemu kao "u toku"). Biblioteka obrazaca (Faza 4, `/obrasci`, 234 obrasca) je feature koji je preživeo pivot i vredi ga dalje razvijati; Upload & Fill nije.

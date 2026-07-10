@@ -148,37 +148,17 @@ Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
 - Plan limite treba definisati: Starter (1-3 kontakta?), Pro (10+), Agency (∞)
 - APR PIB lookup (kada se odblokira) — koristiti i za brzo punjenje contact kartice
 
-#### Upload & Fill — automatsko popunjavanje tuđih obrazaca
+#### Upload & Fill — automatsko popunjavanje tuđih obrazaca (UKINUTO, 10. jul 2026.)
 
-**Ideja:** Korisnik uploaduje obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument.
+**Ideja bila:** Korisnik uploaduje tuđi obrazac (PDF ili DOCX), aplikacija prepozna polja, auto-popuni iz profila firme, korisnik dopuni ostatak, skida popunjen dokument. Već 4. jula pivotirano dalje od korisnika (previše grešaka čitanja na produkciji, feature frustrirao umesto da pomaže) — sklonjeno iz navigacije, pipeline ostao samo kao interni kuratorski alat.
 
-**Status (8. jul 2026.): Faza 4 biblioteka obrazaca NA PRODUKCIJI, 234 obrasca.** Javna `/obrasci` biblioteka: APR (privredna društva + preduzetnici — izvodi, prijave promena, rezervacija naziva, ispravke, potvrde, prepisi rešenja, svi Dodaci, JRPPS osnivačke forme, uvid u spise), CROSO (ovlašćenja PL/FL, uverenja, zahtev za izvršitelje), PIO (kompletan M-obrazac set — M-4, M-8, M-10, PSKP...), Poreska uprava (142 obrasca — poreski bilansi, PPP-PD, PPDG-1S/1R, amortizacija, akcize, fiskalizacija...). Download popunjeno (Starter+) / prazno (javno). **Dve vrste obrazaca:** AcroForm sa mapiranim poljima = editabilan PDF bez flatten, autofill iz profila; flat ili bez mapiranih polja = čist referentni download, frontend prikazuje napomenu da autofill nije dostupan (`LibraryFormMeta.hasAutofill`). Kuratorski CLI + harvester — svi poznati izvori iscrpljeni (APR privredna društva/preduzetnici/udruženja, CROSO, PIO, Poreska pravna lica/preduzetnici). Novi alat `catalog-flat-forms.ts` (institucija-agnostičan, `CATEGORY_BY_SOURCE`/`INSTITUTION_BY_SOURCE`) za institucije čiji je ceo/deo kataloga flat — katalogizuje direktno bez DI pipeline-a. Harvester ima `renderJs` opciju za JS-rendered sajtove (Playwright). Upload & Fill uklonjen iz UI, pipeline = kuratorski alat. "Obrazac je zastareo?" feedback dugme live. Homepage promo baner + nav link + dashboard sidebar bedž. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
+**Odluka (10. jul 2026., Milan): potpuno ukinuto, previše komplikovano i nepouzdano da bi vredelo dalje ulagati.** Obrisan sav mrtav UI/API kod specifičan za ovaj feature: `components/obrasci/{ObraściClient,GuideView,SectionWizardView,PreviewView}.tsx`, `app/api/obrasci/{di-analyze,generate-filled,template-feedback}/route.ts`, `lib/documentIntelligence/{templateCache,computeFingerprint,pdfOverlay}.ts`, prateći test skriptovi. **Zadržano** (i dalje aktivno koristi `scripts/curate-form.ts` za rast biblioteke obrazaca): `analyzeLayout.ts`, `extractAcroFormFields.ts`, `matchFieldLabels.ts`, `extractFlatPdfFields.ts`, `semanticMapper.ts`, `composeGuideFields.ts`, `detectSections.ts`, `transliterate.ts`, `signatureLabels.ts`, `fillLibraryForm.ts`, `pdfCoordinates.ts`, `types/obrasci.ts` — ovo je deljena infrastruktura kuratorskog alata, ne Upload & Fill UI. `supabase` tabele `form_templates`/`template_feedback` ostaju u bazi (nisu drop-ovane, van scope-a ovog čišćenja).
+
+**Biblioteka obrazaca (Faza 4) i dalje NA PRODUKCIJI, 234 obrasca — ovo JE preživeli deo, nastaviti razvijati.** Javna `/obrasci` biblioteka: APR (privredna društva + preduzetnici — izvodi, prijave promena, rezervacija naziva, ispravke, potvrde, prepisi rešenja, svi Dodaci, JRPPS osnivačke forme, uvid u spise), CROSO (ovlašćenja PL/FL, uverenja, zahtev za izvršitelje), PIO (kompletan M-obrazac set — M-4, M-8, M-10, PSKP...), Poreska uprava (142 obrasca — poreski bilansi, PPP-PD, PPDG-1S/1R, amortizacija, akcize, fiskalizacija...). Download popunjeno (Starter+) / prazno (javno). **Dve vrste obrazaca:** AcroForm sa mapiranim poljima = editabilan PDF bez flatten, autofill iz profila; flat ili bez mapiranih polja = čist referentni download, frontend prikazuje napomenu da autofill nije dostupan (`LibraryFormMeta.hasAutofill`). Kuratorski CLI + harvester — svi poznati izvori iscrpljeni (APR privredna društva/preduzetnici/udruženja, CROSO, PIO, Poreska pravna lica/preduzetnici). Novi alat `catalog-flat-forms.ts` (institucija-agnostičan, `CATEGORY_BY_SOURCE`/`INSTITUTION_BY_SOURCE`) za institucije čiji je ceo/deo kataloga flat — katalogizuje direktno bez DI pipeline-a. Harvester ima `renderJs` opciju za JS-rendered sajtove (Playwright). "Obrazac je zastareo?" feedback dugme live. Homepage promo baner + nav link + dashboard sidebar bedž. Spec: `docs/obrasci/FAZA4_BIBLIOTEKA_OBRAZACA.md`.
 
 **Sledeće za biblioteku:** novi izvori (Poreska fizička lica — niži prioritet, ZSO), n8n cron za harvester, flat→AcroForm konverzija (za obrasce gde bi autofill imao vrednost, npr. PPP-PD/PPDG-1S/M-4 — odvojeno od "referentni download" rešenja koje već pokriva sve poznate flat obrasce).
 
-Istorija Faza 1–4: `PROGRESS.md`; specifikacije: `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`, `FAZA4_*`.
-
-**Odabran tehnički put:** Azure Document Intelligence (`prebuilt-layout`) + geometrijsko matching (labela ↔ polje po koordinatama) + Claude semantičko mapiranje (labela → profil ključ). Baza poznatih obrazaca (ručno mapiranje po obrascu) i Vision AI (screenshot + Claude Vision) razmatrani i odbačeni u ranoj fazi — DI daje strukturisan output bez potrebe za render-to-image korakom.
-
-**Šta radi:**
-- AcroForm i flat PDF → Azure DI + geometrijsko matching + Claude semantičko mapiranje → GuideView (zeleno/narandžasto/sivo) ✅
-- DOCX sa placeholderima → stari Claude wizard (nezavisan flow, `WizardView.tsx`) ✅
-- Preview PDF u iframe pre downloada, telefon/email transliteracija fixevi ✅
-- Detekcija sekcija obrasca (naslov dela forme) + `SectionWizardView` — sekcijski wizard za ručno dopunjavanje svih polja na jednom mestu, sa "Popuni sve →" iz GuideView ✅
-- `form_templates` keš povezan u `di-analyze` — cache hit preskače DI+Claude (113ms vs 40s), vrednosti uvek sveže iz trenutnog profila; template feedback (👍/👎 u preview) ✅
-- Cross-row duplikat dedup — ista labela u različitim redovima se upisuje samo jednom (najširi box), fix za OPD-o duplikat-upis bug ✅
-
-**Čeka verifikaciju na produkciji** (Supabase tehnički problemi 3. jula): dupli upload istog obrasca → drugi brži, `hit_count` raste, feedback tok.
-
-**Poznati bagovi/gapovi (zabeleženo u backlog, niži prioritet):**
-- "Caption bez podvlake/tabele" layout (PIB/adresa ispod praznog prostora bez teksta) je pipeline-u nevidljiv — potvrđeno na 4 realna obrasca
-- 5B slobodne linije (underscore-tekst detekcija postoji, `fillFreeLines` overlay ne postoji još)
-- Adresa split (ulica+broj iz jednog profil polja)
-
-**Redosled implementacije:**
-1. Sačuvani kontakti (druga strana) ← ✅ urađeno
-2. Katalog usluga ← uraditi
-3. **Upload & Fill** — AcroForm PDF + DOCX, Pro/Agency plan ← ✅ u produkciji, Faza 3 u toku
+Istorija Faza 1–4: `PROGRESS.md`; specifikacije (istorijske, feature ukinut): `docs/obrasci/FAZA1_*`, `FAZA2_*`, `FAZA3_*`, `FAZA4_*` (FAZA4 i dalje relevantna — to je biblioteka).
 
 #### [ISTRAŽIVANJE] Kontekstualni asistent — chatbot za srpsko preduzetništvo
 
