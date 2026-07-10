@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import type { CatalogItem } from '@/types/database'
 
 interface Stavka {
   rb: number
@@ -14,10 +15,11 @@ interface Props {
   value: string
   pdvStopa: number
   valuta?: string
+  catalogItems?: CatalogItem[]
   onChange: (value: string) => void
 }
 
-export function FakturaStavkeField({ value, pdvStopa, valuta = 'RSD', onChange }: Props) {
+export function FakturaStavkeField({ value, pdvStopa, valuta = 'RSD', catalogItems = [], onChange }: Props) {
   const [stavke, setStavke] = useState<Stavka[]>(() => {
     try { return JSON.parse(value) } catch { return [{ rb: 1, naziv: '', kolicina: 1, jedinica: 'kom', cena_bez_pdv: 0 }] }
   })
@@ -34,6 +36,12 @@ export function FakturaStavkeField({ value, pdvStopa, valuta = 'RSD', onChange }
 
   function addStavka() {
     setStavke([...stavke, { rb: stavke.length + 1, naziv: '', kolicina: 1, jedinica: 'kom', cena_bez_pdv: 0 }])
+  }
+
+  function addFromCatalog(itemId: string) {
+    const item = catalogItems.find(i => i.id === itemId)
+    if (!item) return
+    setStavke([...stavke, { rb: stavke.length + 1, naziv: item.naziv, kolicina: 1, jedinica: item.jedinica, cena_bez_pdv: item.cena_bez_pdv }])
   }
 
   function removeStavka(index: number) {
@@ -169,13 +177,27 @@ export function FakturaStavkeField({ value, pdvStopa, valuta = 'RSD', onChange }
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={addStavka}
-        className="flex items-center gap-1.5 rounded-lg border border-dashed border-gray-300 px-4 py-2 text-sm text-gray-500 hover:border-[#1B6B4A] hover:text-[#1B6B4A]"
-      >
-        + Dodaj stavku
-      </button>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={addStavka}
+          className="flex items-center gap-1.5 rounded-lg border border-dashed border-gray-300 px-4 py-2 text-sm text-gray-500 hover:border-[#1B6B4A] hover:text-[#1B6B4A]"
+        >
+          + Dodaj stavku
+        </button>
+        {catalogItems.length > 0 && (
+          <select
+            value=""
+            onChange={e => { if (e.target.value) addFromCatalog(e.target.value) }}
+            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-600 outline-none focus:border-primary"
+          >
+            <option value="">+ Iz kataloga...</option>
+            {catalogItems.map(item => (
+              <option key={item.id} value={item.id}>{item.naziv}</option>
+            ))}
+          </select>
+        )}
+      </div>
 
       <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-1.5">
         <div className="flex justify-between text-sm text-gray-600">

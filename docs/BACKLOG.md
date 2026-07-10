@@ -124,12 +124,12 @@ Ekvivalent `companies` tabele ali za drugu stranu. Korisnik jednom sačuva kupca
 - UI: CompanySelectModal dobija drugi modal/tab "Odaberi primaoca"
 - Dokumenti gde se primenjuje: faktura (kupac), ugovor-o-delu (izvođač), nda (strana 2), ugovor-o-zakupu (zakupac), ugovor-o-saradnji (strana 2), ponuda-klijentu (primalac), ugovor-o-saradnji-zajmu (zajmoprimac)
 
-**2. Katalog usluga/artikala** — Pro+
+**2. Katalog usluga/artikala** — Pro+ ✅ (10. jul 2026., čeka primenu migracije na produkciju)
 Za fakture, ponude i otpremnice — najrepetitivnija stavka su iste usluge/artikli sa istim cenama.
-- Nova tabela `catalog_items` (naziv, opis, cena, PDV, jedinica mere)
-- Dropdown "Dodaj iz kataloga" umesto ručnog unosa stavke
-- Primenjuje se na: faktura, ponuda-klijentu, ponuda-za-radove, otpremnica
-- Bonus: automatski predlaže poslednje korišćene stavke za datog klijenta
+- Tabela `catalog_items` (naziv, opis, jedinica, cena_bez_pdv, pdv_stopa) — migracija `20260710000001_add_catalog_items.sql`, čeka `supabase db push` na produkciju
+- Dropdown "+ Iz kataloga..." u `FakturaStavkeField` — dodaje stavku, PDV stopa uvek iz dokumenta (kataloška `pdv_stopa` se ne prenosi, MVP odluka)
+- Primenjuje se na: faktura, ponuda-za-radove, otpremnica (sve tri dele isti `FakturaStavkeField`). `ponuda-klijentu` NEMA stavke uopšte (flat iznos + radio) — izostavljena iz scope-a
+- Bonus "poslednje korišćene stavke po klijentu" — ODLOŽENO, van scope-a ove runde
 
 **3. Sačuvani zaposleni** — Pro+
 Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.

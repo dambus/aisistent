@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { WizardPageClient } from './WizardPageClient'
-import type { Company, Contact } from '@/types/database'
+import type { Company, Contact, CatalogItem } from '@/types/database'
 
 const SUPPORTED_TYPES = new Set([
   'ugovor-o-radu',
@@ -44,12 +44,13 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
 
   let companies: Company[] = []
   let contacts: Contact[] = []
+  let catalogItems: CatalogItem[] = []
   let plan = 'free'
   let initialValues: Record<string, string | number | boolean> | undefined
   let rootDocumentId: string | undefined
 
   if (user) {
-    const [companiesRes, contactsRes, profileRes] = await Promise.all([
+    const [companiesRes, contactsRes, catalogRes, profileRes] = await Promise.all([
       supabase
         .from('companies')
         .select('*')
@@ -62,6 +63,11 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
         .eq('user_id', user.id)
         .order('created_at', { ascending: true }),
       supabase
+        .from('catalog_items')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true }),
+      supabase
         .from('profiles')
         .select('plan')
         .eq('id', user.id)
@@ -70,6 +76,7 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
 
     companies = (companiesRes.data ?? []) as Company[]
     contacts = (contactsRes.data ?? []) as Contact[]
+    catalogItems = (catalogRes.data ?? []) as CatalogItem[]
     plan = profileRes.data?.plan ?? 'free'
 
     if (from) {
@@ -93,6 +100,7 @@ export default async function WizardPage({ params, searchParams }: PageProps) {
       type={type}
       companies={companies}
       contacts={contacts}
+      catalogItems={catalogItems}
       plan={plan}
       initialValues={initialValues}
       rootDocumentId={rootDocumentId}

@@ -29,6 +29,21 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 10. jul 2026. (dodatak) — Katalog usluga/artikala (Pro+)
+
+Nastavak backlog roadmape Smart Autofill (posle sačuvanih kontakata). Implementirano po uzoru na `contacts`/`companies` pattern, uz istraživanje uživo pre pisanja koda (Explore agent + direktan Read celog lanca) — spec `docs/handover/02-KATALOG-USLUGA.md` (5. jul) je delimično zastareo: contacts migracija u repou ne odgovara stvarnoj šemi (kolone se razminuli, koristi se `route.ts`/`types/database.ts` kao izvor istine, ne `.sql`); `ponuda-klijentu` nema stavke uopšte (flat iznos, ne dinamička tabela) — isključena iz scope-a; sve tri relevantne forme (faktura/ponuda-za-radove/otpremnica) dele **isti** `FakturaStavkeField` komponent, nema posebnih po-wizardu stavke komponenti kako spec pretpostavlja.
+
+**Šta je urađeno:**
+- Migracija `supabase/migrations/20260710000001_add_catalog_items.sql` — `catalog_items` tabela (naziv, opis, jedinica, cena_bez_pdv, pdv_stopa), RLS po `companies`-stilu (split policies + service-role), ne po zastareloj `contacts` migraciji. **Čeka `supabase db push` na produkciju — nije primenjena.**
+- `types/database.ts` — `CatalogItem` interfejs + `Database['public']['Tables']['catalog_items']` blok.
+- `app/api/catalog/route.ts` (GET/POST) + `[id]/route.ts` (PUT/DELETE) — kopija `contacts` CRUD-a, plan gate Pro+ only (`free:0, starter:0, pro:50, agency:null`).
+- `components/dashboard/CatalogTab.tsx` — kopija `ContactsTab.tsx` (Sheet forma, AlertDialog brisanje, pretraga, upsell za free/starter), wired u `app/(dashboard)/profil/page.tsx`.
+- Wizard integracija: `catalogItems` prop provučen kroz `dokumenti/[type]/page.tsx` → `WizardPageClient.tsx` → `WizardForm.tsx` → `FakturaStavkeField.tsx`. Novi "+ Iz kataloga..." `<select>` pored "+ Dodaj stavku" — bira stavku, upisuje `naziv`/`jedinica`/`cena_bez_pdv` u novi red. PDV stopa MVP odluka: kataloška `pdv_stopa` se ignoriše, uvek se koristi stopa dokumenta.
+
+**Testirano:** `npx tsc --noEmit` čisto. `npx eslint` na svim izmenjenim/novim fajlovima — 2 greške, obe **pre-postojeće u kodnoj bazi** (ne uzrokovane ovom izmenom): `<a href="/#cenovnik">` umesto `<Link>` (identično u `ContactsTab.tsx`, potvrđeno da i on baca istu grešku — svesno ostavljeno konzistentno, ne popravljati samo jedan fajl), i `react-hooks/refs` na `WizardForm.tsx:100` (`draftRef.current` čitanje u `useState` inicijalizatoru — kod koji nisam dirao, samo dodao prop pored). Dev server (korisnikova postojeća sesija na :3000) — `GET /api/catalog` bez auth vraća 401 kako treba, ruta se kompajlira i učitava bez greške.
+
+**Nije urađeno — čeka korisnika:** primena migracije na produkcijsku Supabase bazu (`supabase db push` ili SQL Editor) — namerno nisam pokrenuo automatski jer menja produkcijsku šemu. Posle primene: testirati uživo sa Pro nalogom (kreiraj stavku u profilu → faktura wizard → "Iz kataloga" → PDF ispravan) i RLS proverom (drugi nalog ne vidi tuđe stavke).
+
 #### 10. jul 2026. — Dashboard kartice, CTA redirect petlja, obrasci navbar (task 4-6 od 6, dovršeno)
 
 Nastavak sesije od 9. jula (task 1-3). Tri nezavisna fixa:

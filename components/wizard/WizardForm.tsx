@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
-import type { Company, Contact } from '@/types/database'
+import type { Company, Contact, CatalogItem } from '@/types/database'
 import { UpgradeModal } from './UpgradeModal'
 import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
@@ -18,6 +18,7 @@ interface WizardFormProps {
   documentType: string
   companies?: Company[]
   contacts?: Contact[]
+  catalogItems?: CatalogItem[]
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
@@ -87,7 +88,7 @@ function clearDraft(documentType: string) {
   } catch {}
 }
 
-export function WizardForm({ steps, documentType, companies = [], contacts = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], contacts = [], catalogItems = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
   const preselectedCompany = preselectedClientId ? (companies.find(c => c.id === preselectedClientId) ?? null) : null
   const defaultCompany = preselectedCompany ?? companies.find(c => c.is_default) ?? companies[0] ?? null
@@ -359,6 +360,7 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
                   value={(values[field.id] as string) ?? '[]'}
                   pdvStopa={pdvStopa}
                   valuta={valuta}
+                  catalogItems={catalogItems}
                   onChange={val => setValue(field.id, val)}
                 />
                 {field.helperText && <HelperText text={field.helperText} />}

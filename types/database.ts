@@ -43,6 +43,17 @@ export interface Company {
   created_at: string
 }
 
+export interface CatalogItem {
+  id: string
+  user_id: string
+  naziv: string
+  opis: string | null
+  jedinica: string
+  cena_bez_pdv: number
+  pdv_stopa: number
+  created_at: string
+}
+
 // Convenience aliases — use these in application code
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Document = Database['public']['Tables']['documents']['Row']
@@ -249,6 +260,36 @@ export interface Database {
           telefon?: string | null
           ziro_racun?: string | null
           tip?: string
+        }
+        Relationships: []
+      }
+      catalog_items: {
+        Row: {
+          id: string
+          user_id: string
+          naziv: string
+          opis: string | null
+          jedinica: string
+          cena_bez_pdv: number
+          pdv_stopa: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          naziv: string
+          opis?: string | null
+          jedinica?: string
+          cena_bez_pdv?: number
+          pdv_stopa?: number
+          created_at?: string
+        }
+        Update: {
+          naziv?: string
+          opis?: string | null
+          jedinica?: string
+          cena_bez_pdv?: number
+          pdv_stopa?: number
         }
         Relationships: []
       }

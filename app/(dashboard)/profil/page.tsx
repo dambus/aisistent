@@ -6,8 +6,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { ProfileCard } from '@/components/dashboard/ProfileCard'
 import { CompaniesTab } from '@/components/dashboard/CompaniesTab'
 import { ContactsTab } from '@/components/dashboard/ContactsTab'
+import { CatalogTab } from '@/components/dashboard/CatalogTab'
 import { TipCard } from '@/components/ui/TipCard'
-import type { Company, Contact } from '@/types/database'
+import type { Company, Contact, CatalogItem } from '@/types/database'
 
 const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
   free:    { bg: '#F3F4F6', text: '#6B7280' },
@@ -43,7 +44,7 @@ export default async function ProfilPage() {
     .eq('id', user.id)
     .single()
 
-  const [{ data: companies }, { data: contacts }] = await Promise.all([
+  const [{ data: companies }, { data: contacts }, { data: catalogItems }] = await Promise.all([
     supabase
       .from('companies')
       .select('*')
@@ -52,6 +53,11 @@ export default async function ProfilPage() {
       .order('created_at', { ascending: true }),
     supabase
       .from('contacts')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true }),
+    supabase
+      .from('catalog_items')
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: true }),
@@ -103,6 +109,12 @@ export default async function ProfilPage() {
       {/* Kartica 4 — Sačuvani kontakti */}
       <ContactsTab
         initialContacts={(contacts ?? []) as Contact[]}
+        plan={plan}
+      />
+
+      {/* Kartica 5 — Katalog usluga (Pro+) */}
+      <CatalogTab
+        initialItems={(catalogItems ?? []) as CatalogItem[]}
         plan={plan}
       />
 

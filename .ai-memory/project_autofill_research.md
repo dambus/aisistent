@@ -11,9 +11,9 @@ metadata:
 
 Tri pod-featura (po prioritetu):
 
-1. **Sačuvani kontakti** (Starter+) — nova `contacts` tabela + `contactFieldMap`, ista logika kao `companies`. Primenjuje se na: faktura (kupac), ugovor-o-delu (izvođač), NDA (strana 2), ugovor-o-zakupu, ponuda-klijentu, ugovor-o-saradnji.
-2. **Katalog usluga/artikala** (Pro+) — nova `catalog_items` tabela, dropdown u stavkama fakture/ponude/otpremnice.
-3. **Sačuvani zaposleni** (Pro+) — nova `employees` tabela, za HR dokumente. Osetljivi podaci (JMBG, plata) — pažnja oko RLS.
+1. **Sačuvani kontakti** (Starter+) ✅ — `contacts` tabela + `contactFieldMap`, ista logika kao `companies`. U produkciji.
+2. **Katalog usluga/artikala** (Pro+) ✅ (10. jul 2026., implementirano — čeka `supabase db push` na produkciju) — `catalog_items` tabela, "+ Iz kataloga..." dropdown u `FakturaStavkeField` (deljen između faktura/ponuda-za-radove/otpremnica; `ponuda-klijentu` izostavljena, nema stavke uopšte). Detalji: `PROGRESS.md` (10. jul, dodatak).
+3. **Sačuvani zaposleni** (Pro+) — nova `employees` tabela, za HR dokumente. Osetljivi podaci (JMBG, plata) — pažnja oko RLS. Sledeće na redu.
 
 **How to apply:** Implementirati ovim redosledom pre nego što se kreće na Upload & Fill — bez bogatog profila auto-fill nema vrednost.
 

@@ -7,7 +7,7 @@
 - [Codex delegacija](feedback_codex_delegation.md) — kada Claude delegira Codexu, kada zadržava zadatak
 - [GitHub issues workflow](reference_github_issues.md) — n8n kreira issues od user feedbacka, rešavamo po prioritetu; gh.exe na C:\Program Files\GitHub CLI\
 - [Sistem saveta — taskovi](tasks_tips_system.md) — urađeno/sledeće za contextual tips feature
-- [Autofill istraživanje](project_autofill_research.md) — sačuvani kontakti/katalog/zaposleni + Upload & Fill za tuđe obrasce (AcroForm PDF, DOCX); preduslov za Upload & Fill su kontakti+katalog
+- [Autofill istraživanje](project_autofill_research.md) — sačuvani kontakti ✅ + katalog usluga ✅ (10. jul, čeka db push) + zaposleni (sledeće) + Upload & Fill za tuđe obrasce (AcroForm PDF, DOCX)
 - [Chatbot istraživanje](project_chatbot_research.md) — kontekstualni asistent za srpsko preduzetništvo; jedino što vredi je verzija integrisana sa profilom/dokumentima (ne generički bot); obavezan disclaimer
 - [Sledeća sesija — podsetnik](next_session_note.md) — UI bagovi svih 6 taskova + 2 dodatna baga gotovo (CTA redirect petlja, obrasci navbar) (ažurira se svaku sesiju)
 - [Mapa kodne baze](project_codebase_map.md) — full architecture: routing, wizard→generate pipeline, obrasci Faza1-4 pivot, DB shema, srpska jezička logika (vokativ/rod/transliteracija)
