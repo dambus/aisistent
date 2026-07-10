@@ -12,8 +12,8 @@ metadata:
 Tri pod-featura (po prioritetu):
 
 1. **Sačuvani kontakti** (Starter+) ✅ — `contacts` tabela + `contactFieldMap`, ista logika kao `companies`. U produkciji.
-2. **Katalog usluga/artikala** (Pro+) ✅ (10. jul 2026., implementirano — čeka `supabase db push` na produkciju) — `catalog_items` tabela, "+ Iz kataloga..." dropdown u `FakturaStavkeField` (deljen između faktura/ponuda-za-radove/otpremnica; `ponuda-klijentu` izostavljena, nema stavke uopšte). Detalji: `PROGRESS.md` (10. jul, dodatak).
-3. **Sačuvani zaposleni** (Pro+) ✅ (10. jul 2026., implementirano — čeka `supabase db push` na produkciju) — `employees` tabela, autofill u ugovor-o-radu/resenje-godisnji-odmor/putni-nalog. JMBG maskiran u listi + regex-validiran na API (jedino odstupanje od "bez format-validacije" konvencije). `odgovor-kandidatu` namerno izostavljen (drugi domen podataka — kandidat, ne zaposleni). Detalji: `PROGRESS.md` (10. jul, treći dodatak). **Smart Autofill trilogija (kontakti+katalog+zaposleni) sad kompletna.**
+2. **Katalog usluga/artikala** (Pro+) ✅ (10. jul 2026., migracija `20260710000001` primenjena na produkciju) — `catalog_items` tabela, "+ Iz kataloga..." dropdown u `FakturaStavkeField` (deljen između faktura/ponuda-za-radove/otpremnica; `ponuda-klijentu` izostavljena, nema stavke uopšte). Detalji: `PROGRESS.md` (10. jul, dodatak).
+3. **Sačuvani zaposleni** (Pro+) ✅ (10. jul 2026., migracija `20260710000002` primenjena na produkciju) — `employees` tabela, autofill u ugovor-o-radu/resenje-godisnji-odmor/putni-nalog. JMBG maskiran u listi + regex-validiran na API (jedino odstupanje od "bez format-validacije" konvencije). `odgovor-kandidatu` namerno izostavljen (drugi domen podataka — kandidat, ne zaposleni). Detalji: `PROGRESS.md` (10. jul, treći dodatak). **Smart Autofill trilogija (kontakti+katalog+zaposleni) sad kompletna i potpuno na produkciji.**
 
 **How to apply:** Implementirati ovim redosledom pre nego što se kreće na Upload & Fill — bez bogatog profila auto-fill nema vrednost.
 
