@@ -186,5 +186,11 @@ Svi poznati harvest izvori sad iscrpljeni (APR, CROSO, PIO, Poreska uprava pravn
 
 Milan tražio page-cro audit da li su vredni featuri dobro reklamirani. Popravljeno: pricing kartice (sve 4 plana) dobile red o biblioteci obrazaca (dinamički broj, `getPricing(count)`); homepage "Alati" grid dobio kategoriju kalkulatora (ranije samo footer); dashboard `TipSequence` dobio `dashboard-obrasci` tip. Otvoreno (van scope-a): `whyAisistent` mrtav prop u `ToolLandingPage.tsx` (poznato od 7. jula), 4 doc tipa bez javne promotivne površine, nema changelog mehanizma, `TipCard` nema link/CTA podršku. Detalji: `next_session_note.md`.
 
+## D1 SEO nadgradnja /obrasci + Upload & Fill ukinut (10. jul 2026.)
+
+Brainstorm D1 implementiran: JSON-LD (BreadcrumbList+HowTo+FAQPage) + vidljiva FAQ sekcija + keyword interno linkovanje ka kalkulatorima na `/obrasci/[slug]`, sve bez nove DB kolone. Testirano uživo. Upload & Fill potpuno ukinut na Milanov zahtev (previše komplikovano/nepouzdano) — mrtav kod obrisan, `curate-form.ts`/biblioteka obrazaca netaknuti. Detalji: `PROGRESS.md` (10. jul, četvrti dodatak).
+
+**Važna napomena:** ova sesija je otkrila da `.ai-memory/` sažeci mogu zaostati za `PROGRESS.md` (npr. hero vizual je bio prikazan kao "čeka pravac" iako je odavno gotov). **`PROGRESS.md` je izvor istine kad su u koliziji** — proveriti tamo pre nego što se osloni na stariji memory zapis.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

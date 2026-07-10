@@ -95,8 +95,9 @@ Osnivački akt d.o.o. (top-of-funnel! ljudi PRE firme), odluka o raspodeli dobit
 
 ## D. Growth / funnel
 
-### D1. ⭐ SEO nadgradnja /obrasci stranica
-**Opis:** schema.org markup (HowTo/FAQPage) na /obrasci/[slug], FAQ sekcija po obrascu, interno linkovanje obrazac↔blog↔kalkulator. Obrasci su prirodni SEO magnet (ljudi guglaju tačna imena obrazaca!).
+### D1. ⭐ SEO nadgradnja /obrasci stranica ✅ (10. jul 2026., implementirano)
+**Opis:** schema.org markup (HowTo/FAQPage) na /obrasci/[slug], FAQ sekcija po obrascu, interno linkovanje obrazac↔kalkulator. Obrasci su prirodni SEO magnet (ljudi guglaju tačna imena obrazaca!).
+**Implementirano:** `BreadcrumbList`+`HowTo`+`FAQPage` JSON-LD (izvedeno iz postojećih polja `LibraryFormMeta`, bez nove DB kolone), vidljiva FAQ sekcija (4 generička pitanja: autofill, zvaničnost, gde se predaje, broj strana), lagana keyword-mapa za interno linkovanje ka kalkulatorima/generatorima (zarad→kalkulator-zarade, paušal→kalkulator-pausala, M-4/M-8/zaposlen→ugovor-o-radu, otpremn→otpremnica). Kategorije obrazaca su institucionalne (poreska/apr/croso/lokalna/ostalo), ne tematske — tematsko linkovanje ka blogu bi tražilo novu kolonu za tagovanje, odloženo za sledeću rundu ako se pokaže vrednim. Testirano uživo (curl na dev serveru, JSON-LD i FAQ potvrđeni na `akciza-ee-i-kpg`, keyword link potvrđen na `m-4-pio`). `tsc`/`eslint` čisto.
 **Vrednost:** besplatan organski funnel; biblioteka je javna — svaki obrazac je landing page.
 **Kompleksnost:** S.
 

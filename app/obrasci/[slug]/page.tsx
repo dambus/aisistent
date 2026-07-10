@@ -1,10 +1,71 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getLibraryForm, getAllLibraryForms, CATEGORY_LABELS, formatDateSr } from '@/lib/libraryForms'
+import { getLibraryForm, getAllLibraryForms, CATEGORY_LABELS, formatDateSr, type LibraryFormMeta } from '@/lib/libraryForms'
 import { LibraryDownloadButtons } from '@/components/obrasci/LibraryDownloadButtons'
 import { createClient } from '@/lib/supabase/server'
 import { SiteHeader } from '@/components/landing/SiteHeader'
+
+const BASE_URL = 'https://aisistent.rs'
+
+function buildHowToSteps(form: LibraryFormMeta): string[] {
+  return form.hasAutofill
+    ? [
+        `Preuzmite ${form.shortName} — popunjen podacima vaše firme (naziv, PIB, matični broj...) ili prazan.`,
+        'Otvorite ga u Adobe Reader-u ili drugom PDF softveru — polja ostaju izmenjiva.',
+        'Dopunite preostala polja, proverite podatke, odštampajte i potpišite.',
+      ]
+    : [
+        `Preuzmite prazan obrazac ${form.shortName} sa zvaničnog izvora — proverili smo da je važeći.`,
+        'Popunite ga ručno u Adobe Reader-u, drugom PDF softveru ili štampano.',
+        'Proverite podatke, odštampajte i potpišite.',
+      ]
+}
+
+function buildFaq(form: LibraryFormMeta): { q: string; a: string }[] {
+  const faq = [
+    {
+      q: `Da li se ${form.shortName} može popuniti automatski?`,
+      a: form.hasAutofill
+        ? `Da — ${form.shortName} je AcroForm obrazac, pa ga AIsistent može unapred popuniti podacima vaše firme (naziv, PIB, matični broj) uz besplatnu registraciju. Polja ostaju izmenjiva u PDF softveru.`
+        : `Ne — ${form.shortName} je obrazac bez elektronskih polja za popunjavanje, pa se preuzima kao čist referentni dokument i popunjava ručno.`,
+    },
+    {
+      q: `Da li je ovo zvaničan obrazac?`,
+      a: `Da, preuzet je sa zvaničnog izvora (${form.sourceInstitution}) i poslednji put proveren ${formatDateSr(form.verifiedAt)}.`,
+    },
+    {
+      q: `Gde se predaje ${form.shortName}?`,
+      a: `Obrazac se predaje instituciji ${form.sourceInstitution}, u skladu sa propisanom procedurom za ovaj tip zahteva.`,
+    },
+    {
+      q: `Koliko strana ima ${form.shortName}?`,
+      a: `Obrazac ima ${form.pageCount} ${form.pageCount === 1 ? 'stranu' : 'strane'}.`,
+    },
+  ]
+  return faq
+}
+
+const KEYWORD_LINKS: { pattern: RegExp; href: string; label: string }[] = [
+  { pattern: /zarad/i, href: '/kalkulator-zarade', label: 'Kalkulator neto zarade' },
+  { pattern: /paušal/i, href: '/kalkulator-pausala', label: 'Kalkulator paušalnog poreza' },
+  { pattern: /ugovor.{0,3}o.{0,3}delu/i, href: '/kalkulator-ugovora-o-delu', label: 'Kalkulator ugovora o delu' },
+  { pattern: /zaposlen|radni.{0,3}odnos|M-4|M-8|M-10/i, href: '/ugovor-o-radu', label: 'Ugovor o radu (generator)' },
+  { pattern: /otpremn|prevoz.{0,3}robe/i, href: '/otpremnica', label: 'Otpremnica (generator)' },
+]
+
+function buildRelatedTools(form: LibraryFormMeta) {
+  const haystack = `${form.title} ${form.shortName}`
+  const seen = new Set<string>()
+  const links: { href: string; label: string }[] = []
+  for (const { pattern, href, label } of KEYWORD_LINKS) {
+    if (pattern.test(haystack) && !seen.has(href)) {
+      seen.add(href)
+      links.push({ href, label })
+    }
+  }
+  return links.slice(0, 3)
+}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -42,8 +103,42 @@ export default async function LibraryFormPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser()
   const isLoggedIn = !!user
 
+  const howToSteps = buildHowToSteps(form)
+  const faq = buildFaq(form)
+  const relatedTools = buildRelatedTools(form)
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Obrasci', item: `${BASE_URL}/obrasci` },
+          { '@type': 'ListItem', position: 2, name: form.shortName, item: `${BASE_URL}/obrasci/${form.slug}` },
+        ],
+      },
+      {
+        '@type': 'HowTo',
+        name: `Kako popuniti ${form.shortName}`,
+        step: howToSteps.map((text, i) => ({ '@type': 'HowToStep', position: i + 1, text })),
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faq.map(({ q, a }) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader isLoggedIn={isLoggedIn} />
 
       {/* ── HERO ── */}
@@ -91,38 +186,44 @@ export default async function LibraryFormPage({ params }: Props) {
         <section className="mt-10 rounded-2xl bg-gray-50 border border-gray-100 px-6 py-6">
           <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Kako radi</p>
           <ol className="space-y-3 text-sm text-gray-600">
-            {form.hasAutofill ? (
-              <>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>1.</span>
-                  Preuzmite obrazac — popunjen podacima vaše firme (naziv, PIB, matični broj...) ili prazan.
-                </li>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>2.</span>
-                  Otvorite ga u Adobe Reader-u ili drugom PDF softveru — polja ostaju izmenjiva.
-                </li>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>3.</span>
-                  Dopunite preostala polja, proverite podatke, odštampajte i potpišite.
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>1.</span>
-                  Preuzmite prazan obrazac sa zvaničnog izvora — proverili smo da je važeći.
-                </li>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>2.</span>
-                  Popunite ga ručno u Adobe Reader-u, drugom PDF softveru ili štampano.
-                </li>
-                <li className="flex gap-3">
-                  <span className="font-bold shrink-0" style={{ color: P }}>3.</span>
-                  Proverite podatke, odštampajte i potpišite.
-                </li>
-              </>
-            )}
+            {howToSteps.map((text, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="font-bold shrink-0" style={{ color: P }}>{i + 1}.</span>
+                {text}
+              </li>
+            ))}
           </ol>
+        </section>
+
+        {/* Povezani alati */}
+        {relatedTools.length > 0 && (
+          <section className="mt-6 flex flex-wrap gap-2">
+            {relatedTools.map(t => (
+              <Link key={t.href} href={t.href}
+                className="text-xs font-semibold rounded-full px-3 py-1.5 border transition-colors"
+                style={{ borderColor: '#bbf7d0', color: P }}>
+                {t.label} →
+              </Link>
+            ))}
+          </section>
+        )}
+
+        {/* FAQ */}
+        <section className="mt-12">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-400 mb-5">
+            Najčešća pitanja
+          </p>
+          <div className="divide-y divide-gray-100">
+            {faq.map(({ q, a }) => (
+              <details key={q} className="group py-4">
+                <summary className="flex items-center justify-between cursor-pointer text-sm font-semibold text-gray-800 list-none">
+                  {q}
+                  <span className="text-gray-300 group-open:rotate-45 transition-transform text-lg shrink-0 ml-3">+</span>
+                </summary>
+                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{a}</p>
+              </details>
+            ))}
+          </div>
         </section>
 
         {/* Izvor */}

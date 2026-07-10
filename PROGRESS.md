@@ -29,6 +29,14 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 10. jul 2026. (četvrti dodatak) — D1 SEO nadgradnja /obrasci stranica + ukinut Upload & Fill
+
+**SEO nadgradnja `/obrasci/[slug]`** (brainstorm D1, `docs/handover/11-BRAINSTORM-FEATURES.md`): JSON-LD `BreadcrumbList`+`HowTo`+`FAQPage` (izvedeno iz postojećih `LibraryFormMeta` polja, bez nove DB kolone), vidljiva FAQ sekcija (4 generička pitanja: autofill, zvaničnost, gde se predaje, broj strana), lagana keyword-mapa za interno linkovanje ka kalkulatorima/generatorima (zarad→kalkulator-zarade, paušal→kalkulator-pausala, M-4/M-8/zaposlen→ugovor-o-radu, otpremn→otpremnica). Testirano uživo na dev serveru (curl) — JSON-LD i FAQ potvrđeni na `akciza-ee-i-kpg`, keyword link potvrđen na `m-4-pio`. `tsc`/`eslint` čisto.
+
+**Upload & Fill potpuno ukinut** (Milan: previše komplikovano i nepouzdano) — obrisan sav mrtav UI/API kod (`ObraściClient`/`GuideView`/`SectionWizardView`/`PreviewView`, `di-analyze`/`generate-filled`/`template-feedback` rute, `templateCache`/`computeFingerprint`/`pdfOverlay`), ~2400 linija. Zadržana deljena infrastruktura koju koristi `scripts/curate-form.ts` za rast biblioteke obrazaca (`analyzeLayout`, `semanticMapper`, `fillLibraryForm` itd.). `form_templates`/`template_feedback` DB tabele nisu drop-ovane.
+
+**Napomena o memoriji:** ova sesija je otkrila da `.ai-memory/` sažeci zaostaju za stvarnim stanjem u `PROGRESS.md` (npr. tvrdili da je hero vizual "odbačen i čeka pravac" iako je `HeroDocFlight` odavno implementiran i dokumentovan ovde). `PROGRESS.md` je izvor istine kad su u koliziji — ažurirana memorija u skladu s tim.
+
 #### 10. jul 2026. (treći dodatak) — Sačuvani zaposleni (Pro+) — treći i poslednji deo Smart Autofill trilogije
 
 Nastavak roadmape posle kataloga usluga. Isti pattern (contacts CRUD), uz istraživanje uživo pre koda — spec `docs/handover/03-SACUVANI-ZAPOSLENI.md` (5. jul) je imao netačne field-id pretpostavke, ispravljeno direktnim čitanjem `lib/prompts/*`:
