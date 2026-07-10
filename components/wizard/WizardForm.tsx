@@ -2,13 +2,15 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import type { WizardStep, WizardField } from '@/types/wizard'
-import type { Company, Contact, CatalogItem } from '@/types/database'
+import type { Company, Contact, CatalogItem, Employee } from '@/types/database'
 import { UpgradeModal } from './UpgradeModal'
 import { TooltipIcon, HelperText } from './FieldHelper'
 import { CompanySelectModal } from './CompanySelectModal'
 import { ContactSelectModal } from './ContactSelectModal'
+import { EmployeeSelectModal } from './EmployeeSelectModal'
 import { buildCompanyFields } from '@/lib/utils/companyFieldMap'
 import { buildContactFields, buildCompanyAsContactFields, CONTACT_SUPPORTED_TYPES, AGENCY_BILLING_TYPES } from '@/lib/utils/contactFieldMap'
+import { buildEmployeeFields, EMPLOYEE_SUPPORTED_TYPES } from '@/lib/utils/employeeFieldMap'
 import { FakturaStavkeField } from './FakturaStavkeField'
 import { Switch } from '@/components/ui/switch'
 import { TipSequence, type TipDefinition } from '@/components/ui/TipCard'
@@ -19,6 +21,7 @@ interface WizardFormProps {
   companies?: Company[]
   contacts?: Contact[]
   catalogItems?: CatalogItem[]
+  employees?: Employee[]
   plan?: string
   initialValues?: Record<string, string | number | boolean>
   rootDocumentId?: string
@@ -88,7 +91,7 @@ function clearDraft(documentType: string) {
   } catch {}
 }
 
-export function WizardForm({ steps, documentType, companies = [], contacts = [], catalogItems = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
+export function WizardForm({ steps, documentType, companies = [], contacts = [], catalogItems = [], employees = [], plan, initialValues, rootDocumentId, preselectedClientId, onComplete }: WizardFormProps) {
   const isAgency = plan === 'agency'
   const preselectedCompany = preselectedClientId ? (companies.find(c => c.id === preselectedClientId) ?? null) : null
   const defaultCompany = preselectedCompany ?? companies.find(c => c.is_default) ?? companies[0] ?? null
@@ -118,8 +121,10 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
   const [apiError, setApiError] = useState('')
   const [showUpgrade, setShowUpgrade] = useState(false)
   const hasContactSupport = CONTACT_SUPPORTED_TYPES.has(documentType)
+  const hasEmployeeSupport = EMPLOYEE_SUPPORTED_TYPES.has(documentType)
   const [showCompanyModal, setShowCompanyModal] = useState(!isAgency && companies.length > 0 && !initialValues)
   const [showContactModal, setShowContactModal] = useState(false)
+  const [showEmployeeModal, setShowEmployeeModal] = useState(false)
 
   const wizardTips: TipDefinition[] = [
     ...(companies.length > 0 ? [{
@@ -238,6 +243,8 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
     setShowCompanyModal(false)
     if (hasContactSupport && contacts.length > 0 && !initialValues) {
       setShowContactModal(true)
+    } else if (hasEmployeeSupport && employees.length > 0 && !initialValues) {
+      setShowEmployeeModal(true)
     }
   }
 
@@ -245,6 +252,12 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
     const fields = buildContactFields(contact, documentType)
     setValues(prev => ({ ...prev, ...fields }))
     setShowContactModal(false)
+  }
+
+  function handleEmployeeSelect(employee: Employee) {
+    const fields = buildEmployeeFields(employee, documentType)
+    setValues(prev => ({ ...prev, ...fields }))
+    setShowEmployeeModal(false)
   }
 
   function handleAgencySwitch(companyId: string) {
@@ -273,6 +286,8 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
           setShowCompanyModal(false)
           if (hasContactSupport && contacts.length > 0 && !initialValues) {
             setShowContactModal(true)
+          } else if (hasEmployeeSupport && employees.length > 0 && !initialValues) {
+            setShowEmployeeModal(true)
           }
         }}
       />
@@ -282,6 +297,13 @@ export function WizardForm({ steps, documentType, companies = [], contacts = [],
         isOpen={showContactModal}
         onSelect={handleContactSelect}
         onSkip={() => setShowContactModal(false)}
+      />
+
+      <EmployeeSelectModal
+        employees={employees}
+        isOpen={showEmployeeModal}
+        onSelect={handleEmployeeSelect}
+        onSkip={() => setShowEmployeeModal(false)}
       />
 
       {/* Draft restored banner */}

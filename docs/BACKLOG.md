@@ -131,11 +131,11 @@ Za fakture, ponude i otpremnice — najrepetitivnija stavka su iste usluge/artik
 - Primenjuje se na: faktura, ponuda-za-radove, otpremnica (sve tri dele isti `FakturaStavkeField`). `ponuda-klijentu` NEMA stavke uopšte (flat iznos + radio) — izostavljena iz scope-a
 - Bonus "poslednje korišćene stavke po klijentu" — ODLOŽENO, van scope-a ove runde
 
-**3. Sačuvani zaposleni** — Pro+
+**3. Sačuvani zaposleni** — Pro+ ✅ (10. jul 2026., čeka primenu migracije na produkciju)
 Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
-- Nova tabela `employees` (ime, JMBG, pozicija, datum_zaposlenja, email, plata_osnova)
-- Primenjuje se na: ugovor-o-radu, resenje-godisnji-odmor, odgovor-kandidatu, putni-nalog (putnik)
-- Napomena: osetljivi podaci (JMBG, plata) — zahteva pažnju oko RLS i prikaza
+- Tabela `employees` (ime, jmbg, pozicija, datum_zaposlenja, email, plata_osnova) — migracija `20260710000002_add_employees.sql`, čeka `supabase db push`
+- Primenjuje se na: ugovor-o-radu, resenje-godisnji-odmor, putni-nalog (polje se zove `vozac`, ne "putnik" — spec je imao pogrešnu terminologiju). `odgovor-kandidatu` IZOSTAVLJEN iz scope-a — taj dokument je o kandidatu koji još nije zaposlen (nema JMBG/pozicija-zaposlenja polja), mešanje sa employees tabelom bi spojilo dva različita domena podataka
+- JMBG: NE prikazuje se u listi zaposlenih; u formi za izmenu ima sakrij/prikaži toggle. Format validiran (13 cifara) na API nivou — jedino odstupanje od "bez format-validacije" konvencije (contacts/companies/catalog nemaju format-validaciju), namerno zbog pravnog rizika pogrešnog JMBG-a u ugovoru
 
 **Prioritet implementacije:**
 1. Sačuvani kontakti (najveći ROI, najmanja kompleksnost, direktno replicira companies pattern)

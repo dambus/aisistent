@@ -8,7 +8,7 @@
 |------|---------|--------|
 | `01-TECH-DEBT.md` | 11 stavki tech debt-a sa fix predlozima + "šta NE dirati" | aktuelno |
 | `02-KATALOG-USLUGA.md` | Katalog usluga/artikala (Smart Autofill 2) — Pro+ | implementirano 10. jul, čeka `supabase db push` na produkciju |
-| `03-SACUVANI-ZAPOSLENI.md` | Sačuvani zaposleni (Smart Autofill 3) — Pro+, osetljivi podaci | čeka implementaciju |
+| `03-SACUVANI-ZAPOSLENI.md` | Sačuvani zaposleni (Smart Autofill 3) — Pro+, osetljivi podaci | implementirano 10. jul, čeka `supabase db push` na produkciju |
 | `04-DOCX-AUDIT.md` | DOCX formatiranje audit + fix (watermark, viseći naslovi, potpisi) | čeka implementaciju |
 | `05-FEATURE-NAJAVE.md` | TipCard najave feature-a + "šta je novo" | čeka implementaciju |
 | `06-CHATBOT-MVP.md` | Kontekstualni chatbot MVP (integrisan sa profilom) | čeka implementaciju |

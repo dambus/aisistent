@@ -29,6 +29,27 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 10. jul 2026. (treći dodatak) — Sačuvani zaposleni (Pro+) — treći i poslednji deo Smart Autofill trilogije
+
+Nastavak roadmape posle kataloga usluga. Isti pattern (contacts CRUD), uz istraživanje uživo pre koda — spec `docs/handover/03-SACUVANI-ZAPOSLENI.md` (5. jul) je imao netačne field-id pretpostavke, ispravljeno direktnim čitanjem `lib/prompts/*`:
+
+- `ugovor-o-radu`: pravi field id-jevi `ime_prezime` (ne `ime_zaposlenog` kako je spec pisao), `jmbg`, `pozicija` (poseban step), `datum_pocetka` (poseban step)
+- `resenje-godisnji-odmor`: `ime_prezime`, `radno_mesto` — nema JMBG polja uopšte u ovom tipu
+- `putni-nalog`: polje se zove `vozac` (`ime_vozaca`, `pozicija_vozaca`) — **"putnik" ne postoji nigde u kodu**, spec-ova terminologija netačna
+- `odgovor-kandidatu` **izostavljen iz scope-a** — taj dokument je o kandidatu koji još nije zaposlen (nema JMBG, nema pozicija-kao-zaposlenje polje) — korišćenje `employees` tabele tu bi spojilo dva različita domena podataka (zaposleni vs. kandidat). Spec ga je pogrešno naveo kao 4. integracionu tačku.
+- Contact/employee modal chaining se ne preklapaju po tipu dokumenta (disjunktni skupovi) — nije trebalo 3-way chaining, samo simetrično dodat isti "otvori posle company modala" pattern.
+
+**Šta je urađeno:**
+- Migracija `supabase/migrations/20260710000002_add_employees.sql` — `employees` tabela, RLS `companies`-stil. **Čeka `supabase db push`/SQL Editor na produkciju — nije primenjena.**
+- `types/database.ts` — `Employee` interfejs + `Database['public']['Tables']['employees']` blok.
+- `app/api/employees/route.ts` (GET/POST) + `[id]/route.ts` (PUT/DELETE) — kopija contacts CRUD-a, plan gate Pro+ (`free:0, starter:0, pro:50, agency:null`). **Jedino odstupanje od "bez format-validacije" konvencije**: JMBG regex `/^\d{13}$/` ako je polje uneto — namerno, jer je pogrešan JMBG u realnom ugovoru o radu pravni problem, ne kozmetički (contacts/companies/catalog nemaju format-validaciju ni za PIB/matični broj).
+- `lib/utils/employeeFieldMap.ts` — `employeeFieldMap`/`EMPLOYEE_SUPPORTED_TYPES`/`buildEmployeeFields`, po uzoru na `contactFieldMap.ts`. Mapira samo polja koja realno postoje kod datog tipa (npr. resenje-godisnji-odmor nema JMBG mapiranje).
+- `components/wizard/EmployeeSelectModal.tsx` — po uzoru na `ContactSelectModal.tsx`, prikazuje samo ime+poziciju (bez JMBG-a čak i u pickeru), bez replikacije mrtve grane koja postoji u `ContactSelectModal` (nedostižan "prazna lista" UI).
+- `components/dashboard/EmployeesTab.tsx` — kartice BEZ JMBG-a (samo ime+pozicija), Sheet forma sa JMBG sakrij/prikaži toggle (`EyeIcon`/`EyeOffIcon`), AlertDialog brisanje, pretraga, Pro+ upsell. Wired u `app/(dashboard)/profil/page.tsx`.
+- Wizard integracija: `employees` fetch u `dokumenti/[type]/page.tsx` **samo za 3 HR tipa** (data minimization za osetljive podatke — ne univerzalno kao companies/contacts/catalog), provučeno kroz `WizardPageClient.tsx` → `WizardForm.tsx`. Modal chaining: posle company modala, `else if` grana otvara employee modal (bezbedno jer je disjunktno sa contact-support skupom tipova).
+
+**Testirano:** `npx tsc --noEmit` čisto. `npx eslint` — 2 greške, obe pre-postojeće u kodnoj bazi (identično prošloj rundi): `<a href="/#cenovnik">` (isti obrazac kao ContactsTab/CatalogTab) i `react-hooks/refs` na `WizardForm.tsx` (kod koji nisam dirao). Dev server nije bio aktivan ovu rundu — live curl smoke test preskočen, već potvrđen isti pattern u prošloj rundi (katalog usluga).
+
 #### 10. jul 2026. (dodatak) — Katalog usluga/artikala (Pro+)
 
 Nastavak backlog roadmape Smart Autofill (posle sačuvanih kontakata). Implementirano po uzoru na `contacts`/`companies` pattern, uz istraživanje uživo pre pisanja koda (Explore agent + direktan Read celog lanca) — spec `docs/handover/02-KATALOG-USLUGA.md` (5. jul) je delimično zastareo: contacts migracija u repou ne odgovara stvarnoj šemi (kolone se razminuli, koristi se `route.ts`/`types/database.ts` kao izvor istine, ne `.sql`); `ponuda-klijentu` nema stavke uopšte (flat iznos, ne dinamička tabela) — isključena iz scope-a; sve tri relevantne forme (faktura/ponuda-za-radove/otpremnica) dele **isti** `FakturaStavkeField` komponent, nema posebnih po-wizardu stavke komponenti kako spec pretpostavlja.

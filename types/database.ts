@@ -54,6 +54,18 @@ export interface CatalogItem {
   created_at: string
 }
 
+export interface Employee {
+  id: string
+  user_id: string
+  ime: string
+  jmbg: string | null
+  pozicija: string | null
+  datum_zaposlenja: string | null
+  email: string | null
+  plata_osnova: number | null
+  created_at: string
+}
+
 // Convenience aliases — use these in application code
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Document = Database['public']['Tables']['documents']['Row']
@@ -290,6 +302,39 @@ export interface Database {
           jedinica?: string
           cena_bez_pdv?: number
           pdv_stopa?: number
+        }
+        Relationships: []
+      }
+      employees: {
+        Row: {
+          id: string
+          user_id: string
+          ime: string
+          jmbg: string | null
+          pozicija: string | null
+          datum_zaposlenja: string | null
+          email: string | null
+          plata_osnova: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          ime: string
+          jmbg?: string | null
+          pozicija?: string | null
+          datum_zaposlenja?: string | null
+          email?: string | null
+          plata_osnova?: number | null
+          created_at?: string
+        }
+        Update: {
+          ime?: string
+          jmbg?: string | null
+          pozicija?: string | null
+          datum_zaposlenja?: string | null
+          email?: string | null
+          plata_osnova?: number | null
         }
         Relationships: []
       }
