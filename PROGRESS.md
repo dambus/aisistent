@@ -29,6 +29,19 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 12. jul 2026. (drugi dodatak) — Pregled ugovora (C2): kvalitet analize dorađen
+
+Posle prvog implementacionog kruga (isti dan), Milan je ručno testirao na starom NDA primeru i uočio 4 problema: generički upload UI, tvrdnje bez obrazloženja ("kazna je prevelika" bez osnova), nema zaštite od van-domena uploada, i rizik da alat izgleda kao "chat wrapper" bez prave specijalizacije.
+
+**Rešeno:**
+- `lib/reviewKnowledge.ts` — referentne liste "obaveznih elemenata" po tipu ugovora, izvučene iz sopstvenih pravno auditovanih `lib/prompts/*.ts` modula (AUDIT-01..05 iz `docs/BUG_TRACKER.md`). Analiza sad poredi uploadovan ugovor naspram OVE liste, ne naspram opšteg AI znanja.
+- `app/api/review-contract/route.ts` — 3-koračni system prompt: (1) guardrail za van-domena dokumente, (2) klasifikacija tipa ugovora, (3) analiza sa obaveznim `obrazlozenje` poljem na svakoj tvrdnji (konkretan citat/broj/zakonska referenca).
+- `components/dashboard/ContractReviewClient.tsx` redizajniran — drag&drop, kartica fajla, loading spinner, posebno stanje za "van domena", bedž tipa ugovora.
+
+**Testirano:** stvaran Claude API poziv (van auth omotača) na test ugovoru o delu sa apsurdno visokom ugovornom kaznom (1.000.000 RSD/dan na posao vredan 150.000 RSD) — model je tačno izračunao da je kazna 6.666x veća od vrednosti posla, pozvao se na Zakon o autorskom pravu čl. 42-45 za nedostajuća autorska prava, i vratio validan JSON. tsc/eslint čisto. Vizuelna provera novog UI-a (drag&drop) u browseru NIJE urađena ovu sesiju — zahteva login kao Pro korisnik.
+
+**Strateška diskusija (Milanov research fokus):** da li ima smisla "trenirati podmodel" specijalizovan za AIsistent temu. Zaključak: fine-tuning Claude modela nije samoposlužna opcija kod Anthropic-a (za razliku od OpenAI-a) i nije preporučljiv čak i da jeste — skupo, treba stalno ponovo trenirati kad se zakon menja. Ispravan pristup je formalizovana, kurirana baza znanja (`.md` fajlovi) koja se ubacuje u system prompt (context injection) — RAG/vektorska baza verovatno nepotrebna jer Claude ima 1M token kontekst, dovoljno za realnu veličinu naše baze. `lib/reviewKnowledge.ts` je prvi mali korak; pun plan za bazu znanja ostaje sledeća sesija.
+
 #### 12. jul 2026. — Potvrda produkcije: migracije primenjene, TipCard najave gotove
 
 Session start dokumentaciona sinhronizacija — dva stanja su u `PROGRESS.md`/`BACKLOG.md` bila označena kao "čeka se", a u stvarnosti su odavno gotova:

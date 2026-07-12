@@ -75,12 +75,21 @@
 **Rizici:** prevod pravnog teksta — disclaimer da je srpska verzija merodavna.
 **Kompleksnost:** M-L.
 
-### C2. ✅ Pregled tuđeg ugovora (Contract review) — implementirano 12. jul 2026., čeka live smoke test
+### C2. ✅ Pregled tuđeg ugovora (Contract review) — implementirano 12. jul 2026., kvalitet dorađen isti dan
 **Opis:** korisnik uploaduje ugovor koji je DOBIO, Claude analizira: rizične klauzule, šta fali, na šta da pazi pre potpisa. Izlaz: strukturisan izveštaj, ne izmene.
 **Vrednost:** ogromna — strah od potpisivanja je univerzalan; komplementarno generisanju (mi pišemo naše + čitamo tuđe).
 **Rizici:** NAJVEĆI pravni rizik na listi — "AI mi rekao da je ugovor OK" → šteta. Obavezno: jak disclaimer, izveštaj formulisan kao "pitanja za vašeg advokata", ne "ovo je bezbedno". Pro+ only.
 **Kompleksnost:** M (upload postoji u obrasci flow-u, PDF text ekstrakcija postoji, novi prompt + izveštaj UI).
 **Implementacija:** `app/api/review-contract/route.ts` (mammoth/pdf2json ekstrakcija, Claude strukturisan JSON izveštaj, Pro+ gate, in-memory mesečni limit 20), `components/dashboard/ContractReviewClient.tsx`, `app/(dashboard)/alati/pregled-ugovora/`, javna landing `app/pregled-ugovora/`. Dokument se NE čuva trajno (privatnost — obrađuje se u memoriji, ne u Supabase storage). Odlučeno posle konkurentske analize: umesto KPO knjige (A2, odbačeno) fokus na AI-diferencirane feature.
+
+**Dorada kvaliteta (isti dan, posle korisničkog testa na starom NDA primeru):** Milan je uočio 4 problema — generički UI, tvrdnje bez obrazloženja, nema guardrail-a za van-domena upload, i rizik da alat deluje kao "obican chat wrapper" bez prave specijalizacije. Rešeno:
+- `lib/reviewKnowledge.ts` (novo) — referentne liste "obaveznih elemenata" po tipu ugovora, izvučene iz naših sopstvenih pravno auditovanih `lib/prompts/*.ts` modula (ne generičko AI znanje) — koristi se kao osnova za poređenje umesto da Claude nagađa iz opšteg znanja.
+- System prompt sad ima 3 koraka: (1) guardrail — proverava da li je dokument uopšte poslovni ugovor iz srpskog konteksta, ako nije vraća jasnu poruku umesto izmišljene analize; (2) klasifikacija tipa ugovora; (3) analiza naspram odgovarajućeg checklist-a iz `reviewKnowledge.ts`.
+- Svaka stavka u "rizične klauzule"/"na šta paziti" sad ima obavezno `obrazlozenje` polje — konkretan citat/broj/poređenje/zakonska referenca, ne gola tvrdnja.
+- `ContractReviewClient.tsx` redizajniran — drag&drop zona, kartica izabranog fajla, loading spinner, posebno vizuelno stanje za "van domena" upozorenje, bedž sa tipom ugovora.
+- Testirano pravim Claude pozivom (van auth omotača) na test ugovoru o delu sa apsurdno visokom ugovornom kaznom — model je ispravno izračunao da je kazna 6.666x veća od vrednosti posla i pozvao se na Zakon o autorskom pravu čl. 42-45 za nedostajuća autorska prava.
+
+**Otvoreno, sledeći korak (dogovoreno, plan nije napravljen):** formalizovati pravno znanje razbacano po `lib/prompts/*.ts` u kurirane `.md` fajlove kao jedinstven izvor istine za generisanje dokumenata + C2 + budući chatbot. Pristup: context injection (ne fine-tuning — Anthropic to ne nudi za Claude; verovatno ne RAG/vektorska baza — 1M token kontekst je dovoljan za realnu veličinu naše baze). `lib/reviewKnowledge.ts` je prvi mali korak.
 
 ### C3. Slanje na potpis drugoj strani
 **Opis:** dokument → link drugoj strani → ona pregleda, komentariše, "prihvatam" klik (nije kvalifikovani e-potpis, ali jeste trag saglasnosti); kasnije: integracija kvalifikovanog potpisa.
