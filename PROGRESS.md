@@ -29,6 +29,15 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 12. jul 2026. — Potvrda produkcije: migracije primenjene, TipCard najave gotove
+
+Session start dokumentaciona sinhronizacija — dva stanja su u `PROGRESS.md`/`BACKLOG.md` bila označena kao "čeka se", a u stvarnosti su odavno gotova:
+
+- **Migracije `catalog_items` i `employees` primenjene na produkcijsku Supabase bazu.** Katalog usluga i Sačuvani zaposleni (Pro+ featuri od 10. jula) sada rade uživo, ne samo u kodu.
+- **TipCard najave za nove feature-e implementirane** (`docs/handover/05-FEATURE-NAJAVE.md` spec sproveden) — pokriveno kontakte, katalog i zaposlene kroz `ContactsTab`/`CatalogTab`/`EmployeesTab`/`WizardForm`/dashboard.
+
+`docs/BACKLOG.md` i `docs/handover/05-FEATURE-NAJAVE.md` ažurirani da odražavaju stvarno stanje.
+
 #### 10. jul 2026. (četvrti dodatak) — D1 SEO nadgradnja /obrasci stranica + ukinut Upload & Fill
 
 **SEO nadgradnja `/obrasci/[slug]`** (brainstorm D1, `docs/handover/11-BRAINSTORM-FEATURES.md`): JSON-LD `BreadcrumbList`+`HowTo`+`FAQPage` (izvedeno iz postojećih `LibraryFormMeta` polja, bez nove DB kolone), vidljiva FAQ sekcija (4 generička pitanja: autofill, zvaničnost, gde se predaje, broj strana), lagana keyword-mapa za interno linkovanje ka kalkulatorima/generatorima (zarad→kalkulator-zarade, paušal→kalkulator-pausala, M-4/M-8/zaposlen→ugovor-o-radu, otpremn→otpremnica). Testirano uživo na dev serveru (curl) — JSON-LD i FAQ potvrđeni na `akciza-ee-i-kpg`, keyword link potvrđen na `m-4-pio`. `tsc`/`eslint` čisto.

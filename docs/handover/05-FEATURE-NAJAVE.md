@@ -1,6 +1,8 @@
 # Najava novih feature-a korisnicima — implementaciono uputstvo
 
-*BACKLOG visok prioritet (odblokirano). Sačuvani kontakti su u produkciji, korisnici ne znaju. Isto će važiti za biblioteku obrazaca i svaki budući feature.*
+**STATUS: ✅ IMPLEMENTIRANO** (potvrđeno 12. jul 2026.) — TipCard-ovi su live za kontakte, katalog usluga i sačuvane zaposlene (`ContactsTab.tsx`, `CatalogTab.tsx`, `EmployeesTab.tsx`, `WizardForm.tsx`, `ArchiveList.tsx`, `CompaniesTab.tsx`, dashboard). Uputstvo ispod ostaje kao referenca za pattern kod budućih feature-a.
+
+*BACKLOG stavka zatvorena. Isti pattern koristiti za svaki budući feature (npr. biblioteka obrazaca).*
 
 ## Cilj (minimalna verzija iz BACKLOG-a)
 

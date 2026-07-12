@@ -1,5 +1,7 @@
 # Memory — AIsistent
 
+**Ovo NIJE fajl za čitanje na startu sesije.** Za trenutno stanje projekta pročitati `.ai-memory/STATE.md`. Ovaj indeks je za reference/feedback/user-profil memorije (preference, gotchas, ko-je-ko) — otvoriti pojedinačni fajl samo kad je tema relevantna, ne unapred u celini.
+
 - [AIsistent projekat](project_aisistent.md) — platforma u produkciji, stack, konvencije, blokirano
 - [Sprint jun 2026.](project_sprint_jun2026.md) — šta je novo, šta je blokirano, tekući status
 - [Milan — user profil](user_milan.md) — product owner, VS Code + Claude Code + Codex, radne preference

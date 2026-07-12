@@ -6,13 +6,21 @@ Web platforma za generisanje poslovnih dokumenata za srpsko tržište.
 - **GitHub:** https://github.com/dambus/aisistent
 - **Stack:** Next.js 16, Supabase, Claude API, Vercel
 
-## Memorija — učitaj na početku svake sesije
+## Stanje projekta — pročitaj OVO PRVO na početku svake sesije
 
-Fajlovi u `.ai-memory/` su cross-machine persistentna memorija — sinhronizovana putem gita.
-Na početku svake sesije pročitati `.ai-memory/MEMORY.md` i relevantne memory fajlove.
-Kada upisuješ novu memoriju, pisati u **oba** mesta: lokalni `~/.claude/projects/.../memory/` i `.ai-memory/` u repou.
+**`.ai-memory/STATE.md`** je jedini obavezan read na startu. To je sažet, prepisiv (overwrite, ne append) snapshot: šta je u toku, šta je gotovo i verifikovano, sledeći korak, poznati blokeri — sa pointerima (`fajl:linija`) na ostale dokumente za detalje.
+
+Ne čitati unapred `PROGRESS.md`, `docs/BACKLOG.md`, `docs/handover/*` ili `.ai-memory/project_*.md` u celosti — to su arhiva/reference na koje `STATE.md` pokazuje. Otvoriti ih SAMO kad `STATE.md` eksplicitno uputi na njih ili kad je detalj stvarno potreban.
+
+claude-mem opservacije (auto-injektovane na startu) su search-alat za "šta se tačno desilo i kada" — nisu izvor trenutnog stanja. Za trenutno stanje uvek veruj `STATE.md`, ne sirovim opservacijama.
+
+**Na kraju svake sesije** (pre zatvaranja, ne posle): prepisati `.ai-memory/STATE.md` po checklisti na dnu tog fajla, i commit+push — sledeća sesija (druga mašina) čita ga pre bilo čega drugog.
+
+Kada upisuješ trajniju memoriju (preference, feedback obrasce — ne project state), pisati u **oba** mesta: lokalni `~/.claude/projects/.../memory/` i `.ai-memory/` u repou.
 
 ## Dokumentacija — čitaj pre pisanja koda
+
+Puna mapa (šta gde ide, kad se čita/piše, anti-drift pravila): `docs/DOCUMENTATION_MAP.md`
 
 | Fajl | Kada čitati |
 |------|-------------|

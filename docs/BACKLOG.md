@@ -43,10 +43,6 @@
 
 ## 🔴 Visok prioritet
 
-- **Prezentovati nove funkcionalnosti korisnicima** — Sačuvani kontakti su u produkciji ali korisnici nisu obavešteni.
-  Opcije: TipCard u `/profil` uz ContactsTab, onboarding banner u wizardu, ili email/notifikacija.
-  Minimalno: TipCard "Novo — Sačuvajte kupce i partnere" u profilu + TipCard u wizardu za podržane tipove.
-
 ## 🔴 Visok prioritet — blokirano
 
 - **Payment gateway (Paddle)** — čeka APR registraciju preduzetnika
@@ -61,11 +57,7 @@
 
 ## 🟡 Srednji prioritet
 
-- **DOCX formatiranje — audit i fix** — Prijavljeno 26. jun 2026. na primeru NDA:
-  - Nedostaje "POVERLJIVO" watermark/oznaka u zaglavlju (kao u PDF-u)
-  - Viseći naslovi — `Član X.` ostaje na dnu strane bez sadržaja koji sledi
-  - Sekcija potpisa izgleda čudno — tabela/raspored nije konzistentan sa PDF-om
-  - Uraditi audit svih tipova dokumenta u DOCX formatu, ne samo NDA
+- **DOCX formatiranje — audit i fix** ✅ (12. jul 2026.) — Prijavljeno 26. jun 2026. na primeru NDA. Audit pokazao da su POVERLJIVO watermark, viseći naslovi i tabela potpisa već rešeni u međuvremenu (BUG_TRACKER.md: DOCX-FORMAT, BUG-037, BUG-040/041/042). Preostali stvarni gap: font (Times New Roman umesto Roboto iz PDF-a) i brend logo (nedostajao fallback bez korisničkog loga) — oba popravljena: font → Calibri (univerzalni sans-serif; puni Roboto embed nije podržan u `docx` biblioteci bez ručnog OOXML hakovanja), AIsistent brend logo sad fallback u headeru. `lib/pdf/docxBuilder.ts`.
 
 - **APR API / PIB lookup** — ~~Istražiti~~ Blokirano: zahteva ugovor sa APR,
   dostupno samo pravnim licima. Implementirati tek nakon otvaranja firme.
@@ -124,16 +116,16 @@ Ekvivalent `companies` tabele ali za drugu stranu. Korisnik jednom sačuva kupca
 - UI: CompanySelectModal dobija drugi modal/tab "Odaberi primaoca"
 - Dokumenti gde se primenjuje: faktura (kupac), ugovor-o-delu (izvođač), nda (strana 2), ugovor-o-zakupu (zakupac), ugovor-o-saradnji (strana 2), ponuda-klijentu (primalac), ugovor-o-saradnji-zajmu (zajmoprimac)
 
-**2. Katalog usluga/artikala** — Pro+ ✅ (10. jul 2026., čeka primenu migracije na produkciju)
+**2. Katalog usluga/artikala** — Pro+ ✅ (10. jul 2026., migracija primenjena na produkciju 12. jul 2026. — live)
 Za fakture, ponude i otpremnice — najrepetitivnija stavka su iste usluge/artikli sa istim cenama.
-- Tabela `catalog_items` (naziv, opis, jedinica, cena_bez_pdv, pdv_stopa) — migracija `20260710000001_add_catalog_items.sql`, čeka `supabase db push` na produkciju
+- Tabela `catalog_items` (naziv, opis, jedinica, cena_bez_pdv, pdv_stopa) — migracija `20260710000001_add_catalog_items.sql`, primenjena na produkciju
 - Dropdown "+ Iz kataloga..." u `FakturaStavkeField` — dodaje stavku, PDV stopa uvek iz dokumenta (kataloška `pdv_stopa` se ne prenosi, MVP odluka)
 - Primenjuje se na: faktura, ponuda-za-radove, otpremnica (sve tri dele isti `FakturaStavkeField`). `ponuda-klijentu` NEMA stavke uopšte (flat iznos + radio) — izostavljena iz scope-a
 - Bonus "poslednje korišćene stavke po klijentu" — ODLOŽENO, van scope-a ove runde
 
-**3. Sačuvani zaposleni** — Pro+ ✅ (10. jul 2026., čeka primenu migracije na produkciju)
+**3. Sačuvani zaposleni** — Pro+ ✅ (10. jul 2026., migracija primenjena na produkciju 12. jul 2026. — live)
 Za HR dokumente korisnik ponovo kuca ime, JMBG, poziciju, datum zaposlenja.
-- Tabela `employees` (ime, jmbg, pozicija, datum_zaposlenja, email, plata_osnova) — migracija `20260710000002_add_employees.sql`, čeka `supabase db push`
+- Tabela `employees` (ime, jmbg, pozicija, datum_zaposlenja, email, plata_osnova) — migracija `20260710000002_add_employees.sql`, primenjena
 - Primenjuje se na: ugovor-o-radu, resenje-godisnji-odmor, putni-nalog (polje se zove `vozac`, ne "putnik" — spec je imao pogrešnu terminologiju). `odgovor-kandidatu` IZOSTAVLJEN iz scope-a — taj dokument je o kandidatu koji još nije zaposlen (nema JMBG/pozicija-zaposlenja polja), mešanje sa employees tabelom bi spojilo dva različita domena podataka
 - JMBG: NE prikazuje se u listi zaposlenih; u formi za izmenu ima sakrij/prikaži toggle. Format validiran (13 cifara) na API nivou — jedino odstupanje od "bez format-validacije" konvencije (contacts/companies/catalog nemaju format-validaciju), namerno zbog pravnog rizika pogrešnog JMBG-a u ugovoru
 

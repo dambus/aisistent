@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import sizeOf from 'image-size'
 import {
   AlignmentType,
@@ -21,13 +23,16 @@ import { type Block, type InlineSpan, parseMarkdown } from './markdownParser'
 const DISCLAIMER =
   'Napomena: Ovaj dokument je generisan uz pomoć AI alata i služi kao polazna osnova. Preporučuje se konsultacija sa pravnikom pre potpisivanja. aisistent.rs ne preuzima odgovornost za pravnu valjanost dokumenta.'
 
-const FONT_FAMILY = 'Times New Roman'
+const FONT_FAMILY = 'Calibri'
 const BODY_SIZE = 22
 const SECTION_SIZE = 24
 const TITLE_SIZE = 32
 const FOOTER_SIZE = 18
 const HEADER_SIZE = 18
 const MARGIN_TWIPS = 1417
+
+const BRAND_LOGO_SRC = path.resolve(process.cwd(), 'public/logo/AIsistent-Logo_6003x180.png')
+const brandLogoBuffer: Buffer | null = fs.existsSync(BRAND_LOGO_SRC) ? fs.readFileSync(BRAND_LOGO_SRC) : null
 
 interface CompanyData {
   naziv: string
@@ -645,7 +650,8 @@ export async function buildDocx(
                 options.documentType === 'nda' &&
                 (options.inputData?.oznacavanje === true || options.inputData?.oznacavanje === 'Da')
 
-              const hasLogo = !!(options.logoBuffer && options.logoMimeType !== 'image/svg+xml')
+              const hasCompanyLogo = !!(options.logoBuffer && options.logoMimeType !== 'image/svg+xml')
+              const hasLogo = hasCompanyLogo || !!brandLogoBuffer
 
               const noBorders = {
                 top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
@@ -656,7 +662,7 @@ export async function buildDocx(
                 insideVertical: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
               }
 
-              const leftChildren: TextRun[] | ImageRun[] = hasLogo
+              const leftChildren: TextRun[] | ImageRun[] = hasCompanyLogo
                 ? (() => {
                     const dims = sizeOf(options.logoBuffer!)
                     const srcW = dims.width ?? 120
@@ -670,6 +676,19 @@ export async function buildDocx(
                       data: options.logoBuffer!,
                       transformation: { width: finalWidth, height: 36 },
                       type: imgType,
+                    })]
+                  })()
+                : brandLogoBuffer
+                ? (() => {
+                    const dims = sizeOf(brandLogoBuffer)
+                    const srcW = dims.width ?? 500
+                    const srcH = dims.height ?? 16
+                    const scale = 16 / srcH
+                    const finalWidth = Math.round(srcW * scale)
+                    return [new ImageRun({
+                      data: brandLogoBuffer,
+                      transformation: { width: finalWidth, height: 16 },
+                      type: 'png',
                     })]
                   })()
                 : [new TextRun({
