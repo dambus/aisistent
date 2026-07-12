@@ -29,6 +29,20 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 12. jul 2026. (treći dodatak) — Baza znanja: faza 1 + pilot na ugovor-o-radu
+
+Nastavak diskusije od ranije istog dana (fine-tuning vs context injection). Implementirana `lib/knowledge/` — jedinstvena baza pravnog/poslovnog znanja organizovana PO TEMI (ne po tipu dokumenta), da se izbegne duplikacija koju je `lib/reviewKnowledge.ts` (iz prethodnog dodatka istog dana) već počeo da pravi.
+
+**Struktura:** 9 topic-a (`radni-odnosi`, `autorsko-pravo`, `ugovorna-kazna`, `poverljivost`, `zakup`, `zajam`, `punomocje`, `obligacije-opste`, `saradnja`) kao TS moduli sa `{ id, naslov, poslednjaProvera, pravniOsnov, sadrzaj }`. `lib/knowledge/index.ts` — registry + `CONTRACT_TYPE_TOPICS` (mapiranje tip ugovora → relevantni topic-i) + `getKnowledgeForType()`/`getAllKnowledgeText()` helperi za injektovanje u prompt.
+
+**Refaktor:** `lib/reviewKnowledge.ts` obrisan (bio bi drugi izvor iste istine), `app/api/review-contract/route.ts` sad čita iz `lib/knowledge`.
+
+**Pilot na generisanju:** `lib/prompts/ugovor-o-radu.ts` — hardkodovan "OBAVEZNI ELEMENTI" tekst zamenjen importom `KNOWLEDGE_TOPICS['radni-odnosi']` (isti izvor koji koristi i review), dodat nov "SAMOPROVERA PRE VRAĆANJA ODGOVORA" korak — model tiho proverava sopstveni izlaz naspram iste liste pre finalnog odgovora, bez dodatnog API poziva. Ovo direktno adresira nalaz sa početka dana: Milanov test na sopstvenom (prošlomesečnom) ugovoru o radu je pokazao propuste — generator i review ranije nisu delili isti standard.
+
+**Testirano:** `tsc --noEmit`/`eslint` čisto. End-to-end generisanje sa namerno unetim propustom (zabrana konkurencije bez naknade) — model je ispravno detektovao i vratio `[POPUNITI: iznos naknade za zabranu konkurencije]` sa referencom na čl. 161 st. 2 Zakona o radu.
+
+**Sledeće:** ponoviti isti pattern na preostalih 16 prompt modula, jedan po jedan (ne odjednom) — svaki put zameniti hardkodovan checklist importom iz `lib/knowledge` i dodati samoproveru.
+
 #### 12. jul 2026. (drugi dodatak) — Pregled ugovora (C2): kvalitet analize dorađen
 
 Posle prvog implementacionog kruga (isti dan), Milan je ručno testirao na starom NDA primeru i uočio 4 problema: generički upload UI, tvrdnje bez obrazloženja ("kazna je prevelika" bez osnova), nema zaštite od van-domena uploada, i rizik da alat izgleda kao "chat wrapper" bez prave specijalizacije.

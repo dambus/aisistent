@@ -7,11 +7,16 @@
 
 ---
 
-## Status: čeka vizuelni UI test (upload flow)
+## Status: baza znanja — faza 1 gotova, pilot potvrđen, čeka odluka o rollout-u na ostalih 16 tipova
 
-**C2 — Pregled tuđeg ugovora, kvalitet analize dorađen i verifikovan pravim Claude pozivom.** Upload PDF/DOCX → Claude analiza (rizične klauzule/šta nedostaje/na šta paziti) → strukturisan izveštaj sa obrazloženjem svake tvrdnje. `app/api/review-contract/route.ts`, `lib/reviewKnowledge.ts` (nova referentna baza — checklist obaveznih elemenata po tipu ugovora, izvučena iz naših pravno auditovanih prompt modula), `components/dashboard/ContractReviewClient.tsx` (redizajniran: drag&drop, obrazloženja, van-domena upozorenje), `app/(dashboard)/alati/pregled-ugovora/`, `app/pregled-ugovora/`.
-Provera: end-to-end test sa pravim Claude pozivom (van auth omotača) potvrdio ispravan JSON, klasifikaciju tipa ugovora, i obrazložene tvrdnje sa konkretnim brojevima/zakonskim referencama. tsc/eslint čisto.
-**Preostalo: vizuelna provera novog upload UI-a (drag&drop, stanja) uživo u browseru — zahteva login kao Pro korisnik, nije automatizovano ovu sesiju.**
+**Baza znanja (`lib/knowledge/`) implementirana, po temi (ne po tipu dokumenta).** 9 topic-a (radni-odnosi, autorsko-pravo, ugovorna-kazna, poverljivost, zakup, zajam, punomocje, obligacije-opste, saradnja), svaki sa `pravniOsnov` + `poslednjaProvera` datum. `lib/knowledge/index.ts` — registry + `CONTRACT_TYPE_TOPICS` mapiranje tip→topic-i + `getKnowledgeForType()`/`getAllKnowledgeText()` helperi.
+Stari `lib/reviewKnowledge.ts` (duplikat napravljen ranije istog dana) OBRISAN — `app/api/review-contract/route.ts` sad čita iz `lib/knowledge` preko `getAllKnowledgeText()`.
+**Pilot generisanja:** `lib/prompts/ugovor-o-radu.ts` refaktorisan — hardkodovan "OBAVEZNI ELEMENTI" blok zamenjen importom `KNOWLEDGE_TOPICS['radni-odnosi']`, dodat "SAMOPROVERA PRE VRAĆANJA ODGOVORA" korak (model tiho proverava sopstveni izlaz naspram iste liste pre nego vrati odgovor — bez dodatnog API poziva).
+Provera: `npx tsc --noEmit` i `eslint` čisto na sve izmenjeno/obrisano. End-to-end test generisanja ugovora o radu sa namerno unetim propustom (zabrana konkurencije bez naknade) — model je ispravno detektovao i označio `[POPUNITI: iznos naknade]` sa referencom na čl. 161 st. 2 Zakona o radu.
+
+**Preostalo (sledeća sesija ili nastavak):**
+1. Ponoviti pilot pattern na preostalih 16 `lib/prompts/*.ts` modula (jedan po jedan, ne odjednom) — zameniti hardkodovane checklist-e importom iz `lib/knowledge`, dodati samoproveru.
+2. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena, zahteva login kao Pro korisnik.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
@@ -32,8 +37,8 @@ Provera: end-to-end test sa pravim Claude pozivom (van auth omotača) potvrdio i
 
 ## Sledeći korak
 
-1. Vizuelna provera C2 upload UI-a uživo (drag&drop, stanja) — vidi gore.
-2. **Sledeća velika tema: "baza znanja" za AI feature (dogovoreno, plan još nije napravljen).** Cilj: formalizovati pravno/poslovno znanje (danas razbacano po `lib/prompts/*.ts`) u kurirane `.md` fajlove kao jedinstven izvor istine — koristi ga i generisanje dokumenata i C2 pregled ugovora i budući chatbot. Pristup: context injection (ubacivanje u system prompt), NE fine-tuning (Anthropic to ne nudi kao samoposlužnu opciju za Claude) i verovatno NE RAG/vektorska baza (1M token kontekst kod Claude-a je dovoljan za realnu veličinu naše baze znanja). `lib/reviewKnowledge.ts` (iz C2 rada) je prvi mali korak u tom pravcu.
+1. Nastaviti rollout baze znanja na preostalih 16 `lib/prompts/*.ts` modula (pattern potvrđen na `ugovor-o-radu.ts` — vidi gore).
+2. Vizuelna provera C2 upload UI-a uživo (drag&drop, stanja).
 3. Posle toga: sledeći feature TBD. Strateška odluka ove sesije: fokus na AI-diferencirane feature (ne mehaničke/CRUD) — brand je "AIsistent", mehanika (biblioteka obrazaca, kalkulatori, CRUD tabele) ide u "održavanje, ne ekspanzija" režim. KPO knjiga za paušalce (A2) NAMERNO odbačena — konkurentska analiza pausalko.rs (1000+ korisnika, pun paušalac-ekosistem sa SEF/fiskalizacijom koju mi ne možemo lako dobiti) pokazala da bi izolovana KPO knjiga bila slaba bez tog lanca. Sledeći kandidati iz iste AI-kategorije: C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`).
 Otvoreno, niži prioritet: da li ikad vredi uraditi puni Roboto font-embed u DOCX (ručni OOXML hack) — samo ako se ispostavi da Calibri nije dovoljno.
 

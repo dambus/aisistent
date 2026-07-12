@@ -4,7 +4,7 @@ import mammoth from 'mammoth'
 import PDFParser from 'pdf2json'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { ALL_CHECKLISTS_TEXT } from '@/lib/reviewKnowledge'
+import { getAllKnowledgeText } from '@/lib/knowledge'
 
 const REVIEW_PLANS = ['pro', 'agency']
 const REVIEW_LIMITS: Record<string, number> = {
@@ -33,7 +33,7 @@ Odredi kojem od poznatih tipova uploadovan ugovor najviše odgovara (nda, ugovor
 
 Dole su liste OBAVEZNIH ELEMENATA za svaki tip ugovora — ovo je naša interna, pravno proverena referenca (isti standard koji koristimo kad MI generišemo ugovore). Koristi listu za tip koji si identifikovao u koraku 2 kao osnovu za "sta_nedostaje" — ne izmišljaj sopstvenu listu elemenata.
 
-${ALL_CHECKLISTS_TEXT}
+${getAllKnowledgeText()}
 
 ## FORMAT ODGOVORA
 

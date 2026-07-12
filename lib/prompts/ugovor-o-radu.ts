@@ -1,5 +1,6 @@
 import type { WizardStep, UgovorORaduData } from '@/types/wizard'
 import { getVokativHint } from '@/lib/utils/vokativ'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -99,22 +100,9 @@ Puno ime i prezime zaposlenog navodi se SAMO u:
 
 Nigde drugde ne ponavljaj puno ime. Koristiti "Zaposleni/Zaposlena" i "Poslodavac".
 
-## OBAVEZNI ELEMENTI UGOVORA (prema članu 33. Zakona o radu)
+## OBAVEZNI ELEMENTI UGOVORA (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['radni-odnosi'].pravniOsnov})
 
-1. Naziv i sedište poslodavca
-2. Lično ime zaposlenog, JMBG, adresa stanovanja
-3. Vrsta i opis poslova
-4. Mesto rada
-5. Vrsta radnog odnosa (na određeno / neodređeno vreme)
-6. Trajanje ugovora i osnov (ako određeno vreme)
-7. Dan početka rada
-8. Radno vreme (puno / nepuno / skraćeno)
-9. Novčani iznos osnovne zarade
-10. Elementi za utvrđivanje zarade, učinka, naknada
-11. Rokovi isplate zarade
-12. Trajanje godišnjeg odmora
-13. Otkazni rok
-14. Zabrana takmičenja (ako se ugovara)
+${KNOWLEDGE_TOPICS['radni-odnosi'].sadrzaj}
 
 ## KONZISTENTNOST PODATAKA — KRITIČNA PROVERA
 
@@ -223,7 +211,11 @@ DETALJNA PRAVA I OBAVEZE:
 - Ne prihvataj tiho kontradikciju adresa poslodavca i mesta rada — uvek postavi [PROVERITI: adresa]
 - Ne koristi slovne zapise koji ne odgovaraju ciframa
 - Ne generišeš klauzulu zabrane konkurencije bez naknade — ako naknada nije uneta, postavi [POPUNITI: iznos naknade za zabranu konkurencije]
-- Ne ostavljaj datum zaključenja ugovora prazan bez [POPUNITI] oznake`
+- Ne ostavljaj datum zaključenja ugovora prazan bez [POPUNITI] oznake
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisan ugovor naspram liste "OBAVEZNI ELEMENTI UGOVORA" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. otkazni rok nije definisan odvojeno za obe strane, zabrana konkurencije nema naknadu, nema napomene o zaštiti podataka), DOPUNI ugovor pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: UgovorORaduData): string {
   const probniRad = data.probni_rad
