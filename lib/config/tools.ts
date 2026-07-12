@@ -240,6 +240,16 @@ export const TOOL_CONFIG: Record<string, ToolConfig> = {
     ctaLabel: 'Otvorite kalkulator',
     ctaTitle: 'Izračunajte odmah, besplatno',
   },
+  'pregled-ugovora': {
+    slug: 'pregled-ugovora',
+    label: 'Pregled ugovora',
+    desc: 'AI analiza rizičnih klauzula pre potpisivanja tuđeg ugovora',
+    icon: '🔎',
+    landingHref: '/pregled-ugovora',
+    dashboardHref: '/alati/pregled-ugovora',
+    ctaLabel: 'Analizirajte ugovor',
+    ctaTitle: 'Proverite ugovor pre potpisa',
+  },
 }
 
 export function getToolConfig(slug: string): ToolConfig | undefined {
@@ -272,6 +282,10 @@ export const HOMEPAGE_CATEGORIES: { title: string; slugs: string[] }[] = [
     title: '🧮 Besplatni kalkulatori',
     slugs: ['kalkulator-zarade', 'kalkulator-pausala', 'kalkulator-ugovora-o-delu'],
   },
+  {
+    title: '🤖 AI alati',
+    slugs: ['pregled-ugovora'],
+  },
 ]
 
 /** Grupisanje za dashboard i sidebar (dokumenta grupe identične, kalkulatori posebna "Alati" kategorija). */
@@ -294,4 +308,4 @@ export const DASHBOARD_CATEGORIES: { title: string; slugs: string[] }[] = [
   },
 ]
 
-export const CALCULATOR_SLUGS = ['kalkulator-zarade', 'kalkulator-pausala', 'kalkulator-ugovora-o-delu']
+export const CALCULATOR_SLUGS = ['kalkulator-zarade', 'kalkulator-pausala', 'kalkulator-ugovora-o-delu', 'pregled-ugovora']

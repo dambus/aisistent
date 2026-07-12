@@ -7,9 +7,9 @@
 
 ---
 
-## Status: bez otvorenog rada
+## Status: čeka live test
 
-Nema task-a u toku.
+**C2 — Pregled tuđeg ugovora implementiran, čeka smoke test sa pravim Pro nalogom.** Upload PDF/DOCX → Claude analiza (rizične klauzule/šta nedostaje/na šta paziti) → strukturisan izveštaj. `app/api/review-contract/route.ts`, `components/dashboard/ContractReviewClient.tsx`, `app/(dashboard)/alati/pregled-ugovora/`, `app/pregled-ugovora/`. tsc/eslint čisto, landing+dashboard rute potvrđene da se učitavaju (curl), ali NIJE testiran stvaran upload+Claude poziv end-to-end (zahteva auth sesiju). **Sledeći korak: ulogovati se kao Pro korisnik, uploadovati test ugovor, potvrditi da izveštaj ispravno renderuje.**
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
@@ -30,7 +30,9 @@ Nema task-a u toku.
 
 ## Sledeći korak
 
-Nije odabran. Kandidati u `docs/handover/11-BRAINSTORM-FEATURES.md`: A2 (KPO knjige za paušalce), B2/B3 (uputstva/bundling za obrasce), C4 (osnivački akt DOO). Otvoreno: da li ikad vredi uraditi puni Roboto font-embed u DOCX (ručni OOXML hack) — samo ako se ispostavi da Calibri nije dovoljno.
+1. Live smoke test C2 (pregled ugovora) sa Pro nalogom — vidi gore.
+2. Posle toga: sledeći feature TBD. Strateška odluka ove sesije: fokus na AI-diferencirane feature (ne mehaničke/CRUD) — brand je "AIsistent", mehanika (biblioteka obrazaca, kalkulatori, CRUD tabele) ide u "održavanje, ne ekspanzija" režim. KPO knjiga za paušalce (A2) NAMERNO odbačena — konkurentska analiza pausalko.rs (1000+ korisnika, pun paušalac-ekosistem sa SEF/fiskalizacijom koju mi ne možemo lako dobiti) pokazala da bi izolovana KPO knjiga bila slaba bez tog lanca. Sledeći kandidati iz iste AI-kategorije: C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`).
+Otvoreno, niži prioritet: da li ikad vredi uraditi puni Roboto font-embed u DOCX (ručni OOXML hack) — samo ako se ispostavi da Calibri nije dovoljno.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 

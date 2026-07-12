@@ -75,11 +75,12 @@
 **Rizici:** prevod pravnog teksta — disclaimer da je srpska verzija merodavna.
 **Kompleksnost:** M-L.
 
-### C2. Pregled tuđeg ugovora (Contract review)
+### C2. ✅ Pregled tuđeg ugovora (Contract review) — implementirano 12. jul 2026., čeka live smoke test
 **Opis:** korisnik uploaduje ugovor koji je DOBIO, Claude analizira: rizične klauzule, šta fali, na šta da pazi pre potpisa. Izlaz: strukturisan izveštaj, ne izmene.
 **Vrednost:** ogromna — strah od potpisivanja je univerzalan; komplementarno generisanju (mi pišemo naše + čitamo tuđe).
 **Rizici:** NAJVEĆI pravni rizik na listi — "AI mi rekao da je ugovor OK" → šteta. Obavezno: jak disclaimer, izveštaj formulisan kao "pitanja za vašeg advokata", ne "ovo je bezbedno". Pro+ only.
 **Kompleksnost:** M (upload postoji u obrasci flow-u, PDF text ekstrakcija postoji, novi prompt + izveštaj UI).
+**Implementacija:** `app/api/review-contract/route.ts` (mammoth/pdf2json ekstrakcija, Claude strukturisan JSON izveštaj, Pro+ gate, in-memory mesečni limit 20), `components/dashboard/ContractReviewClient.tsx`, `app/(dashboard)/alati/pregled-ugovora/`, javna landing `app/pregled-ugovora/`. Dokument se NE čuva trajno (privatnost — obrađuje se u memoriji, ne u Supabase storage). Odlučeno posle konkurentske analize: umesto KPO knjige (A2, odbačeno) fokus na AI-diferencirane feature.
 
 ### C3. Slanje na potpis drugoj strani
 **Opis:** dokument → link drugoj strani → ona pregleda, komentariše, "prihvatam" klik (nije kvalifikovani e-potpis, ali jeste trag saglasnosti); kasnije: integracija kvalifikovanog potpisa.
