@@ -74,6 +74,12 @@
 
 ---
 
+## Rešeni bugovi (jul 2026, nastavak)
+
+| ID | Opis |
+|----|------|
+| BUG-043 | Ugovor o radu — `naknada_zabrana` (naknada za zabranu konkurencije) faliо u Zod šemi `app/api/generate/route.ts` (`ugovorORaduSchema`) — polje se tiho brisalo pre `buildUserMessage`, uvek generisano `[POPUNITI: naknada za zabranu konkurencije]` bez obzira šta korisnik unese u wizard-u. Otkriveno pregledom ugovora kroz C2 (pregled ugovora) feature na sopstvenom test-generisanom dokumentu. |
+
 ## Plan fixeva
 
 ### Aktivni (po prioritetu)

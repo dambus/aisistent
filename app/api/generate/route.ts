@@ -66,6 +66,7 @@ const ugovorORaduSchema = z.object({
   godisnji_odmor: num.pipe(z.number().min(20)),
   zabrana_konkurencije: z.boolean().default(false),
   trajanje_zabrane: optNum,
+  naknada_zabrana: optNum,
   detaljna_prava_obaveze: z.boolean().default(false),
   cuvanje_poslovne_tajne: z.boolean().default(false),
   napomene: z.string().optional(),
