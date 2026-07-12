@@ -45,3 +45,6 @@ scripts/output/
 
 # Harvest — skinuti PDF-ovi izvora (state je u scripts/curation/harvest-state.json)
 scripts/harvest/
+
+# Claude Code — lokalni per-masina permission allowlist, ne deliti kroz git
+.claude/settings.local.json
