@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc --noEmit*)",
+      "mcp__claude-in-chrome__tabs_context_mcp"
+    ]
+  }
+}
