@@ -2,45 +2,37 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 12. jul 2026. — mašina: kućna
+**Poslednja izmena:** 12. jul 2026. (veče) — mašina: kućna
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: baza znanja — faza 1 gotova, pilot potvrđen, čeka odluka o rollout-u na ostalih 16 tipova
+## Status: baza znanja — pilot na ugovor-o-radu kompletan i dogovorno zaustavljen, nastavak veče/sledeća sesija
 
-**Baza znanja (`lib/knowledge/`) implementirana, po temi (ne po tipu dokumenta).** 9 topic-a (radni-odnosi, autorsko-pravo, ugovorna-kazna, poverljivost, zakup, zajam, punomocje, obligacije-opste, saradnja), svaki sa `pravniOsnov` + `poslednjaProvera` datum. `lib/knowledge/index.ts` — registry + `CONTRACT_TYPE_TOPICS` mapiranje tip→topic-i + `getKnowledgeForType()`/`getAllKnowledgeText()` helperi.
-Stari `lib/reviewKnowledge.ts` (duplikat napravljen ranije istog dana) OBRISAN — `app/api/review-contract/route.ts` sad čita iz `lib/knowledge` preko `getAllKnowledgeText()`.
-**Pilot generisanja:** `lib/prompts/ugovor-o-radu.ts` refaktorisan — hardkodovan "OBAVEZNI ELEMENTI" blok zamenjen importom `KNOWLEDGE_TOPICS['radni-odnosi']`, dodat "SAMOPROVERA PRE VRAĆANJA ODGOVORA" korak (model tiho proverava sopstveni izlaz naspram iste liste pre nego vrati odgovor — bez dodatnog API poziva).
-Provera: `npx tsc --noEmit` i `eslint` čisto na sve izmenjeno/obrisano. End-to-end test generisanja ugovora o radu sa namerno unetim propustom (zabrana konkurencije bez naknade) — model je ispravno detektovao i označio `[POPUNITI: iznos naknade]` sa referencom na čl. 161 st. 2 Zakona o radu.
+**Baza znanja (`lib/knowledge/`) implementirana, po temi.** 9 topic-a (radni-odnosi, autorsko-pravo, ugovorna-kazna, poverljivost, zakup, zajam, punomocje, obligacije-opste, saradnja). `lib/knowledge/index.ts` — registry + `CONTRACT_TYPE_TOPICS` + `getKnowledgeForType()`/`getAllKnowledgeText()`. Koristi je i C2 (`app/api/review-contract/route.ts`) i generisanje (pilot: `lib/prompts/ugovor-o-radu.ts`).
 
-**Preostalo (sledeća sesija ili nastavak):**
-1. Ponoviti pilot pattern na preostalih 16 `lib/prompts/*.ts` modula (jedan po jedan, ne odjednom) — zameniti hardkodovane checklist-e importom iz `lib/knowledge`, dodati samoproveru.
-2. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena, zahteva login kao Pro korisnik.
+**Pilot na `ugovor-o-radu.ts` prošao kroz DVA kruga stvarnog dogfooding testa** (Milan generisao ugovor na dev serveru → pustio kroz C2 pregled → nalazi vraćeni u generator):
+- Krug 1: dodata samoprovera + import baze znanja umesto hardkodovanog checklist-a → otkrio **BUG-043** (kritičan, nepovezan sa knowledge radom): `naknada_zabrana` polje falilo u Zod šemi `app/api/generate/route.ts`, tiho se brisalo, uvek `[POPUNITI]` bez obzira na wizard unos. Popravljeno.
+- Krug 2 (posle fix-a): nov test otkrio 3 kvalitativna nalaza — premeštaj klauzula bez zakonskog roka (**BUG-044**, popravljeno: limit 60 radnih dana), poslovna tajna bez izuzetaka (**BUG-045**, popravljeno: dodat stav o izuzecima), hibridni rad bez konkretnog broja dana jer wizard nije ni prikupljao taj podatak (popravljeno: novo opciono polje `dana_kancelarija`).
 
-## Gotovo i verifikovano (poslednje 1-2 sesije)
+Sve provereno: `tsc --noEmit`/`eslint` čisto na svaku izmenu, stvaran Claude API poziv posle svakog fix-a potvrdio ispravku u istom generisanom tekstu (ne samo teorijski). Sve komitovano i pushovano (`901afd9`, `ca5da05`, `ebfba5c`, `4aa584e`).
 
-- **Dokumentacioni/memorijski flow redizajniran** — `.ai-memory/STATE.md` (ovaj fajl) je jedini session-start read; `docs/DOCUMENTATION_MAP.md` je meta-mapa svih dokumenata (kad čitati/pisati, anti-drift pravila); `CLAUDE.md` ažuriran da upućuje na oba.
-  Provera: `CLAUDE.md` sadrži "STATE.md" u sekciji "Stanje projekta".
-- **DOCX vs PDF vizuelni audit** — font promenjen Times New Roman → Calibri (univerzalni sans-serif, blizu Roboto duha; puni Roboto embed nije podržan u `docx` biblioteci bez ručnog OOXML hakovanja — otvoreno za budućnost ako zatreba), AIsistent brend logo dodat kao fallback u DOCX header kad korisnik nema svoj logo. Ostali poznati DOCX bugovi (POVERLJIVO watermark, orphan headings, tabela potpisa) bili već rešeni ranije, BACKLOG.md je bio zastareo.
-  Provera: `grep "Calibri" lib/pdf/docxBuilder.ts`; generisan test DOCX potvrdio Calibri u XML-u i logo u `word/media/`.
-  Detalji: `docs/BACKLOG.md:64` (DOCX formatiranje stavka)
-- **Migracije `catalog_items` i `employees` primenjene na produkcijsku Supabase bazu.** Katalog usluga i Sačuvani zaposleni (Pro+) rade uživo.
-  Provera: `supabase migration list` treba da pokaže obe kao applied, ili SQL Editor `select * from catalog_items limit 1;` / `select * from employees limit 1;` ne baca "relation does not exist".
-- **TipCard najave implementirane** za kontakte/katalog/zaposlene.
-  Provera: `grep -r "TipCard" components/dashboard/` — pogodi `ContactsTab.tsx`, `CatalogTab.tsx`, `EmployeesTab.tsx`.
-  Detalji: `docs/handover/05-FEATURE-NAJAVE.md:3` (status header)
-- **D1 SEO nadgradnja `/obrasci`** (JSON-LD BreadcrumbList/HowTo/FAQPage, FAQ sekcije) — live, potvrđeno curl-om na produkciji.
-  Detalji: `PROGRESS.md:32-38`
-- **Upload & Fill feature potpuno uklonjen** (mrtav UI/API kod obrisan, ~2400 linija). Biblioteka obrazaca (Faza 4) preživela, i dalje se razvija.
-  Detalji: `PROGRESS.md:36`, `docs/BACKLOG.md:151-159`
+**Dogovoreno zaustavljanje ovde — Milan nastavlja veče, ne nova sesija nužno.**
 
 ## Sledeći korak
 
-1. Nastaviti rollout baze znanja na preostalih 16 `lib/prompts/*.ts` modula (pattern potvrđen na `ugovor-o-radu.ts` — vidi gore).
-2. Vizuelna provera C2 upload UI-a uživo (drag&drop, stanja).
-3. Posle toga: sledeći feature TBD. Strateška odluka ove sesije: fokus na AI-diferencirane feature (ne mehaničke/CRUD) — brand je "AIsistent", mehanika (biblioteka obrazaca, kalkulatori, CRUD tabele) ide u "održavanje, ne ekspanzija" režim. KPO knjiga za paušalce (A2) NAMERNO odbačena — konkurentska analiza pausalko.rs (1000+ korisnika, pun paušalac-ekosistem sa SEF/fiskalizacijom koju mi ne možemo lako dobiti) pokazala da bi izolovana KPO knjiga bila slaba bez tog lanca. Sledeći kandidati iz iste AI-kategorije: C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`).
-Otvoreno, niži prioritet: da li ikad vredi uraditi puni Roboto font-embed u DOCX (ručni OOXML hack) — samo ako se ispostavi da Calibri nije dovoljno.
+1. **Nastaviti isti dogfooding pattern** (generiši → pusti kroz C2 → vrati nalaze u prompt) na preostalih 16 `lib/prompts/*.ts` modula, jedan po jedan. `ugovor-o-radu.ts` je referentni primer kako izgleda ceo krug (baza znanja import + samoprovera + Zod schema provera + realan test).
+2. Kad se rollout završi ili stane: vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena.
+3. Posle toga: sledeći feature TBD. Kandidati iz AI-diferenciranog fokusa (odluka od ranije istog dana): C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`). KPO knjiga (A2) namerno odbačena — vidi `docs/handover/11-BRAINSTORM-FEATURES.md`.
+
+## Gotovo i verifikovano (poslednje 1-2 sesije)
+
+- **Baza znanja `lib/knowledge/` + pilot na ugovor-o-radu** — vidi Status iznad. Provera: `ls lib/knowledge/`, `grep "KNOWLEDGE_TOPICS" lib/prompts/ugovor-o-radu.ts`.
+- **BUG-043/044/045 rešeni** (naknada zabrane konkurencije, premeštaj bez limita, poslovna tajna bez izuzetaka) — `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, nastavak)".
+- **C2 Pregled ugovora — dorađen kvalitet** (guardrail za van-domena upload, obrazložene tvrdnje, redizajniran UI). Provera: `lib/reviewKnowledge.ts` NE postoji (obrisan, zamenjen `lib/knowledge/`).
+- **Dokumentacioni/memorijski flow redizajniran** — `.ai-memory/STATE.md` (ovaj fajl) jedini session-start read; `docs/DOCUMENTATION_MAP.md` meta-mapa; `CLAUDE.md` upućuje na oba.
+- **DOCX vs PDF vizuelni audit** — font Calibri, AIsistent brend logo fallback u DOCX headeru. Detalji: `docs/BACKLOG.md:64`.
+- **Migracije `catalog_items`/`employees` primenjene na produkciju**, TipCard najave implementirane, D1 SEO na `/obrasci` live, Upload & Fill uklonjen. Detalji: `PROGRESS.md`.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 
@@ -58,6 +50,7 @@ Otvoreno, niži prioritet: da li ikad vredi uraditi puni Roboto font-embed u DOC
 | Konvencije koda | `docs/CONVENTIONS.md` |
 | Poznati bugovi | `docs/BUG_TRACKER.md` |
 | Brainstorm ideje za sledeći feature | `docs/handover/11-BRAINSTORM-FEATURES.md` |
+| Baza znanja — struktura i sadržaj | `lib/knowledge/index.ts` |
 | Detaljna istorija po temi (kontakti/katalog/zaposleni/obrasci/chatbot) | `.ai-memory/project_*.md` — samo ako STATE.md ne pokriva dovoljno |
 
 ---

@@ -29,6 +29,19 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 12. jul 2026. (četvrti dodatak) — Dogfooding krug 2: BUG-043/044/045 na ugovoru o radu
+
+Posle prve runde baze znanja (treći dodatak, ispod), Milan je testirao ceo krug uživo: generisao ugovor o radu na dev serveru, pustio ga kroz C2 (pregled ugovora), vratio nalaze u prompt. Ovo je otkrilo i rešilo:
+
+- **BUG-043 (kritičan):** `naknada_zabrana` polje falilo u Zod šemi `app/api/generate/route.ts` (`ugovorORaduSchema`) — tiho se brisalo pre `buildUserMessage`, uvek `[POPUNITI: naknada za zabranu konkurencije]` bez obzira šta korisnik unese u wizard-u. Nepovezano sa knowledge radom — čist regression bug otkriven zahvaljujući dogfooding-u.
+- **BUG-044:** klauzula privremenog premeštaja zaposlenog bila neograničena ("potrebe poslovanja" bez roka) — Zakon o radu ograničava na konkretne slučajeve + max 60 radnih dana. Popravljeno pravilo u `lib/prompts/ugovor-o-radu.ts`.
+- **BUG-045:** čuvanje poslovne tajne nije imalo izuzetke (javno dostupno, opšte stručno znanje, prethodno poznato) — jednostrano preširoka definicija. Popravljeno.
+- Dodatno: hibridni rad generisan uvek kao vaga fraza "u skladu sa internim aktima" jer wizard nije ni prikupljao broj dana u kancelariji — dodato novo opciono polje `dana_kancelarija` (samo kad `nacin_rada === 'Hibridno'`).
+
+**Testirano:** stvaran Claude API poziv posle svakog fix-a (ne samo teorijska provera koda) — sve četiri ispravke potvrđene u generisanom tekstu. `tsc`/`eslint` čisto. Sve komitovano i pushovano: `ebfba5c` (BUG-043), `4aa584e` (BUG-044/045 + hibrid polje).
+
+**Zaključak sesije:** dogfooding pattern (generiši → pregled → vrati nalaz u prompt) se pokazao vredniji od samog postojanja baze znanja — otkrio je i regression bug koji baza znanja sama po sebi ne bi uhvatila. Nastaviti isti pattern na preostalih 16 tipova.
+
 #### 12. jul 2026. (treći dodatak) — Baza znanja: faza 1 + pilot na ugovor-o-radu
 
 Nastavak diskusije od ranije istog dana (fine-tuning vs context injection). Implementirana `lib/knowledge/` — jedinstvena baza pravnog/poslovnog znanja organizovana PO TEMI (ne po tipu dokumenta), da se izbegne duplikacija koju je `lib/reviewKnowledge.ts` (iz prethodnog dodatka istog dana) već počeo da pravi.
