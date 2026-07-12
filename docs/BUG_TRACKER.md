@@ -79,6 +79,9 @@
 | ID | Opis |
 |----|------|
 | BUG-043 | Ugovor o radu — `naknada_zabrana` (naknada za zabranu konkurencije) faliо u Zod šemi `app/api/generate/route.ts` (`ugovorORaduSchema`) — polje se tiho brisalo pre `buildUserMessage`, uvek generisano `[POPUNITI: naknada za zabranu konkurencije]` bez obzira šta korisnik unese u wizard-u. Otkriveno pregledom ugovora kroz C2 (pregled ugovora) feature na sopstvenom test-generisanom dokumentu. |
+| BUG-044 | Ugovor o radu — klauzula o privremenom premeštaju zaposlenog bila neograničena ("u slučaju potrebe poslovanja", bez roka) — Zakon o radu ograničava na konkretne slučajeve + max 60 radnih dana. Popravljeno u `lib/prompts/ugovor-o-radu.ts` (pravilo dodato). Otkriveno C2 analizom. |
+| BUG-045 | Ugovor o radu — klauzula o čuvanju poslovne tajne nije imala izuzetke (šta NIJE poslovna tajna) — jednostrano preširoka definicija. Popravljeno dodavanjem obaveznog stava o izuzecima. Otkriveno C2 analizom. |
+| ✓ | Ugovor o radu — hibridni rad nije imao konkretan broj dana u kancelariji (uvek "u skladu sa internim aktima"), jer wizard nije ni prikupljao taj podatak. Dodato novo opciono wizard polje `dana_kancelarija` (samo kad `nacin_rada === 'Hibridno'`) — koristi se u generisanoj klauzuli kad je uneto. |
 
 ## Plan fixeva
 

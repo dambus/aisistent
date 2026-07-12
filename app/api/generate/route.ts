@@ -50,6 +50,7 @@ const ugovorORaduSchema = z.object({
   opis: z.string().min(1),
   mesto_rada: z.string().min(1),
   nacin_rada: z.string().min(1),
+  dana_kancelarija: optNum,
   vrsta_radnog_odnosa: z.string().min(1),
   datum_pocetka: z.string().min(1),
   datum_isteka: z.string().optional(),

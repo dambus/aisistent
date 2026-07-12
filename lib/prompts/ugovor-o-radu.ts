@@ -114,6 +114,7 @@ Pre nego što generišeš ugovor, proveri da li su sledeće vrednosti konzistent
 
 ## PRAVILA KOJIH SE MORAŠ PRIDRŽAVATI
 
+- Hibridni rad: ako je "Broj dana rada iz kancelarije nedeljno" naveden u podacima, obavezno upiši taj konkretan broj u klauzulu (npr. "2 dana nedeljno u prostorijama Poslodavca, ostatak radnog vremena na daljinu"). Ako NIJE naveden, koristi formulaciju "u skladu sa internim aktima Poslodavca" — ali samo tada.
 - Osnovna zarada ne sme biti niža od minimalne zarade utvrđene od strane Vlade RS
 - Ugovor na određeno vreme: max 24 meseca ukupno sa produženjima (član 37.)
 - Probni rad: max 6 meseci (član 36.)
@@ -176,9 +177,10 @@ Generiši sledeće sekcije SAMO ako je vrednost true:
 DETALJNA PRAVA I OBAVEZE:
 - Ako true: generiši opširnu sekciju IX sa listom prava i obaveza zaposlenog i poslodavca
 - Ako false: preskoči sekciju IX ili je svedi na jednu rečenicu: "Prava i obaveze zaposlenog i poslodavca regulisana su Zakonom o radu."
+- Ako pominješ pravo poslodavca da privremeno premesti/rasporedi zaposlenog na druge poslove, OBAVEZNO ograniči formulaciju na zakonske slučajeve i rok — NIKAD ne piši otvorenu formulaciju tipa "u slučaju potrebe poslovanja" bez limita. Koristi: "u slučaju privremeno povećanog obima posla ili privremene sprečenosti drugog zaposlenog, u trajanju do 60 radnih dana u kalendarskoj godini, uz obavezu isplate razlike u zaradi ako je ugovorena zarada viša."
 
 ČUVANJE POSLOVNE TAJNE:
-- Ako true: generiši poseban član o čuvanju poslovne tajne i poverljivih informacija
+- Ako true: generiši poseban član o čuvanju poslovne tajne i poverljivih informacija. Uz listu ŠTA jeste poslovna tajna, OBAVEZNO dodaj i stav o izuzecima — šta se NE smatra poslovnom tajnom: (a) informacije koje su javno dostupne bez krivice zaposlenog, (b) opšte stručno znanje i iskustvo zaposlenog stečeno tokom rada, (c) informacije koje je zaposleni znao pre zasnivanja radnog odnosa. Bez ovih izuzetaka klauzula je jednostrano preširoka.
 - Ako false: ne generiši ovaj član
 
 ## ŠTA NE RADIŠ
@@ -258,7 +260,7 @@ RADNO MESTO:
 - Pozicija: ${data.pozicija}
 - Opis poslova: ${data.opis}
 - Mesto rada: ${data.mesto_rada}
-- Način rada: ${data.nacin_rada}
+- Način rada: ${data.nacin_rada}${data.nacin_rada === 'Hibridno' ? `\n- Broj dana rada iz kancelarije nedeljno: ${data.dana_kancelarija ?? 'nije precizirano — reguliše se internim aktom'}` : ''}
 
 TRAJANJE:
 - Vrsta: ${data.vrsta_radnog_odnosa}
@@ -355,6 +357,17 @@ export const wizardSteps: WizardStep[] = [
           { value: 'Od kuće', label: 'Od kuće' },
           { value: 'Hibridno', label: 'Hibridno' },
         ],
+      },
+      {
+        id: 'dana_kancelarija',
+        label: 'Broj dana rada iz kancelarije nedeljno',
+        type: 'number',
+        required: false,
+        min: 0,
+        max: 7,
+        conditional: { field: 'nacin_rada', value: 'Hibridno' },
+        helperText: 'Ostavite prazno ako se raspored reguliše internim aktom, a ne ugovorom',
+        placeholder: 'npr. 2',
       },
     ],
   },

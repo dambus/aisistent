@@ -51,6 +51,7 @@ export interface UgovorORaduData {
   opis: string
   mesto_rada: string
   nacin_rada: string
+  dana_kancelarija?: number
   vrsta_radnog_odnosa: string
   datum_pocetka: string
   datum_isteka?: string
