@@ -137,6 +137,7 @@ export interface NdaData {
   zabrana?: boolean
   zabrana_konkurencije?: boolean
   trajanje_zabrane?: number
+  naknada_zabrana?: number
   geografsko_ogranicenje_zabrane?: string
   opis_zabranjene_delatnosti?: string
   napomene?: string

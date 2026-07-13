@@ -127,6 +127,7 @@ const ndaSchema = z.object({
   zabrana: z.boolean().optional(),
   zabrana_konkurencije: z.boolean().default(false),
   trajanje_zabrane: optNum,
+  naknada_zabrana: optNum,
   geografsko_ogranicenje_zabrane: z.string().optional(),
   opis_zabranjene_delatnosti: z.string().optional(),
   napomene: z.string().optional(),

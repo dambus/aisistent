@@ -1,4 +1,5 @@
 import type { NdaData, WizardStep } from '@/types/wizard'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 function formatOblast(input: NdaData['oblast_informacija']): string {
   return Array.isArray(input) ? input.join(', ') : input
@@ -47,18 +48,11 @@ Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
 Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 Ženska na -a: Ana→Ane→Ani→Anu | Jelena→Jelene→Jeleni→Jelenu
 
-## OBAVEZNI ELEMENTI NDA
+## OBAVEZNI ELEMENTI NDA (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['poverljivost'].pravniOsnov})
 
-1. Identifikacija strana i tip sporazuma
-2. Definicija poverljivih informacija
-3. Definicija izuzetaka - šta NIJE poverljivo
-4. Obaveze strane koja prima
-5. Trajanje sporazuma i trajanje obaveze čuvanja
-6. Dozvoljeno otkrivanje (zaposleni, pravnici, računovođe)
-7. Vraćanje ili uništavanje informacija po isteku
-8. Posledice kršenja
-9. Merodavno pravo i nadležnost suda
-10. Potpisi
+${KNOWLEDGE_TOPICS['poverljivost'].sadrzaj}
+
+Uz gornje elemente, sporazum mora sadržati i: merodavno pravo i nadležnost suda, i potpise strana (potpise sistem dodaje automatski).
 
 ## IZUZECI - OBAVEZNO UKLJUČITI
 
@@ -68,6 +62,16 @@ b) postanu javno dostupne bez krivice primaoca
 c) ih je primalac već znao pre otkrivanja
 d) ih je primalac dobio od treće strane bez obaveze čuvanja
 e) su otkrivene na osnovu zakonske obaveze ili sudskog naloga
+
+## UGOVORNA KAZNA — PROPORCIONALNOST (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['ugovorna-kazna'].pravniOsnov})
+
+${KNOWLEDGE_TOPICS['ugovorna-kazna'].sadrzaj}
+
+Ako je ugovorna kazna uneta, član o posledicama kršenja mora sadržati napomenu da se kazna ne dira pravo na naknadu stvarne štete u meri u kojoj ona premašuje kaznu (čl. 275 ZOO) — ne generiši formulaciju koja isključuje ovo pravo. Ne dodaješ samostalno gornji limit (kap) kazne osim ako ga je korisnik eksplicitno uneo — ali ako je uneti iznos kazne izrazito visok u odnosu na svrhu sporazuma navedenu u SVRHA, formuliši član neutralno i precizno (bez preterivanja u jeziku), jer visina je korisnikova odluka.
+
+## ZABRANA KONKURENCIJE — NAKNADA OBAVEZNA
+
+Ako se zabrana konkurencije ugovara, sporazum MORA sadržati konkretnu novčanu naknadu koju Strana koja otkriva plaća Strani koja prima za period trajanja zabrane. Zabrana bez naknade ograničava slobodu privređivanja strane koja prima i rizikuje da bude ocenjena kao nesrazmerna ili teško izvršiva. Ako naknada nije uneta, postavi [POPUNITI: naknada za zabranu konkurencije] umesto da klauzulu ostaviš bez ikakve kompenzacije.
 
 ## FORMAT IZLAZA
 
@@ -124,12 +128,19 @@ X.    ZAVRŠNE ODREDBE
   - U uvodnom tekstu gde se pominje datum zaključivanja (npr. 'zaključen dana...') piše: 'zaključen dana ___________. godine'
   - U potpisničkom delu datum potpisivanja je uvek: 'Mesto i datum potpisivanja: _______________' (prazno polje, bez generisanog datuma)
   - Ako datum potpisivanja nije unet, koristi [POPUNITI: datum potpisivanja]
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisan sporazum naspram liste "OBAVEZNI ELEMENTI NDA" i "IZUZECI" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. tip NDA nije primenjen dosledno, izuzeci od poverljivosti nisu svi navedeni, zabrana konkurencije nema geografsko i delatnostno ograničenje ILI nema naknadu, ugovorna kazna nema napomenu o pravu na naknadu štete), DOPUNI sporazum pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: NdaData): string {
   const kazna = typeof data.kazna === 'number' ? `${data.kazna.toLocaleString('sr-RS')} RSD` : '[nije ugovorena]'
   const zabranaAktivna = data.zabrana_konkurencije ?? data.zabrana ?? false
   const zabrana = zabranaAktivna ? 'Da' : 'Ne'
+  const naknadaZabrana = zabranaAktivna
+    ? `${data.naknada_zabrana?.toLocaleString('sr-RS') ?? '[POPUNITI: naknada za zabranu konkurencije]'} RSD mesečno`
+    : 'Nije primenljivo'
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
 
   return `Molim te generiši Sporazum o poverljivosti sa sledećim podacima:
@@ -162,6 +173,7 @@ DODATNO:
 - Ugovorna kazna: ${kazna}
 - Zabrana konkurencije: ${zabrana}
 - Trajanje zabrane: ${data.trajanje_zabrane ?? '[POPUNITI: trajanje zabrane]'} meseci
+- Naknada za period zabrane: ${naknadaZabrana}
 - Geografsko ograničenje: ${data.geografsko_ogranicenje_zabrane ?? '[POPUNITI: geografsko ograničenje]'}
 - Opis zabranjene delatnosti: ${data.opis_zabranjene_delatnosti ?? '[POPUNITI: opis zabranjene delatnosti]'}
 - Posebne napomene (ako tekst opisuje samo polje umesto sadržaja, generiši [POPUNITI: posebne napomene]): ${data.napomene ?? '[POPUNITI: posebne napomene]'}
@@ -273,7 +285,7 @@ export const wizardSteps: WizardStep[] = [
     id: 'poverljive_informacije',
     title: 'Poverljive informacije',
     fields: [
-      { id: 'oblast_informacija', label: 'Oblast informacija', type: 'textarea', required: true, placeholder: 'Nabroj oblasti, odvojene zarezom', helperText: 'Npr. finansije, klijenti, izvorni kod, poslovni planovi', tooltip: 'Označite sve kategorije koje se odnose na vaš slučaj. Šire označavanje bolje štiti — ali pazite da ne označite kategorije koje nemate nameru da delite.' },
+      { id: 'oblast_informacija', label: 'Oblast informacija', type: 'textarea', required: true, placeholder: 'Nabroj oblasti, odvojene zarezom', helperText: 'Npr. finansije, klijenti, izvorni kod, poslovni planovi', tooltip: 'Nabrojte sve kategorije informacija koje planirate da razmenite (npr. finansije, klijenti, izvorni kod, poslovni planovi). Šira lista bolje štiti — ali nemojte navoditi kategorije koje ne nameravate da delite.' },
       { id: 'opis_informacija', label: 'Dodatni opis', type: 'textarea', required: false, placeholder: 'npr. Podaci o klijentima, izvorni kod, poslovne strategije...', helperText: 'Preciznije navedite koje informacije su poverljive' },
       { id: 'oznacavanje', label: 'Označavanje dokumenata kao "Poverljivo"?', type: 'toggle', required: true, defaultValue: true, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Ako uključite, strane moraju fizički označavati poverljive dokumente. Ako isključite, sve razmenjene informacije automatski se smatraju poverljivim.' },
     ],
@@ -294,6 +306,17 @@ export const wizardSteps: WizardStep[] = [
       { id: 'kazna', label: 'Ugovorna kazna za kršenje (RSD)', type: 'number', required: false, min: 1, helperText: 'Iznos u RSD. Unesite 0 za bez ugovorne kazne.', tooltip: 'Ugovorna kazna je fiksni iznos koji prekršilac plaća bez dokazivanja visine štete. Preporučen iznos: 3-10x mesečna vrednost saradnje. Prenizak iznos ne odvraća od kršenja, previsok može biti smanjen od suda.' },
       { id: 'zabrana_konkurencije', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Zabranjuje stranama da se takmiče međusobno nakon isteka sporazuma. Da bi bila izvršiva na sudu, mora biti geografski i delatnostno ograničena.' },
       { id: 'trajanje_zabrane', label: 'Trajanje zabrane (meseci)', type: 'number', required: false, min: 1, max: 24, defaultValue: 12, conditional: { field: 'zabrana_konkurencije', value: true }, helperText: 'Preporučeno: max 24 meseca' },
+      {
+        id: 'naknada_zabrana',
+        label: 'Naknada za period zabrane (RSD mesečno)',
+        type: 'number',
+        required: true,
+        conditional: { field: 'zabrana_konkurencije', value: true },
+        min: 1,
+        tooltip: 'Zabrana konkurencije bez naknade za period koji ograničava stranu koja prima rizikuje da bude ocenjena kao nesrazmerna ili teško izvršiva. Isti princip proporcionalnosti se u srpskom pravu primenjuje i van radnog odnosa (Zakon o radu, čl. 161. st. 2. — analogija).',
+        helperText: 'Bez naknade klauzula je rizično neizvršiva — preporučeno uneti iznos',
+        placeholder: 'npr. 20000',
+      },
       { id: 'geografsko_ogranicenje_zabrane', label: 'Geografsko ograničenje zabrane', type: 'text', required: false, conditional: { field: 'zabrana_konkurencije', value: true }, placeholder: 'npr. na teritoriji Republike Srbije', helperText: 'Bez geografskog ograničenja klauzula je teško izvršiva' },
       { id: 'opis_zabranjene_delatnosti', label: 'Opis zabranjene delatnosti', type: 'textarea', required: false, conditional: { field: 'zabrana_konkurencije', value: true }, placeholder: 'npr. direktno kontaktiranje klijenata identifikovanih tokom saradnje, angažovanje ključnih zaposlenih druge strane', helperText: 'Što preciznije, to je klauzula izvršivija. Generička zabrana cele industrije se poništava na sudu.', tooltip: 'Preporučena formulacija za NDA: zabraniti samo (1) pristup konkretnim klijentima i (2) preuzimanje zaposlenih — ne celu delatnost.' },
       { id: 'napomene', label: 'Posebne napomene', type: 'textarea', required: false, placeholder: 'npr. Posebni uslovi, dodatne definicije, napomene za obe strane...', helperText: 'Opciono — unesite samo ako postoje dodatni uslovi' },

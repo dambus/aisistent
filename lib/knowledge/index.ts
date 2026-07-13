@@ -31,7 +31,7 @@ export const KNOWLEDGE_TOPICS: Record<string, KnowledgeTopic> = {
 
 /** Koji topic-i su relevantni za koji tip ugovora — koristi se i za generisanje i za review. */
 export const CONTRACT_TYPE_TOPICS: Record<string, string[]> = {
-  nda: ['poverljivost', 'obligacije-opste'],
+  nda: ['poverljivost', 'ugovorna-kazna', 'obligacije-opste'],
   'ugovor-o-delu': ['autorsko-pravo', 'ugovorna-kazna', 'obligacije-opste'],
   'ugovor-o-zakupu': ['zakup', 'obligacije-opste'],
   'ugovor-o-saradnji': ['saradnja', 'poverljivost', 'obligacije-opste'],
