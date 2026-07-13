@@ -113,6 +113,13 @@ export default async function DashboardPage() {
           href: '/obrasci',
           ctaLabel: 'Otvorite biblioteku →',
         },
+        {
+          id: 'dashboard-pregled-ugovora',
+          title: 'Dobili ste ugovor na potpis?',
+          content: 'AI analizira ugovor koji vam je poslala druga strana — ukazuje na rizične klauzule i šta nedostaje pre nego što potpišete. (Pro i Agency plan)',
+          href: '/alati/pregled-ugovora',
+          ctaLabel: 'Pregledajte ugovor →',
+        },
       ]} />
 
       {featuredTools.length > 0 && (

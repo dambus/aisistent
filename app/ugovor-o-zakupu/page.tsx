@@ -43,6 +43,7 @@ export default function Page() {
         { href: '/punomocje', label: 'Punomoćje za zastupanje' },
         { href: '/opsti-uslovi', label: 'Opšti uslovi' },
         { href: '/nda', label: 'NDA sporazum' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

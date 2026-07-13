@@ -43,6 +43,7 @@ export default function Page() {
         { href: '/kalkulator-ugovora-o-delu', label: 'Kalkulator poreza za ugovor o delu' },
         { href: '/nda', label: 'NDA sporazum pre angažmana' },
         { href: '/blog/ugovor-o-delu-vs-ugovor-o-radu', label: 'Članak: ugovor o delu vs. o radu' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

@@ -44,6 +44,7 @@ export default function Page() {
         { href: '/nda', label: 'NDA sporazum' },
         { href: '/punomocje', label: 'Punomoćje' },
         { href: '/blog/ugovor-o-delu-vs-ugovor-o-radu', label: 'Članak: ugovor o delu vs. radu' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

@@ -42,6 +42,7 @@ export default function Page() {
         { href: '/ugovor-o-radu', label: 'Ugovor o radu' },
         { href: '/ugovor-o-saradnji', label: 'Ugovor o saradnji' },
         { href: '/nda', label: 'NDA sporazum' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

@@ -43,6 +43,7 @@ export default function Page() {
         { href: '/ugovor-o-delu', label: 'Ugovor o delu' },
         { href: '/blog/nda-sporazum-srbija', label: 'Članak: šta mora da sadrži NDA' },
         { href: '/opsti-uslovi', label: 'Opšti uslovi korišćenja' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

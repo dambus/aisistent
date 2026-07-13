@@ -43,6 +43,7 @@ export default function Page() {
         { href: '/kalkulator-zarade', label: 'Kalkulator zarade' },
         { href: '/oglas-za-posao', label: 'Oglas za posao' },
         { href: '/blog/ugovor-o-delu-vs-ugovor-o-radu', label: 'Članak: ugovor o radu vs. o delu' },
+        { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[
         {

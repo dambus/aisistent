@@ -52,6 +52,9 @@ const KEYWORD_LINKS: { pattern: RegExp; href: string; label: string }[] = [
   { pattern: /ugovor.{0,3}o.{0,3}delu/i, href: '/kalkulator-ugovora-o-delu', label: 'Kalkulator ugovora o delu' },
   { pattern: /zaposlen|radni.{0,3}odnos|M-4|M-8|M-10/i, href: '/ugovor-o-radu', label: 'Ugovor o radu (generator)' },
   { pattern: /otpremn|prevoz.{0,3}robe/i, href: '/otpremnica', label: 'Otpremnica (generator)' },
+  { pattern: /punomoć|ovlašćenj/i, href: '/punomocje', label: 'Punomoćje (generator)' },
+  { pattern: /zakup|najam/i, href: '/ugovor-o-zakupu', label: 'Ugovor o zakupu (generator)' },
+  { pattern: /poverljiv|poslovn.{0,3}tajn/i, href: '/nda', label: 'NDA — sporazum o poverljivosti (generator)' },
 ]
 
 function buildRelatedTools(form: LibraryFormMeta) {

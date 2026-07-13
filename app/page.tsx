@@ -92,7 +92,9 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
         ['✓', 'Arhiva dokumenata'],
         ['✓', 'AI izmene dokumenta (15/dan)'],
         ['✓', `Biblioteka obrazaca — automatski popunjeno podacima firme`],
+        ['✓', 'Sačuvani kontakti (do 5)'],
         ['✕', 'Word (DOCX) format'],
+        ['✕', 'Pregled ugovora — AI analiza tuđeg ugovora'],
       ],
     },
     {
@@ -110,6 +112,8 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
         ['✓', 'Email slanje dokumenata'],
         ['✓', 'AI izmene dokumenta (neograničeno)'],
         ['✓', `Biblioteka obrazaca — automatski popunjeno podacima firme`],
+        ['✓', 'Pregled ugovora — AI analiza tuđeg ugovora (20/mesečno)'],
+        ['✓', 'Smart Autofill — sačuvani kontakti, katalog usluga i zaposleni (do 50)'],
       ],
     },
 
@@ -130,6 +134,8 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
         ['✓', 'Email slanje dokumenta klijentu'],
         ['✓', 'AI izmene dokumenta (neograničeno)'],
         ['✓', `Biblioteka obrazaca — automatski popunjeno po izabranom klijentu`],
+        ['✓', 'Pregled ugovora — AI analiza tuđeg ugovora (20/mesečno)'],
+        ['✓', 'Smart Autofill — neograničeni kontakti, katalog usluga i zaposleni'],
         ['✕', 'Više korisnika na nalogu (uskoro)'],
       ],
     },

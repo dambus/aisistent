@@ -1,2 +1,0 @@
-NDA
-- wizard - polje oblast informacija u helperu ima tekst "Označite sve kategorije koje se odnose na vaš slučaj. Šire označavanje bolje štiti — ali pazite da ne označite kategorije koje nemate nameru da delite." Nije mi najjasniji ovaj tekst, a korisniku ce biti jos manje. Zvuci kao da vec postoje kategorije koje treba da se "check"/"uncheck" i kakve sifre se ovde spominju?
