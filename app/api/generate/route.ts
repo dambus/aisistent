@@ -65,11 +65,14 @@ const ugovorORaduSchema = z.object({
   fond_sati: num.pipe(z.number().min(1).max(48)),
   raspored: z.string().min(1),
   godisnji_odmor: num.pipe(z.number().min(20)),
+  otkazni_rok_zaposleni: num.pipe(z.number().min(8).max(30)),
+  otkazni_rok_poslodavac: num.pipe(z.number().min(8)),
   zabrana_konkurencije: z.boolean().default(false),
   trajanje_zabrane: optNum,
   naknada_zabrana: optNum,
   detaljna_prava_obaveze: z.boolean().default(false),
   cuvanje_poslovne_tajne: z.boolean().default(false),
+  klauzula_izmene_zarade: z.boolean().default(false),
   napomene: z.string().optional(),
 })
 
@@ -114,6 +117,7 @@ const ugovorODeluSchema = z.object({
 })
 
 const ndaSchema = z.object({
+  broj_ugovora: z.string().optional(),
   tip_nda: z.string().min(1),
   svrha: z.string().min(1),
   tip_strane_1: z.string().min(1),
@@ -143,6 +147,7 @@ const ndaSchema = z.object({
 })
 
 const ugovorOZakupuSchema = z.object({
+  broj_ugovora: z.string().optional(),
   tip_zakupa: z.string().min(1),
   datum_zakljucivanja: z.string().optional(),
   uknjizena: z.boolean().default(true),
@@ -194,6 +199,7 @@ const ugovorOZakupuSchema = z.object({
 })
 
 const ugovorOSaradnjiZajmuSchema = z.object({
+  broj_ugovora: z.string().optional(),
   tip_dokumenta: z.string().min(1),
   tip_1: z.string().optional(),
   naziv_1: z.string().optional(),
@@ -249,6 +255,7 @@ const ugovorOSaradnjiZajmuSchema = z.object({
 })
 
 const punomocjeSchema = z.object({
+  broj_ugovora: z.string().optional(),
   tip_vlastodavca: z.string().min(1),
   naziv_vlastodavca: z.string().min(1),
   jmbg_pib_vlastodavca: z.string().min(1),
@@ -297,6 +304,7 @@ const poslovniMejlSchema = z.object({
   ton: z.string().min(1),
   hitno: z.boolean().default(false),
   predmet: z.string().optional(),
+  teme_sa_sastanka: z.string().optional(),
 })
 
 const oglasZaPosaoSchema = z.object({
@@ -354,6 +362,9 @@ const odgovorKandidatuSchema = z.object({
   adresa_ili_link: z.string().optional(),
   datum_pocetka: z.string().optional(),
   bruto_zarada: optNum,
+  feedback_pozitivno: z.string().optional(),
+  feedback_razlog: z.string().optional(),
+  ostaje_u_bazi: z.boolean().optional(),
   napomena: z.string().optional(),
 })
 
