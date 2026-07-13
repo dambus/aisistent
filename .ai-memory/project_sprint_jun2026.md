@@ -194,5 +194,13 @@ Brainstorm D1 implementiran: JSON-LD (BreadcrumbList+HowTo+FAQPage) + vidljiva F
 
 **Važna napomena:** ova sesija je otkrila da `.ai-memory/` sažeci mogu zaostati za `PROGRESS.md` (npr. hero vizual je bio prikazan kao "čeka pravac" iako je odavno gotov). **`PROGRESS.md` je izvor istine kad su u koliziji** — proveriti tamo pre nego što se osloni na stariji memory zapis.
 
+## Marketing audit fix + social content pack (13. jul 2026., popodne)
+
+Isti dan kao dogfooding krug 3, sesija skrenula na marketing. Audit otkrio da Pregled ugovora (Pro+, najnoviji AI feature) nije bio oglašen nigde — nije u cenovniku, nema dashboard tip, nema changelog unos. Popravljeno (`caedaa9`). Napomena: relatedLinks cross-promo mehanizam na ToolLandingPage VEĆ POSTOJI i popunjen je po alatu — ako se ponovo radi marketing audit, ne prijavljivati ovo kao gap bez provere koda prvo (audit agent je ovo pogrešno prijavio 13. jula).
+
+4 social posta (LinkedIn+Instagram, sa HTML/CSS grafikom) sačuvana u `docs/marketing/social-content-pack-2026-07-13.html`. Fal.ai nije dostupan kao MCP alat u ovoj environment konfiguraciji — ako se opet pojavi potreba za image-gen, proveriti da li je dodat, ili koristiti Canva plugin (dostupan) ili HTML/CSS grafike (radi bez zavisnosti, testiran pristup).
+
+social-media-skills bundle (post-writer, content-matrix) je loš fit za AIsistent — dizajniran za lični LinkedIn creator voice (traži about-me.md/voice.md), ne za brend/proizvod na srpskom. post-formatter je fit strukturno ali forsira engleski growth-hack kalup (grade-6 reči, "Repost if" CTA) — ne odgovara srpskom B2B tonu. Za buduće AIsistent social content, pisati direktno po `docs/STRATEGIJA.md` glasu, ne forsirati ove skillove.
+
 ## Tekući razvoj
 - Pregledom GitHub issues (n8n-generated od user feedbacka) određujemo prioritete

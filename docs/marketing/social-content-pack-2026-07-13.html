@@ -1,0 +1,526 @@
+<title>AIsistent — Social Media Content Pack</title>
+
+<style>
+  @font-face {
+    font-family: 'Courier Prime Fallback';
+    src: local('Courier New');
+  }
+
+  :root {
+    --ground: #f4f1e8;
+    --ground-alt: #eae5d6;
+    --panel: #ffffff;
+    --ink: #17231c;
+    --ink-soft: #4a5a4f;
+    --border: #d8d0bc;
+    --card-ground: #0f3324;
+    --card-ground-2: #133d2b;
+    --card-paper: #efe9dd;
+    --card-ink: #0f1b14;
+    --accent: #d97848;
+    --accent-ink: #2b140b;
+    --gold: #e8c468;
+    --mono: ui-monospace, 'SFMono-Regular', 'Courier New', 'Courier Prime Fallback', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14100a;
+      --ground-alt: #1c1712;
+      --panel: #201a13;
+      --ink: #ece3d0;
+      --ink-soft: #b7ab93;
+      --border: #3a3122;
+    }
+  }
+  :root[data-theme='dark'] {
+    --ground: #14100a;
+    --ground-alt: #1c1712;
+    --panel: #201a13;
+    --ink: #ece3d0;
+    --ink-soft: #b7ab93;
+    --border: #3a3122;
+  }
+  :root[data-theme='light'] {
+    --ground: #f4f1e8;
+    --ground-alt: #eae5d6;
+    --panel: #ffffff;
+    --ink: #17231c;
+    --ink-soft: #4a5a4f;
+    --border: #d8d0bc;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    padding: 48px 20px 96px;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  header.page-head {
+    margin-bottom: 44px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(26px, 4vw, 38px);
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .page-head p {
+    margin: 0;
+    color: var(--ink-soft);
+    max-width: 65ch;
+    font-size: 15px;
+  }
+
+  .post-block {
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: start;
+  }
+  .post-block:last-of-type { border-bottom: none; }
+
+  /* ---- graphic card ---- */
+  .card-shell {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -20px rgba(15, 51, 36, 0.45);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(120% 140% at 15% 0%, var(--card-ground-2) 0%, var(--card-ground) 62%);
+    color: var(--card-paper);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 22px;
+    font-family: var(--sans);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px dashed rgba(239, 233, 221, 0.28);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .card-letterhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(239, 233, 221, 0.65);
+    margin-bottom: auto;
+  }
+  .card-stamp {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--card-ground);
+    background: var(--gold);
+    padding: 4px 9px;
+    border-radius: 3px;
+    transform: rotate(3deg);
+    font-weight: 700;
+  }
+  .card-icon {
+    font-size: 30px;
+    margin: 18px 0 10px;
+    filter: saturate(1.1);
+  }
+  .card-headline {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.18;
+    letter-spacing: -0.005em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .card-points {
+    list-style: none;
+    margin: 0 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .card-points li {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: rgba(239, 233, 221, 0.92);
+  }
+  .card-check {
+    flex: none;
+    width: 15px; height: 15px;
+    margin-top: 1px;
+    border: 1.5px solid var(--accent);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .card-footer {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(239, 233, 221, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-cta {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--card-ground);
+    background: var(--accent);
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  .card-brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(239, 233, 221, 0.55);
+  }
+
+  /* ---- copy panel ---- */
+  .copy-panel { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .copy-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .copy-title .n {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .channel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .channel-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .channel-label button {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: normal;
+    text-transform: none;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink-soft);
+    border-radius: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
+  }
+  .channel-label button:hover { border-color: var(--accent); color: var(--accent); }
+  .channel-body {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 14.5px;
+    color: var(--ink);
+    font-family: var(--sans);
+  }
+  .hashtags { color: var(--ink-soft); font-size: 13px; margin-top: 8px; }
+
+  @media (max-width: 760px) {
+    .post-block { grid-template-columns: 1fr; }
+    .card-shell { max-width: 340px; }
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: var(--card-ground);
+    color: var(--card-paper);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 9px 16px;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 10;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+
+<div class="wrap">
+  <header class="page-head">
+    <p class="eyebrow">Content pack — jul 2026.</p>
+    <h1>4 posta za LinkedIn i Instagram</h1>
+    <p>Fokus na najdiferenciranije feature-e: Pregled ugovora, Biblioteka obrazaca, srpski jezik/wizard i Smart Autofill. Grafika desno je spremna za screenshot (4:5, IG/LinkedIn format). Tekst kopiraš dugmetom.</p>
+  </header>
+
+  <!-- POST 1 — Pregled ugovora -->
+  <div class="post-block">
+    <div class="card-shell">
+      <div class="card">
+        <div class="card-letterhead">
+          <span>AIsistent</span>
+          <span class="card-stamp">Pro+</span>
+        </div>
+        <div class="card-icon">📄🔍</div>
+        <h2 class="card-headline">Dobili ste ugovor na potpis?</h2>
+        <ul class="card-points">
+          <li><span class="card-check">✓</span> AI čita ugovor koji ste dobili</li>
+          <li><span class="card-check">✓</span> Ukazuje na rizične klauzule</li>
+          <li><span class="card-check">✓</span> Kaže šta nedostaje pre potpisa</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-cta">Pregled ugovora →</span>
+          <span class="card-brand">aisistent.rs</span>
+        </div>
+      </div>
+    </div>
+    <div class="copy-panel">
+      <p class="copy-title"><span class="n">01</span> Pregled ugovora — AI analiza tuđeg ugovora</p>
+      <div class="channel">
+        <p class="channel-label">LinkedIn<button type="button" data-copy-target="li-1">Kopiraj</button></p>
+        <p class="channel-body" id="li-1">Dobili ste ugovor od klijenta, izvođača ili partnera i treba da ga potpišete do sutra?
+
+Većina malih firmi u Srbiji nema advokata na pozivu. Ugovor se ili potpisuje "na veru", ili se plaća 100+ evra za pregled koji stigne prekasno.
+
+Zato smo napravili Pregled ugovora — deo AIsistent platforme. Uploadujete dokument koji ste DOBILI (ne onaj koji sami pravite) i AI za par sekundi:
+
+— identifikuje tip ugovora
+— ukazuje na klauzule koje su rizične ili nesrazmerne (uz konkretno obrazloženje, ne golu tvrdnju)
+— kaže šta zakonski nedostaje pre nego što potpišete
+
+Nije zamena za advokata — jeste prvi filter koji vam kaže NA ŠTA da obratite pažnju pre nego što pozovete advokata, ili pre nego što uopšte odlučite da li vam treba.
+
+Dostupno na Pro i Agency planu.</p>
+      </div>
+      <div class="channel">
+        <p class="channel-label">Instagram<button type="button" data-copy-target="ig-1">Kopiraj</button></p>
+        <p class="channel-body" id="ig-1">Dobili ste ugovor na potpis? 📄
+
+Pre nego što potpišete — pustite ga kroz AI Pregled ugovora.
+
+✓ rizične klauzule
+✓ šta nedostaje
+✓ zašto je bitno (sa obrazloženjem, ne "veruj mi")
+
+Nije advokat. Jeste prvi filter, besplatan trud koji vam štedi vreme i nervozu.</p>
+        <p class="hashtags">#AIsistent #malifirme #preduzetništvo #ugovori #srbija</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 2 — Biblioteka obrazaca -->
+  <div class="post-block">
+    <div class="card-shell">
+      <div class="card">
+        <div class="card-letterhead">
+          <span>AIsistent</span>
+          <span class="card-stamp">Novo</span>
+        </div>
+        <div class="card-icon">🗂️</div>
+        <h2 class="card-headline">230+ zvaničnih obrazaca na jednom mestu</h2>
+        <ul class="card-points">
+          <li><span class="card-check">✓</span> APR, Poreska uprava, CROSO, PIO</li>
+          <li><span class="card-check">✓</span> Popunjeno vašim podacima</li>
+          <li><span class="card-check">✓</span> Preuzimanje, bez pretrage po sajtovima</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-cta">aisistent.rs/obrasci →</span>
+          <span class="card-brand">aisistent.rs</span>
+        </div>
+      </div>
+    </div>
+    <div class="copy-panel">
+      <p class="copy-title"><span class="n">02</span> Biblioteka obrazaca — državni obrasci na jednom mestu</p>
+      <div class="channel">
+        <p class="channel-label">LinkedIn<button type="button" data-copy-target="li-2">Kopiraj</button></p>
+        <p class="channel-body" id="li-2">Koliko puta ste tražili "taj jedan obrazac" po sajtu APR-a, Poreske uprave ili CROSO-a i odustali posle trećeg PDF-a koji nije taj?
+
+Sastavili smo biblioteku od preko 230 zvaničnih obrazaca — APR, Poreska uprava, CROSO, PIO — na jednom mestu, sa objašnjenjem šta je obrazac, kad se koristi i gde se predaje.
+
+Za registrovane korisnike: obrazac se automatski popuni vašim podacima firme pre preuzimanja. Ostaje vam samo da potpišete.
+
+Besplatno za pregled i preuzimanje praznog obrasca. Automatsko popunjavanje od Starter plana.</p>
+      </div>
+      <div class="channel">
+        <p class="channel-label">Instagram<button type="button" data-copy-target="ig-2">Kopiraj</button></p>
+        <p class="channel-body" id="ig-2">Prestanite da tražite obrasce po 5 različitih sajtova. 🗂️
+
+230+ zvaničnih obrazaca (APR, Poreska uprava, CROSO, PIO) na jednom mestu — sa objašnjenjem i, ako ste ulogovani, automatski popunjeno vašim podacima.
+
+Link u bio.</p>
+        <p class="hashtags">#preduzetnici #APR #birokratija #malabiznis #srbija</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 3 — Srpski padeži / diferencijacija -->
+  <div class="post-block">
+    <div class="card-shell">
+      <div class="card">
+        <div class="card-letterhead">
+          <span>AIsistent</span>
+          <span class="card-stamp">vs. ChatGPT</span>
+        </div>
+        <div class="card-icon">🇷🇸</div>
+        <h2 class="card-headline">"Za Ana Marković" nije srpski</h2>
+        <ul class="card-points">
+          <li><span class="card-check">✓</span> Ispravna deklinacija imena i firmi</li>
+          <li><span class="card-check">✓</span> Usklađeno sa srpskim zakonima</li>
+          <li><span class="card-check">✓</span> Wizard vas vodi, ne prazan ekran</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-cta">Probajte besplatno →</span>
+          <span class="card-brand">aisistent.rs</span>
+        </div>
+      </div>
+    </div>
+    <div class="copy-panel">
+      <p class="copy-title"><span class="n">03</span> Srpski padeži i wizard — diferencijacija od ChatGPT-a</p>
+      <div class="channel">
+        <p class="channel-label">LinkedIn<button type="button" data-copy-target="li-3">Kopiraj</button></p>
+        <p class="channel-body" id="li-3">Probali ste da napravite ugovor u ChatGPT-u?
+
+Radi — dok ne stigne do rečenice "isplatiti Ana Marković" umesto "isplatiti Ani Marković". Ili "u ime Petar Nikolić doo" umesto "u ime Petra Nikolića doo-a".
+
+Za engleski jezik padeži ne postoje pa ChatGPT nema šta da pogreši. Za srpski — postoje, i to je razlika između dokumenta koji deluje profesionalno i onog koji deluje kao loš prevod.
+
+AIsistent zna da dekliniše imena, firme i nazive kroz svih šest padeža, prateći gramatički kontekst svake rečenice — i vodi vas kroz wizard korak po korak umesto praznog ekrana na kom morate sami da smislite šta i kako da pitate.
+
+Plus: dokument je usklađen sa aktuelnim srpskim zakonima (Zakon o radu, ZOO, ZASP...), ne generičkim internet znanjem.</p>
+      </div>
+      <div class="channel">
+        <p class="channel-label">Instagram<button type="button" data-copy-target="ig-3">Kopiraj</button></p>
+        <p class="channel-body" id="ig-3">"Isplatiti Ana Marković." 🚩
+
+Ako vam ChatGPT ovo napiše u ugovoru — nije greška u kucanju, ne zna srpske padeže.
+
+AIsistent zna. I vodi vas kroz formu umesto praznog čata.
+
+Napravljeno za srpsko tržište, ne prevedeno na njega.</p>
+        <p class="hashtags">#srpskijezik #AIsistent #preduzetništvo #dokumenti #ChatGPT</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 4 — Smart Autofill -->
+  <div class="post-block">
+    <div class="card-shell">
+      <div class="card">
+        <div class="card-letterhead">
+          <span>AIsistent</span>
+          <span class="card-stamp">Pro+</span>
+        </div>
+        <div class="card-icon">⚡</div>
+        <h2 class="card-headline">Unesite podatke jednom. Koristite zauvek.</h2>
+        <ul class="card-points">
+          <li><span class="card-check">✓</span> Sačuvani kontakti i klijenti</li>
+          <li><span class="card-check">✓</span> Katalog usluga za fakture</li>
+          <li><span class="card-check">✓</span> Podaci zaposlenih za HR dokumenta</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-cta">Smart Autofill →</span>
+          <span class="card-brand">aisistent.rs</span>
+        </div>
+      </div>
+    </div>
+    <div class="copy-panel">
+      <p class="copy-title"><span class="n">04</span> Smart Autofill — kontakti, katalog, zaposleni</p>
+      <div class="channel">
+        <p class="channel-label">LinkedIn<button type="button" data-copy-target="li-4">Kopiraj</button></p>
+        <p class="channel-body" id="li-4">Koliko puta ste ukucali JMBG istog zaposlenog, ili PIB istog klijenta, u peti različit dokument ovog meseca?
+
+Smart Autofill u AIsistent-u pamti tri stvari jednom:
+
+— kontakte — klijente, kupce, partnere
+— katalog usluga — stavke koje često fakturišete
+— zaposlene — podatke za ugovore, rešenja, obaveštenja
+
+Sledeći put kad pravite fakturu, ugovor o radu ili bilo koji dokument koji traži te podatke — biraju se iz liste, jednim klikom. Bez ponovnog kucanja, bez kopi-pejsta iz starog Word fajla.
+
+Dostupno na Pro i Agency planu.</p>
+      </div>
+      <div class="channel">
+        <p class="channel-label">Instagram<button type="button" data-copy-target="ig-4">Kopiraj</button></p>
+        <p class="channel-body" id="ig-4">Ukucali ste JMBG istog zaposlenog peti put ovog meseca? ⚡
+
+Ne morate više.
+
+Smart Autofill pamti kontakte, katalog usluga i zaposlene — jednom unesete, birate iz liste zauvek.
+
+Manje kucanja, manje grešaka, više vremena za posao.</p>
+        <p class="hashtags">#produktivnost #malabiznis #AIsistent #HR #fakture</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Kopirano</div>
+
+<script>
+  document.querySelectorAll('button[data-copy-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-copy-target'));
+      var text = target.innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        var toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 1400);
+      });
+    });
+  });
+</script>

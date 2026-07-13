@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 13. jul 2026. (drugi deo) — Marketing audit fix + social content pack
+
+Nastavak istog dana, posle dogfooding kruga 3 (ispod). Milan pitao da li su feature-i pravilno oglašeni na landing/tipcards/novosti + tražio LinkedIn/Instagram postove.
+
+Explore agent audit: 6 tačaka provereno (homepage, cenovnik, tool landing cross-promo, dashboard tips, changelog, /obrasci cross-link). Jedan lažno pozitivan nalaz (relatedLinks mehanizam na ToolLandingPage postoji i popunjen — audit ga nije video), verifikovano pre fix-a. Glavni pravi nalaz: **Pregled ugovora** (Pro+, najnoviji AI feature) nigde nije oglašen — nije u cenovniku, nema dashboard tip, nema changelog unos, nema cross-link.
+
+Fix (commit `caedaa9`): cenovnik dobio Pregled ugovora + Smart Autofill kao upgrade razlog (Pro: 20/mesečno, Agency isto; Starter dobio "sačuvani kontakti do 5"), dashboard tip `dashboard-pregled-ugovora`, 2 changelog unosa, 3 nova /obrasci keyword para (punomoćje/zakup/NDA), i link ka `/pregled-ugovora` dodat u `relatedLinks` na svih 6 ugovornih landing stranica. Verifikovano uživo na dev serveru (curl), tsc/eslint čisto.
+
+Social content pack: 4 posta (LinkedIn + Instagram tekst + HTML/CSS grafika 4:5) za Pregled ugovora, Biblioteku obrazaca, srpske padeže (vs. ChatGPT diferencijacija), Smart Autofill. Fal.ai nije bio dostupan kao alat u sesiji — probana 3 social-media-skills skilla (post-writer, content-matrix, post-formatter), sva tri loš fit (lični voice profil ili engleski growth-hack format) — pisano direktno po brend glasu iz `docs/STRATEGIJA.md`, grafike kao samostalan HTML (motiv "službeni formular": monospace, isprekidana ivica, stamp-badge). Sačuvano `docs/marketing/social-content-pack-2026-07-13.html`.
+
 #### 13. jul 2026. — Dogfooding krug 3: rollout baze znanja na 10 modula + sistemska Zod provera
 
 Nastavak istog pattern-a (baza znanja + samoprovera) sa `ugovor-o-radu` na preostale module. Redosled: `nda` → `ugovor-o-delu` → `ugovor-o-zakupu` → `ugovor-o-saradnji-zajmu` → `punomocje` → `opsti-uslovi` → 3 HR modula (`resenje-godisnji-odmor`, `pravilnik-o-radu`, `obavestenje-o-promeni-uslova`). Detalji bugova: `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, dogfooding krug 3)".

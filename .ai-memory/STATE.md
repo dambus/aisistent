@@ -2,34 +2,39 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 13. jul 2026. — mašina: kućna
+**Poslednja izmena:** 13. jul 2026. (popodne) — mašina: kućna
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: baza znanja rollout — 10/22 modula gotovo, dogovorno zaustavljen
+## Status: dogfooding baza znanja pauzirana, sesija skrenula na marketing — cenovnik/dashboard/changelog fixevi + social content pack
 
-**Dogfooding krug 3 završen.** Isti pattern kao pilot (ugovor-o-radu): import `lib/knowledge/` umesto hardkodovane liste obaveznih elemenata + samoprovera sekcija na kraju prompta. Primenjeno na: `nda`, `ugovor-o-delu`, `ugovor-o-zakupu`, `ugovor-o-saradnji-zajmu`, `punomocje`, `opsti-uslovi` (samo samoprovera, nema odgovarajući topic), `resenje-godisnji-odmor`, `pravilnik-o-radu`, `obavestenje-o-promeni-uslova` — plus `ugovor-o-radu` iz prethodnog kruga = **10 od 22 tipa dokumenta**.
+**Deo 1 (jutro): baza znanja rollout** — 10/22 modula gotovo (vidi commit `18eb556` i unazad). Dogovorno zaustavljeno, prelazak na marketing.
 
-**Usput otkriven i popravljen sistemski bag** (isti obrazac kao BUG-043): Zod šeme u `app/api/generate/route.ts` se ručno održavaju odvojeno od `types/wizard.ts` — lako je da polje postoji u tipu/wizard-u a nedostaje iz šeme, pa se tiho briše pre `buildUserMessage`. Automatizovana Node skripta (types vs. šeme) našla 7 modula sa gapovima, uključujući **referentni pilot `ugovor-o-radu`** (otkazni rok se tiho uvek vraćao na default 15/30 dana). Sve popravljeno — skripta sad CLEAN na svih 21 tipova. Detalji: `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, dogfooding krug 3)".
+**Deo 2 (popodne): marketing audit + fix.** Milan tražio proveru da li su feature-i pravilno oglašeni (landing/tipcards/novosti) + par social postova. Explore agent uradio audit — glavni nalaz: **Pregled ugovora** (najnoviji AI feature, Pro+) bio praktično nevidljiv svuda. Popravljeno (commit `caedaa9`):
+- Cenovnik (`app/page.tsx` `getPricing()`): Pro/Agency kartice sad navode Pregled ugovora i Smart Autofill kao razlog za nadogradnju.
+- Dashboard: nov `TipSequence` unos `dashboard-pregled-ugovora`.
+- Changelog bell (`lib/changelog.ts`): 2 nova unosa (Pregled ugovora, Smart Autofill).
+- `/obrasci/[slug]` keyword cross-link: 3 nova para (punomoćje, zakup, NDA).
+- 6 ugovornih landing stranica dobile link ka `/pregled-ugovora` u `relatedLinks` (mehanizam već postojao — audit agent je pogrešno prijavio da ne postoji, provereno i ispravljeno pre fix-a).
 
-Sve provereno: `tsc --noEmit`/`eslint` čisto na svaku izmenu. Sve komitovano i pushovano (`09357b7`, `4b253f7`, `5e667f5`, `584c15f`, `0f658ae`, `3bab2b5`, `3125fdd`, `c2600a9`).
+**Social content pack:** 4 posta (LinkedIn + Instagram varijante + grafika) za Pregled ugovora, Biblioteku obrazaca, srpske padeže (diferencijacija od ChatGPT-a), Smart Autofill. Sačuvano u repo-u: `docs/marketing/social-content-pack-2026-07-13.html` (self-contained HTML, otvoriti u browseru, dugme "Kopiraj" po tekstu, grafike 4:5 spremne za screenshot). Fal.ai NIJE dostupan kao alat u ovoj sesiji — grafike napravljene kao HTML/CSS karte (brend zelena + rust akcenat, "službeni formular" motiv), ne kroz eksterni image generator.
 
-**Dogovorno zaustavljeno ovde** — preostalih ~12 modula (poslovni-mejl, oglas-za-posao, ponuda-klijentu, odgovor-kandidatu, preporuka, opis-proizvoda, bio-o-nama, zapisnik-sastanak, faktura, putni-nalog, otpremnica, ponuda-za-radove) su čisto poslovno pisanje/kalkulacija bez pravne baze znanja — odlučeno da se NE koriste marketing/copywriting skillovi za njih (van dogovorenog obima), nastavak bi bio samo samoprovera + eventualni schema audit ako se nastavi.
+**NIJE commitovano/pushovano jos** — ovo je zadnji korak pre kraja sesije, radi se odmah posle ovog STATE.md upisa.
 
 ## Sledeći korak
 
-1. **Novi feature** — sesija se sad okreće sledećem featureu (TBD, videti kandidate ispod). Dogfooding rollout na preostalih ~12 modula NIJE prioritet, ali može se nastaviti isti minimalni pattern (samoprovera + Zod audit) kad bude vremena.
-2. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena (prenosi se iz prethodnih sesija).
-3. Kandidati za sledeći feature (odluka od ranije): C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`). KPO knjiga (A2) namerno odbačena.
+1. Milan pregleda `docs/marketing/social-content-pack-2026-07-13.html`, odluči da li menja ton/tekst/broj postova pre objave na LinkedIn/Instagram.
+2. Nastavak baze znanja rollout-a na preostalih ~12 non-legal modula (SAMO ako se odluči — dogovoreno da nije prioritet, van dogovorenog obima da se koriste marketing/copywriting skillovi za njih).
+3. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena (prenosi se iz više prethodnih sesija).
+4. Chatbot MVP (`docs/handover/06-CHATBOT-MVP.md`) i C1 dvojezični ugovori — dogovoreno da idu POSLE stabilne naplate (Paddle), ne sad.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Baza znanja rollout na 10/22 modula** — vidi Status iznad. Provera: `grep -l "KNOWLEDGE_TOPICS" lib/prompts/*.ts` (treba 7 fajlova: ugovor-o-radu, nda, ugovor-o-delu, ugovor-o-zakupu, ugovor-o-saradnji-zajmu, punomocje, pravilnik-o-radu).
-- **BUG-046 do BUG-050 + SYS-05 rešeni** — zabrana konkurencije bez naknade (NDA, ugovor-o-delu, pravilnik-o-radu), tip_prihoda i 4 druga polja tiho brisana u ugovor-o-delu šemi, sistemski Zod gap na 7 modula (uklj. ugovor-o-radu), namena_zakupa nedostajala. Detalji: `docs/BUG_TRACKER.md`.
-- **Baza znanja `lib/knowledge/` + pilot na ugovor-o-radu** (prethodna sesija) — 9 topic-a, `getKnowledgeForType()`. BUG-043/044/045 rešeni.
-- **C2 Pregled ugovora — dorađen kvalitet** (guardrail, obrazložene tvrdnje, redizajniran UI).
-- **Migracije `catalog_items`/`employees` primenjene na produkciju**, TipCard najave implementirane, D1 SEO na `/obrasci` live.
+- **Marketing audit fix** — vidi Status iznad. Provera: `grep -n "Pregled ugovora" app/page.tsx` (cenovnik), `grep -n "dashboard-pregled-ugovora" "app/(dashboard)/dashboard/page.tsx"`, `grep -c "id:" lib/changelog.ts` (6 unosa).
+- **Social content pack** — `docs/marketing/social-content-pack-2026-07-13.html` postoji i otvara se u browseru (self-contained, bez zavisnosti).
+- **Baza znanja rollout na 10/22 modula** (jutrošnji deo sesije) — `grep -l "KNOWLEDGE_TOPICS" lib/prompts/*.ts` vraća 7 fajlova. Detalji: `docs/BUG_TRACKER.md` "dogfooding krug 3".
+- **BUG-046 do BUG-050 + SYS-05 rešeni** (jutrošnji deo) — zabrana konkurencije bez naknade (NDA/ugovor-o-delu/pravilnik-o-radu), tip_prihoda + 4 polja tiho brisana u ugovor-o-delu, sistemski Zod gap na 7 modula.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 
@@ -47,8 +52,10 @@ Sve provereno: `tsc --noEmit`/`eslint` čisto na svaku izmenu. Sve komitovano i 
 | Konvencije koda | `docs/CONVENTIONS.md` |
 | Poznati bugovi | `docs/BUG_TRACKER.md` |
 | Brainstorm ideje za sledeći feature | `docs/handover/11-BRAINSTORM-FEATURES.md` |
+| Chatbot MVP plan (čeka naplatu) | `docs/handover/06-CHATBOT-MVP.md` |
 | Baza znanja — struktura i sadržaj | `lib/knowledge/index.ts` |
-| Detaljna istorija po temi (kontakti/katalog/zaposleni/obrasci/chatbot) | `.ai-memory/project_*.md` — samo ako STATE.md ne pokriva dovoljno |
+| Social content pack | `docs/marketing/social-content-pack-2026-07-13.html` |
+| Detaljna istorija po temi | `.ai-memory/project_*.md` — samo ako STATE.md ne pokriva dovoljno |
 
 ---
 
