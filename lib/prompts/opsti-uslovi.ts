@@ -100,7 +100,11 @@ Ne generiši potpuno isključenje odgovornosti bez ove rezerve — takva klauzul
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri oba dokumenta naspram lista "OBAVEZNI ELEMENTI - OPŠTI USLOVI" i "OBAVEZNI ELEMENTI - POLITIKA PRIVATNOSTI" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. ograničenje odgovornosti nema rezervu za nameru/grubu nepažnju, kolačići nemaju napomenu o aktivnom pristanku, DPO sekcija je pogrešno uključena/isključena), DOPUNI dokumente pre nego što ih vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 function formatList(value: string[] | string): string {
   return Array.isArray(value) ? value.join(', ') : value
