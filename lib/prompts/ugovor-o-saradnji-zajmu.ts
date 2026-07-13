@@ -1,5 +1,6 @@
 import type { UgovorOSaradnjiZajmuData, WizardStep } from '@/types/wizard'
 import { getZastupnikRod } from '@/lib/utils/rod'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 function opisZastupnika(tip: string | undefined, zastupnik: string | undefined): string {
   if (!zastupnik?.trim()) {
@@ -61,20 +62,11 @@ Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
 Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 Ženska na -a: Ana→Ane→Ani→Anu | Jelena→Jelene→Jeleni→Jelenu
 
-## OBAVEZNI ELEMENTI - TIP 1 (Saradnja)
+## OBAVEZNI ELEMENTI - TIP 1 (Saradnja) (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['saradnja'].pravniOsnov})
 
-1. Identifikacija strana
-2. Predmet i cilj saradnje
-3. Doprinos svake strane
-4. Podela prihoda i troškova
-5. Upravljanje i donošenje odluka
-6. Trajanje
-7. Ekskluzivnost (ako se ugovara)
-8. Poverljivost - NDA klauzula
-9. Intelektualna svojina
-10. Raskid i posledice
-11. Rešavanje sporova
-12. Potpisi
+${KNOWLEDGE_TOPICS['saradnja'].sadrzaj}
+
+Uz gornje elemente, ugovor mora sadržati i opšte elemente poslovnog ugovora: identifikaciju obe strane, trajanje, uslove raskida i posledice, rešavanje sporova (merodavno pravo i nadležan sud), i potpise (potpise sistem dodaje automatski).
 
 ## FORMAT - TIP 1
 
@@ -104,15 +96,12 @@ Ako je vlasnistvo_ip == 'Zajednički', obavezno generisati u članu o intelektua
 
 Po prestanku Ugovora, svaka Strana zadržava pravo korišćenja zajedničke IP u jednakim udelima, bez prava da drugoj Strani uskrati ovo pravo."
 
-## OBAVEZNI ELEMENTI - TIP 2 (Zajam)
+## OBAVEZNI ELEMENTI - TIP 2 (Zajam) (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['zajam'].pravniOsnov})
 
-1. Identifikacija zajmodavca i zajmoprimca
-2. Iznos zajma
-3. Svrha zajma (preporučljiva)
-4. Rok vraćanja i plan otplate
-5. Kamata ili eksplicitna izjava o bezkamatnosti
-6. Način isplate i vraćanja
-7. Sredstvo obezbeđenja (ako se ugovara)
+${KNOWLEDGE_TOPICS['zajam'].sadrzaj}
+
+Uz gornje elemente, ugovor mora sadržati i: svrhu zajma (preporučljivo, ako je uneta), plan otplate, prevremenu otplatu, poreski tretman kamate (vidi sekciju niže), i potpise (potpise sistem dodaje automatski). Preporučiti overu kod javnog beležnika za iznose preko 50.000 RSD.
+
 Ako sredstvo obezbeđenja == 'Menica': obavezno generiši napomenu u ugovoru: 'Menica kao sredstvo obezbeđenja mora biti posebno popunjena, potpisana i overena u skladu sa Zakonom o menici ("Sl. list SFRJ", br. 104/76). Ovaj ugovor nije dovoljan — menica se popunjava kao poseban instrument i mora biti predata zajmodavcu pre isplate zajma.'
 8. Prevremena otplata
 9. Posledice kašnjenja - zatezna kamata
@@ -193,7 +182,11 @@ Ako tip_zajmodavca == 'Osnivač firme':
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisan ugovor naspram liste "OBAVEZNI ELEMENTI" za primenjeni TIP iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. za saradnju: intelektualna svojina nije definisana; za zajam: kamata ili bezkamatnost nije eksplicitno navedena, poreski tretman nedostaje), DOPUNI ugovor pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: UgovorOSaradnjiZajmuData): string {
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
