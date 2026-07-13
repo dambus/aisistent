@@ -107,6 +107,10 @@ export interface UgovorODeluData {
   nda: boolean
   trajanje_nda?: number
   zabrana: boolean
+  trajanje_zabrane?: number
+  naknada_zabrana?: number
+  geografsko_ogranicenje_zabrane?: string
+  opis_zabranjene_delatnosti?: string
   ugovorna_kazna?: boolean
   iznos_kazne_dnevno?: number
   garantni_rok?: number

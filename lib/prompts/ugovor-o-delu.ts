@@ -1,5 +1,6 @@
 import type { UgovorODeluData, WizardStep } from '@/types/wizard'
 import { getVokativHint } from '@/lib/utils/vokativ'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -85,19 +86,25 @@ Pol određuješ iz imena samo za prideve i glagolske oblike u rečenicama ("duž
 4. Rok izvođenja / rok isporuke
 5. Iznos naknade i način isplate
 6. Poreski tretman (prema scenariju)
-7. Autorska prava / vlasništvo nad rezultatom — OBAVEZNO navesti SVE od sledećeg:
-   - koja imovinska prava se prenose (reprodukcija, distribucija, prerada, javno saopštavanje...)
-   - da li je prenos isključiv ili neisključiv
-   - teritorija (ako nije navedena: bez teritorijalnog ograničenja)
-   - vremensko trajanje (ako nije navedeno: bez vremenskog ograničenja)
-   - momenat prenosa (preporučeno: u momentu isplate naknade u celosti)
-   PRAVNI OSNOV: Zakon o autorskom i srodnim pravima ("Sl. glasnik RS", br. 104/2009), čl. 42–45.
-   BEZ ovih elemenata prenos autorskih prava nije pravno valjan.
+7. Autorska prava / vlasništvo nad rezultatom (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['autorsko-pravo'].pravniOsnov})
+
+${KNOWLEDGE_TOPICS['autorsko-pravo'].sadrzaj}
+
+BEZ ovih elemenata prenos autorskih prava nije pravno valjan.
 8. Poverljivost (NDA klauzula, ako se ugovara)
-9. Odgovornost za nedostatke
-10. Raskid ugovora
-11. Merodavno pravo i nadležnost suda
-12. Potpisi
+9. Zabrana konkurencije (ako se ugovara) — vidi sekciju "ZABRANA KONKURENCIJE" niže
+10. Odgovornost za nedostatke
+11. Raskid ugovora
+12. Merodavno pravo i nadležnost suda
+13. Potpisi
+
+## UGOVORNA KAZNA — PROPORCIONALNOST (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['ugovorna-kazna'].pravniOsnov})
+
+${KNOWLEDGE_TOPICS['ugovorna-kazna'].sadrzaj}
+
+## ZABRANA KONKURENCIJE — NAKNADA OBAVEZNA
+
+Ako se zabrana konkurencije ugovara, član MORA sadržati: (1) konkretnu novčanu naknadu koju Naručilac plaća Izvođaču za period trajanja zabrane, (2) geografsko ograničenje, (3) precizno opisanu zabranjenu delatnost (ne generičku formulaciju koja pokriva celu industriju). Zabrana bez naknade ograničava slobodu privređivanja izvođača i rizikuje da bude ocenjena kao nesrazmerna ili teško izvršiva. Ako neki od ova tri elementa nije unet, postavi odgovarajući [POPUNITI: ...] umesto da klauzulu ostaviš nepotpunu.
 
 ## FORMAT IZLAZA
 
@@ -113,9 +120,10 @@ V.    PORESKI TRETMAN I FAKTURISANJE [za sve scenarije; Scenario B mora sadržat
 VI.   VLASNIŠTVO NAD REZULTATOM RADA
 [VI mora sadržati: spisak prava koja se prenose, isključivost, teritoriju, trajanje, momenat prenosa. Ne koristiti generičku formulaciju "sva autorska prava" bez ovih elemenata.]
 VII.  POVERLJIVOST [ako se ugovara]
-VIII. ODGOVORNOST ZA NEDOSTATKE
-IX.   RASKID UGOVORA
-X.    ZAVRŠNE ODREDBE
+VIII. ZABRANA KONKURENCIJE [ako se ugovara; mora sadržati naknadu, geografsko ograničenje i opis delatnosti]
+IX.   ODGOVORNOST ZA NEDOSTATKE
+X.    RASKID UGOVORA
+XI.   ZAVRŠNE ODREDBE
 (Ne generiši sekciju POTPISI — sistem je dodaje automatski)
 
 ## TON I STIL
@@ -163,13 +171,22 @@ X.    ZAVRŠNE ODREDBE
   - JEDINI datum koji se generiše iz wizard inputa je datum stupanja na snagu / početka / rok isporuke — jer ga korisnik eksplicitno unosi.
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
 - Ne generiši klauzulu "objavljivanje pod imenom trećeg lica" — pravo atribucije (navođenja autora) je moralno pravo autora koje je neprenosivo i ne može se ugovorom oduzeti po ZASP-u čl. 19–20. Umesto toga generiši: "Naručilac nije dužan da navodi ime Izvođača pri korišćenju rezultata rada, osim ako je to posebno ugovoreno."
-- Ne koristi generičku formulaciju "sva autorska prava" bez navođenja obima prava, isključivosti, teritorije, trajanja i momenta prenosa.`
+- Ne koristi generičku formulaciju "sva autorska prava" bez navođenja obima prava, isključivosti, teritorije, trajanja i momenta prenosa.
+- Ne generiši klauzulu zabrane konkurencije bez naknade — ako naknada nije uneta, postavi [POPUNITI: naknada za zabranu konkurencije]
+- Ne generiši klauzulu zabrane konkurencije bez geografskog i delatnostnog ograničenja
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisan ugovor naspram liste "OBAVEZNI ELEMENTI UGOVORA" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. autorska prava nemaju sve pet elemenata, zabrana konkurencije nema naknadu ili ograničenja, raskid ugovora isključuje pravo izvođača na naknadu za delimično izvršeno delo), DOPUNI ugovor pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: UgovorODeluData): string {
   const fazno = data.fazno ? `Da - ${data.opis_faza ?? '[POPUNITI: opis faza]'}` : 'Ne'
   const avans = data.avans ?? 0
   const nda = data.nda ? `Da (${data.trajanje_nda ?? 24} meseci)` : 'Ne'
-  const zabrana = data.zabrana ? 'Da' : 'Ne'
+  const zabrana = data.zabrana ? `Da (${data.trajanje_zabrane ?? 12} meseci)` : 'Ne'
+  const naknadaZabrana = data.zabrana
+    ? `${data.naknada_zabrana?.toLocaleString('sr-RS') ?? '[POPUNITI: naknada za zabranu konkurencije]'} RSD mesečno`
+    : 'Nije primenljivo'
   const brojUgovora = data.broj_ugovora?.trim() || 'bez broja'
   const tipPrihoda = data.tip_prihoda === 'autorsko_delo'
     ? 'Autorsko delo (originalan kreativni rad)'
@@ -227,6 +244,9 @@ DODATNO:
 - Vlasništvo nad rezultatom: ${data.vlasnistvo}
 - NDA: ${nda}
 - Zabrana konkurencije: ${zabrana}
+- Geografsko ograničenje zabrane: ${data.zabrana ? (data.geografsko_ogranicenje_zabrane ?? '[POPUNITI: geografsko ograničenje]') : 'Nije primenljivo'}
+- Opis zabranjene delatnosti: ${data.zabrana ? (data.opis_zabranjene_delatnosti ?? '[POPUNITI: opis zabranjene delatnosti]') : 'Nije primenljivo'}
+- Naknada za period zabrane: ${naknadaZabrana}
 - Ugovorna kazna: ${ugovornaKazna}
 - Garancijski rok: ${data.garantni_rok ?? 30} dana
 - Napomene: ${data.napomene ?? '[nema]'}
@@ -439,6 +459,20 @@ export const wizardSteps: WizardStep[] = [
       { id: 'nda', label: 'Klauzula poverljivosti (NDA)?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Dodaje klauzulu o čuvanju poverljivih informacija u ugovor.' },
       { id: 'trajanje_nda', label: 'Trajanje NDA (meseci)', type: 'number', required: false, min: 1, conditional: { field: 'nda', value: true }, helperText: 'Preporučeno 24-36 meseci' },
       { id: 'zabrana', label: 'Zabrana konkurencije?', type: 'toggle', required: false, defaultValue: false, helperText: 'Opciono — uključite ako je potrebno', tooltip: 'Zabranjuje izvođaču da radi za direktnu konkurenciju u određenom periodu.' },
+      { id: 'trajanje_zabrane', label: 'Trajanje zabrane (meseci)', type: 'number', required: false, min: 1, max: 24, defaultValue: 12, conditional: { field: 'zabrana', value: true }, helperText: 'Preporučeno: max 24 meseca' },
+      {
+        id: 'naknada_zabrana',
+        label: 'Naknada za period zabrane (RSD mesečno)',
+        type: 'number',
+        required: true,
+        conditional: { field: 'zabrana', value: true },
+        min: 1,
+        tooltip: 'Zabrana konkurencije bez naknade ograničava slobodu privređivanja izvođača i rizikuje da bude ocenjena kao nesrazmerna ili teško izvršiva.',
+        helperText: 'Bez naknade klauzula je rizično neizvršiva — preporučeno uneti iznos',
+        placeholder: 'npr. 20000',
+      },
+      { id: 'geografsko_ogranicenje_zabrane', label: 'Geografsko ograničenje zabrane', type: 'text', required: false, conditional: { field: 'zabrana', value: true }, placeholder: 'npr. na teritoriji Republike Srbije', helperText: 'Bez geografskog ograničenja klauzula je teško izvršiva' },
+      { id: 'opis_zabranjene_delatnosti', label: 'Opis zabranjene delatnosti', type: 'textarea', required: false, conditional: { field: 'zabrana', value: true }, placeholder: 'npr. direktno kontaktiranje klijenata identifikovanih tokom saradnje, angažovanje ključnih zaposlenih druge strane', helperText: 'Što preciznije, to je klauzula izvršivija. Generička zabrana cele delatnosti se poništava na sudu.' },
       { id: 'ugovorna_kazna', label: 'Ugovorna kazna za prekoračenje roka?', type: 'toggle', required: false, defaultValue: false, tooltip: 'Bez ugovorne kazne, naručilac mora dokazivati konkretnu štetu da bi tražio naknadu za kašnjenje. Sa kaznom, iznos je unapred definisan.' },
       { id: 'iznos_kazne_dnevno', label: 'Dnevna kazna (RSD po danu kašnjenja)', type: 'number', required: false, conditional: { field: 'ugovorna_kazna', value: true }, placeholder: 'npr. 1000', helperText: 'Uobičajeno 0.5–1% ukupne naknade po danu' },
       { id: 'garantni_rok', label: 'Garancijski rok nakon primopredaje (dani)', type: 'number', required: false, defaultValue: 30, tooltip: 'Period u kom je izvođač dužan otkloniti nedostatke bez dodatne naknade. Default: 30 dana.' },
