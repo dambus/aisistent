@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 13. jul 2026. — Dogfooding krug 3: rollout baze znanja na 10 modula + sistemska Zod provera
+
+Nastavak istog pattern-a (baza znanja + samoprovera) sa `ugovor-o-radu` na preostale module. Redosled: `nda` → `ugovor-o-delu` → `ugovor-o-zakupu` → `ugovor-o-saradnji-zajmu` → `punomocje` → `opsti-uslovi` → 3 HR modula (`resenje-godisnji-odmor`, `pravilnik-o-radu`, `obavestenje-o-promeni-uslova`). Detalji bugova: `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, dogfooding krug 3)".
+
+Ključni nalaz: nakon Milanovog C2 testa na NDA, otkriven identičan obrazac greške kao BUG-043 (zabrana konkurencije bez naknade) u NDA i ugovor-o-delu. Provera Zod šeme u `ugovor-o-delu` otkrila da tiho brisala 5 polja uključujući `tip_prihoda` (poreski tretman — kritično, pogrešan zakonski član u generisanom ugovoru). Ovo je pokrenulo sistemsku automatizovanu proveru (Node skripta, types/wizard.ts vs. Zod šeme u `app/api/generate/route.ts`) na svih 21 tipova dokumenta — otkrila još 6 gapova, uključujući u samom "referentnom pilot" modulu `ugovor-o-radu` (`otkazni_rok_zaposleni/poslodavac` se tiho uvek vraćao na default). Sve popravljeno, skripta sad potvrđuje CLEAN.
+
+Odluka: za preostalih ~12 non-contract/non-HR modula (poslovni-mejl, oglas-za-posao, opis-proizvoda, faktura, itd.) baza znanja se ne primenjuje (nisu pravna materija) — dogovoreno da se stane ovde za sada, nastavak po potrebi bez marketing/copywriting skillova (van dogovorenog obima ove sesije).
+
+Commitovi: `09357b7` (nda), `4b253f7` (ugovor-o-delu), `5e667f5` (Zod sweep), `584c15f` (zakup), `0f658ae` (saradnja-zajam), `3bab2b5` (punomocje), `3125fdd` (opsti-uslovi), `c2600a9` (3 HR modula).
+
 #### 12. jul 2026. (četvrti dodatak) — Dogfooding krug 2: BUG-043/044/045 na ugovoru o radu
 
 Posle prve runde baze znanja (treći dodatak, ispod), Milan je testirao ceo krug uživo: generisao ugovor o radu na dev serveru, pustio ga kroz C2 (pregled ugovora), vratio nalaze u prompt. Ovo je otkrilo i rešilo:

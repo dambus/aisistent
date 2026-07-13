@@ -2,37 +2,34 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 12. jul 2026. (veče) — mašina: kućna
+**Poslednja izmena:** 13. jul 2026. — mašina: kućna
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: baza znanja — pilot na ugovor-o-radu kompletan i dogovorno zaustavljen, nastavak veče/sledeća sesija
+## Status: baza znanja rollout — 10/22 modula gotovo, dogovorno zaustavljen
 
-**Baza znanja (`lib/knowledge/`) implementirana, po temi.** 9 topic-a (radni-odnosi, autorsko-pravo, ugovorna-kazna, poverljivost, zakup, zajam, punomocje, obligacije-opste, saradnja). `lib/knowledge/index.ts` — registry + `CONTRACT_TYPE_TOPICS` + `getKnowledgeForType()`/`getAllKnowledgeText()`. Koristi je i C2 (`app/api/review-contract/route.ts`) i generisanje (pilot: `lib/prompts/ugovor-o-radu.ts`).
+**Dogfooding krug 3 završen.** Isti pattern kao pilot (ugovor-o-radu): import `lib/knowledge/` umesto hardkodovane liste obaveznih elemenata + samoprovera sekcija na kraju prompta. Primenjeno na: `nda`, `ugovor-o-delu`, `ugovor-o-zakupu`, `ugovor-o-saradnji-zajmu`, `punomocje`, `opsti-uslovi` (samo samoprovera, nema odgovarajući topic), `resenje-godisnji-odmor`, `pravilnik-o-radu`, `obavestenje-o-promeni-uslova` — plus `ugovor-o-radu` iz prethodnog kruga = **10 od 22 tipa dokumenta**.
 
-**Pilot na `ugovor-o-radu.ts` prošao kroz DVA kruga stvarnog dogfooding testa** (Milan generisao ugovor na dev serveru → pustio kroz C2 pregled → nalazi vraćeni u generator):
-- Krug 1: dodata samoprovera + import baze znanja umesto hardkodovanog checklist-a → otkrio **BUG-043** (kritičan, nepovezan sa knowledge radom): `naknada_zabrana` polje falilo u Zod šemi `app/api/generate/route.ts`, tiho se brisalo, uvek `[POPUNITI]` bez obzira na wizard unos. Popravljeno.
-- Krug 2 (posle fix-a): nov test otkrio 3 kvalitativna nalaza — premeštaj klauzula bez zakonskog roka (**BUG-044**, popravljeno: limit 60 radnih dana), poslovna tajna bez izuzetaka (**BUG-045**, popravljeno: dodat stav o izuzecima), hibridni rad bez konkretnog broja dana jer wizard nije ni prikupljao taj podatak (popravljeno: novo opciono polje `dana_kancelarija`).
+**Usput otkriven i popravljen sistemski bag** (isti obrazac kao BUG-043): Zod šeme u `app/api/generate/route.ts` se ručno održavaju odvojeno od `types/wizard.ts` — lako je da polje postoji u tipu/wizard-u a nedostaje iz šeme, pa se tiho briše pre `buildUserMessage`. Automatizovana Node skripta (types vs. šeme) našla 7 modula sa gapovima, uključujući **referentni pilot `ugovor-o-radu`** (otkazni rok se tiho uvek vraćao na default 15/30 dana). Sve popravljeno — skripta sad CLEAN na svih 21 tipova. Detalji: `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, dogfooding krug 3)".
 
-Sve provereno: `tsc --noEmit`/`eslint` čisto na svaku izmenu, stvaran Claude API poziv posle svakog fix-a potvrdio ispravku u istom generisanom tekstu (ne samo teorijski). Sve komitovano i pushovano (`901afd9`, `ca5da05`, `ebfba5c`, `4aa584e`).
+Sve provereno: `tsc --noEmit`/`eslint` čisto na svaku izmenu. Sve komitovano i pushovano (`09357b7`, `4b253f7`, `5e667f5`, `584c15f`, `0f658ae`, `3bab2b5`, `3125fdd`, `c2600a9`).
 
-**Dogovoreno zaustavljanje ovde — Milan nastavlja veče, ne nova sesija nužno.**
+**Dogovorno zaustavljeno ovde** — preostalih ~12 modula (poslovni-mejl, oglas-za-posao, ponuda-klijentu, odgovor-kandidatu, preporuka, opis-proizvoda, bio-o-nama, zapisnik-sastanak, faktura, putni-nalog, otpremnica, ponuda-za-radove) su čisto poslovno pisanje/kalkulacija bez pravne baze znanja — odlučeno da se NE koriste marketing/copywriting skillovi za njih (van dogovorenog obima), nastavak bi bio samo samoprovera + eventualni schema audit ako se nastavi.
 
 ## Sledeći korak
 
-1. **Nastaviti isti dogfooding pattern** (generiši → pusti kroz C2 → vrati nalaze u prompt) na preostalih 16 `lib/prompts/*.ts` modula, jedan po jedan. `ugovor-o-radu.ts` je referentni primer kako izgleda ceo krug (baza znanja import + samoprovera + Zod schema provera + realan test).
-2. Kad se rollout završi ili stane: vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena.
-3. Posle toga: sledeći feature TBD. Kandidati iz AI-diferenciranog fokusa (odluka od ranije istog dana): C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`). KPO knjiga (A2) namerno odbačena — vidi `docs/handover/11-BRAINSTORM-FEATURES.md`.
+1. **Novi feature** — sesija se sad okreće sledećem featureu (TBD, videti kandidate ispod). Dogfooding rollout na preostalih ~12 modula NIJE prioritet, ali može se nastaviti isti minimalni pattern (samoprovera + Zod audit) kad bude vremena.
+2. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena (prenosi se iz prethodnih sesija).
+3. Kandidati za sledeći feature (odluka od ranije): C1 (dvojezični ugovori), chatbot kontekstualni asistent (`docs/handover/06-*`). KPO knjiga (A2) namerno odbačena.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Baza znanja `lib/knowledge/` + pilot na ugovor-o-radu** — vidi Status iznad. Provera: `ls lib/knowledge/`, `grep "KNOWLEDGE_TOPICS" lib/prompts/ugovor-o-radu.ts`.
-- **BUG-043/044/045 rešeni** (naknada zabrane konkurencije, premeštaj bez limita, poslovna tajna bez izuzetaka) — `docs/BUG_TRACKER.md` "Rešeni bugovi (jul 2026, nastavak)".
-- **C2 Pregled ugovora — dorađen kvalitet** (guardrail za van-domena upload, obrazložene tvrdnje, redizajniran UI). Provera: `lib/reviewKnowledge.ts` NE postoji (obrisan, zamenjen `lib/knowledge/`).
-- **Dokumentacioni/memorijski flow redizajniran** — `.ai-memory/STATE.md` (ovaj fajl) jedini session-start read; `docs/DOCUMENTATION_MAP.md` meta-mapa; `CLAUDE.md` upućuje na oba.
-- **DOCX vs PDF vizuelni audit** — font Calibri, AIsistent brend logo fallback u DOCX headeru. Detalji: `docs/BACKLOG.md:64`.
-- **Migracije `catalog_items`/`employees` primenjene na produkciju**, TipCard najave implementirane, D1 SEO na `/obrasci` live, Upload & Fill uklonjen. Detalji: `PROGRESS.md`.
+- **Baza znanja rollout na 10/22 modula** — vidi Status iznad. Provera: `grep -l "KNOWLEDGE_TOPICS" lib/prompts/*.ts` (treba 7 fajlova: ugovor-o-radu, nda, ugovor-o-delu, ugovor-o-zakupu, ugovor-o-saradnji-zajmu, punomocje, pravilnik-o-radu).
+- **BUG-046 do BUG-050 + SYS-05 rešeni** — zabrana konkurencije bez naknade (NDA, ugovor-o-delu, pravilnik-o-radu), tip_prihoda i 4 druga polja tiho brisana u ugovor-o-delu šemi, sistemski Zod gap na 7 modula (uklj. ugovor-o-radu), namena_zakupa nedostajala. Detalji: `docs/BUG_TRACKER.md`.
+- **Baza znanja `lib/knowledge/` + pilot na ugovor-o-radu** (prethodna sesija) — 9 topic-a, `getKnowledgeForType()`. BUG-043/044/045 rešeni.
+- **C2 Pregled ugovora — dorađen kvalitet** (guardrail, obrazložene tvrdnje, redizajniran UI).
+- **Migracije `catalog_items`/`employees` primenjene na produkciju**, TipCard najave implementirane, D1 SEO na `/obrasci` live.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 

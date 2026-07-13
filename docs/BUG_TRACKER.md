@@ -83,6 +83,21 @@
 | BUG-045 | Ugovor o radu — klauzula o čuvanju poslovne tajne nije imala izuzetke (šta NIJE poslovna tajna) — jednostrano preširoka definicija. Popravljeno dodavanjem obaveznog stava o izuzecima. Otkriveno C2 analizom. |
 | ✓ | Ugovor o radu — hibridni rad nije imao konkretan broj dana u kancelariji (uvek "u skladu sa internim aktima"), jer wizard nije ni prikupljao taj podatak. Dodato novo opciono wizard polje `dana_kancelarija` (samo kad `nacin_rada === 'Hibridno'`) — koristi se u generisanoj klauzuli kad je uneto. |
 
+## Rešeni bugovi (jul 2026, dogfooding krug 3 — rollout na preostale module)
+
+Nastavak dogfooding pattern-a sa ugovor-o-radu (baza znanja + samoprovera) na preostale module. Usput otkriven sistemski problem: Zod šeme u `app/api/generate/route.ts` se ručno održavaju odvojeno od `types/wizard.ts` interfejsa, pa je lako da polje postoji u tipu/wizard-u a nedostaje iz šeme — takvo polje se tiho briše pre `buildUserMessage` (isti mehanizam kao BUG-043).
+
+| ID | Commit | Opis |
+|----|--------|------|
+| BUG-046 | 09357b7 | NDA — zabrana konkurencije nije imala polje za naknadu niti pravilo u promptu (bez naknade klauzula rizično neizvršiva). Dodato `naknada_zabrana` (tip, Zod šema, wizard, prompt pravilo). NDA takođe nije koristio `ugovorna-kazna` knowledge topic iako ima `kazna` polje — dodato. |
+| BUG-047 (kritičan) | 4b253f7 | Ugovor o delu — Zod šema (`ugovorODeluSchema`) tiho brisala 5 polja: `tip_prihoda` (poreski tretman autorsko delo vs. ugovor o delu — različit zakonski član!), `broj_lk_narucioca`, `ugovorna_kazna`, `iznos_kazne_dnevno`, `garantni_rok`. Najozbiljniji: ako je korisnik birao "Autorsko delo", ugovor je uvek tiho generisan sa pogrešnim zakonskim članom (čl. 85 umesto čl. 52-55 ZPDG). |
+| BUG-048 | 4b253f7 | Ugovor o delu — `zabrana` (zabrana konkurencije) toggle bez ijednog pratećeg polja (trajanje, naknada, geografsko/delatnostno ograničenje) niti pravila u promptu. Dodato sve četiri polja + pravilo, isti pattern kao BUG-046. |
+| SYS-05 (sistemska provera) | 5e667f5 | Automatizovana skripta (types/wizard.ts interfejsi vs. Zod šeme) otkrila još gapova van gornjih: `ugovor-o-radu` (referentni pilot!) — `otkazni_rok_zaposleni`, `otkazni_rok_poslodavac`, `klauzula_izmene_zarade` falili iz šeme, otkazni rok se tiho uvek vraćao na default 15/30 dana bez obzira šta korisnik unese; `nda`/`ugovor-o-zakupu`/`ugovor-o-saradnji-zajmu`/`punomocje` — `broj_ugovora`; `poslovni-mejl` — `teme_sa_sastanka`; `odgovor-kandidatu` — `feedback_pozitivno`, `feedback_razlog`, `ostaje_u_bazi`. Skripta sad potvrđuje CLEAN na svih 21 tipova. |
+| BUG-049 | 584c15f | Ugovor o zakupu — "Svrha zakupa" (obavezni element) i "namena prostora" (Scenario B) pominju se u promptu ali nijedno wizard polje ih nije prikupljalo. Dodato `namena_zakupa` (required). |
+| BUG-050 | c2600a9 | Pravilnik o radu — `zabrana_konkurencije` toggle bez ijedne instrukcije za LLM (isti obrazac kao BUG-046/048). Dodato pravilo: Pravilnik reguliše opštu politiku (ne fiksan iznos za sve zaposlene), svaka pojedinačna klauzula u ugovoru o radu mora imati naknadu po čl. 161 st. 2 ZOR. |
+
+Baza znanja (`lib/knowledge/`) sad importovana i u: `nda`, `ugovor-o-delu`, `ugovor-o-zakupu`, `ugovor-o-saradnji-zajmu`, `punomocje`, `pravilnik-o-radu` (uz `ugovor-o-radu` iz prethodnog kruga). `opsti-uslovi` i `resenje-godisnji-odmor`/`obavestenje-o-promeni-uslova` dobili samo samoprovera sekciju (nema odgovarajući knowledge topic ili je sadržaj već specifičan/kompletan).
+
 ## Plan fixeva
 
 ### Aktivni (po prioritetu)
