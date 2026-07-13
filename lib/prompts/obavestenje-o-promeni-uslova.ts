@@ -38,7 +38,11 @@ Naziv firme, ime zaposlenog i ime zastupnika korisnik daje u nominativu. Deklini
 - Ne izmišljaš detalje koje korisnik nije uneo
 - Ne daješ pravno mišljenje van dokumenta
 - Ne koristiš ćirilicu
-- Ne generiši prazan poslednji član`
+- Ne generiši prazan poslednji član
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri obaveštenje naspram liste "OBAVEZNI ELEMENTI DOKUMENTA" iznad — element po element. Ako nešto nedostaje (npr. staro/novo stanje nisu jasno suprotstavljeni, datum primene nedostaje), DOPUNI dokument pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: ObavestenjeOPromeniUslovaData): string {
   return `Napiši obaveštenje o promeni uslova rada sa sledećim podacima:

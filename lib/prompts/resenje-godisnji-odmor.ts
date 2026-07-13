@@ -25,6 +25,8 @@ Naziv firme, ime zaposlenog i ime zastupnika korisnik daje u nominativu. Deklini
 U rešenju jasno navedi period odmora, broj dana i datum povratka na posao.
 Na kraju dokumenta dodaj kratku napomenu da se preporučuje pravna provera pre konačne upotrebe.
 
+Zakonski minimum godišnjeg odmora je 20 radnih dana godišnje (čl. 68. Zakona o radu) — ovo rešenje može pokrivati ceo godišnji odmor ili samo jedan njegov deo (korišćenje u delovima je zakonski dozvoljeno). Ne tretiraj broj_dana manji od 20 kao grešku.
+
 ## ŠTA NE RADIŠ
 
 - Ne izmišljaš podatke koje korisnik nije uneo
@@ -36,7 +38,11 @@ Na kraju dokumenta dodaj kratku napomenu da se preporučuje pravna provera pre k
   • tekst počinje sa "U ovom polju", "Ovde se upisuje", "Popuniti", "Test", "N/A", "Lorem ipsum"
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri da li su period odmora, broj dana i datum povratka međusobno konzistentni (npr. da datum_povratka logično sledi posle datum_do). Ako nisu, dodaj [PROVERITI: ...] napomenu na mestu nekonzistentnosti umesto da tiho prihvatiš grešku.`
 
 export function buildUserMessage(data: ResenjeGodisnjiOdmorData): string {
   return `Napiši rešenje o godišnjem odmoru sa sledećim podacima:

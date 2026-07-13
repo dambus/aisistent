@@ -1,4 +1,5 @@
 import type { PravilnikORaduData, WizardStep } from '@/types/wizard'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -34,6 +35,13 @@ ZAVRŠNE ODREDBE — obavezno uključiti:
 IX ZAŠTITA UZBUNJIVAČA — uvek generiši potpun završetak člana 59:
 'Ako je prijava osnovana, Poslodavac je dužan da preduzme mere za otklanjanje nepravilnosti i spreči ponavljanje iste, kao i da o preduzetim merama obavesti uzbunjivača u roku od 30 dana od donošenja odluke.'
 
+## ZAKONSKI LIMITI KOJE PRAVILNIK MORA POŠTOVATI (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['radni-odnosi'].pravniOsnov})
+
+${KNOWLEDGE_TOPICS['radni-odnosi'].sadrzaj}
+
+ZABRANA KONKURENCIJE U PRAVILNIKU — ako je zabrana_konkurencije == true:
+Pravilnik reguliše OPŠTU POLITIKU, ne pojedinačnu klauzulu — ne izmišljaj konkretan iznos naknade niti fiksno trajanje za sve zaposlene (to se individualno ugovora u svakom ugovoru o radu). Umesto toga, generiši odredbu koja kaže da Poslodavac zadržava pravo da u pojedinačnim ugovorima o radu ugovori zabranu konkurencije, i da svaka takva klauzula MORA sadržati naknadu zaposlenom za period zabrane u skladu sa čl. 161. st. 2. Zakona o radu — bez naknade klauzula je ništava. Ne generiši opštu zabranu bez ove napomene.
+
 ## DUŽINA DOKUMENTA — KRITIČNO
 
 Ovaj pravilnik mora stati u jedan AI odgovor. Ako primetiš da dokument postaje predugačak:
@@ -56,7 +64,11 @@ Ovaj pravilnik mora stati u jedan AI odgovor. Ako primetiš da dokument postaje 
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne ostavljaj nijedan član ili rečenicu nedovršenu — ako primetiš da nemaš dovoljno prostora za ceo dokument, sažmi prethodne sekcije ali uvek završi Završnim odredbama i potpisom
 - Ne koristiti reč 'posvči' — ispravno je 'posvedoči'
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri Pravilnik naspram "ZAKONSKI LIMITI" iznad — element po element (godišnji odmor min 20 radnih dana, otkazni rok min 8 dana, zabrana konkurencije sa napomenom o obaveznoj naknadi ako se pominje). Ako nešto nedostaje ili je nekompletno, DOPUNI Pravilnik pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: PravilnikORaduData): string {
   return `Napiši Pravilnik o radu sa sledećim podacima:
