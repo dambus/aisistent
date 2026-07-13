@@ -18,6 +18,7 @@ export const fixture: UgovorOZakupuData = {
   kvadratura: 85,
   sprat: '1. sprat',
   struktura: 'Kancelarijski prostor — 4 prostorije + recepcija + sanitarni čvor',
+  namena_zakupa: 'Kancelarijski prostor za obavljanje delatnosti razvoja softvera',
   list_nepokretnosti: 'LN 2045, KO Novi Sad II',
   stanje: 'Nenamešten, renoviran 2024. godine',
   broj_stanara: undefined,

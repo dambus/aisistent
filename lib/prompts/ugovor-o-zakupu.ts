@@ -1,4 +1,5 @@
 import type { UgovorOZakupuData, WizardStep } from '@/types/wizard'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 export const systemPrompt = `## JEZIČKI STANDARD
 
@@ -57,21 +58,9 @@ Muška (suglasnik): Petar→Petra→Petru | Milan→Milana→Milanu
 Muška na -a: Nikola→Nikole→Nikoli→Nikolu
 Ženska na -a: Ana→Ane→Ani→Anu | Jelena→Jelene→Jeleni→Jelenu
 
-## OBAVEZNI ELEMENTI (svi scenariji)
+## OBAVEZNI ELEMENTI (svi scenariji) (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['zakup'].pravniOsnov})
 
-1. Identifikacija zakupodavca i zakupca
-2. Opis nepokretnosti - adresa, kvadratura, sprat, struktura
-3. Svrha zakupa
-4. Trajanje i datum početka
-5. Iznos zakupnine i rok plaćanja
-6. Depozit (ako se ugovara)
-7. Komunalije - ko plaća šta
-8. Stanje pri primopredaji
-9. Obaveze održavanja
-10. Zabrana podzakupa
-11. Uslovi raskida i otkazni rok
-12. Poreski tretman - napomena
-13. Potpisi i primopredajni zapisnik
+${KNOWLEDGE_TOPICS['zakup'].sadrzaj}
 
 ## DODATNI ELEMENTI ZA SCENARIO A
 
@@ -176,7 +165,11 @@ KOMUNALNA TAKSA:
 - Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
 - Nikada ne ostavljaj placeholder [ne uključuje / uključuje] — uvek koristi PDV podatak koji je prosleđen
 - Ako Zakupodavac nije u sistemu PDV-a: ne pominjati PDV u odredbama o zakupnini, ali dodati napomenu o porezu po odbitku u sekciji Poreske napomene
-- Ako Zakupodavac jeste u sistemu PDV-a: jasno naznačiti da zakupnina ne/uključuje PDV u članu o zakupnini`
+- Ako Zakupodavac jeste u sistemu PDV-a: jasno naznačiti da zakupnina ne/uključuje PDV u članu o zakupnini
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisan ugovor naspram liste "OBAVEZNI ELEMENTI" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. svrha/namena zakupa nije navedena, otkazni rok nije definisan, poreski tretman nema napomenu, PDV tretman nije jasno naznačen za poslovni zakup), DOPUNI ugovor pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: UgovorOZakupuData): string {
   const depozit = data.deponija ? `Da (${data.iznos_deponije ?? '[POPUNITI: iznos depozita]'} mesečnih zakupnina)` : 'Ne'
@@ -218,6 +211,7 @@ ZAKUPAC:
 NEPOKRETNOST:
 - Adresa: ${data.adresa_nepokretnosti} | Kvadratura: ${data.kvadratura} m²
 - Sprat: ${data.sprat} | Struktura: ${data.struktura}
+- Svrha/namena zakupa: ${data.namena_zakupa}
 - List nepokretnosti: ${data.list_nepokretnosti ?? '[nema]'} | Stanje: ${data.stanje ?? '[POPUNITI: stanje]'}
 
 TRAJANJE:
@@ -390,6 +384,15 @@ export const wizardSteps: WizardStep[] = [
         placeholder: 'npr. jednosoban stan, namešten',
         helperText: 'npr. garsonjera, jednosoban, dvosoban...',
         tooltip: 'Opišite strukturu nekretnine:\n• Garsonjera — jedna prostorija sa kupatilom\n• Jednosoban stan — dnevna soba + spavaća + kupatilo\n• Dvosoban stan — dnevna soba + 2 sobe + kupatilo\n• Poslovni prostor — navedite namenu (kancelarija, lokal...)\nMožete dodati i stanje: namešten, polunamešten, prazan.',
+      },
+      {
+        id: 'namena_zakupa',
+        label: 'Svrha / namena zakupa',
+        type: 'text',
+        required: true,
+        placeholder: 'npr. Stanovanje | Kancelarija | Maloprodajni objekat',
+        helperText: 'Za poslovni prostor: tačna namena je bitna — promena namene bez saglasnosti zakupodavca može biti osnov za raskid.',
+        tooltip: 'Stambeni zakup: obično "stanovanje". Poslovni zakup: navedite tačnu delatnost koja se obavlja u prostoru (npr. kancelarija, prodavnica, magacin, ugostiteljski objekat).',
       },
       { id: 'list_nepokretnosti', label: 'Broj lista nepokretnosti', type: 'text', required: false, placeholder: 'npr. 12345 KO Novi Sad', helperText: 'Broj lista iz katastra (opciono)' },
       {

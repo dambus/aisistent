@@ -165,6 +165,7 @@ const ugovorOZakupuSchema = z.object({
   kvadratura: num.pipe(z.number().min(1)),
   sprat: z.string().min(1),
   struktura: z.string().min(1),
+  namena_zakupa: z.string().min(1),
   list_nepokretnosti: z.string().optional(),
   stanje: z.string().optional(),
   broj_stanara: optNum,

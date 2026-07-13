@@ -166,6 +166,7 @@ export interface UgovorOZakupuData {
   kvadratura: number
   sprat: string
   struktura: string
+  namena_zakupa: string
   list_nepokretnosti?: string
   stanje?: string
   broj_stanara?: number
