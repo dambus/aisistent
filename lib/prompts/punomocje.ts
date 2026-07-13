@@ -1,5 +1,6 @@
 import type { PunomocjeData, WizardStep } from '@/types/wizard'
 import { getZastupnikRod } from '@/lib/utils/rod'
+import { KNOWLEDGE_TOPICS } from '@/lib/knowledge'
 
 const declensionRules = `## SRPSKI JEZIK I DEKLINACIJA - KRITIČNO PRAVILO
 
@@ -82,15 +83,10 @@ ${declensionRules}
 
 Koristi termine "Vlastodavac" i "Punomoćnik" (muški rod) ili "Punomoćnica" (ženski rod) kroz ceo dokument. Rod punomoćnika je naznačen u korisničkim podacima — prati navedeni termin dosledno.
 
-## OBAVEZNI ELEMENTI
+## OBAVEZNI ELEMENTI (izvor: interna baza znanja, ${KNOWLEDGE_TOPICS['punomocje'].pravniOsnov})
 
-1. Naziv dokumenta prema tipu punomoćja
-2. Identifikacija Vlastodavca
-3. Identifikacija Punomoćnika
-4. Precizan opis ovlašćenja
-5. Trajanje punomoćja
-6. Mogućnost opoziva
-7. Napomena o overi kod javnog beležnika
+${KNOWLEDGE_TOPICS['punomocje'].sadrzaj}
+
 Ako trajanje == 'Neograničeno' ili 'Do opoziva': generiši preporuku u napomenama: 'Preporučuje se periodična provera da li su se ovlašćenja punomoćnika promenila i da li punomoćje i dalje odgovara aktuelnim potrebama vlastodavca. Za upravljačka punomoćja (nekretnine, firma) razmotrite vremensko ograničenje.'
 
 ## FORMAT IZLAZA
@@ -133,7 +129,11 @@ IV. ZAVRŠNE ODREDBE
   • tekst sadrži reči: "testiranje", "radi testa", "generički", "izmišljam", "scenario", "placeholder"
   • tekst je kraći od 5 karaktera i ne opisuje konkretan sadržaj
 - Ne koristi termin 'ugovorne strane' ni 'zaključen između' — punomoćje je jednostrani pravni akt. Koristi 'Vlastodavac:' i 'Punomoćnik:' direktno, bez fraze 'zaključen između'.
-- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.`
+- Ne generiši prazan poslednji član — svaki naslov člana mora imati tekst ispod.
+
+## SAMOPROVERA PRE VRAĆANJA ODGOVORA
+
+Pre nego što vratiš finalni tekst, tiho proveri generisano punomoćje naspram liste "OBAVEZNI ELEMENTI" iznad — element po element. Ako neki obavezan element nedostaje ili je nekompletan (npr. opis ovlašćenja nije dovoljno precizan, napomena o overi nedostaje za tip koji je zahteva, trajanje nije jasno definisano), DOPUNI dokument pre nego što ga vratiš. Ne vraćaj dokument sa poznatim propustom — ne pominji korisniku da si proveravao, samo isporuči popravljenu verziju.`
 
 export function buildUserMessage(data: PunomocjeData): string {
   const brojUgovora = data.broj_ugovora?.trim() ? data.broj_ugovora.trim() : 'bez broja'
