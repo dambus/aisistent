@@ -9,12 +9,27 @@ interface ReviewItem {
   obrazlozenje?: string
 }
 
+interface IndependenceCriterion {
+  naziv: string
+  ispunjen: 'da' | 'ne' | 'nije_moguce_utvrditi'
+  obrazlozenje: string
+  citat?: string
+}
+
+interface IndependenceTest {
+  primenljivo: boolean
+  kriterijumi: IndependenceCriterion[]
+  broj_ispunjenih: number
+  ocena_rizika: string
+}
+
 interface ReviewReport {
   u_domenu: boolean
   tip_ugovora: string
   rizicne_klauzule: ReviewItem[]
   sta_nedostaje: ReviewItem[]
   na_sta_paziti: ReviewItem[]
+  test_samostalnosti?: IndependenceTest
   sazetak: string
 }
 
@@ -71,6 +86,64 @@ function Section({ title, icon, items, emptyText }: { title: string; icon: strin
           ))}
         </ul>
       )}
+    </div>
+  )
+}
+
+const STATUS_LABEL: Record<IndependenceCriterion['ispunjen'], string> = {
+  da: 'Ispunjen',
+  ne: 'Nije ispunjen',
+  nije_moguce_utvrditi: 'Ne može se utvrditi iz ugovora',
+}
+
+const STATUS_COLOR: Record<IndependenceCriterion['ispunjen'], string> = {
+  da: '#DC2626',
+  ne: '#16A34A',
+  nije_moguce_utvrditi: '#9CA3AF',
+}
+
+function IndependenceTestSection({ test }: { test: IndependenceTest }) {
+  if (!test.primenljivo) return null
+
+  const rizicno = test.broj_ispunjenih >= 5
+
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2 mb-1">
+        <span>🧾</span> Test samostalnosti
+      </h2>
+      <p className="text-xs text-gray-500 mb-3">
+        Proverava da li ovaj ugovor nosi rizik da vas poreska uprava tretira kao nesamostalnog (prikriveno zaposlenog) preduzetnika — relevantno posebno kad je nalogodavac primarni/jedini izvor prihoda.
+      </p>
+
+      <div
+        className="rounded-xl px-4 py-3 mb-4 text-sm font-medium"
+        style={{
+          backgroundColor: rizicno ? '#FEF2F2' : '#F0FDF4',
+          color: rizicno ? '#991B1B' : '#166534',
+        }}
+      >
+        {test.broj_ispunjenih}/9 kriterijuma ispunjeno — {test.ocena_rizika}
+      </div>
+
+      <ul className="space-y-3">
+        {test.kriterijumi.map((k, i) => (
+          <li key={i} className="text-sm border-l-2 pl-3" style={{ borderColor: '#E5E7EB' }}>
+            <div className="flex items-center justify-between gap-3">
+              <p className="font-medium text-gray-800">{k.naziv}</p>
+              <span className="shrink-0 text-xs font-semibold" style={{ color: STATUS_COLOR[k.ispunjen] }}>
+                {STATUS_LABEL[k.ispunjen]}
+              </span>
+            </div>
+            <p className="text-gray-600 mt-0.5">{k.obrazlozenje}</p>
+            {k.citat && <p className="text-xs text-gray-400 italic mt-1.5">&ldquo;{k.citat}&rdquo;</p>}
+          </li>
+        ))}
+      </ul>
+
+      <p className="text-xs text-gray-400 mt-4">
+        Ako je ispunjeno 5 ili više od 9 kriterijuma, prihod se po zakonu ne oporezuje kao paušal nego kao &bdquo;drugi prihodi&ldquo; (20% na bruto + PIO doprinosi). Ovo je indikativna procena na osnovu teksta ugovora — konačnu ocenu zavisi i od činjenica van ugovora (stvarno radno vreme, % prihoda, broj radnih dana). Konsultujte knjigovođu ili poreskog savetnika.
+      </p>
     </div>
   )
 }
@@ -234,6 +307,7 @@ export function ContractReviewClient() {
           <Section title="Rizične klauzule" icon="⚠️" items={report.rizicne_klauzule} emptyText="Nisu uočene očigledno rizične klauzule." />
           <Section title="Šta nedostaje" icon="🔍" items={report.sta_nedostaje} emptyText="Nema uočenih nedostajućih delova." />
           <Section title="Na šta obratiti pažnju" icon="💡" items={report.na_sta_paziti} emptyText="Nema dodatnih napomena." />
+          {report.test_samostalnosti && <IndependenceTestSection test={report.test_samostalnosti} />}
 
           <p className="text-xs text-gray-400">
             Ovo je informativna AI analiza, ne pravni savet. Za konačnu odluku o potpisivanju konsultujte advokata.

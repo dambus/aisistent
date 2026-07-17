@@ -2,39 +2,37 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 13. jul 2026. (popodne) — mašina: kućna
+**Poslednja izmena:** 18. jul 2026. — mašina: kućna
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: dogfooding baza znanja pauzirana, sesija skrenula na marketing — cenovnik/dashboard/changelog fixevi + social content pack
+## Status: novi feature "Test samostalnosti" implementiran i verifikovan uživo, spreman za commit/push
 
-**Deo 1 (jutro): baza znanja rollout** — 10/22 modula gotovo (vidi commit `18eb556` i unazad). Dogovorno zaustavljeno, prelazak na marketing.
+Milan pitao za "test samostalnosti" (čl. 85 Zakona o porezu na dohodak građana) — rizik da poreska uprava tretira paušalca/frilensera sa 1-2 strana klijenta kao primarnog izvora prihoda kao nesamostalnog (prikriveno zaposlenog), sa posledicom prekvalifikacije prihoda (20% + PIO umesto paušala). Prošli plan-mode ciklus (istražen zakon + postojeći kod preko 2 Explore agenta), odlučeno da se gradi oboje:
 
-**Deo 2 (popodne): marketing audit + fix.** Milan tražio proveru da li su feature-i pravilno oglašeni (landing/tipcards/novosti) + par social postova. Explore agent uradio audit — glavni nalaz: **Pregled ugovora** (najnoviji AI feature, Pro+) bio praktično nevidljiv svuda. Popravljeno (commit `caedaa9`):
-- Cenovnik (`app/page.tsx` `getPricing()`): Pro/Agency kartice sad navode Pregled ugovora i Smart Autofill kao razlog za nadogradnju.
-- Dashboard: nov `TipSequence` unos `dashboard-pregled-ugovora`.
-- Changelog bell (`lib/changelog.ts`): 2 nova unosa (Pregled ugovora, Smart Autofill).
-- `/obrasci/[slug]` keyword cross-link: 3 nova para (punomoćje, zakup, NDA).
-- 6 ugovornih landing stranica dobile link ka `/pregled-ugovora` u `relatedLinks` (mehanizam već postojao — audit agent je pogrešno prijavio da ne postoji, provereno i ispravljeno pre fix-a).
+**Deo A — besplatan javni kviz** (`app/test-samostalnosti/page.tsx` landing + `app/(dashboard)/alati/test-samostalnosti/page.tsx` dashboard, client-only, bez AI). 9 da/ne pitanja, prag ≥5/9 → rizik. Registrovan u `lib/config/tools.ts`.
 
-**Social content pack:** 4 posta (LinkedIn + Instagram varijante + grafika) za Pregled ugovora, Biblioteku obrazaca, srpske padeže (diferencijacija od ChatGPT-a), Smart Autofill. Sačuvano u repo-u: `docs/marketing/social-content-pack-2026-07-13.html` (self-contained HTML, otvoriti u browseru, dugme "Kopiraj" po tekstu, grafike 4:5 spremne za screenshot). Fal.ai NIJE dostupan kao alat u ovoj sesiji — grafike napravljene kao HTML/CSS karte (brend zelena + rust akcenat, "službeni formular" motiv), ne kroz eksterni image generator.
+**Deo B — Pregled ugovora (Pro+) proširen 4. AI sekcijom.** Novi `lib/knowledge/test-samostalnosti.ts` + `getIndependenceTestKnowledge()` u `lib/knowledge/index.ts` (namerno IZVAN `getAllKnowledgeText()`, ubačeno u prompt samo za ugovor-o-delu/saradnji). `app/api/review-contract/route.ts` — novi Korak 4 + `test_samostalnosti` JSON polje (9 kriterijuma, "da"/"ne"/"nije_moguce_utvrditi"). `ContractReviewClient.tsx` — nova `IndependenceTestSection`.
 
-**NIJE commitovano/pushovano jos** — ovo je zadnji korak pre kraja sesije, radi se odmah posle ovog STATE.md upisa.
+Detalji implementacije i verifikacije: `PROGRESS.md` unos "18. jul 2026. — Test samostalnosti".
+
+**NIJE JOŠ commitovano/pushovano** — to je sledeći korak, radi se odmah posle ovog STATE.md upisa.
 
 ## Sledeći korak
 
-1. Milan pregleda `docs/marketing/social-content-pack-2026-07-13.html`, odluči da li menja ton/tekst/broj postova pre objave na LinkedIn/Instagram.
-2. Nastavak baze znanja rollout-a na preostalih ~12 non-legal modula (SAMO ako se odluči — dogovoreno da nije prioritet, van dogovorenog obima da se koriste marketing/copywriting skillovi za njih).
-3. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje nije urađena (prenosi se iz više prethodnih sesija).
-4. Chatbot MVP (`docs/handover/06-CHATBOT-MVP.md`) i C1 dvojezični ugovori — dogovoreno da idu POSLE stabilne naplate (Paddle), ne sad.
+1. Commit + push izmena za "Test samostalnosti" (7 fajlova: 3 nova, 4 izmenjena — vidi `git status`).
+2. Milan pregleda kviz (`/test-samostalnosti`) i prošireni Pregled ugovora uživo na produkciji nakon deploy-a — verifikacija u ovoj sesiji je rađena samo na dev serveru (localhost).
+3. Razmisliti da li "Test samostalnosti" treba i social content post (po uzoru na prethodni pack) — nije traženo, samo mogućnost.
+4. Nastavak baze znanja rollout-a na preostalih ~12 non-legal modula — i dalje van prioriteta, nije dogovoreno da se radi.
+5. Vizuelna provera C2 upload UI-a (drag&drop) uživo u browseru — i dalje prenosi se iz više prethodnih sesija, nije urađena.
+6. Chatbot MVP i C1 dvojezični ugovori — i dalje POSLE stabilne naplate (Paddle).
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Marketing audit fix** — vidi Status iznad. Provera: `grep -n "Pregled ugovora" app/page.tsx` (cenovnik), `grep -n "dashboard-pregled-ugovora" "app/(dashboard)/dashboard/page.tsx"`, `grep -c "id:" lib/changelog.ts` (6 unosa).
-- **Social content pack** — `docs/marketing/social-content-pack-2026-07-13.html` postoji i otvara se u browseru (self-contained, bez zavisnosti).
-- **Baza znanja rollout na 10/22 modula** (jutrošnji deo sesije) — `grep -l "KNOWLEDGE_TOPICS" lib/prompts/*.ts` vraća 7 fajlova. Detalji: `docs/BUG_TRACKER.md` "dogfooding krug 3".
-- **BUG-046 do BUG-050 + SYS-05 rešeni** (jutrošnji deo) — zabrana konkurencije bez naknade (NDA/ugovor-o-delu/pravilnik-o-radu), tip_prihoda + 4 polja tiho brisana u ugovor-o-delu, sistemski Zod gap na 7 modula.
+- **Test samostalnosti (kviz + Pregled ugovora prošireno)** — vidi Status iznad. Provera: `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka: TOOL_CONFIG, CALCULATOR_SLUGS, HOMEPAGE_CATEGORIES), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`, `npx tsc --noEmit` čisto. Uživo testirano u browseru (kviz prag 5/9, upload mock ugovora kroz Pregled ugovora → ispravan JSON i render).
+- **Marketing audit fix + social content pack** (13. jul) — cenovnik/dashboard/changelog/cross-link ažurirani za Pregled ugovora i Smart Autofill, `docs/marketing/social-content-pack-2026-07-13.html` postoji.
+- **Baza znanja rollout na 10/22 modula** (13. jul, jutro) — `grep -l "KNOWLEDGE_TOPICS" lib/prompts/*.ts` vraća 7 fajlova. Detalji: `docs/BUG_TRACKER.md` "dogfooding krug 3".
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 
@@ -54,6 +52,7 @@
 | Brainstorm ideje za sledeći feature | `docs/handover/11-BRAINSTORM-FEATURES.md` |
 | Chatbot MVP plan (čeka naplatu) | `docs/handover/06-CHATBOT-MVP.md` |
 | Baza znanja — struktura i sadržaj | `lib/knowledge/index.ts` |
+| Test samostalnosti — zakonski kriterijumi | `lib/knowledge/test-samostalnosti.ts` |
 | Social content pack | `docs/marketing/social-content-pack-2026-07-13.html` |
 | Detaljna istorija po temi | `.ai-memory/project_*.md` — samo ako STATE.md ne pokriva dovoljno |
 

@@ -29,6 +29,16 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 18. jul 2026. — Test samostalnosti: novi besplatan alat + integracija u Pregled ugovora
+
+Milan pitao za "test samostalnosti" (čl. 85 Zakona o porezu na dohodak građana) — čest rizik za paušalce/frilensere sa 1-2 strana klijenta kao primarnim izvorom prihoda (poreska uprava ih može tretirati kao nesamostalne, prevesti prihod na "drugi prihod" 20% + PIO umesto paušala). Prošao kroz brainstorm/plan-mode ciklus (istražen zakon, istražen postojeći kod preko 2 Explore agenta), odlučeno da se gradi oboje: besplatan kviz kao lead-magnet + dublja AI integracija u postojeći Pregled ugovora.
+
+**Deo A — javni kviz** (`app/test-samostalnosti/page.tsx` landing, `app/(dashboard)/alati/test-samostalnosti/page.tsx` dashboard, client-only, bez AI poziva, po uzoru na `kalkulator-ugovora-o-delu`): 9 da/ne pitanja (jedno po zakonskom kriterijumu), live brojač, prag ≥5/9 → "rizik nesamostalnosti". Registrovano u `lib/config/tools.ts` (`TOOL_CONFIG`, `CALCULATOR_SLUGS`, `HOMEPAGE_CATEGORIES` "AI alati").
+
+**Deo B — Pregled ugovora (Pro+) proširen 4. sekcijom.** Novi knowledge modul `lib/knowledge/test-samostalnosti.ts` (9 kriterijuma + pravni osnov) — namerno IZVAN `KNOWLEDGE_TOPICS`/`getAllKnowledgeText()` (ta funkcija vozi "obavezni elementi ugovora" referencu za sve tipove; test samostalnosti je druga vrsta provere pa ima svoj `getIndependenceTestKnowledge()` u `lib/knowledge/index.ts`, ubačen u prompt samo kad je `tip_ugovora` = ugovor-o-delu/ugovor-o-saradnji). `app/api/review-contract/route.ts`: novi Korak 4 u system promptu + `test_samostalnosti` polje u JSON schemi (9 kriterijuma, svaki "da"/"ne"/"nije_moguce_utvrditi" — eksplicitna instrukcija da model ne nagađa kad ugovor ne daje dovoljno podataka, npr. za % prihoda ili broj radnih dana). `ContractReviewClient.tsx` dobio `IndependenceTestSection` — checklist sa statusom po kriterijumu, broj ispunjenih, ocena rizika, prikazuje se samo kad primenljivo.
+
+**Verifikacija uživo:** kviz testiran klik-po-klik u browseru (potvrđen prag tačno na 5/9). Pregled ugovora testiran uploadom mock ugovora o delu (srpski PR + UK firma, fiksno radno vreme, oprema poslodavca, zabrana rada za druge) preko privremeno ubačenog fajla u `/public` + JS injekcija u file input (file_upload alat ne prihvata fajlove van sesije) — model je vratio 5/9 ispunjenih, ispravno označio 4 kriterijuma kao "ne može se utvrditi iz ugovora" (nije nagađao), sažetak i obrazloženja koherentna. tsc/eslint čisto na svim izmenjenim/novim fajlovima.
+
 #### 13. jul 2026. (drugi deo) — Marketing audit fix + social content pack
 
 Nastavak istog dana, posle dogfooding kruga 3 (ispod). Milan pitao da li su feature-i pravilno oglašeni na landing/tipcards/novosti + tražio LinkedIn/Instagram postove.

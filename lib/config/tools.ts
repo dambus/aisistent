@@ -240,6 +240,16 @@ export const TOOL_CONFIG: Record<string, ToolConfig> = {
     ctaLabel: 'Otvorite kalkulator',
     ctaTitle: 'Izračunajte odmah, besplatno',
   },
+  'test-samostalnosti': {
+    slug: 'test-samostalnosti',
+    label: 'Test samostalnosti',
+    desc: 'Da li vas poreska uprava može smatrati nesamostalnim preduzetnikom',
+    icon: '🧭',
+    landingHref: '/test-samostalnosti',
+    dashboardHref: '/alati/test-samostalnosti',
+    ctaLabel: 'Uradite test',
+    ctaTitle: 'Proverite rizik odmah, besplatno',
+  },
   'pregled-ugovora': {
     slug: 'pregled-ugovora',
     label: 'Pregled ugovora',
@@ -284,7 +294,7 @@ export const HOMEPAGE_CATEGORIES: { title: string; slugs: string[] }[] = [
   },
   {
     title: '🤖 AI alati',
-    slugs: ['pregled-ugovora'],
+    slugs: ['pregled-ugovora', 'test-samostalnosti'],
   },
 ]
 
@@ -308,4 +318,4 @@ export const DASHBOARD_CATEGORIES: { title: string; slugs: string[] }[] = [
   },
 ]
 
-export const CALCULATOR_SLUGS = ['kalkulator-zarade', 'kalkulator-pausala', 'kalkulator-ugovora-o-delu', 'pregled-ugovora']
+export const CALCULATOR_SLUGS = ['kalkulator-zarade', 'kalkulator-pausala', 'kalkulator-ugovora-o-delu', 'pregled-ugovora', 'test-samostalnosti']

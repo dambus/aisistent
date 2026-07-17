@@ -16,6 +16,7 @@ import { zajam } from './zajam'
 import { punomocje } from './punomocje'
 import { obligacijeOpste } from './obligacije-opste'
 import { saradnja } from './saradnja'
+import { testSamostalnosti } from './test-samostalnosti'
 
 export const KNOWLEDGE_TOPICS: Record<string, KnowledgeTopic> = {
   'radni-odnosi': radniOdnosi,
@@ -56,4 +57,11 @@ export function getAllKnowledgeText(): string {
   return Object.values(KNOWLEDGE_TOPICS)
     .map(t => `${t.naslov} (${t.pravniOsnov}):\n${t.sadrzaj}`)
     .join('\n\n')
+}
+
+/** Tekst za "test samostalnosti" (9 zakonskih kriterijuma) — koristi ga review-contract
+ *  posebno, samo za ugovor-o-delu/ugovor-o-saradnji, van getAllKnowledgeText/KNOWLEDGE_TOPICS
+ *  jer je druga vrsta provere (odnos strana) od "obavezni elementi ugovora" reference. */
+export function getIndependenceTestKnowledge(): string {
+  return `${testSamostalnosti.naslov} (${testSamostalnosti.pravniOsnov}):\n${testSamostalnosti.sadrzaj}`
 }

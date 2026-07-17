@@ -4,7 +4,7 @@ import mammoth from 'mammoth'
 import PDFParser from 'pdf2json'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getAllKnowledgeText } from '@/lib/knowledge'
+import { getAllKnowledgeText, getIndependenceTestKnowledge } from '@/lib/knowledge'
 
 const REVIEW_PLANS = ['pro', 'agency']
 const REVIEW_LIMITS: Record<string, number> = {
@@ -35,6 +35,16 @@ Dole su liste OBAVEZNIH ELEMENATA za svaki tip ugovora — ovo je naša interna,
 
 ${getAllKnowledgeText()}
 
+## KORAK 4 — Test samostalnosti (SAMO za ugovor-o-delu i ugovor-o-saradnji)
+
+Ako je "tip_ugovora" iz koraka 2 jednako "ugovor-o-delu" ili "ugovor-o-saradnji", proceni dodatno "test_samostalnosti" na osnovu sledeće zakonske reference:
+
+${getIndependenceTestKnowledge()}
+
+Za svaki od 9 kriterijuma navedi "ispunjen": "da" ako tekst ugovora jasno ukazuje da je kriterijum ispunjen, "ne" ako tekst jasno ukazuje suprotno, ili "nije_moguce_utvrditi" ako ugovor ne sadrži dovoljno informacija (VAŽNO: mnogi kriterijumi kao stvarno radno vreme, % prihoda od nalogodavca ili broj radnih dana se po pravilu NE MOGU utvrditi samo iz ugovora — koristi "nije_moguce_utvrditi" umesto nagađanja). Izbroj koliko je "da" u "broj_ispunjenih" i daj kratku "ocena_rizika" (npr. "nizak/srednji/visok rizik nesamostalnosti, uz napomenu da konačna ocena zavisi i od činjenica van ugovora").
+
+Ako "tip_ugovora" NIJE ugovor-o-delu ili ugovor-o-saradnji, vrati "test_samostalnosti": {"primenljivo": false, "kriterijumi": [], "broj_ispunjenih": 0, "ocena_rizika": ""}.
+
 ## FORMAT ODGOVORA
 
 Vrati ISKLJUČIVO validan JSON objekat, bez teksta, objašnjenja ili markdown oznaka:
@@ -45,6 +55,7 @@ Vrati ISKLJUČIVO validan JSON objekat, bez teksta, objašnjenja ili markdown oz
   "rizicne_klauzule": [{"naslov": "kratak naslov", "opis": "zašto je rizično, jednostavnim jezikom", "citat": "kratak citat iz ugovora ili prazan string ako nema doslovnog citata", "obrazlozenje": "OBAVEZNO: konkretan osnov tvrdnje — npr. 'ovaj iznos je 3x veći od vrednosti posla navedene u čl. 2', ili referenca na zakonski član, ili poređenje sa uobičajenom praksom uz brojčani raspon ako postoji"}],
   "sta_nedostaje": [{"naslov": "kratak naslov", "opis": "šta bi trebalo da postoji, pozivajući se na referentnu listu za ovaj tip ugovora iznad"}],
   "na_sta_paziti": [{"naslov": "kratak naslov", "opis": "praktičan savet, ne pravni zaključak", "obrazlozenje": "zašto je ovo bitno konkretno u OVOM ugovoru"}],
+  "test_samostalnosti": {"primenljivo": true, "kriterijumi": [{"naziv": "kratak naziv kriterijuma", "ispunjen": "da", "obrazlozenje": "na osnovu čega", "citat": "citat iz ugovora ili prazan string"}], "broj_ispunjenih": 0, "ocena_rizika": "kratka ocena"},
   "sazetak": "1-2 rečenice, opšti utisak, neutralno"
 }
 
@@ -54,7 +65,8 @@ Strogo poštuj:
 - Ne izmišljaj klauzule koje ne postoje u tekstu.
 - Ako ugovor deluje uobičajeno i bez očiglednih problema, to i reci u sazetku — ne izmišljaj rizike da bi lista bila duža.
 - Jezik: srpski, jednostavan, bez pravnog žargona gde je moguće.
-- Maksimalno 8 stavki po sekciji.`
+- Maksimalno 8 stavki po sekciji.
+- "test_samostalnosti" MORA imati tačno 9 stavki u "kriterijumi" kad je "primenljivo": true (jedna po svakom od 9 kriterijuma iz reference iznad, tim redosledom), i NIKAD ne izmišljaj "da"/"ne" kad tekst ne daje dovoljno informacija — koristi "nije_moguce_utvrditi".`
 
 const rateLimitStore = new Map<string, number[]>()
 
@@ -90,12 +102,27 @@ async function extractText(buffer: Buffer, mimeType: string): Promise<string> {
   throw new Error('UNSUPPORTED_TYPE')
 }
 
+interface IndependenceTestCriterion {
+  naziv: string
+  ispunjen: 'da' | 'ne' | 'nije_moguce_utvrditi'
+  obrazlozenje: string
+  citat?: string
+}
+
+interface IndependenceTestReport {
+  primenljivo: boolean
+  kriterijumi: IndependenceTestCriterion[]
+  broj_ispunjenih: number
+  ocena_rizika: string
+}
+
 interface ReviewReport {
   u_domenu: boolean
   tip_ugovora: string
   rizicne_klauzule: { naslov: string; opis: string; citat?: string; obrazlozenje: string }[]
   sta_nedostaje: { naslov: string; opis: string }[]
   na_sta_paziti: { naslov: string; opis: string; obrazlozenje?: string }[]
+  test_samostalnosti: IndependenceTestReport
   sazetak: string
 }
 
@@ -164,7 +191,7 @@ export async function POST(req: NextRequest) {
   try {
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-5',
-      max_tokens: 5500,
+      max_tokens: 6500,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: trimmedText.slice(0, MAX_TEXT_CHARS) }],
     })

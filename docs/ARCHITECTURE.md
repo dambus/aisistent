@@ -24,8 +24,11 @@ app/
       kalkulator-zarade/
       kalkulator-pausala/
       kalkulator-ugovora-o-delu/
+      pregled-ugovora/       — AI analiza upload-ovanog ugovora (Pro/Agency)
+      test-samostalnosti/    — besplatan kviz, 9 kriterijuma testa samostalnosti (čl. 85 ZPDG)
   api/
     generate/           — Claude API poziv (POST)
+    review-contract/    — AI analiza ugovora (PDF/DOCX upload), uklj. test samostalnosti za ugovor-o-delu/saradnji
     export/
       pdf/              — generisanje PDF-a (POST)
       docx/             — generisanje DOCX-a (POST)
