@@ -43,6 +43,9 @@
 
 ## 🔴 Visok prioritet
 
+- **Deklinacioni modul — proširiti pilot na preostalih 19 tipova dokumenta** (7. avgust 2026.) — `lib/declension/` + tool-use integracija (`lib/declension/tool.ts`) trenutno rade samo za `ugovor-o-radu`. Ostalih 19 tipova (`ugovor-o-delu`, `nda`, `ugovor-o-zakupu`, `ugovor-o-saradnji-zajmu`, `punomocje`, `opsti-uslovi`, `poslovni-mejl`, `oglas-za-posao`, `ponuda-klijentu`, `odgovor-kandidatu`, `preporuka`, `resenje-godisnji-odmor`, `pravilnik-o-radu`, `obavestenje-o-promeni-uslova`, `opis-proizvoda`, `bio-o-nama`, `zapisnik-sastanak` — svi koji imaju "SRPSKI JEZIK I DEKLINACIJA" sekciju u promptu) i dalje generišu padeže slobodnom LLM generacijom bez determinizma/provere. Helper (`generateWithDeclensionTool`) je već generički — širenje znači po tipu: dodati istu instrukciju u prompt (kao u `ugovor-o-radu.ts`) + zameniti poziv u `app/api/generate/route.ts`. Detalji: `CLAUDE_CODE_BRIEF_gramatika.md`, `PROGRESS.md` unos "7. avgust 2026.".
+- **Provera javnog sadržaja pre objave (Zadatak 3, CLAUDE_CODE_BRIEF_gramatika.md)** — direktan povod: Instagram post je tvrdio "šest padeža" umesto sedam (BUG-051), niko nije proverio brojčanu/jezičku tvrdnju pre objave. Napraviti referentni dokument (fiksne proverene činjenice — broj/nazivi padeža, ključne odredbe ZOR/ZOO na koje se firma poziva) + checklist koji se prolazi pre svake objave marketing/blog/social sadržaja. Opciono: Claude Code skill koji flaguje brojčane/jezičke tvrdnje u draftu za ručnu proveru.
+
 ## 🔴 Visok prioritet — blokirano
 
 - **Payment gateway (Paddle)** — čeka APR registraciju preduzetnika

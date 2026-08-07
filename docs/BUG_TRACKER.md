@@ -98,6 +98,13 @@ Nastavak dogfooding pattern-a sa ugovor-o-radu (baza znanja + samoprovera) na pr
 
 Baza znanja (`lib/knowledge/`) sad importovana i u: `nda`, `ugovor-o-delu`, `ugovor-o-zakupu`, `ugovor-o-saradnji-zajmu`, `punomocje`, `pravilnik-o-radu` (uz `ugovor-o-radu` iz prethodnog kruga). `opsti-uslovi` i `resenje-godisnji-odmor`/`obavestenje-o-promeni-uslova` dobili samo samoprovera sekciju (nema odgovarajući knowledge topic ili je sadržaj već specifičan/kompletan).
 
+## Rešeni bugovi (avgust 2026, gramatička regresija — deklinacija)
+
+| ID | Commit | Opis |
+|----|--------|------|
+| BUG-051 (produkcioni sadržaj) | 3e2e473 | Instagram launch pack (`docs/marketing/instagram-launch-pack-2026-08-03.html`) tvrdio da srpski jezik ima "šest padeža" umesto sedam — u postu koji baš deklinaciju reklamira kao diferencijaciju proizvoda naspram ChatGPT-a. Otkrio Milan pri pregledu pre objave. Ispravljeno. Povod za širi audit — vidi `CLAUDE_CODE_BRIEF_gramatika.md` i SYS-06 ispod. |
+| SYS-06 (sistemski, delimično rešeno) | b08a16a | Audit (`CLAUDE_CODE_BRIEF_gramatika.md`, Zadatak 0) pokazao da pipeline generisanja dokumenata (`app/api/generate/route.ts`) oslanja deklinaciju (padeže) imena/firmi/iznosa isključivo na slobodnu LLM generaciju, bez ikakve automatske provere — direktan sistemski uzrok gornje greške, samo u marketing tekstu umesto u dokumentu. Rešeno delimično: `lib/declension/` deterministički modul + regresioni test set (`npm run test:declension-module`, `npm run test:declension`), integrisan kroz tool-use samo za `ugovor-o-radu` (pilot). Ostalih 19 tipova dokumenta i dalje generišu padeže slobodnom LLM generacijom bez determinizma — vidi `docs/BACKLOG.md` za nastavak rollout-a. |
+
 ## Plan fixeva
 
 ### Aktivni (po prioritetu)

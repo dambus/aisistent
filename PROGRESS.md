@@ -29,6 +29,22 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 7. avgust 2026. — Gramatička regresija: deklinacioni modul + regresioni test set
+
+Milan otkrio grešku pri pregledu Instagram launch pack-a pre objave: tekst koji reklamira srpsku deklinaciju kao diferencijaciju naspram ChatGPT-a je tvrdio da srpski jezik ima "šest padeža" umesto sedam. Ispravljeno odmah (`docs/marketing/instagram-launch-pack-2026-08-03.html`), zatim širi audit i fix po `CLAUDE_CODE_BRIEF_gramatika.md` (fajl u root-u repoa, doneo Milan).
+
+**Zadatak 0 — audit.** Pipeline generisanja (`app/api/generate/route.ts`) oslanja deklinaciju imena/firmi/iznosa isključivo na slobodnu LLM generaciju (prompt sekcija "SRPSKI JEZIK I DEKLINACIJA" u `lib/prompts/*.ts`), bez ikakve automatske provere. Postojao je samo deterministički sloj za vokativ (`lib/utils/vokativ.ts`, rečnik 1969 imena) i detekciju roda (`genderDetect.ts`) — ne i za punu deklinaciju (genitiv/dativ/akuzativ/instrumental/lokativ). Nula automatskih testova gramatike u repou (nema jest/vitest, samo Playwright e2e). Proverili i eksterni servis deklinacija.com (API) — pokriva samo vokativ ličnih imena, ne rešava firme/iznose/ostale padeže, odbačen.
+
+**Zadatak 1 — regresioni test set.** `tests/fixtures/declension-fixture.ts` — 98 primera (12 ličnih imena × 6 padeža, pokriva dijakritike Đ Š Č Ć Ž, strana nesklonjiva imena, nepostojano "a"; 5 firmi × 4 padeža uključujući kvotirane nazive i "d.o.o." vs "doo" oblik; 6 novčanih iznosa). `tests/declension.test.ts` — poziva pravi Claude API sa izolovanim promptom (batch po 16, JSON in/out), `npm run test:declension`. Potvrđeno namerno pokvarenim redom da test stvarno obara build.
+
+**Zadatak 2 — deterministički modul.** `lib/declension/` (`names.ts`, `companies.ts`, `amounts.ts`, `exceptions.ts`, `index.ts`) — `decline(tekst, rod, padez, {type})`. Pravila po nastavku (suglasnik/-a/-o/-e), meki/tvrdi suglasnik za instrumental, rečnik izuzetaka (nepostojano "a": Petar, Aleksandar; nesklonjiva strana imena: Carmen, Isabel). `tests/declension-module.test.ts` — isti fixture, 98/98, bez mreže, ~150ms (`npm run test:declension-module`) — bezbedan kandidat za CI/pre-commit kad se odluči (repo trenutno nema ni jedno ni drugo).
+
+**Pilot integracija.** `lib/declension/tool.ts` — tool-use loop (LLM zove `decline` alat umesto da sam piše padežni oblik), ugrađen u `app/api/generate/route.ts` SAMO za `ugovor-o-radu` (namerno, po dogovoru — manji rizik po produkciju pre šireg rollout-a). `lib/prompts/ugovor-o-radu.ts` dobio instrukciju da poziva alat. Verifikovano uživo (van HTTP rute, direktan poziv preko privremene skripte) sa produkcionim fixture podacima — alat se stvarno poziva, tačno vraća oblike ("Marka Jovanovića", "Marku Jovanoviću"). Usput otkriven i ispravljen bug: wizard unosi firmu kao "TechStart Solutions d.o.o." (sa tačkama), prvobitni regex je prepoznavao samo "doo" bez tačaka — firma bi ostala nedeklinisana u genitivu/dativu. Ispravljeno + dodato u fixture.
+
+**Nije urađeno (sledeći korak):** rollout tool-use integracije na preostalih 19 tipova dokumenta (trenutno i dalje slobodna LLM generacija bez determinizma), Zadatak 3 iz brief-a (referentni dokument + checklist za proveru javnog/marketing sadržaja pre objave — bilo bi uhvatilo baš ovu grešku).
+
+**Commits:** `3e2e473` (marketing fix), `b08a16a` (modul + testovi + pilot integracija).
+
 #### 18. jul 2026. — Test samostalnosti: novi besplatan alat + integracija u Pregled ugovora
 
 Milan pitao za "test samostalnosti" (čl. 85 Zakona o porezu na dohodak građana) — čest rizik za paušalce/frilensere sa 1-2 strana klijenta kao primarnim izvorom prihoda (poreska uprava ih može tretirati kao nesamostalne, prevesti prihod na "drugi prihod" 20% + PIO umesto paušala). Prošao kroz brainstorm/plan-mode ciklus (istražen zakon, istražen postojeći kod preko 2 Explore agenta), odlučeno da se gradi oboje: besplatan kviz kao lead-magnet + dublja AI integracija u postojeći Pregled ugovora.
@@ -729,4 +745,4 @@ Stranica je privremeno nedostupna (`/obrasci` prikazuje "Uskoro dostupno").
 - High-tier management section: dedicated views po klijentu sa timskim pregledom (kad timski nalozi budu gotovi)
 
 ---
-*Poslednje ažuriranje: 1. jul 2026.*
+*Poslednje ažuriranje: 7. avgust 2026.*
