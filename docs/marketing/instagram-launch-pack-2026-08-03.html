@@ -1,0 +1,601 @@
+<title>AIsistent — Instagram Launch Pack (prva 3 posta)</title>
+
+<style>
+  @font-face {
+    font-family: 'Courier Prime Fallback';
+    src: local('Courier New');
+  }
+
+  :root {
+    --ground: #f4f1e8;
+    --ground-alt: #eae5d6;
+    --panel: #ffffff;
+    --ink: #17231c;
+    --ink-soft: #4a5a4f;
+    --border: #d8d0bc;
+    --card-ground: #0f3324;
+    --card-ground-2: #133d2b;
+    --card-paper: #efe9dd;
+    --card-ink: #0f1b14;
+    --accent: #d97848;
+    --accent-ink: #2b140b;
+    --gold: #e8c468;
+    --mono: ui-monospace, 'SFMono-Regular', 'Courier New', 'Courier Prime Fallback', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14100a;
+      --ground-alt: #1c1712;
+      --panel: #201a13;
+      --ink: #ece3d0;
+      --ink-soft: #b7ab93;
+      --border: #3a3122;
+    }
+  }
+  :root[data-theme='dark'] {
+    --ground: #14100a;
+    --ground-alt: #1c1712;
+    --panel: #201a13;
+    --ink: #ece3d0;
+    --ink-soft: #b7ab93;
+    --border: #3a3122;
+  }
+  :root[data-theme='light'] {
+    --ground: #f4f1e8;
+    --ground-alt: #eae5d6;
+    --panel: #ffffff;
+    --ink: #17231c;
+    --ink-soft: #4a5a4f;
+    --border: #d8d0bc;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    padding: 48px 20px 96px;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; }
+
+  header.page-head {
+    margin-bottom: 44px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(26px, 4vw, 38px);
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .page-head p {
+    margin: 0;
+    color: var(--ink-soft);
+    max-width: 70ch;
+    font-size: 15px;
+  }
+
+  .post-block {
+    padding: 36px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .post-block:last-of-type { border-bottom: none; }
+
+  .post-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .post-head .n {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .post-head h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .post-head .when {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .cards-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+  }
+
+  /* ---- graphic card ---- */
+  .card-shell {
+    flex: 0 0 340px;
+    width: 340px;
+    aspect-ratio: 4 / 5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -20px rgba(15, 51, 36, 0.45);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(120% 140% at 15% 0%, var(--card-ground-2) 0%, var(--card-ground) 62%);
+    color: var(--card-paper);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 22px;
+    font-family: var(--sans);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px dashed rgba(239, 233, 221, 0.28);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .card-letterhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(239, 233, 221, 0.65);
+    margin-bottom: auto;
+  }
+  .card-stamp {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--card-ground);
+    background: var(--gold);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .card-icon {
+    font-size: 40px;
+    margin: 14px 0 10px;
+    line-height: 1;
+  }
+  .card-headline {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  .card-headline .hl { color: var(--gold); }
+  .card-sub {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(239, 233, 221, 0.82);
+    margin: 0 0 16px;
+  }
+  .card-points {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .card-points li { display: flex; gap: 9px; align-items: flex-start; }
+  .card-check {
+    color: var(--gold);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .card-steps {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    gap: 13px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .card-steps li { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--card-ground);
+    background: var(--gold);
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+  }
+  .card-cta {
+    color: var(--accent);
+    background: rgba(217, 120, 72, 0.14);
+    border: 1px solid rgba(217, 120, 72, 0.45);
+    padding: 6px 11px;
+    border-radius: 5px;
+    font-weight: 700;
+  }
+  .card-brand { color: rgba(239, 233, 221, 0.55); }
+  .card-slide-tag {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(239, 233, 221, 0.4);
+    letter-spacing: 0.1em;
+  }
+
+  /* big brand card variant (slide 1 of carousel) */
+  .card-brandname {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+    color: var(--card-paper);
+  }
+  .card-slogan {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    margin: 0 0 18px;
+  }
+
+  /* category grid (slide 2) */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 0 0 18px;
+  }
+  .cat {
+    background: rgba(239, 233, 221, 0.07);
+    border: 1px solid rgba(239, 233, 221, 0.16);
+    border-radius: 8px;
+    padding: 9px 9px;
+  }
+  .cat .ic { font-size: 18px; display: block; margin-bottom: 4px; }
+  .cat .t { font-weight: 700; font-size: 12.5px; display: block; margin-bottom: 2px; }
+  .cat .d { font-size: 10.5px; color: rgba(239, 233, 221, 0.65); line-height: 1.3; display: block; }
+
+  /* ---- copy panel ---- */
+  .copy-panel { max-width: 720px; }
+  .channel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .channel-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  .channel-label button {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    border-radius: 5px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  .channel-label button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .channel-body {
+    margin: 0;
+    white-space: pre-line;
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+  .hashtags {
+    margin: 12px 0 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .note {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 6px 0 0;
+    padding-left: 2px;
+  }
+  .note strong { color: var(--ink); }
+
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: var(--ink);
+    color: var(--ground);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 9px 20px;
+    border-radius: 7px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+
+<div class="wrap">
+  <header class="page-head">
+    <p class="eyebrow">Instagram launch pack — avgust 2026.</p>
+    <h1>Prva 3 posta za novi Instagram nalog</h1>
+    <p>Launch sekvenca za nov nalog: 1) predstavljanje brenda (carousel, 3 slajda), 2) najjača diferencijacija — srpski padeži vs. ChatGPT, 3) kako radi u 3 koraka. Grafike su 4:5 (1080×1350), spremne za screenshot. Tekst kopiraš dugmetom. Predlog ritma: post 1 na dan otvaranja, post 2 posle 2–3 dana, post 3 posle još 2–3 dana.</p>
+  </header>
+
+  <!-- ================= POST 1 — INTRO CAROUSEL ================= -->
+  <div class="post-block">
+    <div class="post-head">
+      <span class="n">01 / CAROUSEL — 3 SLAJDA</span>
+      <h2>Predstavljanje: ko smo i šta rešavamo</h2>
+      <span class="when">Objaviti: dan 1</span>
+    </div>
+
+    <div class="cards-row">
+      <!-- slide 1 -->
+      <div class="card-shell">
+        <div class="card">
+          <div class="card-letterhead">
+            <span>est. 2026 — Srbija</span>
+            <span class="card-stamp">Novo</span>
+          </div>
+          <div class="card-icon">📝</div>
+          <p class="card-brandname">AIsistent</p>
+          <p class="card-slogan">Švajcarski nož za mali biznis</p>
+          <p class="card-sub">AI platforma za poslovna dokumenta — na srpskom jeziku, po srpskim zakonima. Ugovori, fakture, HR dokumenti i kalkulatori, bez advokata za svaku sitnicu.</p>
+          <div class="card-footer">
+            <span class="card-cta">Prevucite →</span>
+            <span class="card-brand">aisistent.rs</span>
+          </div>
+          <span class="card-slide-tag">1/3</span>
+        </div>
+      </div>
+
+      <!-- slide 2 -->
+      <div class="card-shell">
+        <div class="card">
+          <div class="card-letterhead">
+            <span>AIsistent</span>
+            <span class="card-stamp">22+ alata</span>
+          </div>
+          <h2 class="card-headline" style="margin-top:14px; margin-bottom:12px; font-size:23px;">Sve na <span class="hl">jednom</span> mestu</h2>
+          <div class="cat-grid" style="margin-bottom:12px;">
+            <div class="cat"><span class="ic">📄</span><span class="t">Ugovori</span><span class="d">o radu, o delu, NDA, zakup...</span></div>
+            <div class="cat"><span class="ic">🧾</span><span class="t">Fakture i ponude</span><span class="d">faktura, profaktura, ponuda</span></div>
+            <div class="cat"><span class="ic">👥</span><span class="t">HR dokumenti</span><span class="d">oglasi, rešenja, pravilnici</span></div>
+            <div class="cat"><span class="ic">🧮</span><span class="t">Kalkulatori</span><span class="d">zarada, paušal, ugovor o delu</span></div>
+          </div>
+          <p class="card-sub" style="margin-bottom:12px; font-size:12.5px;">+ 230 zvaničnih obrazaca — APR, Poreska uprava, CROSO, PIO</p>
+          <div class="card-footer">
+            <span class="card-cta">Prevucite →</span>
+            <span class="card-brand">aisistent.rs</span>
+          </div>
+          <span class="card-slide-tag">2/3</span>
+        </div>
+      </div>
+
+      <!-- slide 3 -->
+      <div class="card-shell">
+        <div class="card">
+          <div class="card-letterhead">
+            <span>AIsistent</span>
+            <span class="card-stamp">3 min</span>
+          </div>
+          <h2 class="card-headline" style="margin-top:18px;">Od pitanja do <span class="hl">gotovog dokumenta</span></h2>
+          <ol class="card-steps">
+            <li><span class="step-num">1</span><span>Izaberete dokument koji vam treba</span></li>
+            <li><span class="step-num">2</span><span>Odgovorite na par jednostavnih pitanja — bez pravnog žargona</span></li>
+            <li><span class="step-num">3</span><span>Preuzmete gotov PDF ili Word dokument</span></li>
+          </ol>
+          <p class="card-sub">Prva 3 dokumenta mesečno — besplatno. Bez kartice.</p>
+          <div class="card-footer">
+            <span class="card-cta">Link u bio →</span>
+            <span class="card-brand">aisistent.rs</span>
+          </div>
+          <span class="card-slide-tag">3/3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-panel">
+      <div class="channel">
+        <p class="channel-label">Instagram caption<button type="button" data-copy-target="ig-1">Kopiraj</button></p>
+        <p class="channel-body" id="ig-1">Zdravo, Srbijo. 👋 Mi smo AIsistent — švajcarski nož za mali biznis.
+
+Ugovor o radu. Faktura. Rešenje o godišnjem odmoru. NDA. Obračun zarade. Svaki od ovih papira ume da pojede sat vremena — ili 100 evra kod advokata.
+
+Mi smo to spakovali u jednu platformu:
+
+✓ 22+ tipa dokumenata — ugovori, fakture, HR, kalkulatori
+✓ 230+ zvaničnih obrazaca (APR, Poreska uprava, CROSO, PIO)
+✓ Na srpskom jeziku, usklađeno sa srpskim zakonima
+✓ Odgovorite na par pitanja — dokument je spreman, PDF ili Word
+
+Bez praznog Word dokumenta. Bez "kako se ovo uopšte piše". Bez advokata za svaku sitnicu.
+
+Prva 3 dokumenta mesečno su besplatna — bez kartice. Link u bio. 🔗</p>
+        <p class="hashtags">#AIsistent #preduzetništvo #malibiznis #srbija #paušalci #dokumenti #ugovori #fakture</p>
+      </div>
+      <p class="note"><strong>Napomena:</strong> objaviti kao carousel — 3 slike redom (1/3, 2/3, 3/3). Prvi slajd je naslovnica naloga, drži se čistim.</p>
+    </div>
+  </div>
+
+  <!-- ================= POST 2 — PADEŽI VS CHATGPT ================= -->
+  <div class="post-block">
+    <div class="post-head">
+      <span class="n">02 / SINGLE</span>
+      <h2>Diferencijacija: srpski padeži vs. ChatGPT</h2>
+      <span class="when">Objaviti: dan 3–4</span>
+    </div>
+
+    <div class="cards-row">
+      <div class="card-shell">
+        <div class="card">
+          <div class="card-letterhead">
+            <span>AIsistent</span>
+            <span class="card-stamp">vs. ChatGPT</span>
+          </div>
+          <div class="card-icon">🚩</div>
+          <h2 class="card-headline">"Isplatiti <span class="hl">Ana Marković</span>" nije srpski</h2>
+          <p class="card-sub">Ovako izgleda ugovor iz ChatGPT-a. Engleski nema padeže — pa ih ChatGPT ne zna ni za srpski.</p>
+          <ul class="card-points">
+            <li><span class="card-check">✓</span> Ispravna deklinacija imena, firmi i iznosa</li>
+            <li><span class="card-check">✓</span> Usklađeno sa srpskim zakonima</li>
+            <li><span class="card-check">✓</span> Wizard vas vodi — ne prazan ekran</li>
+          </ul>
+          <div class="card-footer">
+            <span class="card-cta">Probajte besplatno →</span>
+            <span class="card-brand">aisistent.rs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-panel">
+      <div class="channel">
+        <p class="channel-label">Instagram caption<button type="button" data-copy-target="ig-2">Kopiraj</button></p>
+        <p class="channel-body" id="ig-2">"Isplatiti Ana Marković." 🚩
+
+Ako vam je AI ovo napisao u ugovoru — nije greška u kucanju. Engleski jezik nema padeže, pa ih generički AI alati ne znaju ni za srpski.
+
+Razlika deluje sitno. Dok dokument ne stigne pred klijenta, knjigovođu ili sud.
+
+AIsistent dekliniše imena, firme i iznose kroz svih sedam padeža — i piše dokumenta po srpskim zakonima (Zakon o radu, ZOO...), ne po generičkom internet znanju.
+
+Napravljeno za srpsko tržište. Ne prevedeno na njega. 🇷🇸
+
+Prva 3 dokumenta besplatno — link u bio.</p>
+        <p class="hashtags">#srpskijezik #AIsistent #ChatGPT #ugovori #preduzetništvo #malibiznis #srbija</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= POST 3 — KAKO RADI ================= -->
+  <div class="post-block">
+    <div class="post-head">
+      <span class="n">03 / SINGLE</span>
+      <h2>Kako radi: 3 koraka, 3 minuta</h2>
+      <span class="when">Objaviti: dan 6–7</span>
+    </div>
+
+    <div class="cards-row">
+      <div class="card-shell">
+        <div class="card">
+          <div class="card-letterhead">
+            <span>AIsistent</span>
+            <span class="card-stamp">⏱ 3 min</span>
+          </div>
+          <div class="card-icon">📄</div>
+          <h2 class="card-headline">Ugovor o radu za <span class="hl">3 minuta</span>?</h2>
+          <ol class="card-steps">
+            <li><span class="step-num">1</span><span>Izaberete "Ugovor o radu"</span></li>
+            <li><span class="step-num">2</span><span>Wizard pita: ko, koja pozicija, koja plata, koji rok</span></li>
+            <li><span class="step-num">3</span><span>Preuzmete PDF ili Word — spreman za potpis</span></li>
+          </ol>
+          <p class="card-sub">Usklađeno sa Zakonom o radu. Padeži ispravni. Iznos ispisan i slovima.</p>
+          <div class="card-footer">
+            <span class="card-cta">Link u bio →</span>
+            <span class="card-brand">aisistent.rs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-panel">
+      <div class="channel">
+        <p class="channel-label">Instagram caption<button type="button" data-copy-target="ig-3">Kopiraj</button></p>
+        <p class="channel-body" id="ig-3">Novi radnik počinje u ponedeljak, a ugovor još ne postoji? ⏱️
+
+Evo kako to izgleda u AIsistent-u:
+
+1️⃣ Izaberete "Ugovor o radu"
+2️⃣ Wizard vas pita ono što ionako znate — ko se zapošljava, pozicija, plata, rok
+3️⃣ Preuzmete gotov PDF ili Word dokument, spreman za potpis
+
+Bez praznog ekrana. Bez kopiranja tuđeg ugovora iz 2019. Bez "da li je ovo uopšte po zakonu".
+
+Isto važi za fakture, NDA, rešenja o odmoru, punomoćja... 22+ tipova dokumenata.
+
+Prva 3 dokumenta mesečno besplatno — link u bio. 🔗</p>
+        <p class="hashtags">#ugovororadu #HR #AIsistent #preduzetništvo #malibiznis #srbija #zapošljavanje</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Kopirano</div>
+
+<script>
+  document.querySelectorAll('button[data-copy-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-copy-target'));
+      var text = target.innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        var toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 1400);
+      });
+    });
+  });
+</script>
