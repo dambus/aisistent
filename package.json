@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:doc": "tsx --tsconfig tsconfig.json scripts/test-doc.ts",
+    "test:declension": "vitest run tests/declension.test.ts",
+    "test:declension-module": "vitest run tests/declension-module.test.ts",
     "seed:blog": "tsx --tsconfig tsconfig.json scripts/seed-blog.ts"
   },
   "dependencies": {
@@ -55,6 +57,7 @@
     "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }

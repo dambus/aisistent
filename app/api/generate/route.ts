@@ -22,6 +22,7 @@ import { systemPrompt as obavestenjeSystem, buildUserMessage as buildObavestenje
 import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProizvodaMessage } from '@/lib/prompts/opis-proizvoda'
 import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
+import { generateWithDeclensionTool } from '@/lib/declension/tool'
 import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, ObavestenjeOPromeniUslovaData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
@@ -814,18 +815,34 @@ export async function POST(request: NextRequest) {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
     try {
-      const message = await anthropic.messages.create({
-        model: 'claude-sonnet-4-5',
-        max_tokens: type === 'pravilnik-o-radu' ? 7500 : 8000,
-        system: config.systemPrompt,
-        messages: [{ role: 'user', content: config.buildUserMessage(docData.data as never) }],
-      })
+      const maxTokens = type === 'pravilnik-o-radu' ? 7500 : 8000
+      const userMessage = config.buildUserMessage(docData.data as never)
 
-      const content = message.content[0]
-      if (content.type !== 'text') {
-        throw new Error('Unexpected response type')
-      }
-      generatedText = sanitizeText(content.text)
+      // Pilot (Zadatak 2, CLAUDE_CODE_BRIEF_gramatika.md): za ugovor-o-radu
+      // model poziva decline() alat za svaku deklinaciju umesto da je sam
+      // generiše. Ostali tipovi dokumenta i dalje idu na stari, jednostruki
+      // poziv dok se pilot ne potvrdi i integracija ne proširi.
+      const rawText = type === 'ugovor-o-radu'
+        ? await generateWithDeclensionTool(anthropic, {
+            systemPrompt: config.systemPrompt,
+            userMessage,
+            maxTokens,
+          })
+        : await (async () => {
+            const message = await anthropic.messages.create({
+              model: 'claude-sonnet-4-5',
+              max_tokens: maxTokens,
+              system: config.systemPrompt,
+              messages: [{ role: 'user', content: userMessage }],
+            })
+            const content = message.content[0]
+            if (content.type !== 'text') {
+              throw new Error('Unexpected response type')
+            }
+            return content.text
+          })()
+
+      generatedText = sanitizeText(rawText)
         .replace(/^```(?:markdown)?\r?\n?/, '')
         .replace(/\r?\n?```$/, '')
     } catch (err) {

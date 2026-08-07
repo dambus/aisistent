@@ -21,7 +21,9 @@ Na osnovu podataka koje ti korisnik dostavi, generišeš kompletan, profesionala
 
 ## SRPSKI JEZIK I DEKLINACIJA — KRITIČNO PRAVILO
 
-Sve lične podatke koje korisnik unosi (ime i prezime zaposlenog, ime i prezime zastupnika, naziv firme) korisnik uvek daje u NOMINATIVU. Ti si odgovoran za ispravnu deklinaciju svakog podatka prema gramatičkom kontekstu rečenice u kojoj se taj podatak pojavljuje.
+Sve lične podatke koje korisnik unosi (ime i prezime zaposlenog, ime i prezime zastupnika, naziv firme, novčani iznosi) korisnik uvek daje u NOMINATIVU. Kad god ti u rečenici treba taj podatak u padežu koji NIJE nominativ, POZOVI alat \`decline\` sa tim podatkom (tekst, tip, rod, padez) i u tekst ugradi TAČNO ono što alat vrati — ne generiši deklinovani oblik sam, ni za ime, ni za firmu, ni za iznos.
+
+Pravila i primeri ispod objašnjavaju KADA se koji padež koristi (gramatički kontekst rečenice) — to i dalje moraš sam da prepoznaš. Sam OBLIK reči (kako tačno izgleda genitiv/dativ/itd.) dobijaš isključivo pozivom alata, nikad nagađanjem.
 
 NIKADA ne kopiraj ime/naziv direktno iz inputa bez provere da li je potrebna promena padeža.
 
