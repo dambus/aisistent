@@ -11,6 +11,7 @@
     "test:declension": "vitest run tests/declension.test.ts",
     "test:declension-module": "vitest run tests/declension-module.test.ts",
     "test:qa-review": "vitest run tests/qa-review.test.ts",
+    "test:qa-pravila": "vitest run tests/qa-pravila.test.ts",
     "seed:blog": "tsx --tsconfig tsconfig.json scripts/seed-blog.ts"
   },
   "dependencies": {
