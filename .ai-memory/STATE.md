@@ -2,38 +2,47 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 7. avgust 2026. — mašina: kućna
+**Poslednja izmena:** 11. avgust 2026.
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: gramatička regresija (deklinacija) — Zadatak 0-2 gotovi (pilot obim), commit+push urađen
+## Status: dva paralelna traka — marketing content pipeline (n8n, aktivan) + deklinacija rollout (pauziran)
 
-Povod: Milan otkrio da Instagram launch pack tvrdi "šest padeža" umesto sedam — u postu koji baš deklinaciju reklamira kao diferencijaciju naspram ChatGPT-a. Doneo `CLAUDE_CODE_BRIEF_gramatika.md` (root repoa) sa 3 zadatka. Detaljan opis: `PROGRESS.md` unos "7. avgust 2026."
+### Trak A — Marketing content pipeline (n8n + Supabase + fal.ai + Zernio), 10-11. avgust
 
-**Urađeno i pushovano (commits `3e2e473`, `b08a16a`):**
-- Marketing fix: "šest" → "sedam" padeža u `docs/marketing/instagram-launch-pack-2026-08-03.html`.
-- Zadatak 0 (audit): pipeline (`app/api/generate/route.ts`) je oslanjao punu deklinaciju isključivo na slobodnu LLM generaciju, nula automatskih testova gramatike. Postojao samo vokativ (`lib/utils/vokativ.ts`) + detekcija roda kao pomoćni slojevi.
-- Zadatak 1: `tests/fixtures/declension-fixture.ts` (98 primera) + `tests/declension.test.ts` (pravi Claude API, `npm run test:declension`, ~7-9s, košta). Potvrđeno da hvata regresiju.
-- Zadatak 2: `lib/declension/` — deterministički `decline()` modul (imena/firme/iznosi, rečnik izuzetaka). `tests/declension-module.test.ts` — isti fixture 100%, besplatno, ~150ms (`npm run test:declension-module`). Pilot integracija (tool-use loop, `lib/declension/tool.ts`) ugrađena u `route.ts` SAMO za `ugovor-o-radu`, verifikovana uživo protiv pravog API-ja.
+Faza 2 automatizacije bloga/LinkedIn/Instagram-a. Puni log: `docs/handover/2026-08-10-marketing-content-pipeline.md` (**untracked u gitu do ove sesije**).
+
+**Urađeno (živo, van ovog repoa — n8n workflow `QeNEPp3XlJlm6uBB` + Supabase projekat `aisistent`):**
+- Nova Supabase tabela `content_items` (zamenjuje `blog_keywords`), 25 novih tema dodato u backlog (30 pending, 6 done).
+- QA korak sad **direktno ispravlja** tekst (gramatika/pravopis/anglicizmi/homoglifi), ne samo prijavljuje — LinkedIn prompt repointovan da čita ispravljenu verziju.
+- Marker-based response format (`<<<SADRZAJ>>>` i sl.) umesto JSON-escaping — eliminisan povremeni JSON parse crash na dugom tekstu.
+- Instagram grana: fal.ai image generacija + Zernio draft publish. Model promenjen sa `flux/dev` (necitljiv tekst na slici) na `bytedance/seedream/v5/pro/text-to-image` — potvrđeno vizuelno identično Milanovim ručno objavljenim postovima.
+- End-to-end uživo potvrđeno: izvršenje #179 (pun lanac), #189/#190 (QA auto-fix + marker format).
 
 **NIJE urađeno:**
-- Rollout integracije na preostalih 19 tipova dokumenta (i dalje slobodna LLM generacija bez determinizma za njih).
-- Zadatak 3 iz brief-a (referentni dokument + checklist za proveru javnog sadržaja pre objave) — nije ni započeto.
-- Repo i dalje nema CI ni pre-commit hook (namerna odluka — testovi se pokreću ručno za sada).
+- Formalna potvrda da je "još jedan pun test sa produženim Seedream wait-om" ponovljen posle poslednje izmene (vidi handover, sekcija "Sledeće").
+- Reddit kanal ostaje blokiran (Responsible Builder Policy registracija).
+
+### Trak B — Gramatička regresija (deklinacija), 7. avgust — pauzirano, nije zaboravljeno
+
+Zadatak 0-2 gotovi i pushovani (commits `3e2e473`, `b08a16a`, `620befc`). Nepromenjeno od prošle sesije:
+- Deterministički `lib/declension/decline()` modul + 98/98 regresioni test (`npm run test:declension-module`).
+- Pilot tool-use integracija SAMO u `ugovor-o-radu` (`app/api/generate/route.ts`).
+- Rollout na preostalih 19 tipova dokumenta **NIJE** rađen ove sesije (10-11. avgust) — fokus je bio na marketing pipeline-u.
+- Zadatak 3 iz `CLAUDE_CODE_BRIEF_gramatika.md` (referentni dokument + checklist pre objave) i dalje nije započet.
 
 ## Sledeći korak
 
-1. Nastaviti rollout `lib/declension/` tool-use integracije na preostalih 19 tipova dokumenta (helper je već generički, vidi `docs/BACKLOG.md`).
-2. Zadatak 3 — referentni dokument sa proverenim jezičkim/zakonskim činjenicama + checklist pre objave javnog sadržaja.
-3. Milan pregleda kod uživo/na produkciji (ova sesija je tool-use loop testirala samo skriptom van HTTP rute, ne kroz stvarni wizard flow u browseru).
-4. Test samostalnosti (18. jul) i marketing audit (13. jul) — stariji završeni radovi, već na produkciji, ništa aktivno.
+1. Marketing pipeline: ponoviti pun end-to-end test sa Seedream modelom da se potvrdi ceo lanac posle poslednje izmene wait-a.
+2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`) — ILI Zadatak 3 (referentni dokument + checklist), koji god Milan prioritetizuje.
+3. Milan pregleda deklinacioni pilot uživo/na produkciji (i dalje nije rađeno — testirano samo skriptom van HTTP rute).
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi Status iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
+- **Marketing content pipeline Faza 2** (10-11. avgust) — vidi Trak A iznad. Provera: n8n izvršenja #179, #189, #190 (status success), Zernio draft-ovi kreirani, `content_items` tabela u Supabase ažurna.
+- **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi Trak B iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
 - **Test samostalnosti (kviz + Pregled ugovora prošireno)** (18. jul) — `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`.
-- **Marketing audit fix + social content pack** (13. jul) — cenovnik/dashboard/changelog/cross-link ažurirani za Pregled ugovora i Smart Autofill.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 
@@ -47,6 +56,7 @@ Povod: Milan otkrio da Instagram launch pack tvrdi "šest padeža" umesto sedam 
 |---|---|
 | Gramatički brief (3 zadatka) | `CLAUDE_CODE_BRIEF_gramatika.md` (root repoa) |
 | Deklinacioni modul | `lib/declension/` — `decline(tekst, rod, padez, {type})` |
+| Marketing content pipeline (n8n) — pun log izmena | `docs/handover/2026-08-10-marketing-content-pipeline.md` |
 | Puna istorija sesija (arhiva, append-only) | `PROGRESS.md` |
 | Backlog po prioritetu | `docs/BACKLOG.md` |
 | Poznati bugovi | `docs/BUG_TRACKER.md` (BUG-051, SYS-06 — najnoviji) |

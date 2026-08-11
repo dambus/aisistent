@@ -29,6 +29,10 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 10-11. avgust 2026. — Marketing content pipeline Faza 2 (n8n)
+
+Puni log: `docs/handover/2026-08-10-marketing-content-pipeline.md`. Ukratko: nova Supabase tabela `content_items` (zamenjuje `blog_keywords`, 25 novih tema u backlogu), QA korak sad direktno ispravlja tekst (ne samo prijavljuje), marker-based response format eliminisao povremeni JSON parse crash, Instagram automatizacija (fal.ai + Zernio) prebačena sa `flux/dev` na `bytedance/seedream/v5/pro/text-to-image` zbog necitljivog teksta na slici — potvrđeno vizuelno identično Milanovim ručnim objavama. End-to-end uživo potvrđeno (n8n izvršenja #179, #189, #190).
+
 #### 7. avgust 2026. — Gramatička regresija: deklinacioni modul + regresioni test set
 
 Milan otkrio grešku pri pregledu Instagram launch pack-a pre objave: tekst koji reklamira srpsku deklinaciju kao diferencijaciju naspram ChatGPT-a je tvrdio da srpski jezik ima "šest padeža" umesto sedam. Ispravljeno odmah (`docs/marketing/instagram-launch-pack-2026-08-03.html`), zatim širi audit i fix po `CLAUDE_CODE_BRIEF_gramatika.md` (fajl u root-u repoa, doneo Milan).
