@@ -11,6 +11,11 @@ import type { Company } from '@/types/database'
 import { downloadExport } from '@/lib/client/downloadExport'
 import { fmtNum, fmtDate } from '@/lib/utils/formatting'
 
+interface QaResult {
+  fixed: string[] | null
+  needsReview: { issue: string; detail: string }[] | null
+}
+
 interface DocumentPreviewProps {
   text: string
   documentId: string
@@ -19,6 +24,7 @@ interface DocumentPreviewProps {
   isFree?: boolean
   plan?: string
   selectedCompany?: Company | null
+  qa?: QaResult | null
   onReset?: () => void
 }
 
@@ -56,8 +62,9 @@ function isPutniNalogJson(text: string): boolean {
 
 type RatingState = 'idle' | 'negative-comment' | 'done'
 
-export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, onReset = undefined }: DocumentPreviewProps) {
+export function DocumentPreview({ text, documentId, documentTitle, documentType, isFree = false, plan, selectedCompany, qa, onReset = undefined }: DocumentPreviewProps) {
   const [loading, setLoading] = useState<ExportFormat | null>(null)
+  const [qaExpanded, setQaExpanded] = useState(false)
   const [error, setError] = useState('')
   const [showEmailModal, setShowEmailModal] = useState(false)
   const [showEmailUpgrade, setShowEmailUpgrade] = useState(false)
@@ -675,6 +682,53 @@ export function DocumentPreview({ text, documentId, documentTitle, documentType,
       )}
 
       {reminder && <ReminderBox reminder={reminder} />}
+
+      {qa?.needsReview && qa.needsReview.length > 0 && (
+        <div className="mb-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <p className="font-semibold">⚠️ Potrebna provera pre slanja</p>
+          <ul className="mt-1.5 list-disc space-y-1 pl-4">
+            {qa.needsReview.map((item, i) => (
+              <li key={i}>
+                <span className="font-medium">{item.issue}</span>
+                {item.detail ? ` — ${item.detail}` : ''}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {qa?.fixed && qa.fixed.length > 0 && (
+        <div className="mb-3">
+          <button
+            type="button"
+            onClick={() => setQaExpanded(v => !v)}
+            className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100"
+          >
+            <span>
+              <span style={{ color: '#1B6B4A' }}>✓</span> Provereno — {qa.fixed.length} {qa.fixed.length === 1 ? 'ispravka' : 'ispravki'}
+            </span>
+            <svg
+              className={`h-4 w-4 shrink-0 transition-transform ${qaExpanded ? 'rotate-180' : ''}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {qaExpanded && (
+            <ul className="mt-1.5 list-disc space-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 pl-8 text-sm text-gray-600">
+              {qa.fixed.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {qa && (!qa.fixed || qa.fixed.length === 0) && (!qa.needsReview || qa.needsReview.length === 0) && (
+        <p className="mb-3 text-sm text-gray-400">
+          <span style={{ color: '#1B6B4A' }}>✓</span> Provereno — bez izmena
+        </p>
+      )}
 
       {!textSaved && (
         <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5">

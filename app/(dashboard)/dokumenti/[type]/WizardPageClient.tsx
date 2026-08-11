@@ -68,7 +68,7 @@ interface WizardPageClientProps {
 
 export function WizardPageClient({ type, companies, contacts, catalogItems, employees, plan, initialValues, rootDocumentId, preselectedClientId }: WizardPageClientProps) {
   const meta = documentMeta[type]
-  const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null } | null>(null)
+  const [result, setResult] = useState<{ documentId: string; generatedText: string; documentTitle: string; isFree: boolean; selectedCompany?: Company | null; qa?: { fixed: string[] | null; needsReview: { issue: string; detail: string }[] | null } | null } | null>(null)
 
   if (!meta) notFound()
 
@@ -107,6 +107,7 @@ export function WizardPageClient({ type, companies, contacts, catalogItems, empl
         isFree={result.isFree}
         plan={plan}
         selectedCompany={result.selectedCompany}
+        qa={result.qa}
         onReset={() => setResult(null)}
       />
     )
@@ -132,7 +133,7 @@ export function WizardPageClient({ type, companies, contacts, catalogItems, empl
         initialValues={initialValues}
         rootDocumentId={rootDocumentId}
         preselectedClientId={preselectedClientId}
-        onComplete={(documentId, generatedText, documentTitle, isFree, selectedCompany) => setResult({ documentId, generatedText, documentTitle, isFree, selectedCompany })}
+        onComplete={(documentId, generatedText, documentTitle, isFree, selectedCompany, qa) => setResult({ documentId, generatedText, documentTitle, isFree, selectedCompany, qa })}
       />
     </div>
   )

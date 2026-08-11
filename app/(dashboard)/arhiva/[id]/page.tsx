@@ -24,7 +24,7 @@ export default async function ArhivaDokumentPage({ params }: PageProps) {
     admin.from('profiles').select('plan').eq('id', user.id).single(),
     supabase
       .from('documents')
-      .select('id, type, title, generated_text, is_free, version, user_id')
+      .select('id, type, title, generated_text, is_free, version, user_id, qa_fixed, qa_needs_review')
       .eq('id', id)
       .maybeSingle(),
   ])
@@ -43,6 +43,8 @@ export default async function ArhivaDokumentPage({ params }: PageProps) {
     is_free: boolean
     version: number
     user_id: string
+    qa_fixed: string[] | null
+    qa_needs_review: { issue: string; detail: string }[] | null
   }
 
   const typeLabel = TYPE_LABELS[doc.type] ?? doc.type
@@ -70,6 +72,7 @@ export default async function ArhivaDokumentPage({ params }: PageProps) {
         documentType={doc.type}
         isFree={doc.is_free}
         plan={plan}
+        qa={{ fixed: doc.qa_fixed, needsReview: doc.qa_needs_review }}
       />
     </div>
   )
