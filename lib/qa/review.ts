@@ -22,6 +22,10 @@ ${mode === 'full' ? `<REFERENCA>\n${referenceSystemPrompt}\n</REFERENCA>\n\n` : 
 1. Ispravi gramatiku, pravopis, padeže, interpunkciju, homoglife (ćirilična slova usred latiničnog teksta — čest, težak za uočiti bug).
 ${mode === 'full' ? '2. Proveri da li dokument sadrži sve OBAVEZNE ELEMENTE iz reference iznad. Ako nešto nedostaje ili je nekompletno, DOPUNI dokument.\n' : ''}3. NE DIRAJ već ispravne padežne oblike ličnih imena, naziva firmi i iznosa osim ako si POTPUNO SIGURAN da je pogrešno — neki od njih su već determinstički generisani i garantovano tačni, ne nagađaj ispravku bez razloga.
 4. NE MENJAJ sadržaj/značenje, brojeve, iznose, datume, imena strana — samo jezik, formatiranje i kompletnost.
+5. POZNATA PRAVILA — ne nagađaj suprotno od ovoga:
+   - Posle formule oslovljavanja u poslovnom pismu/mejlu ("Poštovani", "Poštovani gospodine/gospođo" i sl.) ide ZAREZ, nikad tačka. Ne menjaj zarez u tačku posle oslovljavanja.
+
+Ako nisi 100% siguran u pravopisno pravilo, NE MENJAJ — netačna "ispravka" je gora od propuštene greške.
 
 Napravi razliku između:
 - "fixed" — stvari koje si SAM pouzdano ispravio (sitna gramatika, pravopis, padež, homoglif, formatiranje). Kratak opis svake, npr. "ispravljen padež: 'Ana Marković' -> 'Ani Marković'".
