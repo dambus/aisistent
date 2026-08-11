@@ -36,11 +36,19 @@ istom prolazu) prenesena na core generisanje. Plan: `C:\Users\Milan\.claude\plan
   umesto "ZAPOSLENA" — fiksna labela u template-u, ne QA/declension bug) — nije blokirajuće,
   nije fixovano ove sesije (nizak prioritet, kozmetika).
 
+**UI indikator — GOTOV (11. avgust, isti dan, Milanov zahtev posle live testa backend-a).**
+`components/wizard/DocumentPreview.tsx` — kompaktan status (crveni banner za needs_review, uvek
+otvoren; zeleni expandable red za fixed; tiha potvrda kad nema nalaza), provučen kroz
+`WizardForm` → `WizardPageClient` iz API response-a, i kroz `app/(dashboard)/arhiva/[id]/page.tsx`
+iz baze (arhivirani dokumenti). tsc/eslint čisto (eslint 3 pre-existing greške potvrđene
+`git stash` diff-om, nisu uvedene ovom izmenom). **Nije lično vizuelno potvrđeno u browseru ove
+sesije** — sopstveni dev server pokušaj je otkrio Milanov već pokrenut dev server (PID 40404),
+nije ga dirao. Milan treba da baci pogled kad testira `light` mode.
+
 **NIJE urađeno:**
-- UI/diff prikaz korisniku (`qa.fixed`/`qa.needsReview` stižu u response, backend spreman —
-  frontend deo eksplicitno van obima ove sesije, vidi plan fajl za referentne file/linije).
 - `light` mode (8 tipova) nije posebno live testiran ove sesije (samo `full` mode na
-  `ugovor-o-radu`) — funkcionalno isti kod path, nizak rizik, ali nema uživo potvrdu.
+  `ugovor-o-radu`) — funkcionalno isti kod path, nizak rizik, ali nema uživo potvrdu. UI indikator
+  takođe čeka Milanovu vizuelnu potvrdu (vidi iznad).
 
 ## Status (prethodno, i dalje tačno): gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
 
@@ -82,15 +90,14 @@ retroaktivno na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške:
 
 ## Sledeći korak
 
-1. QA korak: live test `light` mode tipa (npr. `poslovni-mejl`) nije rađen, samo `full` mode. Nizak prioritet, isti kod path.
+1. Milan: vizuelno potvrditi QA UI indikator (`DocumentPreview.tsx`) na svom dev serveru + live test `light` mode tipa (npr. `poslovni-mejl`) — oboje nije lično viđeno/testirano ove sesije od strane Claude Code-a.
 2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
 3. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
-4. UI za QA rezultat (kompaktan indikator + expandable detalji) — backend polja spremna, UI nije implementiran. Reference fajlovi u planu `C:\Users\Milan\.claude\plans\shiny-gathering-horizon.md`.
-5. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
+4. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Nezavisan QA/lektor korak** (11. avgust) — vidi sekciju iznad. Provera: `npm run test:qa-review` (5/5), `npm run test:declension-module` (98/98), `npx tsc --noEmit` čisto, live PDF pregledan (ugovor-o-radu, `full` mode).
+- **Nezavisan QA/lektor korak + UI indikator** (11. avgust) — vidi sekciju iznad. Provera: `npm run test:qa-review` (5/5), `npm run test:declension-module` (98/98), `npx tsc --noEmit` čisto, live PDF pregledan (ugovor-o-radu, `full` mode). Commits `3362177` (backend), `0724089` (UI).
 - **Zadatak 3 — jezička/zakonska referenca + checklist** (11. avgust) — vidi sekciju iznad. Provera: `docs/serbian-language-facts.md` postoji, `docs/BUG_TRACKER.md` BUG-052/BUG-053/ZADATAK-3 unosi.
 - **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi sekciju iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
 - **Test samostalnosti (kviz + Pregled ugovora prošireno)** (18. jul) — `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`.

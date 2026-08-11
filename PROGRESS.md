@@ -50,6 +50,11 @@ potvrdio uživo kroz wizard (`ugovor-o-radu`, `full` mode + postojeći declensio
 zajedno) — PDF pregledan, padeži tačni kroz ceo dokument, nema homoglifa, nema sudara sa
 declension tool-om. `light` mode (8 tipova) nije posebno live testiran.
 
+Isti dan, Milanov zahtev: UI indikator za QA rezultat implementiran (`DocumentPreview.tsx` — crveni
+banner za needs_review, zeleni expandable red za fixed, tiha potvrda bez nalaza), provučen kroz
+wizard i arhivu. tsc/eslint čisto, nije lično vizuelno potvrđeno u browseru (Milanov dev server već
+radio, nije dirán) — čeka Milanovu potvrdu uz light mode test. Commits `3362177` (backend), `0724089` (UI).
+
 #### 11. avgust 2026. — Zadatak 3: jezička/zakonska referenca + checklist pre objave
 
 `CLAUDE_CODE_BRIEF_gramatika.md` Zadatak 3 završen. Novi `docs/serbian-language-facts.md` — fiksne
