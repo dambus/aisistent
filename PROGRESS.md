@@ -29,6 +29,20 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 11. avgust 2026. — Zadatak 3: jezička/zakonska referenca + checklist pre objave
+
+`CLAUDE_CODE_BRIEF_gramatika.md` Zadatak 3 završen. Novi `docs/serbian-language-facts.md` — fiksne
+provereno tačne činjenice (7 padeža, imenovanje; koji zakon pokriva koji tip dokumenta) + checklist
+koji se primenjuje pre objave bilo kog marketing/blog teksta. Checklist odmah primenjen retroaktivno
+na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške: isti "šest padeža" bug (BUG-051) i
+dalje živ u drugom, starijem fajlu (`social-content-pack-2026-07-13.html`, propušten u prvom
+prolazu 3. avgusta) — ispravljeno (BUG-052); i pogrešan broj člana Zakona o radu u blog postu o
+ugovoru o delu vs. radu ("član 31." netačan za princip prekvalifikacije prikrivenog radnog odnosa,
+web-verifikovano) — broj uklonjen, princip ostaje (BUG-053). Opcioni deo zadatka (Claude skill za
+auto-sken draftova) nije rađen. Napomena: marketing content pipeline (n8n, Faza 2 ispod) je od ove
+sesije Milanova zasebna grana rada u Claude Desktop-u — dokument treba ručno uključiti u n8n
+promptove da bi sprečavao greške pre generisanja, ne samo posle.
+
 #### 10-11. avgust 2026. — Marketing content pipeline Faza 2 (n8n)
 
 Puni log: `docs/handover/2026-08-10-marketing-content-pipeline.md`. Ukratko: nova Supabase tabela `content_items` (zamenjuje `blog_keywords`, 25 novih tema u backlogu), QA korak sad direktno ispravlja tekst (ne samo prijavljuje), marker-based response format eliminisao povremeni JSON parse crash, Instagram automatizacija (fal.ai + Zernio) prebačena sa `flux/dev` na `bytedance/seedream/v5/pro/text-to-image` zbog necitljivog teksta na slici — potvrđeno vizuelno identično Milanovim ručnim objavama. End-to-end uživo potvrđeno (n8n izvršenja #179, #189, #190).

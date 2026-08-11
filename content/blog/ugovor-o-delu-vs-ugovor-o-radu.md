@@ -45,7 +45,7 @@ Ugovor o delu je pravo rešenje kada:
 
 ## Kada morate zasnivati radni odnos
 
-Zakon o radu u članu 31. kaže: ako se angažman faktički ponaša kao radni odnos, smatraće se radnim odnosom — bez obzira što ste potpisali ugovor o delu.
+Zakon o radu kaže: ako se angažman faktički ponaša kao radni odnos, smatraće se radnim odnosom — bez obzira što ste potpisali ugovor o delu.
 
 Znaci koji inspekciji govore da radni odnos postoji:
 - Osoba radi **svaki dan u fiksno vreme** na vašoj adresi ili uz vašu opremu

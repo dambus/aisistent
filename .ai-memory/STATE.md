@@ -7,11 +7,13 @@
 
 ---
 
-## Status: dva paralelna traka — marketing content pipeline (n8n, aktivan) + deklinacija rollout (pauziran)
+## Status: gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
 
-### Trak A — Marketing content pipeline (n8n + Supabase + fal.ai + Zernio), 10-11. avgust
+### Marketing content pipeline (n8n + Supabase + fal.ai + Zernio) — Milanova zasebna grana, VAN ovog repoa/Claude Code od 11. avgusta
 
-Faza 2 automatizacije bloga/LinkedIn/Instagram-a. Puni log: `docs/handover/2026-08-10-marketing-content-pipeline.md` (**untracked u gitu do ove sesije**).
+Faza 2 automatizacije bloga/LinkedIn/Instagram-a, 10-11. avgust. Puni log:
+`docs/handover/2026-08-10-marketing-content-pipeline.md` (commitovan). **Ovaj repo/Claude Code
+više ne dira taj rad** — Milan ga nastavlja u Claude Desktop-u. Sažetak zbog konteksta:
 
 **Urađeno (živo, van ovog repoa — n8n workflow `QeNEPp3XlJlm6uBB` + Supabase projekat `aisistent`):**
 - Nova Supabase tabela `content_items` (zamenjuje `blog_keywords`), 25 novih tema dodato u backlog (30 pending, 6 done).
@@ -24,25 +26,38 @@ Faza 2 automatizacije bloga/LinkedIn/Instagram-a. Puni log: `docs/handover/2026-
 - Formalna potvrda da je "još jedan pun test sa produženim Seedream wait-om" ponovljen posle poslednje izmene (vidi handover, sekcija "Sledeće").
 - Reddit kanal ostaje blokiran (Responsible Builder Policy registracija).
 
-### Trak B — Gramatička regresija (deklinacija), 7. avgust — pauzirano, nije zaboravljeno
+### Gramatička regresija (deklinacija + Zadatak 3), 7-11. avgust
 
-Zadatak 0-2 gotovi i pushovani (commits `3e2e473`, `b08a16a`, `620befc`). Nepromenjeno od prošle sesije:
+Zadatak 0-2 gotovi i pushovani (commits `3e2e473`, `b08a16a`, `620befc`), nepromenjeno od prošle sesije:
 - Deterministički `lib/declension/decline()` modul + 98/98 regresioni test (`npm run test:declension-module`).
 - Pilot tool-use integracija SAMO u `ugovor-o-radu` (`app/api/generate/route.ts`).
-- Rollout na preostalih 19 tipova dokumenta **NIJE** rađen ove sesije (10-11. avgust) — fokus je bio na marketing pipeline-u.
-- Zadatak 3 iz `CLAUDE_CODE_BRIEF_gramatika.md` (referentni dokument + checklist pre objave) i dalje nije započet.
+- Rollout na preostalih 19 tipova dokumenta i dalje NIJE rađen.
+
+**Zadatak 3 — GOTOV (11. avgust, ova sesija).** `docs/serbian-language-facts.md` — referentni
+dokument (padeži, zakonske reference po tipu) + checklist pre objave javnog sadržaja. Primenjen
+retroaktivno na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške:
+- `docs/marketing/social-content-pack-2026-07-13.html:442` — isti "šest padeža" bug kao BUG-051,
+  drugi fajl, propušten u prvom prolazu. Ispravljeno (BUG-052).
+- `content/blog/ugovor-o-delu-vs-ugovor-o-radu.md:48` — pogrešan broj člana zakona ("član 31."
+  netačan za taj princip). Broj uklonjen, princip ostaje (BUG-053).
+- Opcioni deo (Claude skill "srpski-lektor" za auto-sken draftova) **NIJE** rađen.
+
+**NAPOMENA:** `docs/serbian-language-facts.md` i dalje treba ručno uključiti u n8n promptove
+(Milan, van ovog repoa) da bi checklist stvarno sprečavao greške pre generisanja, ne samo posle.
 
 ## Sledeći korak
 
-1. Marketing pipeline: ponoviti pun end-to-end test sa Seedream modelom da se potvrdi ceo lanac posle poslednje izmene wait-a.
-2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`) — ILI Zadatak 3 (referentni dokument + checklist), koji god Milan prioritetizuje.
+1. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
+2. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
 3. Milan pregleda deklinacioni pilot uživo/na produkciji (i dalje nije rađeno — testirano samo skriptom van HTTP rute).
+4. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Marketing content pipeline Faza 2** (10-11. avgust) — vidi Trak A iznad. Provera: n8n izvršenja #179, #189, #190 (status success), Zernio draft-ovi kreirani, `content_items` tabela u Supabase ažurna.
-- **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi Trak B iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
+- **Zadatak 3 — jezička/zakonska referenca + checklist** (11. avgust) — vidi sekciju iznad. Provera: `docs/serbian-language-facts.md` postoji, `docs/BUG_TRACKER.md` BUG-052/BUG-053/ZADATAK-3 unosi.
+- **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi sekciju iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
 - **Test samostalnosti (kviz + Pregled ugovora prošireno)** (18. jul) — `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`.
+- **Marketing content pipeline Faza 2** (10-11. avgust, n8n) — Milanova posebna grana od ove sesije nadalje, log u `docs/handover/2026-08-10-marketing-content-pipeline.md`.
 
 ## Poznati blokeri (ne diraj dok se ne otključaju)
 
