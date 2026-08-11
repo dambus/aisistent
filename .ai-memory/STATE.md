@@ -45,10 +45,21 @@ iz baze (arhivirani dokumenti). tsc/eslint čisto (eslint 3 pre-existing greške
 sesije** — sopstveni dev server pokušaj je otkrio Milanov već pokrenut dev server (PID 40404),
 nije ga dirao. Milan treba da baci pogled kad testira `light` mode.
 
+**Priručnik gramatičkih pravila — GOTOV (11. avgust, isti dan).** `lib/qa/pravila.ts` —
+`GRAMATICKA_PRAVILA` niz, automatski ubačen u QA system prompt na svakom pozivu. Povod: Milan
+uhvatio uživo (light mode test, `poslovni-mejl`) da je QA korak SAM zamenio ispravno "Poštovani,"
+pogrešnim "Poštovani." (BUG-054). Umesto ad-hoc dopisivanja u prompt, sad postoji jedno mesto koje
+raste — kad se nađe nov slučaj gde QA sam napravi grešku, dodaje se red ovde (vidi
+`docs/DOCUMENTATION_MAP.md`). Trenutno 1 pravilo. Testovi: `npm run test:qa-pravila` (3/3).
+
 **NIJE urađeno:**
-- `light` mode (8 tipova) nije posebno live testiran ove sesije (samo `full` mode na
-  `ugovor-o-radu`) — funkcionalno isti kod path, nizak rizik, ali nema uživo potvrdu. UI indikator
-  takođe čeka Milanovu vizuelnu potvrdu (vidi iznad).
+- `light` mode (8 tipova) formalno live testiran (Milan, `poslovni-mejl`) — RADI, ali otkrio je
+  BUG-054 (vidi iznad), sad ispravljeno. UI indikator vizuelno potvrđen usput (Milan je video
+  ispravke u UI-ju dok je testirao).
+- Nema regresionog fixture testa za "QA sam pravi grešku" klasu (za razliku od deklinacije sa 98
+  primera) — priručnik (`lib/qa/pravila.ts`) sprečava POZNATE greške kroz prompt, ali ništa ne
+  garantuje da model stvarno poštuje pravilo na svakom pozivu (nema live regresioni test protiv
+  pravog API-ja). Razmotriti ako se nakupi više pravila.
 
 ## Status (prethodno, i dalje tačno): gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
 
@@ -90,7 +101,7 @@ retroaktivno na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške:
 
 ## Sledeći korak
 
-1. Milan: vizuelno potvrditi QA UI indikator (`DocumentPreview.tsx`) na svom dev serveru + live test `light` mode tipa (npr. `poslovni-mejl`) — oboje nije lično viđeno/testirano ove sesije od strane Claude Code-a.
+1. Nastaviti da se hvataju konkretni QA grešku-u-ispravci slučajevi i dodaju u `lib/qa/pravila.ts` (proces uspostavljen, 1 pravilo do sad — BUG-054).
 2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
 3. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
 4. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
