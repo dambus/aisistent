@@ -107,6 +107,8 @@ documents (
   version integer DEFAULT 1,    -- verzija dokumenta (1 = original)
   root_document_id uuid REFERENCES documents,  -- NULL za v1, ID originala za v2+
   company_id uuid REFERENCES companies,        -- klijent za kojeg je dokument napravljen (nullable)
+  qa_fixed jsonb,                -- QA korak: string[] ispravki, NULL = QA nije primenjiv (faktura i sl.)
+  qa_needs_review jsonb,         -- QA korak: {issue,detail}[] problema koje treba ručno proveriti
   created_at timestamptz
 )
 

@@ -29,6 +29,27 @@ MVP je kompletiran. Fokus je na stabilizaciji i novim featurima.
 
 ### Aktivne sesije i izmene
 
+#### 11. avgust 2026. — Nezavisan QA/lektor korak za generisane dokumente
+
+Milan tražio da se pipeline generisanja dokumenata dopuni drugim, nezavisnim LLM pozivom posle
+generisanja — postojeća "samoprovera" (instrukcija unutar istog poziva) je dokazano nepouzdana za
+suptilne greške (homoglif propušten u istom prolazu na paralelnom marketing pipeline-u u n8n,
+uhvaćen tek nezavisnim pozivom sa svežim kontekstom). Plan urađen kroz `superpowers:brainstorming`
+→ plan mode (`EnterPlanMode`/`ExitPlanMode`), sačuvan u `C:\Users\Milan\.claude\plans\shiny-gathering-horizon.md`.
+
+Novi modul `lib/qa/review.ts` (`runQaReview()`, jedan Claude poziv bez tool-use; `parseQaResponse()`,
+marker-split `<<<DOKUMENT>>>` format da izbegne JSON-escaping crash na dugom tekstu — isti fix
+pattern kao n8n marketing pipeline). Integrisan u `app/api/generate/route.ts` kao blocking korak
+posle glavne generacije, fail-open na tehničku grešku. Segmentacija po riziku koristi POSTOJEĆU
+liniju iz koda (SAMOPROVERA sekcija u promptu) umesto nove podele: 10 tipova pun QA (gramatika +
+obavezni elementi), 8 tipova lak QA (samo jezik), 4 tipa (faktura/putni-nalog/otpremnica/ponuda-za-radove)
+bez QA (nemaju LLM prozu). Supabase migracija (`qa_fixed`, `qa_needs_review` jsonb na `documents`)
+primenjena na produkcionu bazu preko `apply_migration` MCP alata. Offline provere čiste
+(`npm run test:qa-review` 5/5, `test:declension-module` 98/98, `tsc --noEmit`, `eslint`). Milan
+potvrdio uživo kroz wizard (`ugovor-o-radu`, `full` mode + postojeći declension tool pilot
+zajedno) — PDF pregledan, padeži tačni kroz ceo dokument, nema homoglifa, nema sudara sa
+declension tool-om. `light` mode (8 tipova) nije posebno live testiran.
+
 #### 11. avgust 2026. — Zadatak 3: jezička/zakonska referenca + checklist pre objave
 
 `CLAUDE_CODE_BRIEF_gramatika.md` Zadatak 3 završen. Novi `docs/serbian-language-facts.md` — fiksne

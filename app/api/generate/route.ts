@@ -23,6 +23,7 @@ import { systemPrompt as opisProizvodaSystem, buildUserMessage as buildOpisProiz
 import { systemPrompt as bioONamaSystem, buildUserMessage as buildBioONamaMessage } from '@/lib/prompts/bio-o-nama'
 import { systemPrompt as zapisnikSastanakSystem, buildUserMessage as buildZapisnikSastanakMessage } from '@/lib/prompts/zapisnik-sastanak'
 import { generateWithDeclensionTool } from '@/lib/declension/tool'
+import { runQaReview, type QaMode } from '@/lib/qa/review'
 import type { NdaData, UgovorODeluData, UgovorORaduData, UgovorOSaradnjiZajmuData, UgovorOZakupuData, PunomocjeData, OpstiUsloviData, PoslovniMejlData, OglasZaPosaoData, PonudaKlijentuData, OdgovorKandidatuData, PreporukaData, ResenjeGodisnjiOdmorData, PravilnikORaduData, ObavestenjeOPromeniUslovaData, OpisProizvodaData, BioONamaData, ZapisnikSastanakData, FakturaData, PutniNalogData } from '@/types/wizard'
 import type { OtpremnicaData } from '@/lib/prompts/otpremnica'
 import type { PonudaZaRadoveData } from '@/lib/prompts/ponuda-za-radove'
@@ -723,6 +724,16 @@ const documentConfigs = {
   },
 } as const
 
+// Tipovi sa "## SAMOPROVERA PRE VRAĆANJA ODGOVORA" sekcijom u promptu — pravno/
+// poslovno obavezujući dokumenti, dobijaju pun QA (gramatika + obavezni elementi).
+// Ostali LLM tipovi dobijaju lak QA (samo jezik). Faktura/putni-nalog/otpremnica/
+// ponuda-za-radove nemaju LLM prozu uopšte, QA se ne primenjuje.
+const FULL_QA_TYPES = new Set([
+  'ugovor-o-radu', 'ugovor-o-delu', 'nda', 'ugovor-o-zakupu', 'ugovor-o-saradnji',
+  'punomocje', 'opsti-uslovi', 'resenje-godisnji-odmor', 'pravilnik-o-radu',
+  'obavestenje-o-promeni-uslova',
+])
+
 const rateLimitStore = new Map<string, number[]>()
 const PLAN_LIMITS: Record<string, number | null> = {
   free:    3,
@@ -808,6 +819,8 @@ export async function POST(request: NextRequest) {
   }
 
   let generatedText: string
+  let qaFixed: string[] | null = null
+  let qaNeedsReview: { issue: string; detail: string }[] | null = null
 
   if (type === 'faktura' || type === 'putni-nalog' || type === 'otpremnica' || type === 'ponuda-za-radove') {
     generatedText = JSON.stringify(docData.data)
@@ -852,6 +865,32 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
+
+    // Nezavisan QA/lektor korak (drugi poziv, svež kontekst) — samoprovera unutar
+    // istog poziva iznad ne hvata pouzdano suptilne greške (potvrđeno na paralelnom
+    // marketing pipeline-u: homoglif ćirilično slovo propušteno u istom prolazu).
+    // Fail-open: ako QA poziv padne, dokument iz prvog poziva se ipak isporučuje,
+    // samo flagovan za ručnu proveru — tehnička greška u novom koraku ne sme oboriti
+    // nešto što je pre ovog feature-a radilo.
+    const qaMode: QaMode = FULL_QA_TYPES.has(type) ? 'full' : 'light'
+    try {
+      const maxTokens = type === 'pravilnik-o-radu' ? 7500 : 8000
+      const qaResult = await runQaReview(anthropic, {
+        documentText: generatedText,
+        referenceSystemPrompt: config.systemPrompt,
+        maxTokens,
+        mode: qaMode,
+      })
+      generatedText = sanitizeText(qaResult.correctedText)
+        .replace(/^```(?:markdown)?\r?\n?/, '')
+        .replace(/\r?\n?```$/, '')
+      qaFixed = qaResult.fixed
+      qaNeedsReview = qaResult.needsReview
+    } catch (err) {
+      console.error('QA review error:', err)
+      qaFixed = []
+      qaNeedsReview = [{ issue: 'QA korak nije uspeo', detail: 'Dokument nije nezavisno proveren pre isporuke (tehnička greška).' }]
+    }
   }
 
   const title = config.buildTitle(docData.data as never)
@@ -879,6 +918,8 @@ export async function POST(request: NextRequest) {
       version: nextVersion,
       root_document_id: root_document_id ?? null,
       company_id: company_id ?? null,
+      qa_fixed: qaFixed,
+      qa_needs_review: qaNeedsReview,
     })
     .select('id')
     .single()
@@ -899,5 +940,6 @@ export async function POST(request: NextRequest) {
     title,
     generated_text: generatedText,
     is_free: profile.plan === 'free',
+    qa: { fixed: qaFixed, needsReview: qaNeedsReview },
   })
 }

@@ -119,6 +119,8 @@ export interface Database {
           version: number
           root_document_id: string | null
           company_id: string | null
+          qa_fixed: string[] | null
+          qa_needs_review: { issue: string; detail: string }[] | null
           created_at: string
         }
         Insert: {
@@ -132,6 +134,8 @@ export interface Database {
           version?: number
           root_document_id?: string | null
           company_id?: string | null
+          qa_fixed?: string[] | null
+          qa_needs_review?: { issue: string; detail: string }[] | null
           created_at?: string
         }
         Update: {
@@ -143,6 +147,8 @@ export interface Database {
           version?: number
           root_document_id?: string | null
           company_id?: string | null
+          qa_fixed?: string[] | null
+          qa_needs_review?: { issue: string; detail: string }[] | null
         }
         Relationships: []
       }

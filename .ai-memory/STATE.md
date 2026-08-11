@@ -7,7 +7,42 @@
 
 ---
 
-## Status: gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
+## Status: nezavisan QA/lektor korak za dokumente — GOTOV, uživo verifikovano, commitovano
+
+Novi drugi LLM poziv posle generisanja dokumenta (svež kontekst, ne unutar istog poziva kao
+"samoprovera") — ista slabost dokazana na paralelnom marketing pipeline-u (homoglif propušten u
+istom prolazu) prenesena na core generisanje. Plan: `C:\Users\Milan\.claude\plans\shiny-gathering-horizon.md`.
+
+**Napisano, offline i uživo verifikovano (11. avgust, ova sesija):**
+- `lib/qa/review.ts` — `runQaReview()` (jedan Claude poziv, ne tool-use) + `parseQaResponse()`
+  (marker-split `<<<DOKUMENT>>>`, JSON header za `fixed`/`needs_review`, fallback regex + fail-safe
+  ako marker nedostaje — isti obrazac kao n8n marketing pipeline).
+- `app/api/generate/route.ts` — QA poziv posle glavne generacije, blocking (await pre insert),
+  fail-open na grešku (dokument se ipak isporučuje, samo flagovan). Segmentacija: `FULL_QA_TYPES`
+  (10 tipova sa postojećom SAMOPROVERA sekcijom) vs "light" (ostalih 8 LLM tipova) vs skip (4
+  non-LLM tipa: faktura/putni-nalog/otpremnica/ponuda-za-radove).
+- `supabase/migrations/20260811000001_add_documents_qa_fields.sql` — **PRIMENJENO na produkcionu
+  bazu** (`dgsuspjxegciwlzqpzxn`, preko `apply_migration`, `success: true`). Kolone `qa_fixed`,
+  `qa_needs_review` (jsonb) postoje na `documents` tabeli.
+- `types/database.ts`, `docs/ARCHITECTURE.md` — ažurirani da prate novu šemu.
+- Testovi: `npm run test:qa-review` (5/5, novi, offline parsing testovi), `npm run
+  test:declension-module` (98/98, i dalje prolazi), `npx tsc --noEmit -p tsconfig.json` čisto,
+  `npx eslint app/api/generate/route.ts lib/qa/review.ts tests/qa-review.test.ts` čisto.
+
+- **Live test potvrđen** (Milan, kroz wizard) — `ugovor-o-radu` (full QA + declension tool pilot
+  zajedno), PDF pregledan: padeži tačni kroz ceo dokument (npr. žensko ime "Milena Grudović"
+  ispravno deklinovano svuda — "sa Zaposlenom", "Zaposlena obavlja"...), nema homoglifa, QA i
+  declension tool ne sudaraju se. Sitna kozmetička nedoslednost primećena (header "ZAPOSLENI"
+  umesto "ZAPOSLENA" — fiksna labela u template-u, ne QA/declension bug) — nije blokirajuće,
+  nije fixovano ove sesije (nizak prioritet, kozmetika).
+
+**NIJE urađeno:**
+- UI/diff prikaz korisniku (`qa.fixed`/`qa.needsReview` stižu u response, backend spreman —
+  frontend deo eksplicitno van obima ove sesije, vidi plan fajl za referentne file/linije).
+- `light` mode (8 tipova) nije posebno live testiran ove sesije (samo `full` mode na
+  `ugovor-o-radu`) — funkcionalno isti kod path, nizak rizik, ali nema uživo potvrdu.
+
+## Status (prethodno, i dalje tačno): gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
 
 ### Marketing content pipeline (n8n + Supabase + fal.ai + Zernio) — Milanova zasebna grana, VAN ovog repoa/Claude Code od 11. avgusta
 
@@ -47,13 +82,15 @@ retroaktivno na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške:
 
 ## Sledeći korak
 
-1. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
-2. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
-3. Milan pregleda deklinacioni pilot uživo/na produkciji (i dalje nije rađeno — testirano samo skriptom van HTTP rute).
-4. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
+1. QA korak: live test `light` mode tipa (npr. `poslovni-mejl`) nije rađen, samo `full` mode. Nizak prioritet, isti kod path.
+2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
+3. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
+4. UI za QA rezultat (kompaktan indikator + expandable detalji) — backend polja spremna, UI nije implementiran. Reference fajlovi u planu `C:\Users\Milan\.claude\plans\shiny-gathering-horizon.md`.
+5. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
+- **Nezavisan QA/lektor korak** (11. avgust) — vidi sekciju iznad. Provera: `npm run test:qa-review` (5/5), `npm run test:declension-module` (98/98), `npx tsc --noEmit` čisto, live PDF pregledan (ugovor-o-radu, `full` mode).
 - **Zadatak 3 — jezička/zakonska referenca + checklist** (11. avgust) — vidi sekciju iznad. Provera: `docs/serbian-language-facts.md` postoji, `docs/BUG_TRACKER.md` BUG-052/BUG-053/ZADATAK-3 unosi.
 - **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi sekciju iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
 - **Test samostalnosti (kviz + Pregled ugovora prošireno)** (18. jul) — `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`.

@@ -10,6 +10,7 @@
     "test:doc": "tsx --tsconfig tsconfig.json scripts/test-doc.ts",
     "test:declension": "vitest run tests/declension.test.ts",
     "test:declension-module": "vitest run tests/declension-module.test.ts",
+    "test:qa-review": "vitest run tests/qa-review.test.ts",
     "seed:blog": "tsx --tsconfig tsconfig.json scripts/seed-blog.ts"
   },
   "dependencies": {
