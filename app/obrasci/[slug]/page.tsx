@@ -6,7 +6,7 @@ import { LibraryDownloadButtons } from '@/components/obrasci/LibraryDownloadButt
 import { createClient } from '@/lib/supabase/server'
 import { SiteHeader } from '@/components/landing/SiteHeader'
 
-const BASE_URL = 'https://aisistent.rs'
+const BASE_URL = 'https://www.aisistent.rs'
 
 function buildHowToSteps(form: LibraryFormMeta): string[] {
   return form.hasAutofill
@@ -80,13 +80,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const form = await getLibraryForm(slug)
   if (!form) return {}
+  const metaTitle = form.metaTitle ?? `${form.shortName} obrazac — preuzimanje i popunjavanje | AIsistent`
+  const metaDescription = form.metaDescription ?? form.description ?? form.title
   return {
-    title: `${form.shortName} obrazac — preuzimanje i popunjavanje | AIsistent`,
-    description: form.description ?? form.title,
+    title: metaTitle,
+    description: metaDescription,
+    alternates: {
+      canonical: `https://www.aisistent.rs/obrasci/${slug}`,
+    },
     openGraph: {
       title: form.title,
       description: form.description ?? undefined,
-      url: `https://aisistent.rs/obrasci/${slug}`,
+      url: `https://www.aisistent.rs/obrasci/${slug}`,
       type: 'article',
     },
   }

@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ugovor o radu Srbija — generator ugovora o radu | AIsistent',
   description: 'Generator ugovora o radu u skladu sa Zakonom o radu RS. Popunite wizard i dobijte PDF za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ugovor-o-radu',
+  },
   openGraph: {
     title: 'Ugovor o radu — generator za poslodavce u Srbiji',
     description: 'Generator ugovora o radu u skladu sa Zakonom o radu RS. Popunite wizard i dobijte PDF za 60 sekundi.',
-    url: 'https://aisistent.rs/ugovor-o-radu',
+    url: 'https://www.aisistent.rs/ugovor-o-radu',
   },
 }
 
@@ -43,6 +46,7 @@ export default function Page() {
         { href: '/kalkulator-zarade', label: 'Kalkulator zarade' },
         { href: '/oglas-za-posao', label: 'Oglas za posao' },
         { href: '/blog/ugovor-o-delu-vs-ugovor-o-radu', label: 'Članak: ugovor o radu vs. o delu' },
+        { href: '/blog/kako-napisati-ugovor-o-radu', label: 'Vodič: kako napisati ugovor o radu' },
         { href: '/pregled-ugovora', label: 'Dobili ste ugovor? Proverite ga pre potpisa' },
       ]}
       faqs={[

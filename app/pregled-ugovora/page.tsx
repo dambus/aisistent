@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Pregled ugovora AI — proverite ugovor pre potpisa | AIsistent',
   description: 'Uploadujte ugovor koji ste dobili od druge strane i AI ukazuje na rizične klauzule, šta nedostaje i na šta obratiti pažnju pre potpisivanja.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/pregled-ugovora',
+  },
   openGraph: {
     title: 'Pregled ugovora AI — proverite ugovor pre potpisa',
     description: 'Uploadujte ugovor koji ste dobili od druge strane i AI ukazuje na rizične klauzule, šta nedostaje i na šta obratiti pažnju pre potpisivanja.',
-    url: 'https://aisistent.rs/pregled-ugovora',
+    url: 'https://www.aisistent.rs/pregled-ugovora',
   },
 }
 

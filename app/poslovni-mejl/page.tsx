@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Poslovni mejl — AI generator profesionalnih mejlova | AIsistent',
   description: 'Generator profesionalnih poslovnih mejlova na srpskom. Ponude, opomene, zahvalnice — za 30 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/poslovni-mejl',
+  },
   openGraph: {
     title: 'Poslovni mejl — AI generator za B2B komunikaciju',
     description: 'Generator profesionalnih poslovnih mejlova na srpskom. Ponude, opomene, zahvalnice — za 30 sekundi.',
-    url: 'https://aisistent.rs/poslovni-mejl',
+    url: 'https://www.aisistent.rs/poslovni-mejl',
   },
 }
 

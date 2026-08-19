@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Putni nalog — generator putnih naloga za službena putovanja | AIsistent',
   description: 'Generator putnih naloga za službena putovanja. Vozač, vozilo, ruta, troškovi — PDF ili Word za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/putni-nalog',
+  },
   openGraph: {
     title: 'Putni nalog — generator za službena putovanja',
     description: 'Generator putnih naloga za službena putovanja. Vozač, vozilo, ruta, troškovi — PDF ili Word za 60 sekundi.',
-    url: 'https://aisistent.rs/putni-nalog',
+    url: 'https://www.aisistent.rs/putni-nalog',
   },
 }
 

@@ -11,11 +11,14 @@ export const metadata: Metadata = {
   title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
   description:
     'Generator ugovora, poslovnih mejlova i HR dokumenata za srpsko tržište. Ugovor o radu, NDA, ponuda klijentu i još 7 alata. Besplatno za početak.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs',
+  },
   openGraph: {
     title: 'AIsistent — Poslovni dokumenti i alati za srpske preduzetnike',
     description:
       'Generator ugovora, poslovnih mejlova i HR dokumenata za srpsko tržište. Besplatno za početak.',
-    url: 'https://aisistent.rs',
+    url: 'https://www.aisistent.rs',
     siteName: 'AIsistent',
     locale: 'sr_RS',
     type: 'website',

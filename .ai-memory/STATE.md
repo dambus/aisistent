@@ -2,12 +2,59 @@
 
 *Ovo je JEDINI fajl koji treba pročitati na početku sesije. Sve ostalo (PROGRESS.md, BACKLOG.md, handover/, .ai-memory/*) čita se SAMO preko pointera ispod, kad zatreba detalj — ne unapred.*
 
-**Poslednja izmena:** 11. avgust 2026.
+**Poslednja izmena:** 19. avgust 2026.
 **Overwrite, ne append.** Svaka sesija prepisuje ovaj fajl pre zatvaranja (vidi checklist na dnu).
 
 ---
 
-## Status: nezavisan QA/lektor korak za dokumente — GOTOV, uživo verifikovano, commitovano
+## Status: GSC SEO nalazi (3 prompta) — sva 3 gotova ove sesije, čeka deploy + Milanova potvrda za merge
+
+Izvor: `docs/handover/2026-08-19-SEO fixes.md` (GSC izveštaj 16.06–16.08.2026). Puni detalji u 3
+handover fajla ispod, ovde samo sažetak.
+
+**PROMPT 1 — www kanonikalizacija — GOTOV.** `docs/handover/2026-08-19-www-canonicalization.md`.
+www.aisistent.rs je sad kanonički domen (92 URL-a je bilo duplo indeksirano). `next.config.ts`
+host-based 308 redirect (aisistent.rs → www), `app/sitemap.ts`/`app/robots.ts` na www, 22
+`page.tsx` fajla dobili `alternates.canonical`, 31 hardkodovanih `https://aisistent.rs` linkova
+zamenjeno kroz 27 fajlova. Testirano lokalno (`curl -H "Host: ..."`) — 308 radi, nema loop-a, query
+string očuvan, canonical tag renderuje na statičkim i dinamičkim rutama. `npx tsc --noEmit` čisto.
+**Milan treba:** proveriti Vercel Domains (opciono, edge-level redirect brži) + potvrditi GSC
+property + ponovo poslati sitemap POSLE deploy-a. Live `curl -I https://aisistent.rs/...` test na
+produkciji tek posle deploy-a.
+
+**PROMPT 2 — CTR optimizacija (title/meta) — GOTOV.** `docs/handover/2026-08-19-ctr-meta-optimization.md`.
+Arhitekturni nalaz: 6/8 ciljanih stranica (obrasci + blog) nisu imale odvojena meta polja od
+H1/body — pitao Milana (AskUserQuestion), odlučeno: dodati `meta_title`/`meta_description` kolone.
+Migracija `20260819000001_add_meta_seo_fields.sql` **primenjena na produkciju**
+(`dgsuspjxegciwlzqpzxn`, `library_forms` + `blog_posts`). `lib/libraryForms.ts`, `lib/blog.ts`,
+`app/obrasci/[slug]/page.tsx`, `app/blog/[slug]/page.tsx` — fallback na stari template kad je
+`null` (nema regresije za ostale stranice). Novi tekst upisan za 7 DB redova (SQL UPDATE,
+verifikovano SELECT-om) + `kalkulator-pausala/page.tsx` direktno u kodu. Puna tabela staro→novo u
+handover fajlu. `npx tsc --noEmit` čisto, live curl potvrdio novi `<title>`/`<meta description>`.
+
+**PROMPT 3 — audit kanibalizacije (ugovor o delu/radu) — GOTOV (audit + 2 bezbedna interna
+linka).** `docs/handover/2026-08-19-kanibalizacija-audit.md`. Generator/kalkulator trojka
+(`/ugovor-o-radu`, `/ugovor-o-delu`, `/kalkulator-ugovora-o-delu`) već dobro diferencirana, NIJE
+problem. Stvaran nalaz: blog postovi `ugovor-o-delu-vs-ugovor-o-radu` i
+`razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` su gotovo duplikat sadržaja (potvrđeno čitanjem
+`content_md` iz DB — identična struktura/uvod) — objašnjava lošu poziciju oba. Predložen merge +
+301 redirect, **NIJE izvršeno, čeka Milanovu potvrdu** (eksplicitna instrukcija iz prompta: ne
+brisati/spajati bez potvrde). Dodata 2 bezbedna interna linka (`ugovor-o-radu` → how-to blog vodič,
+`kalkulator-ugovora-o-delu` → paušalac vodič), `npx tsc --noEmit`/`eslint` čisti.
+
+**Verifikacija cele sesije:** `npx tsc --noEmit -p tsconfig.json` čisto (posle svake faze), `npm
+run test:declension-module` (98/98), `npm run test:qa-review` (5/5), `npm run test:qa-pravila`
+(3/3) — sve i dalje prolazi, nema regresije. Eslint greške na dirnutim fajlovima (5+1) potvrđene
+**pre-existing** kroz `git stash` diff pre/posle poređenje.
+
+**NIJE urađeno (sledeća sesija ili Milan):**
+- Commit + push ovih izmena (nije urađeno u trenutku pisanja ovog STATE-a ako sesija još traje —
+  proveri `git status`/`git log` da potvrdiš da li je već commitovano).
+- Deploy na Vercel + live produkcijski testovi (curl -I na pravom domenu).
+- GSC: potvrda preferred domain property + resubmit sitemap.
+- Merge odluka za duplikat blog par (Prompt 3).
+
+## Status (prethodno, i dalje tačno): nezavisan QA/lektor korak za dokumente — GOTOV, uživo verifikovano, commitovano
 
 Novi drugi LLM poziv posle generisanja dokumenta (svež kontekst, ne unutar istog poziva kao
 "samoprovera") — ista slabost dokazana na paralelnom marketing pipeline-u (homoglif propušten u
@@ -101,16 +148,20 @@ retroaktivno na `docs/marketing/` i `content/blog/`, uhvatio 2 nove greške:
 
 ## Sledeći korak
 
-1. Nastaviti da se hvataju konkretni QA grešku-u-ispravci slučajevi i dodaju u `lib/qa/pravila.ts` (proces uspostavljen, 1 pravilo do sad — BUG-054).
-2. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
-3. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
-4. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
+1. **Commit + push SEO izmena** (ova sesija, 19. avgust) ako nije već urađeno — proveri `git status` prvo.
+2. **Deploy + GSC verifikacija** (Milan) — vidi "NIJE urađeno" u sekciji iznad.
+3. **Merge odluka** za duplikat blog par `razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` (Milan) — `docs/handover/2026-08-19-kanibalizacija-audit.md`.
+4. Nastaviti da se hvataju konkretni QA grešku-u-ispravci slučajevi i dodaju u `lib/qa/pravila.ts` (proces uspostavljen, 1 pravilo do sad — BUG-054).
+5. Deklinacija: nastaviti rollout `lib/declension/` na preostalih 19 tipova dokumenta (helper već generički, vidi `docs/BACKLOG.md`).
+6. Opciono: Claude skill "srpski-lektor" (Zadatak 3, opcioni deo) — auto-sken draftova pre objave.
+7. Marketing pipeline (n8n) — van obima ovog repoa/Claude Code sesija, Milan radi zasebno.
 
 ## Gotovo i verifikovano (poslednje 1-2 sesije)
 
-- **Nezavisan QA/lektor korak + UI indikator** (11. avgust) — vidi sekciju iznad. Provera: `npm run test:qa-review` (5/5), `npm run test:declension-module` (98/98), `npx tsc --noEmit` čisto, live PDF pregledan (ugovor-o-radu, `full` mode). Commits `3362177` (backend), `0724089` (UI).
-- **Zadatak 3 — jezička/zakonska referenca + checklist** (11. avgust) — vidi sekciju iznad. Provera: `docs/serbian-language-facts.md` postoji, `docs/BUG_TRACKER.md` BUG-052/BUG-053/ZADATAK-3 unosi.
-- **Deklinacioni modul + regresioni testovi** (7. avgust) — vidi sekciju iznad. Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
+- **GSC SEO nalazi, sva 3 prompta** (19. avgust) — vidi sekciju "Status" iznad za detalje. Provera: `npx tsc --noEmit` čisto, `npm run test:declension-module`/`test:qa-review`/`test:qa-pravila` i dalje 98/98, 5/5, 3/3. 3 handover fajla: `2026-08-19-www-canonicalization.md`, `2026-08-19-ctr-meta-optimization.md`, `2026-08-19-kanibalizacija-audit.md`.
+- **Nezavisan QA/lektor korak + UI indikator** (11. avgust) — Provera: `npm run test:qa-review` (5/5), `npm run test:declension-module` (98/98), `npx tsc --noEmit` čisto, live PDF pregledan (ugovor-o-radu, `full` mode). Commits `3362177` (backend), `0724089` (UI).
+- **Zadatak 3 — jezička/zakonska referenca + checklist** (11. avgust) — Provera: `docs/serbian-language-facts.md` postoji, `docs/BUG_TRACKER.md` BUG-052/BUG-053/ZADATAK-3 unosi.
+- **Deklinacioni modul + regresioni testovi** (7. avgust) — Provera: `npm run test:declension-module` (98/98, ~150ms), `npx tsc --noEmit -p tsconfig.json` čisto.
 - **Test samostalnosti (kviz + Pregled ugovora prošireno)** (18. jul) — `grep -n "test-samostalnosti" lib/config/tools.ts` (3 pogotka), `grep -n "test_samostalnosti" app/api/review-contract/route.ts`.
 - **Marketing content pipeline Faza 2** (10-11. avgust, n8n) — Milanova posebna grana od ove sesije nadalje, log u `docs/handover/2026-08-10-marketing-content-pipeline.md`.
 

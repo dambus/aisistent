@@ -3,12 +3,15 @@ import { ToolLandingPage } from '@/components/landing/ToolLandingPage'
 import { TOOL_CONFIG } from '@/lib/config/tools'
 
 export const metadata: Metadata = {
-  title: 'Kalkulator paušalnog poreza Srbija 2026 | AIsistent',
-  description: 'Besplatan kalkulator paušalnog oporezivanja za preduzetnike u Srbiji. Izračunajte vaš paušalni porez za 2026.',
+  title: 'Kalkulator paušalnog poreza 2026 — obračun po delatnosti',
+  description: 'Unesite šifru delatnosti i izračunajte tačan paušalni porez i doprinose za 2026. Besplatno, bez registracije, rezultat za par sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/kalkulator-pausala',
+  },
   openGraph: {
     title: 'Kalkulator paušalnog poreza — Srbija 2026',
     description: 'Besplatan kalkulator paušalnog oporezivanja za preduzetnike u Srbiji. Izračunajte vaš paušalni porez za 2026.',
-    url: 'https://aisistent.rs/kalkulator-pausala',
+    url: 'https://www.aisistent.rs/kalkulator-pausala',
   },
 }
 

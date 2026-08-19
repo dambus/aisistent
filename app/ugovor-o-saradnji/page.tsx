@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ugovor o saradnji — generator za partnerstva | AIsistent',
   description: 'Generator ugovora o saradnji između firmi. Partnerski ugovor prilagođen srpskom pravu — PDF za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ugovor-o-saradnji',
+  },
   openGraph: {
     title: 'Ugovor o saradnji — generator za poslovne partnere',
     description: 'Generator ugovora o saradnji između firmi. Partnerski ugovor prilagođen srpskom pravu — PDF za 60 sekundi.',
-    url: 'https://aisistent.rs/ugovor-o-saradnji',
+    url: 'https://www.aisistent.rs/ugovor-o-saradnji',
   },
 }
 

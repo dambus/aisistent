@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'NDA sporazum Srbija — generator ugovora o poverljivosti | AIsistent',
   description: 'Generator NDA sporazuma (ugovora o poverljivosti) prilagođen srpskom pravu. Jednostrani i obostrani NDA za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/nda',
+  },
   openGraph: {
     title: 'NDA sporazum — generator ugovora o poverljivosti za Srbiju',
     description: 'Generator NDA sporazuma (ugovora o poverljivosti) prilagođen srpskom pravu. Jednostrani i obostrani NDA za 60 sekundi.',
-    url: 'https://aisistent.rs/nda',
+    url: 'https://www.aisistent.rs/nda',
   },
 }
 

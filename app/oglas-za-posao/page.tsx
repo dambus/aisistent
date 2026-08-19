@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Oglas za posao — generator oglasa za zapošljavanje | AIsistent',
   description: 'Generator oglasa za posao prilagođen srpskom tržištu rada. Profesionalan oglas za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/oglas-za-posao',
+  },
   openGraph: {
     title: 'Oglas za posao — generator za HR menadžere i preduzetnike',
     description: 'Generator oglasa za posao prilagođen srpskom tržištu rada. Profesionalan oglas za 60 sekundi.',
-    url: 'https://aisistent.rs/oglas-za-posao',
+    url: 'https://www.aisistent.rs/oglas-za-posao',
   },
 }
 

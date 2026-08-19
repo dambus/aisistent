@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Opšti uslovi korišćenja — generator za srpske sajtove | AIsistent',
   description: 'Generator opštih uslova korišćenja i politike privatnosti za srpske veb sajtove. GDPR i ZZPL usklađenost.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/opsti-uslovi',
+  },
   openGraph: {
     title: 'Opšti uslovi korišćenja — generator za srpske veb sajtove',
     description: 'Generator opštih uslova korišćenja i politike privatnosti za srpske veb sajtove. GDPR i ZZPL usklađenost.',
-    url: 'https://aisistent.rs/opsti-uslovi',
+    url: 'https://www.aisistent.rs/opsti-uslovi',
   },
 }
 

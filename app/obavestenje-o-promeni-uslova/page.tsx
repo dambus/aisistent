@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Obaveštenje o promeni uslova rada — generator | AIsistent',
   description: 'Generator obaveštenja o promeni uslova rada po čl. 172-174 Zakona o radu RS. Radno vreme, zarada, mesto rada — PDF za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/obavestenje-o-promeni-uslova',
+  },
   openGraph: {
     title: 'Obaveštenje o promeni uslova rada — generator za poslodavce',
     description: 'Generator obaveštenja o promeni uslova rada po čl. 172-174 Zakona o radu RS. Radno vreme, zarada, mesto rada — PDF za 60 sekundi.',
-    url: 'https://aisistent.rs/obavestenje-o-promeni-uslova',
+    url: 'https://www.aisistent.rs/obavestenje-o-promeni-uslova',
   },
 }
 

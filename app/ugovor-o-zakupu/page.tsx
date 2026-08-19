@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ugovor o zakupu Srbija — generator ugovora o najmu | AIsistent',
   description: 'Generator ugovora o zakupu stana ili poslovnog prostora prilagođen srpskom pravu. PDF za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ugovor-o-zakupu',
+  },
   openGraph: {
     title: 'Ugovor o zakupu — generator za stanodavce i zakupce u Srbiji',
     description: 'Generator ugovora o zakupu stana ili poslovnog prostora prilagođen srpskom pravu. PDF za 60 sekundi.',
-    url: 'https://aisistent.rs/ugovor-o-zakupu',
+    url: 'https://www.aisistent.rs/ugovor-o-zakupu',
   },
 }
 

@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ponuda za radove — generator ponuda za izvođače i majstore | AIsistent',
   description: 'Generator ponuda za radove — izvođači, majstori, zanatlije. Stavke, cene, PDV — PDF ili Word za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ponuda-za-radove',
+  },
   openGraph: {
     title: 'Ponuda za radove — generator za izvođače i majstore',
     description: 'Generator ponuda za radove — izvođači, majstori, zanatlije. Stavke, cene, PDV — PDF ili Word za 60 sekundi.',
-    url: 'https://aisistent.rs/ponuda-za-radove',
+    url: 'https://www.aisistent.rs/ponuda-za-radove',
   },
 }
 

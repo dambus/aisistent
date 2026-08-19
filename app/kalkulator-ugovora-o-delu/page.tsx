@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Kalkulator ugovora o delu Srbija — porez i doprinosi | AIsistent',
   description: 'Besplatan kalkulator poreza i doprinosa za ugovor o delu u Srbiji. Bruto i neto za 2026.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/kalkulator-ugovora-o-delu',
+  },
   openGraph: {
     title: 'Kalkulator ugovora o delu — porez i doprinosi 2026',
     description: 'Besplatan kalkulator poreza i doprinosa za ugovor o delu u Srbiji. Bruto i neto za 2026.',
-    url: 'https://aisistent.rs/kalkulator-ugovora-o-delu',
+    url: 'https://www.aisistent.rs/kalkulator-ugovora-o-delu',
   },
 }
 
@@ -42,6 +45,7 @@ export default function Page() {
         { href: '/kalkulator-zarade', label: 'Kalkulator zarade (ugovor o radu)' },
         { href: '/ugovor-o-delu', label: 'Generator ugovora o delu' },
         { href: '/blog/ugovor-o-delu-vs-ugovor-o-radu', label: 'Članak: ugovor o delu vs. o radu' },
+        { href: '/blog/ugovor-o-delu-za-pausalca-vodic-2025', label: 'Vodič: ugovor o delu za paušalca' },
         { href: '/kalkulator-pausala', label: 'Kalkulator paušala' },
       ]}
       faqs={[

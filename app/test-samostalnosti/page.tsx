@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Test samostalnosti — proverite rizik nesamostalnosti paušalca | AIsistent',
   description: 'Besplatan test samostalnosti za paušalce i frilensere sa stranim klijentima. 9 zakonskih kriterijuma, odmah rezultat.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/test-samostalnosti',
+  },
   openGraph: {
     title: 'Test samostalnosti — proverite rizik nesamostalnosti',
     description: 'Besplatan test samostalnosti za paušalce i frilensere sa stranim klijentima. 9 zakonskih kriterijuma, odmah rezultat.',
-    url: 'https://aisistent.rs/test-samostalnosti',
+    url: 'https://www.aisistent.rs/test-samostalnosti',
   },
 }
 

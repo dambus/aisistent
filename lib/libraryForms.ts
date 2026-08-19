@@ -28,6 +28,10 @@ export interface LibraryFormMeta {
   // false = referentni PDF (flat obrazac ili AcroForm bez ijednog mapiranog polja) —
   // frontend sakriva "Preuzmi popunjeno" i prikazuje napomenu da se samo preuzima prazan
   hasAutofill: boolean
+  // SEO <title>/<meta description> override — nezavisno od title/shortName/description
+  // (koji se prikazuju u H1/body). null = generateMetadata koristi postojeći fallback.
+  metaTitle: string | null
+  metaDescription: string | null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,13 +47,15 @@ function toMeta(row: any): LibraryFormMeta {
     pageCount: row.page_count,
     verifiedAt: row.verified_at,
     hasAutofill: Array.isArray(row.fields) && row.fields.length > 0,
+    metaTitle: row.meta_title,
+    metaDescription: row.meta_description,
   }
 }
 
 export async function getAllLibraryForms(): Promise<LibraryFormMeta[]> {
   const { data } = await supabase
     .from('library_forms')
-    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields')
+    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields, meta_title, meta_description')
     .eq('published', true)
     .order('category')
     .order('short_name')
@@ -60,7 +66,7 @@ export async function getAllLibraryForms(): Promise<LibraryFormMeta[]> {
 export async function getLibraryForm(slug: string): Promise<LibraryFormMeta | null> {
   const { data } = await supabase
     .from('library_forms')
-    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields')
+    .select('slug, title, short_name, category, description, source_institution, source_url, page_count, verified_at, fields, meta_title, meta_description')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle()

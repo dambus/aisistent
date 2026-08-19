@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ponuda klijentu — generator poslovnih ponuda | AIsistent',
   description: 'Generator profesionalnih ponuda klijentima. Prilagođena B2B ponuda sa cenama i uslovima — PDF za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ponuda-klijentu',
+  },
   openGraph: {
     title: 'Ponuda klijentu — generator za preduzetnike i agencije',
     description: 'Generator profesionalnih ponuda klijentima. Prilagođena B2B ponuda sa cenama i uslovima — PDF za 60 sekundi.',
-    url: 'https://aisistent.rs/ponuda-klijentu',
+    url: 'https://www.aisistent.rs/ponuda-klijentu',
   },
 }
 

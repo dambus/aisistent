@@ -16,13 +16,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(slug)
   if (!post) return {}
   return {
-    title: `${post.title} | AIsistent Blog`,
-    description: post.description,
+    title: post.metaTitle ?? `${post.title} | AIsistent Blog`,
+    description: post.metaDescription ?? post.description,
     keywords: post.keywords,
+    alternates: {
+      canonical: `https://www.aisistent.rs/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `https://aisistent.rs/blog/${slug}`,
+      url: `https://www.aisistent.rs/blog/${slug}`,
       type: 'article',
       publishedTime: post.date,
     },
@@ -95,7 +98,7 @@ export default async function BlogPostPage({ params }: Props) {
   const dateFormatted = formatDateSr(post.date)
   const docName = extractDocName(post.title)
   const [firstHalf, secondHalf] = splitHtmlAtMidpoint(post.contentHtml)
-  const shareUrl = `https://aisistent.rs/blog/${slug}`
+  const shareUrl = `https://www.aisistent.rs/blog/${slug}`
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const isLoggedIn = !!user

@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Ugovor o delu Srbija — generator i kalkulator poreza | AIsistent',
   description: 'Generator ugovora o delu za freelancere i firme u Srbiji. Ispravno obračunavanje poreza i doprinosa za 2026.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/ugovor-o-delu',
+  },
   openGraph: {
     title: 'Ugovor o delu — generator za freelancere i firme',
     description: 'Generator ugovora o delu za freelancere i firme u Srbiji. Ispravno obračunavanje poreza i doprinosa za 2026.',
-    url: 'https://aisistent.rs/ugovor-o-delu',
+    url: 'https://www.aisistent.rs/ugovor-o-delu',
   },
 }
 

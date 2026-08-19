@@ -15,6 +15,10 @@ export interface PostMeta {
   description: string
   readTime: string
   keywords: string[]
+  // SEO <title>/<meta description> override — nezavisno od title/description (H1/body).
+  // null = generateMetadata koristi title/description kao fallback.
+  metaTitle: string | null
+  metaDescription: string | null
 }
 
 export interface Post extends PostMeta {
@@ -24,7 +28,7 @@ export interface Post extends PostMeta {
 export async function getAllPostMeta(): Promise<PostMeta[]> {
   const { data } = await supabase
     .from('blog_posts')
-    .select('slug, title, date, description, read_time, keywords')
+    .select('slug, title, date, description, read_time, keywords, meta_title, meta_description')
     .eq('published', true)
     .order('date', { ascending: false })
 
@@ -35,13 +39,15 @@ export async function getAllPostMeta(): Promise<PostMeta[]> {
     description: row.description,
     readTime: row.read_time,
     keywords: row.keywords ?? [],
+    metaTitle: row.meta_title,
+    metaDescription: row.meta_description,
   }))
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
   const { data } = await supabase
     .from('blog_posts')
-    .select('slug, title, date, description, read_time, keywords, content_md')
+    .select('slug, title, date, description, read_time, keywords, content_md, meta_title, meta_description')
     .eq('slug', slug)
     .eq('published', true)
     .single()
@@ -57,6 +63,8 @@ export async function getPost(slug: string): Promise<Post | null> {
     description: data.description,
     readTime: data.read_time,
     keywords: data.keywords ?? [],
+    metaTitle: data.meta_title,
+    metaDescription: data.meta_description,
     contentHtml: processed.toString(),
   }
 }

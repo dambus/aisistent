@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getAllPostMeta } from '@/lib/blog'
 import { getAllLibraryForms } from '@/lib/libraryForms'
 
-const BASE = 'https://aisistent.rs'
+const BASE = 'https://www.aisistent.rs'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPostMeta()

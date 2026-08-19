@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Punomoćje — generator opšteg i specijalnog punomoćja | AIsistent',
   description: 'Generator punomoćja za zastupanje pred organima, bankama i firmama u Srbiji. Opšte i specijalno punomoćje.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/punomocje',
+  },
   openGraph: {
     title: 'Punomoćje — generator za zastupanje u Srbiji',
     description: 'Generator punomoćja za zastupanje pred organima, bankama i firmama u Srbiji. Opšte i specijalno punomoćje.',
-    url: 'https://aisistent.rs/punomocje',
+    url: 'https://www.aisistent.rs/punomocje',
   },
 }
 

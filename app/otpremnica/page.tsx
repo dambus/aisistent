@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Otpremnica — generator dokumenta za isporuku robe | AIsistent',
   description: 'Generator otpremnica za srpske firme. Stavke, količine, izdavalac i primalac — PDF ili Word za 60 sekundi.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/otpremnica',
+  },
   openGraph: {
     title: 'Otpremnica — generator dokumenta za isporuku robe',
     description: 'Generator otpremnica za srpske firme. Stavke, količine, izdavalac i primalac — PDF ili Word za 60 sekundi.',
-    url: 'https://aisistent.rs/otpremnica',
+    url: 'https://www.aisistent.rs/otpremnica',
   },
 }
 

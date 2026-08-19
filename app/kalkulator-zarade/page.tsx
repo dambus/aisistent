@@ -5,10 +5,13 @@ import { TOOL_CONFIG } from '@/lib/config/tools'
 export const metadata: Metadata = {
   title: 'Kalkulator zarade Srbija 2026 — neto bruto | AIsistent',
   description: 'Besplatan kalkulator zarade za Srbiju. Izračunajte neto iz bruto zarade ili obratno. Ažurirano za 2026.',
+  alternates: {
+    canonical: 'https://www.aisistent.rs/kalkulator-zarade',
+  },
   openGraph: {
     title: 'Kalkulator zarade Srbija 2026 — neto i bruto obračun',
     description: 'Besplatan kalkulator zarade za Srbiju. Izračunajte neto iz bruto zarade ili obratno. Ažurirano za 2026.',
-    url: 'https://aisistent.rs/kalkulator-zarade',
+    url: 'https://www.aisistent.rs/kalkulator-zarade',
   },
 }
 

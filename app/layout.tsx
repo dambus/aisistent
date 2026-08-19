@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aisistent.rs'),
+  metadataBase: new URL('https://www.aisistent.rs'),
   title: "AIsistent — Poslovni asistent",
   description:
     "Generator ugovora, poslovnih mejlova i HR dokumenata prilagođenih srpskom pravu.",
@@ -28,7 +28,7 @@ const jsonLd = {
   '@type': 'SoftwareApplication',
   name: 'AIsistent',
   description: 'AI generator pravnih dokumenata i poslovnih alata za srpske preduzetnike',
-  url: 'https://aisistent.rs',
+  url: 'https://www.aisistent.rs',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
   offers: {

@@ -91,7 +91,7 @@ function buildEmailHtml(opts: {
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:0 0 18px;">
           <p style="margin:0;font-size:13px;line-height:1.5;color:#6b7280;">
             Ovaj dokument je generisan uz pomoć
-            <a href="https://aisistent.rs"
+            <a href="https://www.aisistent.rs"
                style="color:#1B6B4A;text-decoration:none;font-weight:600;">AIsistent.rs</a>
             &mdash; poslovnog asistenta za srpske preduzetnike.
           </p>
@@ -101,7 +101,7 @@ function buildEmailHtml(opts: {
         <td style="background:#f9fafb;border-top:1px solid #e5e7eb;
                    padding:12px 28px;text-align:center;">
           <span style="font-size:12px;color:#9ca3af;">
-            <a href="https://aisistent.rs"
+            <a href="https://www.aisistent.rs"
                style="color:#1B6B4A;text-decoration:none;">aisistent.rs</a>
             &nbsp;&bull;&nbsp; Automatski mejl, ne odgovarajte.
           </span>

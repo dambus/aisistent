@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/(auth)/', '/(dashboard)/'],
       },
     ],
-    sitemap: 'https://aisistent.rs/sitemap.xml',
+    sitemap: 'https://www.aisistent.rs/sitemap.xml',
   }
 }

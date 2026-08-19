@@ -54,7 +54,7 @@ function buildWaitlistEmailHtml(plan: string): string {
             ugovora, faktura, HR dokumenata i još mnogo toga, prilagođeno srpskom
             pravu i jeziku.
             <br><br>
-            <a href="https://aisistent.rs"
+            <a href="https://www.aisistent.rs"
                style="color:#1B6B4A;text-decoration:none;font-weight:600;">aisistent.rs</a>
           </p>
         </td>
