@@ -38,7 +38,30 @@ Ostala 3 članka (`kako-napisati-ugovor-o-radu`, `ugovor-o-delu-za-pausalca-vodi
 `ugovor-o-radu-na-odredjeno-vs-neodredjeno`) imaju jasno različitu nameru (how-to, niša-paušalac,
 određeno/neodređeno) — nema preklapanja.
 
-## Predlog plana (NIJE izvršeno — čeka Milanovu potvrdu)
+## Update 19. avgust (isti dan) — Milan potvrdio, merge izvršen
+
+1. **Sadržaj spojen** — pasus "Konkretan primer" (Marko/Ana/Jovan ilustracija) iz
+   `razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` prenet u `ugovor-o-delu-vs-ugovor-o-radu`
+   (ubačen posle "Poreska razlika", pre "Kada koristiti ugovor o delu" — most između teorije i
+   praktičnih saveta). SQL `UPDATE ... content_md = replace(...)`, potvrđeno `LIKE '%Marko%'`.
+2. **`razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu`** — `published = false` u `blog_posts`
+   (produkcija). Ispada iz `getAllPostMeta()`/sitemap-a i iz "Nastavi čitanje" preporuka
+   automatski (obe funkcije filtriraju `published = true`).
+3. **`next.config.ts`** — dodat path-based 301/308 redirect
+   `/blog/razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` → `/blog/ugovor-o-delu-vs-ugovor-o-radu`
+   (isti `redirects()` blok kao www redirect, bez `has:` jer je path-specific na istom domenu).
+4. Grep potvrdio da nijedan fajl u kodu nije hardkodovano linkovao stari slug — nema mrtvih
+   internih linkova za popravku.
+
+**Verifikacija:** lokalni dev server, `curl -H "Host: www.aisistent.rs"`:
+   - stari URL → `308`, `Location: /blog/ugovor-o-delu-vs-ugovor-o-radu`.
+   - `/sitemap.xml` više ne sadrži stari slug (`grep -c` → 0).
+   - keeper stranica renderuje spojeni sadržaj ("Konkretan primer", "Jovan je dizajner" prisutni).
+   - `npx tsc --noEmit -p tsconfig.json` čisto.
+
+**NIJE urađeno:** produkcijski live test posle deploy-a (isto kao ostala 2 prompta — čeka deploy).
+
+## Predlog plana (istorijski — pre potvrde, ostavljeno radi konteksta)
 
 **Preporuka: spoji `razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` u
 `ugovor-o-delu-vs-ugovor-o-radu`** (potonji ima bolji, intent-precizniji title i CTA-orijentisan
