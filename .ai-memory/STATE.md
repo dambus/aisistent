@@ -32,15 +32,15 @@ Migracija `20260819000001_add_meta_seo_fields.sql` **primenjena na produkciju**
 verifikovano SELECT-om) + `kalkulator-pausala/page.tsx` direktno u kodu. Puna tabela staro→novo u
 handover fajlu. `npx tsc --noEmit` čisto, live curl potvrdio novi `<title>`/`<meta description>`.
 
-**PROMPT 3 — audit kanibalizacije (ugovor o delu/radu) — GOTOV (audit + 2 bezbedna interna
-linka).** `docs/handover/2026-08-19-kanibalizacija-audit.md`. Generator/kalkulator trojka
-(`/ugovor-o-radu`, `/ugovor-o-delu`, `/kalkulator-ugovora-o-delu`) već dobro diferencirana, NIJE
-problem. Stvaran nalaz: blog postovi `ugovor-o-delu-vs-ugovor-o-radu` i
-`razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` su gotovo duplikat sadržaja (potvrđeno čitanjem
-`content_md` iz DB — identična struktura/uvod) — objašnjava lošu poziciju oba. Predložen merge +
-301 redirect, **NIJE izvršeno, čeka Milanovu potvrdu** (eksplicitna instrukcija iz prompta: ne
-brisati/spajati bez potvrde). Dodata 2 bezbedna interna linka (`ugovor-o-radu` → how-to blog vodič,
-`kalkulator-ugovora-o-delu` → paušalac vodič), `npx tsc --noEmit`/`eslint` čisti.
+**PROMPT 3 — audit kanibalizacije (ugovor o delu/radu) — GOTOV, uključujući merge.**
+`docs/handover/2026-08-19-kanibalizacija-audit.md`. Generator/kalkulator trojka već dobro
+diferencirana, nije bio problem. Stvaran nalaz: blog postovi `ugovor-o-delu-vs-ugovor-o-radu` i
+`razlika-izmedju-ugovora-o-radu-i-ugovora-o-delu` bili skoro duplikat sadržaja. **Milan potvrdio
+merge (isti dan)** — izvršeno: unikatan "Konkretan primer" pasus prenet u keeper, loser
+`published = false` (produkcija), `next.config.ts` 301 redirect starog slug-a na keeper. Dodata i
+2 bezbedna interna linka (`ugovor-o-radu` → how-to blog vodič, `kalkulator-ugovora-o-delu` →
+paušalac vodič). Verifikovano lokalno (redirect 308, sitemap bez starog slug-a, spojeni sadržaj
+renderuje), `npx tsc --noEmit` čisto. Commit `88f3a17`.
 
 **Verifikacija cele sesije:** `npx tsc --noEmit -p tsconfig.json` čisto (posle svake faze), `npm
 run test:declension-module` (98/98), `npm run test:qa-review` (5/5), `npm run test:qa-pravila`
@@ -52,7 +52,7 @@ run test:declension-module` (98/98), `npm run test:qa-review` (5/5), `npm run te
   proveri `git status`/`git log` da potvrdiš da li je već commitovano).
 - Deploy na Vercel + live produkcijski testovi (curl -I na pravom domenu).
 - GSC: potvrda preferred domain property + resubmit sitemap.
-- Merge odluka za duplikat blog par (Prompt 3).
+- ~~Merge odluka za duplikat blog par (Prompt 3)~~ — gotovo, vidi iznad.
 
 ## Status (prethodno, i dalje tačno): nezavisan QA/lektor korak za dokumente — GOTOV, uživo verifikovano, commitovano
 
