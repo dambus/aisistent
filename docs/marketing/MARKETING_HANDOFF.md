@@ -48,3 +48,13 @@ Claude Desktop sesija kad priprema/ažurira oglase.
 **Zašto (za marketing poruke):** Stara formulacija je zvučala kao da korisnik nešto kupuje pa ga zaustavi poruka "čekaj, plaćanje još ne radi" — što je frustrirajuće. Nova formulacija čini waitlist prijavu niskorizičnim, informativnim činom (i to je upravo pokazatelj namere platiti koji nam treba), a ne odustajanjem pred nedostupnim checkout-om.
 
 **Predlog za oglase:** Ne pominjati konkretne cene planova u top-of-funnel oglasima dok se ne pokrene naplata — oglas vodi na besplatan alat (10 dokumenata/mesec), a waitlist CTA se pojavljuje tek unutar app-a, mekano, ne agresivno. Ako se u oglasu ipak pominje "Pro plan", koristiti "javi nam se za rani pristup" umesto "kupi/izaberi".
+
+---
+
+## 2026-09-04 — Ispravka: instagram-launch-pack-2026-08-03.html i dalje je tvrdio "3 dokumenta besplatno"
+
+**Šta se promenilo:** `docs/marketing/instagram-launch-pack-2026-08-03.html` (stari, već iskorišćeni launch pack iz avgusta) je na 4 mesta pisao "Prva 3 dokumenta (mesečno) besplatno" — zaostatak od pre promene limita na 10. Ispravljeno svuda na "10 dokumenata mesečno besplatno". Naslov/H1 "Prva 3 posta" nije dirano — to broji Instagram objave, ne dokumente.
+
+**Zašto:** `BREND-PRAVILA.md` sekcija 3 već je ovo označio kao zastarelu tvrdnju koja se ne sme koristiti. Ako se ovaj pack ikad ponovo iskoristi kao referenca za nov copy, brojevi su sad tačni.
+
+**Napomena, nije ispravljeno (van zahtevanog scope-a):** isti fajl na jednom mestu i dalje piše "22+ tipa dokumenata" — takođe označeno kao zastarelo u `BREND-PRAVILA.md` (tačan broj je 22 tipa dokumenta + 27 alata ukupno). Javiti ako treba i to ispraviti.
