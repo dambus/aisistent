@@ -104,7 +104,7 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
       name: 'Pro',
       price: '3.000 RSD / mes.',
       euroEquivalent: '(≈ 25 EUR)',
-      badge: 'Najpopularnije',
+      badge: 'Preporučeno',
       cta: 'Javi mi se kad bude dostupno',
       waitlistPlan: 'pro',
       featured: true,

@@ -54,7 +54,7 @@ const PLANS: Plan[] = [
     name: 'Pro',
     price: '3.000 RSD',
     sub: '≈ 25 EUR / mes.',
-    badge: 'Najpopularnije',
+    badge: 'Preporučeno',
     badgeColor: PRIMARY,
     featured: true,
     features: [

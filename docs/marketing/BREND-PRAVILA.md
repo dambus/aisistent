@@ -96,6 +96,10 @@ zakona, rok u danima, novčani prag. Ako takve činjenice nema — slot ostaje p
 
 **Izmišljeni brojevi.** Nijedan podatak, rok ili iznos koji nije proveren.
 
+**„Najpopularnije" (ili slična tvrdnja o prodaji/izboru drugih korisnika) na planu koji se još
+ne može kupiti.** Planovi su waitlist-only dok naplata ne krene — tvrdnja da je nešto
+"najpopularnije" pretpostavlja prodajne podatke koji ne postoje. Umesto toga: "Preporučeno".
+
 ---
 
 ## 5. Okvir „test tržišta"
