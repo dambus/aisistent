@@ -28,3 +28,13 @@ Claude Desktop sesija kad priprema/ažurira oglase.
 **Zašto (za marketing poruke):** Umesto da odsustvo naplate (Paddle još nije aktivan) deluje kao da platforma "nije gotova", framing je da je ovo namerna beta/early-access faza gde se korisnikov glas traži i ceni.
 
 **Predlog za oglase:** Formulacije tipa "Pridruži se ranim korisnicima dok je sve besplatno" ili "Rani pristup — pomozi nam da oblikujemo alat, koristi ga besplatno" umesto generičkog "počni besplatno". Izbegavati "besplatno zauvek" — koristiti "besplatno u fazi lansiranja / rani pristup", jer se naplata uskoro uvodi i ne želimo da razočaramo rane korisnike kad krene.
+
+---
+
+## 2026-09-04 — Banner "test tržišta" na dashboardu (samo free korisnici)
+
+**Šta se promenilo:** Novi `MarketTestBanner` prikazan na vrhu `/dashboard`, samo kad je `plan === 'free'`. Tekst: *"Trenutno smo u fazi testiranja tržišta — svi planovi su privremeno besplatni na korišćenje u okviru limita. Kad krenemo sa naplatom, korisnici prijavljeni na listu čekanja dobijaju poseban popust."*
+
+**Zašto (za marketing poruke):** Isti razlog kao onboarding rečenica iznad — postojećim free korisnicima (10-15 naloga) ovo daje razlog da se prijave na waitlist SADA, dok je najveća vrednost (rani popust) na stolu, umesto da free plan deluje kao trajno stanje bez razloga za akciju.
+
+**Predlog za oglase:** Ova formulacija ("test tržišta", "rani popust za listu čekanja") treba da bude konzistentna sa onim što piše i u samom oglasu i na landing stranici — ne izmišljati novi ton na svakom mestu.

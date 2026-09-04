@@ -6,6 +6,7 @@ import { RecentDocuments } from '@/components/dashboard/RecentDocuments'
 import { getFeaturedTools, type Industry } from '@/lib/industryConfig'
 import { TipCard, TipSequence } from '@/components/ui/TipCard'
 import { LimitsCard } from '@/components/dashboard/LimitsCard'
+import { MarketTestBanner } from '@/components/dashboard/MarketTestBanner'
 import { getAllLibraryForms } from '@/lib/libraryForms'
 import { TOOL_CONFIG, DASHBOARD_CATEGORIES, CALCULATOR_SLUGS } from '@/lib/config/tools'
 
@@ -76,6 +77,8 @@ export default async function DashboardPage() {
 
   return (
     <div>
+      {plan === 'free' && <MarketTestBanner />}
+
       <GreetingHeader
         displayName={displayName}
         plan={plan}
