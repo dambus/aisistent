@@ -110,7 +110,33 @@ raste — kad se nađe nov slučaj gde QA sam napravi grešku, dodaje se red ovd
 
 ## Status (prethodno, i dalje tačno): gramatička regresija — Zadatak 3 gotov (jezička/zakonska referenca + checklist)
 
-### Marketing content pipeline (n8n + Supabase + fal.ai + Zernio) — Milanova zasebna grana, VAN ovog repoa/Claude Code od 11. avgusta
+### Marketing pipeline (n8n + Supabase + Zernio) — ažurirano 4. septembra 2026.
+
+Rađeno iz Claude Desktopa, van Claude Code sesije. Puna dokumentacija u `docs/marketing/`:
+`PIPELINE.md` (kako radi), `PLAN-OBJAVA.md` (šta i kada), `BREND-PRAVILA.md` (jezik i copy),
+`MARKETING_HANDOFF.md` (dnevnik promena u proizvodu). Ta četiri fajla su jedini izvor istine
+za marketing; `docs/handover/2026-08-10-marketing-content-pipeline.md` je arhiva i zastareo je.
+
+**Šta se promenilo 4. septembra:**
+- Generisanje slika modelom (fal.ai / Seedream) je NAPUŠTENO. Grafika se deterministički
+  renderuje Edge funkcijom `render-instagram-poster`. fal.ai čvorovi su `disabled` i
+  nepovezani — n8n zato prijavljuje `DISCONNECTED_NODE`, to je očekivano.
+- Workflow `QeNEPp3XlJlm6uBB` ima DVA rasporeda: ponedeljak 09:00 (blog + QA + LinkedIn + IG)
+  i četvrtak 09:00 (drugi ugao na istu temu, bez bloga).
+- Četvrtak više ne troši `pending` teme. Čita pogled `v_cetvrtak_kandidati` — poslednju
+  ponedeljkovu temu čiji je blog OBJAVLJEN. Ako uslova nema, tiho preskače uz Telegram
+  poruku sa razlogom.
+- Četvrtkova grana dobila QA korak i dvostruku determinističku proveru ćiriličnih homoglifa.
+  Ranije nije imala nikakvu jezičku proveru, a tekst ide direktno na sliku.
+- Nove Supabase migracije: `create_cetvrtak_kandidati_view`,
+  `recreate_cetvrtak_kandidati_with_blog_date`.
+
+**NIJE urađeno:**
+- Izmene četvrtkove grane nisu testirane uživo. Prvi run pokrenuti ručno preko
+  `Schedule Trigger - Thu`, proveriti obe putanje (uspeh i preskakanje).
+- `OBJAVLJENO.md` (registar objava) i `REELS.md` (ručni proces) još ne postoje.
+- Ponedeljkov LinkedIn tekst i dalje sadrži link ka blogu koji je u tom trenutku draft —
+  rešeno upozorenjem u Telegramu, ne strukturno.
 
 Faza 2 automatizacije bloga/LinkedIn/Instagram-a, 10-11. avgust. Puni log:
 `docs/handover/2026-08-10-marketing-content-pipeline.md` (commitovan). **Ovaj repo/Claude Code

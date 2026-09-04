@@ -6,6 +6,7 @@ Kontekst i puna arhitektura: `aisistent-content-pipeline-arhitektura-avgust2026.
 
 ---
 
+
 ## QA korak sada direktno ispravlja tekst + marker-based parsing (11. avgust 2026.)
 
 ### 1. QA/editor korak — ispravlja umesto da samo prijavljuje
