@@ -76,7 +76,7 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
       cta: 'Počnite besplatno',
       href: '/register',
       features: [
-        ['✓', '1 dokument mesečno'],
+        ['✓', '10 dokumenata mesečno'],
         ['✓', 'PDF sa watermarkom'],
         ['✓', 'Arhiva dokumenata'],
         ['✓', `Biblioteka od ${obrasciCount} zvaničnih obrazaca (preuzimanje praznih)`],

@@ -5,7 +5,7 @@ import Link from 'next/link'
 const PRIMARY = '#1B6B4A'
 
 const DOC_LIMITS: Record<string, number | null> = {
-  free:    3,
+  free:    10,
   starter: 20,
   pro:     null,
   agency:  null,

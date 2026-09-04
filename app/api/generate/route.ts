@@ -736,7 +736,7 @@ const FULL_QA_TYPES = new Set([
 
 const rateLimitStore = new Map<string, number[]>()
 const PLAN_LIMITS: Record<string, number | null> = {
-  free:    3,
+  free:    10,
   starter: 20,
   pro:     null,
   agency:  null,

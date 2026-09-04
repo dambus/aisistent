@@ -35,7 +35,7 @@ const jsonLd = {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'RSD',
-    description: 'Besplatan plan — 3 dokumenta mesečno',
+    description: 'Besplatan plan — 10 dokumenata mesečno',
   },
   inLanguage: 'sr',
   availableLanguage: 'Serbian',

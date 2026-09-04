@@ -398,7 +398,8 @@ export default function DobrodoslicaPage() {
 
                 <div className="rounded-xl border px-4 py-4 text-sm leading-6" style={{ borderColor: '#b7e4ce', backgroundColor: '#ecfdf5' }}>
                   <p className="text-gray-800">
-                    Sa besplatnim nalogom možeš da generišeš 3 dokumenta mesečno i preuzmeš PDF.
+                    Sa besplatnim nalogom možeš da generišeš 10 dokumenata mesečno i preuzmeš PDF.
+                    Ovo je period testiranja tržišta — javi nam se šta ti nedostaje, slušamo svaki predlog.
                     Za čuvanje dokumenata, DOCX export i više — pogledaj naše planove.
                   </p>
                   <Button

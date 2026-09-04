@@ -19,7 +19,7 @@ const PLAN_COLORS: Record<string, { bg: string; text: string }> = {
 }
 
 const PLAN_INFO: Record<string, { label: string; desc: string; limit: number | null }> = {
-  free:    { label: 'Besplatni plan', desc: '3 dokumenta mesečno',        limit: 3    },
+  free:    { label: 'Besplatni plan', desc: '10 dokumenata mesečno',      limit: 10   },
   starter: { label: 'Starter plan',  desc: '20 dokumenata mesečno',       limit: 20   },
   pro:     { label: 'Pro plan',       desc: 'Neograničen broj dokumenata', limit: null },
   agency:  { label: 'Agencija plan', desc: 'Neograničen broj klijenata',  limit: null },

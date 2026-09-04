@@ -26,7 +26,7 @@ const PLANS: Plan[] = [
     name: 'Besplatno',
     price: 'Besplatno',
     features: [
-      [true,  '3 dokumenta mesečno'],
+      [true,  '10 dokumenata mesečno'],
       [true,  'PDF sa watermarkom'],
       [false, 'Email slanje'],
       [false, 'Word (DOCX) format'],

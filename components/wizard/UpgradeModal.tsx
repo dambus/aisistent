@@ -11,7 +11,7 @@ interface UpgradeModalProps {
 export function UpgradeModal({
   onClose,
   title = 'Mesečni limit dostignut',
-  description = 'Besplatni plan omogućava 3 dokumenta mesečno. Pređite na Starter i generišite do 20 dokumenata.',
+  description = 'Besplatni plan omogućava 10 dokumenata mesečno. Pređite na Starter i generišite do 20 dokumenata.',
 }: UpgradeModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
