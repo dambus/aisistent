@@ -163,6 +163,7 @@ GRAFIKA: tekst ide direktno na sliku bez dalje provere — mora biti kratak i gr
 - **Četvrtkova grana nema QA ni proveru homoglifa** — krši sekciju 1. Ispraviti pre sledećeg
   četvrtka.
 - **Ponedeljkov LinkedIn prompt ubacuje link ka neobjavljenom blogu** — krši sekciju 6.
-- **`instagram-launch-pack-2026-08-03.html` tvrdi „prva 3 dokumenta besplatno"** na dva mesta —
-  krši sekciju 3.
-- **Broj tipova dokumenata nije potvrđen** — uskladiti oglase i `PROGRESS.md` pre sledeće upotrebe.
+
+Rešeno (4.9.2026, Claude Code): `instagram-launch-pack-2026-08-03.html` je pisao „prva 3
+dokumenta besplatno" (4 mesta) i „22+ alata"/„22+ tipa(ova) dokumenata" (3 mesta) — sve
+usklađeno sa sekcijom 3 (10 dokumenata, 27 alata, 22 tipa dokumenata).

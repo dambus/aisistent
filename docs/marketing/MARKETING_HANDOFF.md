@@ -57,4 +57,4 @@ Claude Desktop sesija kad priprema/ažurira oglase.
 
 **Zašto:** `BREND-PRAVILA.md` sekcija 3 već je ovo označio kao zastarelu tvrdnju koja se ne sme koristiti. Ako se ovaj pack ikad ponovo iskoristi kao referenca za nov copy, brojevi su sad tačni.
 
-**Napomena, nije ispravljeno (van zahtevanog scope-a):** isti fajl na jednom mestu i dalje piše "22+ tipa dokumenata" — takođe označeno kao zastarelo u `BREND-PRAVILA.md` (tačan broj je 22 tipa dokumenta + 27 alata ukupno). Javiti ako treba i to ispraviti.
+**Dopuna (isti dan, Milanov zahtev "sve mora biti usklađeno"):** isti fajl je na 3 mesta pisao i "22+ alata"/"22+ tipa(ova) dokumenata" — takođe zastarelo. Ispravljeno: "22+ alata" (naslovna kartica, meša ugovore/fakture/HR/kalkulatore) → **27 alata**; "22+ tipa dokumenata — ugovori, fakture, HR, kalkulatori" (isti razlog, lista meša tipove dokumenata i kalkulatore) → **27 alata**; "22+ tipova dokumenata" (lista samo prava dokumenta: fakture, NDA, rešenja, punomoćja) → **22 tipa dokumenata** (i gramatički ispravljeno "tipova"→"tipa", broj 22 traži genitiv jednine). `BREND-PRAVILA.md` sekcija 9 ažurirana da odražava da je ovo rešeno.
