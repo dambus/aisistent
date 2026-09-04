@@ -46,7 +46,7 @@ const PLANS: Plan[] = [
       [false, 'Word (DOCX) format'],
       [false, 'Brendiranje sa logom'],
     ],
-    cta: 'Izaberite Starter',
+    cta: 'Javi mi se kad bude dostupno',
     waitlistPlan: 'starter',
   },
   {
@@ -64,7 +64,7 @@ const PLANS: Plan[] = [
       [true, 'Word (DOCX) format'],
       [true, 'Brendiranje sa logom firme'],
     ],
-    cta: 'Izaberite Pro',
+    cta: 'Javi mi se kad bude dostupno',
     waitlistPlan: 'pro',
   },
   {

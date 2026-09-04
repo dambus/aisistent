@@ -38,3 +38,13 @@ Claude Desktop sesija kad priprema/ažurira oglase.
 **Zašto (za marketing poruke):** Isti razlog kao onboarding rečenica iznad — postojećim free korisnicima (10-15 naloga) ovo daje razlog da se prijave na waitlist SADA, dok je najveća vrednost (rani popust) na stolu, umesto da free plan deluje kao trajno stanje bez razloga za akciju.
 
 **Predlog za oglase:** Ova formulacija ("test tržišta", "rani popust za listu čekanja") treba da bude konzistentna sa onim što piše i u samom oglasu i na landing stranici — ne izmišljati novi ton na svakom mestu.
+
+---
+
+## 2026-09-04 — Waitlist copy: "čekamo naplatu" → "javi interesovanje"
+
+**Šta se promenilo:** Na `/`, `/upgrade` i u `WaitlistModal` komponenti, dugmad za Starter/Pro planove više ne kažu "Izaberite Starter/Pro" (zvuči kao checkout) nego **"Javi mi se kad bude dostupno"**. Modal naslov promenjen sa "Plaćanje stiže uskoro" na "Zainteresovani ste za [Plan] plan?", tekst modala i dalje nudi 20% popust prvi mesec, dugme za slanje sad kaže "Javi mi kad bude dostupno" umesto "Obavesti me". Funkcionalnost (`/api/waitlist`) nepromenjena.
+
+**Zašto (za marketing poruke):** Stara formulacija je zvučala kao da korisnik nešto kupuje pa ga zaustavi poruka "čekaj, plaćanje još ne radi" — što je frustrirajuće. Nova formulacija čini waitlist prijavu niskorizičnim, informativnim činom (i to je upravo pokazatelj namere platiti koji nam treba), a ne odustajanjem pred nedostupnim checkout-om.
+
+**Predlog za oglase:** Ne pominjati konkretne cene planova u top-of-funnel oglasima dok se ne pokrene naplata — oglas vodi na besplatan alat (10 dokumenata/mesec), a waitlist CTA se pojavljuje tek unutar app-a, mekano, ne agresivno. Ako se u oglasu ipak pominje "Pro plan", koristiti "javi nam se za rani pristup" umesto "kupi/izaberi".

@@ -78,11 +78,11 @@ export default function WaitlistModal({ plan, onClose }: WaitlistModalProps) {
           </div>
         ) : (
           <>
-            <h2 className="text-xl font-bold text-gray-900">Plaćanje stiže uskoro</h2>
+            <h2 className="text-xl font-bold text-gray-900">Zainteresovani ste za {PLAN_LABELS[plan]} plan?</h2>
             <p className="mt-3 text-sm leading-relaxed text-gray-600">
-              Ostavite vaš email — bićete prvi obavešteni čim aktiviramo{' '}
-              <strong>{PLAN_LABELS[plan]}</strong> plan. Kao zahvalnost, prvi mesec
-              dobijate uz <strong>20% popusta</strong>.
+              Ostavite email da vam javimo čim plan bude dostupan za plaćanje —
+              bez obaveze. Prijavljeni na listu dobijaju <strong>20% popusta</strong> na
+              prvi mesec kad krenemo.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
@@ -104,7 +104,7 @@ export default function WaitlistModal({ plan, onClose }: WaitlistModalProps) {
                 className="rounded-lg py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
                 style={{ backgroundColor: PRIMARY }}
               >
-                {loading ? 'Šaljem...' : 'Obavesti me'}
+                {loading ? 'Šaljem...' : 'Javi mi kad bude dostupno'}
               </button>
             </form>
           </>

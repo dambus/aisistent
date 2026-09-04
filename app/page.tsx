@@ -86,7 +86,7 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
       name: 'Starter',
       price: '1.080 RSD / mes.',
       euroEquivalent: '(≈ 9 EUR)',
-      cta: 'Izaberite Starter',
+      cta: 'Javi mi se kad bude dostupno',
       waitlistPlan: 'starter',
       features: [
         ['✓', '20 dokumenata mesečno'],
@@ -105,7 +105,7 @@ function getPricing(obrasciCount: number): (PricingPlan & { features: [string, s
       price: '3.000 RSD / mes.',
       euroEquivalent: '(≈ 25 EUR)',
       badge: 'Najpopularnije',
-      cta: 'Izaberite Pro',
+      cta: 'Javi mi se kad bude dostupno',
       waitlistPlan: 'pro',
       featured: true,
       features: [
